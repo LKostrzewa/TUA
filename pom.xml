@@ -28,8 +28,12 @@
             <name>Przemysław Górnik</name>
             <id>216767</id>
         </developer>
+        <developer>
+            <name>Krystian Domdalski</name>
+            <id>216749</id>
+        </developer>
     </developers>
-
+    
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
