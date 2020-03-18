@@ -8,7 +8,10 @@
     <name>ssbd02</name>
 
     <developers>
-
+        <developer>
+            <name>Lukasz Kostrzewa</name>
+            <id>216804</id>
+        </developer>
     </developers>
     
     <properties>
