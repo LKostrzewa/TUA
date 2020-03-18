@@ -9,6 +9,22 @@
 
     <developers>
         <developer>
+            <name>Paweł Białek</name>
+            <id>216723</id>
+        </developer>
+        <developer>
+            <name>Lukasz Kostrzewa</name>
+            <id>216804</id>
+        </developer>
+        <developer>
+            <name>Przemyslaw Lapinski</name>
+            <id>216827</id>
+        </developer>
+        <developer>
+            <name>Jakub Plich</name>
+            <id>216866</id>
+        </developer>
+        <developer>
             <name>Przemysław Górnik</name>
             <id>216767</id>
         </developer>
