@@ -12,6 +12,10 @@
             <name>Paweł Białek</name>
             <id>216723</id>
         </developer>
+        <developer>
+            <name>Lukasz Kostrzewa</name>
+            <id>216804</id>
+        </developer>
     </developers>
     
     <properties>
