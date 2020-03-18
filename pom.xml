@@ -16,6 +16,10 @@
             <name>Lukasz Kostrzewa</name>
             <id>216804</id>
         </developer>
+        <developer>
+            <name>Przemyslaw Lapinski</name>
+            <id>216827</id>
+        </developer>
     </developers>
     
     <properties>
