@@ -8,7 +8,10 @@
     <name>ssbd02</name>
 
     <developers>
-
+        <developer>
+            <name>Jakub Plich</name>
+            <id>216866</id>
+        </developer>
     </developers>
     
     <properties>
