@@ -8,7 +8,10 @@
     <name>ssbd02</name>
 
     <developers>
-
+        <developer>
+            <name>Przemyslaw Lapinski</name>
+            <id>216827</id>
+        </developer>
     </developers>
     
     <properties>
