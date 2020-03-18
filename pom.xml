@@ -20,6 +20,10 @@
             <name>Przemyslaw Lapinski</name>
             <id>216827</id>
         </developer>
+        <developer>
+            <name>Jakub Plich</name>
+            <id>216866</id>
+        </developer>
     </developers>
     
     <properties>
