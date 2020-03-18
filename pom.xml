@@ -9,11 +9,31 @@
 
     <developers>
         <developer>
+            <name>Paweł Białek</name>
+            <id>216723</id>
+        </developer>
+        <developer>
+            <name>Lukasz Kostrzewa</name>
+            <id>216804</id>
+        </developer>
+        <developer>
+            <name>Przemyslaw Lapinski</name>
+            <id>216827</id>
+        </developer>
+        <developer>
+            <name>Jakub Plich</name>
+            <id>216866</id>
+        </developer>
+        <developer>
+            <name>Przemysław Górnik</name>
+            <id>216767</id>
+        </developer>
+        <developer>
             <name>Krystian Domdalski</name>
             <id>216749</id>
         </developer>
     </developers>
-
+    
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -21,7 +41,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jakartaee>8.0</jakartaee>
     </properties>
-
+    
     <dependencies>
         <dependency>
             <groupId>javax</groupId>
@@ -30,8 +50,8 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <build>
+    
+     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
