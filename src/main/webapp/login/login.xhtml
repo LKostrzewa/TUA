@@ -24,14 +24,14 @@
                         <h:panelGrid columns="3" cellpadding="5" style="margin: 0 auto;">
 
                             <p:outputLabel for="loginName" value="Login"/>
-                            <p:inputText id="loginName" value="#{loginBacking.login}"/>
+                            <p:inputText id="loginName" value=""/>
                             <p:message for="loginName"/>
 
                             <p:outputLabel for="password" value="Password"/>
-                            <p:inputText type="password" id="password" value="#{loginBacking.password}"/>
+                            <p:inputText type="password" id="password" value=""/>
                             <p:message for="password"/>
 
-                            <p:commandButton  value="Login" action="#{loginBacking.submit}"/>
+                            <p:commandButton  value="Login" action=""/>
                             <h:outputText value="New User?"/>
                             <p:commandLink value="Register Here" action="registration" />
                         </h:panelGrid>
