@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
-    <!-- Define Persistence Unit -->
-    <persistence-unit name="my_persistence_unit">
-        
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="mokPU">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevelEntity</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.UserEntity</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevelEntity</class>
+        <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.UserDetailsEntity</class>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://studdev.it.p.lodz.pl:5432/ssbd02"/>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.username" value="ssbd02auth"/>
+            <property name="hibernate.connection.password" value="kcH3FBde"/>
+            <property name="hibernate.archive.autodetection" value="class"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
     </persistence-unit>
 </persistence>
