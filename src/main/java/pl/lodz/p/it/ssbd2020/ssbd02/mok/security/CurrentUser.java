@@ -29,7 +29,7 @@ public class CurrentUser implements Serializable {
         return FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
     }
 
-    public String getAllUserAccessLevel() {
+    public String allUserAccessLevel() {
         String string = "";
         if (isAdministratior())
             string += "ADMINISTRATOR ";
