@@ -11,7 +11,7 @@
 </head>
 <body>
 <ui:composition>
-    <p:menubar rendered="#{request.isUserInRole('ADMINISTRATOR')}">
+    <p:menubar rendered="#{currentUser.isNowAdministratior()}">
         <p:submenu label="#{msg['menu.admin.accounts']}">
             <p:menuitem value="#{msg['menu.admin.accounts.add']}" url="#"/>
             <p:separator/>
@@ -23,7 +23,7 @@
         </f:facet>
     </p:menubar>
 
-    <p:menubar rendered="#{request.isUserInRole('MANAGER')}">
+    <p:menubar rendered="#{currentUser.isNowManager()}">
         <p:submenu label="#{msg['menu.manager.ports']}">
             <p:menuitem value="#{msg['menu.manager.ports.add']}" url="#"/>
             <p:separator/>
@@ -46,7 +46,7 @@
         </f:facet>
     </p:menubar>
 
-    <p:menubar rendered="#{request.isUserInRole('CLIENT')}">
+    <p:menubar rendered="#{currentUser.isNowClient()}">
         <p:menuitem value="#{msg['menu.client.ports']}" url="#"/>
         <p:submenu label="#{msg['menu.client.reservation']}">
             <p:menuitem value="#{msg['menu.client.reservation.add']}" url="#"/>

@@ -8,7 +8,7 @@
 </head>
 <body>
 <ui:composition>
-    <ui:fragment id="adminFooter" rendered="#{request.isUserInRole('ADMINISTRATOR')}">
+    <ui:fragment id="adminFooter" rendered="#{currentUser.isNowAdministratior()}">
         <h1 style="height: 100px;
     border-top: 2px solid black;
     position: fixed;
@@ -18,7 +18,7 @@
     background-color: #ffcdd7;
     text-align: center;">#{msg['footer.admin']}</h1>
     </ui:fragment>
-    <ui:fragment id="managerFooter" rendered="#{request.isUserInRole('MANAGER')}">
+    <ui:fragment id="managerFooter" rendered="#{currentUser.isNowManager()}">
         <h1 style="height: 100px;
     border-top: 2px solid black;
     position: fixed;
@@ -28,7 +28,7 @@
     background-color: #76ff87;
     text-align: center;">#{msg['footer.manager']}</h1>
     </ui:fragment>
-    <ui:fragment id="clientFooter" rendered="#{request.isUserInRole('CLIENT')}">
+    <ui:fragment id="clientFooter" rendered="#{currentUser.isNowClient()}">
         <h1 style="height: 100px;
     border-top: 2px solid black;
     position: fixed;
