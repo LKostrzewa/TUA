@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<head>
+    <title>Title</title>
+</head>
+<body>
+<ui:composition>
+    <p:menubar rendered="#{currentUser.isNowAdministratior()}">
+        <p:submenu label="#{msg['menu.admin.accounts']}">
+            <p:menuitem value="#{msg['menu.admin.accounts.add']}" url="#"/>
+            <p:separator/>
+            <p:menuitem value="#{msg['menu.admin.accounts.list']}" url="#"/>
+        </p:submenu>
+        <p:menuitem value="#{msg['menu.account']}" url="#"/>
+        <f:facet name="options">
+            <p:commandButton type="button" value="#{msg['menu.logout']}"/>
+        </f:facet>
+    </p:menubar>
+
+    <p:menubar rendered="#{currentUser.isNowManager()}">
+        <p:submenu label="#{msg['menu.manager.ports']}">
+            <p:menuitem value="#{msg['menu.manager.ports.add']}" url="#"/>
+            <p:separator/>
+            <p:menuitem value="#{msg['menu.manager.ports.list']}" url="#"/>
+        </p:submenu>
+        <p:submenu label="#{msg['menu.manager.models']}">
+            <p:menuitem value="#{msg['menu.manager.models.add']}" url="#"/>
+            <p:separator/>
+            <p:menuitem value="#{msg['menu.manager.models.list']}" url="#"/>
+        </p:submenu>
+        <p:submenu label="#{msg['menu.manager.yachts']}">
+            <p:menuitem value="#{msg['menu.manager.yachts.add']}" url="#"/>
+            <p:separator/>
+            <p:menuitem value="#{msg['menu.manager.yachts.list']}" url="#"/>
+        </p:submenu>
+        <p:menuitem value="#{msg['menu.manager.reservation']}" url="#"/>
+        <p:menuitem value="#{msg['menu.account']}" url="#"/>
+        <f:facet name="options">
+            <p:commandButton type="button" value="#{msg['menu.logout']}"/>
+        </f:facet>
+    </p:menubar>
+
+    <p:menubar rendered="#{currentUser.isNowClient()}">
+        <p:menuitem value="#{msg['menu.client.ports']}" url="#"/>
+        <p:submenu label="#{msg['menu.client.reservation']}">
+            <p:menuitem value="#{msg['menu.client.reservation.add']}" url="#"/>
+            <p:separator/>
+            <p:menuitem value="#{msg['menu.client.reservation.list']}" url="#"/>
+        </p:submenu>
+        <p:menuitem value="#{msg['menu.account']}" url="#"/>
+        <f:facet name="options">
+            <p:commandButton type="button" value="#{msg['menu.logout']}"/>
+        </f:facet>
+    </p:menubar>
+</ui:composition>
+</body>
+</html>
