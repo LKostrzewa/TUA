@@ -2,11 +2,14 @@
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:h="http://java.sun.com/jsf/html">
 <head>
     <title>Start Page</title>
 </head>
 <body>
+
 <h1>#{msg['hello.world']}</h1>
+<h:outputLabel>Login: #{currentUser.currentUserLogin} Poziom dostepu: #{currentUser.allUserAccessLevel()}  </h:outputLabel>
 </body>
 </html>
