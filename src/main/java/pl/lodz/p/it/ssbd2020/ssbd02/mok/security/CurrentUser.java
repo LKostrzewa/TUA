@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Named
 public class CurrentUser implements Serializable {
 
+
     public boolean isUserInRole(String role) {  // sprawdza jaka jest rola zalogowanego uzytkownika
         return FacesContext.getCurrentInstance().getExternalContext().isUserInRole(role);
     }
@@ -40,5 +41,10 @@ public class CurrentUser implements Serializable {
 
         return string;
     }
+
+
+
+
+
 
 }

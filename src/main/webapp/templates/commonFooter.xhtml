@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<head>
+</head>
+<body>
+<ui:composition>
+    <ui:fragment id="adminFooter" rendered="#{request.isUserInRole('ADMINISTRATOR')}">
+        <h1 style="height: 100px;
+    border-top: 2px solid black;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #ffcdd7;
+    text-align: center;">#{msg['footer.admin']}</h1>
+    </ui:fragment>
+    <ui:fragment id="managerFooter" rendered="#{request.isUserInRole('MANAGER')}">
+        <h1 style="height: 100px;
+    border-top: 2px solid black;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #76ff87;
+    text-align: center;">#{msg['footer.manager']}</h1>
+    </ui:fragment>
+    <ui:fragment id="clientFooter" rendered="#{request.isUserInRole('CLIENT')}">
+        <h1 style="height: 100px;
+    border-top: 2px solid black;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #7581ff;
+    text-align: center;">#{msg['footer.client']}</h1>
+    </ui:fragment>
+</ui:composition>
+</body>
+</html>
