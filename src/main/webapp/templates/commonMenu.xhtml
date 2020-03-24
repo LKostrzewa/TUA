@@ -11,7 +11,7 @@
 </head>
 <body>
 <ui:composition>
-    <p:menubar rendered="#{currentUser.isNowAdministratior()}">
+    <p:menubar rendered="#{currentUser.isNowAdministrator()}">
         <p:submenu label="#{msg['menu.admin.accounts']}">
             <p:menuitem value="#{msg['menu.admin.accounts.add']}" url="#"/>
             <p:separator/>

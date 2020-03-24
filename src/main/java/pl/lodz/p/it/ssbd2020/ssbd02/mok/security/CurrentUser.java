@@ -51,7 +51,7 @@ public class CurrentUser implements Serializable {
         return string;
     }
 
-    public boolean isNowAdministratior() {
+    public boolean isNowAdministrator() {
         return currentRole.equals("ADMINISTRATOR");
     }
 
