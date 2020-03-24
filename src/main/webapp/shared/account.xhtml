@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<head>
+    <title>Title</title>
+</head>
+<body>
+<ui:composition template="/templates/template.xhtml">
+    <ui:define name="breadCrumbs">
+        <p:breadCrumb>
+            <p:menuitem value="Categories" url="#" />
+            <p:menuitem value="#{msg['bread.main']}" url="/shared/index.xhtml" />
+            <p:menuitem value="#{msg['bread.account']}" url="/shared/account.xhtml"/>
+        </p:breadCrumb>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <h:outputLabel>Login: #{currentUser.currentUserLogin} Poziom dostepu: #{currentUser.allUserAccessLevel()}  </h:outputLabel>
+            <h:outputLabel>Roles: #{currentUser.getAllRoles()}</h:outputLabel>
+            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                <p:outputLabel for="pickRole" value="Role: " />
+                <p:selectOneMenu id="pickRole" value="#{currentUser.getCurrentRole()}" var="role" style="width:100px">
+                    <f:selectItem itemLabel="Select role" itemValue="" />
+                    <f:selectItems value="#{currentUser.getAllRoles()}"/>
+                </p:selectOneMenu>
+                <p:commandButton value="Change role" action="#{currentUser.setCurrentRole(role)}"/>
+            </h:panelGrid>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+</body>
+</html>

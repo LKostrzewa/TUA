@@ -3,8 +3,12 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @SessionScoped
 @Named
@@ -12,11 +16,17 @@ public class CurrentUser implements Serializable {
 
     private String currentRole;
 
+    private List<String> allRoles;
+
     @PostConstruct
     private void init(){
         if(isAdministratior()&&currentRole==null) currentRole = "ADMINISTRATOR";
         if(isManager()&&currentRole==null) currentRole = "MANAGER";
         if(isClient()&&currentRole==null) currentRole = "CLIENT";
+        allRoles = new ArrayList<>();
+        if(isAdministratior()) allRoles.add("ADMINISTRATOR");
+        if(isManager()) allRoles.add("MANAGER");
+        if(isClient()) allRoles.add("CLIENT");
     }
 
     public boolean isUserInRole(String role) {  // sprawdza jaka jest rola zalogowanego uzytkownika
@@ -51,6 +61,10 @@ public class CurrentUser implements Serializable {
         return string;
     }
 
+    public void setCurrentRole(String role){
+        this.currentRole = role;
+    }
+
     public boolean isNowAdministratior() {
         if(currentRole == "ADMINISTRATOR") return true;
         else return false;
@@ -64,6 +78,14 @@ public class CurrentUser implements Serializable {
     public boolean isNowClient() {
         if(currentRole == "CLIENT") return true;
         else return false;
+    }
+
+    public List<String> getAllRoles() {
+        return allRoles;
+    }
+
+    public String getCurrentRole() {
+        return currentRole;
     }
 
 }
