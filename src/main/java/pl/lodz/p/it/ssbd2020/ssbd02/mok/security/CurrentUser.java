@@ -14,7 +14,7 @@ public class CurrentUser implements Serializable {
 
     @PostConstruct
     private void init(){
-        if(isAdministratior()&&currentRole==null) currentRole = "ADMINISTRATOR";
+        if(isAdministrator()&&currentRole==null) currentRole = "ADMINISTRATOR";
         if(isManager()&&currentRole==null) currentRole = "MANAGER";
         if(isClient()&&currentRole==null) currentRole = "CLIENT";
     }
@@ -23,7 +23,7 @@ public class CurrentUser implements Serializable {
         return FacesContext.getCurrentInstance().getExternalContext().isUserInRole(role);
     }
 
-    public boolean isAdministratior() {
+    public boolean isAdministrator() {
         return isUserInRole("ADMINISTRATOR");
     }
 
@@ -41,7 +41,7 @@ public class CurrentUser implements Serializable {
 
     public String allUserAccessLevel() {
         String string = "";
-        if (isAdministratior())
+        if (isAdministrator())
             string += "ADMINISTRATOR ";
         if (isManager())
             string += "MANAGER ";
@@ -51,19 +51,16 @@ public class CurrentUser implements Serializable {
         return string;
     }
 
-    public boolean isNowAdministratior() {
-        if(currentRole == "ADMINISTRATOR") return true;
-        else return false;
+    public boolean isNowAdministrator() {
+        return currentRole.equals("ADMINISTRATOR");
     }
 
     public boolean isNowManager() {
-        if(currentRole == "MANAGER") return true;
-        else return false;
+        return currentRole.equals("MANAGER");
     }
 
     public boolean isNowClient() {
-        if(currentRole == "CLIENT") return true;
-        else return false;
+        return currentRole.equals("CLIENT");
     }
 
 }
