@@ -5,9 +5,11 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @SessionScoped
 @Named
@@ -19,6 +21,7 @@ public class CurrentUser implements Serializable {
 
     public void setCurrentRole(String currentRole) {
         this.currentRole = currentRole;
+
     }
 
     public String getCurrentRole() {
@@ -30,24 +33,28 @@ public class CurrentUser implements Serializable {
     }
 
     @PostConstruct
-    private void init(){
-        if(isAdministratior()&&currentRole==null) currentRole = "ADMINISTRATOR";
+    private void init() {
+        if(isAdministrator()&&currentRole==null) currentRole = "ADMINISTRATOR";
         if(isManager()&&currentRole==null) currentRole = "MANAGER";
         if(isClient()&&currentRole==null) currentRole = "CLIENT";
         allRoles = new ArrayList<String>();
-        if(isAdministratior()) allRoles.add("ADMINISTRATOR");
+        if(isAdministrator()) allRoles.add("ADMINISTRATOR");
         if(isManager()) allRoles.add("MANAGER");
         if(isClient()) allRoles.add("CLIENT");
-        //if(isAdministratior()) allRoles.add(new SelectItem("ADMINISTRATOR","ADMINISTRATOR"));
-        //if(isManager()) allRoles.add(new SelectItem("MANAGER","MANAGER"));
-        //if(isClient()) allRoles.add(new SelectItem("CLIENT","CLIENT"));
+        try{
+            if(isNowAdministrator()) FacesContext.getCurrentInstance().getExternalContext().redirect("/admin/index.xhtml");
+            if(isNowManager()) FacesContext.getCurrentInstance().getExternalContext().redirect("/manager/index.xhtml");
+            if(isNowClient()) FacesContext.getCurrentInstance().getExternalContext().redirect("/client/index.xhtml");
+        }catch (IOException e){
+            System.out.println("Could not redirect.");
+        }
     }
 
     public boolean isUserInRole(String role) {  // sprawdza jaka jest rola zalogowanego uzytkownika
         return FacesContext.getCurrentInstance().getExternalContext().isUserInRole(role);
     }
 
-    public boolean isAdministratior() {
+    public boolean isAdministrator() {
         return isUserInRole("ADMINISTRATOR");
     }
 
@@ -65,7 +72,7 @@ public class CurrentUser implements Serializable {
 
     public String allUserAccessLevel() {
         String string = "";
-        if (isAdministratior())
+        if (isAdministrator())
             string += "ADMINISTRATOR ";
         if (isManager())
             string += "MANAGER ";
@@ -76,7 +83,7 @@ public class CurrentUser implements Serializable {
     }
 
 
-    public boolean isNowAdministratior() {
+    public boolean isNowAdministrator() {
         if(currentRole == "ADMINISTRATOR") return true;
         else return false;
     }
@@ -91,4 +98,10 @@ public class CurrentUser implements Serializable {
         else return false;
     }
 
+    public String redirect(){
+        if(isNowAdministrator()) return "admin";
+        if(isNowManager()) return "manager";
+        if(isNowClient()) return "client";
+        return null;
+    }
 }

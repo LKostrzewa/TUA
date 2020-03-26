@@ -7,16 +7,16 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<head>
+<h:head>
     <title>Title</title>
-</head>
+</h:head>
 <body>
-<ui:composition template="/templates/template.xhtml">
+<ui:composition template="/templates/clientTemplate.xhtml">
     <ui:define name="breadCrumbs">
         <p:breadCrumb>
             <p:menuitem value="Categories" url="#" />
-            <p:menuitem value="#{msg['bread.main']}" url="/shared/index.xhtml" />
-            <p:menuitem value="#{msg['bread.account']}" url="/shared/account.xhtml"/>
+            <p:menuitem value="#{msg['bread.main']}" url="/client/index.xhtml" />
+            <p:menuitem value="#{msg['bread.account']}" url="/client/account.xhtml"/>
         </p:breadCrumb>
     </ui:define>
 
@@ -24,17 +24,15 @@
         <h:form id="page">
             <h:outputLabel>Login: #{currentUser.currentUserLogin} Poziom dostepu: #{currentUser.allUserAccessLevel()}  </h:outputLabel>
             <h:outputLabel>Roles: #{currentUser.allRoles} Current role: #{currentUser.currentRole}</h:outputLabel>
-            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+            <h:panelGrid>
                 <p:outputLabel for="pickRole" value="Role: " />
                 <p:selectOneButton id="pickRole" value="#{currentUser.currentRole}" var="role">
-                    <f:ajax/>
+                    <p:ajax/>
                     <f:selectItems value="#{currentUser.allRoles}"/>
                 </p:selectOneButton>
-                <p:commandButton value="Submit" update="page" style="margin-right:20px;" ajax="false" />
-                <p:commandButton value="Submit" action="/shared/index.xhtml" style="margin-right:20px;" />
             </h:panelGrid>
-
-
+            <h:commandButton value="Submit" type="submit" action="#{currentUser.redirect}">
+            </h:commandButton>
         </h:form>
     </ui:define>
 </ui:composition>

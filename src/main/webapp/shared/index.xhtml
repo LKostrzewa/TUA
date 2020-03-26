@@ -5,23 +5,104 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
-<head>
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
     <title>Start Page</title>
-</head>
+</h:head>
 <body>
-    <ui:composition template="/templates/template.xhtml">
-        <ui:define name="breadCrumbs">
-            <p:breadCrumb>
-                <p:menuitem value="Categories" url="#" />
-                <p:menuitem value="#{msg['bread.main']}" url="/shared/index.xhtml" />
-            </p:breadCrumb>
-        </ui:define>
+<ui:composition template="/templates/clientTemplate.xhtml">
+    <ui:define name="breadCrumbs">
+        <p:breadCrumb>
+            <p:menuitem value="Categories" url="#"/>
+            <p:menuitem value="#{msg['bread.main']}" url="/shared/index.xhtml"/>
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="menu">
+        <p:menubar rendered="#{currentUser.isNowAdministrator()}">
+            <p:submenu label="#{msg['menu.admin.accounts']}">
+                <p:menuitem value="#{msg['menu.admin.accounts.add']}" url="#"/>
+                <p:separator/>
+                <p:menuitem value="#{msg['menu.admin.accounts.list']}" url="#"/>
+            </p:submenu>
+            <p:menuitem value="#{msg['menu.account']}" url="/shared/account.xhtml"/>
+            <f:facet name="options">
+                <p:commandButton value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
+            </f:facet>
+        </p:menubar>
 
-        <ui:define name="content">
+        <p:menubar rendered="#{currentUser.isNowManager()}">
+            <p:submenu label="#{msg['menu.manager.ports']}">
+                <p:menuitem value="#{msg['menu.manager.ports.add']}" url="#"/>
+                <p:separator/>
+                <p:menuitem value="#{msg['menu.manager.ports.list']}" url="#"/>
+            </p:submenu>
+            <p:submenu label="#{msg['menu.manager.models']}">
+                <p:menuitem value="#{msg['menu.manager.models.add']}" url="#"/>
+                <p:separator/>
+                <p:menuitem value="#{msg['menu.manager.models.list']}" url="#"/>
+            </p:submenu>
+            <p:submenu label="#{msg['menu.manager.yachts']}">
+                <p:menuitem value="#{msg['menu.manager.yachts.add']}" url="#"/>
+                <p:separator/>
+                <p:menuitem value="#{msg['menu.manager.yachts.list']}" url="#"/>
+            </p:submenu>
+            <p:menuitem value="#{msg['menu.manager.reservation']}" url="#"/>
+            <p:menuitem value="#{msg['menu.account']}" url="/shared/account.xhtml"/>
+            <f:facet name="options">
+                <p:commandButton value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
+            </f:facet>
+        </p:menubar>
+
+        <p:menubar rendered="#{currentUser.isNowClient()}">
+            <p:menuitem value="#{msg['menu.client.ports']}" url="#"/>
+            <p:submenu label="#{msg['menu.client.reservation']}">
+                <p:menuitem value="#{msg['menu.client.reservation.add']}" url="#"/>
+                <p:separator/>
+                <p:menuitem value="#{msg['menu.client.reservation.list']}" url="#"/>
+            </p:submenu>
+            <p:menuitem value="#{msg['menu.account']}" url="/shared/account.xhtml"/>
+            <f:facet name="options">
+                <p:commandButton value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
+            </f:facet>
+        </p:menubar>
+    </ui:define>
+    <ui:define name="content">
         <h:form>
             <h1>#{msg['hello.world']}</h1>
         </h:form>
+    </ui:define>
+    <ui:define name="footer">
+        <ui:fragment rendered="#{currentUser.isNowAdministrator()}">
+            <h1 id="adminFooter" style="height: 100px;
+    border-top: 2px solid black;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #ffcdd7;
+    text-align: center;">#{msg['footer.admin']}</h1>
+        </ui:fragment>
+        <ui:fragment rendered="#{currentUser.isNowManager()}">
+            <h1 id="managerFooter" style="height: 100px;
+    border-top: 2px solid black;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #76ff87;
+    text-align: center;">#{msg['footer.manager']}</h1>
+        </ui:fragment>
+        <ui:fragment rendered="#{currentUser.isNowClient()}">
+            <h1 id="clientFooter" style="height: 100px;
+    border-top: 2px solid black;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #7581ff;
+    text-align: center;">#{msg['footer.client']}</h1>
+        </ui:fragment>
     </ui:define>
 </ui:composition>
 </body>
