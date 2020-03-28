@@ -6,6 +6,11 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+/***
+ * Klasa której metoda powoduje powrót do głównej strony logowania (mechanizm wylogowywania)
+ */
+
+
 @Named
 @RequestScoped
 public class LogoutBacking {
