@@ -3,15 +3,24 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<head>
-    <title></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
-<body>
-<form action="j_security_check">
-    Login: <input type="text" name="j_username"/><br />
-    #{msg['password']}: <input type="password" name="j_password"/><br />
-    <input type="submit" value="#{msg['sign.in']}"/>
-</form>
-</body>
+<f:view>
+    <h:head>
+
+    </h:head>
+    <h:body>
+
+    <form method="POST" action="j_security_check">
+    <p/>
+        <strong>#{index.login}</strong>
+    <input type="text" name="j_username"/>
+
+    <p/>
+        <strong>#{password}</strong>
+    <input type="password" name="j_password"/>
+    <p/>
+        <input type="submit" value="#{sign.in}"/>
+        </form>
+
+    </h:body>
+</f:view>
 </html>
