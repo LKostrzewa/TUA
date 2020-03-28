@@ -13,6 +13,16 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login/login.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>error</from-outcome>
+            <to-view-id>/login/errorLogin.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>admin</from-outcome>
             <to-view-id>/admin/admin.xhtml</to-view-id>
             <redirect/>
