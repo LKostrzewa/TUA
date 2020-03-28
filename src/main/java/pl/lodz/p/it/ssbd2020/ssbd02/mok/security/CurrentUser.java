@@ -1,23 +1,23 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 
-import javax.annotation.ManagedBean;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.annotation.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+
 
 @SessionScoped
 @Named
 public class CurrentUser implements Serializable {
 
-    private String currentRole;
+    @ManagedProperty(value = "#{param.role}")
+    private String role;
 
-    private List<String> allRoles;
+    private String currentRole;
 
     public void setCurrentRole(String currentRole) {
         this.currentRole = currentRole;
@@ -28,19 +28,12 @@ public class CurrentUser implements Serializable {
         return currentRole;
     }
 
-    public List<String> getAllRoles() {
-        return allRoles;
-    }
 
     @PostConstruct
     private void init() {
         if(isAdministrator()&&currentRole==null) currentRole = "ADMINISTRATOR";
         if(isManager()&&currentRole==null) currentRole = "MANAGER";
         if(isClient()&&currentRole==null) currentRole = "CLIENT";
-        allRoles = new ArrayList<String>();
-        if(isAdministrator()) allRoles.add("ADMINISTRATOR");
-        if(isManager()) allRoles.add("MANAGER");
-        if(isClient()) allRoles.add("CLIENT");
         try{
             if(isNowAdministrator()) FacesContext.getCurrentInstance().getExternalContext().redirect("/admin/index.xhtml");
             if(isNowManager()) FacesContext.getCurrentInstance().getExternalContext().redirect("/manager/index.xhtml");
@@ -84,24 +77,22 @@ public class CurrentUser implements Serializable {
 
 
     public boolean isNowAdministrator() {
-        if(currentRole == "ADMINISTRATOR") return true;
-        else return false;
+        return currentRole.equals("ADMINISTRATOR");
     }
 
     public boolean isNowManager() {
-        if(currentRole == "MANAGER") return true;
-        else return false;
+        return currentRole.equals("MANAGER");
     }
 
     public boolean isNowClient() {
-        if(currentRole == "CLIENT") return true;
-        else return false;
+        return currentRole.equals("CLIENT");
     }
 
     public String redirect(){
-        if(isNowAdministrator()) return "admin";
-        if(isNowManager()) return "manager";
-        if(isNowClient()) return "client";
+        currentRole = role;
+        if(role.equals("ADMINISTRATOR")) return "adminMain";
+        if(role.equals("MANAGER")) return "managerMain";
+        if(role.equals("CLIENT")) return "clientMain";
         return null;
     }
 }

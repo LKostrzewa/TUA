@@ -22,21 +22,24 @@
         <from-view-id>/admin/account.xhtml</from-view-id>
 
         <navigation-case>
-            <from-action>#{currentUser.redirect}</from-action>
-            <from-outcome>admin</from-outcome>
+            <from-action>#{currentUser.redirect()}</from-action>
+            <from-outcome>adminMain</from-outcome>
             <to-view-id>/admin/index.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
 
         <navigation-case>
-            <from-action>#{currentUser.redirect}</from-action>
-            <from-outcome>manager</from-outcome>
+            <from-action>#{currentUser.redirect()}</from-action>
+            <from-outcome>managerMain</from-outcome>
             <to-view-id>/manager/index.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
 
         <navigation-case>
-            <from-action>#{currentUser.redirect}</from-action>
-            <from-outcome>client</from-outcome>
+            <from-action>#{currentUser.redirect()}</from-action>
+            <from-outcome>clientMain</from-outcome>
             <to-view-id>/client/index.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
 
     </navigation-rule>
@@ -44,21 +47,24 @@
         <from-view-id>/manager/account.xhtml</from-view-id>
 
         <navigation-case>
-            <from-action>#{currentUser.redirect}</from-action>
-            <from-outcome>admin</from-outcome>
+            <from-action>#{currentUser.redirect()}</from-action>
+            <from-outcome>adminMain</from-outcome>
             <to-view-id>/admin/index.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
 
         <navigation-case>
-            <from-action>#{currentUser.redirect}</from-action>
-            <from-outcome>manager</from-outcome>
+            <from-action>#{currentUser.redirect()}</from-action>
+            <from-outcome>managerMain</from-outcome>
             <to-view-id>/manager/index.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
 
         <navigation-case>
-            <from-action>#{currentUser.redirect}</from-action>
-            <from-outcome>client</from-outcome>
+            <from-action>#{currentUser.redirect()}</from-action>
+            <from-outcome>clientMain</from-outcome>
             <to-view-id>/client/index.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
 
     </navigation-rule>
@@ -66,21 +72,24 @@
         <from-view-id>/client/account.xhtml</from-view-id>
 
         <navigation-case>
-            <from-action>#{currentUser.redirect}</from-action>
-            <from-outcome>admin</from-outcome>
+            <from-action>#{currentUser.redirect()}</from-action>
+            <from-outcome>adminMain</from-outcome>
             <to-view-id>/admin/index.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
 
         <navigation-case>
-            <from-action>#{currentUser.redirect}</from-action>
-            <from-outcome>manager</from-outcome>
+            <from-action>#{currentUser.redirect()}</from-action>
+            <from-outcome>managerMain</from-outcome>
             <to-view-id>/manager/index.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
 
         <navigation-case>
-            <from-action>#{currentUser.redirect}</from-action>
-            <from-outcome>client</from-outcome>
+            <from-action>#{currentUser.redirect()}</from-action>
+            <from-outcome>clientMain</from-outcome>
             <to-view-id>/client/index.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
 
     </navigation-rule>

@@ -8,7 +8,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <title>Title</title>
+    <title>Manager account</title>
 </h:head>
 <h:body>
 <ui:composition template="/templates/managerTemplate.xhtml">
@@ -23,16 +23,16 @@
     <ui:define name="content">
         <h:form id="page">
             <h:outputLabel>Login: #{currentUser.currentUserLogin} Poziom dostepu: #{currentUser.allUserAccessLevel()}  </h:outputLabel>
-            <h:outputLabel>Roles: #{currentUser.allRoles} Current role: #{currentUser.currentRole}</h:outputLabel>
-            <h:panelGrid>
-                <p:outputLabel for="pickRole" value="Role: " />
-                <p:selectOneButton id="pickRole" value="#{currentUser.currentRole}" var="role">
-                    <p:ajax/>
-                    <f:selectItems value="#{currentUser.allRoles}"/>
-                </p:selectOneButton>
-            </h:panelGrid>
-            <h:commandButton value="Submit" type="submit" action="#{currentUser.redirect}">
-            </h:commandButton>
+            <h:outputLabel>Current role: #{currentUser.currentRole}</h:outputLabel>
+            <h:commandLink rendered="#{currentUser.isAdministrator()}" value="Admin" action="#{currentUser.redirect()}">
+                <f:param name = "role" value = "ADMINISTRATOR" />
+            </h:commandLink>
+            <h:commandLink rendered="#{currentUser.isManager()}" value="Manager" action="#{currentUser.redirect()}">
+                <f:param name = "role" value = "MANAGER" />
+            </h:commandLink>
+            <h:commandLink rendered="#{currentUser.isClient()}" value="Client" action="#{currentUser.redirect()}">
+                <f:param name = "role" value = "CLIENT" />
+            </h:commandLink>
 
 
         </h:form>

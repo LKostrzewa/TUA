@@ -8,34 +8,33 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <title>Title</title>
+    <title>Admin account</title>
 </h:head>
 <h:body>
-<ui:composition template="/templates/adminTemplate.xhtml">
-    <ui:define name="breadCrumbs">
-        <p:breadCrumb>
-            <p:menuitem value="Categories" url="#" />
-            <p:menuitem value="#{msg['bread.main']}" url="/admin/index.xhtml" />
-            <p:menuitem value="#{msg['bread.account']}" url="/admin/account.xhtml"/>
-        </p:breadCrumb>
-    </ui:define>
+    <ui:composition template="/templates/adminTemplate.xhtml">
+        <ui:define name="breadCrumbs">
+            <p:breadCrumb>
+                <p:menuitem value="Categories" url="#"/>
+                <p:menuitem value="#{msg['bread.main']}" url="/admin/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.account']}" url="/admin/account.xhtml"/>
+            </p:breadCrumb>
+        </ui:define>
 
-    <ui:define name="content">
-        <h:form id="page">
-            <h:outputLabel>Login: #{currentUser.currentUserLogin} Poziom dostepu: #{currentUser.allUserAccessLevel()}  </h:outputLabel>
-            <h:outputLabel>Roles: #{currentUser.allRoles} Current role: #{currentUser.currentRole}</h:outputLabel>
-            <h:panelGrid>
-                <p:outputLabel for="pickRole" value="Role: " />
-                <p:selectOneButton id="pickRole" value="#{currentUser.currentRole}" var="role">
-                    <p:ajax/>
-                    <f:selectItems value="#{currentUser.allRoles}"/>
-                </p:selectOneButton>
-                <h:commandButton value="Submit" type="submit" action="#{currentUser.redirect}">
-                </h:commandButton>
-            </h:panelGrid>
-
-        </h:form>
-    </ui:define>
-</ui:composition>
+        <ui:define name="content">
+            <h:form id="page">
+                <h:outputLabel>Login: #{currentUser.currentUserLogin} Poziom dostepu: #{currentUser.allUserAccessLevel()}  </h:outputLabel>
+                <h:outputLabel>Current role: #{currentUser.currentRole}</h:outputLabel>
+                <h:commandLink rendered="#{currentUser.isAdministrator()}" value="Admin" action="#{currentUser.redirect()}">
+                    <f:param name = "role" value = "ADMINISTRATOR" />
+                </h:commandLink>
+                <h:commandLink rendered="#{currentUser.isManager()}" value="Manager" action="#{currentUser.redirect()}">
+                    <f:param name = "role" value = "MANAGER" />
+                </h:commandLink>
+                <h:commandLink rendered="#{currentUser.isClient()}" value="Client" action="#{currentUser.redirect()}">
+                    <f:param name = "role" value = "CLIENT" />
+                </h:commandLink>
+            </h:form>
+        </ui:define>
+    </ui:composition>
 </h:body>
 </html>
