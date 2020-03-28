@@ -21,18 +21,16 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form id="page">
+        <h:form>
             <h:outputLabel>Login: #{currentUser.currentUserLogin} Poziom dostepu: #{currentUser.allUserAccessLevel()}  </h:outputLabel>
             <h:outputLabel>Current role: #{currentUser.currentRole}</h:outputLabel>
-            <h:commandLink rendered="#{currentUser.isAdministrator()}" value="Admin" action="#{currentUser.redirect()}">
-                <f:param name = "role" value = "ADMINISTRATOR" />
-            </h:commandLink>
-            <h:commandLink rendered="#{currentUser.isManager()}" value="Manager" action="#{currentUser.redirect()}">
-                <f:param name = "role" value = "MANAGER" />
-            </h:commandLink>
-            <h:commandLink rendered="#{currentUser.isClient()}" value="Client" action="#{currentUser.redirect()}">
-                <f:param name = "role" value = "CLIENT" />
-            </h:commandLink>
+            <h:outputLabel>Changer role:</h:outputLabel>
+            <p:commandButton rendered="#{currentUser.isAdministrator()}"  value="Admin" action="#{currentUser.redirectAdmin}" ajax="false">
+            </p:commandButton>
+            <p:commandButton rendered="#{currentUser.isManager()}" value="Manager" action="#{currentUser.redirectManager}" ajax="false">
+            </p:commandButton>
+            <p:commandButton rendered="#{currentUser.isClient()}" value="Client" action="#{currentUser.redirectClient}" ajax="false">
+            </p:commandButton>
         </h:form>
     </ui:define>
 </ui:composition>

@@ -14,9 +14,6 @@ import java.io.Serializable;
 @Named
 public class CurrentUser implements Serializable {
 
-    @ManagedProperty(value = "#{param.role}")
-    private String role;
-
     private String currentRole;
 
     public void setCurrentRole(String currentRole) {
@@ -88,11 +85,18 @@ public class CurrentUser implements Serializable {
         return currentRole.equals("CLIENT");
     }
 
-    public String redirect(){
-        currentRole = role;
-        if(role.equals("ADMINISTRATOR")) return "adminMain";
-        if(role.equals("MANAGER")) return "managerMain";
-        if(role.equals("CLIENT")) return "clientMain";
-        return null;
+    public String redirectAdmin(){
+        currentRole = "ADMINISTRATOR";
+        return "adminMain";
+    }
+
+    public String redirectManager(){
+        currentRole = "MANAGER";
+        return "managerMain";
+    }
+
+    public String redirectClient(){
+        currentRole = "CLIENT";
+        return "clientMain";
     }
 }
