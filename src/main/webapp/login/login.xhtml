@@ -9,30 +9,31 @@
     <h:outputStylesheet name="/css/login.css"/>
     <form method="post" action="j_security_check" class="login-form">
         <h1>#{msg['sign.in']}</h1>
+
         <div class="text-box">
-            <input type="text" name="j_username" placeholder="#{msg['login']}"/>
-            <span/>
+            <input type="text" name="j_username"/>
+            <span data-placeholder="#{msg['login']}"/>
         </div>
 
         <div class="text-box">
-            <input type="password" name="j_password" placeholder="#{msg['password']}"/>
-            <span/>
+            <input type="password" name="j_password"/>
+            <span data-placeholder="#{msg['password']}"/>
         </div>
         <input type="submit" class="log-button" value="#{msg['sign.in']}"/>
         <div class="bottom-text">
-            Don't have account? <a href="${pageContext.request.contextPath}/register.xhtml">#{msg['register']}</a>
+            #{msg['no.account']} <a href="${pageContext.request.contextPath}/register.xhtml">#{msg['register']}</a>
         </div>
     </form>
 
-    <!--    <script type="text/javascript">-->
-    <!--        $(".text-box input").on("focus", function () {-->
-    <!--            $(this).addClass("focus");-->
-    <!--        });-->
+        <script type="text/javascript">
+            $(".text-box input").on("focus", function () {
+                $(this).addClass("focus");
+            });
 
-    <!--        $(".text-box input").on("blur", function () {-->
-    <!--            if ($(this).val() === "") $(this).removeClass("focus");-->
-    <!--        });-->
-    <!--    </script>-->
+            $(".text-box input").on("blur", function () {
+                if ($(this).val() === "") $(this).removeClass("focus");
+            });
+        </script>
 
 </h:body>
 </html>

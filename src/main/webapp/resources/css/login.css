@@ -44,36 +44,36 @@ body {
     height: 40px;
 }
 
-/*.text-box span::before {*/
-/*    content: attr(data-placeholder);*/
-/*    position: absolute;*/
-/*    top: 50%;*/
-/*    left: 5px;*/
-/*    color: #adadad;*/
-/*    transform: translateY(-50%);*/
-/*    z-index: -1;*/
-/*    transition: .5s;*/
-/*}*/
+.text-box span::before {
+    display: block;
+    content: attr(data-placeholder);
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: #adadad;
+    transform: translateY(-50%);
+    z-index: -1;
+    transition: .5s;
+}
 
 .text-box span::after {
-    box-sizing: border-box;
     display: block;
     content: '';
     position: absolute;
-    width: 100%;
+    width: 0    ;
     height: 2px;
     color: #adadad;
     background: linear-gradient(120deg, #00d2ff, #3a7bd5);
     transition: .5s;
 }
 
-/*.focus + span::before {*/
-/*    top: -5px;*/
-/*}*/
+.focus + span::before {
+    top: -5px;
+}
 
-/*.focus + span::after {*/
-/*    width: 100%;*/
-/*}*/
+.focus + span::after {
+    width: 100%;
+}
 
 .log-button {
     display: block;
