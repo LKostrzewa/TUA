@@ -26,9 +26,9 @@ public class CurrentUser implements Serializable {
 
     @PostConstruct
     private void init() {
-        if(isAdministrator()&&currentRole==null) currentRole = "ADMINISTRATOR";
-        if(isManager()&&currentRole==null) currentRole = "MANAGER";
         if(isClient()&&currentRole==null) currentRole = "CLIENT";
+        if(isManager()&&currentRole==null) currentRole = "MANAGER";
+        if(isAdministrator()&&currentRole==null) currentRole = "ADMINISTRATOR";
         try{
             if(isNowAdministrator()) FacesContext.getCurrentInstance().getExternalContext().redirect("/admin/index.xhtml");
             if(isNowManager()) FacesContext.getCurrentInstance().getExternalContext().redirect("/manager/index.xhtml");

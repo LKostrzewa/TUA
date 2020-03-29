@@ -17,6 +17,6 @@ public class LogoutBacking {
 
     public String submit() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "login";
+        return "main";
     }
 }

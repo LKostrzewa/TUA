@@ -20,7 +20,7 @@
         </p:submenu>
         <p:menuitem value="#{msg['menu.account']}" url="/client/account.xhtml"/>
         <f:facet name="options">
-            <p:commandButton type="button" value="#{msg['menu.logout']}"/>
+            <p:commandButton value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
         </f:facet>
     </p:menubar>
 </ui:composition>

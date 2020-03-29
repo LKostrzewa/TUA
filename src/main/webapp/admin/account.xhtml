@@ -22,9 +22,10 @@
 
         <ui:define name="content">
             <h:form>
-                <h:outputLabel>Login: #{currentUser.currentUserLogin} Poziom dostepu: #{currentUser.allUserAccessLevel()}  </h:outputLabel>
-                <h:outputLabel>Current role: #{currentUser.currentRole}</h:outputLabel>
-                <h:outputLabel>Changer role:</h:outputLabel>
+                <h:outputLabel>#{msg['account.login']}#{currentUser.currentUserLogin}</h:outputLabel><br />
+                <h:outputLabel>#{msg['account.all.access']}#{currentUser.allUserAccessLevel()}  </h:outputLabel><br />
+                <h:outputLabel>#{msg['account.current.role']}#{currentUser.currentRole}</h:outputLabel><br />
+                <h:outputLabel>#{msg['account.role.change']}</h:outputLabel>
                 <p:commandButton rendered="#{currentUser.isAdministrator()}"  value="Admin" action="#{currentUser.redirectAdmin}" ajax="false">
                 </p:commandButton>
                 <p:commandButton rendered="#{currentUser.isManager()}" value="Manager" action="#{currentUser.redirectManager}" ajax="false">
