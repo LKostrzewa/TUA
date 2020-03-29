@@ -1,26 +1,38 @@
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<f:view>
-    <h:head>
+<h:head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+</h:head>
+<h:body>
+    <h:outputStylesheet name="/css/login.css"/>
+    <form method="post" action="j_security_check" class="login-form">
+        <h1>#{msg['sign.in']}</h1>
+        <div class="text-box">
+            <input type="text" name="j_username" placeholder="#{msg['login']}"/>
+            <span/>
+        </div>
 
-    </h:head>
-    <h:body>
+        <div class="text-box">
+            <input type="password" name="j_password" placeholder="#{msg['password']}"/>
+            <span/>
+        </div>
+        <input type="submit" class="log-button" value="#{msg['sign.in']}"/>
+        <div class="bottom-text">
+            Don't have account? <a href="${pageContext.request.contextPath}/register.xhtml">#{msg['register']}</a>
+        </div>
+    </form>
 
-        <form method="POST" action="j_security_check">
-            <p/>
-            <strong>#{msg['index.login']}</strong>
-            <input type="text" name="j_username"/>
+    <!--    <script type="text/javascript">-->
+    <!--        $(".text-box input").on("focus", function () {-->
+    <!--            $(this).addClass("focus");-->
+    <!--        });-->
 
-            <p/>
-            <strong>#{msg['password']}</strong>
-            <input type="password" name="j_password"/>
-            <p/>
-            <input type="submit" value="#{msg['sign.in']}"/>
-        </form>
+    <!--        $(".text-box input").on("blur", function () {-->
+    <!--            if ($(this).val() === "") $(this).removeClass("focus");-->
+    <!--        });-->
+    <!--    </script>-->
 
-    </h:body>
-</f:view>
+</h:body>
 </html>
