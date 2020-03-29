@@ -6,17 +6,35 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
 
+
 @SessionScoped
 @Named
 public class CurrentUser implements Serializable {
 
     private String currentRole;
 
+    public void setCurrentRole(String currentRole) {
+        this.currentRole = currentRole;
+
+    }
+
+    public String getCurrentRole() {
+        return currentRole;
+    }
+
+
     @PostConstruct
-    private void init(){
+    private void init() {
         if(isAdministrator()&&currentRole==null) currentRole = "ADMINISTRATOR";
         if(isManager()&&currentRole==null) currentRole = "MANAGER";
         if(isClient()&&currentRole==null) currentRole = "CLIENT";
+        try{
+            if(isNowAdministrator()) FacesContext.getCurrentInstance().getExternalContext().redirect("/admin/index.xhtml");
+            if(isNowManager()) FacesContext.getCurrentInstance().getExternalContext().redirect("/manager/index.xhtml");
+            if(isNowClient()) FacesContext.getCurrentInstance().getExternalContext().redirect("/client/index.xhtml");
+        }catch (IOException e){
+            System.out.println("Could not redirect.");
+        }
     }
 
     public boolean isUserInRole(String role) {  // sprawdza jaka jest rola zalogowanego uzytkownika
@@ -51,6 +69,7 @@ public class CurrentUser implements Serializable {
         return string;
     }
 
+
     public boolean isNowAdministrator() {
         return currentRole.equals("ADMINISTRATOR");
     }
@@ -63,4 +82,18 @@ public class CurrentUser implements Serializable {
         return currentRole.equals("CLIENT");
     }
 
+    public String redirectAdmin(){
+        currentRole = "ADMINISTRATOR";
+        return "adminMain";
+    }
+
+    public String redirectManager(){
+        currentRole = "MANAGER";
+        return "managerMain";
+    }
+
+    public String redirectClient(){
+        currentRole = "CLIENT";
+        return "clientMain";
+    }
 }

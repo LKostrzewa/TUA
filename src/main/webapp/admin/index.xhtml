@@ -4,20 +4,27 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <title>Start Page</title>
+    <title>Admin index</title>
 </h:head>
-<body>
-<ui:composition template="/templates/clientTemplate.xhtml">
+<h:body>
+<ui:composition template="/templates/adminTemplate.xhtml">
+
+    <ui:define name="breadCrumbs">
+        <p:breadCrumb>
+            <p:menuitem value="Categories" url="#"/>
+            <p:menuitem value="#{msg['bread.main']}" url="/admin/index.xhtml"/>
+        </p:breadCrumb>
+    </ui:define>
+
     <ui:define name="content">
         <h:form>
             <h1>#{msg['hello.world']}</h1>
-            <h:outputLabel>Login: #{currentUser.currentUserLogin} Poziom dostepu: #{currentUser.allUserAccessLevel()}  </h:outputLabel>
         </h:form>
     </ui:define>
+
 </ui:composition>
-</body>
+</h:body>
 </html>
