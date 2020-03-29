@@ -6,6 +6,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import java.io.Serializable;
+import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,7 +53,7 @@ public class UserDetails implements Serializable {
     @NotNull
     @Lob
     @Column(name = "business_key")
-    private Object businessKey;
+    private UUID businessKey;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
@@ -75,7 +76,7 @@ public class UserDetails implements Serializable {
         this.id = id;
     }
 
-    public UserDetails(Long id, long version, Object businessKey, String firstName) {
+    public UserDetails(Long id, long version, UUID businessKey, String firstName) {
         this.id = id;
         this.version = version;
         this.businessKey = businessKey;
@@ -98,11 +99,11 @@ public class UserDetails implements Serializable {
         this.version = version;
     }
 
-    public Object getBusinessKey() {
+    public UUID getBusinessKey() {
         return businessKey;
     }
 
-    public void setBusinessKey(Object businessKey) {
+    public void setBusinessKey(UUID businessKey) {
         this.businessKey = businessKey;
     }
 

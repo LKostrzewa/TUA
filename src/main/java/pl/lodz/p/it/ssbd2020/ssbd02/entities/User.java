@@ -8,6 +8,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -63,7 +64,7 @@ public class User implements Serializable {
     @NotNull
     @Lob
     @Column(name = "business_key")
-    private Object businessKey;
+    private UUID businessKey;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
@@ -115,7 +116,7 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Long id, long version, Object businessKey, String login, String password, String email, boolean locked, boolean active, Date created, int invalidLoginAttemps) {
+    public User(Long id, long version, UUID businessKey, String login, String password, String email, boolean locked, boolean active, Date created, int invalidLoginAttemps) {
         this.id = id;
         this.version = version;
         this.businessKey = businessKey;
@@ -144,11 +145,11 @@ public class User implements Serializable {
         this.version = version;
     }
 
-    public Object getBusinessKey() {
+    public UUID getBusinessKey() {
         return businessKey;
     }
 
-    public void setBusinessKey(Object businessKey) {
+    public void setBusinessKey(UUID businessKey) {
         this.businessKey = businessKey;
     }
 

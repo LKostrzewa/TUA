@@ -9,16 +9,16 @@
     </h:head>
     <h:body>
 
-    <form method="POST" action="j_security_check">
-    <p/>
-        <strong>#{index.login}</strong>
-    <input type="text" name="j_username"/>
+        <form method="POST" action="j_security_check">
+            <p/>
+            <strong>#{msg['index.login']}</strong>
+            <input type="text" name="j_username"/>
 
-    <p/>
-        <strong>#{password}</strong>
-    <input type="password" name="j_password"/>
-    <p/>
-        <input type="submit" value="#{sign.in}"/>
+            <p/>
+            <strong>#{msg['password']}</strong>
+            <input type="password" name="j_password"/>
+            <p/>
+            <input type="submit" value="#{msg['sign.in']}"/>
         </form>
 
     </h:body>

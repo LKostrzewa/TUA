@@ -7,9 +7,12 @@
       xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 </h:head>
-<body>
+<h:body>
     <ui:composition>
-        <h1>BreadCrumbs</h1>
+        <h:outputStylesheet name="/css/styles.css"/>
+        <ui:fragment>
+            <h1 id="managerFooter">#{msg['footer.manager']}</h1>
+        </ui:fragment>
     </ui:composition>
-</body>
+</h:body>
 </html>

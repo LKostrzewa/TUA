@@ -7,6 +7,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -52,7 +53,7 @@ public class AccessLevel implements Serializable {
     @NotNull
     @Lob
     @Column(name = "business_key")
-    private Object businessKey;
+    private UUID businessKey;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
@@ -68,7 +69,7 @@ public class AccessLevel implements Serializable {
         this.id = id;
     }
 
-    public AccessLevel(Long id, long version, Object businessKey, String name) {
+    public AccessLevel(Long id, long version, UUID businessKey, String name) {
         this.id = id;
         this.version = version;
         this.businessKey = businessKey;
@@ -95,7 +96,7 @@ public class AccessLevel implements Serializable {
         return businessKey;
     }
 
-    public void setBusinessKey(Object businessKey) {
+    public void setBusinessKey(UUID businessKey) {
         this.businessKey = businessKey;
     }
 
