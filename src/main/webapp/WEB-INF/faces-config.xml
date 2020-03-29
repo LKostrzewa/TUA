@@ -8,8 +8,18 @@
     <navigation-rule>
         <from-view-id>*</from-view-id>
         <navigation-case>
-            <from-outcome>main</from-outcome>
-            <to-view-id>/shared/index.xhtml</to-view-id>
+            <from-outcome>mainAdmin</from-outcome>
+            <to-view-id>/admin/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>mainManager</from-outcome>
+            <to-view-id>/manager/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>mainClient</from-outcome>
+            <to-view-id>/client/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         <navigation-case>
