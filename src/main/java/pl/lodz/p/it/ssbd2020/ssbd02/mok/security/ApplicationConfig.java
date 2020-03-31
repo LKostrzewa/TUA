@@ -19,7 +19,7 @@ import javax.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
 )
 
 
-@FormAuthenticationMechanismDefinition(
+@CustomFormAuthenticationMechanismDefinition(
         loginToContinue = @LoginToContinue(
                 loginPage = "/login/login.xhtml",
                 errorPage = "/login/errorLogin.xhtml",
