@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
     @NamedQuery(name = "User.findByLocked", query = "SELECT u FROM User u WHERE u.locked = :locked"),
-    @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active"),
+    @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.activated = :active"),
     @NamedQuery(name = "User.findByCreated", query = "SELECT u FROM User u WHERE u.created = :created"),
     @NamedQuery(name = "User.findByLastValidLogin", query = "SELECT u FROM User u WHERE u.lastValidLogin = :lastValidLogin"),
     @NamedQuery(name = "User.findByLastInvalidLogin", query = "SELECT u FROM User u WHERE u.lastInvalidLogin = :lastInvalidLogin"),
@@ -87,8 +87,8 @@ public class User implements Serializable {
     private boolean locked;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "active")
-    private boolean active;
+    @Column(name = "activated")
+    private boolean activated;
     @Basic(optional = false)
     @NotNull
     @Column(name = "created")
@@ -116,7 +116,7 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Long id, long version, UUID businessKey, String login, String password, String email, boolean locked, boolean active, Date created, int invalidLoginAttemps) {
+    public User(Long id, long version, UUID businessKey, String login, String password, String email, boolean locked, boolean activated, Date created, int invalidLoginAttemps) {
         this.id = id;
         this.version = version;
         this.businessKey = businessKey;
@@ -124,7 +124,7 @@ public class User implements Serializable {
         this.password = password;
         this.email = email;
         this.locked = locked;
-        this.active = active;
+        this.activated = activated;
         this.created = created;
         this.invalidLoginAttemps = invalidLoginAttemps;
     }
@@ -185,12 +185,12 @@ public class User implements Serializable {
         this.locked = locked;
     }
 
-    public boolean getActive() {
-        return active;
+    public boolean getActivated() {
+        return activated;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
     public Date getCreated() {

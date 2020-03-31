@@ -16,6 +16,17 @@
   <persistence-unit name="ssbd02mojPU" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>java:app/jdbc/ssbd02mojDS</jta-data-source>
+    <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.Image</class>
+    <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.Opinion</class>
+    <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.Port</class>
+    <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental</class>
+    <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.RentalStatus</class>
+    <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht</class>
+    <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel</class>
+    <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.User</class>
+    <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel</class>
+    <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.UserDetails</class>
+    <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties>

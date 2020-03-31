@@ -8,6 +8,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -56,7 +57,7 @@ public class Port implements Serializable {
     @NotNull
     @Lob
     @Column(name = "business_key")
-    private Object businessKey;
+    private UUID businessKey;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 64)
@@ -91,7 +92,7 @@ public class Port implements Serializable {
         this.id = id;
     }
 
-    public Port(Long id, long version, Object businessKey, String name, String lake, String nearestCity, BigDecimal long1, BigDecimal lat) {
+    public Port(Long id, long version, UUID businessKey, String name, String lake, String nearestCity, BigDecimal long1, BigDecimal lat) {
         this.id = id;
         this.version = version;
         this.businessKey = businessKey;
@@ -118,11 +119,11 @@ public class Port implements Serializable {
         this.version = version;
     }
 
-    public Object getBusinessKey() {
+    public UUID getBusinessKey() {
         return businessKey;
     }
 
-    public void setBusinessKey(Object businessKey) {
+    public void setBusinessKey(UUID businessKey) {
         this.businessKey = businessKey;
     }
 

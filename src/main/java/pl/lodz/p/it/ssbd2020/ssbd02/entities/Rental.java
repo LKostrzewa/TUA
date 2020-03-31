@@ -8,6 +8,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -57,7 +58,7 @@ public class Rental implements Serializable {
     @NotNull
     @Lob
     @Column(name = "business_key")
-    private Object businessKey;
+    private UUID businessKey;
     @Basic(optional = false)
     @NotNull
     @Column(name = "begin_date")
@@ -92,7 +93,7 @@ public class Rental implements Serializable {
         this.id = id;
     }
 
-    public Rental(Long id, long version, Object businessKey, Date beginDate, Date endDate, BigDecimal price) {
+    public Rental(Long id, long version, UUID businessKey, Date beginDate, Date endDate, BigDecimal price) {
         this.id = id;
         this.version = version;
         this.businessKey = businessKey;
@@ -117,11 +118,11 @@ public class Rental implements Serializable {
         this.version = version;
     }
 
-    public Object getBusinessKey() {
+    public UUID getBusinessKey() {
         return businessKey;
     }
 
-    public void setBusinessKey(Object businessKey) {
+    public void setBusinessKey(UUID businessKey) {
         this.businessKey = businessKey;
     }
 

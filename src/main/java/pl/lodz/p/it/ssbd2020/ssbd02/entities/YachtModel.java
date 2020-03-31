@@ -8,6 +8,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -57,7 +58,7 @@ public class YachtModel implements Serializable {
     @NotNull
     @Lob
     @Column(name = "business_key")
-    private Object businessKey;
+    private UUID businessKey;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
@@ -94,7 +95,7 @@ public class YachtModel implements Serializable {
         this.id = id;
     }
 
-    public YachtModel(Long id, long version, Object businessKey, String manufacturer, String model, int capacity, String generalDescription, BigDecimal basicPrice) {
+    public YachtModel(Long id, long version, UUID businessKey, String manufacturer, String model, int capacity, String generalDescription, BigDecimal basicPrice) {
         this.id = id;
         this.version = version;
         this.businessKey = businessKey;
@@ -121,11 +122,11 @@ public class YachtModel implements Serializable {
         this.version = version;
     }
 
-    public Object getBusinessKey() {
+    public UUID getBusinessKey() {
         return businessKey;
     }
 
-    public void setBusinessKey(Object businessKey) {
+    public void setBusinessKey(UUID businessKey) {
         this.businessKey = businessKey;
     }
 

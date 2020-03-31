@@ -7,6 +7,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,7 +56,7 @@ public class Opinion implements Serializable {
     @NotNull
     @Lob
     @Column(name = "business_key")
-    private Object businessKey;
+    private UUID businessKey;
     @Basic(optional = false)
     @NotNull
     @Column(name = "rating")
@@ -79,7 +80,7 @@ public class Opinion implements Serializable {
         this.id = id;
     }
 
-    public Opinion(Long id, long version, Object businessKey, int rating, Date date) {
+    public Opinion(Long id, long version, UUID businessKey, int rating, Date date) {
         this.id = id;
         this.version = version;
         this.businessKey = businessKey;
@@ -103,11 +104,11 @@ public class Opinion implements Serializable {
         this.version = version;
     }
 
-    public Object getBusinessKey() {
+    public UUID getBusinessKey() {
         return businessKey;
     }
 
-    public void setBusinessKey(Object businessKey) {
+    public void setBusinessKey(UUID businessKey) {
         this.businessKey = businessKey;
     }
 
