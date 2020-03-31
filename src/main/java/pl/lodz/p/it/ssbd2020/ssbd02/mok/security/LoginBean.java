@@ -1,8 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.annotation.FacesConfig;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 
+import java.io.IOException;
+import java.io.Serializable;
+
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import static javax.security.enterprise.AuthenticationStatus.SEND_CONTINUE;
 import static javax.security.enterprise.AuthenticationStatus.SEND_FAILURE;
@@ -22,8 +27,8 @@ import static javax.security.enterprise.authentication.mechanism.http.Authentica
 
 @FacesConfig
 @Named
-@RequestScoped
-public class LoginBean {
+@SessionScoped
+public class LoginBean implements Serializable {
 
     @Inject
     private SecurityContext securityContext;
@@ -31,26 +36,46 @@ public class LoginBean {
     @Inject
     private FacesContext facesContext;
 
+    @Inject
+    private ExternalContext externalContext;
+
     @NotNull
     private String username;
 
     @NotNull
     private String password;
 
-    public void login() {
+    public void login() throws IOException {
         Credential credential = new UsernamePasswordCredential(username, new Password(password));
         AuthenticationStatus status = securityContext.authenticate(
                 getHttpRequestFromFacesContext(),
                 getHttpResponseFromFacesContext(),
-                withParams().credential(credential));
-        if (status.equals(SEND_CONTINUE)) {
-            facesContext.responseComplete();
-        } else if (status.equals(SEND_FAILURE)) {
-            facesContext.addMessage(null,
-                    new FacesMessage(SEVERITY_ERROR, "Authentication failed", null));
+                withParams()
+                        .credential(credential)
+                        .newAuthentication(true));
+
+        switch (status) {
+            case SEND_CONTINUE:
+                System.out.println("-SEND_CONTINUE"); // to się zamieni na logi pozniej
+                facesContext.responseComplete();
+                break;
+            case SUCCESS:
+                System.out.println("-SUCCESS");
+                facesContext.addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Login succeed", null));
+                FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/shared/index.xhtml");
+                break;
+            case SEND_FAILURE:
+                System.out.println("-SEND_FAILURE");
+                facesContext.addMessage(null,
+                        new FacesMessage(SEVERITY_ERROR, "Authentication failed", null));
+                externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
+                break;
+            case NOT_DONE:
+                System.out.println("-NOT_DONE");
+                break;
         }
     }
-
 
     private HttpServletRequest getHttpRequestFromFacesContext() {
         return (HttpServletRequest) facesContext
