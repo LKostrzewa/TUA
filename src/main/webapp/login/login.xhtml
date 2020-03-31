@@ -7,23 +7,23 @@
 </h:head>
 <h:body>
     <h:outputStylesheet name="/css/login.css"/>
-    <form method="post" action="j_security_check" class="login-form">
+    <h:form method="post" class="login-form">
         <h1>#{msg['sign.in']}</h1>
 
         <div class="text-box">
-            <input type="text" name="j_username"/>
+            <h:inputText type="text" value="#{loginBean.username}"/>
             <span data-placeholder="#{msg['login']}"/>
         </div>
 
         <div class="text-box">
-            <input type="password" name="j_password"/>
+            <h:inputSecret  value="#{loginBean.password}"/>
             <span data-placeholder="#{msg['password']}"/>
         </div>
-        <input type="submit" class="log-button" value="#{msg['sign.in']}"/>
+        <p:commandButton action="#{loginBean.login}" class="log-button" value="#{msg['sign.in']}"/>
         <div class="bottom-text">
             #{msg['no.account']} <a href="${pageContext.request.contextPath}/register.xhtml">#{msg['register']}</a>
         </div>
-    </form>
+    </h:form>
 
         <script type="text/javascript">
             $(".text-box input").on("focus", function () {
