@@ -1,15 +1,19 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import java.io.IOException;
 import java.io.Serializable;
 
 
 @SessionScoped
 @Named
+@Interceptors(LoggerInterceptor.class)
 public class CurrentUser implements Serializable {
 
     private String currentRole;

@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.annotation.FacesConfig;
@@ -8,6 +10,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import javax.security.enterprise.AuthenticationStatus;
 import javax.security.enterprise.SecurityContext;
 import javax.security.enterprise.credential.Credential;
@@ -28,6 +31,7 @@ import static javax.security.enterprise.authentication.mechanism.http.Authentica
 @FacesConfig
 @Named
 @SessionScoped
+@Interceptors(LoggerInterceptor.class)
 public class LoginBean implements Serializable {
 
     @Inject
