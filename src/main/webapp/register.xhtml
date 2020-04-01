@@ -1,12 +1,58 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <title></title>
-</head>
-<body>
-    ZAREJESTRUJ SIĘ I BZIKAAAJ
-</body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+</h:head>
+<h:body>
+    <h:outputStylesheet name="/css/registration.css"/>
+    <h:form method="post" class="registration-form">
+        <h1>#{msg['register']}</h1>
+
+        <div class="text-box">
+            <h:inputText type="text" />
+            <span data-placeholder="#{msg['login']}"/>
+        </div>
+
+        <div class="text-box">
+            <h:inputSecret  />
+            <span data-placeholder="#{msg['password']}"/>
+        </div>
+        <div class="text-box">
+            <h:inputSecret />
+            <span data-placeholder="#{msg['repeat']} #{msg['password']}"/>
+        </div>
+
+        <div class="text-box">
+            <h:inputSecret  />
+            <span data-placeholder="#{msg['name']}"/>
+        </div>
+
+        <div class="text-box">
+            <h:inputSecret  />
+            <span data-placeholder="#{msg['surname']}"/>
+        </div>
+
+        <div class="text-box">
+            <h:inputSecret  />
+            <span data-placeholder="#{msg['phone.number']}"/>
+        </div>
+        <p:commandButton class="register-button" value="#{msg['register']}"/>
+        <div class="bottom-text">
+             <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['cancel']}</a>
+        </div>
+    </h:form>
+
+    <script type="text/javascript">
+        $(".text-box input").on("focus", function () {
+            $(this).addClass("focus");
+        });
+
+        $(".text-box input").on("blur", function () {
+            if ($(this).val() === "") $(this).removeClass("focus");
+        });
+    </script>
+
+</h:body>
 </html>
