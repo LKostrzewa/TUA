@@ -22,7 +22,7 @@ public class LoggerInterceptor implements Serializable {
     }
 
     @AroundInvoke
-    public Object collectLoggingInformations(InvocationContext invocationContext) throws Exception {
+    public Object collectLoggingInformation(InvocationContext invocationContext) throws Exception {
         String className = invocationContext.getTarget().getClass().getSimpleName();
         String methodName = invocationContext.getMethod().getName();
         String callerName;
