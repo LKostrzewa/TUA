@@ -20,6 +20,6 @@ public class LogoutBacking implements Serializable {
 
     public String submit() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "main";
+        return "login";
     }
 }

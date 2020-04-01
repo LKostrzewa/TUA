@@ -8,15 +8,16 @@
 <h:body>
     <h:outputStylesheet name="/css/login.css"/>
     <h:form method="post" class="login-form">
-        <h1>#{msg['sign.in']}</h1>
+        <img src="../resources/images/yacht_logo.png" about="Yacht Logo"/>
 
         <div class="text-box">
-            <h:inputText type="text" value="#{loginBean.username}"/>
+            <h:inputText type="text" value="#{loginBean.username}" required="true" />
+
             <span data-placeholder="#{msg['login']}"/>
         </div>
 
         <div class="text-box">
-            <h:inputSecret  value="#{loginBean.password}"/>
+            <h:inputSecret value="#{loginBean.password}" required="true" />
             <span data-placeholder="#{msg['password']}"/>
         </div>
         <p:commandButton action="#{loginBean.login}" class="log-button" value="#{msg['sign.in']}"/>
@@ -25,15 +26,15 @@
         </div>
     </h:form>
 
-        <script type="text/javascript">
-            $(".text-box input").on("focus", function () {
-                $(this).addClass("focus");
-            });
+    <script type="text/javascript">
+        $(".text-box input").on("focus", function () {
+            $(this).addClass("focus");
+        });
 
-            $(".text-box input").on("blur", function () {
-                if ($(this).val() === "") $(this).removeClass("focus");
-            });
-        </script>
+        $(".text-box input").on("blur", function () {
+            if ($(this).val() === "") $(this).removeClass("focus");
+        });
+    </script>
 
 </h:body>
 </html>
