@@ -48,35 +48,26 @@ body {
     height: 40px;
 }
 
-.text-box span::before {
-    display: block;
-    content: attr(data-placeholder);
+.asterisk_input::after {
+    content: " *";
+    color: #e32;
     position: absolute;
-    top: 50%;
-    left: 5px;
-    color: #adadad;
-    transform: translateY(-50%);
-    z-index: -1;
-    transition: .5s;
+    margin: 0 0 0 -20px;
+    font-size: 25px;
+    padding: 0 5px 0 0;
+    top: 23%;
+    right: 0;
 }
 
-.text-box span::after {
+.gradient::after {
     display: block;
-    content: '';
+    content: "";
     position: absolute;
-    width: 0;
+    width: 100%;
     height: 2px;
     color: #adadad;
     background: linear-gradient(120deg, #00d2ff, #3a7bd5);
     transition: .5s;
-}
-
-.focus + span::before {
-    top: -5px;
-}
-
-.focus + span::after {
-    width: 100%;
 }
 
 .log-button {
@@ -90,6 +81,7 @@ body {
     outline: none;
     cursor: pointer;
     transition: .5s;
+    margin-top: 50px;
 }
 
 .log-button:hover {
