@@ -1,58 +1,71 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<h:head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
-</h:head>
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">>
+<h:head/>
 <h:body>
-    <h:outputStylesheet name="/css/registration.css"/>
+    <h:outputStylesheet library="css" name="registration.css"/>
     <h:form method="post" class="registration-form">
         <h1>#{msg['register']}</h1>
 
         <div class="text-box">
-            <h:inputText type="text" />
-            <span data-placeholder="#{msg['username']}"/>
+            <h:inputText id="username" type="text" a:placeholder="#{msg['username']}"/>
+            <span class="gradient"/>
+            <span class="asterisk_input"/>
+            <h:message styleClass="message" for="username"
+                       style="box-sizing: border-box; position: absolute;display: block;
+                       color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
 
         <div class="text-box">
-            <h:inputSecret  />
-            <span data-placeholder="#{msg['password']}"/>
+            <h:inputSecret id="password" a:placeholder="#{msg['password']}"/>
+            <span class="gradient"/>
+            <span class="asterisk_input"/>
+            <h:message styleClass="message" for="password"
+                       style="box-sizing: border-box; position: absolute;display: block;
+                       color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
         <div class="text-box">
-            <h:inputSecret />
-            <span data-placeholder="#{msg['repeat']} #{msg['password']}"/>
+            <h:inputSecret id="repeatPassword" a:placeholder="#{msg['repeat']} #{msg['password']}"/>
+            <span class="gradient"/>
+            <span class="asterisk_input"/>
+            <h:message styleClass="message" for="repeatPassword"
+                       style="box-sizing: border-box; position: absolute;display: block;
+                       color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
 
         <div class="text-box">
-            <h:inputSecret  />
-            <span data-placeholder="#{msg['name']}"/>
+            <h:inputText id="name" a:placeholder="#{msg['name']}"/>
+            <span class="gradient"/>
+            <span class="asterisk_input"/>
+            <h:message styleClass="message" for="name"
+                       style="box-sizing: border-box; position: absolute;display: block;
+                       color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
 
         <div class="text-box">
-            <h:inputSecret  />
-            <span data-placeholder="#{msg['surname']}"/>
+            <h:inputText id="surname" a:placeholder="#{msg['surname']}"/>
+            <span class="gradient"/>
+            <span class="asterisk_input"/>
+            <h:message styleClass="message" for="surname"
+                       style="box-sizing: border-box; position: absolute;display: block;
+                       color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
 
         <div class="text-box">
-            <h:inputSecret  />
-            <span data-placeholder="#{msg['phone.number']}"/>
+            <h:inputText id="phoneNumber" a:placeholder="#{msg['phone.number']}"/>
+            <span class="gradient"/>
+            <span class="asterisk_input"/>
+            <h:message styleClass="message" for="phoneNumber"
+                       style="box-sizing: border-box; position: absolute;display: block;
+                       color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
-        <p:commandButton class="register-button" value="#{msg['register']}"/>
+        <h:commandButton class="register-button" value="#{msg['register']}"/>
         <div class="bottom-text">
-             <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['cancel']}</a>
+            <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['cancel']}</a>
         </div>
     </h:form>
-
-    <script type="text/javascript">
-        $(".text-box input").on("focus", function () {
-            $(this).addClass("focus");
-        });
-
-        $(".text-box input").on("blur", function () {
-            if ($(this).val() === "") $(this).removeClass("focus");
-        });
-    </script>
 
 </h:body>
 </html>
