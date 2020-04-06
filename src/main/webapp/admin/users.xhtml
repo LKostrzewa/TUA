@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Users list</title>
+</h:head>
+<h:body>
+    <ui:composition template="/templates/adminTemplate.xhtml">
+
+        <ui:define name="breadCrumbs">
+            <p:breadCrumb>
+                <p:menuitem value="Categories" url="#"/>
+                <p:menuitem value="#{msg['bread.main']}" url="/admin/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.users']}" url="/admin/users.xhtml"/>
+            </p:breadCrumb>
+        </ui:define>
+
+        <ui:define name="content">
+            <h:form>
+                <h:dataTable var="row" value="${listUsersPageBean.users}" border="2"
+                             width="100%" styleClass="table">
+                    <h:column id="login">
+                        <f:facet name="header">${msg['users.login']}</f:facet>
+                        <h:outputText value="#{row.login}"/>
+                    </h:column>
+                    <h:column id="email">
+                        <f:facet name="header">${msg['users.email']}</f:facet>
+                        <h:outputText value="#{row.email}"/>
+                    </h:column>
+                    <h:column id="locked">
+                        <f:facet name="header">${msg['users.locked']}</f:facet>
+                        <h:outputText value="${msg['users.yes']}" rendered="#{row.locked}"/>
+                        <h:outputText value="${msg['users.no']}" rendered="#{!row.locked}"/>
+                    </h:column>
+                    <h:column id="activated">
+                        <f:facet name="header">${msg['users.activated']}</f:facet>
+                        <h:outputText value="${msg['users.yes']}" rendered="#{row.activated}"/>
+                        <h:outputText value="${msg['users.no']}" rendered="#{!row.activated}"/>
+                    </h:column>
+                    <h:column id="actions">
+                        <f:facet name="header">${msg['users.actions']}</f:facet>
+                        <h:commandButton value="${msg['users.edit']}"/>
+                        <h:commandButton value="${msg['users.delete']}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </ui:define>
+
+    </ui:composition>
+</h:body>
+</html>
