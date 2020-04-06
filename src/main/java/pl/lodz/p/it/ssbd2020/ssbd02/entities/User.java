@@ -5,6 +5,8 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
+
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.eclipse.persistence.annotations.TypeConverter;
 
 /**
  *
@@ -42,7 +45,8 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
+    //@SequenceGenerator(name = "user_seq", sequenceName = "user_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
@@ -55,6 +59,8 @@ public class User implements Serializable {
 //    @NotNull
     @Lob
     @Column(name = "business_key")
+    @org.eclipse.persistence.annotations.Convert("uuidConverter")
+    @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
     private UUID businessKey;
 //    @Basic(optional = false)
 //    @NotNull
@@ -118,10 +124,12 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "version", table = "user_details")
     private long version_user_details;
-    @Basic(optional = false)
-    @NotNull
+    //@Basic(optional = false)
+    //@NotNull
     @Lob
     @Column(name = "business_key", table = "user_details")
+    @org.eclipse.persistence.annotations.Convert("uuidConverter2")
+    @TypeConverter(name = "uuidConverter2", dataType = Object.class, objectType = UUID.class)
     private UUID businessKey_user_details;
 //    @Basic(optional = false)
 //    @NotNull
