@@ -1,40 +1,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<h:head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
-</h:head>
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<h:head/>
 <h:body>
-    <h:outputStylesheet name="/css/login.css"/>
+    <h:outputStylesheet library="css" name="login.css"/>
     <h:form method="post" class="login-form">
-        <img src="../resources/images/yacht_logo.png" about="Yacht Logo"/>
+        <img src="../resources/images/yacht_logo.png" alt="Yacht logo"/>
 
         <div class="text-box">
-            <h:inputText type="text" value="#{loginBean.username}" required="true" />
-
-            <span data-placeholder="#{msg['login']}"/>
+            <h:inputText id="username" value="#{loginBean.username}"
+                         a:placeholder="#{msg['username']}"/>
+            <span class="gradient"/>
+            <span class="asterisk_input"/>
+            <h:message styleClass="message" for="username"
+                       style="box-sizing: border-box; position: absolute;display: block;
+                       color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
 
         <div class="text-box">
-            <h:inputSecret value="#{loginBean.password}" required="true" />
-            <span data-placeholder="#{msg['password']}"/>
+            <h:inputSecret id="password" type="password" value="#{loginBean.password}"
+                           a:placeholder="#{msg['password']}"/>
+            <span class="gradient"/>
+            <span class="asterisk_input"/>
+            <h:message styleClass="message" for="password"
+                       style="box-sizing: border-box; position: absolute;display: block;
+                       color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
-        <p:commandButton action="#{loginBean.login}" class="log-button" value="#{msg['sign.in']}"/>
+
+        <h:commandButton action="#{loginBean.login}" class="log-button" value="#{msg['sign.in']}"/>
         <div class="bottom-text">
             #{msg['no.account']} <a href="${pageContext.request.contextPath}/register.xhtml">#{msg['register']}</a>
         </div>
     </h:form>
-
-    <script type="text/javascript">
-        $(".text-box input").on("focus", function () {
-            $(this).addClass("focus");
-        });
-
-        $(".text-box input").on("blur", function () {
-            if ($(this).val() === "") $(this).removeClass("focus");
-        });
-    </script>
-
 </h:body>
 </html>

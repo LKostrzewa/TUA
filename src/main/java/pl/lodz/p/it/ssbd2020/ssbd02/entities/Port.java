@@ -82,6 +82,10 @@ public class Port implements Serializable {
     @NotNull
     @Column(name = "lat")
     private BigDecimal lat;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "active")
+    private boolean active;
     @OneToMany(mappedBy = "currentPortId")
     private Collection<Yacht> yachtCollection;
 

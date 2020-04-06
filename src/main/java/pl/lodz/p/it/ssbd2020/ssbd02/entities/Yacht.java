@@ -24,6 +24,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -70,6 +71,10 @@ public class Yacht implements Serializable {
     private String condition;
     @Column(name = "avg_rating")
     private BigDecimal avgRating;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "active")
+    private boolean active;
     @JoinColumn(name = "current_port_id", referencedColumnName = "id")
     @ManyToOne
     private Port currentPortId;

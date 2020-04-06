@@ -83,6 +83,10 @@ public class YachtModel implements Serializable {
     @NotNull
     @Column(name = "basic_price")
     private BigDecimal basicPrice;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "active")
+    private boolean active;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "yachtModelId")
     private Collection<Image> imageCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "yachtModelId")
