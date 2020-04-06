@@ -6,23 +6,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -33,8 +21,9 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Lukasz
  */
 @Entity
-@Table(name = "user")
-@XmlRootElement
+@Table(name = "\"user\"")
+@SecondaryTable(name="user_details", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id"))
+//@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
@@ -52,45 +41,47 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
     @Basic(optional = false)
     @NotNull
+    @Version
     @Column(name = "version")
     private long version;
-    @Basic(optional = false)
-    @NotNull
+//    @Basic(optional = false)
+//    @NotNull
     @Lob
     @Column(name = "business_key")
     private UUID businessKey;
-    @Basic(optional = false)
-    @NotNull
+//    @Basic(optional = false)
+//    @NotNull
     @Size(min = 1, max = 32)
     @Column(name = "login")
     private String login;
-    @Basic(optional = false)
-    @NotNull
+//    @Basic(optional = false)
+//    @NotNull
     @Size(min = 1, max = 64)
     @Column(name = "password")
     private String password;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
+//    @Basic(optional = false)
+//    @NotNull
     @Size(min = 1, max = 64)
     @Column(name = "email")
     private String email;
-    @Basic(optional = false)
-    @NotNull
+//    @Basic(optional = false)
+//    @NotNull
     @Column(name = "locked")
     private boolean locked;
-    @Basic(optional = false)
-    @NotNull
+//    @Basic(optional = false)
+//    @NotNull
     @Column(name = "activated")
     private boolean activated;
-    @Basic(optional = false)
-    @NotNull
+//    @Basic(optional = false)
+//    @NotNull
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
@@ -100,14 +91,49 @@ public class User implements Serializable {
     @Column(name = "last_invalid_login")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastInvalidLogin;
-    @Basic(optional = false)
-    @NotNull
+//    @Basic(optional = false)
+//    @NotNull
     @Column(name = "invalid_login_attemps")
     private int invalidLoginAttemps;
+
+
+
+
+
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+//    private Collection<UserDetails> userDetailsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Collection<UserDetails> userDetailsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Collection<UserAccessLevel> userAccessLevelCollection;
+    private Collection<UserAccessLevel> userAccessLevelCollection = new ArrayList<>();
+
+
+
+
+
+
+
+
+
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "version", table = "user_details")
+    private long version_user_details;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "business_key", table = "user_details")
+    private UUID businessKey_user_details;
+//    @Basic(optional = false)
+//    @NotNull
+    @Size(min = 1, max = 32)
+    @Column(name = "first_name", table = "user_details")
+    private String firstName;
+    @Size(max = 32)
+    @Column(name = "last_name", table = "user_details")
+    private String lastName;
+    @Size(max = 10)
+    @Column(name = "phone_number", table = "user_details")
+    private String phoneNumber;
 
     public User() {
     }
@@ -225,16 +251,16 @@ public class User implements Serializable {
         this.invalidLoginAttemps = invalidLoginAttemps;
     }
 
-    @XmlTransient
-    public Collection<UserDetails> getUserDetailsCollection() {
-        return userDetailsCollection;
-    }
+//    @XmlTransient
+//    public Collection<UserDetails> getUserDetailsCollection() {
+//        return userDetailsCollection;
+//    }
+//
+//    public void setUserDetailsCollection(Collection<UserDetails> userDetailsCollection) {
+//        this.userDetailsCollection = userDetailsCollection;
+//    }
 
-    public void setUserDetailsCollection(Collection<UserDetails> userDetailsCollection) {
-        this.userDetailsCollection = userDetailsCollection;
-    }
-
-    @XmlTransient
+    //@XmlTransient
     public Collection<UserAccessLevel> getUserAccessLevelCollection() {
         return userAccessLevelCollection;
     }
@@ -263,9 +289,63 @@ public class User implements Serializable {
         return true;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public long getVersion_user_details() {
+        return version_user_details;
+    }
+
+    public void setVersion_user_details(long version_user_details) {
+        this.version_user_details = version_user_details;
+    }
+
+    public UUID getBusinessKey_user_details() {
+        return businessKey_user_details;
+    }
+
+    public void setBusinessKey_user_details(UUID businessKey_user_details) {
+        this.businessKey_user_details = businessKey_user_details;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.User[ id=" + id + " ]";
     }
     
 }
+
+

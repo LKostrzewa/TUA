@@ -6,7 +6,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 
 /**
  *
@@ -22,9 +26,24 @@ public abstract class AbstractFacade<T> {
 
     protected abstract EntityManager getEntityManager();
 
-    public void create(T entity) {
+//    public void create(T entity) {
+//        getEntityManager().persist(entity);
+//        getEntityManager().flush();
+//
+//    }
+public void create(T entity) {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    javax.validation.Validator validator = factory.getValidator();
+    Set<ConstraintViolation<T>> constraintViolations = validator.validate(entity);
+    if (constraintViolations.size() > 0 ) {
+        System.out.println("Constraint Violations occurred..");
+        for (ConstraintViolation<T> contraints : constraintViolations) {
+            System.out.println(contraints.getRootBeanClass().getSimpleName()+
+                    "." + contraints.getPropertyPath() + " " + contraints.getMessage());
+        }
         getEntityManager().persist(entity);
     }
+}
 
     public void edit(T entity) {
         getEntityManager().merge(entity);

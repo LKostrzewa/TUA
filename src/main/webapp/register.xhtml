@@ -11,34 +11,40 @@
         <h1>#{msg['register']}</h1>
 
         <div class="text-box">
-            <h:inputText type="text" />
-            <span data-placeholder="#{msg['login']}"/>
+<!--            <h:inputText type="text" />-->
+<!--            <span data-placeholder="#{msg['login']}" />-->
+            <h:inputText id="login" value="${userRegistrationBean.accountDTO.login}"  />
         </div>
 
         <div class="text-box">
-            <h:inputSecret  />
-            <span data-placeholder="#{msg['password']}"/>
+<!--            <h:inputSecret  />-->
+<!--            <span data-placeholder="#{msg['password']}"/>-->
+            <h:inputText id="password" value="${userRegistrationBean.accountDTO.password}"  />
         </div>
         <div class="text-box">
-            <h:inputSecret />
-            <span data-placeholder="#{msg['repeat']} #{msg['password']}"/>
+<!--            <h:inputSecret />-->
+<!--            <span data-placeholder="#{msg['repeat']} #{msg['password']}"/>-->
+            <h:inputText id="email" value="${userRegistrationBean.accountDTO.email}"  />
         </div>
 
         <div class="text-box">
-            <h:inputSecret  />
-            <span data-placeholder="#{msg['name']}"/>
+<!--            <h:inputSecret  />-->
+<!--            <span data-placeholder="#{msg['name']}"/>-->
+            <h:inputText id="name" value="${userRegistrationBean.accountDTO.firstName}"  />
         </div>
 
         <div class="text-box">
-            <h:inputSecret  />
-            <span data-placeholder="#{msg['surname']}"/>
+<!--            <h:inputSecret  />-->
+<!--            <span data-placeholder="#{msg['surname']}"/>-->
+            <h:inputText id="lastname" value="${userRegistrationBean.accountDTO.lastName}"  />
         </div>
 
         <div class="text-box">
-            <h:inputSecret  />
-            <span data-placeholder="#{msg['phone.number']}"/>
+<!--            <h:inputSecret  />-->
+<!--            <span data-placeholder="#{msg['phone.number']}"/>-->
+            <h:inputText id="phone" value="${userRegistrationBean.accountDTO.phoneNumber}"  />
         </div>
-        <p:commandButton class="register-button" value="#{msg['register']}"/>
+        <p:commandButton class="register-button" value="#{msg['register']}" action="#{userRegistrationBean.registerAccountAction}"/>
         <div class="bottom-text">
              <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['cancel']}</a>
         </div>

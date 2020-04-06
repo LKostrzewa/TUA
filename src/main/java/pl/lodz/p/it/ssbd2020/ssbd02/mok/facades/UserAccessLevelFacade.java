@@ -28,5 +28,5 @@ public class UserAccessLevelFacade extends AbstractFacade<UserAccessLevel> {
     public UserAccessLevelFacade() {
         super(UserAccessLevel.class);
     }
-    
+
 }

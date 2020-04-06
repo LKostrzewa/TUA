@@ -6,20 +6,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -31,7 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "access_level")
-@XmlRootElement
+//@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "AccessLevel.findAll", query = "SELECT a FROM AccessLevel a"),
     @NamedQuery(name = "AccessLevel.findById", query = "SELECT a FROM AccessLevel a WHERE a.id = :id"),
@@ -41,26 +31,28 @@ public class AccessLevel implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "access_level_id_seq")
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Basic(optional = false)
+//    @Basic(optional = false)
     @NotNull
+    @Version
     @Column(name = "version")
     private long version;
-    @Basic(optional = false)
-    @NotNull
+//    @Basic(optional = false)
+//    @NotNull
     @Lob
     @Column(name = "business_key")
     private UUID businessKey;
-    @Basic(optional = false)
-    @NotNull
+//    @Basic(optional = false)
+//    @NotNull
     @Size(min = 1, max = 32)
     @Column(name = "name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accessLevelId")
-    private Collection<UserAccessLevel> userAccessLevelCollection;
+    private Collection<UserAccessLevel> userAccessLevelCollection = new ArrayList<>();
 
     public AccessLevel() {
     }
@@ -108,7 +100,7 @@ public class AccessLevel implements Serializable {
         this.name = name;
     }
 
-    @XmlTransient
+//    @XmlTransient
     public Collection<UserAccessLevel> getUserAccessLevelCollection() {
         return userAccessLevelCollection;
     }
