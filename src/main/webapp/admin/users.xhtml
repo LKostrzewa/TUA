@@ -35,11 +35,13 @@
                     </h:column>
                     <h:column id="locked">
                         <f:facet name="header">${msg['users.locked']}</f:facet>
-                        <h:outputText value="#{row.locked}"/>
+                        <h:outputText value="${msg['users.yes']}" rendered="#{row.locked}"/>
+                        <h:outputText value="${msg['users.no']}" rendered="#{!row.locked}"/>
                     </h:column>
                     <h:column id="activated">
                         <f:facet name="header">${msg['users.activated']}</f:facet>
-                        <h:outputText value="#{row.activated}"/>
+                        <h:outputText value="${msg['users.yes']}" rendered="#{row.activated}"/>
+                        <h:outputText value="${msg['users.no']}" rendered="#{!row.activated}"/>
                     </h:column>
                     <h:column id="actions">
                         <f:facet name="header">${msg['users.actions']}</f:facet>

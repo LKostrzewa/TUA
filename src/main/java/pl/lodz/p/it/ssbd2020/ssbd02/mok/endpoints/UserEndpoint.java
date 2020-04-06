@@ -4,10 +4,11 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacadeLocal;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import java.util.List;
 
-@Stateless
+@Stateful
 public class UserEndpoint implements UserEndpointLocal {
     @EJB
     private UserFacadeLocal userFacade;
