@@ -18,7 +18,9 @@ import javax.security.enterprise.credential.Password;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -43,10 +45,10 @@ public class LoginBean implements Serializable {
     @Inject
     private ExternalContext externalContext;
 
-    @NotNull
+    @NotBlank(message = "{username.message}")
     private String username;
 
-    @NotNull
+    @NotBlank(message = "{password.message}")
     private String password;
 
     public void login() throws IOException {
