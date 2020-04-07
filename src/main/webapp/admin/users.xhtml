@@ -29,6 +29,14 @@
                         <f:facet name="header">${msg['users.login']}</f:facet>
                         <h:outputText value="#{row.login}"/>
                     </h:column>
+                    <h:column id="firstName">
+                        <f:facet name="header">${msg['users.first.name']}</f:facet>
+                        <h:outputText value="#{row.firstName}"/>
+                    </h:column>
+                    <h:column id="lastName">
+                        <f:facet name="header">${msg['users.last.name']}</f:facet>
+                        <h:outputText value="#{row.lastName}"/>
+                    </h:column>
                     <h:column id="email">
                         <f:facet name="header">${msg['users.email']}</f:facet>
                         <h:outputText value="#{row.email}"/>
