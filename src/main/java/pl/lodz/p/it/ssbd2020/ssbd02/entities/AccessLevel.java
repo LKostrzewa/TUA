@@ -6,6 +6,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import javax.persistence.Basic;
@@ -60,7 +61,7 @@ public class AccessLevel implements Serializable {
     @Column(name = "name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accessLevelId")
-    private Collection<UserAccessLevel> userAccessLevelCollection;
+    private Collection<UserAccessLevel> userAccessLevelCollection = new ArrayList<>();
 
     public AccessLevel() {
     }

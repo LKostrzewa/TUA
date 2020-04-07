@@ -19,7 +19,7 @@ import java.util.List;
  * Klasa fasadowa powiązana z encją User
  */
 @Stateless
-public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal{
+public class UserFacade extends AbstractFacade<User>{
 
     @PersistenceContext(unitName = "ssbd02mokPU")
     private EntityManager em;
