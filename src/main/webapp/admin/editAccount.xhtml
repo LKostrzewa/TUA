@@ -1,0 +1,21 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Editing account information</title>
+</h:head>
+<h:body>
+    <h:form>
+        <div>
+            <p:outputLabel for="userEmail" value="Email"/>
+            <p:inputText id="userEmail" value="#{editAccountPageBean.user.email}"/>
+            <h:message for="userEmail"
+                       style="color: red;font-size: 12px;margin-top: 5px;"/>
+        </div>
+
+        <p:commandButton value="#{msg['cancel']}" onclick="window.history.back();"/>
+        <p:commandButton value="#{msg['edit']}" action="#{editAccountPageBean.onFinish()}"/>
+    </h:form>
+</h:body>
+</html>
