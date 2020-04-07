@@ -6,6 +6,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
@@ -27,6 +28,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.persistence.SecondaryTable;
+import javax.persistence.PrimaryKeyJoinColumn;
 import org.eclipse.persistence.annotations.Convert;
 import org.eclipse.persistence.annotations.TypeConverter;
 
@@ -37,6 +40,7 @@ import org.eclipse.persistence.annotations.TypeConverter;
  */
 @Entity
 @Table(name = "\"user\"")
+@SecondaryTable(name="user_details", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id"))
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
@@ -109,10 +113,62 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "invalid_login_attemps")
     private int invalidLoginAttemps;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Collection<UserDetails> userDetailsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Collection<UserAccessLevel> userAccessLevelCollection;
+    private Collection<UserAccessLevel> userAccessLevelCollection = new ArrayList<>();
+
+
+
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 32)
+    @Column(name = "first_name", table = "user_details")
+    private String firstName;
+    @Size(max = 32)
+    @Column(name = "last_name", table = "user_details")
+    private String lastName;
+    @Size(max = 10)
+    @Column(name = "phone_number", table = "user_details")
+    private String phoneNumber;
+
+
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     public User() {
     }
@@ -230,14 +286,7 @@ public class User implements Serializable {
         this.invalidLoginAttemps = invalidLoginAttemps;
     }
 
-    @XmlTransient
-    public Collection<UserDetails> getUserDetailsCollection() {
-        return userDetailsCollection;
-    }
 
-    public void setUserDetailsCollection(Collection<UserDetails> userDetailsCollection) {
-        this.userDetailsCollection = userDetailsCollection;
-    }
 
     @XmlTransient
     public Collection<UserAccessLevel> getUserAccessLevelCollection() {

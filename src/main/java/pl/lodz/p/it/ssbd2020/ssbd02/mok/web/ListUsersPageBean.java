@@ -1,7 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpointLocal;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
+
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequestScoped
 public class ListUsersPageBean {
     @Inject
-    private UserEndpointLocal userEndpoint;
+    private UserEndpoint userEndpoint;
 
     public ListUsersPageBean() {
     }
