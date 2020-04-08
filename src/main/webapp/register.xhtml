@@ -61,7 +61,7 @@
                        style="box-sizing: border-box; position: absolute;display: block;
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
-        <p:commandButton class="register-button" value="#{msg['register']}"/>
+        <p:commandButton class="register-button" value="#{msg['register']}" action="#{userRegistrationBean.registerAccountAction}"/>
         <div class="bottom-text">
              <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['cancel']}</a>
         </div>
