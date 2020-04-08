@@ -124,15 +124,19 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "version", table = "user_details")
     private long version_user_details;
-    //@Basic(optional = false)
-    //@NotNull
+
+
+
+
+    @Basic(optional = false)
+    @NotNull
     @Lob
     @Column(name = "business_key", table = "user_details")
     @org.eclipse.persistence.annotations.Convert("uuidConverter2")
     @TypeConverter(name = "uuidConverter2", dataType = Object.class, objectType = UUID.class)
     private UUID businessKey_user_details;
-//    @Basic(optional = false)
-//    @NotNull
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 32)
     @Column(name = "first_name", table = "user_details")
     private String firstName;
@@ -348,6 +352,8 @@ public class User implements Serializable {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+
 
     @Override
     public String toString() {

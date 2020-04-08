@@ -15,9 +15,10 @@ import java.util.Date;
 import java.util.UUID;
 
 @Stateful
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-public class UserEndpoint extends AbstractEndpoint implements SessionSynchronization  {
+//@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+public class UserEndpoint {
 
+public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
 
     @EJB
     private UserAccessLevelFacade userAccessLevelFacade;
@@ -27,33 +28,31 @@ public class UserEndpoint extends AbstractEndpoint implements SessionSynchroniza
 
     @EJB
     UserFacade userFacade;
-    @Resource
-    private SessionContext sessionContext;
+//    @Resource
+//    private SessionContext sessionContext;
 
     public void registerNewUser(UserDTO userDTO) {
         User user = new User();
         user.setVersion(1);
+        user.setVersion_user_details(1);
+        user.setBusinessKey_user_details(UUID.randomUUID());
         user.setBusinessKey(UUID.randomUUID());
         user.setLogin(userDTO.getLogin());
-        //user.setActivated(false);
+        user.setActivated(false);
+        user.setLocked(false);
+        user.setCreated(new Date());
+        user.setInvalidLoginAttemps(0);
         user.setPassword(userDTO.getPassword());
         user.setEmail(userDTO.getEmail());
-        userDTO.setFirstName(userDTO.getFirstName());
-        userDTO.setLastName(userDTO.getLastName());
-        userDTO.setPhoneNumber(userDTO.getPhoneNumber());
-
-        //user.setActivated(true);
-        //user.setLocked(true);
-//        user.setCreated(new Date());
-        //user.setInvalidLoginAttemps(0);
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setPhoneNumber(userDTO.getPhoneNumber());
         userFacade.create(user);
 
-        AccessLevel accessLevel = new AccessLevel();
-        accessLevel.setName("KLIENT");
-        accessLevelFacade.create(accessLevel);
-
         UserAccessLevel userAccessLevel = new UserAccessLevel();
-        userAccessLevel.setAccessLevelId(accessLevel);
+        userAccessLevel.setVersion(1);
+        userAccessLevel.setBusinessKey(UUID.randomUUID());
+        userAccessLevel.setAccessLevelId(accessLevelFacade.findByLogin(CLIENT_ACCESS_LEVEL));
         userAccessLevel.setUserId(user);
         userAccessLevelFacade.create(userAccessLevel);
     }

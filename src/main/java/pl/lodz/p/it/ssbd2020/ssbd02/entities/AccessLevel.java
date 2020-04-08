@@ -5,6 +5,8 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
+import org.eclipse.persistence.annotations.TypeConverter;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +34,8 @@ public class AccessLevel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "access_level_id_seq")
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "access_level_id_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
@@ -45,6 +48,8 @@ public class AccessLevel implements Serializable {
 //    @NotNull
     @Lob
     @Column(name = "business_key")
+    @org.eclipse.persistence.annotations.Convert("uuidConverter")
+    @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
     private UUID businessKey;
 //    @Basic(optional = false)
 //    @NotNull

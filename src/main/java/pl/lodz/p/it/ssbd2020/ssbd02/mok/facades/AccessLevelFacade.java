@@ -5,10 +5,14 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
+
+import org.eclipse.persistence.exceptions.DatabaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel;
+
+import java.sql.SQLNonTransientConnectionException;
 
 /**
  *
@@ -28,5 +32,16 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
     public AccessLevelFacade() {
         super(AccessLevel.class);
     }
+
+
+
+    @PermitAll
+    public AccessLevel findByLogin(String name) {
+
+        TypedQuery<AccessLevel> tq = em.createNamedQuery("AccessLevel.findByName", AccessLevel.class);
+        tq.setParameter("name", name);
+        return tq.getSingleResult();
+    }
+
     
 }
