@@ -23,32 +23,37 @@
 
         <ui:define name="content">
             <h:form>
-                <h:dataTable var="user" value="${listUsersPageBean.users}" border="2"
-                             width="100%" styleClass="table">
-                    <h:column id="login">
-                        <f:facet name="header">${msg['users.login']}</f:facet>
-                        <h:outputText value="#{user.login}"/>
-                    </h:column>
-                    <h:column id="email">
-                        <f:facet name="header">${msg['users.email']}</f:facet>
-                        <h:outputText value="#{user.email}"/>
-                    </h:column>
-                    <h:column id="locked">
-                        <f:facet name="header">${msg['users.locked']}</f:facet>
+                <p:dataTable var="user" value="#{listUsersPageBean.users}" rows="10" border="2"
+                             width="100%" styleClass="table"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
+
+                    <p:column id="login" headerText="${msg['users.login']}">
+                        <h:outputText value="#{user.login}" />
+                    </p:column>
+
+                    <p:column id="email" headerText="${msg['users.email']}">
+                        <h:outputText value="#{user.email}" />
+                    </p:column>
+
+                    <p:column id="locked" headerText="${msg['users.locked']}">
                         <h:outputText value="${msg['users.yes']}" rendered="#{user.locked}"/>
                         <h:outputText value="${msg['users.no']}" rendered="#{!user.locked}"/>
-                    </h:column>
-                    <h:column id="activated">
-                        <f:facet name="header">${msg['users.activated']}</f:facet>
+                    </p:column>
+
+                    <p:column id="activated" headerText="${msg['users.activated']}">
                         <h:outputText value="${msg['users.yes']}" rendered="#{user.activated}"/>
                         <h:outputText value="${msg['users.no']}" rendered="#{!user.activated}"/>
-                    </h:column>
-                    <h:column id="actions">
-                        <f:facet name="header">${msg['users.actions']}</f:facet>
-                        <h:commandButton value="${msg['users.edit']}" action="#{editAccountPageBean.onClick(user)}"/>
-                        <h:commandButton value="${msg['users.delete']}"/>
-                    </h:column>
-                </h:dataTable>
+                    </p:column>
+
+                    <p:column id="actions" headerText="${msg['users.actions']}">
+                        <p:commandButton value="${msg['users.edit']}" action="#{editAccountPageBean.onClick(user)}"/>
+                        <p:commandButton value="${msg['users.delete']}"/>
+                    </p:column>
+
+                </p:dataTable>
             </h:form>
         </ui:define>
 
