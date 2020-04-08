@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Opinion;
+import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 
 /**
  *

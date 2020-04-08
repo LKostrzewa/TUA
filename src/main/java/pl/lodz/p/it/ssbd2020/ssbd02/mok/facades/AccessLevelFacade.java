@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel;
-
+import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 
 
 /**
