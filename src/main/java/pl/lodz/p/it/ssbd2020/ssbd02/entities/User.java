@@ -26,7 +26,7 @@ import org.eclipse.persistence.annotations.TypeConverter;
 @Entity
 @Table(name = "\"user\"")
 @SecondaryTable(name="user_details", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id"))
-//@XmlRootElement
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
@@ -44,8 +44,6 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@SequenceGenerator(name = "user_seq", sequenceName = "user_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
@@ -55,39 +53,39 @@ public class User implements Serializable {
     @Version
     @Column(name = "version")
     private long version;
-//    @Basic(optional = false)
-//    @NotNull
+    @Basic(optional = false)
+    @NotNull
     @Lob
     @Column(name = "business_key")
     @org.eclipse.persistence.annotations.Convert("uuidConverter")
     @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
     private UUID businessKey;
-//    @Basic(optional = false)
-//    @NotNull
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 32)
     @Column(name = "login")
     private String login;
-//    @Basic(optional = false)
-//    @NotNull
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 64)
     @Column(name = "password")
     private String password;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-//    @Basic(optional = false)
-//    @NotNull
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 64)
     @Column(name = "email")
     private String email;
-//    @Basic(optional = false)
-//    @NotNull
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "locked")
     private boolean locked;
-//    @Basic(optional = false)
-//    @NotNull
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "activated")
     private boolean activated;
-//    @Basic(optional = false)
-//    @NotNull
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
@@ -97,8 +95,8 @@ public class User implements Serializable {
     @Column(name = "last_invalid_login")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastInvalidLogin;
-//    @Basic(optional = false)
-//    @NotNull
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "invalid_login_attemps")
     private int invalidLoginAttemps;
 

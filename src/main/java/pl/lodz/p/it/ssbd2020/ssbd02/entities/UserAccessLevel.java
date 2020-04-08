@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Lukasz
  */
 @Entity
-@Table(name = "user_access_level")
-//@XmlRootElement
+@Table(name = "user_access_level", uniqueConstraints = @UniqueConstraint(columnNames = {"access_level_id", "user_id"}))
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "UserAccessLevel.findAll", query = "SELECT u FROM UserAccessLevel u"),
     @NamedQuery(name = "UserAccessLevel.findById", query = "SELECT u FROM UserAccessLevel u WHERE u.id = :id"),
@@ -29,17 +29,16 @@ public class UserAccessLevel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_access_level_id_seq")
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-//    @Basic(optional = false)
+    @Basic(optional = false)
     @NotNull
     @Version
     @Column(name = "version")
     private long version;
-//    @Basic(optional = false)
-//    @NotNull
+    @Basic(optional = false)
+    @NotNull
     @Lob
     @Column(name = "business_key")
     @org.eclipse.persistence.annotations.Convert("uuidConverter")

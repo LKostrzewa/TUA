@@ -1,7 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel;
+
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDTO;
@@ -9,13 +9,12 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserAccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 
-import javax.annotation.Resource;
+
 import javax.ejb.*;
 import java.util.Date;
 import java.util.UUID;
 
 @Stateful
-//@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class UserEndpoint {
 
 public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
@@ -28,8 +27,7 @@ public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
 
     @EJB
     UserFacade userFacade;
-//    @Resource
-//    private SessionContext sessionContext;
+
 
     public void registerNewUser(UserDTO userDTO) {
         User user = new User();
@@ -52,7 +50,7 @@ public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
         UserAccessLevel userAccessLevel = new UserAccessLevel();
         userAccessLevel.setVersion(1);
         userAccessLevel.setBusinessKey(UUID.randomUUID());
-        userAccessLevel.setAccessLevelId(accessLevelFacade.findByLogin(CLIENT_ACCESS_LEVEL));
+        userAccessLevel.setAccessLevelId(accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
         userAccessLevel.setUserId(user);
         userAccessLevelFacade.create(userAccessLevel);
     }

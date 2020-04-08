@@ -26,12 +26,7 @@ public class UserControllerBean implements Serializable {
 
     public void registerAccount(final UserDTO accountDTO){
 
-
-
-                userEndpoint.registerNewUser(accountDTO);
-
-
-
+        userEndpoint.registerNewUser(accountDTO);
     }
 
 

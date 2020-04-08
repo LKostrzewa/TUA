@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "access_level")
-//@XmlRootElement
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "AccessLevel.findAll", query = "SELECT a FROM AccessLevel a"),
     @NamedQuery(name = "AccessLevel.findById", query = "SELECT a FROM AccessLevel a WHERE a.id = :id"),
@@ -33,26 +33,24 @@ public class AccessLevel implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "access_level_id_seq")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-//    @Basic(optional = false)
+    @Basic(optional = false)
     @NotNull
     @Version
     @Column(name = "version")
     private long version;
-//    @Basic(optional = false)
-//    @NotNull
+    @Basic(optional = false)
+    @NotNull
     @Lob
     @Column(name = "business_key")
     @org.eclipse.persistence.annotations.Convert("uuidConverter")
     @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
     private UUID businessKey;
-//    @Basic(optional = false)
-//    @NotNull
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 32)
     @Column(name = "name")
     private String name;
@@ -105,7 +103,7 @@ public class AccessLevel implements Serializable {
         this.name = name;
     }
 
-//    @XmlTransient
+    @XmlTransient
     public Collection<UserAccessLevel> getUserAccessLevelCollection() {
         return userAccessLevelCollection;
     }
