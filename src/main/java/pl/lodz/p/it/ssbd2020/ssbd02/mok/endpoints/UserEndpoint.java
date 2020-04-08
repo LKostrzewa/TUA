@@ -12,6 +12,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 
 import javax.ejb.*;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Stateful
@@ -53,5 +54,13 @@ public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
         userAccessLevel.setAccessLevelId(accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
         userAccessLevel.setUserId(user);
         userAccessLevelFacade.create(userAccessLevel);
+
+    }
+    public List<User> getAll() {
+        return userFacade.findAll();
+    }
+
+    public void edit(User user) {
+        userFacade.edit(user);
     }
 }

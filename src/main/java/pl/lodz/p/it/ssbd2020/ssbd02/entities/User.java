@@ -5,8 +5,6 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
-
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,7 +15,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import org.eclipse.persistence.annotations.Convert;
 import org.eclipse.persistence.annotations.TypeConverter;
+
 
 /**
  *
@@ -57,7 +58,7 @@ public class User implements Serializable {
     @NotNull
     @Lob
     @Column(name = "business_key")
-    @org.eclipse.persistence.annotations.Convert("uuidConverter")
+    @Convert("uuidConverter")
     @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
     private UUID businessKey;
     @Basic(optional = false)
@@ -359,5 +360,3 @@ public class User implements Serializable {
     }
     
 }
-
-
