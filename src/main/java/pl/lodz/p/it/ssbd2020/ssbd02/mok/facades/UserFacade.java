@@ -38,4 +38,8 @@ public class UserFacade extends AbstractFacade<User>{
         return super.findAll();
     }
 
+    @Override
+    public void edit(User user) {
+        super.edit(user);
+    }
 }

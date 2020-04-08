@@ -3,7 +3,6 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -22,10 +21,9 @@ public class ListUsersPageBean {
     private List<User> users;
 
     @PostConstruct
-    private void init(){
+    private void init() {
         this.users = userEndpoint.getAll();
     }
-
 
     public List<User> getUsers() {
         return users;

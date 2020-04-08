@@ -6,7 +6,7 @@
 <h:head/>
 <h:body>
     <h:outputStylesheet library="css" name="login.css"/>
-    <h:form method="post" class="login-form">
+    <h:form class="login-form">
         <img src="../resources/images/yacht_logo.png" alt="Yacht logo"/>
 
         <div class="text-box">
@@ -14,7 +14,7 @@
                          a:placeholder="#{msg['username']}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
-            <h:message styleClass="message" for="username"
+            <h:message for="username"
                        style="box-sizing: border-box; position: absolute;display: block;
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
@@ -24,7 +24,7 @@
                            a:placeholder="#{msg['password']}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
-            <h:message styleClass="message" for="password"
+            <h:message for="password"
                        style="box-sizing: border-box; position: absolute;display: block;
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
