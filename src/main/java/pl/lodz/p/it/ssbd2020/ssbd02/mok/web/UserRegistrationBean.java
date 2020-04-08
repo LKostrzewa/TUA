@@ -43,6 +43,6 @@ public class UserRegistrationBean implements Serializable {
     public String registerAccountAction() {
 
         accountControllerBean.registerAccount(accountDTO);
-        return "login/login.xhtml?faces-redirect=true";
+        return "login.xhtml?faces-redirect=true";
     }
 }
