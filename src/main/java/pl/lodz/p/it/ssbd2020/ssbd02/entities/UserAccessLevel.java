@@ -5,20 +5,11 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
+import org.eclipse.persistence.annotations.TypeConverter;
+
 import java.io.Serializable;
 import java.util.UUID;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -27,7 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Lukasz
  */
 @Entity
-@Table(name = "user_access_level")
+@Table(name = "user_access_level", uniqueConstraints = @UniqueConstraint(columnNames = {"access_level_id", "user_id"}))
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "UserAccessLevel.findAll", query = "SELECT u FROM UserAccessLevel u"),
@@ -43,12 +34,15 @@ public class UserAccessLevel implements Serializable {
     private Long id;
     @Basic(optional = false)
     @NotNull
+    @Version
     @Column(name = "version")
     private long version;
     @Basic(optional = false)
     @NotNull
     @Lob
     @Column(name = "business_key")
+    @org.eclipse.persistence.annotations.Convert("uuidConverter")
+    @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
     private UUID businessKey;
     @JoinColumn(name = "access_level_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -134,5 +128,5 @@ public class UserAccessLevel implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel[ id=" + id + " ]";
     }
-    
+
 }

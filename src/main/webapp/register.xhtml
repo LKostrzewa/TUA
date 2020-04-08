@@ -10,7 +10,7 @@
         <h1>#{msg['register']}</h1>
 
         <div class="text-box">
-            <h:inputText id="username" type="text" a:placeholder="#{msg['username']}"/>
+            <h:inputText id="username" type="text" a:placeholder="#{msg['username']}" value="${userRegistrationBean.accountDTO.login}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message styleClass="message" for="username"
@@ -19,7 +19,7 @@
         </div>
 
         <div class="text-box">
-            <h:inputSecret id="password" a:placeholder="#{msg['password']}"/>
+            <h:inputSecret id="password" a:placeholder="#{msg['password']}" value="${userRegistrationBean.accountDTO.password}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message styleClass="message" for="password"
@@ -36,7 +36,7 @@
         </div>
 
         <div class="text-box">
-            <h:inputText id="name" a:placeholder="#{msg['name']}"/>
+            <h:inputText id="name" a:placeholder="#{msg['name']}" value="${userRegistrationBean.accountDTO.firstName}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message styleClass="message" for="name"
@@ -45,7 +45,7 @@
         </div>
 
         <div class="text-box">
-            <h:inputText id="surname" a:placeholder="#{msg['surname']}"/>
+            <h:inputText id="surname" a:placeholder="#{msg['surname']}" value="${userRegistrationBean.accountDTO.lastName}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message styleClass="message" for="surname"
@@ -54,18 +54,28 @@
         </div>
 
         <div class="text-box">
-            <h:inputText id="phoneNumber" a:placeholder="#{msg['phone.number']}"/>
+            <h:inputText id="phoneNumber" a:placeholder="#{msg['phone.number']}" value="${userRegistrationBean.accountDTO.phoneNumber}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message styleClass="message" for="phoneNumber"
                        style="box-sizing: border-box; position: absolute;display: block;
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
-        <h:commandButton class="register-button" value="#{msg['register']}"/>
+        <p:commandButton class="register-button" value="#{msg['register']}" action="#{userRegistrationBean.registerAccountAction}"/>
         <div class="bottom-text">
-            <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['cancel']}</a>
+             <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['cancel']}</a>
         </div>
     </h:form>
+
+    <script type="text/javascript">
+        $(".text-box input").on("focus", function () {
+            $(this).addClass("focus");
+        });
+
+        $(".text-box input").on("blur", function () {
+            if ($(this).val() === "") $(this).removeClass("focus");
+        });
+    </script>
 
 </h:body>
 </html>

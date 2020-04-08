@@ -8,8 +8,6 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 
 import java.util.List;
@@ -19,7 +17,7 @@ import java.util.List;
  * Klasa fasadowa powiązana z encją User
  */
 @Stateless
-public class UserFacade extends AbstractFacade<User>{
+public class UserFacade extends AbstractFacade<User> {
 
     @PersistenceContext(unitName = "ssbd02mokPU")
     private EntityManager em;

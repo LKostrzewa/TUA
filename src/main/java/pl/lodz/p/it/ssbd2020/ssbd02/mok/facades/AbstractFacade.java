@@ -6,7 +6,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 
 /**
  *
@@ -24,7 +28,11 @@ public abstract class AbstractFacade<T> {
 
     public void create(T entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
+
     }
+
+
 
     public void edit(T entity) {
         getEntityManager().merge(entity);
