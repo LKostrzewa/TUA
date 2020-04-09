@@ -27,10 +27,10 @@
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
         <div class="text-box">
-            <h:inputSecret id="repeatPassword" a:placeholder="#{msg['repeat']} #{msg['password']}"/>
+            <h:inputText id="email" a:placeholder="Email" value="${userRegistrationBean.accountDTO.email}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
-            <h:message styleClass="message" for="repeatPassword"
+            <h:message styleClass="message" for="email"
                        style="box-sizing: border-box; position: absolute;display: block;
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
