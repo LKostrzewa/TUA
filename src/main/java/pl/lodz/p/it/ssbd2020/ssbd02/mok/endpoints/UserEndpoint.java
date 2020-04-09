@@ -49,6 +49,8 @@ public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setPhoneNumber(userDTO.getPhoneNumber());
+        user.setActivationCode(UUID.randomUUID());
+        user.setResetPasswordCode(UUID.randomUUID());
         userFacade.create(user);
 
         UserAccessLevel userAccessLevel = new UserAccessLevel();
