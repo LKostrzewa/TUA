@@ -6,12 +6,15 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 
 import javax.annotation.security.PermitAll;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 import javax.persistence.*;
 
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 
 /**
@@ -19,6 +22,8 @@ import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
  * Klasa fasadowa powiązana z encją AccessLevel
  */
 @Stateless
+@LocalBean
+@Interceptors(LoggerInterceptor.class)
 public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
 
     @PersistenceContext(unitName = "ssbd02mokPU")
