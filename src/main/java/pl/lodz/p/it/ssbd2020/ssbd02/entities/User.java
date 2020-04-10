@@ -100,6 +100,16 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "invalid_login_attemps")
     private int invalidLoginAttemps;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "activation_code")
+    @Convert("uuidConverter")
+    private UUID activationCode;
+    @Lob
+    @Column(name = "reset_password_code")
+    @Convert("uuidConverter")
+    private UUID resetPasswordCode;
 
 
 
@@ -131,8 +141,7 @@ public class User implements Serializable {
     @NotNull
     @Lob
     @Column(name = "business_key", table = "user_details")
-    @org.eclipse.persistence.annotations.Convert("uuidConverter2")
-    @TypeConverter(name = "uuidConverter2", dataType = Object.class, objectType = UUID.class)
+    @Convert("uuidConverter")
     private UUID businessKey_user_details;
     @Basic(optional = false)
     @NotNull
@@ -262,7 +271,23 @@ public class User implements Serializable {
         this.invalidLoginAttemps = invalidLoginAttemps;
     }
 
-//    @XmlTransient
+    public UUID getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(UUID activationCode) {
+        this.activationCode = activationCode;
+    }
+
+    public UUID getResetPasswordCode() {
+        return resetPasswordCode;
+    }
+
+    public void setResetPasswordCode(UUID resetPasswordCode) {
+        this.resetPasswordCode = resetPasswordCode;
+    }
+
+    //    @XmlTransient
 //    public Collection<UserDetails> getUserDetailsCollection() {
 //        return userDetailsCollection;
 //    }
