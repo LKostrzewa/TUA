@@ -22,6 +22,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -57,6 +59,8 @@ public class Opinion implements Serializable {
     @Lob
     @Column(name = "business_key")
     private UUID businessKey;
+    @Min(1)
+    @Max(5)
     @Basic(optional = false)
     @NotNull
     @Column(name = "rating")
@@ -69,6 +73,10 @@ public class Opinion implements Serializable {
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "edited")
+    private boolean edited;
     @JoinColumn(name = "rental_id", referencedColumnName = "id")
     @OneToOne(optional = false)
     private Rental rentalId;
