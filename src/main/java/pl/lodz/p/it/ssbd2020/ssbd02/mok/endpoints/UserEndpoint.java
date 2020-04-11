@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 
 
+import org.modelmapper.ModelMapper;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDTO;
@@ -23,13 +24,8 @@ public class UserEndpoint {
     private UserManager userManager;
 
     public void registerNewUser(UserDTO userDTO) {
-        User user = new User();
-        user.setLogin(userDTO.getLogin());
-        user.setPassword(userDTO.getPassword());
-        user.setEmail(userDTO.getEmail());
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setPhoneNumber(userDTO.getPhoneNumber());
+        ModelMapper modelMapper = new ModelMapper();
+        User user = modelMapper.map(userDTO, User.class);
         userManager.registerNewUser(user);
 
     }
