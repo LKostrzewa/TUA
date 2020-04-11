@@ -98,7 +98,7 @@ public class User implements Serializable {
     private Date lastInvalidLogin;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "invalid_login_attemps")
+    @Column(name = "invalid_login_attempts")
     private int invalidLoginAttemps;
     @Basic(optional = false)
     @NotNull
