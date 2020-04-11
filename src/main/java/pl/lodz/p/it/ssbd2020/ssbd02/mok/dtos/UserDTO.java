@@ -1,11 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Objects;
 
 public class UserDTO implements Comparable<UserDTO> {
-
-
 
     private String login;
     private String password;

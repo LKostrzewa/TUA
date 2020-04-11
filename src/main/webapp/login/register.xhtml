@@ -7,63 +7,98 @@
 <h:body>
     <h:outputStylesheet library="css" name="registration.css"/>
     <h:form method="post" class="registration-form">
-        <h1>#{msg['register']}</h1>
+        <h1>#{msg['register.register']}</h1>
 
         <div class="text-box">
-            <h:inputText id="username" type="text" a:placeholder="#{msg['username']}" value="${userRegistrationBean.accountDTO.login}"/>
+            <p:inputText id="username" type="text" a:placeholder="#{msg['register.username']}"
+                         value="${userRegistrationBean.accountDTO.login}" required="true"
+                         requiredMessage="#{msg['register.field.required']}">
+                <f:validator validatorId="loginValidator"/>
+            </p:inputText>
             <span class="gradient"/>
             <span class="asterisk_input"/>
-            <h:message styleClass="message" for="username"
-                       style="box-sizing: border-box; position: absolute;display: block;
-                       color: red;font-size: 12px;margin-top: 5px;"/>
-        </div>
-
-        <div class="text-box">
-            <h:inputSecret id="password" a:placeholder="#{msg['password']}" value="${userRegistrationBean.accountDTO.password}"/>
-            <span class="gradient"/>
-            <span class="asterisk_input"/>
-            <h:message styleClass="message" for="password"
-                       style="box-sizing: border-box; position: absolute;display: block;
-                       color: red;font-size: 12px;margin-top: 5px;"/>
-        </div>
-        <div class="text-box">
-            <h:inputText id="email" a:placeholder="Email" value="${userRegistrationBean.accountDTO.email}"/>
-            <span class="gradient"/>
-            <span class="asterisk_input"/>
-            <h:message styleClass="message" for="email"
+            <h:message id="username_err" styleClass="message" for="username"
                        style="box-sizing: border-box; position: absolute;display: block;
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
 
         <div class="text-box">
-            <h:inputText id="name" a:placeholder="#{msg['name']}" value="${userRegistrationBean.accountDTO.firstName}"/>
+            <p:password id="password1" a:placeholder="#{msg['register.password']}" match="password2"
+                           value="${userRegistrationBean.accountDTO.password}" required="true"
+                           requiredMessage="#{msg['register.field.required']}" validatorMessage="Passwords do not match">
+                <f:validator validatorId="passwordValidator"/>
+            </p:password>
             <span class="gradient"/>
             <span class="asterisk_input"/>
-            <h:message styleClass="message" for="name"
+            <h:message id="password1_err" styleClass="message" for="password1"
+                       style="box-sizing: border-box; position: absolute;display: block;
+                       color: red;font-size: 12px;margin-top: 5px;"/>
+        </div>
+        <div class="text-box">
+            <p:password id="password2" a:placeholder="#{msg['register.repeat.password']}" validatorMessage="Passwords do not match"
+                        value="${userRegistrationBean.accountDTO.password}" required="true"
+                        requiredMessage="#{msg['register.field.required']}">
+                <f:validator validatorId="passwordValidator"/>
+            </p:password>
+            <span class="gradient"/>
+            <span class="asterisk_input"/>
+            <h:message id="password2_err" styleClass="message" for="password2"
+                       style="box-sizing: border-box; position: absolute;display: block;
+                       color: red;font-size: 12px;margin-top: 5px;"/>
+        </div>
+        <div class="text-box">
+            <p:inputText id="email" a:placeholder="#{msg['register.email']}" value="${userRegistrationBean.accountDTO.email}"
+                         required="true" requiredMessage="#{msg['register.field.required']}">
+                <f:validator validatorId="emailValidator"/>
+            </p:inputText>
+            <span class="gradient"/>
+            <span class="asterisk_input"/>
+            <h:message id="email_err" styleClass="message" for="email"
                        style="box-sizing: border-box; position: absolute;display: block;
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
 
         <div class="text-box">
-            <h:inputText id="surname" a:placeholder="#{msg['surname']}" value="${userRegistrationBean.accountDTO.lastName}"/>
+            <p:inputText id="name" a:placeholder="#{msg['register.name']}" value="${userRegistrationBean.accountDTO.firstName}"
+                         required="true" requiredMessage="#{msg['register.field.required']}">
+                <f:validator validatorId="nameValidator"/>
+            </p:inputText>
             <span class="gradient"/>
             <span class="asterisk_input"/>
-            <h:message styleClass="message" for="surname"
+            <h:message id="name_err" styleClass="message" for="name"
                        style="box-sizing: border-box; position: absolute;display: block;
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
 
         <div class="text-box">
-            <h:inputText id="phoneNumber" a:placeholder="#{msg['phone.number']}" value="${userRegistrationBean.accountDTO.phoneNumber}"/>
+            <p:inputText id="surname" a:placeholder="#{msg['register.surname']}"
+                         value="${userRegistrationBean.accountDTO.lastName}" required="true"
+                         requiredMessage="#{msg['register.field.required']}">
+                <f:validator validatorId="nameValidator"/>
+            </p:inputText>
             <span class="gradient"/>
             <span class="asterisk_input"/>
-            <h:message styleClass="message" for="phoneNumber"
+            <h:message id="surname_err" styleClass="message" for="surname"
                        style="box-sizing: border-box; position: absolute;display: block;
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
-        <p:commandButton class="register-button" value="#{msg['register']}" action="#{userRegistrationBean.registerAccountAction}"/>
+
+        <div class="text-box">
+            <p:inputText id="phoneNumber" a:placeholder="#{msg['register.phone.number']}"
+                         value="${userRegistrationBean.accountDTO.phoneNumber}" required="true"
+                         requiredMessage="#{msg['register.field.required']}">
+                <f:validator validatorId="phoneNumberValidator"/>
+            </p:inputText>
+            <span class="gradient"/>
+            <span class="asterisk_input"/>
+            <h:message id="phone_err" styleClass="message" for="phoneNumber"
+                       style="box-sizing: border-box; position: absolute;display: block;
+                       color: red;font-size: 12px;margin-top: 5px;"/>
+        </div>
+        <p:commandButton class="register-button" value="#{msg['register.register']}"
+                         action="#{userRegistrationBean.registerAccountAction}" update="@form"/>
         <div class="bottom-text">
-             <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['cancel']}</a>
+            <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['register.cancel']}</a>
         </div>
     </h:form>
 
