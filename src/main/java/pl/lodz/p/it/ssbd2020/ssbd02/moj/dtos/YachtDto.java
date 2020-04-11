@@ -12,4 +12,67 @@ public class YachtDto {
     private String equipment;
     private Float avgRating;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getProduciton_year() {
+        return produciton_year;
+    }
+
+    public void setProduciton_year(Integer produciton_year) {
+        this.produciton_year = produciton_year;
+    }
+
+    public Long getYachtModelId() {
+        return yachtModelId;
+    }
+
+    public void setYachtModelId(Long yachtModelId) {
+        this.yachtModelId = yachtModelId;
+    }
+
+    public Float getPriceMultipler() {
+        return priceMultipler;
+    }
+
+    public void setPriceMultipler(Float priceMultipler) {
+        this.priceMultipler = priceMultipler;
+    }
+
+    public Long getCurrentPortId() {
+        return currentPortId;
+    }
+
+    public void setCurrentPortId(Long currentPortId) {
+        this.currentPortId = currentPortId;
+    }
+
+    public String getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(String equipment) {
+        this.equipment = equipment;
+    }
+
+    public Float getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(Float avgRating) {
+        this.avgRating = avgRating;
+    }
 }

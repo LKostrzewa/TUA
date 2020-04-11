@@ -1,8 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
+
 import org.modelmapper.ModelMapper;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.NewYachtDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.UpdateYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.YachtManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -12,6 +14,7 @@ import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Stateful
 @LocalBean
@@ -19,7 +22,7 @@ import java.util.List;
 public class YachtEndpoint {
 
     @Inject
-    private ModelMaper modelMaper;
+    private ModelMapper modelMapper;
     @Inject
     private YachtManager yachtManager;
 
@@ -29,14 +32,15 @@ public class YachtEndpoint {
 
     }
     public List<YachtDto> getAllYachts(){
-        return yachtManager.getAllYachts().stream().map(n -> modelMapper.map(n, YachtDto.class));
+        return yachtManager.getAllYachts().stream().map(n -> modelMapper.map(n, YachtDto.class)).collect(Collectors.toList());
     }
-    public void getYachtById(Long yachtId){
-        yachtManager.getYachtById(yachtId);
+    public YachtDto getYachtById(Long yachtId){
+        Yacht yacht = yachtManager.getYachtById(yachtId);
+        return modelMapper.map(yacht, YachtDto.class);
     }
-    public void updateYacht(Long yachtId, YachtDto yachtDto){
-        Yacht yacht = modelMapper.map(yachtDto, Yacht.class);
-        yachtManager.updateYacht(yachtId,yachtDto);
+    public void updateYacht(Long yachtId, UpdateYachtDto updateYachtDto){
+        Yacht yachtToUpdate = modelMapper.map(updateYachtDto, Yacht.class);
+        yachtManager.updateYacht(yachtId,yachtToUpdate);
     }
     public void deactivateYacht(Long yachtId){
         yachtManager.deactivateYacht(yachtId);

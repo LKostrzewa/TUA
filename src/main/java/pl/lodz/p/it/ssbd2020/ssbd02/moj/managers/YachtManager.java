@@ -22,15 +22,18 @@ public class YachtManager {
         yachtFacade.create(yacht);
     }
     public List<Yacht> getAllYachts(){
-        yachtFacade.findAll();
+        return yachtFacade.findAll();
     }
-    public void getYachtById(Long yachtId){
-        yachtFacade.find(yachtId);
+    public Yacht getYachtById(Long yachtId){
+        return yachtFacade.find(yachtId);
     }
-    public void updateYacht(Long yachtId, Yacht yacht){
-        yachtFacade.edit(yacht);
+    public void updateYacht(Long yachtId, Yacht yachtToUpdate){
+        yachtToUpdate.setId(yachtId);
+        yachtFacade.edit(yachtToUpdate);
     }
     public void deactivateYacht(Long yachtId){
-        yachtFacade.edit(yacht);
+        Yacht yachtToDeactivate = getYachtById(yachtId);
+        yachtToDeactivate.setActive(false);
+        yachtFacade.edit(yachtToDeactivate);
     }
 }
