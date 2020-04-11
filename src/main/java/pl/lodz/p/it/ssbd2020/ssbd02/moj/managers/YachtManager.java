@@ -8,6 +8,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.util.List;
 
 @Stateful
 @LocalBean
@@ -18,18 +19,18 @@ public class YachtManager {
     private YachtFacade yachtFacade;
 
     public void addYacht(Yacht yacht){
-
+        yachtFacade.create(yacht);
     }
-    public void getAllYachts(){
-
+    public List<Yacht> getAllYachts(){
+        yachtFacade.findAll();
     }
     public void getYachtById(Long yachtId){
-
+        yachtFacade.find(yachtId);
     }
     public void updateYacht(Long yachtId, Yacht yacht){
-
+        yachtFacade.edit(yacht);
     }
     public void deactivateYacht(Long yachtId){
-
+        yachtFacade.edit(yacht);
     }
 }

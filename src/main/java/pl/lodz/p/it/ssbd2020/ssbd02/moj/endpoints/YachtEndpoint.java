@@ -11,6 +11,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.util.List;
 
 @Stateful
 @LocalBean
@@ -18,24 +19,27 @@ import javax.interceptor.Interceptors;
 public class YachtEndpoint {
 
     @Inject
+    private ModelMaper modelMaper;
+    @Inject
     private YachtManager yachtManager;
 
     public void addYacht(NewYachtDto newYachtDto){
-        ModelMapper modelMapper = new ModelMapper();
         Yacht yacht = modelMapper.map(newYachtDto, Yacht.class);
         yachtManager.addYacht(yacht);
 
     }
-    public void getAllYachts(){
-
+    public List<YachtDto> getAllYachts(){
+        return yachtManager.getAllYachts().stream().map(n -> modelMapper.map(n, YachtDto.class));
     }
     public void getYachtById(Long yachtId){
-
+        yachtManager.getYachtById(yachtId);
     }
     public void updateYacht(Long yachtId, YachtDto yachtDto){
-
+        Yacht yacht = modelMapper.map(yachtDto, Yacht.class);
+        yachtManager.updateYacht(yachtId,yachtDto);
     }
     public void deactivateYacht(Long yachtId){
+        yachtManager.deactivateYacht(yachtId);
 
     }
 
