@@ -43,7 +43,7 @@ public class UserManager {
         user.setActivated(false);
         user.setLocked(false);
         user.setCreated(new Date());
-        user.setInvalidLoginAttemps(0);
+        user.setInvalidLoginAttempts(0);
         user.setPassword(passwordHash);
         user.setActivationCode(UUID.randomUUID());
         user.setResetPasswordCode(UUID.randomUUID());

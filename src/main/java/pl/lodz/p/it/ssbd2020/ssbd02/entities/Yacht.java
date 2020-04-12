@@ -26,8 +26,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+//import javax.xml.bind.annotation.XmlRootElement;
+//import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,19 +35,19 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "yacht")
-@XmlRootElement
+//@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Yacht.findAll", query = "SELECT y FROM Yacht y"),
     @NamedQuery(name = "Yacht.findById", query = "SELECT y FROM Yacht y WHERE y.id = :id"),
     @NamedQuery(name = "Yacht.findByVersion", query = "SELECT y FROM Yacht y WHERE y.version = :version"),
     @NamedQuery(name = "Yacht.findByName", query = "SELECT y FROM Yacht y WHERE y.name = :name"),
     @NamedQuery(name = "Yacht.findByProductionYear", query = "SELECT y FROM Yacht y WHERE y.productionYear = :productionYear"),
-    @NamedQuery(name = "Yacht.findByPriceMultipler", query = "SELECT y FROM Yacht y WHERE y.priceMultipler = :priceMultipler"),
-    @NamedQuery(name = "Yacht.findByCondition", query = "SELECT y FROM Yacht y WHERE y.condition = :condition"),
+    @NamedQuery(name = "Yacht.findByPriceMultipler", query = "SELECT y FROM Yacht y WHERE y.priceMultiplier = :priceMultipler"),
+    @NamedQuery(name = "Yacht.findByCondition", query = "SELECT y FROM Yacht y WHERE y.equipment = :condition"),
     @NamedQuery(name = "Yacht.findByAvgRating", query = "SELECT y FROM Yacht y WHERE y.avgRating = :avgRating")})
 public class Yacht implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    //private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -64,11 +64,11 @@ public class Yacht implements Serializable {
     @Column(name = "production_year")
     private Integer productionYear;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "price_multipler")
-    private BigDecimal priceMultipler;
+    @Column(name = "price_multiplier")
+    private BigDecimal priceMultiplier;
     @Size(max = 2048)
-    @Column(name = "condition")
-    private String condition;
+    @Column(name = "equipment")
+    private String equipment;
     @Column(name = "avg_rating")
     private BigDecimal avgRating;
     @Basic(optional = false)
@@ -131,20 +131,20 @@ public class Yacht implements Serializable {
         this.productionYear = productionYear;
     }
 
-    public BigDecimal getPriceMultipler() {
-        return priceMultipler;
+    public BigDecimal getPriceMultiplier() {
+        return priceMultiplier;
     }
 
-    public void setPriceMultipler(BigDecimal priceMultipler) {
-        this.priceMultipler = priceMultipler;
+    public void setPriceMultiplier(BigDecimal priceMultiplier) {
+        this.priceMultiplier = priceMultiplier;
     }
 
-    public String getCondition() {
-        return condition;
+    public String getEquipment() {
+        return equipment;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition;
+    public void setEquipment(String equipment) {
+        this.equipment = equipment;
     }
 
     public BigDecimal getAvgRating() {
@@ -171,7 +171,7 @@ public class Yacht implements Serializable {
         this.yachtModelId = yachtModelId;
     }
 
-    @XmlTransient
+    //@XmlTransient
     public Collection<Rental> getRentalCollection() {
         return rentalCollection;
     }

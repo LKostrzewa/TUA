@@ -13,8 +13,8 @@ import java.util.UUID;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+//import javax.xml.bind.annotation.XmlRootElement;
+//import javax.xml.bind.annotation.XmlTransient;
 
 import org.eclipse.persistence.annotations.Convert;
 import org.eclipse.persistence.annotations.TypeConverter;
@@ -27,7 +27,7 @@ import org.eclipse.persistence.annotations.TypeConverter;
 @Entity
 @Table(name = "\"user\"")
 @SecondaryTable(name="user_details", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id"))
-@XmlRootElement
+//@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
@@ -40,10 +40,10 @@ import org.eclipse.persistence.annotations.TypeConverter;
     @NamedQuery(name = "User.findByCreated", query = "SELECT u FROM User u WHERE u.created = :created"),
     @NamedQuery(name = "User.findByLastValidLogin", query = "SELECT u FROM User u WHERE u.lastValidLogin = :lastValidLogin"),
     @NamedQuery(name = "User.findByLastInvalidLogin", query = "SELECT u FROM User u WHERE u.lastInvalidLogin = :lastInvalidLogin"),
-    @NamedQuery(name = "User.findByInvalidLoginAttemps", query = "SELECT u FROM User u WHERE u.invalidLoginAttemps = :invalidLoginAttemps")})
+    @NamedQuery(name = "User.findByInvalidLoginAttemps", query = "SELECT u FROM User u WHERE u.invalidLoginAttempts = :invalidLoginAttemps")})
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    //private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -99,7 +99,7 @@ public class User implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "invalid_login_attempts")
-    private int invalidLoginAttemps;
+    private int invalidLoginAttempts;
     @Basic(optional = false)
     @NotNull
     @Lob
@@ -162,7 +162,7 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Long id, long version, UUID businessKey, String login, String password, String email, boolean locked, boolean activated, Date created, int invalidLoginAttemps) {
+    public User(Long id, long version, UUID businessKey, String login, String password, String email, boolean locked, boolean activated, Date created, int invalidLoginAttempts) {
         this.id = id;
         this.version = version;
         this.businessKey = businessKey;
@@ -172,7 +172,7 @@ public class User implements Serializable {
         this.locked = locked;
         this.activated = activated;
         this.created = created;
-        this.invalidLoginAttemps = invalidLoginAttemps;
+        this.invalidLoginAttempts = invalidLoginAttempts;
     }
 
     public Long getId() {
@@ -263,12 +263,12 @@ public class User implements Serializable {
         this.lastInvalidLogin = lastInvalidLogin;
     }
 
-    public int getInvalidLoginAttemps() {
-        return invalidLoginAttemps;
+    public int getInvalidLoginAttempts() {
+        return invalidLoginAttempts;
     }
 
-    public void setInvalidLoginAttemps(int invalidLoginAttemps) {
-        this.invalidLoginAttemps = invalidLoginAttemps;
+    public void setInvalidLoginAttempts(int invalidLoginAttempts) {
+        this.invalidLoginAttempts = invalidLoginAttempts;
     }
 
     public UUID getActivationCode() {
@@ -325,9 +325,9 @@ public class User implements Serializable {
         return true;
     }
 
-    public static long getSerialVersionUID() {
+    /*public static long getSerialVersionUID() {
         return serialVersionUID;
-    }
+    }*/
 
     public boolean isLocked() {
         return locked;

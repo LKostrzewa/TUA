@@ -23,8 +23,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+//import javax.xml.bind.annotation.XmlRootElement;
+//import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "yacht_model")
-@XmlRootElement
+//@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "YachtModel.findAll", query = "SELECT y FROM YachtModel y"),
     @NamedQuery(name = "YachtModel.findById", query = "SELECT y FROM YachtModel y WHERE y.id = :id"),
@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "YachtModel.findByBasicPrice", query = "SELECT y FROM YachtModel y WHERE y.basicPrice = :basicPrice")})
 public class YachtModel implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    //private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -174,7 +174,7 @@ public class YachtModel implements Serializable {
         this.basicPrice = basicPrice;
     }
 
-    @XmlTransient
+    //@XmlTransient
     public Collection<Image> getImageCollection() {
         return imageCollection;
     }
@@ -183,7 +183,7 @@ public class YachtModel implements Serializable {
         this.imageCollection = imageCollection;
     }
 
-    @XmlTransient
+    //@XmlTransient
     public Collection<Yacht> getYachtCollection() {
         return yachtCollection;
     }
