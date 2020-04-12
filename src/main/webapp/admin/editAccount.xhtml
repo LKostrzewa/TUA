@@ -1,6 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
     <title>Editing account information</title>
@@ -8,12 +7,21 @@
 <h:body>
     <h:form>
         <div>
-            <p:outputLabel for="userEmail" value="Email"/>
-            <p:inputText id="userEmail" value="#{editAccountPageBean.user.email}"/>
-            <h:message for="userEmail"
-                       style="color: red;font-size: 12px;margin-top: 5px;"/>
+             <span class="ui-float-label" style="margin: 20px">
+               <p:inputText id="userEmail" value="#{editAccountPageBean.user.email}"/>
+               <p:outputLabel for="@previous" value="Email"/>
+           </span>
+            <span class="ui-float-label" style="margin: 20px">
+               <p:inputText id="userPhoneNumber" value="#{editAccountPageBean.user.phoneNumber}"/>
+               <p:outputLabel for="@previous" value="Phone number"/>
+           </span>
+            <span class="ui-float-label" style="margin: 20px">
+               <p:password id="userPwd1" value="#{editAccountPageBean.user.password}" feedback="true"
+                           promptLabel="Podaj haslo kochanienki" weakLabel="wjebem ci sie na konto"
+                           goodLabel="Byndzie cienszko" strongLabel="Nie wjebie sie"/>
+               <p:outputLabel for="@previous" value="Password"/>
+           </span>
         </div>
-
         <p:commandButton value="#{msg['cancel']}" onclick="window.history.back();"/>
         <p:commandButton value="#{msg['edit']}" action="#{editAccountPageBean.onFinish()}"/>
     </h:form>

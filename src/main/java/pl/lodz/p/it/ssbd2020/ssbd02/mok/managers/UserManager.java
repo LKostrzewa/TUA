@@ -55,7 +55,6 @@ public class UserManager {
         userAccessLevel.setAccessLevelId(accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
         userAccessLevel.setUserId(user);
         userAccessLevelFacade.create(userAccessLevel);
-
     }
 
     public List<User> getAll() {
@@ -63,6 +62,9 @@ public class UserManager {
     }
 
     public void edit(User user) {
+        BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
+        String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
+        user.setPassword(passwordHash);
         userFacade.edit(user);
     }
 }

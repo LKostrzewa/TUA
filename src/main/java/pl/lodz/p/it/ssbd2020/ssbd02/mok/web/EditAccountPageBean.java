@@ -7,7 +7,6 @@ import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Named
@@ -21,8 +20,8 @@ public class EditAccountPageBean implements Serializable {
     private User user;
 
     public String onClick(User user) {
-        conversation.begin();
         this.user = user;
+        conversation.begin();
         return "/admin/editAccount.xhtml?faces-redirect=true";
     }
 
