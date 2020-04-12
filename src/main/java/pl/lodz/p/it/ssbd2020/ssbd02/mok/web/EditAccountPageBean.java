@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
@@ -13,7 +14,7 @@ import java.io.Serializable;
 @ConversationScoped
 public class EditAccountPageBean implements Serializable {
 
-    @Inject
+    @EJB
     private UserEndpoint userEndpoint;
     @Inject
     private Conversation conversation;

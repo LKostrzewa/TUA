@@ -11,24 +11,15 @@ import java.io.Serializable;
 @Named
 @SessionScoped
 public class UserControllerBean implements Serializable {
-
     @EJB
     private UserEndpoint userEndpoint;
+    private int lastActionMethod = 0;
+    private UserDTO selectedAccountDTO;
 
     public UserControllerBean() {
     }
 
-
-    private int lastActionMethod = 0;
-
-    private UserDTO selectedAccountDTO;
-
-
-    public void registerAccount(final UserDTO accountDTO){
-
+    public void registerAccount(final UserDTO accountDTO) {
         userEndpoint.registerNewUser(accountDTO);
     }
-
-
-
 }
