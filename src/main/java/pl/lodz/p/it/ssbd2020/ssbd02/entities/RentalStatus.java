@@ -5,21 +5,12 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
+import org.eclipse.persistence.annotations.Convert;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.UUID;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 //import javax.xml.bind.annotation.XmlRootElement;
@@ -47,19 +38,21 @@ public class RentalStatus implements Serializable {
     private Long id;
     @Basic(optional = false)
     @NotNull
+    @Version
     @Column(name = "version")
     private long version;
     @Basic(optional = false)
     @NotNull
-    @Lob
+    //@Lob
     @Column(name = "business_key")
+    @Convert("uuidConverter")
     private UUID businessKey;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rentalStatusId")
+    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "rentalStatusId")
     private Collection<Rental> rentalCollection;
 
     public RentalStatus() {

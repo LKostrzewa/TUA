@@ -5,25 +5,13 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
+import org.eclipse.persistence.annotations.Convert;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Collection;
 import java.util.UUID;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 //import javax.xml.bind.annotation.XmlRootElement;
@@ -42,7 +30,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Yacht.findByVersion", query = "SELECT y FROM Yacht y WHERE y.version = :version"),
     @NamedQuery(name = "Yacht.findByName", query = "SELECT y FROM Yacht y WHERE y.name = :name"),
     @NamedQuery(name = "Yacht.findByProductionYear", query = "SELECT y FROM Yacht y WHERE y.productionYear = :productionYear"),
-    @NamedQuery(name = "Yacht.findByPriceMultipler", query = "SELECT y FROM Yacht y WHERE y.priceMultiplier = :priceMultipler"),
+    @NamedQuery(name = "Yacht.findByPriceMultiplier", query = "SELECT y FROM Yacht y WHERE y.priceMultiplier = :priceMultipler"),
     @NamedQuery(name = "Yacht.findByCondition", query = "SELECT y FROM Yacht y WHERE y.equipment = :condition"),
     @NamedQuery(name = "Yacht.findByAvgRating", query = "SELECT y FROM Yacht y WHERE y.avgRating = :avgRating")})
 public class Yacht implements Serializable {
@@ -53,14 +41,20 @@ public class Yacht implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+    @NotNull
+    @Version
     @Column(name = "version")
-    private BigInteger version;
-    @Lob
+    private long version;
+    //@Lob
+    @NotNull
     @Column(name = "business_key")
+    @Convert("uuidConverter")
     private UUID businessKey;
     @Size(max = 32)
+    @NotNull
     @Column(name = "name")
     private String name;
+    @NotNull
     @Column(name = "production_year")
     private Integer productionYear;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -81,7 +75,7 @@ public class Yacht implements Serializable {
     @JoinColumn(name = "yacht_model_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private YachtModel yachtModelId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "yachtId")
+    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "yachtId")
     private Collection<Rental> rentalCollection;
 
     public Yacht() {
@@ -99,11 +93,11 @@ public class Yacht implements Serializable {
         this.id = id;
     }
 
-    public BigInteger getVersion() {
+    public long getVersion() {
         return version;
     }
 
-    public void setVersion(BigInteger version) {
+    public void setVersion(long version) {
         this.version = version;
     }
 

@@ -6,8 +6,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+//import java.util.Date;
 import java.util.Date;
 import java.util.UUID;
 import javax.persistence.*;
@@ -40,7 +42,7 @@ import org.eclipse.persistence.annotations.TypeConverter;
     @NamedQuery(name = "User.findByCreated", query = "SELECT u FROM User u WHERE u.created = :created"),
     @NamedQuery(name = "User.findByLastValidLogin", query = "SELECT u FROM User u WHERE u.lastValidLogin = :lastValidLogin"),
     @NamedQuery(name = "User.findByLastInvalidLogin", query = "SELECT u FROM User u WHERE u.lastInvalidLogin = :lastInvalidLogin"),
-    @NamedQuery(name = "User.findByInvalidLoginAttemps", query = "SELECT u FROM User u WHERE u.invalidLoginAttempts = :invalidLoginAttemps")})
+    @NamedQuery(name = "User.findByInvalidLoginAttempts", query = "SELECT u FROM User u WHERE u.invalidLoginAttempts = :invalidLoginAttemps")})
 public class User implements Serializable {
 
     //private static final long serialVersionUID = 1L;
@@ -56,7 +58,7 @@ public class User implements Serializable {
     private long version;
     @Basic(optional = false)
     @NotNull
-    @Lob
+    //@Lob
     @Column(name = "business_key")
     @Convert("uuidConverter")
     @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
@@ -102,11 +104,11 @@ public class User implements Serializable {
     private int invalidLoginAttempts;
     @Basic(optional = false)
     @NotNull
-    @Lob
+    //@Lob
     @Column(name = "activation_code")
     @Convert("uuidConverter")
     private UUID activationCode;
-    @Lob
+   // @Lob
     @Column(name = "reset_password_code")
     @Convert("uuidConverter")
     private UUID resetPasswordCode;
@@ -139,7 +141,7 @@ public class User implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Lob
+    //@Lob
     @Column(name = "business_key", table = "user_details")
     @Convert("uuidConverter")
     private UUID businessKey_user_details;

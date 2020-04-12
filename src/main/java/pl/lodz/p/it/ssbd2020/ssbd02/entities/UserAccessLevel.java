@@ -5,6 +5,7 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
+import org.eclipse.persistence.annotations.Convert;
 import org.eclipse.persistence.annotations.TypeConverter;
 
 import java.io.Serializable;
@@ -39,10 +40,9 @@ public class UserAccessLevel implements Serializable {
     private long version;
     @Basic(optional = false)
     @NotNull
-    @Lob
+    //@Lob
     @Column(name = "business_key")
-    @org.eclipse.persistence.annotations.Convert("uuidConverter")
-    @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
+    @Convert("uuidConverter")
     private UUID businessKey;
     @JoinColumn(name = "access_level_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

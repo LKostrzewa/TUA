@@ -5,26 +5,13 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
+import org.eclipse.persistence.annotations.Convert;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 //import javax.xml.bind.annotation.XmlRootElement;
 
@@ -52,12 +39,14 @@ public class Rental implements Serializable {
     private Long id;
     @Basic(optional = false)
     @NotNull
+    @Version
     @Column(name = "version")
     private long version;
     @Basic(optional = false)
     @NotNull
-    @Lob
+    //@Lob
     @Column(name = "business_key")
+    @Convert("uuidConverter")
     private UUID businessKey;
     @Basic(optional = false)
     @NotNull
@@ -74,7 +63,7 @@ public class Rental implements Serializable {
     @NotNull
     @Column(name = "price")
     private BigDecimal price;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "rentalId")
+    @OneToOne(cascade = CascadeType.REFRESH, mappedBy = "rentalId")
     private Opinion opinion;
     @JoinColumn(name = "rental_status_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

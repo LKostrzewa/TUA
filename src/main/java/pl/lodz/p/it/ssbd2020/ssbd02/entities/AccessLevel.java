@@ -45,17 +45,16 @@ public class AccessLevel implements Serializable {
     private long version;
     @Basic(optional = false)
     @NotNull
-    @Lob
+    //@Lob
     @Column(name = "business_key")
     @Convert("uuidConverter")
-    @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
     private UUID businessKey;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accessLevelId")
+    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "accessLevelId")
     private Collection<UserAccessLevel> userAccessLevelCollection = new ArrayList<>();
 
     public AccessLevel() {
