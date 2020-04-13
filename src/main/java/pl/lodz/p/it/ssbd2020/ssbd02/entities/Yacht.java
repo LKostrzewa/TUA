@@ -12,18 +12,9 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.UUID;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-//import javax.xml.bind.annotation.XmlRootElement;
-//import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Lukasz
- */
 @Entity
 @Table(name = "yacht")
-//@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Yacht.findAll", query = "SELECT y FROM Yacht y"),
     @NamedQuery(name = "Yacht.findById", query = "SELECT y FROM Yacht y WHERE y.id = :id"),
@@ -35,39 +26,27 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Yacht.findByAvgRating", query = "SELECT y FROM Yacht y WHERE y.avgRating = :avgRating")})
 public class Yacht implements Serializable {
 
-    //private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
-    @NotNull
     @Version
-    @Column(name = "version")
+    @Column(name = "version", nullable = false)
     private long version;
-    //@Lob
-    @NotNull
-    @Column(name = "business_key")
+    @Column(name = "business_key", nullable = false, unique = true)
     @Convert("uuidConverter")
     private UUID businessKey;
-    @Size(max = 32)
-    @NotNull
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 32)
     private String name;
-    @NotNull
-    @Column(name = "production_year")
+    @Column(name = "production_year", nullable = false)
     private Integer productionYear;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "price_multiplier")
+    @Column(name = "price_multiplier", nullable = false)
     private BigDecimal priceMultiplier;
-    @Size(max = 2048)
-    @Column(name = "equipment")
+    @Column(name = "equipment", nullable = false, length = 2048)
     private String equipment;
     @Column(name = "avg_rating")
     private BigDecimal avgRating;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "active")
+    @Column(name = "active", nullable = false)
     private boolean active;
     @JoinColumn(name = "current_port_id", referencedColumnName = "id")
     @ManyToOne
@@ -149,6 +128,14 @@ public class Yacht implements Serializable {
         this.avgRating = avgRating;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public Port getCurrentPortId() {
         return currentPortId;
     }
@@ -165,7 +152,6 @@ public class Yacht implements Serializable {
         this.yachtModelId = yachtModelId;
     }
 
-    //@XmlTransient
     public Collection<Rental> getRentalCollection() {
         return rentalCollection;
     }

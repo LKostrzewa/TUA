@@ -8,21 +8,11 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 import org.eclipse.persistence.annotations.Convert;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.UUID;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-//import javax.xml.bind.annotation.XmlRootElement;
-//import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Lukasz
- */
 @Entity
 @Table(name = "rental_status")
-//@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "RentalStatus.findAll", query = "SELECT r FROM RentalStatus r"),
     @NamedQuery(name = "RentalStatus.findById", query = "SELECT r FROM RentalStatus r WHERE r.id = :id"),
@@ -30,30 +20,20 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "RentalStatus.findByName", query = "SELECT r FROM RentalStatus r WHERE r.name = :name")})
 public class RentalStatus implements Serializable {
 
-    //private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
-    @Basic(optional = false)
-    @NotNull
     @Version
-    @Column(name = "version")
+    @Column(name = "version", nullable = false)
     private long version;
-    @Basic(optional = false)
-    @NotNull
-    //@Lob
-    @Column(name = "business_key")
+    @Column(name = "business_key", nullable = false, unique = true)
     @Convert("uuidConverter")
     private UUID businessKey;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 32)
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 32)
     private String name;
-    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "rentalStatusId")
-    private Collection<Rental> rentalCollection;
+    /*@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "rentalStatusId")
+    private Collection<Rental> rentalCollection;*/
 
     public RentalStatus() {
     }
@@ -102,13 +82,13 @@ public class RentalStatus implements Serializable {
     }
 
     //@XmlTransient
-    public Collection<Rental> getRentalCollection() {
+    /*public Collection<Rental> getRentalCollection() {
         return rentalCollection;
     }
 
     public void setRentalCollection(Collection<Rental> rentalCollection) {
         this.rentalCollection = rentalCollection;
-    }
+    }*/
 
     @Override
     public int hashCode() {

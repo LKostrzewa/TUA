@@ -6,7 +6,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import org.eclipse.persistence.annotations.Convert;
-import org.eclipse.persistence.annotations.TypeConverter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,16 +14,9 @@ import java.util.UUID;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-//import javax.xml.bind.annotation.XmlRootElement;
-//import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Lukasz
- */
 @Entity
 @Table(name = "access_level")
-//@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "AccessLevel.findAll", query = "SELECT a FROM AccessLevel a"),
     @NamedQuery(name = "AccessLevel.findById", query = "SELECT a FROM AccessLevel a WHERE a.id = :id"),
@@ -32,30 +24,23 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "AccessLevel.findByName", query = "SELECT a FROM AccessLevel a WHERE a.name = :name")})
 public class AccessLevel implements Serializable {
 
-    //private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
-    @Basic(optional = false)
-    @NotNull
     @Version
-    @Column(name = "version")
+    @Column(name = "version", nullable = false)
     private long version;
-    @Basic(optional = false)
-    @NotNull
-    //@Lob
-    @Column(name = "business_key")
+    @Column(name = "business_key", nullable = false, unique = true)
     @Convert("uuidConverter")
     private UUID businessKey;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 32)
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 32)
     private String name;
     @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "accessLevelId")
     private Collection<UserAccessLevel> userAccessLevelCollection = new ArrayList<>();
+    /*@ManyToMany(cascade = CascadeType.REFRESH, mappedBy = "accessLevels")
+    Collection<User> users = new ArrayList<>();*/
+
 
     public AccessLevel() {
     }
@@ -103,7 +88,14 @@ public class AccessLevel implements Serializable {
         this.name = name;
     }
 
-    //@XmlTransient
+    /*public Collection<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Collection<User> users) {
+        this.users = users;
+    }*/
+
     public Collection<UserAccessLevel> getUserAccessLevelCollection() {
         return userAccessLevelCollection;
     }

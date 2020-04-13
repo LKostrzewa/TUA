@@ -6,42 +6,28 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import org.eclipse.persistence.annotations.Convert;
-import org.eclipse.persistence.annotations.TypeConverter;
 
 import java.io.Serializable;
 import java.util.UUID;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-//import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author Lukasz
- */
+
 @Entity
 @Table(name = "user_access_level", uniqueConstraints = @UniqueConstraint(columnNames = {"access_level_id", "user_id"}))
-//@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "UserAccessLevel.findAll", query = "SELECT u FROM UserAccessLevel u"),
     @NamedQuery(name = "UserAccessLevel.findById", query = "SELECT u FROM UserAccessLevel u WHERE u.id = :id"),
     @NamedQuery(name = "UserAccessLevel.findByVersion", query = "SELECT u FROM UserAccessLevel u WHERE u.version = :version")})
 public class UserAccessLevel implements Serializable {
 
-    //private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
-    @Basic(optional = false)
-    @NotNull
     @Version
-    @Column(name = "version")
+    @Column(name = "version", nullable = false)
     private long version;
-    @Basic(optional = false)
-    @NotNull
-    //@Lob
-    @Column(name = "business_key")
+    @Column(name = "business_key", nullable = false, unique = true)
     @Convert("uuidConverter")
     private UUID businessKey;
     @JoinColumn(name = "access_level_id", referencedColumnName = "id")

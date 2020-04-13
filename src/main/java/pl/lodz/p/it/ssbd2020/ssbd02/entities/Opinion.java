@@ -6,26 +6,17 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import org.eclipse.persistence.annotations.Convert;
-import org.eclipse.persistence.annotations.TypeConverter;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-//import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author Lukasz
- */
+
 @Entity
 @Table(name = "opinion")
-//@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Opinion.findAll", query = "SELECT o FROM Opinion o"),
     @NamedQuery(name = "Opinion.findById", query = "SELECT o FROM Opinion o WHERE o.id = :id"),
@@ -35,40 +26,26 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Opinion.findByDate", query = "SELECT o FROM Opinion o WHERE o.date = :date")})
 public class Opinion implements Serializable {
 
-    //private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
-    @Basic(optional = false)
-    @NotNull
     @Version
-    @Column(name = "version")
+    @Column(name = "version", nullable = false)
     private long version;
-    @Basic(optional = false)
-    @NotNull
-    //@Lob
-    @Column(name = "business_key")
+    @Column(name = "business_key", nullable = false, unique = true)
     @Convert("uuidConverter")
     private UUID businessKey;
     @Min(1)
     @Max(5)
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "rating")
+    @Column(name = "rating", nullable = false)
     private int rating;
-    @Size(max = 1024)
-    @Column(name = "comment")
+    @Column(name = "comment", length = 1024)
     private String comment;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "edited")
+    @Column(name = "edited", nullable = false)
     private boolean edited;
     @JoinColumn(name = "rental_id", referencedColumnName = "id")
     @OneToOne(optional = false)
@@ -143,6 +120,14 @@ public class Opinion implements Serializable {
 
     public void setRentalId(Rental rentalId) {
         this.rentalId = rentalId;
+    }
+
+    public boolean isEdited() {
+        return edited;
+    }
+
+    public void setEdited(boolean edited) {
+        this.edited = edited;
     }
 
     @Override

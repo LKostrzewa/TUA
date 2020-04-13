@@ -12,18 +12,9 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.UUID;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-//import javax.xml.bind.annotation.XmlRootElement;
-//import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Lukasz
- */
 @Entity
 @Table(name = "port")
-//@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Port.findAll", query = "SELECT p FROM Port p"),
     @NamedQuery(name = "Port.findById", query = "SELECT p FROM Port p WHERE p.id = :id"),
@@ -34,51 +25,27 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Port.findByLong1", query = "SELECT p FROM Port p WHERE p.long1 = :long1"),
     @NamedQuery(name = "Port.findByLat", query = "SELECT p FROM Port p WHERE p.lat = :lat")})
 public class Port implements Serializable {
-
-    //private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
-    @Basic(optional = false)
-    @NotNull
     @Version
-    @Column(name = "version")
+    @Column(name = "version", nullable = false)
     private long version;
-    @Basic(optional = false)
-    @NotNull
-    //@Lob
-    @Column(name = "business_key")
+    @Column(name = "business_key", nullable = false, unique = true)
     @Convert("uuidConverter")
     private UUID businessKey;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 64)
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 64)
     private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 32)
-    @Column(name = "lake")
+    @Column(name = "lake",nullable = false, length = 32)
     private String lake;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 32)
-    @Column(name = "nearest_city")
+    @Column(name = "nearest_city", length = 32, nullable = false)
     private String nearestCity;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "long")
+    @Column(name = "long", nullable = false)
     private BigDecimal long1;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "lat")
+    @Column(name = "lat", nullable = false)
     private BigDecimal lat;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "active")
+    @Column(name = "active", nullable = false)
     private boolean active;
     @OneToMany(mappedBy = "currentPortId")
     private Collection<Yacht> yachtCollection;
@@ -165,7 +132,14 @@ public class Port implements Serializable {
         this.lat = lat;
     }
 
-    //@XmlTransient
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public Collection<Yacht> getYachtCollection() {
         return yachtCollection;
     }
