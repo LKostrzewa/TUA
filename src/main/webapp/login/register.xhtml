@@ -1,8 +1,5 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:a="http://xmlns.jcp.org/jsf/passthrough" xml:lang="en" lang="en">
 <h:head/>
 <h:body>
     <h:outputStylesheet library="css" name="registration.css"/>
@@ -10,7 +7,8 @@
         <h1>#{msg['register']}</h1>
 
         <div class="text-box">
-            <h:inputText id="username" type="text" a:placeholder="#{msg['username']}" value="${userRegistrationBean.accountDTO.login}"/>
+            <h:inputText id="username" type="text" a:placeholder="#{msg['username']}"
+                         value="${userRegistrationBean.accountDTO.login}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message styleClass="message" for="username"
@@ -19,7 +17,8 @@
         </div>
 
         <div class="text-box">
-            <h:inputSecret id="password" a:placeholder="#{msg['password']}" value="${userRegistrationBean.accountDTO.password}"/>
+            <h:inputSecret id="password" a:placeholder="#{msg['password']}"
+                           value="${userRegistrationBean.accountDTO.password}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message styleClass="message" for="password"
@@ -36,7 +35,8 @@
         </div>
 
         <div class="text-box">
-            <h:inputText id="name" a:placeholder="#{msg['name']}" value="${userRegistrationBean.accountDTO.firstName}"/>
+            <h:inputText id="name" a:placeholder="#{msg['first_name']}"
+                         value="${userRegistrationBean.accountDTO.firstName}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message styleClass="message" for="name"
@@ -45,7 +45,8 @@
         </div>
 
         <div class="text-box">
-            <h:inputText id="surname" a:placeholder="#{msg['surname']}" value="${userRegistrationBean.accountDTO.lastName}"/>
+            <h:inputText id="surname" a:placeholder="#{msg['last_name']}"
+                         value="${userRegistrationBean.accountDTO.lastName}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message styleClass="message" for="surname"
@@ -54,16 +55,18 @@
         </div>
 
         <div class="text-box">
-            <h:inputText id="phoneNumber" a:placeholder="#{msg['phone.number']}" value="${userRegistrationBean.accountDTO.phoneNumber}"/>
+            <h:inputText id="phoneNumber" a:placeholder="#{msg['phone_number']}"
+                         value="${userRegistrationBean.accountDTO.phoneNumber}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message styleClass="message" for="phoneNumber"
                        style="box-sizing: border-box; position: absolute;display: block;
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
-        <p:commandButton class="register-button" value="#{msg['register']}" action="#{userRegistrationBean.registerAccountAction}"/>
+        <p:commandButton class="register-button" value="#{msg['register']}"
+                         action="#{userRegistrationBean.registerAccountAction}"/>
         <div class="bottom-text">
-             <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['cancel']}</a>
+            <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['cancel']}</a>
         </div>
     </h:form>
 

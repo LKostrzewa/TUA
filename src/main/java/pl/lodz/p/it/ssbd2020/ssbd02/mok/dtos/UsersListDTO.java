@@ -1,10 +1,19 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
 public class UsersListDTO implements Comparable<UsersListDTO> {
+    private Long id;
     private String login;
     private String email;
     private boolean locked;
     private boolean activated;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getLogin() {
         return login;

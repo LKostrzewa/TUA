@@ -5,20 +5,14 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.facades;
 
-import java.util.List;
-import java.util.Set;
 import javax.persistence.EntityManager;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.ValidatorFactory;
+import java.util.List;
 
 /**
- *
  * Fasadowa klasa abstrakcyjna po której dziedziczą wszystkie inne klasy fasadowe
  */
 public abstract class AbstractFacade<T> {
-
-    private Class<T> entityClass;
+    private final Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -30,7 +24,6 @@ public abstract class AbstractFacade<T> {
         getEntityManager().persist(entity);
         getEntityManager().flush();
     }
-
 
 
     public void edit(T entity) {
@@ -67,5 +60,5 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+
 }

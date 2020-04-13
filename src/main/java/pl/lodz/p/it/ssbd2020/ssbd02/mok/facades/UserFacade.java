@@ -23,7 +23,6 @@ import java.util.List;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserFacade extends AbstractFacade<User> {
-
     @PersistenceContext(unitName = "ssbd02mokPU")
     private EntityManager entityManager;
 
@@ -39,6 +38,11 @@ public class UserFacade extends AbstractFacade<User> {
     @Override
     public List<User> findAll() {
         return super.findAll();
+    }
+
+    @Override
+    public User find(Object id) {
+        return super.find(id);
     }
 
     @Override

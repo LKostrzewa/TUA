@@ -20,7 +20,6 @@ import java.util.UUID;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserManager {
-
     public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
 
     @Inject
@@ -59,6 +58,10 @@ public class UserManager {
 
     public List<User> getAll() {
         return userFacade.findAll();
+    }
+
+    public User find(Long id) {
+        return userFacade.find(id);
     }
 
     public void edit(User user) {
