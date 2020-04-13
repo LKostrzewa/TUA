@@ -30,7 +30,7 @@ public class UserManager {
     private AccessLevelFacade accessLevelFacade;
 
     @Inject
-    UserFacade userFacade;
+    private UserFacade userFacade;
 
     public void registerNewUser(User user) {
         BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();

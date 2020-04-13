@@ -367,5 +367,4 @@ public class User implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.User[ id=" + id + " ]";
     }
-
 }

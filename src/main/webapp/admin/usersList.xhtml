@@ -5,8 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
     <title>Users list</title>
 </h:head>
@@ -31,11 +30,11 @@
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
 
                     <p:column id="login" headerText="${msg['users.login']}">
-                        <h:outputText value="#{user.login}" />
+                        <h:outputText value="#{user.login}"/>
                     </p:column>
 
                     <p:column id="email" headerText="${msg['users.email']}">
-                        <h:outputText value="#{user.email}" />
+                        <h:outputText value="#{user.email}"/>
                     </p:column>
 
                     <p:column id="locked" headerText="${msg['users.locked']}">

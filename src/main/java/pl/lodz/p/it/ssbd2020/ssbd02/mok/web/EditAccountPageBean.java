@@ -29,7 +29,7 @@ public class EditAccountPageBean implements Serializable {
     public String onFinish() {
         userEndpoint.edit(user);
         conversation.end();
-        return "users.xhtml?faces-redirect=true";
+        return "usersList.xhtml?faces-redirect=true";
     }
 
     public User getUser() {

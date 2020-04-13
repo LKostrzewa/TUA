@@ -5,38 +5,26 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.UUID;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.UUID;
 
 /**
- *
  * @author Lukasz
  */
 @Entity
 @Table(name = "rental_status")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "RentalStatus.findAll", query = "SELECT r FROM RentalStatus r"),
-    @NamedQuery(name = "RentalStatus.findById", query = "SELECT r FROM RentalStatus r WHERE r.id = :id"),
-    @NamedQuery(name = "RentalStatus.findByVersion", query = "SELECT r FROM RentalStatus r WHERE r.version = :version"),
-    @NamedQuery(name = "RentalStatus.findByName", query = "SELECT r FROM RentalStatus r WHERE r.name = :name")})
+        @NamedQuery(name = "RentalStatus.findAll", query = "SELECT r FROM RentalStatus r"),
+        @NamedQuery(name = "RentalStatus.findById", query = "SELECT r FROM RentalStatus r WHERE r.id = :id"),
+        @NamedQuery(name = "RentalStatus.findByVersion", query = "SELECT r FROM RentalStatus r WHERE r.version = :version"),
+        @NamedQuery(name = "RentalStatus.findByName", query = "SELECT r FROM RentalStatus r WHERE r.name = :name")})
 public class RentalStatus implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -141,5 +129,4 @@ public class RentalStatus implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.RentalStatus[ id=" + id + " ]";
     }
-    
 }

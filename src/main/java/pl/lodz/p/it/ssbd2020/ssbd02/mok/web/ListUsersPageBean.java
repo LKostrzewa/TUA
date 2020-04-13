@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UsersListDTO;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.annotation.PostConstruct;
@@ -15,21 +15,18 @@ public class ListUsersPageBean {
     @Inject
     private UserEndpoint userEndpoint;
 
-    public ListUsersPageBean() {
-    }
-
-    private List<User> users;
+    private List<UsersListDTO> users;
 
     @PostConstruct
     private void init() {
         this.users = userEndpoint.getAll();
     }
 
-    public List<User> getUsers() {
+    public List<UsersListDTO> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(List<UsersListDTO> users) {
         this.users = users;
     }
 }

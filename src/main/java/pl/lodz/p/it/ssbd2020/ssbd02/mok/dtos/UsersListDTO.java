@@ -1,0 +1,71 @@
+package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
+
+public class UsersListDTO implements Comparable<UsersListDTO> {
+    private String login;
+    private String email;
+    private boolean locked;
+    private boolean activated;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        UsersListDTO usersListDTO = (UsersListDTO) obj;
+
+        if (login != null ? !login.equals(usersListDTO.login) : usersListDTO.login != null) return false;
+        return email != null ? !email.equals(usersListDTO.email) : usersListDTO.email != null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = login != null ? login.hashCode() : 0;
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "UsersListDTO{" +
+                "login='" + login + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
+    @Override
+    public int compareTo(UsersListDTO usersListDTO) {
+        return this.login.compareTo(usersListDTO.login);
+    }
+}

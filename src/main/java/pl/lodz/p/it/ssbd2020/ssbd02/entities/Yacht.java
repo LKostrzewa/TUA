@@ -5,46 +5,32 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.UUID;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
  * @author Lukasz
  */
 @Entity
 @Table(name = "yacht")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Yacht.findAll", query = "SELECT y FROM Yacht y"),
-    @NamedQuery(name = "Yacht.findById", query = "SELECT y FROM Yacht y WHERE y.id = :id"),
-    @NamedQuery(name = "Yacht.findByVersion", query = "SELECT y FROM Yacht y WHERE y.version = :version"),
-    @NamedQuery(name = "Yacht.findByName", query = "SELECT y FROM Yacht y WHERE y.name = :name"),
-    @NamedQuery(name = "Yacht.findByProductionYear", query = "SELECT y FROM Yacht y WHERE y.productionYear = :productionYear"),
-    @NamedQuery(name = "Yacht.findByPriceMultipler", query = "SELECT y FROM Yacht y WHERE y.priceMultipler = :priceMultipler"),
-    @NamedQuery(name = "Yacht.findByCondition", query = "SELECT y FROM Yacht y WHERE y.condition = :condition"),
-    @NamedQuery(name = "Yacht.findByAvgRating", query = "SELECT y FROM Yacht y WHERE y.avgRating = :avgRating")})
+        @NamedQuery(name = "Yacht.findAll", query = "SELECT y FROM Yacht y"),
+        @NamedQuery(name = "Yacht.findById", query = "SELECT y FROM Yacht y WHERE y.id = :id"),
+        @NamedQuery(name = "Yacht.findByVersion", query = "SELECT y FROM Yacht y WHERE y.version = :version"),
+        @NamedQuery(name = "Yacht.findByName", query = "SELECT y FROM Yacht y WHERE y.name = :name"),
+        @NamedQuery(name = "Yacht.findByProductionYear", query = "SELECT y FROM Yacht y WHERE y.productionYear = :productionYear"),
+        @NamedQuery(name = "Yacht.findByPriceMultipler", query = "SELECT y FROM Yacht y WHERE y.priceMultipler = :priceMultipler"),
+        @NamedQuery(name = "Yacht.findByCondition", query = "SELECT y FROM Yacht y WHERE y.condition = :condition"),
+        @NamedQuery(name = "Yacht.findByAvgRating", query = "SELECT y FROM Yacht y WHERE y.avgRating = :avgRating")})
 public class Yacht implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -64,10 +50,10 @@ public class Yacht implements Serializable {
     @Column(name = "production_year")
     private Integer productionYear;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "price_multipler")
+    @Column(name = "price_multiplier")
     private BigDecimal priceMultipler;
     @Size(max = 2048)
-    @Column(name = "condition")
+    @Column(name = "equipment")
     private String condition;
     @Column(name = "avg_rating")
     private BigDecimal avgRating;
@@ -204,5 +190,5 @@ public class Yacht implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht[ id=" + id + " ]";
     }
-    
+
 }

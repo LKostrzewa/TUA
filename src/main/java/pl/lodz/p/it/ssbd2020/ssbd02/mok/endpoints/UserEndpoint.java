@@ -1,11 +1,12 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 
-import org.modelmapper.ModelMapper;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UsersListDTO;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
@@ -23,13 +24,12 @@ public class UserEndpoint implements Serializable {
     private UserManager userManager;
 
     public void registerNewUser(UserDTO userDTO) {
-        ModelMapper modelMapper = new ModelMapper();
-        User user = modelMapper.map(userDTO, User.class);
+        User user = ObjectMapperUtils.map(userDTO, User.class);
         userManager.registerNewUser(user);
     }
 
-    public List<User> getAll() {
-        return userManager.getAll();
+    public List<UsersListDTO> getAll() {
+        return ObjectMapperUtils.mapAll(userManager.getAll(), UsersListDTO.class);
     }
 
     public void edit(User user) {

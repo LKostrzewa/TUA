@@ -5,42 +5,31 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.UUID;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.UUID;
 
 /**
- *
  * @author Lukasz
  */
 @Entity
 @Table(name = "port")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Port.findAll", query = "SELECT p FROM Port p"),
-    @NamedQuery(name = "Port.findById", query = "SELECT p FROM Port p WHERE p.id = :id"),
-    @NamedQuery(name = "Port.findByVersion", query = "SELECT p FROM Port p WHERE p.version = :version"),
-    @NamedQuery(name = "Port.findByName", query = "SELECT p FROM Port p WHERE p.name = :name"),
-    @NamedQuery(name = "Port.findByLake", query = "SELECT p FROM Port p WHERE p.lake = :lake"),
-    @NamedQuery(name = "Port.findByNearestCity", query = "SELECT p FROM Port p WHERE p.nearestCity = :nearestCity"),
-    @NamedQuery(name = "Port.findByLong1", query = "SELECT p FROM Port p WHERE p.long1 = :long1"),
-    @NamedQuery(name = "Port.findByLat", query = "SELECT p FROM Port p WHERE p.lat = :lat")})
+        @NamedQuery(name = "Port.findAll", query = "SELECT p FROM Port p"),
+        @NamedQuery(name = "Port.findById", query = "SELECT p FROM Port p WHERE p.id = :id"),
+        @NamedQuery(name = "Port.findByVersion", query = "SELECT p FROM Port p WHERE p.version = :version"),
+        @NamedQuery(name = "Port.findByName", query = "SELECT p FROM Port p WHERE p.name = :name"),
+        @NamedQuery(name = "Port.findByLake", query = "SELECT p FROM Port p WHERE p.lake = :lake"),
+        @NamedQuery(name = "Port.findByNearestCity", query = "SELECT p FROM Port p WHERE p.nearestCity = :nearestCity"),
+        @NamedQuery(name = "Port.findByLong1", query = "SELECT p FROM Port p WHERE p.long1 = :long1"),
+        @NamedQuery(name = "Port.findByLat", query = "SELECT p FROM Port p WHERE p.lat = :lat")})
 public class Port implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -204,5 +193,4 @@ public class Port implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Port[ id=" + id + " ]";
     }
-    
 }
