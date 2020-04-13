@@ -155,6 +155,14 @@ public class Yacht implements Serializable {
         this.avgRating = avgRating;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public Port getCurrentPortId() {
         return currentPortId;
     }
