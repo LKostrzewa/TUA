@@ -5,7 +5,7 @@ public class NewYachtDto {
     private String name;
     private Integer produciton_year;
     private Long yachtModelId;
-    private Float priceMultipler;
+    private Float priceMultiplier;
     private String equipment;
 
     public String getName() {
@@ -33,11 +33,11 @@ public class NewYachtDto {
     }
 
     public Float getPriceMultipler() {
-        return priceMultipler;
+        return priceMultiplier;
     }
 
     public void setPriceMultipler(Float priceMultipler) {
-        this.priceMultipler = priceMultipler;
+        this.priceMultiplier = priceMultipler;
     }
 
     public String getEquipment() {

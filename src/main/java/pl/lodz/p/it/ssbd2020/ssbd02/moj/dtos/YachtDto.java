@@ -7,7 +7,7 @@ public class YachtDto {
     private String name;
     private Integer produciton_year;
     private Long yachtModelId;
-    private Float priceMultipler;
+    private Float priceMultiplier;
     private Long currentPortId;
     private String equipment;
     private Float avgRating;
@@ -45,11 +45,11 @@ public class YachtDto {
     }
 
     public Float getPriceMultipler() {
-        return priceMultipler;
+        return priceMultiplier;
     }
 
     public void setPriceMultipler(Float priceMultipler) {
-        this.priceMultipler = priceMultipler;
+        this.priceMultiplier = priceMultipler;
     }
 
     public Long getCurrentPortId() {

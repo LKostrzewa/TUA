@@ -4,7 +4,7 @@ public class UpdateYachtDto {
 
     private String name;
     private Long yachtModelId;
-    private Float priceMultipler;
+    private Float priceMultiplier;
     private String equipment;
 
     public String getName() {
@@ -24,11 +24,11 @@ public class UpdateYachtDto {
     }
 
     public Float getPriceMultipler() {
-        return priceMultipler;
+        return priceMultiplier;
     }
 
     public void setPriceMultipler(Float priceMultipler) {
-        this.priceMultipler = priceMultipler;
+        this.priceMultiplier = priceMultipler;
     }
 
     public String getEquipment() {
