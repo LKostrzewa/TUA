@@ -67,7 +67,7 @@ public class Yacht implements Serializable {
     @Column(name = "price_multipler")
     private BigDecimal priceMultipler;
     @Size(max = 2048)
-    @Column(name = "condition")
+    @Column(name = "equipment")
     private String condition;
     @Column(name = "avg_rating")
     private BigDecimal avgRating;
