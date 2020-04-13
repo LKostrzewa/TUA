@@ -18,20 +18,24 @@ public class YachtManager {
     @Inject
     private YachtFacade yachtFacade;
 
-    public void addYacht(Yacht yacht){
+    public void addYacht(Yacht yacht) {
         yachtFacade.create(yacht);
     }
-    public List<Yacht> getAllYachts(){
+
+    public List<Yacht> getAllYachts() {
         return yachtFacade.findAll();
     }
-    public Yacht getYachtById(Long yachtId){
+
+    public Yacht getYachtById(Long yachtId) {
         return yachtFacade.find(yachtId);
     }
-    public void updateYacht(Long yachtId, Yacht yachtToUpdate){
+
+    public void updateYacht(Long yachtId, Yacht yachtToUpdate) {
         yachtToUpdate.setId(yachtId);
         yachtFacade.edit(yachtToUpdate);
     }
-    public void deactivateYacht(Long yachtId){
+
+    public void deactivateYacht(Long yachtId) {
         Yacht yachtToDeactivate = getYachtById(yachtId);
         yachtToDeactivate.setActive(false);
         yachtFacade.edit(yachtToDeactivate);
