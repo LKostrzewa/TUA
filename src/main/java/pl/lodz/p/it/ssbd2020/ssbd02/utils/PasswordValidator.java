@@ -6,20 +6,24 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @FacesValidator("passwordValidator")
 public class PasswordValidator implements Validator{
 
+    ResourceBundle bundle = ResourceBundle.getBundle("resource", Locale.getDefault());
+
     @Override
     public void validate(FacesContext context, UIComponent component, Object obj) throws ValidatorException {
-        String email = obj.toString();
+        String password = obj.toString();
 
-        if (email.length() < 8 || email.length() > 20) {
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password needs to have length between 8 and 20", null));
+        if (password.length() < 8 || password.length() > 20) {
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("validation.password.size"), null));
         }
 
-        if (!email.matches("^[a-zA-Z0-9]+$")) {
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email does not match any pattern", null));
+        if (!password.matches("^[a-zA-Z0-9]+$")) {
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("validation.password.pattern"), null));
         }
 
     }

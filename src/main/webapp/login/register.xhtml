@@ -23,9 +23,9 @@
         </div>
 
         <div class="text-box">
-            <p:password id="password1" a:placeholder="#{msg['register.password']}" match="password2"
+            <p:password id="password1" a:placeholder="#{msg['register.password']}" match="password2" validatorMessage="#{msg['validation.password.match']}"
                            value="${userRegistrationBean.accountDTO.password}" required="true"
-                           requiredMessage="#{msg['register.field.required']}" validatorMessage="Passwords do not match">
+                           requiredMessage="#{msg['register.field.required']}">
                 <f:validator validatorId="passwordValidator"/>
             </p:password>
             <span class="gradient"/>
@@ -35,7 +35,7 @@
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
         <div class="text-box">
-            <p:password id="password2" a:placeholder="#{msg['register.repeat.password']}" validatorMessage="Passwords do not match"
+            <p:password id="password2" a:placeholder="#{msg['register.repeat.password']}"
                         value="${userRegistrationBean.accountDTO.password}" required="true"
                         requiredMessage="#{msg['register.field.required']}">
                 <f:validator validatorId="passwordValidator"/>
