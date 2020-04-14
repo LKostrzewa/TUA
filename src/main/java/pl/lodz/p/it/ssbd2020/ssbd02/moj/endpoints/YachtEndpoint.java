@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.NewYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.UpdateYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.YachtDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.YachtListDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.YachtManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -31,8 +32,8 @@ public class YachtEndpoint {
         yachtManager.addYacht(yacht);
     }
 
-    public List<YachtDto> getAllYachts() {
-        return yachtManager.getAllYachts().stream().map(n -> modelMapper.map(n, YachtDto.class)).collect(Collectors.toList());
+    public List<YachtListDto> getAllYachts() {
+        return yachtManager.getAllYachts().stream().map(n -> modelMapper.map(n, YachtListDto.class)).collect(Collectors.toList());
     }
 
     public YachtDto getYachtById(Long yachtId) {

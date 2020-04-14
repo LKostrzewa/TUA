@@ -32,12 +32,12 @@ public class NewYachtDto {
         this.yachtModelId = yachtModelId;
     }
 
-    public Float getPriceMultipler() {
+    public Float getPriceMultiplier() {
         return priceMultiplier;
     }
 
-    public void setPriceMultipler(Float priceMultipler) {
-        this.priceMultiplier = priceMultipler;
+    public void setPriceMultiplier(Float priceMultiplier) {
+        this.priceMultiplier = priceMultiplier;
     }
 
     public String getEquipment() {
