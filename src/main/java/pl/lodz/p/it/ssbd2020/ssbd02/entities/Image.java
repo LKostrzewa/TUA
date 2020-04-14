@@ -34,7 +34,7 @@ public class Image implements Serializable {
     private Serializable lob;
     @JoinColumn(name = "yacht_model_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private YachtModel yachtModelId;
+    private YachtModel yachtModel;
 
     public Image() {
     }
@@ -81,12 +81,12 @@ public class Image implements Serializable {
         this.lob = lob;
     }
 
-    public YachtModel getYachtModelId() {
-        return yachtModelId;
+    public YachtModel getYachtModel() {
+        return yachtModel;
     }
 
-    public void setYachtModelId(YachtModel yachtModelId) {
-        this.yachtModelId = yachtModelId;
+    public void setYachtModel(YachtModel yachtModelId) {
+        this.yachtModel = yachtModelId;
     }
 
     @Override

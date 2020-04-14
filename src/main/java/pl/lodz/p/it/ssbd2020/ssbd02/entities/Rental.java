@@ -43,17 +43,17 @@ public class Rental implements Serializable {
     private Date endDate;
     @Column(name = "price", nullable = false)
     private BigDecimal price;
-    @OneToOne(cascade = CascadeType.REFRESH, mappedBy = "rentalId")
+    @OneToOne(cascade = CascadeType.REFRESH, mappedBy = "rental")
     private Opinion opinion;
     @JoinColumn(name = "rental_status_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private RentalStatus rentalStatusId;
+    private RentalStatus rentalStatus;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User userId;
+    private User user;
     @JoinColumn(name = "yacht_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Yacht yachtId;
+    private Yacht yacht;
 
     public Rental() {
     }
@@ -127,28 +127,28 @@ public class Rental implements Serializable {
         this.opinion = opinion;
     }
 
-    public RentalStatus getRentalStatusId() {
-        return rentalStatusId;
+    public RentalStatus getRentalStatus() {
+        return rentalStatus;
     }
 
-    public void setRentalStatusId(RentalStatus rentalStatusId) {
-        this.rentalStatusId = rentalStatusId;
+    public void setRentalStatus(RentalStatus rentalStatusId) {
+        this.rentalStatus = rentalStatusId;
     }
 
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUser(User userId) {
+        this.user = userId;
     }
 
-    public Yacht getYachtId() {
-        return yachtId;
+    public Yacht getYacht() {
+        return yacht;
     }
 
-    public void setYachtId(Yacht yachtId) {
-        this.yachtId = yachtId;
+    public void setYacht(Yacht yachtId) {
+        this.yacht = yachtId;
     }
 
     @Override

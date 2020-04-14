@@ -9,6 +9,7 @@ import org.eclipse.persistence.annotations.Convert;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import javax.persistence.*;
@@ -47,8 +48,8 @@ public class Port implements Serializable {
     private BigDecimal lat;
     @Column(name = "active", nullable = false)
     private boolean active;
-    @OneToMany(mappedBy = "currentPortId")
-    private Collection<Yacht> yachtCollection;
+    @OneToMany(mappedBy = "currentPort")
+    private Collection<Yacht> yachts = new ArrayList<>();
 
     public Port() {
     }
@@ -140,12 +141,12 @@ public class Port implements Serializable {
         this.active = active;
     }
 
-    public Collection<Yacht> getYachtCollection() {
-        return yachtCollection;
+    public Collection<Yacht> getYachts() {
+        return yachts;
     }
 
-    public void setYachtCollection(Collection<Yacht> yachtCollection) {
-        this.yachtCollection = yachtCollection;
+    public void setYachts(Collection<Yacht> yachtCollection) {
+        this.yachts = yachtCollection;
     }
 
     @Override

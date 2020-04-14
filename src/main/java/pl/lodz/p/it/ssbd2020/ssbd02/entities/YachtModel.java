@@ -9,6 +9,7 @@ import org.eclipse.persistence.annotations.Convert;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import javax.persistence.*;
@@ -48,8 +49,8 @@ public class YachtModel implements Serializable {
     private BigDecimal basicPrice;
     @Column(name = "active", nullable = false)
     private boolean active;
-    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "yachtModelId")
-    private Collection<Image> imageCollection;
+    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "yachtModel")
+    private Collection<Image> images = new ArrayList<>();
     /*@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "yachtModelId")
     private Collection<Yacht> yachtCollection;*/
 
@@ -143,12 +144,12 @@ public class YachtModel implements Serializable {
         this.active = active;
     }
 
-    public Collection<Image> getImageCollection() {
-        return imageCollection;
+    public Collection<Image> getImages() {
+        return images;
     }
 
-    public void setImageCollection(Collection<Image> imageCollection) {
-        this.imageCollection = imageCollection;
+    public void setImages(Collection<Image> imageCollection) {
+        this.images = imageCollection;
     }
 
     //@XmlTransient

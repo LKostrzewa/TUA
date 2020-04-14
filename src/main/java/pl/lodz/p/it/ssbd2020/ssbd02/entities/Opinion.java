@@ -49,7 +49,7 @@ public class Opinion implements Serializable {
     private boolean edited;
     @JoinColumn(name = "rental_id", referencedColumnName = "id")
     @OneToOne(optional = false)
-    private Rental rentalId;
+    private Rental rental;
 
     public Opinion() {
     }
@@ -114,12 +114,12 @@ public class Opinion implements Serializable {
         this.date = date;
     }
 
-    public Rental getRentalId() {
-        return rentalId;
+    public Rental getRental() {
+        return rental;
     }
 
-    public void setRentalId(Rental rentalId) {
-        this.rentalId = rentalId;
+    public void setRental(Rental rentalId) {
+        this.rental = rentalId;
     }
 
     public boolean isEdited() {
