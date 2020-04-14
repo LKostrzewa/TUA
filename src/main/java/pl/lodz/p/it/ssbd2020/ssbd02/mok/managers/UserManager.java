@@ -12,7 +12,6 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -54,12 +53,12 @@ public class UserManager {
         UserAccessLevel userAccessLevel = new UserAccessLevel();
         userAccessLevel.setVersion(1);
         userAccessLevel.setBusinessKey(UUID.randomUUID());
-        userAccessLevel.setAccessLevelId(accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
-        userAccessLevel.setUserId(user);
+        userAccessLevel.setAccessLevel(accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
+        userAccessLevel.setUser(user);
 
 
         List<UserAccessLevel> userAccessLevels = List.of(userAccessLevel);
-        user.setUserAccessLevelCollection(userAccessLevels);
+        user.setUserAccessLevels(userAccessLevels);
 
         userFacade.create(user);
 

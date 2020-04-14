@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.eclipse.persistence.annotations.Convert;
@@ -47,7 +46,7 @@ public class User implements Serializable {
     @Convert("uuidConverter")
     @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
     private UUID businessKey;
-    @Column(name = "login", nullable = false, length = 32)
+    @Column(name = "login", nullable = false, unique = true, length = 32)
     private String login;
     @Column(name = "password", nullable = false, length = 64)
     private String password;
@@ -75,8 +74,8 @@ public class User implements Serializable {
     @Column(name = "reset_password_code", nullable = false)
     @Convert("uuidConverter")
     private UUID resetPasswordCode;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Collection<UserAccessLevel> userAccessLevelCollection = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Collection<UserAccessLevel> userAccessLevels = new ArrayList<>();
     /*@ManyToMany
     @JoinTable(name = "user_access_level",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -254,12 +253,12 @@ public class User implements Serializable {
 //        this.userDetailsCollection = userDetailsCollection;
 //    }
 
-    public Collection<UserAccessLevel> getUserAccessLevelCollection() {
-        return userAccessLevelCollection;
+    public Collection<UserAccessLevel> getUserAccessLevels() {
+        return userAccessLevels;
     }
 
-    public void setUserAccessLevelCollection(Collection<UserAccessLevel> userAccessLevelCollection) {
-        this.userAccessLevelCollection = userAccessLevelCollection;
+    public void setUserAccessLevels(Collection<UserAccessLevel> userAccessLevelCollection) {
+        this.userAccessLevels = userAccessLevelCollection;
     }
 
     /*public Collection<AccessLevel> getAccessLevels() {
