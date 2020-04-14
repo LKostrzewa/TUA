@@ -31,8 +31,10 @@ public class UserManager {
     @Inject
     private UserFacade userFacade;
 
+    @Inject
+    private BCryptPasswordHash bCryptPasswordHash;
+
     public void registerNewUser(User user) {
-        BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
 
         user.setVersion(1);
@@ -42,18 +44,24 @@ public class UserManager {
         user.setActivated(false);
         user.setLocked(false);
         user.setCreated(new Date());
-        user.setInvalidLoginAttemps(0);
+        user.setInvalidLoginAttempts(0);
         user.setPassword(passwordHash);
         user.setActivationCode(UUID.randomUUID());
         user.setResetPasswordCode(UUID.randomUUID());
-        userFacade.create(user);
 
         UserAccessLevel userAccessLevel = new UserAccessLevel();
         userAccessLevel.setVersion(1);
         userAccessLevel.setBusinessKey(UUID.randomUUID());
-        userAccessLevel.setAccessLevelId(accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
-        userAccessLevel.setUserId(user);
-        userAccessLevelFacade.create(userAccessLevel);
+        userAccessLevel.setAccessLevel(accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
+        userAccessLevel.setUser(user);
+
+
+        List<UserAccessLevel> userAccessLevels = List.of(userAccessLevel);
+        user.setUserAccessLevels(userAccessLevels);
+
+        userFacade.create(user);
+
+        //userAccessLevelFacade.create(userAccessLevel);
     }
 
     public List<User> getAll() {
