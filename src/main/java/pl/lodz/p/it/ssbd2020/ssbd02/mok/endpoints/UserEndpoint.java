@@ -13,12 +13,13 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.io.Serializable;
 import java.util.List;
 
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
-public class UserEndpoint {
+public class UserEndpoint implements Serializable {
 
     @Inject
     private UserManager userManager;
