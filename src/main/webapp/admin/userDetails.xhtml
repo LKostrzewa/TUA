@@ -38,6 +38,10 @@
             <h:outputText value="#{userDetailsPageBean.userDetailsDTO.locked}"/>
         </p:panelGrid>
         <p:commandButton value="#{msg['go_back']}" action="#{userDetailsPageBean.onFinish()}"/>
+        <p:commandButton value="#{msg['edit']}"
+                         action="#{editUserPageBean.onClick()}"/>
+        <p:commandButton value="#{msg['change_password']}"
+                         action="#{changePasswordPageBean.onClick()}"/>
     </h:form>
 </h:body>
 </html>

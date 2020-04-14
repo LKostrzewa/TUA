@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 import java.util.Date;
 
 public class UserDetailsDTO implements Comparable<UserDetailsDTO> {
+    private long id;
     private String login;
     private String email;
     private boolean locked;
@@ -12,6 +13,14 @@ public class UserDetailsDTO implements Comparable<UserDetailsDTO> {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getLogin() {
         return login;

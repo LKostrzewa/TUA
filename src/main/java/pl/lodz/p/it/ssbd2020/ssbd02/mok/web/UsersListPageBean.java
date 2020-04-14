@@ -17,17 +17,17 @@ public class UsersListPageBean {
     private UserEndpoint userEndpoint;
     private List<UsersListDTO> users;
 
-    @PostConstruct
-    private void init() {
-        this.users = ObjectMapperUtils.mapAll(userEndpoint.getAll(), UsersListDTO.class);
-    }
-
     public List<UsersListDTO> getUsers() {
         return users;
     }
 
     public void setUsers(List<UsersListDTO> users) {
         this.users = users;
+    }
+
+    @PostConstruct
+    private void init() {
+        this.users = ObjectMapperUtils.mapAll(userEndpoint.getAll(), UsersListDTO.class);
     }
 }
 

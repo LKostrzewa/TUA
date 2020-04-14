@@ -2,7 +2,6 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDTO;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UsersListDTO;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
@@ -21,9 +20,17 @@ public class UserDetailsPageBean implements Serializable {
     private Conversation conversation;
     private UserDetailsDTO userDetailsDTO;
 
-    public String onClick(UsersListDTO usersListDTO) {
+    public UserDetailsDTO getUserDetailsDTO() {
+        return userDetailsDTO;
+    }
+
+    public void setUserDetailsDTO(UserDetailsDTO userDetailsDTO) {
+        this.userDetailsDTO = userDetailsDTO;
+    }
+
+    public String onClick(long id) {
         conversation.begin();
-        User user = userEndpoint.find(usersListDTO.getId());
+        User user = userEndpoint.find(id);
         this.userDetailsDTO = ObjectMapperUtils.map(user, UserDetailsDTO.class);
         return "userDetails.xhtml?faces-redirect=true";
     }
@@ -33,11 +40,8 @@ public class UserDetailsPageBean implements Serializable {
         return "usersList.xhtml?faces-redirect=true";
     }
 
-    public UserDetailsDTO getUserDetailsDTO() {
-        return userDetailsDTO;
-    }
-
-    public void setUserDetailsDTO(UserDetailsDTO userDetailsDTO) {
-        this.userDetailsDTO = userDetailsDTO;
+    public void refresh() {
+        User user = userEndpoint.find(userDetailsDTO.getId());
+        this.userDetailsDTO = ObjectMapperUtils.map(user, UserDetailsDTO.class);
     }
 }

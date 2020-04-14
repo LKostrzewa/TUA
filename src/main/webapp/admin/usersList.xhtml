@@ -47,7 +47,7 @@
 
                     <p:column id="actions" headerText="${msg['actions']}">
                         <p:commandButton value="${msg['details']}"
-                                         action="#{userDetailsPageBean.onClick(usersListDTO)}"/>
+                                         action="#{userDetailsPageBean.onClick(usersListDTO.id)}"/>
                         <p:commandButton value="${msg['delete']}"/>
                     </p:column>
 

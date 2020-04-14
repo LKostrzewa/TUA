@@ -64,10 +64,20 @@ public class UserManager {
         return userFacade.find(id);
     }
 
-    public void edit(User user) {
+    public void editUser(User user) {
+        User userFromRepository = userFacade.find(user.getId());
+        userFromRepository.setEmail(user.getEmail());
+        userFromRepository.setFirstName(user.getFirstName());
+        userFromRepository.setLastName(user.getLastName());
+        userFromRepository.setPhoneNumber(user.getPhoneNumber());
+        userFacade.edit(userFromRepository);
+    }
+
+    public void editPassword(User user) {
+        User userFromRepository = userFacade.find(user.getId());
         BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
-        user.setPassword(passwordHash);
-        userFacade.edit(user);
+        userFromRepository.setPassword(passwordHash);
+        userFacade.edit(userFromRepository);
     }
 }
