@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 
 public class PortDto {
 
-    private Long id;
     private String name;
     private String lake;
     private String nearestCity;
@@ -13,13 +12,6 @@ public class PortDto {
     private BigDecimal lat;
     private Boolean active;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

@@ -32,7 +32,7 @@ public class EditPortPageBean implements Serializable {
     }
 
     public String onFinish() {
-        portEndpoint.updatePort(updatePortDto.getId(),updatePortDto);
+        //portEndpoint.updatePort(updatePortDto.getId(),updatePortDto);
         conversation.end();
         return "/manager/listPorts.xhtml?faces-redirect=true";
     }

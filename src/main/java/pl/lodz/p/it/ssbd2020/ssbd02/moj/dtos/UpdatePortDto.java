@@ -5,20 +5,11 @@ import java.math.BigDecimal;
 
 public class UpdatePortDto implements Serializable {
 
-    private Long id;
     private String name;
     private String lake;
     private String nearestCity;
     private BigDecimal long1;
     private BigDecimal lat;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
