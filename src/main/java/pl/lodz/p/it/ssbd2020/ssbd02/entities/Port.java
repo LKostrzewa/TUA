@@ -174,11 +174,4 @@ public class Port implements Serializable {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Port[ id=" + id + " ]";
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 }

@@ -2,7 +2,6 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.annotation.FacesConfig;
 import javax.faces.application.FacesMessage;
@@ -19,15 +18,10 @@ import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import java.io.IOException;
 import java.io.Serializable;
 
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
-import static javax.security.enterprise.AuthenticationStatus.SEND_CONTINUE;
-import static javax.security.enterprise.AuthenticationStatus.SEND_FAILURE;
 import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
 
 @FacesConfig

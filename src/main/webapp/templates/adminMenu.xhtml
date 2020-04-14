@@ -2,26 +2,23 @@
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://java.sun.com/jsf/html">
-<h:head>
-</h:head>
-<body>
-<ui:composition>
-    <p:menubar>
-        <p:submenu label="#{msg['menu.admin.accounts']}">
-            <p:menuitem value="#{msg['menu.admin.accounts.add']}" url="#"/>
-            <p:separator/>
-            <p:menuitem value="#{msg['menu.admin.accounts.list']}" url="/admin/users.xhtml"/>
-        </p:submenu>
-        <p:menuitem value="#{msg['menu.account']}" url="/admin/account.xhtml"/>
-        <f:facet name="options">
-            <p:commandButton value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
-        </f:facet>
-    </p:menubar>
-</ui:composition>
-</body>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
+<h:head/>
+<h:body>
+    <ui:composition>
+        <p:menubar>
+            <p:submenu label="#{msg['menu.admin.accounts']}">
+                <p:menuitem value="#{msg['menu.admin.accounts.add']}" url="#"/>
+                <p:separator/>
+                <p:menuitem value="#{msg['menu.admin.accounts.list']}" url="/admin/usersList.xhtml"/>
+            </p:submenu>
+            <p:menuitem value="#{msg['menu.account']}" url="/admin/account.xhtml"/>
+            <f:facet name="options">
+                <p:commandButton value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
+            </f:facet>
+        </p:menubar>
+    </ui:composition>
+</h:body>
 </html>
