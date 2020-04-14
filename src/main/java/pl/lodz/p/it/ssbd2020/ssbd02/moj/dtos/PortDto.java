@@ -11,7 +11,7 @@ public class PortDto {
     private String nearestCity;
     private BigDecimal long1;
     private BigDecimal lat;
-    private boolean active;
+    private Boolean active;
 
     public Long getId() {
         return id;
