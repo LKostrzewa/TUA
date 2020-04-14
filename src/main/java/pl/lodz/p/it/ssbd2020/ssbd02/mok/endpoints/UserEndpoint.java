@@ -23,8 +23,10 @@ public class UserEndpoint {
     @Inject
     private UserManager userManager;
 
+    @Inject
+    private ModelMapper modelMapper;
+
     public void registerNewUser(UserDTO userDTO) {
-        ModelMapper modelMapper = new ModelMapper();
         User user = modelMapper.map(userDTO, User.class);
         userManager.registerNewUser(user);
 

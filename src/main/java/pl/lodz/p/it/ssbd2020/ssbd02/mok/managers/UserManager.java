@@ -33,8 +33,10 @@ public class UserManager {
     @Inject
     private UserFacade userFacade;
 
+    @Inject
+    private BCryptPasswordHash bCryptPasswordHash;
+
     public void registerNewUser(User user) {
-        BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
 
         user.setVersion(1);
