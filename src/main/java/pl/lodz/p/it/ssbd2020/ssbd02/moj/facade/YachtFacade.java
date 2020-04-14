@@ -34,5 +34,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
     public YachtFacade() {
         super(Yacht.class);
     }
-    
+
+
+
 }

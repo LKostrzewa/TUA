@@ -5,45 +5,36 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
+import org.eclipse.persistence.annotations.Convert;
+
 import java.io.Serializable;
 import java.util.UUID;
+import javax.persistence.*;
 
-/**
- * @author Lukasz
- */
 @Entity
 @Table(name = "image")
-@XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "Image.findAll", query = "SELECT i FROM Image i"),
-        @NamedQuery(name = "Image.findById", query = "SELECT i FROM Image i WHERE i.id = :id"),
-        @NamedQuery(name = "Image.findByVersion", query = "SELECT i FROM Image i WHERE i.version = :version"),
-        @NamedQuery(name = "Image.findByLob", query = "SELECT i FROM Image i WHERE i.lob = :lob")})
+    @NamedQuery(name = "Image.findAll", query = "SELECT i FROM Image i"),
+    @NamedQuery(name = "Image.findById", query = "SELECT i FROM Image i WHERE i.id = :id"),
+    @NamedQuery(name = "Image.findByVersion", query = "SELECT i FROM Image i WHERE i.version = :version"),
+    @NamedQuery(name = "Image.findByLob", query = "SELECT i FROM Image i WHERE i.lob = :lob")})
 public class Image implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "version")
+    @Version
+    @Column(name = "version", nullable = false)
     private long version;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "business_key")
+    @Convert("uuidConverter")
+    @Column(name = "business_key", nullable = false, unique = true)
     private UUID businessKey;
     @Column(name = "lob")
     private Serializable lob;
     @JoinColumn(name = "yacht_model_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private YachtModel yachtModelId;
+    private YachtModel yachtModel;
 
     public Image() {
     }
@@ -90,12 +81,12 @@ public class Image implements Serializable {
         this.lob = lob;
     }
 
-    public YachtModel getYachtModelId() {
-        return yachtModelId;
+    public YachtModel getYachtModel() {
+        return yachtModel;
     }
 
-    public void setYachtModelId(YachtModel yachtModelId) {
-        this.yachtModelId = yachtModelId;
+    public void setYachtModel(YachtModel yachtModelId) {
+        this.yachtModel = yachtModelId;
     }
 
     @Override
@@ -122,4 +113,5 @@ public class Image implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Image[ id=" + id + " ]";
     }
+    
 }

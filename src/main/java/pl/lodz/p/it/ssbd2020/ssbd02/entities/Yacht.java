@@ -5,70 +5,58 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import org.eclipse.persistence.annotations.Convert;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
+import javax.persistence.*;
 
-/**
- * @author Lukasz
- */
 @Entity
 @Table(name = "yacht")
-@XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "Yacht.findAll", query = "SELECT y FROM Yacht y"),
-        @NamedQuery(name = "Yacht.findById", query = "SELECT y FROM Yacht y WHERE y.id = :id"),
-        @NamedQuery(name = "Yacht.findByVersion", query = "SELECT y FROM Yacht y WHERE y.version = :version"),
-        @NamedQuery(name = "Yacht.findByName", query = "SELECT y FROM Yacht y WHERE y.name = :name"),
-        @NamedQuery(name = "Yacht.findByProductionYear", query = "SELECT y FROM Yacht y WHERE y.productionYear = :productionYear"),
-        @NamedQuery(name = "Yacht.findByPriceMultipler", query = "SELECT y FROM Yacht y WHERE y.priceMultipler = :priceMultipler"),
-        @NamedQuery(name = "Yacht.findByCondition", query = "SELECT y FROM Yacht y WHERE y.condition = :condition"),
-        @NamedQuery(name = "Yacht.findByAvgRating", query = "SELECT y FROM Yacht y WHERE y.avgRating = :avgRating")})
+    @NamedQuery(name = "Yacht.findAll", query = "SELECT y FROM Yacht y"),
+    @NamedQuery(name = "Yacht.findById", query = "SELECT y FROM Yacht y WHERE y.id = :id"),
+    @NamedQuery(name = "Yacht.findByVersion", query = "SELECT y FROM Yacht y WHERE y.version = :version"),
+    @NamedQuery(name = "Yacht.findByName", query = "SELECT y FROM Yacht y WHERE y.name = :name"),
+    @NamedQuery(name = "Yacht.findByProductionYear", query = "SELECT y FROM Yacht y WHERE y.productionYear = :productionYear"),
+    @NamedQuery(name = "Yacht.findByPriceMultiplier", query = "SELECT y FROM Yacht y WHERE y.priceMultiplier = :priceMultipler"),
+    @NamedQuery(name = "Yacht.findByCondition", query = "SELECT y FROM Yacht y WHERE y.equipment = :condition"),
+    @NamedQuery(name = "Yacht.findByAvgRating", query = "SELECT y FROM Yacht y WHERE y.avgRating = :avgRating")})
 public class Yacht implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
-    @Column(name = "version")
-    private BigInteger version;
-    @Lob
-    @Column(name = "business_key")
+    @Version
+    @Column(name = "version", nullable = false)
+    private long version;
+    @Column(name = "business_key", nullable = false, unique = true)
+    @Convert("uuidConverter")
     private UUID businessKey;
-    @Size(max = 32)
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 32)
     private String name;
-    @Column(name = "production_year")
+    @Column(name = "production_year", nullable = false)
     private Integer productionYear;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "price_multiplier")
-    private BigDecimal priceMultipler;
-    @Size(max = 2048)
-    @Column(name = "equipment")
-    private String condition;
+    @Column(name = "price_multiplier", nullable = false)
+    private BigDecimal priceMultiplier;
+    @Column(name = "equipment", nullable = false, length = 2048)
+    private String equipment;
     @Column(name = "avg_rating")
     private BigDecimal avgRating;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "active")
+    @Column(name = "active", nullable = false)
     private boolean active;
     @JoinColumn(name = "current_port_id", referencedColumnName = "id")
     @ManyToOne
-    private Port currentPortId;
+    private Port currentPort;
     @JoinColumn(name = "yacht_model_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private YachtModel yachtModelId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "yachtId")
-    private Collection<Rental> rentalCollection;
+    private YachtModel yachtModel;
+    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "yacht")
+    private Collection<Rental> rentals = new ArrayList<>();
 
     public Yacht() {
     }
@@ -85,11 +73,11 @@ public class Yacht implements Serializable {
         this.id = id;
     }
 
-    public BigInteger getVersion() {
+    public long getVersion() {
         return version;
     }
 
-    public void setVersion(BigInteger version) {
+    public void setVersion(long version) {
         this.version = version;
     }
 
@@ -117,20 +105,20 @@ public class Yacht implements Serializable {
         this.productionYear = productionYear;
     }
 
-    public BigDecimal getPriceMultipler() {
-        return priceMultipler;
+    public BigDecimal getPriceMultiplier() {
+        return priceMultiplier;
     }
 
-    public void setPriceMultipler(BigDecimal priceMultipler) {
-        this.priceMultipler = priceMultipler;
+    public void setPriceMultiplier(BigDecimal priceMultiplier) {
+        this.priceMultiplier = priceMultiplier;
     }
 
-    public String getCondition() {
-        return condition;
+    public String getEquipment() {
+        return equipment;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition;
+    public void setEquipment(String equipment) {
+        this.equipment = equipment;
     }
 
     public BigDecimal getAvgRating() {
@@ -141,29 +129,36 @@ public class Yacht implements Serializable {
         this.avgRating = avgRating;
     }
 
-    public Port getCurrentPortId() {
-        return currentPortId;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setCurrentPortId(Port currentPortId) {
-        this.currentPortId = currentPortId;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
-    public YachtModel getYachtModelId() {
-        return yachtModelId;
+    public Port getCurrentPort() {
+        return currentPort;
     }
 
-    public void setYachtModelId(YachtModel yachtModelId) {
-        this.yachtModelId = yachtModelId;
+    public void setCurrentPort(Port currentPortId) {
+        this.currentPort = currentPortId;
     }
 
-    @XmlTransient
-    public Collection<Rental> getRentalCollection() {
-        return rentalCollection;
+    public YachtModel getYachtModel() {
+        return yachtModel;
     }
 
-    public void setRentalCollection(Collection<Rental> rentalCollection) {
-        this.rentalCollection = rentalCollection;
+    public void setYachtModel(YachtModel yachtModelId) {
+        this.yachtModel = yachtModelId;
+    }
+
+    public Collection<Rental> getRentals() {
+        return rentals;
+    }
+
+    public void setRentals(Collection<Rental> rentalCollection) {
+        this.rentals = rentalCollection;
     }
 
     @Override
@@ -190,5 +185,5 @@ public class Yacht implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht[ id=" + id + " ]";
     }
-
+    
 }

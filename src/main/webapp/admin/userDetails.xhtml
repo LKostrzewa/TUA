@@ -32,10 +32,13 @@
             <h:outputText value="#{userDetailsPageBean.userDetailsDTO.lastValidLogin}"/>
 
             <h:outputLabel value="#{msg['activated']}:"/>
-            <h:outputText value="#{userDetailsPageBean.userDetailsDTO.activated}"/>
+            <h:outputText value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDTO.activated}"/>
+            <h:outputText value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDTO.activated}"/>
 
             <h:outputLabel value="#{msg['locked']}:"/>
-            <h:outputText value="#{userDetailsPageBean.userDetailsDTO.locked}"/>
+            <h:outputText value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDTO.locked}"/>
+            <h:outputText value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDTO.locked}"/>
+
         </p:panelGrid>
         <p:commandButton value="#{msg['go_back']}" action="#{userDetailsPageBean.onFinish()}"/>
         <p:commandButton value="#{msg['edit']}"

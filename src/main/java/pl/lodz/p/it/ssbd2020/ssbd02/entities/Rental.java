@@ -5,70 +5,55 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
+import org.eclipse.persistence.annotations.Convert;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
+import javax.persistence.*;
 
-/**
- * @author Lukasz
- */
+
 @Entity
 @Table(name = "rental")
-@XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "Rental.findAll", query = "SELECT r FROM Rental r"),
-        @NamedQuery(name = "Rental.findById", query = "SELECT r FROM Rental r WHERE r.id = :id"),
-        @NamedQuery(name = "Rental.findByVersion", query = "SELECT r FROM Rental r WHERE r.version = :version"),
-        @NamedQuery(name = "Rental.findByBeginDate", query = "SELECT r FROM Rental r WHERE r.beginDate = :beginDate"),
-        @NamedQuery(name = "Rental.findByEndDate", query = "SELECT r FROM Rental r WHERE r.endDate = :endDate"),
-        @NamedQuery(name = "Rental.findByPrice", query = "SELECT r FROM Rental r WHERE r.price = :price")})
+    @NamedQuery(name = "Rental.findAll", query = "SELECT r FROM Rental r"),
+    @NamedQuery(name = "Rental.findById", query = "SELECT r FROM Rental r WHERE r.id = :id"),
+    @NamedQuery(name = "Rental.findByVersion", query = "SELECT r FROM Rental r WHERE r.version = :version"),
+    @NamedQuery(name = "Rental.findByBeginDate", query = "SELECT r FROM Rental r WHERE r.beginDate = :beginDate"),
+    @NamedQuery(name = "Rental.findByEndDate", query = "SELECT r FROM Rental r WHERE r.endDate = :endDate"),
+    @NamedQuery(name = "Rental.findByPrice", query = "SELECT r FROM Rental r WHERE r.price = :price")})
 public class Rental implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "version")
+    @Version
+    @Column(name = "version", nullable = false)
     private long version;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "business_key")
+    @Column(name = "business_key", nullable = false, unique = true)
+    @Convert("uuidConverter")
     private UUID businessKey;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "begin_date")
+    @Column(name = "begin_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date beginDate;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "end_date")
+    @Column(name = "end_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "rentalId")
+    @OneToOne(cascade = CascadeType.REFRESH, mappedBy = "rental")
     private Opinion opinion;
     @JoinColumn(name = "rental_status_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private RentalStatus rentalStatusId;
+    private RentalStatus rentalStatus;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User userId;
+    private User user;
     @JoinColumn(name = "yacht_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Yacht yachtId;
+    private Yacht yacht;
 
     public Rental() {
     }
@@ -142,28 +127,28 @@ public class Rental implements Serializable {
         this.opinion = opinion;
     }
 
-    public RentalStatus getRentalStatusId() {
-        return rentalStatusId;
+    public RentalStatus getRentalStatus() {
+        return rentalStatus;
     }
 
-    public void setRentalStatusId(RentalStatus rentalStatusId) {
-        this.rentalStatusId = rentalStatusId;
+    public void setRentalStatus(RentalStatus rentalStatusId) {
+        this.rentalStatus = rentalStatusId;
     }
 
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUser(User userId) {
+        this.user = userId;
     }
 
-    public Yacht getYachtId() {
-        return yachtId;
+    public Yacht getYacht() {
+        return yacht;
     }
 
-    public void setYachtId(Yacht yachtId) {
-        this.yachtId = yachtId;
+    public void setYacht(Yacht yachtId) {
+        this.yacht = yachtId;
     }
 
     @Override
@@ -190,4 +175,5 @@ public class Rental implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental[ id=" + id + " ]";
     }
+    
 }

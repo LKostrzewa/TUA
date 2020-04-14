@@ -5,50 +5,35 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.UUID;
+import org.eclipse.persistence.annotations.Convert;
 
-/**
- * @author Lukasz
- */
+import java.io.Serializable;
+import java.util.UUID;
+import javax.persistence.*;
+
 @Entity
 @Table(name = "rental_status")
-@XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "RentalStatus.findAll", query = "SELECT r FROM RentalStatus r"),
-        @NamedQuery(name = "RentalStatus.findById", query = "SELECT r FROM RentalStatus r WHERE r.id = :id"),
-        @NamedQuery(name = "RentalStatus.findByVersion", query = "SELECT r FROM RentalStatus r WHERE r.version = :version"),
-        @NamedQuery(name = "RentalStatus.findByName", query = "SELECT r FROM RentalStatus r WHERE r.name = :name")})
+    @NamedQuery(name = "RentalStatus.findAll", query = "SELECT r FROM RentalStatus r"),
+    @NamedQuery(name = "RentalStatus.findById", query = "SELECT r FROM RentalStatus r WHERE r.id = :id"),
+    @NamedQuery(name = "RentalStatus.findByVersion", query = "SELECT r FROM RentalStatus r WHERE r.version = :version"),
+    @NamedQuery(name = "RentalStatus.findByName", query = "SELECT r FROM RentalStatus r WHERE r.name = :name")})
 public class RentalStatus implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "version")
+    @Version
+    @Column(name = "version", nullable = false)
     private long version;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "business_key")
+    @Column(name = "business_key", nullable = false, unique = true)
+    @Convert("uuidConverter")
     private UUID businessKey;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 32)
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 32)
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rentalStatusId")
-    private Collection<Rental> rentalCollection;
+    /*@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "rentalStatusId")
+    private Collection<Rental> rentalCollection;*/
 
     public RentalStatus() {
     }
@@ -96,14 +81,14 @@ public class RentalStatus implements Serializable {
         this.name = name;
     }
 
-    @XmlTransient
-    public Collection<Rental> getRentalCollection() {
+    //@XmlTransient
+    /*public Collection<Rental> getRentalCollection() {
         return rentalCollection;
     }
 
     public void setRentalCollection(Collection<Rental> rentalCollection) {
         this.rentalCollection = rentalCollection;
-    }
+    }*/
 
     @Override
     public int hashCode() {
@@ -129,4 +114,5 @@ public class RentalStatus implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.RentalStatus[ id=" + id + " ]";
     }
+    
 }

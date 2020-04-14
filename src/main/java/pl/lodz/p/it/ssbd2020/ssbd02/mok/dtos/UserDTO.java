@@ -1,8 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
+import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.Objects;
 
 public class UserDTO implements Comparable<UserDTO> {
+
     private String login;
     private String password;
     private String email;
@@ -168,6 +171,7 @@ public class UserDTO implements Comparable<UserDTO> {
         return result;
     }
 
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -179,6 +183,7 @@ public class UserDTO implements Comparable<UserDTO> {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
+
 
     @Override
     public int compareTo(UserDTO userDTO) {
