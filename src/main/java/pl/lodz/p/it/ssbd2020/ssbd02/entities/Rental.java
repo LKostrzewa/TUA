@@ -5,36 +5,17 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
+import org.eclipse.persistence.annotations.Convert;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.*;
 
-/**
- *
- * @author Lukasz
- */
+
 @Entity
 @Table(name = "rental")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Rental.findAll", query = "SELECT r FROM Rental r"),
     @NamedQuery(name = "Rental.findById", query = "SELECT r FROM Rental r WHERE r.id = :id"),
@@ -44,37 +25,25 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Rental.findByPrice", query = "SELECT r FROM Rental r WHERE r.price = :price")})
 public class Rental implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "version")
+    @Version
+    @Column(name = "version", nullable = false)
     private long version;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "business_key")
+    @Column(name = "business_key", nullable = false, unique = true)
+    @Convert("uuidConverter")
     private UUID businessKey;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "begin_date")
+    @Column(name = "begin_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date beginDate;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "end_date")
+    @Column(name = "end_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "rentalId")
+    @OneToOne(cascade = CascadeType.REFRESH, mappedBy = "rentalId")
     private Opinion opinion;
     @JoinColumn(name = "rental_status_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

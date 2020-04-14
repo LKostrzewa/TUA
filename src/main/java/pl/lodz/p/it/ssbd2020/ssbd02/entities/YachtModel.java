@@ -5,34 +5,16 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
+import org.eclipse.persistence.annotations.Convert;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.UUID;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.persistence.*;
 
-/**
- *
- * @author Lukasz
- */
 @Entity
 @Table(name = "yacht_model")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "YachtModel.findAll", query = "SELECT y FROM YachtModel y"),
     @NamedQuery(name = "YachtModel.findById", query = "SELECT y FROM YachtModel y WHERE y.id = :id"),
@@ -44,53 +26,32 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "YachtModel.findByBasicPrice", query = "SELECT y FROM YachtModel y WHERE y.basicPrice = :basicPrice")})
 public class YachtModel implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "version")
+    @Version
+    @Column(name = "version", nullable = false)
     private long version;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "business_key")
+    @Column(name = "business_key", nullable = false, unique = true)
+    @Convert("uuidConverter")
     private UUID businessKey;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 32)
-    @Column(name = "manufacturer")
+    @Column(name = "manufacturer", nullable = false, length = 32)
     private String manufacturer;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 32)
-    @Column(name = "model")
+    @Column(name = "model", nullable = false, length = 32)
     private String model;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "capacity")
+    @Column(name = "capacity", nullable = false)
     private int capacity;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 4096)
-    @Column(name = "general_description")
+    @Column(name = "general_description", nullable = false, length = 4096)
     private String generalDescription;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "basic_price")
+    @Column(name = "basic_price", nullable = false)
     private BigDecimal basicPrice;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "active")
+    @Column(name = "active", nullable = false)
     private boolean active;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "yachtModelId")
+    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "yachtModelId")
     private Collection<Image> imageCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "yachtModelId")
-    private Collection<Yacht> yachtCollection;
+    /*@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "yachtModelId")
+    private Collection<Yacht> yachtCollection;*/
 
     public YachtModel() {
     }
@@ -174,7 +135,14 @@ public class YachtModel implements Serializable {
         this.basicPrice = basicPrice;
     }
 
-    @XmlTransient
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public Collection<Image> getImageCollection() {
         return imageCollection;
     }
@@ -183,14 +151,14 @@ public class YachtModel implements Serializable {
         this.imageCollection = imageCollection;
     }
 
-    @XmlTransient
-    public Collection<Yacht> getYachtCollection() {
+    //@XmlTransient
+    /*public Collection<Yacht> getYachtCollection() {
         return yachtCollection;
     }
 
     public void setYachtCollection(Collection<Yacht> yachtCollection) {
         this.yachtCollection = yachtCollection;
-    }
+    }*/
 
     @Override
     public int hashCode() {

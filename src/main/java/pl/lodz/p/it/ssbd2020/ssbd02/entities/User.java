@@ -13,21 +13,14 @@ import java.util.UUID;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import org.eclipse.persistence.annotations.Convert;
 import org.eclipse.persistence.annotations.TypeConverter;
 
 
-/**
- *
- * @author Lukasz
- */
 @Entity
 @Table(name = "\"user\"")
 @SecondaryTable(name="user_details", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id"))
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
@@ -40,54 +33,32 @@ import org.eclipse.persistence.annotations.TypeConverter;
     @NamedQuery(name = "User.findByCreated", query = "SELECT u FROM User u WHERE u.created = :created"),
     @NamedQuery(name = "User.findByLastValidLogin", query = "SELECT u FROM User u WHERE u.lastValidLogin = :lastValidLogin"),
     @NamedQuery(name = "User.findByLastInvalidLogin", query = "SELECT u FROM User u WHERE u.lastInvalidLogin = :lastInvalidLogin"),
-    @NamedQuery(name = "User.findByInvalidLoginAttemps", query = "SELECT u FROM User u WHERE u.invalidLoginAttemps = :invalidLoginAttemps")})
+    @NamedQuery(name = "User.findByInvalidLoginAttempts", query = "SELECT u FROM User u WHERE u.invalidLoginAttempts = :invalidLoginAttemps")})
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
-    @Basic(optional = false)
-    @NotNull
     @Version
-    @Column(name = "version")
+    @Column(name = "version", nullable = false)
     private long version;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "business_key")
+    @Column(name = "business_key", nullable = false, unique = true)
     @Convert("uuidConverter")
     @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
     private UUID businessKey;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 32)
-    @Column(name = "login")
+    @Column(name = "login", nullable = false, length = 32)
     private String login;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 64)
-    @Column(name = "password")
+    @Column(name = "password", nullable = false, length = 64)
     private String password;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 64)
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true, length = 64)
     private String email;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "locked")
+    @Column(name = "locked", nullable = false)
     private boolean locked;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "activated")
+    @Column(name = "activated", nullable = false)
     private boolean activated;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "created")
+    @Column(name = "created", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     @Column(name = "last_valid_login")
@@ -96,20 +67,21 @@ public class User implements Serializable {
     @Column(name = "last_invalid_login")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastInvalidLogin;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "invalid_login_attempts")
-    private int invalidLoginAttemps;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "activation_code")
+    @Column(name = "invalid_login_attempts", nullable = false)
+    private int invalidLoginAttempts;
+    @Column(name = "activation_code", nullable = false)
     @Convert("uuidConverter")
     private UUID activationCode;
-    @Lob
-    @Column(name = "reset_password_code")
+    @Column(name = "reset_password_code", nullable = false)
     @Convert("uuidConverter")
     private UUID resetPasswordCode;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    private Collection<UserAccessLevel> userAccessLevelCollection = new ArrayList<>();
+    /*@ManyToMany
+    @JoinTable(name = "user_access_level",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "access_level_id"))
+    Collection<AccessLevel> accessLevels = new ArrayList<>();*/
 
 
 
@@ -117,8 +89,6 @@ public class User implements Serializable {
 
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
 //    private Collection<UserDetails> userDetailsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Collection<UserAccessLevel> userAccessLevelCollection = new ArrayList<>();
 
 
 
@@ -129,30 +99,19 @@ public class User implements Serializable {
 
 
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "version", table = "user_details")
+
+
+    @Column(name = "version", table = "user_details", nullable = false)
     private long version_user_details;
-
-
-
-
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "business_key", table = "user_details")
+    @Column(name = "business_key", table = "user_details", nullable = false, unique = true, updatable = false)
     @Convert("uuidConverter")
     private UUID businessKey_user_details;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 32)
-    @Column(name = "first_name", table = "user_details")
+    @Column(name = "first_name", table = "user_details", nullable = false, length = 32)
     private String firstName;
     @Size(max = 32)
-    @Column(name = "last_name", table = "user_details")
+    @Column(name = "last_name", table = "user_details", nullable = false, length = 32)
     private String lastName;
-    @Size(max = 10)
-    @Column(name = "phone_number", table = "user_details")
+    @Column(name = "phone_number", table = "user_details", nullable = false, length = 10)
     private String phoneNumber;
 
     public User() {
@@ -162,7 +121,7 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Long id, long version, UUID businessKey, String login, String password, String email, boolean locked, boolean activated, Date created, int invalidLoginAttemps) {
+    public User(Long id, long version, UUID businessKey, String login, String password, String email, boolean locked, boolean activated, Date created, int invalidLoginAttempts) {
         this.id = id;
         this.version = version;
         this.businessKey = businessKey;
@@ -172,7 +131,7 @@ public class User implements Serializable {
         this.locked = locked;
         this.activated = activated;
         this.created = created;
-        this.invalidLoginAttemps = invalidLoginAttemps;
+        this.invalidLoginAttempts = invalidLoginAttempts;
     }
 
     public Long getId() {
@@ -263,12 +222,12 @@ public class User implements Serializable {
         this.lastInvalidLogin = lastInvalidLogin;
     }
 
-    public int getInvalidLoginAttemps() {
-        return invalidLoginAttemps;
+    public int getInvalidLoginAttempts() {
+        return invalidLoginAttempts;
     }
 
-    public void setInvalidLoginAttemps(int invalidLoginAttemps) {
-        this.invalidLoginAttemps = invalidLoginAttemps;
+    public void setInvalidLoginAttempts(int invalidLoginAttempts) {
+        this.invalidLoginAttempts = invalidLoginAttempts;
     }
 
     public UUID getActivationCode() {
@@ -287,7 +246,6 @@ public class User implements Serializable {
         this.resetPasswordCode = resetPasswordCode;
     }
 
-    //    @XmlTransient
 //    public Collection<UserDetails> getUserDetailsCollection() {
 //        return userDetailsCollection;
 //    }
@@ -296,7 +254,6 @@ public class User implements Serializable {
 //        this.userDetailsCollection = userDetailsCollection;
 //    }
 
-    //@XmlTransient
     public Collection<UserAccessLevel> getUserAccessLevelCollection() {
         return userAccessLevelCollection;
     }
@@ -304,6 +261,14 @@ public class User implements Serializable {
     public void setUserAccessLevelCollection(Collection<UserAccessLevel> userAccessLevelCollection) {
         this.userAccessLevelCollection = userAccessLevelCollection;
     }
+
+    /*public Collection<AccessLevel> getAccessLevels() {
+        return accessLevels;
+    }
+
+    public void setAccessLevels(Collection<AccessLevel> accessLevels) {
+        this.accessLevels = accessLevels;
+    }*/
 
     @Override
     public int hashCode() {
@@ -325,9 +290,9 @@ public class User implements Serializable {
         return true;
     }
 
-    public static long getSerialVersionUID() {
+    /*public static long getSerialVersionUID() {
         return serialVersionUID;
-    }
+    }*/
 
     public boolean isLocked() {
         return locked;
