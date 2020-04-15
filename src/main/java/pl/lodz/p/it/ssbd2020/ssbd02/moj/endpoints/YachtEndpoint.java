@@ -21,7 +21,6 @@ import java.util.List;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class YachtEndpoint implements Serializable {
-
     @Inject
     private YachtManager yachtManager;
 

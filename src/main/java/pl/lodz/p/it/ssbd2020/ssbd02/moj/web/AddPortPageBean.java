@@ -12,10 +12,8 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class AddPortPageBean {
-
     @Inject
     private PortEndpoint portEndpoint;
-
     private NewPortDto newPortDto;
 
     @PostConstruct
@@ -23,7 +21,7 @@ public class AddPortPageBean {
         newPortDto = new NewPortDto();
     }
 
-    public String addPort(){
+    public String addPort() {
         portEndpoint.addPort(newPortDto);
         return "/manager/listPorts.xhtml?faces-redirect=true";
     }

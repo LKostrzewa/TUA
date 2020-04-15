@@ -21,16 +21,12 @@ import java.util.UUID;
 @Interceptors(LoggerInterceptor.class)
 public class UserManager {
     public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
-
     @Inject
     private UserAccessLevelFacade userAccessLevelFacade;
-
     @Inject
     private AccessLevelFacade accessLevelFacade;
-
     @Inject
     private UserFacade userFacade;
-
     @Inject
     private BCryptPasswordHash bCryptPasswordHash;
 
@@ -76,23 +72,23 @@ public class UserManager {
         return userFacade.findAll();
     }
 
-    public User find(Long id) {
+    public User getUserById(Long id) {
         return userFacade.find(id);
     }
 
     public void editUser(User user) {
         User userFromRepository = userFacade.find(user.getId());
-        userFromRepository.setEmail(user.getEmail());
-        userFromRepository.setFirstName(user.getFirstName());
-        userFromRepository.setLastName(user.getLastName());
-        userFromRepository.setPhoneNumber(user.getPhoneNumber());
+        userFromRepository.setEmail(userFromRepository.getEmail());
+        userFromRepository.setFirstName(userFromRepository.getFirstName());
+        userFromRepository.setLastName(userFromRepository.getLastName());
+        userFromRepository.setPhoneNumber(userFromRepository.getPhoneNumber());
         userFacade.edit(userFromRepository);
     }
 
-    public void editPassword(User user) {
+    public void editUserPassword(User user) {
         User userFromRepository = userFacade.find(user.getId());
         BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
-        String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
+        String passwordHash = bCryptPasswordHash.generate(userFromRepository.getPassword().toCharArray());
         userFromRepository.setPassword(passwordHash);
         userFacade.edit(userFromRepository);
     }

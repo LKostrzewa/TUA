@@ -29,19 +29,14 @@ import static javax.security.enterprise.authentication.mechanism.http.Authentica
 @SessionScoped
 @Interceptors(LoggerInterceptor.class)
 public class LoginBean implements Serializable {
-
     @Inject
     private SecurityContext securityContext;
-
     @Inject
     private FacesContext facesContext;
-
     @Inject
     private ExternalContext externalContext;
-
     @NotBlank(message = "{username.message}")
     private String username;
-
     @NotBlank(message = "{password.message}")
     private String password;
 

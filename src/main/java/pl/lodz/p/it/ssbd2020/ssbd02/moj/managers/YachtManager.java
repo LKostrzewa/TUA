@@ -14,7 +14,6 @@ import java.util.List;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class YachtManager {
-
     @Inject
     private YachtFacade yachtFacade;
 

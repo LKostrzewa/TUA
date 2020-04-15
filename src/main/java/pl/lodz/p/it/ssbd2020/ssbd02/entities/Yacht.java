@@ -7,24 +7,24 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import org.eclipse.persistence.annotations.Convert;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
-import javax.persistence.*;
 
 @Entity
 @Table(name = "yacht")
 @NamedQueries({
-    @NamedQuery(name = "Yacht.findAll", query = "SELECT y FROM Yacht y"),
-    @NamedQuery(name = "Yacht.findById", query = "SELECT y FROM Yacht y WHERE y.id = :id"),
-    @NamedQuery(name = "Yacht.findByVersion", query = "SELECT y FROM Yacht y WHERE y.version = :version"),
-    @NamedQuery(name = "Yacht.findByName", query = "SELECT y FROM Yacht y WHERE y.name = :name"),
-    @NamedQuery(name = "Yacht.findByProductionYear", query = "SELECT y FROM Yacht y WHERE y.productionYear = :productionYear"),
-    @NamedQuery(name = "Yacht.findByPriceMultiplier", query = "SELECT y FROM Yacht y WHERE y.priceMultiplier = :priceMultipler"),
-    @NamedQuery(name = "Yacht.findByCondition", query = "SELECT y FROM Yacht y WHERE y.equipment = :condition"),
-    @NamedQuery(name = "Yacht.findByAvgRating", query = "SELECT y FROM Yacht y WHERE y.avgRating = :avgRating")})
+        @NamedQuery(name = "Yacht.findAll", query = "SELECT y FROM Yacht y"),
+        @NamedQuery(name = "Yacht.findById", query = "SELECT y FROM Yacht y WHERE y.id = :id"),
+        @NamedQuery(name = "Yacht.findByVersion", query = "SELECT y FROM Yacht y WHERE y.version = :version"),
+        @NamedQuery(name = "Yacht.findByName", query = "SELECT y FROM Yacht y WHERE y.name = :name"),
+        @NamedQuery(name = "Yacht.findByProductionYear", query = "SELECT y FROM Yacht y WHERE y.productionYear = :productionYear"),
+        @NamedQuery(name = "Yacht.findByPriceMultiplier", query = "SELECT y FROM Yacht y WHERE y.priceMultiplier = :priceMultipler"),
+        @NamedQuery(name = "Yacht.findByCondition", query = "SELECT y FROM Yacht y WHERE y.equipment = :condition"),
+        @NamedQuery(name = "Yacht.findByAvgRating", query = "SELECT y FROM Yacht y WHERE y.avgRating = :avgRating")})
 public class Yacht implements Serializable {
 
     @Id
@@ -185,5 +185,5 @@ public class Yacht implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht[ id=" + id + " ]";
     }
-    
+
 }

@@ -7,19 +7,19 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import org.eclipse.persistence.annotations.Convert;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
-import javax.persistence.*;
 
 @Entity
 @Table(name = "access_level")
 @NamedQueries({
-    @NamedQuery(name = "AccessLevel.findAll", query = "SELECT a FROM AccessLevel a"),
-    @NamedQuery(name = "AccessLevel.findById", query = "SELECT a FROM AccessLevel a WHERE a.id = :id"),
-    @NamedQuery(name = "AccessLevel.findByVersion", query = "SELECT a FROM AccessLevel a WHERE a.version = :version"),
-    @NamedQuery(name = "AccessLevel.findByName", query = "SELECT a FROM AccessLevel a WHERE a.name = :name")})
+        @NamedQuery(name = "AccessLevel.findAll", query = "SELECT a FROM AccessLevel a"),
+        @NamedQuery(name = "AccessLevel.findById", query = "SELECT a FROM AccessLevel a WHERE a.id = :id"),
+        @NamedQuery(name = "AccessLevel.findByVersion", query = "SELECT a FROM AccessLevel a WHERE a.version = :version"),
+        @NamedQuery(name = "AccessLevel.findByName", query = "SELECT a FROM AccessLevel a WHERE a.name = :name")})
 public class AccessLevel implements Serializable {
 
     @Id
@@ -126,5 +126,5 @@ public class AccessLevel implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel[ id=" + id + " ]";
     }
-    
+
 }

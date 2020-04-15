@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
-public class ChangePasswordDTO {
+public class ChangePasswordDto {
     private long id;
     private String password;
     private String confirmPassword;

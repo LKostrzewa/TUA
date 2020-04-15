@@ -1,41 +1,40 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ChangePasswordDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ChangePasswordDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
 @Named
 @ConversationScoped
-public class ChangePasswordPageBean implements Serializable{
+public class ChangePasswordPageBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
     @Inject
     UserDetailsPageBean userDetailsPageBean;
-    private ChangePasswordDTO changePasswordDTO;
+    private ChangePasswordDto changePasswordDto;
 
-    public ChangePasswordDTO getChangePasswordDTO() {
-        return changePasswordDTO;
+    public ChangePasswordDto getChangePasswordDto() {
+        return changePasswordDto;
     }
 
-    public void setChangePasswordDTO(ChangePasswordDTO changePasswordDTO) {
-        this.changePasswordDTO = changePasswordDTO;
+    public void setChangePasswordDto(ChangePasswordDto changePasswordDto) {
+        this.changePasswordDto = changePasswordDto;
     }
 
     public String onClick() {
-        User user = userEndpoint.find(userDetailsPageBean.getUserDetailsDTO().getId());
-        this.changePasswordDTO = ObjectMapperUtils.map(user, ChangePasswordDTO.class);
+        User user = userEndpoint.getUserById(userDetailsPageBean.getUserDetailsDto().getId());
+        this.changePasswordDto = ObjectMapperUtils.map(user, ChangePasswordDto.class);
         return "changePassword.xhtml?faces-redirect=true";
     }
 
     public String onFinish() {
-        userEndpoint.editPassword(changePasswordDTO);
+        userEndpoint.editUserPassword(changePasswordDto);
         userDetailsPageBean.refresh();
         return "userDetails.xhtml?faces-redirect=true";
     }

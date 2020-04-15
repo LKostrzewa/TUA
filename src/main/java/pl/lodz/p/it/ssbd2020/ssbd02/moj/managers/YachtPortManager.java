@@ -2,7 +2,6 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.facade.PortFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.ejb.LocalBean;
@@ -21,12 +20,12 @@ public class YachtPortManager {
     @Inject
     private YachtManager yachtManager;
 
-    public List<Yacht> getAllYachtsByPort(Long portId){
+    public List<Yacht> getAllYachtsByPort(Long portId) {
         Port port = portManager.getPortById(portId);
-        return (List<Yacht>)port.getYachts();
+        return (List<Yacht>) port.getYachts();
     }
 
-    public void assignYachtToPort(Long portId, Long yachtId){
+    public void assignYachtToPort(Long portId, Long yachtId) {
         Port port = portManager.getPortById(portId);
         Yacht yacht = yachtManager.getYachtById(yachtId);
         yacht.setCurrentPort(port);
@@ -38,7 +37,7 @@ public class YachtPortManager {
         yachtManager.updateYacht(yachtId, yacht);
     }
 
-    public void retractYachtFromPort(Long portId, Long yachtId){
+    public void retractYachtFromPort(Long portId, Long yachtId) {
         Port port = portManager.getPortById(portId);
         Yacht yacht = yachtManager.getYachtById(yachtId);
         yacht.setCurrentPort(null);

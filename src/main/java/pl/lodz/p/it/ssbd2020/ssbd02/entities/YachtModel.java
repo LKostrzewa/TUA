@@ -7,24 +7,24 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import org.eclipse.persistence.annotations.Convert;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
-import javax.persistence.*;
 
 @Entity
 @Table(name = "yacht_model")
 @NamedQueries({
-    @NamedQuery(name = "YachtModel.findAll", query = "SELECT y FROM YachtModel y"),
-    @NamedQuery(name = "YachtModel.findById", query = "SELECT y FROM YachtModel y WHERE y.id = :id"),
-    @NamedQuery(name = "YachtModel.findByVersion", query = "SELECT y FROM YachtModel y WHERE y.version = :version"),
-    @NamedQuery(name = "YachtModel.findByManufacturer", query = "SELECT y FROM YachtModel y WHERE y.manufacturer = :manufacturer"),
-    @NamedQuery(name = "YachtModel.findByModel", query = "SELECT y FROM YachtModel y WHERE y.model = :model"),
-    @NamedQuery(name = "YachtModel.findByCapacity", query = "SELECT y FROM YachtModel y WHERE y.capacity = :capacity"),
-    @NamedQuery(name = "YachtModel.findByGeneralDescription", query = "SELECT y FROM YachtModel y WHERE y.generalDescription = :generalDescription"),
-    @NamedQuery(name = "YachtModel.findByBasicPrice", query = "SELECT y FROM YachtModel y WHERE y.basicPrice = :basicPrice")})
+        @NamedQuery(name = "YachtModel.findAll", query = "SELECT y FROM YachtModel y"),
+        @NamedQuery(name = "YachtModel.findById", query = "SELECT y FROM YachtModel y WHERE y.id = :id"),
+        @NamedQuery(name = "YachtModel.findByVersion", query = "SELECT y FROM YachtModel y WHERE y.version = :version"),
+        @NamedQuery(name = "YachtModel.findByManufacturer", query = "SELECT y FROM YachtModel y WHERE y.manufacturer = :manufacturer"),
+        @NamedQuery(name = "YachtModel.findByModel", query = "SELECT y FROM YachtModel y WHERE y.model = :model"),
+        @NamedQuery(name = "YachtModel.findByCapacity", query = "SELECT y FROM YachtModel y WHERE y.capacity = :capacity"),
+        @NamedQuery(name = "YachtModel.findByGeneralDescription", query = "SELECT y FROM YachtModel y WHERE y.generalDescription = :generalDescription"),
+        @NamedQuery(name = "YachtModel.findByBasicPrice", query = "SELECT y FROM YachtModel y WHERE y.basicPrice = :basicPrice")})
 public class YachtModel implements Serializable {
 
     @Id
@@ -185,5 +185,5 @@ public class YachtModel implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel[ id=" + id + " ]";
     }
-    
+
 }

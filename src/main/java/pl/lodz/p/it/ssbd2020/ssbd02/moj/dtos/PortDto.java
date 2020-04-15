@@ -4,7 +4,6 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos;
 import java.math.BigDecimal;
 
 public class PortDto {
-
     private Long id;
     private String name;
     private String lake;

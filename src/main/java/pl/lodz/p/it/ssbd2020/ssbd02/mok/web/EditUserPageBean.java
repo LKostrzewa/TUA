@@ -1,7 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.EditUserDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.EditUserDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
@@ -17,24 +17,24 @@ public class EditUserPageBean implements Serializable {
     private UserEndpoint userEndpoint;
     @Inject
     UserDetailsPageBean userDetailsPageBean;
-    private EditUserDTO editUserDTO;
+    private EditUserDto editUserDto;
 
-    public EditUserDTO getEditUserDTO() {
-        return editUserDTO;
+    public EditUserDto getEditUserDto() {
+        return editUserDto;
     }
 
-    public void setEditUserDTO(EditUserDTO editUserDTO) {
-        this.editUserDTO = editUserDTO;
+    public void setEditUserDto(EditUserDto editUserDto) {
+        this.editUserDto = editUserDto;
     }
 
     public String onClick() {
-        User user = userEndpoint.find(userDetailsPageBean.getUserDetailsDTO().getId());
-        this.editUserDTO = ObjectMapperUtils.map(user, EditUserDTO.class);
+        User user = userEndpoint.getUserById(userDetailsPageBean.getUserDetailsDto().getId());
+        this.editUserDto = ObjectMapperUtils.map(user, EditUserDto.class);
         return "editUser.xhtml?faces-redirect=true";
     }
 
     public String onFinish() {
-        userEndpoint.editUser(editUserDTO);
+        userEndpoint.editUser(editUserDto);
         userDetailsPageBean.refresh();
         return "userDetails.xhtml?faces-redirect=true";
     }

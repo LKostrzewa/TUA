@@ -7,17 +7,17 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import org.eclipse.persistence.annotations.Convert;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
-import javax.persistence.*;
 
 @Entity
 @Table(name = "rental_status")
 @NamedQueries({
-    @NamedQuery(name = "RentalStatus.findAll", query = "SELECT r FROM RentalStatus r"),
-    @NamedQuery(name = "RentalStatus.findById", query = "SELECT r FROM RentalStatus r WHERE r.id = :id"),
-    @NamedQuery(name = "RentalStatus.findByVersion", query = "SELECT r FROM RentalStatus r WHERE r.version = :version"),
-    @NamedQuery(name = "RentalStatus.findByName", query = "SELECT r FROM RentalStatus r WHERE r.name = :name")})
+        @NamedQuery(name = "RentalStatus.findAll", query = "SELECT r FROM RentalStatus r"),
+        @NamedQuery(name = "RentalStatus.findById", query = "SELECT r FROM RentalStatus r WHERE r.id = :id"),
+        @NamedQuery(name = "RentalStatus.findByVersion", query = "SELECT r FROM RentalStatus r WHERE r.version = :version"),
+        @NamedQuery(name = "RentalStatus.findByName", query = "SELECT r FROM RentalStatus r WHERE r.name = :name")})
 public class RentalStatus implements Serializable {
 
     @Id
@@ -114,5 +114,5 @@ public class RentalStatus implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.RentalStatus[ id=" + id + " ]";
     }
-    
+
 }

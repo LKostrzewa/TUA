@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
-public class NewUserDTO {
+public class AddUserDto {
     private String login;
     private String password;
     private String email;
@@ -8,7 +8,7 @@ public class NewUserDTO {
     private String lastName;
     private String phoneNumber;
 
-    public NewUserDTO() {
+    public AddUserDto() {
     }
 
     public String getLogin() {

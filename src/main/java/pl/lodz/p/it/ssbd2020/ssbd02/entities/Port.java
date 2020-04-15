@@ -7,24 +7,24 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import org.eclipse.persistence.annotations.Convert;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
-import javax.persistence.*;
 
 @Entity
 @Table(name = "port")
 @NamedQueries({
-    @NamedQuery(name = "Port.findAll", query = "SELECT p FROM Port p"),
-    @NamedQuery(name = "Port.findById", query = "SELECT p FROM Port p WHERE p.id = :id"),
-    @NamedQuery(name = "Port.findByVersion", query = "SELECT p FROM Port p WHERE p.version = :version"),
-    @NamedQuery(name = "Port.findByName", query = "SELECT p FROM Port p WHERE p.name = :name"),
-    @NamedQuery(name = "Port.findByLake", query = "SELECT p FROM Port p WHERE p.lake = :lake"),
-    @NamedQuery(name = "Port.findByNearestCity", query = "SELECT p FROM Port p WHERE p.nearestCity = :nearestCity"),
-    @NamedQuery(name = "Port.findByLong1", query = "SELECT p FROM Port p WHERE p.long1 = :long1"),
-    @NamedQuery(name = "Port.findByLat", query = "SELECT p FROM Port p WHERE p.lat = :lat")})
+        @NamedQuery(name = "Port.findAll", query = "SELECT p FROM Port p"),
+        @NamedQuery(name = "Port.findById", query = "SELECT p FROM Port p WHERE p.id = :id"),
+        @NamedQuery(name = "Port.findByVersion", query = "SELECT p FROM Port p WHERE p.version = :version"),
+        @NamedQuery(name = "Port.findByName", query = "SELECT p FROM Port p WHERE p.name = :name"),
+        @NamedQuery(name = "Port.findByLake", query = "SELECT p FROM Port p WHERE p.lake = :lake"),
+        @NamedQuery(name = "Port.findByNearestCity", query = "SELECT p FROM Port p WHERE p.nearestCity = :nearestCity"),
+        @NamedQuery(name = "Port.findByLong1", query = "SELECT p FROM Port p WHERE p.long1 = :long1"),
+        @NamedQuery(name = "Port.findByLat", query = "SELECT p FROM Port p WHERE p.lat = :lat")})
 public class Port implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class Port implements Serializable {
     private UUID businessKey;
     @Column(name = "name", nullable = false, length = 64)
     private String name;
-    @Column(name = "lake",nullable = false, length = 32)
+    @Column(name = "lake", nullable = false, length = 32)
     private String lake;
     @Column(name = "nearest_city", length = 32, nullable = false)
     private String nearestCity;

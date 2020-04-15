@@ -12,10 +12,8 @@ import java.util.List;
 @Named
 @RequestScoped
 public class ListPortsPageBean {
-
     @Inject
     private PortEndpoint portEndpoint;
-
     private List<PortDto> ports;
 
     @PostConstruct

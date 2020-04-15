@@ -20,7 +20,6 @@ import java.util.List;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class PortEndpoint implements Serializable {
-
     @Inject
     private PortManager portManager;
 

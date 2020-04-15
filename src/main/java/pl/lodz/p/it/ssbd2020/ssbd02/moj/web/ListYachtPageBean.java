@@ -14,10 +14,8 @@ import java.util.List;
 @Named
 @ViewScoped
 public class ListYachtPageBean implements Serializable {
-
     @Inject
     private YachtEndpoint yachtEndpoint;
-
     private List<YachtListDto> yachts;
 
     @PostConstruct

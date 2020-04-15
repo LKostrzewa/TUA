@@ -21,32 +21,32 @@ public class UserEndpoint implements Serializable {
     @Inject
     private UserManager userManager;
 
-    public void registerNewUser(UserDTO userDTO) {
+    public void registerNewUser(UserDto userDTO) {
         User user = ObjectMapperUtils.map(userDTO, User.class);
         userManager.registerNewUser(user);
 
     }
 
-    public void addNewUser(NewUserDTO userDTO) {
+    public void addNewUser(AddUserDto userDTO) {
         User user = ObjectMapperUtils.map(userDTO, User.class);
         userManager.addNewUser(user);
     }
 
-    public List<UsersListDTO> getAll() {
-        return ObjectMapperUtils.mapAll(userManager.getAll(), UsersListDTO.class);
+    public List<ListUsersDto> getAll() {
+        return ObjectMapperUtils.mapAll(userManager.getAll(), ListUsersDto.class);
     }
 
-    public User find(Long id) {
-        return userManager.find(id);
+    public User getUserById(Long id) {
+        return userManager.getUserById(id);
     }
 
-    public void editUser(EditUserDTO editUserDTO) {
-        User user = ObjectMapperUtils.map(editUserDTO, User.class);
+    public void editUser(EditUserDto editUserDto) {
+        User user = ObjectMapperUtils.map(editUserDto, User.class);
         userManager.editUser(user);
     }
 
-    public void editPassword(ChangePasswordDTO changePasswordDTO) {
-        User user = ObjectMapperUtils.map(changePasswordDTO, User.class);
-        userManager.editPassword(user);
+    public void editUserPassword(ChangePasswordDto changePasswordDto) {
+        User user = ObjectMapperUtils.map(changePasswordDto, User.class);
+        userManager.editUserPassword(user);
     }
 }

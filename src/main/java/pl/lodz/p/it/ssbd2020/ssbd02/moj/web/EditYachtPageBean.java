@@ -14,14 +14,11 @@ import java.io.Serializable;
 @Named
 @ConversationScoped
 public class EditYachtPageBean implements Serializable {
-
     @Inject
     private YachtEndpoint yachtEndpoint;
     @Inject
     private Conversation conversation;
-
     private Long yachtID;
-
     private UpdateYachtDto updateYachtDto;
 
     public String openEditYachtPage(Long yachtID) {
