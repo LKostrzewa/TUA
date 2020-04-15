@@ -1,8 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
-import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.Objects;
 
 public class UserDTO implements Comparable<UserDTO> {
 
@@ -14,7 +12,7 @@ public class UserDTO implements Comparable<UserDTO> {
     private Date created;
     private Date lastValidLogin;
     private Date lastInvalidLogin;
-    private int invalidLoginAttemps;
+    private int invalidLoginAttempts;
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -33,7 +31,7 @@ public class UserDTO implements Comparable<UserDTO> {
 
     public UserDTO(String login, String password, String email, boolean locked,
                    boolean activated, Date created, Date lastValidLogin, Date lastInvalidLogin,
-                   int invalidLoginAttemps, String firstName, String lastName, String phoneNumber) {
+                   int invalidLoginAttempts, String firstName, String lastName, String phoneNumber) {
         this.login = login;
         this.password = password;
         this.email = email;
@@ -42,7 +40,7 @@ public class UserDTO implements Comparable<UserDTO> {
         this.created = created;
         this.lastValidLogin = lastValidLogin;
         this.lastInvalidLogin = lastInvalidLogin;
-        this.invalidLoginAttemps = invalidLoginAttemps;
+        this.invalidLoginAttempts = invalidLoginAttempts;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
@@ -113,12 +111,12 @@ public class UserDTO implements Comparable<UserDTO> {
         this.lastInvalidLogin = lastInvalidLogin;
     }
 
-    public int getInvalidLoginAttemps() {
-        return invalidLoginAttemps;
+    public int getInvalidLoginAttempts() {
+        return invalidLoginAttempts;
     }
 
-    public void setInvalidLoginAttemps(int invalidLoginAttemps) {
-        this.invalidLoginAttemps = invalidLoginAttemps;
+    public void setInvalidLoginAttempts(int invalidLoginAttempts) {
+        this.invalidLoginAttempts = invalidLoginAttempts;
     }
 
     public String getFirstName() {
