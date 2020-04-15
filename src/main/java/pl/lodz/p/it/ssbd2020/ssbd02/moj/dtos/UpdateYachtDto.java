@@ -3,7 +3,6 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos;
 public class UpdateYachtDto {
 
     private String name;
-    private Long yachtModelId;
     private Float priceMultiplier;
     private String equipment;
 
@@ -15,20 +14,12 @@ public class UpdateYachtDto {
         this.name = name;
     }
 
-    public Long getYachtModelId() {
-        return yachtModelId;
-    }
-
-    public void setYachtModelId(Long yachtModelId) {
-        this.yachtModelId = yachtModelId;
-    }
-
-    public Float getPriceMultipler() {
+    public Float getPriceMultiplier() {
         return priceMultiplier;
     }
 
-    public void setPriceMultipler(Float priceMultipler) {
-        this.priceMultiplier = priceMultipler;
+    public void setPriceMultiplier(Float priceMultiplier) {
+        this.priceMultiplier = priceMultiplier;
     }
 
     public String getEquipment() {
