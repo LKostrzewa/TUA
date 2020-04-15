@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "access_level")
@@ -36,8 +34,8 @@ public class AccessLevel implements Serializable {
     private UUID businessKey;
     @Column(name = "name", nullable = false, length = 32)
     private String name;
-    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "accessLevelId")
-    private Collection<UserAccessLevel> userAccessLevelCollection = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "accessLevel")
+    private Collection<UserAccessLevel> userAccessLevels = new ArrayList<>();
     /*@ManyToMany(cascade = CascadeType.REFRESH, mappedBy = "accessLevels")
     Collection<User> users = new ArrayList<>();*/
 
@@ -96,12 +94,12 @@ public class AccessLevel implements Serializable {
         this.users = users;
     }*/
 
-    public Collection<UserAccessLevel> getUserAccessLevelCollection() {
-        return userAccessLevelCollection;
+    public Collection<UserAccessLevel> getUserAccessLevels() {
+        return userAccessLevels;
     }
 
-    public void setUserAccessLevelCollection(Collection<UserAccessLevel> userAccessLevelCollection) {
-        this.userAccessLevelCollection = userAccessLevelCollection;
+    public void setUserAccessLevels(Collection<UserAccessLevel> userAccessLevelCollection) {
+        this.userAccessLevels = userAccessLevelCollection;
     }
 
     @Override

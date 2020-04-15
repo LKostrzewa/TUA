@@ -9,6 +9,7 @@ import org.eclipse.persistence.annotations.Convert;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import javax.persistence.*;
@@ -50,12 +51,12 @@ public class Yacht implements Serializable {
     private boolean active;
     @JoinColumn(name = "current_port_id", referencedColumnName = "id")
     @ManyToOne
-    private Port currentPortId;
+    private Port currentPort;
     @JoinColumn(name = "yacht_model_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private YachtModel yachtModelId;
-    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "yachtId")
-    private Collection<Rental> rentalCollection;
+    private YachtModel yachtModel;
+    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "yacht")
+    private Collection<Rental> rentals = new ArrayList<>();
 
     public Yacht() {
     }
@@ -136,28 +137,28 @@ public class Yacht implements Serializable {
         this.active = active;
     }
 
-    public Port getCurrentPortId() {
-        return currentPortId;
+    public Port getCurrentPort() {
+        return currentPort;
     }
 
-    public void setCurrentPortId(Port currentPortId) {
-        this.currentPortId = currentPortId;
+    public void setCurrentPort(Port currentPortId) {
+        this.currentPort = currentPortId;
     }
 
-    public YachtModel getYachtModelId() {
-        return yachtModelId;
+    public YachtModel getYachtModel() {
+        return yachtModel;
     }
 
-    public void setYachtModelId(YachtModel yachtModelId) {
-        this.yachtModelId = yachtModelId;
+    public void setYachtModel(YachtModel yachtModelId) {
+        this.yachtModel = yachtModelId;
     }
 
-    public Collection<Rental> getRentalCollection() {
-        return rentalCollection;
+    public Collection<Rental> getRentals() {
+        return rentals;
     }
 
-    public void setRentalCollection(Collection<Rental> rentalCollection) {
-        this.rentalCollection = rentalCollection;
+    public void setRentals(Collection<Rental> rentalCollection) {
+        this.rentals = rentalCollection;
     }
 
     @Override

@@ -32,10 +32,10 @@ public class UserAccessLevel implements Serializable {
     private UUID businessKey;
     @JoinColumn(name = "access_level_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private AccessLevel accessLevelId;
+    private AccessLevel accessLevel;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User userId;
+    private User user;
 
     public UserAccessLevel() {
     }
@@ -74,20 +74,20 @@ public class UserAccessLevel implements Serializable {
         this.businessKey = businessKey;
     }
 
-    public AccessLevel getAccessLevelId() {
-        return accessLevelId;
+    public AccessLevel getAccessLevel() {
+        return accessLevel;
     }
 
-    public void setAccessLevelId(AccessLevel accessLevelId) {
-        this.accessLevelId = accessLevelId;
+    public void setAccessLevel(AccessLevel accessLevelId) {
+        this.accessLevel = accessLevelId;
     }
 
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUser(User userId) {
+        this.user = userId;
     }
 
     @Override
