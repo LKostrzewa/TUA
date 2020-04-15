@@ -29,6 +29,11 @@ public class UserEndpoint implements Serializable {
 
     }
 
+    public void addNewUser(UserDTO userDTO) {
+        User user = ObjectMapperUtils.map(userDTO, User.class);
+        userManager.addNewUser(user);
+    }
+
     public List<User> getAll() {
         return userManager.getAll();
     }
