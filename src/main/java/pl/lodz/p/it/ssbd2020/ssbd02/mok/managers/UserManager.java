@@ -20,7 +20,6 @@ import java.util.UUID;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserManager {
-
     public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
 
     @Inject
@@ -62,17 +61,31 @@ public class UserManager {
 
         userFacade.create(user);
 
-
-
         //userAccessLevelFacade.create(userAccessLevel);
-
     }
 
     public List<User> getAll() {
         return userFacade.findAll();
     }
 
-    public void edit(User user) {
-        userFacade.edit(user);
+    public User find(Long id) {
+        return userFacade.find(id);
+    }
+
+    public void editUser(User user) {
+        User userFromRepository = userFacade.find(user.getId());
+        userFromRepository.setEmail(user.getEmail());
+        userFromRepository.setFirstName(user.getFirstName());
+        userFromRepository.setLastName(user.getLastName());
+        userFromRepository.setPhoneNumber(user.getPhoneNumber());
+        userFacade.edit(userFromRepository);
+    }
+
+    public void editPassword(User user) {
+        User userFromRepository = userFacade.find(user.getId());
+        BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
+        String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
+        userFromRepository.setPassword(passwordHash);
+        userFacade.edit(userFromRepository);
     }
 }

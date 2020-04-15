@@ -5,32 +5,30 @@
  */
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
+import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
-import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
-
 import java.util.List;
 
 /**
- *
  * Klasa fasadowa powiązana z encją User
  */
 @Stateless
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserFacade extends AbstractFacade<User> {
-
     @PersistenceContext(unitName = "ssbd02mokPU")
-    private EntityManager em;
+    private EntityManager entityManager;
 
     @Override
     protected EntityManager getEntityManager() {
-        return em;
+        return entityManager;
     }
 
     public UserFacade() {
@@ -40,6 +38,11 @@ public class UserFacade extends AbstractFacade<User> {
     @Override
     public List<User> findAll() {
         return super.findAll();
+    }
+
+    @Override
+    public User find(Object id) {
+        return super.find(id);
     }
 
     @Override
