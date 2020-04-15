@@ -20,7 +20,14 @@
             <p:inputSwitch value="#{changeAccessLevelPageBean.userDTO.client}"/>
         </h:panelGrid>
         <p:commandButton value="#{msg['cancel']}" onclick="window.history.back();"/>
-        <p:commandButton value="#{msg['edit']}" action="#{changeAccessLevelPageBean.onFinish()}"/>
+
+        <p:commandButton value="#{msg['edit']}">
+            <p:confirm header="#{msg['warning']}" message="#{msg['access.level.message']}" icon="pi pi-exclamation-triangle" />
+        </p:commandButton>
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="#{msg['ok']}" action="#{changeAccessLevelPageBean.onFinish()}" styleClass="ui-confirmdialog-yes"/>
+        </p:confirmDialog>
     </h:form>
 </h:body>
 </html>

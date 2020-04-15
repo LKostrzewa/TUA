@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.managers;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
@@ -19,8 +18,6 @@ import java.util.*;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserManager {
-    public final static String ADMIN_ACCESS_LEVEL = "ADMINISTRATOR";
-    public final static String MANAGER_ACCESS_LEVEL = "MANAGER";
     public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
 
     @Inject
@@ -88,73 +85,6 @@ public class UserManager {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         userFromRepository.setPassword(passwordHash);
         userFacade.edit(userFromRepository);
-    }
-
-    public Collection<UserAccessLevel> findAccessLevelByUserID(long id){
-        Collection<UserAccessLevel> accessLevelsForUser = new ArrayList<>();
-        for (UserAccessLevel userAccessLevel: userAccessLevelFacade.findAll()) {
-            if(userAccessLevel.getUser().getId().equals(id)) accessLevelsForUser.add(userAccessLevel);
-        }
-        return accessLevelsForUser;
-    }
-
-    private UserAccessLevel accessLevelToRemove;
-
-    public void editAccessLevels(long id, List<Boolean> levels){
-        Collection<UserAccessLevel> accessLevelsForUser = findAccessLevelByUserID(id);
-
-        if(levels.get(0).equals(true) && !isInRole(accessLevelsForUser,ADMIN_ACCESS_LEVEL)){
-            UserAccessLevel userAccessLevel = new UserAccessLevel();
-            setUpAccessLevel(userAccessLevel,id);
-            userAccessLevel.setAccessLevel(accessLevelFacade.findByAccessLevelName(ADMIN_ACCESS_LEVEL));
-            userAccessLevelFacade.create(userAccessLevel);
-        }
-        if(levels.get(0).equals(false) && isInRole(accessLevelsForUser,ADMIN_ACCESS_LEVEL)){
-            userAccessLevelFacade.remove(findLevelByName(accessLevelsForUser,ADMIN_ACCESS_LEVEL));
-        }
-        if(levels.get(1).equals(true) && !isInRole(accessLevelsForUser,MANAGER_ACCESS_LEVEL)){
-            UserAccessLevel userAccessLevel = new UserAccessLevel();
-            setUpAccessLevel(userAccessLevel,id);
-            userAccessLevel.setAccessLevel(accessLevelFacade.findByAccessLevelName(MANAGER_ACCESS_LEVEL));
-            userAccessLevelFacade.create(userAccessLevel);
-        }
-        if(levels.get(1).equals(false) && isInRole(accessLevelsForUser,MANAGER_ACCESS_LEVEL)){
-            userAccessLevelFacade.remove(findLevelByName(accessLevelsForUser,MANAGER_ACCESS_LEVEL));
-        }
-        if(levels.get(2).equals(true) && !isInRole(accessLevelsForUser,CLIENT_ACCESS_LEVEL)){
-            UserAccessLevel userAccessLevel = new UserAccessLevel();
-            setUpAccessLevel(userAccessLevel,id);
-            userAccessLevel.setAccessLevel(accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
-            userAccessLevelFacade.create(userAccessLevel);
-        }
-        if(levels.get(2).equals(false) && isInRole(accessLevelsForUser,CLIENT_ACCESS_LEVEL)){
-            userAccessLevelFacade.remove(findLevelByName(accessLevelsForUser,CLIENT_ACCESS_LEVEL));
-        }
-
-    }
-    public void setUpAccessLevel(UserAccessLevel userAccessLevel,long id){
-        userAccessLevel.setId(id);
-        userAccessLevel.setVersion(1);
-        userAccessLevel.setBusinessKey(UUID.randomUUID());
-        userAccessLevel.setUser(userFacade.find(id));
-    }
-
-    private Boolean isInRole(Collection<UserAccessLevel> accessLevelsForUser, String role){
-        for (UserAccessLevel level: accessLevelsForUser) {
-            if(level.getAccessLevel().getName().equals(role)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private UserAccessLevel findLevelByName(Collection<UserAccessLevel> accessLevelsForUser, String role){
-        for (UserAccessLevel level: accessLevelsForUser) {
-            if(level.getAccessLevel().getName().equals(role)){
-                return level;
-            }
-        }
-        return null;
     }
 
 }
