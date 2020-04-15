@@ -3,20 +3,25 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDTO;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
 @Named
-@ConversationScoped
+@RequestScoped
 public class AddUserPageBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
-    @Inject
-    private Conversation conversation;
     private UserDTO userDTO;
+
+    @PostConstruct
+    public void init(){
+        userDTO = new UserDTO();
+    }
 
     public UserDTO getUserDTO() {
         return userDTO;
@@ -27,11 +32,8 @@ public class AddUserPageBean implements Serializable {
     }
 
     public String onClick() {
-        return null;
-    }
-
-    public String onFinish() {
-        return null;
+        userEndpoint.addNewUser(userDTO);
+        return "userList.xhtml?faces-redirect=true";
     }
 
 

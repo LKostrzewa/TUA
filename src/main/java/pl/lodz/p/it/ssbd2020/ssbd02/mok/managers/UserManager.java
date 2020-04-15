@@ -46,7 +46,7 @@ public class UserManager {
         user.setCreated(new Date());
         user.setInvalidLoginAttempts(0);
         user.setPassword(passwordHash);
-        user.setActivationCode(UUID.randomUUID());
+        user.setActivationCode(UUID.randomUUID().toString());
         user.setResetPasswordCode(UUID.randomUUID());
 
         UserAccessLevel userAccessLevel = new UserAccessLevel();
