@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.NewUserDTO;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.annotation.PostConstruct;
@@ -14,18 +14,18 @@ import java.io.Serializable;
 public class AddUserPageBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
-    private UserDTO userDTO;
+    private NewUserDTO userDTO;
 
     @PostConstruct
     public void init(){
-        userDTO = new UserDTO();
+        userDTO = new NewUserDTO();
     }
 
-    public UserDTO getUserDTO() {
+    public NewUserDTO getUserDTO() {
         return userDTO;
     }
 
-    public void setUserDTO(UserDTO userDTO) {
+    public void setUserDTO(NewUserDTO userDTO) {
         this.userDTO = userDTO;
     }
 
