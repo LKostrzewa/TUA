@@ -69,8 +69,8 @@ public class User implements Serializable {
     @Column(name = "invalid_login_attempts", nullable = false)
     private int invalidLoginAttempts;
     @Column(name = "activation_code", nullable = false)
-    @Convert("uuidConverter")
-    private UUID activationCode;
+    //@Convert("uuidConverter")
+    private String activationCode;
     @Column(name = "reset_password_code", nullable = false)
     @Convert("uuidConverter")
     private UUID resetPasswordCode;
@@ -229,11 +229,11 @@ public class User implements Serializable {
         this.invalidLoginAttempts = invalidLoginAttempts;
     }
 
-    public UUID getActivationCode() {
+    public String getActivationCode() {
         return activationCode;
     }
 
-    public void setActivationCode(UUID activationCode) {
+    public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
     }
 

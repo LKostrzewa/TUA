@@ -20,7 +20,6 @@ import java.util.UUID;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserManager {
-
     public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
 
     @Inject
@@ -35,19 +34,19 @@ public class UserManager {
     @Inject
     private BCryptPasswordHash bCryptPasswordHash;
 
-    public void registerNewUser(User user) {
+    private void addUser(User user, boolean active) {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
 
         user.setVersion(1);
         user.setVersion_user_details(1);
         user.setBusinessKey_user_details(UUID.randomUUID());
         user.setBusinessKey(UUID.randomUUID());
-        user.setActivated(false);
+        user.setActivated(active);
         user.setLocked(false);
         user.setCreated(new Date());
         user.setInvalidLoginAttempts(0);
         user.setPassword(passwordHash);
-        user.setActivationCode(UUID.randomUUID());
+        user.setActivationCode(UUID.randomUUID().toString());
         user.setResetPasswordCode(UUID.randomUUID());
 
         UserAccessLevel userAccessLevel = new UserAccessLevel();
@@ -61,18 +60,40 @@ public class UserManager {
         user.setUserAccessLevels(userAccessLevels);
 
         userFacade.create(user);
+    }
 
-
+    public void registerNewUser(User user) {
+        addUser(user, false);
 
         //userAccessLevelFacade.create(userAccessLevel);
+    }
 
+    public void addNewUser(User user) {
+        addUser(user, true);
     }
 
     public List<User> getAll() {
         return userFacade.findAll();
     }
 
-    public void edit(User user) {
-        userFacade.edit(user);
+    public User find(Long id) {
+        return userFacade.find(id);
+    }
+
+    public void editUser(User user) {
+        User userFromRepository = userFacade.find(user.getId());
+        userFromRepository.setEmail(user.getEmail());
+        userFromRepository.setFirstName(user.getFirstName());
+        userFromRepository.setLastName(user.getLastName());
+        userFromRepository.setPhoneNumber(user.getPhoneNumber());
+        userFacade.edit(userFromRepository);
+    }
+
+    public void editPassword(User user) {
+        User userFromRepository = userFacade.find(user.getId());
+        BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
+        String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
+        userFromRepository.setPassword(passwordHash);
+        userFacade.edit(userFromRepository);
     }
 }

@@ -1,16 +1,17 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 
-
-import org.modelmapper.ModelMapper;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
-
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ChangePasswordDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.EditUserDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.NewUserDTO;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDTO;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
-
-import javax.ejb.*;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
@@ -20,24 +21,35 @@ import java.util.List;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserEndpoint implements Serializable {
-
     @Inject
     private UserManager userManager;
 
-    @Inject
-    private ModelMapper modelMapper;
-
     public void registerNewUser(UserDTO userDTO) {
-        User user = modelMapper.map(userDTO, User.class);
+        User user = ObjectMapperUtils.map(userDTO, User.class);
         userManager.registerNewUser(user);
 
+    }
+
+    public void addNewUser(NewUserDTO userDTO) {
+        User user = ObjectMapperUtils.map(userDTO, User.class);
+        userManager.addNewUser(user);
     }
 
     public List<User> getAll() {
         return userManager.getAll();
     }
 
-    public void edit(User user) {
-        userManager.edit(user);
+    public User find(Long id) {
+        return userManager.find(id);
+    }
+
+    public void editUser(EditUserDTO editUserDTO) {
+        User user = ObjectMapperUtils.map(editUserDTO, User.class);
+        userManager.editUser(user);
+    }
+
+    public void editPassword(ChangePasswordDTO changePasswordDTO) {
+        User user = ObjectMapperUtils.map(changePasswordDTO, User.class);
+        userManager.editPassword(user);
     }
 }
