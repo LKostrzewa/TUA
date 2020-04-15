@@ -4,8 +4,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDTO;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -33,7 +31,7 @@ public class AddUserPageBean implements Serializable {
 
     public String onClick() {
         userEndpoint.addNewUser(userDTO);
-        return "userList.xhtml?faces-redirect=true";
+        return "usersList.xhtml?faces-redirect=true";
     }
 
 

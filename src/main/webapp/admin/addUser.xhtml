@@ -16,7 +16,6 @@
             <p:breadCrumb>
                 <p:menuitem value="Categories" url="#"/>
                 <p:menuitem value="#{msg['bread.main']}" url="/admin/index.xhtml"/>
-                <p:menuitem value="#{msg['bread.users']}" url="/admin/usersList.xhtml"/>
                 <p:menuitem value="#{msg['bread.add']}" url="/admin/addUser.xhtml"/>
             </p:breadCrumb>
         </ui:define>
@@ -29,7 +28,7 @@
                         <p:outputLabel for="@previous" value="#{msg['login']}"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="password" value="#{addUserPageBean.userDTO.password}"/>
+                        <p:password id="password" value="#{addUserPageBean.userDTO.password}"/>
                         <p:outputLabel for="@previous" value="#{msg['password']}"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
