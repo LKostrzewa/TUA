@@ -56,23 +56,19 @@ public class LoginBean implements Serializable {
 
         switch (status) {
             case SEND_CONTINUE:
-                System.out.println("-SEND_CONTINUE"); // to się zamieni na logi pozniej
                 facesContext.responseComplete();
                 break;
             case SUCCESS:
-                System.out.println("-SUCCESS");
                 facesContext.addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Login succeed", null));
                 FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/shared/index.xhtml");
                 break;
             case SEND_FAILURE:
-                System.out.println("-SEND_FAILURE");
                 facesContext.addMessage(null,
                         new FacesMessage(SEVERITY_ERROR, "Authentication failed", null));
                 externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
                 break;
             case NOT_DONE:
-                System.out.println("-NOT_DONE");
                 break;
         }
     }

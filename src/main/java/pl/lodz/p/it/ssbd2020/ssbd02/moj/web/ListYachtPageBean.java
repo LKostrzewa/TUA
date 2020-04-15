@@ -13,7 +13,7 @@ import java.util.List;
 
 @Named
 @ViewScoped
-public class ListYachPageBean implements Serializable {
+public class ListYachtPageBean implements Serializable {
 
     @Inject
     private YachtEndpoint yachtEndpoint;
