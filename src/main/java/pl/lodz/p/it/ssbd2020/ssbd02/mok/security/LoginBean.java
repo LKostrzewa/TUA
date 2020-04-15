@@ -70,14 +70,12 @@ public class LoginBean implements Serializable {
                 facesContext.addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Login succeed", null));
                 FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/shared/index.xhtml");
-
                 break;
             case SEND_FAILURE:
                 System.out.println("-SEND_FAILURE");
                 facesContext.addMessage(null,
                         new FacesMessage(SEVERITY_ERROR, "Authentication failed", null));
                 externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
-
                 break;
             case NOT_DONE:
                 System.out.println("-NOT_DONE");
