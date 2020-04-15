@@ -52,22 +52,6 @@
             <to-view-id>/manager/manager.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
-        <navigation-case>
-            <from-outcome>listYachts</from-outcome>
-            <to-view-id>/yacht/yachtList.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>addYacht</from-outcome>
-            <to-view-id>/yacht/addYacht.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>editYacht</from-outcome>
-            <to-view-id>/yacht/editYacht.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
     </navigation-rule>
 
     <application>
