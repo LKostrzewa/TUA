@@ -1,9 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
-import java.util.Date;
-
 public class NewUserDTO {
-
     private String login;
     private String password;
     private String email;
@@ -12,15 +9,6 @@ public class NewUserDTO {
     private String phoneNumber;
 
     public NewUserDTO() {
-    }
-
-    public NewUserDTO(String login, String password, String email, String firstName, String lastName, String phoneNumber) {
-        this.login = login;
-        this.password = password;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
     }
 
     public String getLogin() {

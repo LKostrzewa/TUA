@@ -2,10 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ChangePasswordDTO;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.EditUserDTO;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.NewUserDTO;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
@@ -35,8 +32,8 @@ public class UserEndpoint implements Serializable {
         userManager.addNewUser(user);
     }
 
-    public List<User> getAll() {
-        return userManager.getAll();
+    public List<UsersListDTO> getAll() {
+        return ObjectMapperUtils.mapAll(userManager.getAll(), UsersListDTO.class);
     }
 
     public User find(Long id) {

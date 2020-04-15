@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
+import java.util.Objects;
+
 public class UsersListDTO implements Comparable<UsersListDTO> {
     private Long id;
     private String login;
@@ -54,8 +56,8 @@ public class UsersListDTO implements Comparable<UsersListDTO> {
 
         UsersListDTO usersListDTO = (UsersListDTO) obj;
 
-        if (login != null ? !login.equals(usersListDTO.login) : usersListDTO.login != null) return false;
-        return email != null ? !email.equals(usersListDTO.email) : usersListDTO.email != null;
+        if (!Objects.equals(login, usersListDTO.login)) return false;
+        return !Objects.equals(email, usersListDTO.email);
     }
 
     @Override

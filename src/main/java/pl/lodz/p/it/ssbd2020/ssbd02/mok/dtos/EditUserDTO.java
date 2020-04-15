@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
-public class EditUserDTO implements Comparable<EditUserDTO> {
+public class EditUserDTO {
     private long id;
     private String email;
     private String firstName;
@@ -45,29 +45,5 @@ public class EditUserDTO implements Comparable<EditUserDTO> {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = email != null ? email.hashCode() : 0;
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "EditUserDTO{" +
-                ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
-    }
-
-    @Override
-    public int compareTo(EditUserDTO editUserDTO) {
-        return this.email.compareTo(editUserDTO.email);
     }
 }

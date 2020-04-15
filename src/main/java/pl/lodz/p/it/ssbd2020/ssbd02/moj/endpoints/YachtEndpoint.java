@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 
-
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.NewYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.UpdateYachtDto;
@@ -15,13 +14,13 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
-public class YachtEndpoint {
+public class YachtEndpoint implements Serializable {
 
     @Inject
     private YachtManager yachtManager;
@@ -31,8 +30,8 @@ public class YachtEndpoint {
         yachtManager.addYacht(yacht);
     }
 
-     public List<YachtListDto> getAllYachts() {
-        return yachtManager.getAllYachts().stream().map(n -> ObjectMapperUtils.map(n, YachtListDto.class)).collect(Collectors.toList());
+    public List<YachtListDto> getAllYachts() {
+        return ObjectMapperUtils.mapAll(yachtManager.getAllYachts(), YachtListDto.class);
     }
 
     public YachtDto getYachtById(Long yachtId) {

@@ -2,7 +2,6 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UsersListDTO;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -27,7 +26,7 @@ public class UsersListPageBean {
 
     @PostConstruct
     private void init() {
-        this.users = ObjectMapperUtils.mapAll(userEndpoint.getAll(), UsersListDTO.class);
+        this.users = userEndpoint.getAll();
     }
 }
 
