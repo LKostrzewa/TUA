@@ -1,10 +1,8 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
-public class NewYachtDto {
+public class UpdateYachtDto {
 
     private String name;
-    private Integer produciton_year;
-    private Long yachtModelId;
     private Float priceMultiplier;
     private String equipment;
 
@@ -14,22 +12,6 @@ public class NewYachtDto {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getProduciton_year() {
-        return produciton_year;
-    }
-
-    public void setProduciton_year(Integer produciton_year) {
-        this.produciton_year = produciton_year;
-    }
-
-    public Long getYachtModelId() {
-        return yachtModelId;
-    }
-
-    public void setYachtModelId(Long yachtModelId) {
-        this.yachtModelId = yachtModelId;
     }
 
     public Float getPriceMultiplier() {

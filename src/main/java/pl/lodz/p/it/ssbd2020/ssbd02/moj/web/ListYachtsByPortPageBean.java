@@ -1,8 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.PortDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.YachtDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtPortEndpoint;
 
 import javax.annotation.PostConstruct;

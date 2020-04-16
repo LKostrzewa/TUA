@@ -1,16 +1,11 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.web;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
 
 import org.modelmapper.ModelMapper;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.UpdateYachtDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.YachtListDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.UpdateYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;

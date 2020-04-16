@@ -1,10 +1,9 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.web;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.YachtListDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtListDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
