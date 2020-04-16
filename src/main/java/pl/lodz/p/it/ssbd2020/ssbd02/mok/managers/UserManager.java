@@ -12,9 +12,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Stateful
 @LocalBean
@@ -34,19 +32,19 @@ public class UserManager {
     @Inject
     private BCryptPasswordHash bCryptPasswordHash;
 
-    public void registerNewUser(User user) {
+    private void addUser(User user, boolean active) {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
 
         user.setVersion(1);
         user.setVersion_user_details(1);
         user.setBusinessKey_user_details(UUID.randomUUID());
         user.setBusinessKey(UUID.randomUUID());
-        user.setActivated(false);
+        user.setActivated(active);
         user.setLocked(false);
         user.setCreated(new Date());
         user.setInvalidLoginAttempts(0);
         user.setPassword(passwordHash);
-        user.setActivationCode(UUID.randomUUID());
+        user.setActivationCode(UUID.randomUUID().toString());
         user.setResetPasswordCode(UUID.randomUUID());
 
         UserAccessLevel userAccessLevel = new UserAccessLevel();
@@ -60,8 +58,16 @@ public class UserManager {
         user.setUserAccessLevels(userAccessLevels);
 
         userFacade.create(user);
+    }
+
+    public void registerNewUser(User user) {
+        addUser(user, false);
 
         //userAccessLevelFacade.create(userAccessLevel);
+    }
+
+    public void addNewUser(User user) {
+        addUser(user, true);
     }
 
     public List<User> getAll() {
@@ -88,4 +94,5 @@ public class UserManager {
         userFromRepository.setPassword(passwordHash);
         userFacade.edit(userFromRepository);
     }
+
 }

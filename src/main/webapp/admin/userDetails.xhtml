@@ -39,12 +39,18 @@
             <h:outputText value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDTO.locked}"/>
             <h:outputText value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDTO.locked}"/>
 
+            <h:outputLabel value="#{msg['access_level']}:"/>
+            <h:outputText value="#{userDetailsPageBean.getAccessLevels()}"/>
+
+
         </p:panelGrid>
         <p:commandButton value="#{msg['go_back']}" action="#{userDetailsPageBean.onFinish()}"/>
         <p:commandButton value="#{msg['edit']}"
                          action="#{editUserPageBean.onClick()}"/>
         <p:commandButton value="#{msg['change_password']}"
                          action="#{changePasswordPageBean.onClick()}"/>
+        <p:commandButton value="#{msg['change_access_level']}"
+                         action="#{changeAccessLevelPageBean.onClick()}"/>
     </h:form>
 </h:body>
 </html>

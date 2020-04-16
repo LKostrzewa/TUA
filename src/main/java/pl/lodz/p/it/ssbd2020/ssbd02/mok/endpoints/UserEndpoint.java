@@ -4,6 +4,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ChangePasswordDTO;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.EditUserDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.NewUserDTO;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDTO;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -20,6 +21,7 @@ import java.util.List;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserEndpoint implements Serializable {
+
     @Inject
     private UserManager userManager;
 
@@ -27,6 +29,11 @@ public class UserEndpoint implements Serializable {
         User user = ObjectMapperUtils.map(userDTO, User.class);
         userManager.registerNewUser(user);
 
+    }
+
+    public void addNewUser(NewUserDTO userDTO) {
+        User user = ObjectMapperUtils.map(userDTO, User.class);
+        userManager.addNewUser(user);
     }
 
     public List<User> getAll() {
