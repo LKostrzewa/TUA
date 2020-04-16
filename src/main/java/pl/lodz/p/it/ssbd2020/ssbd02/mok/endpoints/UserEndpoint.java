@@ -36,8 +36,16 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.mapAll(userManager.getAll(), ListUsersDto.class);
     }
 
-    public User getUserById(Long id) {
-        return userManager.getUserById(id);
+    public ChangePasswordDto getUserById1(Long id) {
+        return ObjectMapperUtils.map(userManager.getUserById(id), ChangePasswordDto.class);
+    }
+
+    public EditUserDto getUserById2(Long id) {
+        return ObjectMapperUtils.map(userManager.getUserById(id), EditUserDto.class);
+    }
+
+    public UserDetailsDto getUserById3(Long id) {
+        return ObjectMapperUtils.map(userManager.getUserById(id), UserDetailsDto.class);
     }
 
     public void editUser(EditUserDto editUserDto) {

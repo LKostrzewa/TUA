@@ -1,9 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
@@ -30,8 +28,7 @@ public class UserDetailsPageBean implements Serializable {
 
     public String onClick(Long id) {
         conversation.begin();
-        User user = userEndpoint.getUserById(id);
-        this.userDetailsDto = ObjectMapperUtils.map(user, UserDetailsDto.class);
+        this.userDetailsDto = userEndpoint.getUserById3(id);
         return "userDetails.xhtml?faces-redirect=true";
     }
 
@@ -41,7 +38,6 @@ public class UserDetailsPageBean implements Serializable {
     }
 
     public void refresh() {
-        User user = userEndpoint.getUserById(userDetailsDto.getId());
-        this.userDetailsDto = ObjectMapperUtils.map(user, UserDetailsDto.class);
+        this.userDetailsDto = userEndpoint.getUserById3(userDetailsDto.getId());
     }
 }

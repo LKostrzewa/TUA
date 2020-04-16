@@ -1,9 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ChangePasswordDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
@@ -14,9 +12,9 @@ import java.io.Serializable;
 @ConversationScoped
 public class ChangePasswordPageBean implements Serializable {
     @Inject
-    private UserEndpoint userEndpoint;
-    @Inject
     UserDetailsPageBean userDetailsPageBean;
+    @Inject
+    private UserEndpoint userEndpoint;
     private ChangePasswordDto changePasswordDto;
 
     public ChangePasswordDto getChangePasswordDto() {
@@ -28,8 +26,7 @@ public class ChangePasswordPageBean implements Serializable {
     }
 
     public String onClick() {
-        User user = userEndpoint.getUserById(userDetailsPageBean.getUserDetailsDto().getId());
-        this.changePasswordDto = ObjectMapperUtils.map(user, ChangePasswordDto.class);
+        this.changePasswordDto = userEndpoint.getUserById1(userDetailsPageBean.getUserDetailsDto().getId());
         return "changePassword.xhtml?faces-redirect=true";
     }
 

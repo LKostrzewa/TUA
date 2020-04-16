@@ -1,9 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.EditUserDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
@@ -14,9 +12,9 @@ import java.io.Serializable;
 @ConversationScoped
 public class EditUserPageBean implements Serializable {
     @Inject
-    private UserEndpoint userEndpoint;
-    @Inject
     UserDetailsPageBean userDetailsPageBean;
+    @Inject
+    private UserEndpoint userEndpoint;
     private EditUserDto editUserDto;
 
     public EditUserDto getEditUserDto() {
@@ -28,8 +26,7 @@ public class EditUserPageBean implements Serializable {
     }
 
     public String onClick() {
-        User user = userEndpoint.getUserById(userDetailsPageBean.getUserDetailsDto().getId());
-        this.editUserDto = ObjectMapperUtils.map(user, EditUserDto.class);
+        this.editUserDto = userEndpoint.getUserById2(userDetailsPageBean.getUserDetailsDto().getId());
         return "editUser.xhtml?faces-redirect=true";
     }
 
