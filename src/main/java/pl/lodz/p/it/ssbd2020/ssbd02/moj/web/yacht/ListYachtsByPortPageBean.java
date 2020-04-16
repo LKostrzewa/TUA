@@ -1,6 +1,6 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.web;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtPortEndpoint;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +19,7 @@ public class ListYachtsByPortPageBean {
 
     //nwm czy tak mozna
     @PostConstruct
-    private void init(Long id){
+    private void init(Long id) {
         this.yachts = yachtPortEndpoint.getAllYachtsByPort(id);
     }
 

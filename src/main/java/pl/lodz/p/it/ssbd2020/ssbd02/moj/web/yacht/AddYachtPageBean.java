@@ -11,10 +11,8 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class AddYachtPageBean {
-
     @Inject
     private YachtEndpoint yachtEndpoint;
-
     private NewYachtDto newYachtDto;
 
     @PostConstruct
@@ -22,7 +20,7 @@ public class AddYachtPageBean {
         newYachtDto = new NewYachtDto();
     }
 
-    public void addNewYacht(){
+    public void addNewYacht() {
         newYachtDto.setYachtModelId((long) 1);
         yachtEndpoint.addYacht(newYachtDto);
     }
