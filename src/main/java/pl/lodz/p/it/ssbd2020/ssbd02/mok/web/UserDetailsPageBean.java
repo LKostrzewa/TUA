@@ -13,9 +13,9 @@ import java.io.Serializable;
 @ConversationScoped
 public class UserDetailsPageBean implements Serializable {
     @Inject
-    private UserEndpoint userEndpoint;
-    @Inject
     private Conversation conversation;
+    @Inject
+    private UserEndpoint userEndpoint;
     private UserDetailsDto userDetailsDto;
 
     public UserDetailsDto getUserDetailsDto() {

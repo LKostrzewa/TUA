@@ -36,13 +36,13 @@ public class RentalEndpoint implements Serializable {
         return ObjectMapperUtils.mapAll(rentalManager.getAllRentalsByUser(userLogin), ListRentalsDto.class);
     }
 
-    public Rental getRentalById(Long rentalId) {
+    public EditRentalDto getRentalById(Long rentalId) {
         Rental rental = rentalManager.getRentalById(rentalId);
-        return rental;
+        return ObjectMapperUtils.map(rental, EditRentalDto.class);
 //        return ObjectMapperUtils.map(port, PortDto.class);
     }
 
-    public void updateRental(EditRentalDto editRentalDto) {
+    public void editRental(EditRentalDto editRentalDto) {
         Rental rentalToEdit = ObjectMapperUtils.map(editRentalDto, Rental.class);
         rentalManager.editRental(rentalToEdit);
     }
