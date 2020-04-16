@@ -1,10 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.opinion;
 
-import org.modelmapper.ModelMapper;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.UpdateOpinionDTO;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.OpinionEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
-import javax.ejb.EJB;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
@@ -19,8 +18,6 @@ public class EditOpinionPageBean implements Serializable {
     private OpinionEndpoint opinionEndpoint;
     @Inject
     private Conversation conversation;
-    @Inject
-    private ModelMapper modelMapper;
 
     private Long opinionId;
 
@@ -28,7 +25,7 @@ public class EditOpinionPageBean implements Serializable {
 
     public String openEditOpinionPage(Long opinionId) {
         conversation.begin();
-        this.updateOpinionDTO = modelMapper.map(opinionEndpoint.getOpinionByID(opinionId), UpdateOpinionDTO.class);
+        this.updateOpinionDTO = ObjectMapperUtils.map(opinionEndpoint.getOpinionByID(opinionId), UpdateOpinionDTO.class);
         return "client/editOpinion.xhtml?faces-redirect=true";
     }
 
