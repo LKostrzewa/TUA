@@ -28,7 +28,7 @@ public class UserDetailsPageBean implements Serializable {
 
     public String onClick(Long id) {
         conversation.begin();
-        this.userDetailsDto = userEndpoint.getUserById3(id);
+        this.userDetailsDto = userEndpoint.getUserDetailsDtoById(id);
         return "userDetails.xhtml?faces-redirect=true";
     }
 
@@ -38,6 +38,6 @@ public class UserDetailsPageBean implements Serializable {
     }
 
     public void refresh() {
-        this.userDetailsDto = userEndpoint.getUserById3(userDetailsDto.getId());
+        this.userDetailsDto = userEndpoint.getUserDetailsDtoById(userDetailsDto.getId());
     }
 }
