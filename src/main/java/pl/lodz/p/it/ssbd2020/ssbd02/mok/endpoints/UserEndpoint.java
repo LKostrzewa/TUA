@@ -21,6 +21,7 @@ import java.util.List;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserEndpoint implements Serializable {
+
     @Inject
     private UserManager userManager;
 

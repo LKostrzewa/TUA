@@ -14,6 +14,7 @@ import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * Klasa fasadowa powiązana z encją UserAccessLevel
@@ -34,4 +35,5 @@ public class UserAccessLevelFacade extends AbstractFacade<UserAccessLevel> {
     public UserAccessLevelFacade() {
         super(UserAccessLevel.class);
     }
+
 }

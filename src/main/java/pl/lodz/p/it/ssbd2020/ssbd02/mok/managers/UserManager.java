@@ -12,9 +12,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Stateful
 @LocalBean
@@ -96,4 +94,5 @@ public class UserManager {
         userFromRepository.setPassword(passwordHash);
         userFacade.edit(userFromRepository);
     }
+
 }
