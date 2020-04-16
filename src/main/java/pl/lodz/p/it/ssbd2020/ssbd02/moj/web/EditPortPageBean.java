@@ -3,7 +3,6 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.web;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.UpdatePortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
 
-import javax.ejb.EJB;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
@@ -13,13 +12,10 @@ import java.io.Serializable;
 @Named
 @ConversationScoped
 public class EditPortPageBean implements Serializable {
-
-    @EJB
+    @Inject
     private PortEndpoint portEndpoint;
-
     @Inject
     private Conversation conversation;
-
     private UpdatePortDto updatePortDto;
 
     public EditPortPageBean() {

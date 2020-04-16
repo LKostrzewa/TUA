@@ -1,11 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
-
-
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.NewPortDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.UpdatePortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.PortDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.UpdatePortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.PortManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
@@ -16,13 +14,11 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class PortEndpoint implements Serializable {
-
     @Inject
     private PortManager portManager;
 
@@ -32,7 +28,7 @@ public class PortEndpoint implements Serializable {
     }
 
     public List<PortDto> getAllPorts() {
-        return portManager.getAllPorts().stream().map(n -> ObjectMapperUtils.map(n, PortDto.class)).collect(Collectors.toList());
+        return ObjectMapperUtils.mapAll(portManager.getAllPorts(), PortDto.class);
     }
 
     public PortDto getPortById(Long portId) {

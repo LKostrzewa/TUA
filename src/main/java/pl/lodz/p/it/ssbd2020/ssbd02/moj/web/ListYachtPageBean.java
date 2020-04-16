@@ -4,7 +4,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.YachtListDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -14,10 +13,8 @@ import java.util.List;
 @Named
 @ViewScoped
 public class ListYachtPageBean implements Serializable {
-
     @Inject
     private YachtEndpoint yachtEndpoint;
-
     private List<YachtListDto> yachts;
 
     @PostConstruct
