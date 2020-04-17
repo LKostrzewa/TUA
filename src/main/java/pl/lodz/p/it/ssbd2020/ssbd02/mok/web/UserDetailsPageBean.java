@@ -1,9 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDTO;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDTO;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
@@ -17,12 +15,12 @@ import java.io.Serializable;
 @ConversationScoped
 public class UserDetailsPageBean implements Serializable {
     @Inject
-    private UserEndpoint userEndpoint;
-    @Inject
     private UserAccessLevelEndpoint userAccessLevelEndpoint;
     @Inject
     private Conversation conversation;
-    private UserDetailsDTO userDetailsDTO;
+    @Inject
+    private UserEndpoint userEndpoint;
+    private UserDetailsDto userDetailsDto;
     private UserAccessLevelDTO userAccessLevelDTO;
 
     public UserAccessLevelDTO getUserAccessLevelDTO() {
@@ -33,30 +31,28 @@ public class UserDetailsPageBean implements Serializable {
         this.userAccessLevelDTO = userAccessLevelDTO;
     }
 
-    public UserDetailsDTO getUserDetailsDTO() {
-        return userDetailsDTO;
+    public UserDetailsDto getUserDetailsDto() {
+        return userDetailsDto;
     }
 
-    public void setUserDetailsDTO(UserDetailsDTO userDetailsDTO) {
-        this.userDetailsDTO = userDetailsDTO;
+    public void setUserDetailsDto(UserDetailsDto userDetailsDto) {
+        this.userDetailsDto = userDetailsDto;
     }
 
-    public String onClick(long id) {
+    public String onClick(Long id) {
         conversation.begin();
-        User user = userEndpoint.find(id);
-        this.userDetailsDTO = ObjectMapperUtils.map(user, UserDetailsDTO.class);
+        this.userDetailsDto = userEndpoint.getUserDetailsDtoById(id);
         this.userAccessLevelDTO = userAccessLevelEndpoint.findAccessLevelByUserID(id);
         return "userDetails.xhtml?faces-redirect=true";
     }
 
     public String onFinish() {
         conversation.end();
-        return "usersList.xhtml?faces-redirect=true";
+        return "listUsers.xhtml?faces-redirect=true";
     }
 
     public void refresh() {
-        User user = userEndpoint.find(userDetailsDTO.getId());
-        this.userDetailsDTO = ObjectMapperUtils.map(user, UserDetailsDTO.class);
+        this.userDetailsDto = userEndpoint.getUserDetailsDtoById(userDetailsDto.getId());
         this.userAccessLevelDTO = userAccessLevelEndpoint.findAccessLevelByUserID(user.getId());
     }
 

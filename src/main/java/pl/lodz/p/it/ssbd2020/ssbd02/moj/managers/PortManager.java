@@ -14,7 +14,6 @@ import java.util.List;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class PortManager {
-
     @Inject
     private PortFacade portFacade;
 

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class UpdatePortDto implements Serializable {
-
     private String name;
     private String lake;
     private String nearestCity;

@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.ejb.EJB;
@@ -14,12 +14,12 @@ public class UserControllerBean implements Serializable {
     @EJB
     private UserEndpoint userEndpoint;
     private int lastActionMethod = 0;
-    private UserDTO selectedAccountDTO;
+    private UserDto selectedAccountDTO;
 
     public UserControllerBean() {
     }
 
-    public void registerAccount(final UserDTO accountDTO) {
+    public void registerAccount(final UserDto accountDTO) {
         userEndpoint.registerNewUser(accountDTO);
     }
 }

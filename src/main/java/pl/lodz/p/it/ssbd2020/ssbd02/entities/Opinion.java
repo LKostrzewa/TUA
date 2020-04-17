@@ -7,23 +7,23 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import org.eclipse.persistence.annotations.Convert;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.UUID;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.UUID;
 
 
 @Entity
 @Table(name = "opinion")
 @NamedQueries({
-    @NamedQuery(name = "Opinion.findAll", query = "SELECT o FROM Opinion o"),
-    @NamedQuery(name = "Opinion.findById", query = "SELECT o FROM Opinion o WHERE o.id = :id"),
-    @NamedQuery(name = "Opinion.findByVersion", query = "SELECT o FROM Opinion o WHERE o.version = :version"),
-    @NamedQuery(name = "Opinion.findByRating", query = "SELECT o FROM Opinion o WHERE o.rating = :rating"),
-    @NamedQuery(name = "Opinion.findByComment", query = "SELECT o FROM Opinion o WHERE o.comment = :comment"),
-    @NamedQuery(name = "Opinion.findByDate", query = "SELECT o FROM Opinion o WHERE o.date = :date")})
+        @NamedQuery(name = "Opinion.findAll", query = "SELECT o FROM Opinion o"),
+        @NamedQuery(name = "Opinion.findById", query = "SELECT o FROM Opinion o WHERE o.id = :id"),
+        @NamedQuery(name = "Opinion.findByVersion", query = "SELECT o FROM Opinion o WHERE o.version = :version"),
+        @NamedQuery(name = "Opinion.findByRating", query = "SELECT o FROM Opinion o WHERE o.rating = :rating"),
+        @NamedQuery(name = "Opinion.findByComment", query = "SELECT o FROM Opinion o WHERE o.comment = :comment"),
+        @NamedQuery(name = "Opinion.findByDate", query = "SELECT o FROM Opinion o WHERE o.date = :date")})
 public class Opinion implements Serializable {
 
     @Id
@@ -154,5 +154,5 @@ public class Opinion implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Opinion[ id=" + id + " ]";
     }
-    
+
 }

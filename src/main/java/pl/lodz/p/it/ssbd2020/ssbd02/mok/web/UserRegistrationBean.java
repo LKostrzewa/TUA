@@ -1,7 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDto;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -12,29 +12,28 @@ import java.io.Serializable;
 @Named
 @RequestScoped
 public class UserRegistrationBean implements Serializable {
-
     @Inject
     private UserControllerBean accountControllerBean;
-    private UserDTO accountDTO;
+    private UserDto accountDto;
 
     public UserRegistrationBean() {
     }
 
-    public UserDTO getAccountDTO() {
-        return accountDTO;
+    public UserDto getAccountDto() {
+        return accountDto;
     }
 
-    public void setAccountDTO(UserDTO accountDTO) {
-        this.accountDTO = accountDTO;
+    public void setAccountDto(UserDto accountDto) {
+        this.accountDto = accountDto;
     }
 
     @PostConstruct
     public void init() {
-        accountDTO = new UserDTO();
+        accountDto = new UserDto();
     }
 
     public String registerAccountAction() {
-        accountControllerBean.registerAccount(accountDTO);
+        accountControllerBean.registerAccount(accountDto);
         return "login.xhtml?faces-redirect=true";
     }
 }

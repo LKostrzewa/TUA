@@ -1,4 +1,4 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.web;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtPortEndpoint;
@@ -14,7 +14,6 @@ import java.util.List;
 public class ListYachtsByPortPageBean {
     @Inject
     private YachtPortEndpoint yachtPortEndpoint;
-
     private List<YachtDto> yachts;
 
     //nwm czy tak mozna

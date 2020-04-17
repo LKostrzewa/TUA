@@ -10,12 +10,10 @@ import javax.interceptor.Interceptors;
 import java.io.IOException;
 import java.io.Serializable;
 
-
 @SessionScoped
 @Named
 @Interceptors(LoggerInterceptor.class)
 public class CurrentUser implements Serializable {
-
     private String currentRole;
 
     public void setCurrentRole(String currentRole) {

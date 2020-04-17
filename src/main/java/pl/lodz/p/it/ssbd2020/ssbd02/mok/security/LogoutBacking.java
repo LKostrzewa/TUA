@@ -12,12 +12,10 @@ import java.io.Serializable;
  * Klasa której metoda powoduje powrót do głównej strony logowania (mechanizm wylogowywania)
  */
 
-
 @Named
 @RequestScoped
 @Interceptors(LoggerInterceptor.class)
 public class LogoutBacking implements Serializable {
-
     public String submit() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "login";

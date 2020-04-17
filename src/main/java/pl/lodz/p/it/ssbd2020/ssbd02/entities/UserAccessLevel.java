@@ -7,17 +7,17 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import org.eclipse.persistence.annotations.Convert;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
-import javax.persistence.*;
 
 
 @Entity
 @Table(name = "user_access_level", uniqueConstraints = @UniqueConstraint(columnNames = {"access_level_id", "user_id"}))
 @NamedQueries({
-    @NamedQuery(name = "UserAccessLevel.findAll", query = "SELECT u FROM UserAccessLevel u"),
-    @NamedQuery(name = "UserAccessLevel.findById", query = "SELECT u FROM UserAccessLevel u WHERE u.id = :id"),
-    @NamedQuery(name = "UserAccessLevel.findByVersion", query = "SELECT u FROM UserAccessLevel u WHERE u.version = :version")})
+        @NamedQuery(name = "UserAccessLevel.findAll", query = "SELECT u FROM UserAccessLevel u"),
+        @NamedQuery(name = "UserAccessLevel.findById", query = "SELECT u FROM UserAccessLevel u WHERE u.id = :id"),
+        @NamedQuery(name = "UserAccessLevel.findByVersion", query = "SELECT u FROM UserAccessLevel u WHERE u.version = :version")})
 public class UserAccessLevel implements Serializable {
 
     @Id

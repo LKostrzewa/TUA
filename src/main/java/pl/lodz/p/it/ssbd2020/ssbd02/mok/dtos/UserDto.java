@@ -2,8 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
 import java.util.Date;
 
-public class UserDTO implements Comparable<UserDTO> {
-
+public class UserDto implements Comparable<UserDto> {
     private String login;
     private String password;
     private String email;
@@ -17,10 +16,10 @@ public class UserDTO implements Comparable<UserDTO> {
     private String lastName;
     private String phoneNumber;
 
-    public UserDTO() {
+    public UserDto() {
     }
 
-    public UserDTO(String login, String password, String email, String firstName, String lastName, String phoneNumber) {
+    public UserDto(String login, String password, String email, String firstName, String lastName, String phoneNumber) {
         this.login = login;
         this.password = password;
         this.email = email;
@@ -29,7 +28,7 @@ public class UserDTO implements Comparable<UserDTO> {
         this.phoneNumber = phoneNumber;
     }
 
-    public UserDTO(String login, String password, String email, boolean locked,
+    public UserDto(String login, String password, String email, boolean locked,
                    boolean activated, Date created, Date lastValidLogin, Date lastInvalidLogin,
                    int invalidLoginAttempts, String firstName, String lastName, String phoneNumber) {
         this.login = login;
@@ -148,7 +147,7 @@ public class UserDTO implements Comparable<UserDTO> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserDTO userDTO = (UserDTO) o;
+        UserDto userDTO = (UserDto) o;
 
         if (login != null ? !login.equals(userDTO.login) : userDTO.login != null) return false;
         if (password != null ? !password.equals(userDTO.password) : userDTO.password != null) return false;
@@ -184,7 +183,7 @@ public class UserDTO implements Comparable<UserDTO> {
 
 
     @Override
-    public int compareTo(UserDTO userDTO) {
+    public int compareTo(UserDto userDTO) {
         return this.lastName.compareTo(userDTO.lastName);
     }
 }

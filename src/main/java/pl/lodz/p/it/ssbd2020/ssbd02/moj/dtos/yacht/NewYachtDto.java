@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
 public class NewYachtDto {
-
     private String name;
     private Integer produciton_year;
     private Long yachtModelId;

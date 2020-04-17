@@ -2,10 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ChangePasswordDTO;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.EditUserDTO;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.NewUserDTO;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
@@ -25,32 +22,40 @@ public class UserEndpoint implements Serializable {
     @Inject
     private UserManager userManager;
 
-    public void registerNewUser(UserDTO userDTO) {
+    public void registerNewUser(UserDto userDTO) {
         User user = ObjectMapperUtils.map(userDTO, User.class);
         userManager.registerNewUser(user);
 
     }
 
-    public void addNewUser(NewUserDTO userDTO) {
+    public void addNewUser(AddUserDto userDTO) {
         User user = ObjectMapperUtils.map(userDTO, User.class);
         userManager.addNewUser(user);
     }
 
-    public List<User> getAll() {
-        return userManager.getAll();
+    public List<ListUsersDto> getAll() {
+        return ObjectMapperUtils.mapAll(userManager.getAll(), ListUsersDto.class);
     }
 
-    public User find(Long id) {
-        return userManager.find(id);
+    public ChangePasswordDto getChangePasswordDtoById(Long id) {
+        return ObjectMapperUtils.map(userManager.getUserById(id), ChangePasswordDto.class);
     }
 
-    public void editUser(EditUserDTO editUserDTO) {
-        User user = ObjectMapperUtils.map(editUserDTO, User.class);
+    public EditUserDto getEditUserDtoById(Long id) {
+        return ObjectMapperUtils.map(userManager.getUserById(id), EditUserDto.class);
+    }
+
+    public UserDetailsDto getUserDetailsDtoById(Long id) {
+        return ObjectMapperUtils.map(userManager.getUserById(id), UserDetailsDto.class);
+    }
+
+    public void editUser(EditUserDto editUserDto) {
+        User user = ObjectMapperUtils.map(editUserDto, User.class);
         userManager.editUser(user);
     }
 
-    public void editPassword(ChangePasswordDTO changePasswordDTO) {
-        User user = ObjectMapperUtils.map(changePasswordDTO, User.class);
-        userManager.editPassword(user);
+    public void editUserPassword(ChangePasswordDto changePasswordDto) {
+        User user = ObjectMapperUtils.map(changePasswordDto, User.class);
+        userManager.editUserPassword(user);
     }
 }

@@ -2,7 +2,6 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
 
 public class YachtDto {
-
     private Long id;
     private String name;
     private Integer produciton_year;

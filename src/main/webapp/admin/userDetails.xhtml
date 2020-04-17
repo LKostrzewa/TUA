@@ -11,33 +11,33 @@
     <h:form>
         <p:panelGrid columns="2">
             <h:outputLabel value="#{msg['first_name']}:"/>
-            <h:outputText value="#{userDetailsPageBean.userDetailsDTO.firstName}"/>
+            <h:outputText value="#{userDetailsPageBean.userDetailsDto.firstName}"/>
 
             <h:outputLabel value="#{msg['last_name']}:"/>
-            <h:outputText value="#{userDetailsPageBean.userDetailsDTO.lastName}"/>
+            <h:outputText value="#{userDetailsPageBean.userDetailsDto.lastName}"/>
 
             <h:outputLabel value="#{msg['login']}:"/>
-            <h:outputText value="#{userDetailsPageBean.userDetailsDTO.login}"/>
+            <h:outputText value="#{userDetailsPageBean.userDetailsDto.login}"/>
 
             <h:outputLabel value="#{msg['email']}:"/>
-            <h:outputText value="#{userDetailsPageBean.userDetailsDTO.email}"/>
+            <h:outputText value="#{userDetailsPageBean.userDetailsDto.email}"/>
 
             <h:outputLabel value="#{msg['phone_number']}:"/>
-            <h:outputText value="#{userDetailsPageBean.userDetailsDTO.phoneNumber}"/>
+            <h:outputText value="#{userDetailsPageBean.userDetailsDto.phoneNumber}"/>
 
             <h:outputLabel value="#{msg['created']}:"/>
-            <h:outputText value="#{userDetailsPageBean.userDetailsDTO.created}"/>
+            <h:outputText value="#{userDetailsPageBean.userDetailsDto.created}"/>
 
             <h:outputLabel value="#{msg['last_valid_login']}:"/>
-            <h:outputText value="#{userDetailsPageBean.userDetailsDTO.lastValidLogin}"/>
+            <h:outputText value="#{userDetailsPageBean.userDetailsDto.lastValidLogin}"/>
 
             <h:outputLabel value="#{msg['activated']}:"/>
-            <h:outputText value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDTO.activated}"/>
-            <h:outputText value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDTO.activated}"/>
+            <h:outputText value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDto.activated}"/>
+            <h:outputText value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDto.activated}"/>
 
             <h:outputLabel value="#{msg['locked']}:"/>
-            <h:outputText value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDTO.locked}"/>
-            <h:outputText value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDTO.locked}"/>
+            <h:outputText value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDto.locked}"/>
+            <h:outputText value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDto.locked}"/>
 
             <h:outputLabel value="#{msg['access_level']}:"/>
             <h:outputText value="#{userDetailsPageBean.getAccessLevels()}"/>

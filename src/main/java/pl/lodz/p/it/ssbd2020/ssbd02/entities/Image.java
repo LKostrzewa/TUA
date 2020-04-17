@@ -7,17 +7,17 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import org.eclipse.persistence.annotations.Convert;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
-import javax.persistence.*;
 
 @Entity
 @Table(name = "image")
 @NamedQueries({
-    @NamedQuery(name = "Image.findAll", query = "SELECT i FROM Image i"),
-    @NamedQuery(name = "Image.findById", query = "SELECT i FROM Image i WHERE i.id = :id"),
-    @NamedQuery(name = "Image.findByVersion", query = "SELECT i FROM Image i WHERE i.version = :version"),
-    @NamedQuery(name = "Image.findByLob", query = "SELECT i FROM Image i WHERE i.lob = :lob")})
+        @NamedQuery(name = "Image.findAll", query = "SELECT i FROM Image i"),
+        @NamedQuery(name = "Image.findById", query = "SELECT i FROM Image i WHERE i.id = :id"),
+        @NamedQuery(name = "Image.findByVersion", query = "SELECT i FROM Image i WHERE i.version = :version"),
+        @NamedQuery(name = "Image.findByLob", query = "SELECT i FROM Image i WHERE i.lob = :lob")})
 public class Image implements Serializable {
 
     @Id
@@ -113,5 +113,5 @@ public class Image implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Image[ id=" + id + " ]";
     }
-    
+
 }

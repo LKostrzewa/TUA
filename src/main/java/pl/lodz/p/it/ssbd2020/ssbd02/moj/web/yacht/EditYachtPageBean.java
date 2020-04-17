@@ -1,6 +1,7 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.web;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.UpdateYachtDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.UpdateYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 

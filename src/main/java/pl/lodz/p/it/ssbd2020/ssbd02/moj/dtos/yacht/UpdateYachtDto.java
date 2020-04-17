@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
 public class UpdateYachtDto {
-
     private String name;
     private Float priceMultiplier;
     private String equipment;
