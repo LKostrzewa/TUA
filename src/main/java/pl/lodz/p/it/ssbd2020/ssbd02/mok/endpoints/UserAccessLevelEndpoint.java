@@ -18,32 +18,29 @@ import java.util.List;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserAccessLevelEndpoint implements Serializable {
-
     public final static String ADMIN_ACCESS_LEVEL = "ADMINISTRATOR";
     public final static String MANAGER_ACCESS_LEVEL = "MANAGER";
     public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
-
     @Inject
     private UserAccessLevelManager userAccessLevelManager;
 
-    public UserAccessLevelDto findAccessLevelByUserID(Long id){
-        Collection<UserAccessLevel> userAccessLevels = userAccessLevelManager.findUserAccessLevelByUserID(id);
+    public UserAccessLevelDto findAccessLevelById(Long userId) {
+        Collection<UserAccessLevel> userAccessLevels = userAccessLevelManager.findUserAccessLevelById(userId);
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
-        userAccessLevelDto.setId(id);
+        userAccessLevelDto.setId(userId);
         for (UserAccessLevel level : userAccessLevels) {
-            if(level.getAccessLevel().getName().equals(ADMIN_ACCESS_LEVEL)) userAccessLevelDto.setAdmin(true);
-            if(level.getAccessLevel().getName().equals(MANAGER_ACCESS_LEVEL)) userAccessLevelDto.setManager(true);
-            if(level.getAccessLevel().getName().equals(CLIENT_ACCESS_LEVEL)) userAccessLevelDto.setClient(true);
-
+            if (level.getAccessLevel().getName().equals(ADMIN_ACCESS_LEVEL)) userAccessLevelDto.setAdmin(true);
+            if (level.getAccessLevel().getName().equals(MANAGER_ACCESS_LEVEL)) userAccessLevelDto.setManager(true);
+            if (level.getAccessLevel().getName().equals(CLIENT_ACCESS_LEVEL)) userAccessLevelDto.setClient(true);
         }
         return userAccessLevelDto;
     }
 
-    public void editAccessLevels(UserAccessLevelDto userAccessLevelDTO) {
+    public void editAccessLevels(UserAccessLevelDto userAccessLevelDto) {
         List<Boolean> levels = new ArrayList<>();
-        levels.add(userAccessLevelDTO.getAdmin());
-        levels.add(userAccessLevelDTO.getManager());
-        levels.add(userAccessLevelDTO.getClient());
-        userAccessLevelManager.editAccessLevels(userAccessLevelDTO.getId(),levels);
+        levels.add(userAccessLevelDto.getAdmin());
+        levels.add(userAccessLevelDto.getManager());
+        levels.add(userAccessLevelDto.getClient());
+        userAccessLevelManager.editAccessLevels(userAccessLevelDto.getId(), levels);
     }
 }

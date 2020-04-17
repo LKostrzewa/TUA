@@ -16,6 +16,14 @@ public class AddPortPageBean {
     private PortEndpoint portEndpoint;
     private NewPortDto newPortDto;
 
+    public NewPortDto getNewPortDto() {
+        return newPortDto;
+    }
+
+    public void setNewPortDto(NewPortDto newPortDto) {
+        this.newPortDto = newPortDto;
+    }
+
     @PostConstruct
     public void init() {
         newPortDto = new NewPortDto();
@@ -24,13 +32,5 @@ public class AddPortPageBean {
     public String addPort() {
         portEndpoint.addPort(newPortDto);
         return "/manager/listPorts.xhtml?faces-redirect=true";
-    }
-
-    public NewPortDto getNewPortDto() {
-        return newPortDto;
-    }
-
-    public void setNewPortDto(NewPortDto newPortDto) {
-        this.newPortDto = newPortDto;
     }
 }

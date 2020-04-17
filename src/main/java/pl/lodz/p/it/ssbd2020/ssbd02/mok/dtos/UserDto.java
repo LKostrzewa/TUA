@@ -16,9 +16,6 @@ public class UserDto implements Comparable<UserDto> {
     private String lastName;
     private String phoneNumber;
 
-    public UserDto() {
-    }
-
     public UserDto(String login, String password, String email, String firstName, String lastName, String phoneNumber) {
         this.login = login;
         this.password = password;
@@ -45,6 +42,9 @@ public class UserDto implements Comparable<UserDto> {
         this.phoneNumber = phoneNumber;
     }
 
+    public UserDto() {
+
+    }
 
     public String getLogin() {
         return login;

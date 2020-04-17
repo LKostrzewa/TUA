@@ -29,7 +29,7 @@ public class AddUserPageBean implements Serializable {
         this.addUserDto = addUserDto;
     }
 
-    public String onClick() {
+    public String addUser() {
         userEndpoint.addNewUser(addUserDto);
         return "listUsers.xhtml?faces-redirect=true";
     }

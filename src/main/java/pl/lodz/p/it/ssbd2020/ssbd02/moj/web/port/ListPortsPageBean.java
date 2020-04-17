@@ -16,11 +16,6 @@ public class ListPortsPageBean {
     private PortEndpoint portEndpoint;
     private List<PortDto> ports;
 
-    @PostConstruct
-    private void init() {
-        this.ports = portEndpoint.getAllPorts();
-    }
-
     public List<PortDto> getPorts() {
         return ports;
     }
@@ -29,4 +24,8 @@ public class ListPortsPageBean {
         this.ports = ports;
     }
 
+    @PostConstruct
+    private void init() {
+        this.ports = portEndpoint.getAllPorts();
+    }
 }

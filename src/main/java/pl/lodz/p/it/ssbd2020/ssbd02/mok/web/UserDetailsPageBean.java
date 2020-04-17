@@ -39,21 +39,21 @@ public class UserDetailsPageBean implements Serializable {
         this.userDetailsDto = userDetailsDto;
     }
 
-    public String onClick(Long id) {
+    public String showUserDetailsPage(Long id) {
         conversation.begin();
         this.userDetailsDto = userEndpoint.getUserDetailsDtoById(id);
-        this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelByUserID(id);
+        this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(id);
         return "userDetails.xhtml?faces-redirect=true";
     }
 
-    public String onFinish() {
+    public String closeUserDetailsPage() {
         conversation.end();
         return "listUsers.xhtml?faces-redirect=true";
     }
 
     public void refresh() {
         this.userDetailsDto = userEndpoint.getUserDetailsDtoById(userDetailsDto.getId());
-        this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelByUserID(userDetailsDto.getId());
+        this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(userDetailsDto.getId());
     }
 
     public String getAccessLevels() {

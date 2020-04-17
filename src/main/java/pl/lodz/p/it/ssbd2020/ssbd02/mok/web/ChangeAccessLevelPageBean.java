@@ -27,12 +27,12 @@ public class ChangeAccessLevelPageBean implements Serializable {
     }
 
 
-    public String onClick() {
-        this.userDto = userAccessLevelEndpoint.findAccessLevelByUserID(userDetailsPageBean.getUserDetailsDto().getId());
+    public String openChangeAccessLevelPage() {
+        this.userDto = userAccessLevelEndpoint.findAccessLevelById(userDetailsPageBean.getUserDetailsDto().getId());
         return "/admin/changeAccessLevel.xhtml?faces-redirect=true";
     }
 
-    public String onFinish() {
+    public String changeAccessLevel() {
         userAccessLevelEndpoint.editAccessLevels(userDto);
         userDetailsPageBean.refresh();
         return "/admin/userDetails.xhtml?faces-redirect=true";

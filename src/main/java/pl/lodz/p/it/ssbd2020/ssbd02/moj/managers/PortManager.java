@@ -29,9 +29,9 @@ public class PortManager {
         return portFacade.find(portId);
     }
 
-    public void updatePort(Long portId, Port portToUpdate) {
-        portToUpdate.setId(portId);
-        portFacade.edit(portToUpdate);
+    public void editPort(Long portId, Port portToEdit) {
+        portToEdit.setId(portId);
+        portFacade.edit(portToEdit);
     }
 
     public void deactivatePort(Long portId) {

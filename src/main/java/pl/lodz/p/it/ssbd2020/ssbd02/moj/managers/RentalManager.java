@@ -54,7 +54,7 @@ public class RentalManager {
     }
 
     public void editRental(Rental rental) {
-        Rental rentalFromRepository = rentalFacade.find(rental.getId());
+        Rental rentalToEdit = rentalFacade.find(rental.getId());
         //USTAWIANIE PÓL
         rentalFacade.edit(rental);
     }

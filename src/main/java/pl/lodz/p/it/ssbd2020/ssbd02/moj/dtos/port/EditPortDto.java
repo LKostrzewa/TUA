@@ -3,7 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class UpdatePortDto implements Serializable {
+public class EditPortDto implements Serializable {
     private String name;
     private String lake;
     private String nearestCity;

@@ -10,8 +10,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 @FacesValidator("passwordValidator")
-public class PasswordValidator implements Validator{
-
+public class PasswordValidator implements Validator {
     ResourceBundle bundle = ResourceBundle.getBundle("resource", Locale.getDefault());
 
     @Override
@@ -25,6 +24,5 @@ public class PasswordValidator implements Validator{
         if (!password.matches("^[a-zA-Z0-9]+$")) {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("validation.password.pattern"), null));
         }
-
     }
 }

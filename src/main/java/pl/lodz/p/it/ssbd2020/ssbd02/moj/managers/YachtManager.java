@@ -29,9 +29,9 @@ public class YachtManager {
         return yachtFacade.find(yachtId);
     }
 
-    public void updateYacht(Long yachtId, Yacht yachtToUpdate) {
-        yachtToUpdate.setId(yachtId);
-        yachtFacade.edit(yachtToUpdate);
+    public void editYacht(Long yachtId, Yacht yachtToEdit) {
+        yachtToEdit.setId(yachtId);
+        yachtFacade.edit(yachtToEdit);
     }
 
     public void deactivateYacht(Long yachtId) {

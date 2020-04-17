@@ -2,12 +2,21 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion;
 
 import java.util.Date;
 
-public class  NewOpinionDTO {
-
+public class OpinionDto {
+    private Long id;
     private Long rentalId;
     private int rating;
     private String comment;
     private Date date;
+    private Boolean edited;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getRentalId() {
         return rentalId;
@@ -39,5 +48,13 @@ public class  NewOpinionDTO {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Boolean getEdited() {
+        return edited;
+    }
+
+    public void setEdited(Boolean edited) {
+        this.edited = edited;
     }
 }

@@ -1,10 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.AddRentalDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.EditRentalDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.ListAllRentalsDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.ListRentalsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.AddRentalDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.EditRentalDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListAllRentalsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListRentalsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.RentalManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
@@ -39,7 +39,6 @@ public class RentalEndpoint implements Serializable {
     public EditRentalDto getRentalById(Long rentalId) {
         Rental rental = rentalManager.getRentalById(rentalId);
         return ObjectMapperUtils.map(rental, EditRentalDto.class);
-//        return ObjectMapperUtils.map(port, PortDto.class);
     }
 
     public void editRental(EditRentalDto editRentalDto) {

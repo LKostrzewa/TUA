@@ -16,12 +16,12 @@ import java.io.Serializable;
 public class CurrentUser implements Serializable {
     private String currentRole;
 
-    public void setCurrentRole(String currentRole) {
-        this.currentRole = currentRole;
-    }
-
     public String getCurrentRole() {
         return currentRole;
+    }
+
+    public void setCurrentRole(String currentRole) {
+        this.currentRole = currentRole;
     }
 
     @PostConstruct

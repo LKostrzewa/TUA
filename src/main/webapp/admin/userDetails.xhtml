@@ -44,13 +44,13 @@
 
 
         </p:panelGrid>
-        <p:commandButton value="#{msg['go_back']}" action="#{userDetailsPageBean.onFinish()}"/>
+        <p:commandButton value="#{msg['go_back']}" action="#{userDetailsPageBean.closeUserDetailsPage()}"/>
         <p:commandButton value="#{msg['edit']}"
-                         action="#{editUserPageBean.onClick()}"/>
+                         action="#{editUserPageBean.openEditUserPage()}"/>
         <p:commandButton value="#{msg['change_password']}"
-                         action="#{changePasswordPageBean.onClick()}"/>
+                         action="#{changePasswordPageBean.openChangePasswordPage()}"/>
         <p:commandButton value="#{msg['change_access_level']}"
-                         action="#{changeAccessLevelPageBean.onClick()}"/>
+                         action="#{changeAccessLevelPageBean.openChangeAccessLevelPage()}"/>
     </h:form>
 </h:body>
 </html>

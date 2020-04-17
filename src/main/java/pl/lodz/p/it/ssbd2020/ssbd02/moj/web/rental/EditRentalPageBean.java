@@ -1,6 +1,6 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.web;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.rental;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.EditRentalDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.EditRentalDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.RentalEndpoint;
 
 import javax.enterprise.context.Conversation;

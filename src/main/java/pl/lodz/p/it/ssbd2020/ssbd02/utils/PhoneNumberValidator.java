@@ -10,10 +10,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 @FacesValidator("phoneNumberValidator")
-public class PhoneNumberValidator implements Validator{
-
-    ResourceBundle bundle = ResourceBundle.getBundle("resource",Locale.getDefault());
-
+public class PhoneNumberValidator implements Validator {
+    ResourceBundle bundle = ResourceBundle.getBundle("resource", Locale.getDefault());
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object obj) throws ValidatorException {
@@ -22,6 +20,5 @@ public class PhoneNumberValidator implements Validator{
         if (!number.matches("^[0-9]{9}")) {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("validation.phone.pattern"), null));
         }
-
     }
 }

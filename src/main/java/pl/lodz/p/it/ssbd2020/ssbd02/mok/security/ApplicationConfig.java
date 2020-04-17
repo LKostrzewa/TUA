@@ -29,6 +29,5 @@ import javax.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
 @FacesConfig
 @ApplicationScoped
 public class ApplicationConfig {
-
 }
 

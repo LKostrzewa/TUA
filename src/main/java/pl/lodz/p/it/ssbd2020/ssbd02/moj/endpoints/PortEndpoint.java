@@ -1,9 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.EditPortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.NewPortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.UpdatePortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.PortManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
@@ -36,9 +36,9 @@ public class PortEndpoint implements Serializable {
         return ObjectMapperUtils.map(port, PortDto.class);
     }
 
-    public void updatePort(Long portId, UpdatePortDto updatePortDto) {
-        Port portToUpdate = ObjectMapperUtils.map(updatePortDto, Port.class);
-        portManager.updatePort(portId, portToUpdate);
+    public void editPort(Long portId, EditPortDto editPortDto) {
+        Port portToEdit = ObjectMapperUtils.map(editPortDto, Port.class);
+        portManager.editPort(portId, portToEdit);
     }
 
     public void deactivatePort(Long portId) {

@@ -15,6 +15,14 @@ public class AddYachtPageBean {
     private YachtEndpoint yachtEndpoint;
     private NewYachtDto newYachtDto;
 
+    public NewYachtDto getNewYachtDto() {
+        return newYachtDto;
+    }
+
+    public void setNewYachtDto(NewYachtDto newYachtDto) {
+        this.newYachtDto = newYachtDto;
+    }
+
     @PostConstruct
     public void init() {
         newYachtDto = new NewYachtDto();
@@ -23,13 +31,5 @@ public class AddYachtPageBean {
     public void addNewYacht() {
         newYachtDto.setYachtModelId((long) 1);
         yachtEndpoint.addYacht(newYachtDto);
-    }
-
-    public NewYachtDto getNewYachtDto() {
-        return newYachtDto;
-    }
-
-    public void setNewYachtDto(NewYachtDto newYachtDto) {
-        this.newYachtDto = newYachtDto;
     }
 }
