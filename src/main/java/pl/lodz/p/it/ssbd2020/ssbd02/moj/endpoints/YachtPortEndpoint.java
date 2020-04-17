@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.YachtDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.YachtPortManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;

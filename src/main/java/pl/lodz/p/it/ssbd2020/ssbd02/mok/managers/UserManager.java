@@ -76,10 +76,10 @@ public class UserManager {
 
     public void editUser(User user) {
         User userFromRepository = userFacade.find(user.getId());
-        userFromRepository.setEmail(userFromRepository.getEmail());
-        userFromRepository.setFirstName(userFromRepository.getFirstName());
-        userFromRepository.setLastName(userFromRepository.getLastName());
-        userFromRepository.setPhoneNumber(userFromRepository.getPhoneNumber());
+        userFromRepository.setEmail(user.getEmail());
+        userFromRepository.setFirstName(user.getFirstName());
+        userFromRepository.setLastName(user.getLastName());
+        userFromRepository.setPhoneNumber(user.getPhoneNumber());
         userFacade.edit(userFromRepository);
     }
 

@@ -20,7 +20,7 @@
 
         <ui:define name="content">
             <h:form>
-                <p:dataTable var="listUsersDTO" value="#{listUsersPageBean.users}" rows="10" border="2"
+                <p:dataTable var="listUsersDto" value="#{listUsersPageBean.users}" rows="10" border="2"
                              width="100%" styleClass="table"
                              paginator="true"
                              paginatorPosition="bottom"
@@ -28,26 +28,26 @@
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
 
                     <p:column id="login" headerText="${msg['login']}">
-                        <h:outputText value="#{listUsersDTO.login}"/>
+                        <h:outputText value="#{listUsersDto.login}"/>
                     </p:column>
 
                     <p:column id="email" headerText="${msg['email']}">
-                        <h:outputText value="#{listUsersDTO.email}"/>
+                        <h:outputText value="#{listUsersDto.email}"/>
                     </p:column>
 
                     <p:column id="locked" headerText="${msg['locked']}">
-                        <h:outputText value="${msg['yes']}" rendered="#{listUsersDTO.locked}"/>
-                        <h:outputText value="${msg['no']}" rendered="#{!listUsersDTO.locked}"/>
+                        <h:outputText value="${msg['yes']}" rendered="#{listUsersDto.locked}"/>
+                        <h:outputText value="${msg['no']}" rendered="#{!listUsersDto.locked}"/>
                     </p:column>
 
                     <p:column id="activated" headerText="${msg['activated']}">
-                        <h:outputText value="${msg['yes']}" rendered="#{listUsersDTO.activated}"/>
-                        <h:outputText value="${msg['no']}" rendered="#{!listUsersDTO.activated}"/>
+                        <h:outputText value="${msg['yes']}" rendered="#{listUsersDto.activated}"/>
+                        <h:outputText value="${msg['no']}" rendered="#{!listUsersDto.activated}"/>
                     </p:column>
 
                     <p:column id="actions" headerText="${msg['actions']}">
                         <p:commandButton value="${msg['details']}"
-                                         action="#{userDetailsPageBean.onClick(listUsersDTO.id)}"/>
+                                         action="#{userDetailsPageBean.onClick(listUsersDto.id)}"/>
                         <p:commandButton value="${msg['delete']}"/>
                     </p:column>
 
