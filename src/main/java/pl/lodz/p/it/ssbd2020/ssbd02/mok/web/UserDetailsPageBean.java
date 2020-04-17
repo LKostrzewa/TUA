@@ -1,9 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
@@ -53,7 +53,7 @@ public class UserDetailsPageBean implements Serializable {
 
     public void refresh() {
         this.userDetailsDto = userEndpoint.getUserDetailsDtoById(userDetailsDto.getId());
-        this.userAccessLevelDTO = userAccessLevelEndpoint.findAccessLevelByUserID(user.getId());
+        this.userAccessLevelDTO = userAccessLevelEndpoint.findAccessLevelByUserID(userDetailsDto.getId());
     }
 
     public String getAccessLevels() {
