@@ -56,4 +56,14 @@ public class UserEndpoint implements Serializable {
         User user = ObjectMapperUtils.map(changePasswordDto, User.class);
         userManager.editUserPassword(user);
     }
+
+    public void lockAccount(UserDetailsDto userDetailsDto) {
+        User user = ObjectMapperUtils.map(userDetailsDto, User.class);
+        userManager.editUser(user);
+    }
+
+    public void unlockAccount(UserDetailsDto userDetailsDto) {
+        User user = ObjectMapperUtils.map(userDetailsDto, User.class);
+        userManager.editUser(user);
+    }
 }

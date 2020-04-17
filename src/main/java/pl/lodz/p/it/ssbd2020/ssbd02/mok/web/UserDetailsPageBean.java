@@ -66,4 +66,14 @@ public class UserDetailsPageBean implements Serializable {
             string += "CLIENT";
         return string;
     }
+
+    public void lockAccount() {
+        userDetailsDto.setLocked(true);
+        userEndpoint.lockAccount(userDetailsDto);
+    }
+
+    public void unlockAccount() {
+        userDetailsDto.setLocked(false);
+        userEndpoint.unlockAccount(userDetailsDto);
+    }
 }
