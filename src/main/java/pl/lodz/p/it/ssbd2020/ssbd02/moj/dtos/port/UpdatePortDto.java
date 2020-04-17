@@ -1,4 +1,4 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

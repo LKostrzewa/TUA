@@ -2,10 +2,10 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.NewYachtDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.UpdateYachtDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.YachtDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.YachtListDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.NewYachtDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.UpdateYachtDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtListDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.YachtManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;

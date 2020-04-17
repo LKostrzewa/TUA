@@ -1,10 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
-
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.NewPortDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.PortDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.UpdatePortDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.NewPortDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.UpdatePortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.PortManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;

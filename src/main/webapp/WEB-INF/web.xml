@@ -116,13 +116,11 @@
         <web-resource-collection>
             <web-resource-name>CommonPages</web-resource-name>
             <url-pattern>/shared/*</url-pattern>
-
         </web-resource-collection>
         <auth-constraint>
             <role-name>ADMINISTRATOR</role-name>
             <role-name>MANAGER</role-name>
             <role-name>CLIENT</role-name>
-
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>

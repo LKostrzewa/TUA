@@ -1,6 +1,6 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.web;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.port;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.UpdatePortDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.UpdatePortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
 
 import javax.enterprise.context.Conversation;
