@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
@@ -21,14 +21,14 @@ public class UserDetailsPageBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
     private UserDetailsDto userDetailsDto;
-    private UserAccessLevelDTO userAccessLevelDTO;
+    private UserAccessLevelDto userAccessLevelDto;
 
-    public UserAccessLevelDTO getUserAccessLevelDTO() {
-        return userAccessLevelDTO;
+    public UserAccessLevelDto getUserAccessLevelDto() {
+        return userAccessLevelDto;
     }
 
-    public void setUserAccessLevelDTO(UserAccessLevelDTO userAccessLevelDTO) {
-        this.userAccessLevelDTO = userAccessLevelDTO;
+    public void setUserAccessLevelDto(UserAccessLevelDto userAccessLevelDto) {
+        this.userAccessLevelDto = userAccessLevelDto;
     }
 
     public UserDetailsDto getUserDetailsDto() {
@@ -42,7 +42,7 @@ public class UserDetailsPageBean implements Serializable {
     public String onClick(Long id) {
         conversation.begin();
         this.userDetailsDto = userEndpoint.getUserDetailsDtoById(id);
-        this.userAccessLevelDTO = userAccessLevelEndpoint.findAccessLevelByUserID(id);
+        this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelByUserID(id);
         return "userDetails.xhtml?faces-redirect=true";
     }
 
@@ -53,16 +53,16 @@ public class UserDetailsPageBean implements Serializable {
 
     public void refresh() {
         this.userDetailsDto = userEndpoint.getUserDetailsDtoById(userDetailsDto.getId());
-        this.userAccessLevelDTO = userAccessLevelEndpoint.findAccessLevelByUserID(userDetailsDto.getId());
+        this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelByUserID(userDetailsDto.getId());
     }
 
     public String getAccessLevels() {
         String string = "";
-        if (userAccessLevelDTO.getAdmin())
+        if (userAccessLevelDto.getAdmin())
             string += "ADMINISTRATOR ";
-        if (userAccessLevelDTO.getManager())
+        if (userAccessLevelDto.getManager())
             string += "MANAGER ";
-        if (userAccessLevelDTO.getClient())
+        if (userAccessLevelDto.getClient())
             string += "CLIENT";
         return string;
     }

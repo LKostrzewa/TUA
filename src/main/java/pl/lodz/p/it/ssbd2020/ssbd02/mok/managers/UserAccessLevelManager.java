@@ -34,7 +34,7 @@ public class UserAccessLevelManager implements Serializable {
     @Inject
     private UserFacade userFacade;
 
-    public void editAccessLevels(long id, List<Boolean> levels){
+    public void editAccessLevels(Long id, List<Boolean> levels){
         Collection<UserAccessLevel> accessLevelsForUser = findUserAccessLevelByUserID(id);
 
         if(levels.get(0).equals(true) && !isInRole(accessLevelsForUser,ADMIN_ACCESS_LEVEL)){
@@ -66,7 +66,7 @@ public class UserAccessLevelManager implements Serializable {
         }
 
     }
-    public void setUpAccessLevel(UserAccessLevel userAccessLevel,long id){
+    public void setUpAccessLevel(UserAccessLevel userAccessLevel, Long id){
         userAccessLevel.setId(id);
         userAccessLevel.setVersion(1);
         userAccessLevel.setBusinessKey(UUID.randomUUID());
@@ -91,12 +91,11 @@ public class UserAccessLevelManager implements Serializable {
         return null;
     }
 
-    public Collection<UserAccessLevel> findUserAccessLevelByUserID(long id){
+    public Collection<UserAccessLevel> findUserAccessLevelByUserID(Long id){
         Collection<UserAccessLevel> accessLevelsForUser = new ArrayList<>();
         for (UserAccessLevel userAccessLevel: userAccessLevelFacade.findAll()) {
             if(userAccessLevel.getUser().getId().equals(id)) accessLevelsForUser.add(userAccessLevel);
         }
         return accessLevelsForUser;
     }
-
 }

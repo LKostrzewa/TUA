@@ -1,7 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserAccessLevelManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -26,20 +26,20 @@ public class UserAccessLevelEndpoint implements Serializable {
     @Inject
     private UserAccessLevelManager userAccessLevelManager;
 
-    public UserAccessLevelDTO findAccessLevelByUserID(long id){
+    public UserAccessLevelDto findAccessLevelByUserID(Long id){
         Collection<UserAccessLevel> userAccessLevels = userAccessLevelManager.findUserAccessLevelByUserID(id);
-        UserAccessLevelDTO userAccessLevelDTO = new UserAccessLevelDTO();
-        userAccessLevelDTO.setId(id);
+        UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
+        userAccessLevelDto.setId(id);
         for (UserAccessLevel level : userAccessLevels) {
-            if(level.getAccessLevel().getName().equals(ADMIN_ACCESS_LEVEL)) userAccessLevelDTO.setAdmin(true);
-            if(level.getAccessLevel().getName().equals(MANAGER_ACCESS_LEVEL)) userAccessLevelDTO.setManager(true);
-            if(level.getAccessLevel().getName().equals(CLIENT_ACCESS_LEVEL)) userAccessLevelDTO.setClient(true);
+            if(level.getAccessLevel().getName().equals(ADMIN_ACCESS_LEVEL)) userAccessLevelDto.setAdmin(true);
+            if(level.getAccessLevel().getName().equals(MANAGER_ACCESS_LEVEL)) userAccessLevelDto.setManager(true);
+            if(level.getAccessLevel().getName().equals(CLIENT_ACCESS_LEVEL)) userAccessLevelDto.setClient(true);
 
         }
-        return userAccessLevelDTO;
+        return userAccessLevelDto;
     }
 
-    public void editAccessLevels(UserAccessLevelDTO userAccessLevelDTO) {
+    public void editAccessLevels(UserAccessLevelDto userAccessLevelDTO) {
         List<Boolean> levels = new ArrayList<>();
         levels.add(userAccessLevelDTO.getAdmin());
         levels.add(userAccessLevelDTO.getManager());
