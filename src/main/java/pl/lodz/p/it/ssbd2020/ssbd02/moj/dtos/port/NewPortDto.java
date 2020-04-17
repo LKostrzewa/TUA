@@ -1,9 +1,8 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class UpdatePortDto implements Serializable {
+public class NewPortDto {
 
     private String name;
     private String lake;

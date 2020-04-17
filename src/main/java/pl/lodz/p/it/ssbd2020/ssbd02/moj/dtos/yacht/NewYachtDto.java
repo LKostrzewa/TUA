@@ -1,24 +1,12 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
+public class NewYachtDto {
 
-public class YachtDto {
-
-    private Long id;
     private String name;
     private Integer produciton_year;
     private Long yachtModelId;
     private Float priceMultiplier;
-    private Long currentPortId;
     private String equipment;
-    private Float avgRating;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -52,27 +40,11 @@ public class YachtDto {
         this.priceMultiplier = priceMultiplier;
     }
 
-    public Long getCurrentPortId() {
-        return currentPortId;
-    }
-
-    public void setCurrentPortId(Long currentPortId) {
-        this.currentPortId = currentPortId;
-    }
-
     public String getEquipment() {
         return equipment;
     }
 
     public void setEquipment(String equipment) {
         this.equipment = equipment;
-    }
-
-    public Float getAvgRating() {
-        return avgRating;
-    }
-
-    public void setAvgRating(Float avgRating) {
-        this.avgRating = avgRating;
     }
 }
