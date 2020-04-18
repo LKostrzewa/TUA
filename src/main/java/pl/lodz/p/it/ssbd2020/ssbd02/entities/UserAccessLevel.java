@@ -27,13 +27,13 @@ public class UserAccessLevel implements Serializable {
     @Version
     @Column(name = "version", nullable = false)
     private long version;
-    @Column(name = "business_key", nullable = false, unique = true)
+    @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @Convert("uuidConverter")
     private UUID businessKey;
-    @JoinColumn(name = "access_level_id", referencedColumnName = "id")
+    @JoinColumn(name = "access_level_id", referencedColumnName = "id", updatable = false)
     @ManyToOne(optional = false)
     private AccessLevel accessLevel;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @ManyToOne(optional = false)
     private User user;
 
@@ -44,10 +44,10 @@ public class UserAccessLevel implements Serializable {
         this.id = id;
     }
 
-    public UserAccessLevel(Long id, long version, UUID businessKey) {
-        this.id = id;
-        this.version = version;
+    public UserAccessLevel(UUID businessKey, User user, AccessLevel accessLevel) {
         this.businessKey = businessKey;
+        this.accessLevel = accessLevel;
+        this.user = user;
     }
 
     public Long getId() {
@@ -62,24 +62,12 @@ public class UserAccessLevel implements Serializable {
         return businessKey;
     }
 
-    public void setBusinessKey(UUID businessKey) {
-        this.businessKey = businessKey;
-    }
-
     public AccessLevel getAccessLevel() {
         return accessLevel;
     }
 
-    public void setAccessLevel(AccessLevel accessLevelId) {
-        this.accessLevel = accessLevelId;
-    }
-
     public User getUser() {
         return user;
-    }
-
-    public void setUser(User userId) {
-        this.user = userId;
     }
 
     @Override

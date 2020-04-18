@@ -31,7 +31,7 @@ public class Rental implements Serializable {
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
-    private long version;
+    private Long version;
     @Column(name = "business_key", nullable = false, unique = true)
     @Convert("uuidConverter")
     private UUID businessKey;
@@ -48,10 +48,10 @@ public class Rental implements Serializable {
     @JoinColumn(name = "rental_status_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private RentalStatus rentalStatus;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @ManyToOne(optional = false)
     private User user;
-    @JoinColumn(name = "yacht_id", referencedColumnName = "id")
+    @JoinColumn(name = "yacht_id", referencedColumnName = "id", updatable = false)
     @ManyToOne(optional = false)
     private Yacht yacht;
 
@@ -131,16 +131,8 @@ public class Rental implements Serializable {
         return user;
     }
 
-    public void setUser(User userId) {
-        this.user = userId;
-    }
-
     public Yacht getYacht() {
         return yacht;
-    }
-
-    public void setYacht(Yacht yachtId) {
-        this.yacht = yachtId;
     }
 
     @Override

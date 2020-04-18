@@ -26,13 +26,13 @@ public class Image implements Serializable {
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
-    private long version;
+    private Long version;
     @Convert("uuidConverter")
     @Column(name = "business_key", nullable = false, unique = true)
     private UUID businessKey;
     @Column(name = "lob")
     private Serializable lob;
-    @JoinColumn(name = "yacht_model_id", referencedColumnName = "id")
+    @JoinColumn(name = "yacht_model_id", referencedColumnName = "id", updatable = false)
     @ManyToOne(optional = false)
     private YachtModel yachtModel;
 
@@ -43,7 +43,7 @@ public class Image implements Serializable {
         this.id = id;
     }
 
-    public Image(Long id, long version, UUID businessKey) {
+    public Image(Long id, Long version, UUID businessKey) {
         this.id = id;
         this.version = version;
         this.businessKey = businessKey;
@@ -53,7 +53,7 @@ public class Image implements Serializable {
         return id;
     }
 
-    public long getVersion() {
+    public Long getVersion() {
         return version;
     }
 
@@ -75,10 +75,6 @@ public class Image implements Serializable {
 
     public YachtModel getYachtModel() {
         return yachtModel;
-    }
-
-    public void setYachtModel(YachtModel yachtModelId) {
-        this.yachtModel = yachtModelId;
     }
 
     @Override

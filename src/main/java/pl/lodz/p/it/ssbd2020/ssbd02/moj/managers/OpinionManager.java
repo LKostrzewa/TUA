@@ -38,7 +38,7 @@ public class OpinionManager {
     }
 
     public void editOpinion(Long opinionId, Opinion opinionToEdit) {
-        opinionToEdit.setId(opinionId);
+        //opinionToEdit.setId(opinionId);
         opinionToEdit.setEdited(true);
         opinionFacade.edit(opinionToEdit);
     }

@@ -249,7 +249,7 @@ public class User implements Serializable {
         return activated;
     }
 
-    public long getVersionUserDetails() {
+    public Long getVersionUserDetails() {
         return versionUserDetails;
     }
 

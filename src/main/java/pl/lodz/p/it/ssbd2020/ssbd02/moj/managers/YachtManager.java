@@ -30,7 +30,7 @@ public class YachtManager {
     }
 
     public void editYacht(Long yachtId, Yacht yachtToEdit) {
-        yachtToEdit.setId(yachtId);
+        //yachtToEdit.setId(yachtId);
         yachtFacade.edit(yachtToEdit);
     }
 

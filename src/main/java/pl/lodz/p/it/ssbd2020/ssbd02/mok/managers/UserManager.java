@@ -41,10 +41,10 @@ public class UserManager {
         user.setActivationCode(UUID.randomUUID().toString());
         user.setResetPasswordCode(UUID.randomUUID());
 
-        UserAccessLevel userAccessLevel = new UserAccessLevel();
-        userAccessLevel.setBusinessKey(UUID.randomUUID());
+        UserAccessLevel userAccessLevel = new UserAccessLevel(UUID.randomUUID(), user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
+        /*userAccessLevel.setBusinessKey(UUID.randomUUID());
         userAccessLevel.setAccessLevel(accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
-        userAccessLevel.setUser(user);
+        userAccessLevel.setUser(user);*/
 
 
         List<UserAccessLevel> userAccessLevels = List.of(userAccessLevel);

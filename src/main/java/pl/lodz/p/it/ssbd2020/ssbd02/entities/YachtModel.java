@@ -8,6 +8,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 import org.eclipse.persistence.annotations.Convert;
 
 import javax.persistence.*;
+import javax.ws.rs.DefaultValue;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class YachtModel implements Serializable {
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
-    private long version;
+    private Long version;
     @Column(name = "business_key", nullable = false, unique = true)
     @Convert("uuidConverter")
     private UUID businessKey;
@@ -59,7 +60,7 @@ public class YachtModel implements Serializable {
         this.id = id;
     }
 
-    public YachtModel(Long id, long version, UUID businessKey, String manufacturer, String model, int capacity, String generalDescription, BigDecimal basicPrice) {
+    public YachtModel(Long id, Long version, UUID businessKey, String manufacturer, String model, int capacity, String generalDescription, BigDecimal basicPrice) {
         this.id = id;
         this.version = version;
         this.businessKey = businessKey;
@@ -74,7 +75,7 @@ public class YachtModel implements Serializable {
         return id;
     }
 
-    public long getVersion() {
+    public Long getVersion() {
         return version;
     }
 

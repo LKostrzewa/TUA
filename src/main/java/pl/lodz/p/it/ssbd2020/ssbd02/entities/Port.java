@@ -32,7 +32,7 @@ public class Port implements Serializable {
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
-    private long version;
+    private Long version;
     @Column(name = "business_key", nullable = false, unique = true)
     @Convert("uuidConverter")
     private UUID businessKey;
@@ -58,7 +58,7 @@ public class Port implements Serializable {
         this.id = id;
     }
 
-    public Port(Long id, long version, UUID businessKey, String name, String lake, String nearestCity, BigDecimal long1, BigDecimal lat) {
+    public Port(Long id, Long version, UUID businessKey, String name, String lake, String nearestCity, BigDecimal long1, BigDecimal lat) {
         this.id = id;
         this.version = version;
         this.businessKey = businessKey;
@@ -73,7 +73,7 @@ public class Port implements Serializable {
         return id;
     }
 
-    public long getVersion() {
+    public Long getVersion() {
         return version;
     }
 

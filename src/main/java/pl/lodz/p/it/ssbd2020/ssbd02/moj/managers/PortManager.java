@@ -30,7 +30,7 @@ public class PortManager {
     }
 
     public void editPort(Long portId, Port portToEdit) {
-        portToEdit.setId(portId);
+        //portToEdit.setId(portId);
         portFacade.edit(portToEdit);
     }
 
