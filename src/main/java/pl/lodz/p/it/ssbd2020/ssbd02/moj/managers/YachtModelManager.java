@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
-
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facade.YachtModelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -15,7 +14,6 @@ import java.util.List;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class YachtModelManager {
-
     @Inject
     private YachtModelFacade yachtModelFacade;
 
@@ -31,9 +29,9 @@ public class YachtModelManager {
         return yachtModelFacade.find(yachtModelId);
     }
 
-    public void updateYachtModel(Long yachtModelId, YachtModel yachtModelToUpdate) {
-        yachtModelToUpdate.setId(yachtModelId);
-        yachtModelFacade.edit(yachtModelToUpdate);
+    public void editYachtModel(Long yachtModelId, YachtModel yachtModelToEdit) {
+        yachtModelToEdit.setId(yachtModelId);
+        yachtModelFacade.edit(yachtModelToEdit);
     }
 
     public void deactivateYachtModel(Long yachtModelId) {

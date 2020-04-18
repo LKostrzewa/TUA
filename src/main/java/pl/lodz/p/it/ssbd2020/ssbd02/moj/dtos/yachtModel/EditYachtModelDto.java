@@ -1,7 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel;
 
 
-public class UpdateYachtModelDTO {
+public class EditYachtModelDto {
     private Integer capacity;
     private String manufacturer;
     private String model;

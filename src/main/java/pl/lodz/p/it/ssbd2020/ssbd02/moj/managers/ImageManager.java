@@ -1,9 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
-
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Image;
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.Opinion;
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facade.ImageFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facade.YachtModelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -21,11 +18,10 @@ import java.util.stream.Collectors;
 public class ImageManager {
     @Inject
     private ImageFacade imageFacade;
-
     @Inject
     private YachtModelFacade yachtModelFacade;
 
-    public List<Image> getAllImagesByYachtModel(String modelName){
+    public List<Image> getAllImagesByYachtModel(String modelName) {
         return imageFacade.findAll().stream()
                 .filter(image -> image.getYachtModel().getModel().equals(modelName))
                 .collect(Collectors.toList());

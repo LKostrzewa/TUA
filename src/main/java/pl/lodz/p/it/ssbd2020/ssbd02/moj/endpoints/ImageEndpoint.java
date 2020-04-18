@@ -1,11 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
-
 import org.apache.commons.io.IOUtils;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Image;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.ImageManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
-
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
@@ -19,17 +17,20 @@ import java.util.logging.Logger;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class ImageEndpoint implements Serializable {
+    private final Logger LOGGER = Logger.getLogger(getClass().getName());
     @Inject
     private ImageManager imageManager;
 
-    private final Logger LOGGER = Logger.getLogger(getClass().getName());
+    private static byte[] toByteArray(InputStream in) throws IOException {
+        return IOUtils.toByteArray(in);
+    }
 
     public void addImage(String path) throws IOException {
         InputStream inputStream = null;
         byte[] bytes = null;
         try {
-        inputStream = new FileInputStream(new File(path)) ;
-        bytes = toByteArray(inputStream);
+            inputStream = new FileInputStream(new File(path));
+            bytes = toByteArray(inputStream);
         } catch (FileNotFoundException ex) {
             LOGGER.info("Cannot read a File with path" + path);
         }
@@ -49,10 +50,5 @@ public class ImageEndpoint implements Serializable {
 
     public Image getImageById(Long imageId) {
         return imageManager.getImageById(imageId);
-    }
-
-    private static byte[] toByteArray(InputStream in) throws IOException {
-        byte[] bytes = IOUtils.toByteArray(in);
-        return bytes;
     }
 }

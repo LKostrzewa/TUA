@@ -1,8 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yachtModel;
 
-
-
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.UpdateYachtModelDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.EditYachtModelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
@@ -15,36 +13,31 @@ import java.io.Serializable;
 @Named
 @ConversationScoped
 public class EditYachtModelPageBean implements Serializable {
-
     @Inject
     private YachtModelEndpoint yachtModelEndpoint;
-
-
     @Inject
     private Conversation conversation;
-    private Long yachtModelID;
-    private UpdateYachtModelDTO updateYachtModelDTO;
+    private Long yachtModelId;
+    private EditYachtModelDto editYachtModelDto;
+
+    public EditYachtModelDto getEditYachtModelDto() {
+        return editYachtModelDto;
+    }
+
+    public void setEditYachtModelDto(EditYachtModelDto editYachtModelDto) {
+        this.editYachtModelDto = editYachtModelDto;
+    }
 
     public String openEditYachtModelPage(Long yachtModelID) {
         conversation.begin();
-        this.yachtModelID = yachtModelID;
-        this.updateYachtModelDTO = ObjectMapperUtils.map(yachtModelEndpoint.getYachtModelById(yachtModelID), UpdateYachtModelDTO.class);
+        this.yachtModelId = yachtModelID;
+        this.editYachtModelDto = ObjectMapperUtils.map(yachtModelEndpoint.getYachtModelById(yachtModelID), EditYachtModelDto.class);
         return "/manager/editYachtModel.xhtml?faces-redirect=true";
     }
 
-    public String updateYachtModel() {
-        yachtModelEndpoint.updateYachtModel(yachtModelID,updateYachtModelDTO);
+    public String editYachtModel() {
+        yachtModelEndpoint.editYachtModel(yachtModelId, editYachtModelDto);
         conversation.end();
         return "/manager/yachtModelDetails.xhtml?faces-redirect=true";
     }
-
-    public UpdateYachtModelDTO getUpdateYachtModelDTO() {
-        return updateYachtModelDTO;
-    }
-
-    public void setUpdateYachtModelDTO(UpdateYachtModelDTO updateYachtModelDTO) {
-        this.updateYachtModelDTO = updateYachtModelDTO;
-    }
-
-
 }

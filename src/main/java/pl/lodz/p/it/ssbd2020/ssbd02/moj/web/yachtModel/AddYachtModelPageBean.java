@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yachtModel;
 
-
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.NewYachtModelDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.NewYachtModelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
 
 import javax.annotation.PostConstruct;
@@ -12,28 +11,25 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class AddYachtModelPageBean {
-
     @Inject
     private YachtModelEndpoint yachtModelEndpoint;
-    private NewYachtModelDTO newYachtModelDTO;
+    private NewYachtModelDto newYachtModelDto;
+
+    public NewYachtModelDto getNewYachtModelDto() {
+        return newYachtModelDto;
+    }
+
+    public void setNewYachtModelDto(NewYachtModelDto newYachtModelDto) {
+        this.newYachtModelDto = newYachtModelDto;
+    }
 
     @PostConstruct
     public void init() {
-        newYachtModelDTO = new NewYachtModelDTO();
+        newYachtModelDto = new NewYachtModelDto();
     }
 
     public String addNewYachtModel() {
-
-        yachtModelEndpoint.addYachtModel(newYachtModelDTO);
+        yachtModelEndpoint.addYachtModel(newYachtModelDto);
         return "/manager/listYachtModels.xhtml?faces-redirect=true";
-    }
-
-
-    public NewYachtModelDTO getNewYachtModelDTO() {
-        return newYachtModelDTO;
-    }
-
-    public void setNewYachtModelDTO(NewYachtModelDTO newYachtModelDTO) {
-        this.newYachtModelDTO = newYachtModelDTO;
     }
 }
