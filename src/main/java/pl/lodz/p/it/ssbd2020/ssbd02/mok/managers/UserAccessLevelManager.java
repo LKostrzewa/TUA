@@ -63,8 +63,8 @@ public class UserAccessLevelManager implements Serializable {
     }
 
     public void setUpAccessLevel(UserAccessLevel userAccessLevel, Long id) {
-        userAccessLevel.setId(id);
-        userAccessLevel.setVersion(1);
+        //userAccessLevel.setId(id);
+        //userAccessLevel.setVersion(1);
         userAccessLevel.setBusinessKey(UUID.randomUUID());
         userAccessLevel.setUser(userFacade.find(id));
     }

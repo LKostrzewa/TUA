@@ -76,22 +76,11 @@ public class User implements Serializable {
     private UUID resetPasswordCode;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<UserAccessLevel> userAccessLevels = new ArrayList<>();
-    /*@ManyToMany
-    @JoinTable(name = "user_access_level",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "access_level_id"))
-    Collection<AccessLevel> accessLevels = new ArrayList<>();*/
 
 
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-//    private Collection<UserDetails> userDetailsCollection;
-
-
+    @Version
     @Column(name = "version", table = "user_details", nullable = false)
-    private long version_user_details;
-    @Column(name = "business_key", table = "user_details", nullable = false, unique = true, updatable = false)
-    @Convert("uuidConverter")
-    private UUID businessKey_user_details;
+    private long versionUserDetails;
     @Column(name = "first_name", table = "user_details", nullable = false, length = 32)
     private String firstName;
     @Size(max = 32)
@@ -124,16 +113,8 @@ public class User implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public long getVersion() {
         return version;
-    }
-
-    public void setVersion(long version) {
-        this.version = version;
     }
 
     public UUID getBusinessKey() {
@@ -144,12 +125,12 @@ public class User implements Serializable {
         this.businessKey = businessKey;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public String getLogin() {
+        return login;
     }
 
     public String getPassword() {
@@ -232,14 +213,6 @@ public class User implements Serializable {
         this.resetPasswordCode = resetPasswordCode;
     }
 
-//    public Collection<UserDetails> getUserDetailsCollection() {
-//        return userDetailsCollection;
-//    }
-//
-//    public void setUserDetailsCollection(Collection<UserDetails> userDetailsCollection) {
-//        this.userDetailsCollection = userDetailsCollection;
-//    }
-
     public Collection<UserAccessLevel> getUserAccessLevels() {
         return userAccessLevels;
     }
@@ -247,14 +220,6 @@ public class User implements Serializable {
     public void setUserAccessLevels(Collection<UserAccessLevel> userAccessLevelCollection) {
         this.userAccessLevels = userAccessLevelCollection;
     }
-
-    /*public Collection<AccessLevel> getAccessLevels() {
-        return accessLevels;
-    }
-
-    public void setAccessLevels(Collection<AccessLevel> accessLevels) {
-        this.accessLevels = accessLevels;
-    }*/
 
     @Override
     public int hashCode() {
@@ -276,10 +241,6 @@ public class User implements Serializable {
         return true;
     }
 
-    /*public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }*/
-
     public boolean isLocked() {
         return locked;
     }
@@ -288,20 +249,12 @@ public class User implements Serializable {
         return activated;
     }
 
-    public long getVersion_user_details() {
-        return version_user_details;
+    public long getVersionUserDetails() {
+        return versionUserDetails;
     }
 
-    public void setVersion_user_details(long version_user_details) {
-        this.version_user_details = version_user_details;
-    }
-
-    public UUID getBusinessKey_user_details() {
-        return businessKey_user_details;
-    }
-
-    public void setBusinessKey_user_details(UUID businessKey_user_details) {
-        this.businessKey_user_details = businessKey_user_details;
+    public void setVersionUserDetails(long version_user_details) {
+        this.versionUserDetails = version_user_details;
     }
 
     public String getFirstName() {

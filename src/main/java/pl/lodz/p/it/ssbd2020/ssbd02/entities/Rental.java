@@ -75,16 +75,8 @@ public class Rental implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public long getVersion() {
         return version;
-    }
-
-    public void setVersion(long version) {
-        this.version = version;
     }
 
     public UUID getBusinessKey() {

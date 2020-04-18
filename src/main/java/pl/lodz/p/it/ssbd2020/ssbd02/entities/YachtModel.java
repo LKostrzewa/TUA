@@ -51,8 +51,6 @@ public class YachtModel implements Serializable {
     private boolean active;
     @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "yachtModel")
     private Collection<Image> images = new ArrayList<>();
-    /*@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "yachtModelId")
-    private Collection<Yacht> yachtCollection;*/
 
     public YachtModel() {
     }
@@ -76,16 +74,8 @@ public class YachtModel implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public long getVersion() {
         return version;
-    }
-
-    public void setVersion(long version) {
-        this.version = version;
     }
 
     public UUID getBusinessKey() {
@@ -151,15 +141,6 @@ public class YachtModel implements Serializable {
     public void setImages(Collection<Image> imageCollection) {
         this.images = imageCollection;
     }
-
-    //@XmlTransient
-    /*public Collection<Yacht> getYachtCollection() {
-        return yachtCollection;
-    }
-
-    public void setYachtCollection(Collection<Yacht> yachtCollection) {
-        this.yachtCollection = yachtCollection;
-    }*/
 
     @Override
     public int hashCode() {

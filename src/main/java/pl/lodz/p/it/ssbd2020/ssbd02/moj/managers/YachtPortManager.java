@@ -34,9 +34,7 @@ public class YachtPortManager {
         Collection<Yacht> yachts = port.getYachts();
         yachts.add(yacht);
         port.setYachts(yachts);
-        //mmm cykliczne relacje wysmienite przepyszne
-//        portFacade.editPort(portId, port);
-//        yachtFacade.editYacht(yachtId, yacht);
+        portFacade.edit(port);
     }
 
     public void retractYachtFromPort(Long portId, Long yachtId) {
@@ -46,8 +44,6 @@ public class YachtPortManager {
         Collection<Yacht> yachts = port.getYachts();
         yachts.remove(yacht);
         port.setYachts(yachts);
-        //mmm cykliczne relacje wysmienite przepyszne
-//        portFacade.editPort(portId, port);
-//        yachtFacade.editYacht(yachtId, yacht);
+        portFacade.edit(port);
     }
 }
