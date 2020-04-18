@@ -25,12 +25,12 @@ public class EditUserPageBean implements Serializable {
         this.editUserDto = editUserDto;
     }
 
-    public String onClick() {
+    public String openEditUserPage() {
         this.editUserDto = userEndpoint.getEditUserDtoById(userDetailsPageBean.getUserDetailsDto().getId());
         return "editUser.xhtml?faces-redirect=true";
     }
 
-    public String onFinish() {
+    public String editUser() {
         userEndpoint.editUser(editUserDto);
         userDetailsPageBean.refresh();
         return "userDetails.xhtml?faces-redirect=true";

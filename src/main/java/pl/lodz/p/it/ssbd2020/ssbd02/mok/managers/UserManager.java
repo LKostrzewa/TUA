@@ -12,7 +12,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Stateful
 @LocalBean
@@ -75,12 +77,13 @@ public class UserManager {
     }
 
     public void editUser(User user) {
-        User userFromRepository = userFacade.find(user.getId());
-        userFromRepository.setEmail(user.getEmail());
-        userFromRepository.setFirstName(user.getFirstName());
-        userFromRepository.setLastName(user.getLastName());
-        userFromRepository.setPhoneNumber(user.getPhoneNumber());
-        userFacade.edit(userFromRepository);
+        User userToEdit = userFacade.find(user.getId());
+        userToEdit.setEmail(user.getEmail());
+        userToEdit.setFirstName(user.getFirstName());
+        userToEdit.setLastName(user.getLastName());
+        userToEdit.setPhoneNumber(user.getPhoneNumber());
+        userToEdit.setLocked(user.getLocked());
+        userFacade.edit(userToEdit);
     }
 
     public void editUserPassword(User user) {

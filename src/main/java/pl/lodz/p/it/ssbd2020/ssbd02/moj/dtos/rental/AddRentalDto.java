@@ -1,24 +1,12 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
-public class ListAllRentalsDto {
-    private Long id;
+public class AddRentalDto {
     private String userLogin;
     private String yachtName;
     private Date beginDate;
     private Date endDate;
-    private String statusName;
-    private BigDecimal price;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUserLogin() {
         return userLogin;
@@ -50,21 +38,5 @@ public class ListAllRentalsDto {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public String getStatusName() {
-        return statusName;
-    }
-
-    public void setStatusName(String statusName) {
-        this.statusName = statusName;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
     }
 }

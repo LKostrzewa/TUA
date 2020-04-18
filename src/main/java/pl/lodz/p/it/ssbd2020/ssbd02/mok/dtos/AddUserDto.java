@@ -8,9 +8,6 @@ public class AddUserDto {
     private String lastName;
     private String phoneNumber;
 
-    public AddUserDto() {
-    }
-
     public String getLogin() {
         return login;
     }

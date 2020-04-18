@@ -18,14 +18,12 @@ import java.util.List;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserEndpoint implements Serializable {
-
     @Inject
     private UserManager userManager;
 
     public void registerNewUser(UserDto userDTO) {
         User user = ObjectMapperUtils.map(userDTO, User.class);
         userManager.registerNewUser(user);
-
     }
 
     public void addNewUser(AddUserDto userDTO) {
@@ -41,12 +39,12 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.map(userManager.getUserById(id), ChangePasswordDto.class);
     }
 
-    public EditUserDto getEditUserDtoById(Long id) {
-        return ObjectMapperUtils.map(userManager.getUserById(id), EditUserDto.class);
+    public EditUserDto getEditUserDtoById(Long userId) {
+        return ObjectMapperUtils.map(userManager.getUserById(userId), EditUserDto.class);
     }
 
-    public UserDetailsDto getUserDetailsDtoById(Long id) {
-        return ObjectMapperUtils.map(userManager.getUserById(id), UserDetailsDto.class);
+    public UserDetailsDto getUserDetailsDtoById(Long userId) {
+        return ObjectMapperUtils.map(userManager.getUserById(userId), UserDetailsDto.class);
     }
 
     public void editUser(EditUserDto editUserDto) {
@@ -57,5 +55,15 @@ public class UserEndpoint implements Serializable {
     public void editUserPassword(ChangePasswordDto changePasswordDto) {
         User user = ObjectMapperUtils.map(changePasswordDto, User.class);
         userManager.editUserPassword(user);
+    }
+
+    public void lockAccount(UserDetailsDto userDetailsDto) {
+        User user = ObjectMapperUtils.map(userDetailsDto, User.class);
+        userManager.editUser(user);
+    }
+
+    public void unlockAccount(UserDetailsDto userDetailsDto) {
+        User user = ObjectMapperUtils.map(userDetailsDto, User.class);
+        userManager.editUser(user);
     }
 }

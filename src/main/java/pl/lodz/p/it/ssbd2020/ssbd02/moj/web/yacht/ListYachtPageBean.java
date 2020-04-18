@@ -17,6 +17,14 @@ public class ListYachtPageBean implements Serializable {
     private YachtEndpoint yachtEndpoint;
     private List<YachtListDto> yachts;
 
+    public List<YachtListDto> getYachts() {
+        return yachts;
+    }
+
+    public void setYachts(List<YachtListDto> yachts) {
+        this.yachts = yachts;
+    }
+
     @PostConstruct
     private void init() {
         this.yachts = yachtEndpoint.getAllYachts();
@@ -25,13 +33,5 @@ public class ListYachtPageBean implements Serializable {
     public String deactivateYacht(Long yachtID) {
         yachtEndpoint.deactivateYacht(yachtID);
         return "listYachts";
-    }
-
-    public List<YachtListDto> getYachts() {
-        return yachts;
-    }
-
-    public void setYachts(List<YachtListDto> yachts) {
-        this.yachts = yachts;
     }
 }

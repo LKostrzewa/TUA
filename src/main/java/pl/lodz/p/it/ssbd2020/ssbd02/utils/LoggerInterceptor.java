@@ -10,10 +10,7 @@ import java.util.logging.Logger;
 
 
 public class LoggerInterceptor implements Serializable {
-
     private static final Logger LOGGER = Logger.getGlobal();
-
-
     private final SecurityContext securityContext;
 
     @Inject
@@ -35,17 +32,15 @@ public class LoggerInterceptor implements Serializable {
 
         StringBuilder param = new StringBuilder();
 
-        if(invocationContext.getParameters() != null){
-            for(Object p : invocationContext.getParameters()){
+        if (invocationContext.getParameters() != null) {
+            for (Object p : invocationContext.getParameters()) {
                 param.append(p.getClass().getSimpleName()).append("=").append(p.toString()).append(",");
             }
         }
 
         LOGGER.log(Level.INFO,
                 "{0} - {1}({2}) called by: {3}",
-                new Object[] {className,methodName, param.toString(),callerName});
-
-
+                new Object[]{className, methodName, param.toString(), callerName});
         return invocationContext.proceed();
     }
 }

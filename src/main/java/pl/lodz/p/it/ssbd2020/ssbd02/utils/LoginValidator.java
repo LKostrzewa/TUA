@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 
 @FacesValidator("loginValidator")
 public class LoginValidator implements Validator {
-
     ResourceBundle bundle = ResourceBundle.getBundle("resource", Locale.getDefault());
 
     @Override
@@ -21,10 +20,8 @@ public class LoginValidator implements Validator {
         if (login.length() < 6 || login.length() > 15) {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("validation.login.size"), null));
         }
-
         if (!login.matches("^[a-zA-Z0-9]+$")) {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("validation.login.pattern"), null));
         }
-
     }
 }

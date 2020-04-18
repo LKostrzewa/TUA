@@ -1,6 +1,6 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.web;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.rental;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.AddRentalDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.AddRentalDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.RentalEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.security.CurrentUser;
 

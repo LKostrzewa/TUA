@@ -2,7 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion;
 
 import java.util.Date;
 
-public class UpdateOpinionDTO {
+public class EditOpinionDto {
     private Long rentalId;
     private int rating;
     private String comment;

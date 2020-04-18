@@ -2,8 +2,8 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.EditYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.NewYachtDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.UpdateYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtListDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.YachtManager;
@@ -38,13 +38,12 @@ public class YachtEndpoint implements Serializable {
         return ObjectMapperUtils.map(yacht, YachtDto.class);
     }
 
-    public void updateYacht(Long yachtId, UpdateYachtDto updateYachtDto) {
-        Yacht yachtToUpdate = ObjectMapperUtils.map(updateYachtDto, Yacht.class);
-        yachtManager.updateYacht(yachtId, yachtToUpdate);
+    public void editYacht(Long yachtId, EditYachtDto editYachtDto) {
+        Yacht yachtToEdit = ObjectMapperUtils.map(editYachtDto, Yacht.class);
+        yachtManager.editYacht(yachtId, yachtToEdit);
     }
 
     public void deactivateYacht(Long yachtId) {
         yachtManager.deactivateYacht(yachtId);
     }
-
 }

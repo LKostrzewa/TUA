@@ -9,12 +9,13 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.io.Serializable;
 import java.util.List;
 
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
-public class YachtPortEndpoint {
+public class YachtPortEndpoint implements Serializable {
     @Inject
     private YachtPortManager yachtPortManager;
 

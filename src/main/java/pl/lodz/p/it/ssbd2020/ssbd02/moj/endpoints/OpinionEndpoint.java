@@ -1,9 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Opinion;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.NewOpinionDTO;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.OpinionDTO;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.UpdateOpinionDTO;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.EditOpinionDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.NewOpinionDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.OpinionDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.OpinionManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
@@ -12,33 +12,32 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
-public class OpinionEndpoint {
-
+public class OpinionEndpoint implements Serializable {
     @Inject
     private OpinionManager opinionManager;
 
-    public void addOpinion(NewOpinionDTO newOpinionDTO){
-        Opinion opinion = ObjectMapperUtils.map(newOpinionDTO, Opinion.class);
+    public void addOpinion(NewOpinionDto newOpinionDto) {
+        Opinion opinion = ObjectMapperUtils.map(newOpinionDto, Opinion.class);
         opinionManager.addOpinion(opinion);
     }
 
-    public List<OpinionDTO> getAllOpinionsByYacht(Long yachtId) {
-        return opinionManager.getAllOpinionsByYacht(yachtId).stream().map(n -> ObjectMapperUtils.map(n, OpinionDTO.class)).collect(Collectors.toList());
+    public List<OpinionDto> getAllOpinionsByYacht(Long yachtId) {
+        return ObjectMapperUtils.mapAll(opinionManager.getAllOpinionsByYacht(yachtId), OpinionDto.class);
     }
 
-    public OpinionDTO getOpinionByID(Long opinionId) {
+    public EditOpinionDto getOpinionById(Long opinionId) {
         Opinion opinion = opinionManager.getOpinionById(opinionId);
-        return ObjectMapperUtils.map(opinion, OpinionDTO.class);
+        return ObjectMapperUtils.map(opinion, EditOpinionDto.class);
     }
 
-    public void updateOpinion(Long opinionId, UpdateOpinionDTO updateOpinionDTO) {
-        Opinion opinionToUpdate = ObjectMapperUtils.map(updateOpinionDTO, Opinion.class);
-        opinionManager.updateOpinion(opinionId, opinionToUpdate);
+    public void editOpinion(Long opinionId, EditOpinionDto editOpinionDto) {
+        Opinion opinionToEdit = ObjectMapperUtils.map(editOpinionDto, Opinion.class);
+        opinionManager.editOpinion(opinionId, opinionToEdit);
     }
 }

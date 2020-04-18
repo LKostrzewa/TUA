@@ -25,12 +25,12 @@ public class ChangePasswordPageBean implements Serializable {
         this.changePasswordDto = changePasswordDto;
     }
 
-    public String onClick() {
+    public String openChangePasswordPage() {
         this.changePasswordDto = userEndpoint.getChangePasswordDtoById(userDetailsPageBean.getUserDetailsDto().getId());
         return "changePassword.xhtml?faces-redirect=true";
     }
 
-    public String onFinish() {
+    public String changePassword() {
         userEndpoint.editUserPassword(changePasswordDto);
         userDetailsPageBean.refresh();
         return "userDetails.xhtml?faces-redirect=true";

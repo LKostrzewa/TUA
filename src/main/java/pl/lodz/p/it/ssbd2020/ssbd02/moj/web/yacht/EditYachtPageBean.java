@@ -1,6 +1,6 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.web;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.UpdateYachtDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.EditYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
@@ -18,26 +18,26 @@ public class EditYachtPageBean implements Serializable {
     @Inject
     private Conversation conversation;
     private Long yachtID;
-    private UpdateYachtDto updateYachtDto;
+    private EditYachtDto editYachtDto;
+
+    public EditYachtDto getEditYachtDto() {
+        return editYachtDto;
+    }
+
+    public void setEditYachtDto(EditYachtDto editYachtDto) {
+        this.editYachtDto = editYachtDto;
+    }
 
     public String openEditYachtPage(Long yachtID) {
         conversation.begin();
         this.yachtID = yachtID;
-        this.updateYachtDto = ObjectMapperUtils.map(yachtEndpoint.getYachtById(yachtID), UpdateYachtDto.class);
+        this.editYachtDto = ObjectMapperUtils.map(yachtEndpoint.getYachtById(yachtID), EditYachtDto.class);
         return "editYacht";
     }
 
     public String updateYacht() {
-        yachtEndpoint.updateYacht(yachtID, updateYachtDto);
+        yachtEndpoint.editYacht(yachtID, editYachtDto);
         conversation.end();
         return "listYachts";
-    }
-
-    public UpdateYachtDto getUpdateYachtDto() {
-        return updateYachtDto;
-    }
-
-    public void setUpdateYachtDto(UpdateYachtDto updateYachtDto) {
-        this.updateYachtDto = updateYachtDto;
     }
 }

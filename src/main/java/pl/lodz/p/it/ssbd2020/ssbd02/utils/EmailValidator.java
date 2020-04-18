@@ -10,8 +10,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 @FacesValidator("emailValidator")
-public class EmailValidator implements Validator{
-
+public class EmailValidator implements Validator {
     ResourceBundle bundle = ResourceBundle.getBundle("resource", Locale.getDefault());
 
     @Override
@@ -25,6 +24,5 @@ public class EmailValidator implements Validator{
         if (!email.matches("^(.+)@(.+)$")) {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("validation.email.pattern"), null));
         }
-
     }
 }
