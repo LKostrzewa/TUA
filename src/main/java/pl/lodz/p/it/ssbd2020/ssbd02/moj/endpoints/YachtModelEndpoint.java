@@ -34,7 +34,7 @@ public class YachtModelEndpoint implements Serializable {
         return ObjectMapperUtils.mapAll(yachtModelManager.getAllYachtModels(), ListYachtModelDTO.class);
     }
 
-    public ListYachtModelDTO getYachtById(Long yachtModelId) {
+    public ListYachtModelDTO getYachtModelById(Long yachtModelId) {
         YachtModel yachtModel = yachtModelManager.getYachtModelById(yachtModelId);
         return ObjectMapperUtils.map(yachtModel, ListYachtModelDTO.class);
     }

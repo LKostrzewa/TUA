@@ -18,6 +18,8 @@ public class EditYachtModelPageBean implements Serializable {
 
     @Inject
     private YachtModelEndpoint yachtModelEndpoint;
+
+
     @Inject
     private Conversation conversation;
     private Long yachtModelID;
@@ -26,14 +28,14 @@ public class EditYachtModelPageBean implements Serializable {
     public String openEditYachtModelPage(Long yachtModelID) {
         conversation.begin();
         this.yachtModelID = yachtModelID;
-        this.updateYachtModelDTO = ObjectMapperUtils.map(yachtModelEndpoint.getYachtById(yachtModelID), UpdateYachtModelDTO.class);
-        return "editYachtModel";
+        this.updateYachtModelDTO = ObjectMapperUtils.map(yachtModelEndpoint.getYachtModelById(yachtModelID), UpdateYachtModelDTO.class);
+        return "/manager/editYachtModel.xhtml?faces-redirect=true";
     }
 
     public String updateYachtModel() {
         yachtModelEndpoint.updateYachtModel(yachtModelID,updateYachtModelDTO);
         conversation.end();
-        return "listYachtModels";
+        return "/manager/yachtModelDetails.xhtml?faces-redirect=true";
     }
 
     public UpdateYachtModelDTO getUpdateYachtModelDTO() {
@@ -43,4 +45,6 @@ public class EditYachtModelPageBean implements Serializable {
     public void setUpdateYachtModelDTO(UpdateYachtModelDTO updateYachtModelDTO) {
         this.updateYachtModelDTO = updateYachtModelDTO;
     }
+
+
 }

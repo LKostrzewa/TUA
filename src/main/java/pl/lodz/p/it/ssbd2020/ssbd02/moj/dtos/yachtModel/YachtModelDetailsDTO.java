@@ -1,19 +1,12 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel;
 
-public class ListYachtModelDTO {
-    private Long id;
+public class YachtModelDetailsDTO {
     private String manufacturer;
     private String model;
     private Integer capacity;
     private Float basicPrice;
     private Boolean active;
-
-
-    public Long getId() {
-        return id;
-    }
-
-
+    private String description;
 
     public String getManufacturer() {
         return manufacturer;
@@ -39,7 +32,6 @@ public class ListYachtModelDTO {
         this.capacity = capacity;
     }
 
-
     public Float getBasicPrice() {
         return basicPrice;
     }
@@ -52,7 +44,13 @@ public class ListYachtModelDTO {
         return active;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

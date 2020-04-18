@@ -22,8 +22,10 @@ public class AddYachtModelPageBean {
         newYachtModelDTO = new NewYachtModelDTO();
     }
 
-    public void addNewYachtModel() {
+    public String addNewYachtModel() {
+
         yachtModelEndpoint.addYachtModel(newYachtModelDTO);
+        return "/manager/listYachtModels.xhtml?faces-redirect=true";
     }
 
 

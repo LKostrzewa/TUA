@@ -1,7 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel;
 
+
 public class UpdateYachtModelDTO {
     private Integer capacity;
+    private String manufacturer;
+    private String model;
     private String generalDescription;
     private Float basicPrice;
 
@@ -27,5 +30,21 @@ public class UpdateYachtModelDTO {
 
     public void setBasicPrice(Float basicPrice) {
         this.basicPrice = basicPrice;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
     }
 }

@@ -26,7 +26,7 @@ public class ListYachtModelPageBean implements Serializable {
 
     public String deactivateYachtModel(Long yachtModelID) {
         yachtModelEndpoint.deactivateYachtModel(yachtModelID);
-        return "listYachtModels";
+        return "/manager/listYachtModels.xhtml?faces-redirect=true";
     }
 
 
