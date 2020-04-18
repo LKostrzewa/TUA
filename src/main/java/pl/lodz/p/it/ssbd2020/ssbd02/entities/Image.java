@@ -26,7 +26,7 @@ public class Image implements Serializable {
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
-    private Long version;
+    private long version;
     @Convert("uuidConverter")
     @Column(name = "business_key", nullable = false, unique = true)
     private UUID businessKey;
@@ -43,7 +43,7 @@ public class Image implements Serializable {
         this.id = id;
     }
 
-    public Image(Long id, Long version, UUID businessKey) {
+    public Image(Long id, long version, UUID businessKey) {
         this.id = id;
         this.version = version;
         this.businessKey = businessKey;
@@ -53,7 +53,7 @@ public class Image implements Serializable {
         return id;
     }
 
-    public Long getVersion() {
+    public long getVersion() {
         return version;
     }
 

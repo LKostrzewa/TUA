@@ -33,7 +33,7 @@ public class Yacht implements Serializable {
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
-    private Long version;
+    private long version;
     @Column(name = "business_key", nullable = false, unique = true)
     @Convert("uuidConverter")
     private UUID businessKey;
@@ -69,7 +69,7 @@ public class Yacht implements Serializable {
         return id;
     }
 
-    public Long getVersion() {
+    public long getVersion() {
         return version;
     }
 
