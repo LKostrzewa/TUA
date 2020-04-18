@@ -37,7 +37,7 @@ public class Yacht implements Serializable {
     @Column(name = "business_key", nullable = false, unique = true)
     @Convert("uuidConverter")
     private UUID businessKey;
-    @Column(name = "name", nullable = false, length = 32)
+    @Column(name = "name", nullable = false, unique = true, length = 32)
     private String name;
     @Column(name = "production_year", nullable = false)
     private Integer productionYear;
