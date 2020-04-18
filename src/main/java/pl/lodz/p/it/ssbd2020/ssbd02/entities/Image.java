@@ -19,6 +19,7 @@ import java.util.UUID;
         @NamedQuery(name = "Image.findByVersion", query = "SELECT i FROM Image i WHERE i.version = :version"),
         @NamedQuery(name = "Image.findByLob", query = "SELECT i FROM Image i WHERE i.lob = :lob")})
 public class Image implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true, updatable = false)
@@ -52,16 +53,8 @@ public class Image implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public long getVersion() {
         return version;
-    }
-
-    public void setVersion(long version) {
-        this.version = version;
     }
 
     public UUID getBusinessKey() {
@@ -82,10 +75,6 @@ public class Image implements Serializable {
 
     public YachtModel getYachtModel() {
         return yachtModel;
-    }
-
-    public void setYachtModel(YachtModel yachtModelId) {
-        this.yachtModel = yachtModelId;
     }
 
     @Override

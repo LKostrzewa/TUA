@@ -47,7 +47,7 @@ public class Opinion implements Serializable {
     private Date date;
     @Column(name = "edited", nullable = false)
     private boolean edited;
-    @JoinColumn(name = "rental_id", referencedColumnName = "id")
+    @JoinColumn(name = "rental_id", referencedColumnName = "id", updatable = false)
     @OneToOne(optional = false)
     private Rental rental;
 
@@ -70,16 +70,8 @@ public class Opinion implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public long getVersion() {
         return version;
-    }
-
-    public void setVersion(long version) {
-        this.version = version;
     }
 
     public UUID getBusinessKey() {
@@ -116,10 +108,6 @@ public class Opinion implements Serializable {
 
     public Rental getRental() {
         return rental;
-    }
-
-    public void setRental(Rental rentalId) {
-        this.rental = rentalId;
     }
 
     public boolean isEdited() {
