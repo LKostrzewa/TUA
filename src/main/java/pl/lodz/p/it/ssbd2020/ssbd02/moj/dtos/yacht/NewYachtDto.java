@@ -2,7 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
 public class NewYachtDto {
     private String name;
-    private Integer produciton_year;
+    private Integer productionYear;
     private Long yachtModelId;
     private Float priceMultiplier;
     private String equipment;
@@ -15,12 +15,12 @@ public class NewYachtDto {
         this.name = name;
     }
 
-    public Integer getProduciton_year() {
-        return produciton_year;
+    public Integer getProductionYear() {
+        return productionYear;
     }
 
-    public void setProduciton_year(Integer produciton_year) {
-        this.produciton_year = produciton_year;
+    public void setProductionYear(Integer productionYear) {
+        this.productionYear = productionYear;
     }
 
     public Long getYachtModelId() {

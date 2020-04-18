@@ -19,7 +19,6 @@ import java.util.UUID;
         @NamedQuery(name = "Image.findByVersion", query = "SELECT i FROM Image i WHERE i.version = :version"),
         @NamedQuery(name = "Image.findByLob", query = "SELECT i FROM Image i WHERE i.lob = :lob")})
 public class Image implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true, updatable = false)
@@ -31,7 +30,7 @@ public class Image implements Serializable {
     @Column(name = "business_key", nullable = false, unique = true)
     private UUID businessKey;
     @Column(name = "lob")
-    private Serializable lob;
+    private byte[] lob;
     @JoinColumn(name = "yacht_model_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private YachtModel yachtModel;
@@ -73,11 +72,11 @@ public class Image implements Serializable {
         this.businessKey = businessKey;
     }
 
-    public Serializable getLob() {
+    public byte[] getLob() {
         return lob;
     }
 
-    public void setLob(Serializable lob) {
+    public void setLob(byte[] lob) {
         this.lob = lob;
     }
 
@@ -113,5 +112,4 @@ public class Image implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Image[ id=" + id + " ]";
     }
-
 }
