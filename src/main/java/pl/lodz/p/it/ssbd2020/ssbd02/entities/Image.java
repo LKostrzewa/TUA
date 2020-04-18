@@ -31,7 +31,7 @@ public class Image implements Serializable {
     @Column(name = "business_key", nullable = false, unique = true)
     private UUID businessKey;
     @Column(name = "lob", nullable = false)
-    private Serializable lob;
+    private byte[] lob;
     @JoinColumn(name = "yacht_model_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private YachtModel yachtModel;
@@ -53,16 +53,8 @@ public class Image implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public long getVersion() {
         return version;
-    }
-
-    public void setVersion(long version) {
-        this.version = version;
     }
 
     public UUID getBusinessKey() {
@@ -73,20 +65,16 @@ public class Image implements Serializable {
         this.businessKey = businessKey;
     }
 
-    public Serializable getLob() {
+    public byte[] getLob() {
         return lob;
     }
 
-    public void setLob(Serializable lob) {
+    public void setLob(byte[] lob) {
         this.lob = lob;
     }
 
     public YachtModel getYachtModel() {
         return yachtModel;
-    }
-
-    public void setYachtModel(YachtModel yachtModelId) {
-        this.yachtModel = yachtModelId;
     }
 
     @Override
@@ -113,5 +101,4 @@ public class Image implements Serializable {
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Image[ id=" + id + " ]";
     }
-
 }

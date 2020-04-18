@@ -9,8 +9,6 @@ import org.eclipse.persistence.annotations.Convert;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.UUID;
 
 @Entity
@@ -34,11 +32,6 @@ public class AccessLevel implements Serializable {
     private UUID businessKey;
     @Column(name = "name", nullable = false, length = 32)
     private String name;
-    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "accessLevel")
-    private Collection<UserAccessLevel> userAccessLevels = new ArrayList<>();
-    /*@ManyToMany(cascade = CascadeType.REFRESH, mappedBy = "accessLevels")
-    Collection<User> users = new ArrayList<>();*/
-
 
     public AccessLevel() {
     }
@@ -58,16 +51,8 @@ public class AccessLevel implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public long getVersion() {
         return version;
-    }
-
-    public void setVersion(long version) {
-        this.version = version;
     }
 
     public Object getBusinessKey() {
@@ -84,22 +69,6 @@ public class AccessLevel implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    /*public Collection<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Collection<User> users) {
-        this.users = users;
-    }*/
-
-    public Collection<UserAccessLevel> getUserAccessLevels() {
-        return userAccessLevels;
-    }
-
-    public void setUserAccessLevels(Collection<UserAccessLevel> userAccessLevelCollection) {
-        this.userAccessLevels = userAccessLevelCollection;
     }
 
     @Override

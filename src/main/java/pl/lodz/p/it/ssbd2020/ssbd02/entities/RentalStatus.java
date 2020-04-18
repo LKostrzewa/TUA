@@ -32,8 +32,6 @@ public class RentalStatus implements Serializable {
     private UUID businessKey;
     @Column(name = "name", nullable = false, unique = true, length = 32)
     private String name;
-    /*@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "rentalStatusId")
-    private Collection<Rental> rentalCollection;*/
 
     public RentalStatus() {
     }
@@ -53,16 +51,8 @@ public class RentalStatus implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public long getVersion() {
         return version;
-    }
-
-    public void setVersion(long version) {
-        this.version = version;
     }
 
     public UUID getBusinessKey() {
@@ -80,15 +70,6 @@ public class RentalStatus implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
-    //@XmlTransient
-    /*public Collection<Rental> getRentalCollection() {
-        return rentalCollection;
-    }
-
-    public void setRentalCollection(Collection<Rental> rentalCollection) {
-        this.rentalCollection = rentalCollection;
-    }*/
 
     @Override
     public int hashCode() {
