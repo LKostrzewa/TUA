@@ -30,7 +30,7 @@ public class Image implements Serializable {
     @Convert("uuidConverter")
     @Column(name = "business_key", nullable = false, unique = true)
     private UUID businessKey;
-    @Column(name = "lob")
+    @Column(name = "lob", nullable = false)
     private Serializable lob;
     @JoinColumn(name = "yacht_model_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

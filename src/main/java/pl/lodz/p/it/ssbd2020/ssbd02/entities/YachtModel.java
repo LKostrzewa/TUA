@@ -39,7 +39,7 @@ public class YachtModel implements Serializable {
     private UUID businessKey;
     @Column(name = "manufacturer", nullable = false, length = 32)
     private String manufacturer;
-    @Column(name = "model", nullable = false, length = 32)
+    @Column(name = "model", nullable = false, unique = true, length = 32)
     private String model;
     @Column(name = "capacity", nullable = false)
     private int capacity;

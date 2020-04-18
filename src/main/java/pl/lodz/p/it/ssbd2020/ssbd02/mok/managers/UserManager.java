@@ -35,7 +35,6 @@ public class UserManager {
 
         user.setVersion(1);
         user.setVersion_user_details(1);
-        user.setBusinessKey_user_details(UUID.randomUUID());
         user.setBusinessKey(UUID.randomUUID());
         user.setActivated(active);
         user.setLocked(false);

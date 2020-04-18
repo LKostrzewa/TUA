@@ -30,7 +30,7 @@ public class RentalStatus implements Serializable {
     @Column(name = "business_key", nullable = false, unique = true)
     @Convert("uuidConverter")
     private UUID businessKey;
-    @Column(name = "name", nullable = false, length = 32)
+    @Column(name = "name", nullable = false, unique = true, length = 32)
     private String name;
     /*@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "rentalStatusId")
     private Collection<Rental> rentalCollection;*/

@@ -89,9 +89,6 @@ public class User implements Serializable {
 
     @Column(name = "version", table = "user_details", nullable = false)
     private long version_user_details;
-    @Column(name = "business_key", table = "user_details", nullable = false, unique = true, updatable = false)
-    @Convert("uuidConverter")
-    private UUID businessKey_user_details;
     @Column(name = "first_name", table = "user_details", nullable = false, length = 32)
     private String firstName;
     @Size(max = 32)
@@ -296,13 +293,6 @@ public class User implements Serializable {
         this.version_user_details = version_user_details;
     }
 
-    public UUID getBusinessKey_user_details() {
-        return businessKey_user_details;
-    }
-
-    public void setBusinessKey_user_details(UUID businessKey_user_details) {
-        this.businessKey_user_details = businessKey_user_details;
-    }
 
     public String getFirstName() {
         return firstName;

@@ -36,7 +36,7 @@ public class Port implements Serializable {
     @Column(name = "business_key", nullable = false, unique = true)
     @Convert("uuidConverter")
     private UUID businessKey;
-    @Column(name = "name", nullable = false, length = 64)
+    @Column(name = "name", nullable = false, unique = true, length = 64)
     private String name;
     @Column(name = "lake", nullable = false, length = 32)
     private String lake;
