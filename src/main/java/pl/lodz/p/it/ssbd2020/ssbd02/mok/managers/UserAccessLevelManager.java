@@ -33,21 +33,21 @@ public class UserAccessLevelManager implements Serializable {
         Collection<UserAccessLevel> accessLevelsForUser = findUserAccessLevelById(id);
 
         if (levels.get(0).equals(true) && !isInRole(accessLevelsForUser, ADMIN_ACCESS_LEVEL)) {
-            UserAccessLevel userAccessLevel = new UserAccessLevel(UUID.randomUUID(), userFacade.find(id), accessLevelFacade.findByAccessLevelName(ADMIN_ACCESS_LEVEL));
+            UserAccessLevel userAccessLevel = new UserAccessLevel(userFacade.find(id), accessLevelFacade.findByAccessLevelName(ADMIN_ACCESS_LEVEL));
             userAccessLevelFacade.create(userAccessLevel);
         }
         if (levels.get(0).equals(false) && isInRole(accessLevelsForUser, ADMIN_ACCESS_LEVEL)) {
             userAccessLevelFacade.remove(findLevelByName(accessLevelsForUser, ADMIN_ACCESS_LEVEL));
         }
         if (levels.get(1).equals(true) && !isInRole(accessLevelsForUser, MANAGER_ACCESS_LEVEL)) {
-            UserAccessLevel userAccessLevel = new UserAccessLevel(UUID.randomUUID(), userFacade.find(id), accessLevelFacade.findByAccessLevelName(MANAGER_ACCESS_LEVEL));
+            UserAccessLevel userAccessLevel = new UserAccessLevel(userFacade.find(id), accessLevelFacade.findByAccessLevelName(MANAGER_ACCESS_LEVEL));
             userAccessLevelFacade.create(userAccessLevel);
         }
         if (levels.get(1).equals(false) && isInRole(accessLevelsForUser, MANAGER_ACCESS_LEVEL)) {
             userAccessLevelFacade.remove(findLevelByName(accessLevelsForUser, MANAGER_ACCESS_LEVEL));
         }
         if (levels.get(2).equals(true) && !isInRole(accessLevelsForUser, CLIENT_ACCESS_LEVEL)) {
-            UserAccessLevel userAccessLevel = new UserAccessLevel(UUID.randomUUID(), userFacade.find(id), accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
+            UserAccessLevel userAccessLevel = new UserAccessLevel( userFacade.find(id), accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
             userAccessLevelFacade.create(userAccessLevel);
         }
         if (levels.get(2).equals(false) && isInRole(accessLevelsForUser, CLIENT_ACCESS_LEVEL)) {

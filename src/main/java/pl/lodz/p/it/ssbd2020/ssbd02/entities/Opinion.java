@@ -33,7 +33,7 @@ public class Opinion implements Serializable {
     @Version
     @Column(name = "version", nullable = false)
     private long version;
-    @Column(name = "business_key", nullable = false, unique = true)
+    @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @Convert("uuidConverter")
     private UUID businessKey;
     @Min(1)
@@ -46,24 +46,21 @@ public class Opinion implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     @Column(name = "edited", nullable = false)
-    private boolean edited;
-    @JoinColumn(name = "rental_id", referencedColumnName = "id", updatable = false)
+    private boolean edited = false;
+    @JoinColumn(name = "rental_id", referencedColumnName = "id", updatable = false, nullable = false)
     @OneToOne(optional = false)
     private Rental rental;
 
     public Opinion() {
     }
 
-    public Opinion(Long id) {
-        this.id = id;
-    }
-
-    public Opinion(Long id, long version, UUID businessKey, int rating, Date date) {
-        this.id = id;
-        this.version = version;
-        this.businessKey = businessKey;
+    public Opinion(@Min(1) @Max(5) int rating, String comment, Date date, Rental rental) {
         this.rating = rating;
+        this.comment = comment;
         this.date = date;
+        this.rental = rental;
+
+        this.businessKey = UUID.randomUUID();
     }
 
     public Long getId() {
@@ -76,10 +73,6 @@ public class Opinion implements Serializable {
 
     public UUID getBusinessKey() {
         return businessKey;
-    }
-
-    public void setBusinessKey(UUID businessKey) {
-        this.businessKey = businessKey;
     }
 
     public int getRating() {

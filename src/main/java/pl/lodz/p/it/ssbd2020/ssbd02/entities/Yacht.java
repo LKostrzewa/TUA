@@ -34,12 +34,12 @@ public class Yacht implements Serializable {
     @Version
     @Column(name = "version", nullable = false)
     private long version;
-    @Column(name = "business_key", nullable = false, unique = true)
+    @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @Convert("uuidConverter")
     private UUID businessKey;
     @Column(name = "name", nullable = false, unique = true, length = 32)
     private String name;
-    @Column(name = "production_year", nullable = false)
+    @Column(name = "production_year", nullable = false, updatable = false)
     private Integer productionYear;
     @Column(name = "price_multiplier", nullable = false)
     private BigDecimal priceMultiplier;
@@ -52,7 +52,7 @@ public class Yacht implements Serializable {
     @JoinColumn(name = "current_port_id", referencedColumnName = "id")
     @ManyToOne
     private Port currentPort;
-    @JoinColumn(name = "yacht_model_id", referencedColumnName = "id", updatable = false)
+    @JoinColumn(name = "yacht_model_id", referencedColumnName = "id", nullable = false, updatable = false)
     @ManyToOne(optional = false)
     private YachtModel yachtModel;
     @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "yacht")
@@ -61,8 +61,14 @@ public class Yacht implements Serializable {
     public Yacht() {
     }
 
-    public Yacht(Long id) {
-        this.id = id;
+    public Yacht(String name, Integer productionYear, BigDecimal priceMultiplier, String equipment, YachtModel yachtModel) {
+        this.name = name;
+        this.productionYear = productionYear;
+        this.priceMultiplier = priceMultiplier;
+        this.equipment = equipment;
+        this.yachtModel = yachtModel;
+
+        this.businessKey = UUID.randomUUID();
     }
 
     public Long getId() {
@@ -77,10 +83,6 @@ public class Yacht implements Serializable {
         return businessKey;
     }
 
-    public void setBusinessKey(UUID businessKey) {
-        this.businessKey = businessKey;
-    }
-
     public String getName() {
         return name;
     }
@@ -91,10 +93,6 @@ public class Yacht implements Serializable {
 
     public Integer getProductionYear() {
         return productionYear;
-    }
-
-    public void setProductionYear(Integer productionYear) {
-        this.productionYear = productionYear;
     }
 
     public BigDecimal getPriceMultiplier() {

@@ -28,25 +28,22 @@ public class Image implements Serializable {
     @Column(name = "version", nullable = false)
     private long version;
     @Convert("uuidConverter")
-    @Column(name = "business_key", nullable = false, unique = true)
+    @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     private UUID businessKey;
-    @Column(name = "lob", nullable = false)
+    @Column(name = "lob", nullable = false, updatable = false)
     private byte[] lob;
-    @JoinColumn(name = "yacht_model_id", referencedColumnName = "id")
+    @JoinColumn(name = "yacht_model_id", referencedColumnName = "id", nullable = false, updatable = false)
     @ManyToOne(optional = false)
     private YachtModel yachtModel;
 
     public Image() {
     }
 
-    public Image(Long id) {
-        this.id = id;
-    }
+    public Image(byte[] lob, YachtModel yachtModel) {
+        this.lob = lob;
+        this.yachtModel = yachtModel;
 
-    public Image(Long id, long version, UUID businessKey) {
-        this.id = id;
-        this.version = version;
-        this.businessKey = businessKey;
+        this.businessKey = UUID.randomUUID();
     }
 
     public Long getId() {
@@ -61,16 +58,8 @@ public class Image implements Serializable {
         return businessKey;
     }
 
-    public void setBusinessKey(UUID businessKey) {
-        this.businessKey = businessKey;
-    }
-
     public byte[] getLob() {
         return lob;
-    }
-
-    public void setLob(byte[] lob) {
-        this.lob = lob;
     }
 
     public YachtModel getYachtModel() {

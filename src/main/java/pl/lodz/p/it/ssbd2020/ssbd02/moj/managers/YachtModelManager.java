@@ -30,7 +30,7 @@ public class YachtModelManager {
     }
 
     public void editYachtModel(Long yachtModelId, YachtModel yachtModelToEdit) {
-        yachtModelToEdit.setId(yachtModelId);
+      //  yachtModelToEdit.setId(yachtModelId);
         yachtModelFacade.edit(yachtModelToEdit);
     }
 

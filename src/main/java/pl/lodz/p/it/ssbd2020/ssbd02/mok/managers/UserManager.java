@@ -33,7 +33,6 @@ public class UserManager {
     private void addUser(User user, boolean active) {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
 
-        user.setBusinessKey(UUID.randomUUID());
         user.setActivated(active);
         user.setLocked(false);
         user.setCreated(new Date());
@@ -41,11 +40,7 @@ public class UserManager {
         user.setActivationCode(UUID.randomUUID().toString());
         user.setResetPasswordCode(UUID.randomUUID());
 
-        UserAccessLevel userAccessLevel = new UserAccessLevel(UUID.randomUUID(), user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
-        /*userAccessLevel.setBusinessKey(UUID.randomUUID());
-        userAccessLevel.setAccessLevel(accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
-        userAccessLevel.setUser(user);*/
-
+        UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
 
         List<UserAccessLevel> userAccessLevels = List.of(userAccessLevel);
         user.setUserAccessLevels(userAccessLevels);
