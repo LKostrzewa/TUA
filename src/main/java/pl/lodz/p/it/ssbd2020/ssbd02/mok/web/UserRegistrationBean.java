@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.AddUserDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
@@ -15,19 +16,19 @@ import java.io.Serializable;
 public class UserRegistrationBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
-    private UserDto userDto;
+    private AddUserDto userDto;
 
-    public UserDto getUserDto() {
+    public AddUserDto getUserDto() {
         return userDto;
     }
 
-    public void setUserDto(UserDto userDto) {
+    public void setUserDto(AddUserDto userDto) {
         this.userDto = userDto;
     }
 
     @PostConstruct
     public void init() {
-        userDto = new UserDto();
+        userDto = new AddUserDto();
     }
 
     public String registerAccountAction() {

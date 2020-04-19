@@ -21,8 +21,8 @@ public class UserEndpoint implements Serializable {
     @Inject
     private UserManager userManager;
 
-    public void registerNewUser(UserDto userDTO) {
-        User user = ObjectMapperUtils.map(userDTO, User.class);
+    public void registerNewUser(AddUserDto userDTO) {
+        User user = new User(userDTO.getLogin(),userDTO.getPassword(),userDTO.getEmail(),userDTO.getFirstName(),userDTO.getLastName(),userDTO.getPhoneNumber());
         userManager.registerNewUser(user);
     }
 
