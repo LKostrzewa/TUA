@@ -16,6 +16,7 @@ public class ChangePasswordPageBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
     private ChangePasswordDto changePasswordDto;
+    private Long userId;
 
     public ChangePasswordDto getChangePasswordDto() {
         return changePasswordDto;
@@ -25,13 +26,22 @@ public class ChangePasswordPageBean implements Serializable {
         this.changePasswordDto = changePasswordDto;
     }
 
-    public String openChangePasswordPage() {
-        this.changePasswordDto = userEndpoint.getChangePasswordDtoById(userDetailsPageBean.getUserDetailsDto().getId());
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String openChangePasswordPage(Long userId) {
+        this.userId = userId;
+        this.changePasswordDto = userEndpoint.getChangePasswordDtoById(userId);
         return "changePassword.xhtml?faces-redirect=true";
     }
 
     public String changePassword() {
-        userEndpoint.editUserPassword(changePasswordDto);
+        userEndpoint.editUserPassword(changePasswordDto, userId);
         userDetailsPageBean.refresh();
         return "userDetails.xhtml?faces-redirect=true";
     }

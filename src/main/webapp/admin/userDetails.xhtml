@@ -50,11 +50,11 @@
                          rendered="#{userDetailsPageBean.userDetailsDto.locked}"/>
         <p:commandButton value="#{msg['go_back']}" action="#{userDetailsPageBean.closeUserDetailsPage()}"/>
         <p:commandButton value="#{msg['edit']}"
-                         action="#{editUserPageBean.openEditUserPage()}"/>
+                         action="#{editUserPageBean.openEditUserPage(userDetailsPageBean.userId)}"/>
         <p:commandButton value="#{msg['change_password']}"
-                         action="#{changePasswordPageBean.openChangePasswordPage()}"/>
+                         action="#{changePasswordPageBean.openChangePasswordPage(userDetailsPageBean.userId)}"/>
         <p:commandButton value="#{msg['change_access_level']}"
-                         action="#{changeAccessLevelPageBean.openChangeAccessLevelPage()}"/>
+                         action="#{changeAccessLevelPageBean.openChangeAccessLevelPage(userDetailsPageBean.userId)}"/>
     </h:form>
 </h:body>
 </html>

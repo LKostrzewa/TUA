@@ -1,17 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
 public class ChangePasswordDto {
-    private long id;
     private String password;
     private String confirmPassword;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getPassword() {
         return password;

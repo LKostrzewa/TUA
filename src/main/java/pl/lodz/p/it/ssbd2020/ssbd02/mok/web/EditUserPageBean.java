@@ -16,6 +16,7 @@ public class EditUserPageBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
     private EditUserDto editUserDto;
+    private Long userId;
 
     public EditUserDto getEditUserDto() {
         return editUserDto;
@@ -25,13 +26,22 @@ public class EditUserPageBean implements Serializable {
         this.editUserDto = editUserDto;
     }
 
-    public String openEditUserPage() {
-        this.editUserDto = userEndpoint.getEditUserDtoById(userDetailsPageBean.getUserDetailsDto().getId());
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String openEditUserPage(Long userId) {
+        this.userId = userId;
+        this.editUserDto = userEndpoint.getEditUserDtoById(userId);
         return "editUser.xhtml?faces-redirect=true";
     }
 
     public String editUser() {
-        userEndpoint.editUser(editUserDto);
+        userEndpoint.editUser(editUserDto, userId);
         userDetailsPageBean.refresh();
         return "userDetails.xhtml?faces-redirect=true";
     }

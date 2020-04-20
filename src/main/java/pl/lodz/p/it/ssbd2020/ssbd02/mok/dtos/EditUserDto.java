@@ -1,19 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
 public class EditUserDto {
-    private Long id;
     private String email;
     private String firstName;
     private String lastName;
     private String phoneNumber;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getEmail() {
         return email;

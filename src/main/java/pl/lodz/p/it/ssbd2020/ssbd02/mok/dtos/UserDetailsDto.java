@@ -3,7 +3,6 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 import java.util.Date;
 
 public class UserDetailsDto {
-    private Long id;
     private String login;
     private String email;
     private boolean locked;
@@ -13,14 +12,6 @@ public class UserDetailsDto {
     private String firstName;
     private String lastName;
     private String phoneNumber;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getLogin() {
         return login;

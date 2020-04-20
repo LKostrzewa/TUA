@@ -15,13 +15,14 @@ import java.io.Serializable;
 @ConversationScoped
 public class UserDetailsPageBean implements Serializable {
     @Inject
-    private UserAccessLevelEndpoint userAccessLevelEndpoint;
-    @Inject
     private Conversation conversation;
     @Inject
     private UserEndpoint userEndpoint;
+    @Inject
+    private UserAccessLevelEndpoint userAccessLevelEndpoint;
     private UserDetailsDto userDetailsDto;
     private UserAccessLevelDto userAccessLevelDto;
+    private Long userId;
 
     public UserAccessLevelDto getUserAccessLevelDto() {
         return userAccessLevelDto;
@@ -39,10 +40,19 @@ public class UserDetailsPageBean implements Serializable {
         this.userDetailsDto = userDetailsDto;
     }
 
-    public String showUserDetailsPage(Long id) {
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String showUserDetailsPage(Long userId) {
         conversation.begin();
-        this.userDetailsDto = userEndpoint.getUserDetailsDtoById(id);
-        this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(id);
+        this.userId = userId;
+        this.userDetailsDto = userEndpoint.getUserDetailsDtoById(userId);
+        this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(userId);
         return "userDetails.xhtml?faces-redirect=true";
     }
 
@@ -52,8 +62,8 @@ public class UserDetailsPageBean implements Serializable {
     }
 
     public void refresh() {
-        this.userDetailsDto = userEndpoint.getUserDetailsDtoById(userDetailsDto.getId());
-        this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(userDetailsDto.getId());
+        this.userDetailsDto = userEndpoint.getUserDetailsDtoById(userId);
+        this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(userId);
     }
 
     public String getAccessLevels() {
@@ -69,11 +79,11 @@ public class UserDetailsPageBean implements Serializable {
 
     public void lockAccount() {
         userDetailsDto.setLocked(true);
-        userEndpoint.lockAccount(userDetailsDto);
+        userEndpoint.lockAccount(userDetailsDto, userId);
     }
 
     public void unlockAccount() {
         userDetailsDto.setLocked(false);
-        userEndpoint.unlockAccount(userDetailsDto);
+        userEndpoint.unlockAccount(userDetailsDto, userId);
     }
 }

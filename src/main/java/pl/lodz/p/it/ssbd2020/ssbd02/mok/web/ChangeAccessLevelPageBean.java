@@ -12,11 +12,11 @@ import java.io.Serializable;
 @ConversationScoped
 public class ChangeAccessLevelPageBean implements Serializable {
     @Inject
-    private UserAccessLevelEndpoint userAccessLevelEndpoint;
-    @Inject
     UserDetailsPageBean userDetailsPageBean;
-
+    @Inject
+    private UserAccessLevelEndpoint userAccessLevelEndpoint;
     private UserAccessLevelDto userDto;
+    private Long userId;
 
     public UserAccessLevelDto getUserDto() {
         return userDto;
@@ -26,16 +26,23 @@ public class ChangeAccessLevelPageBean implements Serializable {
         this.userDto = userDto;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
 
-    public String openChangeAccessLevelPage() {
-        this.userDto = userAccessLevelEndpoint.findAccessLevelById(userDetailsPageBean.getUserDetailsDto().getId());
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String openChangeAccessLevelPage(Long userId) {
+        this.userId = userId;
+        this.userDto = userAccessLevelEndpoint.findAccessLevelById(userId);
         return "/admin/changeAccessLevel.xhtml?faces-redirect=true";
     }
 
     public String changeAccessLevel() {
-        userAccessLevelEndpoint.editAccessLevels(userDto);
+        userAccessLevelEndpoint.editAccessLevels(userDto, userId);
         userDetailsPageBean.refresh();
         return "/admin/userDetails.xhtml?faces-redirect=true";
     }
-
 }
