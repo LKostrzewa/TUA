@@ -34,9 +34,9 @@ public class ImageEndpoint implements Serializable {
         } catch (FileNotFoundException ex) {
             LOGGER.info("Cannot read a File with path" + path);
         }
+        // tutaj powinien gdzies byc jacht model, zakladam ze bedzie w przyszlosci
+        Image image = new Image(bytes, null);
 
-        Image image = new Image();
-        image.setLob(bytes);
         imageManager.addImage(image);
     }
 

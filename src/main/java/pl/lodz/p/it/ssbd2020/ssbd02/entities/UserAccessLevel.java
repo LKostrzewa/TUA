@@ -40,14 +40,11 @@ public class UserAccessLevel implements Serializable {
     public UserAccessLevel() {
     }
 
-    public UserAccessLevel(Long id) {
-        this.id = id;
-    }
-
-    public UserAccessLevel(UUID businessKey, User user, AccessLevel accessLevel) {
-        this.businessKey = businessKey;
+    public UserAccessLevel(User user, AccessLevel accessLevel) {
         this.accessLevel = accessLevel;
         this.user = user;
+
+        this.businessKey = UUID.randomUUID();
     }
 
     public Long getId() {

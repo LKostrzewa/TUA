@@ -9,6 +9,7 @@ import org.eclipse.persistence.annotations.Convert;
 import org.eclipse.persistence.annotations.TypeConverter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -42,22 +43,22 @@ public class User implements Serializable {
     @Version
     @Column(name = "version", nullable = false)
     private long version;
-    @Column(name = "business_key", nullable = false, unique = true)
+    @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @Convert("uuidConverter")
     @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
     private UUID businessKey;
-    @Column(name = "login", nullable = false, unique = true, length = 32)
+    @Column(name = "login", nullable = false, unique = true, updatable = false, length = 32)
     private String login;
     @Column(name = "password", nullable = false, length = 64)
     private String password;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Pattern(regexp = "^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$", message = "Invalid email")
     @Column(name = "email", nullable = false, unique = true, length = 64)
     private String email;
     @Column(name = "locked", nullable = false)
     private boolean locked;
     @Column(name = "activated", nullable = false)
     private boolean activated;
-    @Column(name = "created", nullable = false)
+    @Column(name = "created", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     @Column(name = "last_valid_login")
@@ -68,10 +69,10 @@ public class User implements Serializable {
     private Date lastInvalidLogin;
     @Column(name = "invalid_login_attempts", nullable = false)
     private int invalidLoginAttempts;
-    @Column(name = "activation_code", nullable = false)
+    @Column(name = "activation_code", nullable = false, unique = true)
     //@Convert("uuidConverter")
     private String activationCode;
-    @Column(name = "reset_password_code", nullable = false)
+    @Column(name = "reset_password_code", nullable = false, unique = true)
     @Convert("uuidConverter")
     private UUID resetPasswordCode;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
@@ -83,7 +84,6 @@ public class User implements Serializable {
     private long versionUserDetails;
     @Column(name = "first_name", table = "user_details", nullable = false, length = 32)
     private String firstName;
-    @Size(max = 32)
     @Column(name = "last_name", table = "user_details", nullable = false, length = 32)
     private String lastName;
     @Column(name = "phone_number", table = "user_details", nullable = false, length = 10)
@@ -92,21 +92,16 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Long id) {
-        this.id = id;
-    }
-
-    public User(Long id, long version, UUID businessKey, String login, String password, String email, boolean locked, boolean activated, Date created, int invalidLoginAttempts) {
-        this.id = id;
-        this.version = version;
-        this.businessKey = businessKey;
+    public User(String login, String password, String email, String firstName, String lastName, String phoneNumber) {
         this.login = login;
         this.password = password;
         this.email = email;
-        this.locked = locked;
-        this.activated = activated;
-        this.created = created;
-        this.invalidLoginAttempts = invalidLoginAttempts;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+
+        this.businessKey = UUID.randomUUID();
+        this.created = new Date();
     }
 
     public Long getId() {
@@ -119,14 +114,6 @@ public class User implements Serializable {
 
     public UUID getBusinessKey() {
         return businessKey;
-    }
-
-    public void setBusinessKey(UUID businessKey) {
-        this.businessKey = businessKey;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String getLogin() {
@@ -167,10 +154,6 @@ public class User implements Serializable {
 
     public Date getCreated() {
         return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
     }
 
     public Date getLastValidLogin() {
@@ -221,26 +204,6 @@ public class User implements Serializable {
         this.userAccessLevels = userAccessLevelCollection;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
-            return false;
-        }
-        User other = (User) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
     public boolean isLocked() {
         return locked;
     }
@@ -281,10 +244,30 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof User)) {
+            return false;
+        }
+        User other = (User) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.User[ id=" + id + " ]";
     }
+
 
 }

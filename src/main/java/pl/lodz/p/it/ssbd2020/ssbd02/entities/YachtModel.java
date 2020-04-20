@@ -35,7 +35,7 @@ public class YachtModel implements Serializable {
     @Version
     @Column(name = "version", nullable = false)
     private long version;
-    @Column(name = "business_key", nullable = false, unique = true)
+    @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @Convert("uuidConverter")
     private UUID businessKey;
     @Column(name = "manufacturer", nullable = false, length = 32)
@@ -56,19 +56,14 @@ public class YachtModel implements Serializable {
     public YachtModel() {
     }
 
-    public YachtModel(Long id) {
-        this.id = id;
-    }
-
-    public YachtModel(Long id, long version, UUID businessKey, String manufacturer, String model, int capacity, String generalDescription, BigDecimal basicPrice) {
-        this.id = id;
-        this.version = version;
-        this.businessKey = businessKey;
+    public YachtModel(String manufacturer, String model, int capacity, String generalDescription, BigDecimal basicPrice) {
         this.manufacturer = manufacturer;
         this.model = model;
         this.capacity = capacity;
         this.generalDescription = generalDescription;
         this.basicPrice = basicPrice;
+
+        this.businessKey = UUID.randomUUID();
     }
 
     public Long getId() {
@@ -81,10 +76,6 @@ public class YachtModel implements Serializable {
 
     public UUID getBusinessKey() {
         return businessKey;
-    }
-
-    public void setBusinessKey(UUID businessKey) {
-        this.businessKey = businessKey;
     }
 
     public String getManufacturer() {

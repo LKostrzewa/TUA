@@ -27,24 +27,13 @@ public class AccessLevel implements Serializable {
     @Version
     @Column(name = "version", nullable = false)
     private long version;
-    @Column(name = "business_key", nullable = false, unique = true)
+    @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @Convert("uuidConverter")
     private UUID businessKey;
-    @Column(name = "name", nullable = false, length = 32)
+    @Column(name = "name", nullable = false, unique = true, updatable = false, length = 32)
     private String name;
 
     public AccessLevel() {
-    }
-
-    public AccessLevel(Long id) {
-        this.id = id;
-    }
-
-    public AccessLevel(Long id, long version, UUID businessKey, String name) {
-        this.id = id;
-        this.version = version;
-        this.businessKey = businessKey;
-        this.name = name;
     }
 
     public Long getId() {
@@ -59,17 +48,10 @@ public class AccessLevel implements Serializable {
         return businessKey;
     }
 
-    public void setBusinessKey(UUID businessKey) {
-        this.businessKey = businessKey;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @Override
     public int hashCode() {

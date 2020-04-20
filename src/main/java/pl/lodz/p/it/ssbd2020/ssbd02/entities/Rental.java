@@ -32,43 +32,40 @@ public class Rental implements Serializable {
     @Version
     @Column(name = "version", nullable = false)
     private long version;
-    @Column(name = "business_key", nullable = false, unique = true)
+    @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @Convert("uuidConverter")
     private UUID businessKey;
-    @Column(name = "begin_date", nullable = false)
+    @Column(name = "begin_date", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date beginDate;
-    @Column(name = "end_date", nullable = false)
+    @Column(name = "end_date", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
-    @Column(name = "price", nullable = false)
+    @Column(name = "price", nullable = false, updatable = false)
     private BigDecimal price;
     @OneToOne(cascade = CascadeType.REFRESH, mappedBy = "rental")
     private Opinion opinion;
-    @JoinColumn(name = "rental_status_id", referencedColumnName = "id")
+    @JoinColumn(name = "rental_status_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private RentalStatus rentalStatus;
-    @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false, nullable = false)
     @ManyToOne(optional = false)
     private User user;
-    @JoinColumn(name = "yacht_id", referencedColumnName = "id", updatable = false)
+    @JoinColumn(name = "yacht_id", referencedColumnName = "id", updatable = false, nullable = false)
     @ManyToOne(optional = false)
     private Yacht yacht;
 
     public Rental() {
     }
 
-    public Rental(Long id) {
-        this.id = id;
-    }
-
-    public Rental(Long id, long version, UUID businessKey, Date beginDate, Date endDate, BigDecimal price) {
-        this.id = id;
-        this.version = version;
-        this.businessKey = businessKey;
+    public Rental(Date beginDate, Date endDate, BigDecimal price, User user, Yacht yacht) {
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.price = price;
+        this.user = user;
+        this.yacht = yacht;
+
+        this.businessKey = UUID.randomUUID();
     }
 
     public Long getId() {
@@ -83,32 +80,16 @@ public class Rental implements Serializable {
         return businessKey;
     }
 
-    public void setBusinessKey(UUID businessKey) {
-        this.businessKey = businessKey;
-    }
-
     public Date getBeginDate() {
         return beginDate;
-    }
-
-    public void setBeginDate(Date beginDate) {
-        this.beginDate = beginDate;
     }
 
     public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
     public BigDecimal getPrice() {
         return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
     }
 
     public Opinion getOpinion() {
