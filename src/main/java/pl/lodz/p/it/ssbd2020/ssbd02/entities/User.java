@@ -58,7 +58,7 @@ public class User implements Serializable {
     private boolean locked;
     @Column(name = "activated", nullable = false)
     private boolean activated;
-    @Column(name = "created", nullable = false)
+    @Column(name = "created", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     @Column(name = "last_valid_login")
@@ -101,6 +101,7 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
 
         this.businessKey = UUID.randomUUID();
+        this.created = new Date();
     }
 
     public Long getId() {
@@ -157,10 +158,6 @@ public class User implements Serializable {
 
     public Date getCreated() {
         return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
     }
 
     public Date getLastValidLogin() {

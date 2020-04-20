@@ -35,7 +35,6 @@ public class UserManager {
 
         user.setActivated(active);
         user.setLocked(false);
-        user.setCreated(new Date());
         user.setPassword(passwordHash);
         user.setActivationCode(UUID.randomUUID().toString());
         user.setResetPasswordCode(UUID.randomUUID());

@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facade.YachtFacade;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.facade.YachtModelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.ejb.LocalBean;
@@ -16,6 +17,8 @@ import java.util.List;
 public class YachtManager {
     @Inject
     private YachtFacade yachtFacade;
+    @Inject
+    private YachtModelFacade yachtModelFacade;
 
     public void addYacht(Yacht yacht) {
         yachtFacade.create(yacht);
