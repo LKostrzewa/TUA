@@ -36,6 +36,10 @@ public class RentalEndpoint implements Serializable {
         return ObjectMapperUtils.mapAll(rentalManager.getAllRentalsByUser(userLogin), ListRentalsDto.class);
     }
 
+    public List<ListAllRentalsDto> getRentalsByYacht(String yachtName){
+        return ObjectMapperUtils.mapAll(rentalManager.getAllRentalsByYacht(yachtName), ListAllRentalsDto.class);
+    }
+
     public EditRentalDto getRentalById(Long rentalId) {
         Rental rental = rentalManager.getRentalById(rentalId);
         return ObjectMapperUtils.map(rental, EditRentalDto.class);

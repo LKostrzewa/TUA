@@ -29,4 +29,8 @@ public class ListAllRentalsPageBean implements Serializable {
     private void init() {
         this.rentals = rentalEndpoint.getAllRentals();
     }
+
+    public List<ListAllRentalsDto> getAllRentalsByYacht(String yachtName){
+        return rentalEndpoint.getRentalsByYacht(yachtName);
+    }
 }
