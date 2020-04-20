@@ -5,17 +5,14 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
 @Named
-@ConversationScoped
+@ViewScoped
 public class UserDetailsPageBean implements Serializable {
-    @Inject
-    private Conversation conversation;
     @Inject
     private UserEndpoint userEndpoint;
     @Inject
@@ -48,20 +45,7 @@ public class UserDetailsPageBean implements Serializable {
         this.userId = userId;
     }
 
-    public String showUserDetailsPage(Long userId) {
-        conversation.begin();
-        this.userId = userId;
-        this.userDetailsDto = userEndpoint.getUserDetailsDtoById(userId);
-        this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(userId);
-        return "userDetails.xhtml?faces-redirect=true";
-    }
-
-    public String closeUserDetailsPage() {
-        conversation.end();
-        return "listUsers.xhtml?faces-redirect=true";
-    }
-
-    public void refresh() {
+    public void init() {
         this.userDetailsDto = userEndpoint.getUserDetailsDtoById(userId);
         this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(userId);
     }

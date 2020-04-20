@@ -3,16 +3,14 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.EditUserDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
-import javax.enterprise.context.ConversationScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
 @Named
-@ConversationScoped
+@ViewScoped
 public class EditUserPageBean implements Serializable {
-    @Inject
-    UserDetailsPageBean userDetailsPageBean;
     @Inject
     private UserEndpoint userEndpoint;
     private EditUserDto editUserDto;
@@ -34,15 +32,12 @@ public class EditUserPageBean implements Serializable {
         this.userId = userId;
     }
 
-    public String openEditUserPage(Long userId) {
-        this.userId = userId;
+    public void init() {
         this.editUserDto = userEndpoint.getEditUserDtoById(userId);
-        return "editUser.xhtml?faces-redirect=true";
     }
 
     public String editUser() {
         userEndpoint.editUser(editUserDto, userId);
-        userDetailsPageBean.refresh();
-        return "userDetails.xhtml?faces-redirect=true";
+        return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 }
