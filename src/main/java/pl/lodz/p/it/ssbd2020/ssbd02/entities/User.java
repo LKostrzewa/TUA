@@ -116,10 +116,6 @@ public class User implements Serializable {
         return businessKey;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
     public String getLogin() {
         return login;
     }
