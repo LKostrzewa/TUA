@@ -81,11 +81,6 @@ public class User implements Serializable {
     private Collection<UserAccessLevel> userAccessLevels = new ArrayList<>();
 
 
-    @Version
-    @Column(name = "version", table = "user_details", nullable = false)
-    /*@JoinColumns({
-            @JoinColumn(name = "version", referencedColumnName = "version", table = "user")})*/
-    private long versionUserDetails;
     @Column(name = "first_name", table = "user_details", nullable = false, length = 32)
     private String firstName;
     @Column(name = "last_name", table = "user_details", nullable = false, length = 32)
@@ -222,14 +217,6 @@ public class User implements Serializable {
 
     public boolean isActivated() {
         return activated;
-    }
-
-    public Long getVersionUserDetails() {
-        return versionUserDetails;
-    }
-
-    public void setVersionUserDetails(long version_user_details) {
-        this.versionUserDetails = version_user_details;
     }
 
     public String getFirstName() {
