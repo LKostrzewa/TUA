@@ -22,16 +22,16 @@ public class UserEndpoint implements Serializable {
     private UserManager userManager;
 
     public void registerNewUser(AddUserDto userDTO) {
-        User user = new User(userDTO.getLogin(),userDTO.getPassword(),userDTO.getEmail(),userDTO.getFirstName(),userDTO.getLastName(),userDTO.getPhoneNumber());
+        User user = new User(userDTO.getLogin(), userDTO.getPassword(), userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getPhoneNumber());
         userManager.registerNewUser(user);
     }
 
     public void addNewUser(AddUserDto userDTO) {
-        User user = new User(userDTO.getLogin(),userDTO.getPassword(),userDTO.getEmail(),userDTO.getFirstName(),userDTO.getLastName(),userDTO.getPhoneNumber());
+        User user = new User(userDTO.getLogin(), userDTO.getPassword(), userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getPhoneNumber());
         userManager.addNewUser(user);
     }
 
-    public List<ListUsersDto> getAll() {
+    public List<ListUsersDto> getAllUsers() {
         return ObjectMapperUtils.mapAll(userManager.getAll(), ListUsersDto.class);
     }
 
@@ -47,23 +47,24 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.map(userManager.getUserById(userId), UserDetailsDto.class);
     }
 
-    public void editUser(EditUserDto editUserDto) {
+    public void editUser(EditUserDto editUserDto, Long userId) {
         User user = ObjectMapperUtils.map(editUserDto, User.class);
-        userManager.editUser(user);
+        System.out.println(user);
+        userManager.editUser(user, userId);
     }
 
-    public void editUserPassword(ChangePasswordDto changePasswordDto) {
+    public void editUserPassword(ChangePasswordDto changePasswordDto, Long userId) {
         User user = ObjectMapperUtils.map(changePasswordDto, User.class);
-        userManager.editUserPassword(user);
+        userManager.editUserPassword(user, userId);
     }
 
-    public void lockAccount(UserDetailsDto userDetailsDto) {
+    public void lockAccount(UserDetailsDto userDetailsDto, Long userId) {
         User user = ObjectMapperUtils.map(userDetailsDto, User.class);
-        userManager.editUser(user);
+        userManager.editUser(user, userId);
     }
 
-    public void unlockAccount(UserDetailsDto userDetailsDto) {
+    public void unlockAccount(UserDetailsDto userDetailsDto, Long userId) {
         User user = ObjectMapperUtils.map(userDetailsDto, User.class);
-        userManager.editUser(user);
+        userManager.editUser(user, userId);
     }
 }

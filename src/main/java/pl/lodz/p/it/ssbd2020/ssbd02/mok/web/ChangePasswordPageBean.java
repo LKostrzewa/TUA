@@ -3,19 +3,18 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ChangePasswordDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
-import javax.enterprise.context.ConversationScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
 @Named
-@ConversationScoped
+@ViewScoped
 public class ChangePasswordPageBean implements Serializable {
-    @Inject
-    UserDetailsPageBean userDetailsPageBean;
     @Inject
     private UserEndpoint userEndpoint;
     private ChangePasswordDto changePasswordDto;
+    private Long userId;
 
     public ChangePasswordDto getChangePasswordDto() {
         return changePasswordDto;
@@ -25,14 +24,20 @@ public class ChangePasswordPageBean implements Serializable {
         this.changePasswordDto = changePasswordDto;
     }
 
-    public String openChangePasswordPage() {
-        this.changePasswordDto = userEndpoint.getChangePasswordDtoById(userDetailsPageBean.getUserDetailsDto().getId());
-        return "changePassword.xhtml?faces-redirect=true";
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void init() {
+        this.changePasswordDto = userEndpoint.getChangePasswordDtoById(userId);
     }
 
     public String changePassword() {
-        userEndpoint.editUserPassword(changePasswordDto);
-        userDetailsPageBean.refresh();
-        return "userDetails.xhtml?faces-redirect=true";
+        userEndpoint.editUserPassword(changePasswordDto, userId);
+        return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 }

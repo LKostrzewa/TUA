@@ -5,23 +5,21 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
 @Named
-@ConversationScoped
+@ViewScoped
 public class UserDetailsPageBean implements Serializable {
     @Inject
-    private UserAccessLevelEndpoint userAccessLevelEndpoint;
-    @Inject
-    private Conversation conversation;
-    @Inject
     private UserEndpoint userEndpoint;
+    @Inject
+    private UserAccessLevelEndpoint userAccessLevelEndpoint;
     private UserDetailsDto userDetailsDto;
     private UserAccessLevelDto userAccessLevelDto;
+    private Long userId;
 
     public UserAccessLevelDto getUserAccessLevelDto() {
         return userAccessLevelDto;
@@ -39,21 +37,17 @@ public class UserDetailsPageBean implements Serializable {
         this.userDetailsDto = userDetailsDto;
     }
 
-    public String showUserDetailsPage(Long id) {
-        conversation.begin();
-        this.userDetailsDto = userEndpoint.getUserDetailsDtoById(id);
-        this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(id);
-        return "userDetails.xhtml?faces-redirect=true";
+    public Long getUserId() {
+        return userId;
     }
 
-    public String closeUserDetailsPage() {
-        conversation.end();
-        return "listUsers.xhtml?faces-redirect=true";
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public void refresh() {
-        this.userDetailsDto = userEndpoint.getUserDetailsDtoById(userDetailsDto.getId());
-        this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(userDetailsDto.getId());
+    public void init() {
+        this.userDetailsDto = userEndpoint.getUserDetailsDtoById(userId);
+        this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(userId);
     }
 
     public String getAccessLevels() {
@@ -69,11 +63,11 @@ public class UserDetailsPageBean implements Serializable {
 
     public void lockAccount() {
         userDetailsDto.setLocked(true);
-        userEndpoint.lockAccount(userDetailsDto);
+        userEndpoint.lockAccount(userDetailsDto, userId);
     }
 
     public void unlockAccount() {
         userDetailsDto.setLocked(false);
-        userEndpoint.unlockAccount(userDetailsDto);
+        userEndpoint.unlockAccount(userDetailsDto, userId);
     }
 }

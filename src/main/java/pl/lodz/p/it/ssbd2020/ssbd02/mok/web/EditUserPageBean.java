@@ -3,19 +3,18 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.EditUserDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
-import javax.enterprise.context.ConversationScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
 @Named
-@ConversationScoped
+@ViewScoped
 public class EditUserPageBean implements Serializable {
-    @Inject
-    UserDetailsPageBean userDetailsPageBean;
     @Inject
     private UserEndpoint userEndpoint;
     private EditUserDto editUserDto;
+    private Long userId;
 
     public EditUserDto getEditUserDto() {
         return editUserDto;
@@ -25,14 +24,20 @@ public class EditUserPageBean implements Serializable {
         this.editUserDto = editUserDto;
     }
 
-    public String openEditUserPage() {
-        this.editUserDto = userEndpoint.getEditUserDtoById(userDetailsPageBean.getUserDetailsDto().getId());
-        return "editUser.xhtml?faces-redirect=true";
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void init() {
+        this.editUserDto = userEndpoint.getEditUserDtoById(userId);
     }
 
     public String editUser() {
-        userEndpoint.editUser(editUserDto);
-        userDetailsPageBean.refresh();
-        return "userDetails.xhtml?faces-redirect=true";
+        userEndpoint.editUser(editUserDto, userId);
+        return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 }
