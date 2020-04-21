@@ -77,7 +77,7 @@ public class User implements Serializable {
     @Column(name = "reset_password_code", nullable = false, unique = true)
     @Convert("uuidConverter")
     private UUID resetPasswordCode;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "user")
     private Collection<UserAccessLevel> userAccessLevels = new ArrayList<>();
 
 

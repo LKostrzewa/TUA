@@ -27,7 +27,6 @@ public class UserAccessLevelEndpoint implements Serializable {
     public UserAccessLevelDto findAccessLevelById(Long userId) {
         Collection<UserAccessLevel> userAccessLevels = userAccessLevelManager.findUserAccessLevelById(userId);
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
-        userAccessLevelDto.setId(userId);
         for (UserAccessLevel level : userAccessLevels) {
             if (level.getAccessLevel().getName().equals(ADMIN_ACCESS_LEVEL)) userAccessLevelDto.setAdmin(true);
             if (level.getAccessLevel().getName().equals(MANAGER_ACCESS_LEVEL)) userAccessLevelDto.setManager(true);
@@ -36,11 +35,11 @@ public class UserAccessLevelEndpoint implements Serializable {
         return userAccessLevelDto;
     }
 
-    public void editAccessLevels(UserAccessLevelDto userAccessLevelDto) {
+    public void editAccessLevels(UserAccessLevelDto userAccessLevelDto,Long userId) {
         List<Boolean> levels = new ArrayList<>();
         levels.add(userAccessLevelDto.getAdmin());
         levels.add(userAccessLevelDto.getManager());
         levels.add(userAccessLevelDto.getClient());
-        userAccessLevelManager.editAccessLevels(userAccessLevelDto.getId(), levels);
+        userAccessLevelManager.editAccessLevels(userId, levels);
     }
 }

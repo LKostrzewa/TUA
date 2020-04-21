@@ -3,13 +3,13 @@
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xml:lang="en" lang="en">
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
 <h:head>
     <title>Users list</title>
 </h:head>
 <h:body>
     <ui:composition template="/templates/adminTemplate.xhtml">
-
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
                 <p:menuitem value="Categories" url="#"/>
@@ -17,7 +17,6 @@
                 <p:menuitem value="#{msg['bread.users']}" url="/admin/usersList.xhtml"/>
             </p:breadCrumb>
         </ui:define>
-
         <ui:define name="content">
             <h:form>
                 <p:dataTable var="listUsersDto" value="#{listUsersPageBean.users}" rows="10" border="2"
@@ -26,35 +25,28 @@
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
-
                     <p:column id="login" headerText="${msg['login']}">
                         <h:outputText value="#{listUsersDto.login}"/>
                     </p:column>
-
                     <p:column id="email" headerText="${msg['email']}">
                         <h:outputText value="#{listUsersDto.email}"/>
                     </p:column>
-
                     <p:column id="locked" headerText="${msg['locked']}">
                         <h:outputText value="${msg['yes']}" rendered="#{listUsersDto.locked}"/>
                         <h:outputText value="${msg['no']}" rendered="#{!listUsersDto.locked}"/>
                     </p:column>
-
                     <p:column id="activated" headerText="${msg['activated']}">
                         <h:outputText value="${msg['yes']}" rendered="#{listUsersDto.activated}"/>
                         <h:outputText value="${msg['no']}" rendered="#{!listUsersDto.activated}"/>
                     </p:column>
-
                     <p:column id="actions" headerText="${msg['actions']}">
-                        <p:commandButton value="${msg['details']}"
-                                         action="#{userDetailsPageBean.showUserDetailsPage(listUsersDto.id)}"/>
-                        <p:commandButton value="${msg['delete']}"/>
+                        <p:button value="${msg['details']}" outcome="userDetails.xhtml?faces-redirect=true">
+                            <f:param name="userId" value="#{listUsersDto.id}"/>
+                        </p:button>
                     </p:column>
-
                 </p:dataTable>
             </h:form>
         </ui:define>
-
     </ui:composition>
 </h:body>
 </html>
