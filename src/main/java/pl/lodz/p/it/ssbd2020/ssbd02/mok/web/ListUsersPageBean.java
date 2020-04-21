@@ -27,7 +27,7 @@ public class ListUsersPageBean {
 
     @PostConstruct
     private void init() {
-        this.users = userEndpoint.getAll();
+        this.users = userEndpoint.getAllUsers();
         Collections.sort(this.users);
     }
 }
