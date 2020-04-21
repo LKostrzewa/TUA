@@ -216,10 +216,7 @@ public class User implements Serializable {
         return versionUserDetails;
     }
 
-    public void setVersionUserDetails(long version_user_details) {
-        this.versionUserDetails = version_user_details;
-    }
-
+    
     public String getFirstName() {
         return firstName;
     }
