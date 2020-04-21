@@ -29,6 +29,9 @@ import static javax.security.enterprise.authentication.mechanism.http.Authentica
 @SessionScoped
 @Interceptors(LoggerInterceptor.class)
 public class LoginBean implements Serializable {
+    public final static String ADMIN_ACCESS_LEVEL = "ADMINISTRATOR";
+    public final static String MANAGER_ACCESS_LEVEL = "MANAGER";
+    public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
     @Inject
     private SecurityContext securityContext;
     @Inject
@@ -56,7 +59,18 @@ public class LoginBean implements Serializable {
             case SUCCESS:
                 facesContext.addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Login succeed", null));
-                FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/shared/index.xhtml");
+                if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole(CLIENT_ACCESS_LEVEL)) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/client/index.xhtml");
+                    break;
+                }
+                if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole(MANAGER_ACCESS_LEVEL)){
+                    FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/manager/index.xhtml");
+                    break;
+                }
+                if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole(ADMIN_ACCESS_LEVEL)){
+                    FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/admin/index.xhtml");
+                    break;
+                }
                 break;
             case SEND_FAILURE:
                 facesContext.addMessage(null,

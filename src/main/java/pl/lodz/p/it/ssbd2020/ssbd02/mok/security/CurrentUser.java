@@ -14,6 +14,9 @@ import java.io.Serializable;
 @Named
 @Interceptors(LoggerInterceptor.class)
 public class CurrentUser implements Serializable {
+    public final static String ADMIN_ACCESS_LEVEL = "ADMINISTRATOR";
+    public final static String MANAGER_ACCESS_LEVEL = "MANAGER";
+    public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
     private String currentRole;
 
     public String getCurrentRole() {
@@ -26,17 +29,9 @@ public class CurrentUser implements Serializable {
 
     @PostConstruct
     private void init() {
-        if (isClient() && currentRole == null) currentRole = "CLIENT";
-        if (isManager() && currentRole == null) currentRole = "MANAGER";
-        if (isAdministrator() && currentRole == null) currentRole = "ADMINISTRATOR";
-        try {
-            if (isNowAdministrator())
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/admin/index.xhtml");
-            if (isNowManager()) FacesContext.getCurrentInstance().getExternalContext().redirect("/manager/index.xhtml");
-            if (isNowClient()) FacesContext.getCurrentInstance().getExternalContext().redirect("/client/index.xhtml");
-        } catch (IOException e) {
-            System.out.println("Could not redirect.");
-        }
+        if (isClient() && currentRole == null) currentRole = CLIENT_ACCESS_LEVEL;
+        if (isManager() && currentRole == null) currentRole = MANAGER_ACCESS_LEVEL;
+        if (isAdministrator() && currentRole == null) currentRole = ADMIN_ACCESS_LEVEL;
     }
 
     public boolean isUserInRole(String role) {  // sprawdza jaka jest rola zalogowanego uzytkownika
@@ -44,15 +39,15 @@ public class CurrentUser implements Serializable {
     }
 
     public boolean isAdministrator() {
-        return isUserInRole("ADMINISTRATOR");
+        return isUserInRole(ADMIN_ACCESS_LEVEL);
     }
 
     public boolean isManager() {
-        return isUserInRole("MANAGER");
+        return isUserInRole(MANAGER_ACCESS_LEVEL);
     }
 
     public boolean isClient() {
-        return isUserInRole("CLIENT");
+        return isUserInRole(CLIENT_ACCESS_LEVEL);
     }
 
     public String getCurrentUserLogin() {
@@ -62,39 +57,39 @@ public class CurrentUser implements Serializable {
     public String allUserAccessLevel() {
         String string = "";
         if (isAdministrator())
-            string += "ADMINISTRATOR ";
+            string += ADMIN_ACCESS_LEVEL + " ";
         if (isManager())
-            string += "MANAGER ";
+            string += MANAGER_ACCESS_LEVEL + " ";
         if (isClient())
-            string += "CLIENT";
+            string += CLIENT_ACCESS_LEVEL;
 
         return string;
     }
 
     public boolean isNowAdministrator() {
-        return currentRole.equals("ADMINISTRATOR");
+        return currentRole.equals(ADMIN_ACCESS_LEVEL);
     }
 
     public boolean isNowManager() {
-        return currentRole.equals("MANAGER");
+        return currentRole.equals(MANAGER_ACCESS_LEVEL);
     }
 
     public boolean isNowClient() {
-        return currentRole.equals("CLIENT");
+        return currentRole.equals(CLIENT_ACCESS_LEVEL);
     }
 
     public String redirectAdmin() {
-        currentRole = "ADMINISTRATOR";
+        currentRole = ADMIN_ACCESS_LEVEL;
         return "adminMain";
     }
 
     public String redirectManager() {
-        currentRole = "MANAGER";
+        currentRole = MANAGER_ACCESS_LEVEL;
         return "managerMain";
     }
 
     public String redirectClient() {
-        currentRole = "CLIENT";
+        currentRole = CLIENT_ACCESS_LEVEL;
         return "clientMain";
     }
 }
