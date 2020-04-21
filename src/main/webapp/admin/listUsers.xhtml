@@ -40,10 +40,9 @@
                         <h:outputText value="${msg['no']}" rendered="#{!listUsersDto.activated}"/>
                     </p:column>
                     <p:column id="actions" headerText="${msg['actions']}">
-                        <h:button value="${msg['details']}" outcome="userDetails.xhtml?faces-redirect=true">
+                        <p:button value="${msg['details']}" outcome="userDetails.xhtml?faces-redirect=true">
                             <f:param name="userId" value="#{listUsersDto.id}"/>
-                        </h:button>
-                        <p:commandButton value="${msg['delete']}"/>
+                        </p:button>
                     </p:column>
                 </p:dataTable>
             </h:form>

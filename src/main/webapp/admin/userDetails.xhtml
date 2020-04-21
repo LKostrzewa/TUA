@@ -42,15 +42,15 @@
         <p:commandButton value="${msg['unlock']}" action="#{userDetailsPageBean.unlockAccount}" update="form"
                          rendered="#{userDetailsPageBean.userDetailsDto.locked}"/>
         <p:button value="#{msg['go_back']}" outcome="listUsers.xhtml?faces-redirect=true"/>
-        <h:button value="${msg['edit']}" outcome="editUser.xhtml?faces-redirect=true">
+        <p:button value="${msg['edit']}" outcome="editUser.xhtml?faces-redirect=true">
             <f:param name="userId" value="#{userDetailsPageBean.userId}"/>
-        </h:button>
-        <h:button value="${msg['change_password']}" outcome="changePassword.xhtml?faces-redirect=true">
+        </p:button>
+        <p:button value="${msg['change_password']}" outcome="changePassword.xhtml?faces-redirect=true">
             <f:param name="userId" value="#{userDetailsPageBean.userId}"/>
-        </h:button>
-        <h:button value="${msg['change_access_level']}" outcome="changeAccessLevel.xhtml?faces-redirect=true">
+        </p:button>
+        <p:button value="${msg['change_access_level']}" outcome="changeAccessLevel.xhtml?faces-redirect=true">
             <f:param name="userId" value="#{userDetailsPageBean.userId}"/>
-        </h:button>
+        </p:button>
     </h:form>
 </h:body>
 </html>

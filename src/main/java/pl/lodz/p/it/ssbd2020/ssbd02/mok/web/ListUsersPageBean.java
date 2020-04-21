@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Collections;
 import java.util.List;
 
 @Named
@@ -27,6 +28,7 @@ public class ListUsersPageBean {
     @PostConstruct
     private void init() {
         this.users = userEndpoint.getAll();
+        Collections.sort(this.users);
     }
 }
 

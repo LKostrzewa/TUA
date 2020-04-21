@@ -77,6 +77,6 @@ public class ListUsersDto implements Comparable<ListUsersDto> {
 
     @Override
     public int compareTo(ListUsersDto listUsersDTO) {
-        return this.login.compareTo(listUsersDTO.login);
+        return this.login.compareToIgnoreCase(listUsersDTO.login);
     }
 }
