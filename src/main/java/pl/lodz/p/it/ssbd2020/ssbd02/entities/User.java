@@ -69,7 +69,9 @@ public class User implements Serializable {
     private Date lastInvalidLogin;
     @Column(name = "invalid_login_attempts", nullable = false)
     private int invalidLoginAttempts;
-    @Column(name = "activation_code", nullable = false, unique = true)
+    @Column(name = "last_login_ip", length = 64)
+    private String lastLoginIp;
+    @Column(name = "activation_code", nullable = false, unique = true, length = 64)
     //@Convert("uuidConverter")
     private String activationCode;
     @Column(name = "reset_password_code", nullable = false, unique = true)
@@ -79,9 +81,6 @@ public class User implements Serializable {
     private Collection<UserAccessLevel> userAccessLevels = new ArrayList<>();
 
 
-    @Version
-    @Column(name = "version", table = "user_details", nullable = false)
-    private long versionUserDetails;
     @Column(name = "first_name", table = "user_details", nullable = false, length = 32)
     private String firstName;
     @Column(name = "last_name", table = "user_details", nullable = false, length = 32)
@@ -180,6 +179,14 @@ public class User implements Serializable {
         this.invalidLoginAttempts = invalidLoginAttempts;
     }
 
+    public String getLastLoginIp() {
+        return lastLoginIp;
+    }
+
+    public void setLastLoginIp(String lastLoginIp) {
+        this.lastLoginIp = lastLoginIp;
+    }
+
     public String getActivationCode() {
         return activationCode;
     }
@@ -212,11 +219,6 @@ public class User implements Serializable {
         return activated;
     }
 
-    public Long getVersionUserDetails() {
-        return versionUserDetails;
-    }
-
-    
     public String getFirstName() {
         return firstName;
     }
