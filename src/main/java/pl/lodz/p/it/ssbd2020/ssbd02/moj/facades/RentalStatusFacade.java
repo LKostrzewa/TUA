@@ -1,6 +1,6 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.facade;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.RentalStatus;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -13,12 +13,12 @@ import javax.persistence.PersistenceContext;
 @Stateless
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
-public class YachtFacade extends AbstractFacade<Yacht> {
+public class RentalStatusFacade extends AbstractFacade<RentalStatus> {
     @PersistenceContext(unitName = "ssbd02mojPU")
     private EntityManager entityManager;
 
-    public YachtFacade() {
-        super(Yacht.class);
+    public RentalStatusFacade() {
+        super(RentalStatus.class);
     }
 
     @Override
