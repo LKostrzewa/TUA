@@ -3,9 +3,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Opinion;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.facade.OpinionFacade;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.facade.RentalFacade;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.facade.YachtFacade;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.OpinionFacade;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalFacade;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.ejb.LocalBean;

@@ -1,8 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Image;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.facade.ImageFacade;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.facade.YachtModelFacade;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.ImageFacade;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtModelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.ejb.LocalBean;
