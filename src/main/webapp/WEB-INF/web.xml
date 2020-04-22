@@ -59,10 +59,6 @@
             <description/>
             <role-name>ADMINISTRATOR</role-name>
         </auth-constraint>
-        <user-data-constraint>
-            <description/>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
     </security-constraint>
 
     <security-constraint>
@@ -76,10 +72,6 @@
             <description/>
             <role-name>MANAGER</role-name>
         </auth-constraint>
-        <user-data-constraint>
-            <description/>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
     </security-constraint>
 
     <security-constraint>
@@ -93,10 +85,7 @@
             <description/>
             <role-name>CLIENT</role-name>
         </auth-constraint>
-        <user-data-constraint>
-            <description/>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
+
     </security-constraint>
 
     <security-constraint>
@@ -106,10 +95,7 @@
             <description/>
             <url-pattern>/login/*</url-pattern>
         </web-resource-collection>
-        <user-data-constraint>
-            <description/>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
+
     </security-constraint>
 
 
