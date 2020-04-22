@@ -22,10 +22,6 @@
                <p:inputText id="phoneNumber" value="#{editUserPageBean.editUserDto.phoneNumber}"/>
                <p:outputLabel for="@previous" value="#{msg['phone_number']}"/>
            </span>
-            <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="email" value="#{editUserPageBean.editUserDto.email}"/>
-               <p:outputLabel for="@previous" value="#{msg['email']}"/>
-           </span>
         </div>
         <p:button value="#{msg['cancel']}" outcome="userDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
         <p:commandButton value="#{msg['save']}" action="#{editUserPageBean.editUser()}"/>

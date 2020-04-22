@@ -52,7 +52,7 @@ public class User implements Serializable {
     @Column(name = "password", nullable = false, length = 64)
     private String password;
     @Pattern(regexp = "^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$", message = "Invalid email")
-    @Column(name = "email", nullable = false, unique = true, length = 64)
+    @Column(name = "email", nullable = false, unique = true, updatable = false, length = 64)
     private String email;
     @Column(name = "locked", nullable = false)
     private boolean locked;
@@ -129,10 +129,6 @@ public class User implements Serializable {
 
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public boolean getLocked() {

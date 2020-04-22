@@ -63,7 +63,6 @@ public class UserManager {
         User userToEdit = userFacade.find(userId);
         userToEdit.setFirstName(user.getFirstName());
         userToEdit.setLastName(user.getLastName());
-        userToEdit.setEmail(user.getEmail());
         userToEdit.setPhoneNumber(user.getPhoneNumber());
         userToEdit.setLocked(user.getLocked());
         userFacade.edit(userToEdit);
