@@ -74,9 +74,9 @@ public class User implements Serializable {
     @Column(name = "activation_code", nullable = false, unique = true, length = 64)
     //@Convert("uuidConverter")
     private String activationCode;
-    @Column(name = "reset_password_code", nullable = false, unique = true)
-    @Convert("uuidConverter")
-    private UUID resetPasswordCode;
+    @Column(name = "reset_password_code", nullable = false, unique = true, length = 64)
+    //@Convert("uuidConverter")
+    private String resetPasswordCode;
     @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "user")
     private Collection<UserAccessLevel> userAccessLevels = new ArrayList<>();
 
@@ -195,11 +195,11 @@ public class User implements Serializable {
         this.activationCode = activationCode;
     }
 
-    public UUID getResetPasswordCode() {
+    public String getResetPasswordCode() {
         return resetPasswordCode;
     }
 
-    public void setResetPasswordCode(UUID resetPasswordCode) {
+    public void setResetPasswordCode(String resetPasswordCode) {
         this.resetPasswordCode = resetPasswordCode;
     }
 

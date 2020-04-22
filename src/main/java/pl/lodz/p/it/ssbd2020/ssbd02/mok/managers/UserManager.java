@@ -33,7 +33,7 @@ public class UserManager {
         user.setLocked(false);
         user.setPassword(passwordHash);
         user.setActivationCode(UUID.randomUUID().toString());
-        user.setResetPasswordCode(UUID.randomUUID());
+        user.setResetPasswordCode(UUID.randomUUID().toString());
 
         UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
 
