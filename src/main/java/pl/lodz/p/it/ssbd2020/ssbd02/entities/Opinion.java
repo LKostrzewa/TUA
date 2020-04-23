@@ -27,7 +27,7 @@ import java.util.UUID;
 public class Opinion implements Serializable {
 
     @Id
-    @SequenceGenerator(name="OpinionSeqGen",sequenceName="opinion_id_seq1")
+    @SequenceGenerator(name="OpinionSeqGen",sequenceName="opinion_id_seq",allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="OpinionSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;

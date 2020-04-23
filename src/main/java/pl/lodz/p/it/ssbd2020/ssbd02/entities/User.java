@@ -37,7 +37,7 @@ import java.util.UUID;
 public class User implements Serializable {
 
     @Id
-    @SequenceGenerator(name="UserSeqGen",sequenceName="user_id_seq")
+    @SequenceGenerator(name="UserSeqGen",sequenceName="user_id_seq",allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="UserSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;

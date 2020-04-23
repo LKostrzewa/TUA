@@ -21,7 +21,7 @@ import java.util.UUID;
 public class AccessLevel implements Serializable {
 
     @Id
-    @SequenceGenerator(name="AccessLevelSeqGen",sequenceName="access_level_id_seq1")
+    @SequenceGenerator(name="AccessLevelSeqGen",sequenceName="access_level_id_seq",allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="AccessLevelSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;

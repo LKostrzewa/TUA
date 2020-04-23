@@ -21,7 +21,7 @@ import java.util.UUID;
 public class Image implements Serializable {
 
     @Id
-    @SequenceGenerator(name="ImageSeqGen",sequenceName="image_id_seq1")
+    @SequenceGenerator(name="ImageSeqGen",sequenceName="image_id_seq",allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ImageSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
