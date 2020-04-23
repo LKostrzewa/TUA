@@ -27,7 +27,8 @@ import java.util.UUID;
         @NamedQuery(name = "Port.findByLat", query = "SELECT p FROM Port p WHERE p.lat = :lat")})
 public class Port implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name="PortSeqGen",sequenceName="port_id_seq1")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PortSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
     @Version
