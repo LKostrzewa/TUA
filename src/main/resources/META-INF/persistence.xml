@@ -6,9 +6,6 @@
     <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel</class>
     <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.User</class>
     <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel</class>
-<!--    <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.UserDetails</class>-->
-
-
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
@@ -28,7 +25,6 @@
     <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel</class>
     <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.User</class>
     <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel</class>
-<!--    <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.UserDetails</class>-->
     <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>

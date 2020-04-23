@@ -73,10 +73,8 @@ public class User implements Serializable {
     @Column(name = "last_login_ip", length = 64)
     private String lastLoginIp;
     @Column(name = "activation_code", nullable = false, unique = true, length = 64)
-    //@Convert("uuidConverter")
     private String activationCode;
     @Column(name = "reset_password_code", nullable = false, unique = true, length = 64)
-    //@Convert("uuidConverter")
     private String resetPasswordCode;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "user")
     private Collection<UserAccessLevel> userAccessLevels = new ArrayList<>();
