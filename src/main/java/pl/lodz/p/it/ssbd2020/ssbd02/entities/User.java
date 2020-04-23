@@ -37,7 +37,8 @@ import java.util.UUID;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name="UserSeqGen",sequenceName="user_id_seq",allocationSize = 1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="UserSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
     @Version
@@ -72,10 +73,8 @@ public class User implements Serializable {
     @Column(name = "last_login_ip", length = 64)
     private String lastLoginIp;
     @Column(name = "activation_code", nullable = false, unique = true, length = 64)
-    //@Convert("uuidConverter")
     private String activationCode;
     @Column(name = "reset_password_code", nullable = false, unique = true, length = 64)
-    //@Convert("uuidConverter")
     private String resetPasswordCode;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "user")
     private Collection<UserAccessLevel> userAccessLevels = new ArrayList<>();
