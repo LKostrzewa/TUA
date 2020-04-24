@@ -35,7 +35,7 @@ public class UserManager {
         user.setActivated(active);
         user.setLocked(false);
         user.setPassword(passwordHash);
-        user.setActivationCode(UUID.randomUUID().toString());
+        user.setActivationCode(UUID.randomUUID().toString().replace("-",""));
         user.setResetPasswordCode(UUID.randomUUID().toString());
 
         UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
@@ -83,18 +83,20 @@ public class UserManager {
 
     private String createVeryficationLink(User user) {
         String activationCode = user.getActivationCode();
-        String veryficationLink = "Jachtex"+activationCode;
-        return veryficationLink;
+        //String veryficationLink = "Jachtex"+activationCode;
+        String content="<a href=" +"\"http://localhost:8080/login/activate.xhtml?key="+ activationCode+"\">activation code</a>";
+        return content;
     }
 
     public void confirmActivationCode(String code) {
         User user = userFacade.findByActivationCode(code);
+
         user.setActivated(true);
         userFacade.edit(user);
     }
 
     public void sendEmailwithCode(User user) {
         sendEmail.sendEmail(createVeryficationLink(user));
-        confirmActivationCode(user.getActivationCode());
+        //confirmActivationCode(user.getActivationCode());
     }
 }

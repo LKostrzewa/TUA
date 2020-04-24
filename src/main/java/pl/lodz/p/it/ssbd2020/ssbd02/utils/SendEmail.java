@@ -41,8 +41,8 @@ public class SendEmail {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
             message.setSubject("My first Message with JavaMail");
             //message.setText("KLiknij w link" + activationlink);
-            String content="<a href=\"http://localhost:8080/login/login.xhtml\">click here</a>";
-            message.setText(content, "UTF-8", "html");
+            //String content="<a href=\"http://localhost:8080/login/login.xhtml\">click here</a>";
+            message.setText(activationlink, "UTF-8", "html");
             Transport.send(message);
 
         } catch (MessagingException e) {
