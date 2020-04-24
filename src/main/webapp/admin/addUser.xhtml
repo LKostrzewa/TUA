@@ -23,6 +23,7 @@
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="login" value="#{addUserPageBean.addUserDto.login}"/>
                         <p:outputLabel for="@previous" value="#{msg['login']}"/>
+                        <p:message for="login" />
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:password id="password" value="#{addUserPageBean.addUserDto.password}"/>
@@ -46,7 +47,7 @@
                     </span>
                 </div>
                 <p:commandButton value="#{msg['cancel']}" onclick="window.history.back();"/>
-                <p:commandButton value="#{msg['save']}" action="#{addUserPageBean.addUser()}"/>
+                <p:commandButton value="#{msg['save']}" action="#{addUserPageBean.addUser()}" update="@form"/>
             </h:form>
         </ui:define>
     </ui:composition>

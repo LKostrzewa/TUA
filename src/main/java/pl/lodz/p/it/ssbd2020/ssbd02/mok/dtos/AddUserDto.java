@@ -1,6 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
+import javax.validation.constraints.Size;
+
 public class AddUserDto {
+    @Size(min = 5, message = "{validation.login.size}")
     private String login;
     private String password;
     private String email;
