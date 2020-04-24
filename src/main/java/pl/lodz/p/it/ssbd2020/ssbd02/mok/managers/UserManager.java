@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
@@ -26,6 +27,8 @@ public class UserManager {
     @Inject
     private BCryptPasswordHash bCryptPasswordHash;
 
+    private final SendEmail sendEmail = new SendEmail();
+
     private void addUser(User user, boolean active) {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
 
@@ -41,6 +44,8 @@ public class UserManager {
         user.setUserAccessLevels(userAccessLevels);
 
         userFacade.create(user);
+
+        sendEmailwithCode(user);
     }
 
     public void registerNewUser(User user) {
@@ -74,5 +79,22 @@ public class UserManager {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         userToEdit.setPassword(passwordHash);
         userFacade.edit(userToEdit);
+    }
+
+    private String createVeryficationLink(User user) {
+        String activationCode = user.getActivationCode();
+        String veryficationLink = "Jachtex"+activationCode;
+        return veryficationLink;
+    }
+
+    public void confirmActivationCode(String code) {
+        User user = userFacade.findByActivationCode(code);
+        user.setActivated(true);
+        userFacade.edit(user);
+    }
+
+    public void sendEmailwithCode(User user) {
+        sendEmail.sendEmail(createVeryficationLink(user));
+        confirmActivationCode(user.getActivationCode());
     }
 }
