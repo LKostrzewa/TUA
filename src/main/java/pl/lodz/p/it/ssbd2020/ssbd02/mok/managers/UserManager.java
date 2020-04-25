@@ -75,4 +75,15 @@ public class UserManager {
         userToEdit.setPassword(passwordHash);
         userFacade.edit(userToEdit);
     }
+
+    public User getUserByLogin(String userLogin) {
+        return userFacade.findByLogin(userLogin);
+    }
+
+    public void editUserLastLogin(User user, Long userId) {
+        User userToEdit = userFacade.find(userId);
+        userToEdit.setLastValidLogin(user.getLastValidLogin());
+        userToEdit.setLastInvalidLogin(user.getLastInvalidLogin());
+        userFacade.edit(userToEdit);
+    }
 }

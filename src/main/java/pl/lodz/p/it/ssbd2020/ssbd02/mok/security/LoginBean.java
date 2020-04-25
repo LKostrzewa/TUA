@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserLoginDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.enterprise.context.SessionScoped;
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
@@ -33,6 +36,8 @@ public class LoginBean implements Serializable {
     public final static String MANAGER_ACCESS_LEVEL = "MANAGER";
     public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
     @Inject
+    private UserEndpoint userEndpoint;
+    @Inject
     private SecurityContext securityContext;
     @Inject
     private FacesContext facesContext;
@@ -43,6 +48,16 @@ public class LoginBean implements Serializable {
     @NotBlank(message = "{password.message}")
     private String password;
 
+    private UserLoginDto userLoginDto;
+
+    public UserLoginDto getUserLoginDto() {
+        return userLoginDto;
+    }
+
+    public void setUserLoginDto(UserLoginDto userLoginDto) {
+        this.userLoginDto = userLoginDto;
+    }
+
     public void login() throws IOException {
         Credential credential = new UsernamePasswordCredential(username, new Password(password));
         AuthenticationStatus status = securityContext.authenticate(
@@ -51,14 +66,18 @@ public class LoginBean implements Serializable {
                 withParams()
                         .credential(credential)
                         .newAuthentication(true));
-
+        displayMessage();
+        //userLoginDto = userEndpoint.getLoginDtoByLogin(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+        userLoginDto = userEndpoint.getLoginDtoByLogin(username);
         switch (status) {
             case SEND_CONTINUE:
                 facesContext.responseComplete();
                 break;
             case SUCCESS:
-                facesContext.addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Login succeed", null));
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Login valid login:", String.valueOf(userLoginDto.getLastValidLogin())));
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Login invalid login:", String.valueOf(userLoginDto.getLastInvalidLogin())));
+                userLoginDto.setLastValidLogin(new Date());
+                userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
                 if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole(CLIENT_ACCESS_LEVEL)) {
                 FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/client/index.xhtml");
                     break;
@@ -73,6 +92,8 @@ public class LoginBean implements Serializable {
                 }
                 break;
             case SEND_FAILURE:
+                userLoginDto.setLastInvalidLogin(new Date());
+                userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
                 facesContext.addMessage(null,
                         new FacesMessage(SEVERITY_ERROR, "Authentication failed", null));
                 externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
@@ -80,6 +101,11 @@ public class LoginBean implements Serializable {
             case NOT_DONE:
                 break;
         }
+    }
+
+    public void displayMessage() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
     }
 
     private HttpServletRequest getHttpRequestFromFacesContext() {
