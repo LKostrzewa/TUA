@@ -16,6 +16,11 @@
             </p:submenu>
             <p:menuitem value="#{msg['menu.account']}" url="/admin/account.xhtml"/>
             <f:facet name="options">
+            <!--<p:selectOneMenu id="caseSelection" value="#{currentUser.currentRole}" onchange="#{currentUser.redirectAdmin()}">
+                <f:selectItem itemLabel="Admin" itemValue="#{currentUser.redirectAdmin()}" />
+                <f:selectItem itemLabel="Manager" itemValue="#{currentUser.redirectManager()}" />
+                <f:selectItem itemLabel="Client" itemValue="#{currentUser.redirectClient()}" />
+            </p:selectOneMenu>-->
                 <p:commandButton value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
             </f:facet>
         </p:menubar>

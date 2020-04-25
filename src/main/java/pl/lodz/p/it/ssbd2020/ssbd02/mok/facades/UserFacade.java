@@ -44,4 +44,9 @@ public class UserFacade extends AbstractFacade<User> {
     public void edit(User user) {
         super.edit(user);
     }
+
+    public User findByLogin(String userLogin){
+        return getEntityManager().createNamedQuery("User.findByLogin", User.class)
+                .setParameter("login",userLogin).getSingleResult();
+    }
 }
