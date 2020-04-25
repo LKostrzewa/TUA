@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Named
 @ViewScoped
 public class EditUserPageBean implements Serializable {
+
     @Inject
     private UserEndpoint userEndpoint;
     private EditUserDto editUserDto;
@@ -33,11 +34,20 @@ public class EditUserPageBean implements Serializable {
     }
 
     public void init() {
+
         this.editUserDto = userEndpoint.getEditUserDtoById(userId);
     }
 
+    private String reload(){
+        return "editUser.xhtml?faces-redirect=true?includeViewParams=true";
+    }
+
     public String editUser() {
-        userEndpoint.editUser(editUserDto, userId);
-        return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
+        try{
+            userEndpoint.editUser(editUserDto, userId);
+            return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
+        }catch (Exception ex){
+            return reload();
+        }
     }
 }

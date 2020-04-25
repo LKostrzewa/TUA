@@ -9,8 +9,11 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.persistence.OptimisticLockException;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +28,8 @@ public class UserManager {
     private UserFacade userFacade;
     @Inject
     private BCryptPasswordHash bCryptPasswordHash;
+    @Inject
+    private User userEntityEdit;
 
     private void addUser(User user, boolean active) {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
@@ -55,17 +60,26 @@ public class UserManager {
         return userFacade.findAll();
     }
 
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User getUserById(Long id) {
-        return userFacade.find(id);
+        this.userEntityEdit = userFacade.find(id);
+        return userEntityEdit;
     }
 
-    public void editUser(User user, Long userId) {
-        User userToEdit = userFacade.find(userId);
-        userToEdit.setFirstName(user.getFirstName());
-        userToEdit.setLastName(user.getLastName());
-        userToEdit.setPhoneNumber(user.getPhoneNumber());
-        userToEdit.setLocked(user.getLocked());
-        userFacade.edit(userToEdit);
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void editUser(User user, Long userId) throws Exception {
+
+        try {
+            if(userEntityEdit.getId().equals(userId)){
+                userEntityEdit.setFirstName(user.getFirstName());
+                userEntityEdit.setLastName(user.getLastName());
+                userEntityEdit.setPhoneNumber(user.getPhoneNumber());
+                userEntityEdit.setLocked(user.getLocked());
+                userFacade.edit(userEntityEdit);
+            }
+        }catch (OptimisticLockException ex){
+            throw new Exception("Optimistic lock exception", ex);
+        }
     }
 
     public void editUserPassword(User user, Long userId) {

@@ -9,6 +9,8 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
@@ -47,7 +49,8 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.map(userManager.getUserById(userId), UserDetailsDto.class);
     }
 
-    public void editUser(EditUserDto editUserDto, Long userId) {
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void editUser(EditUserDto editUserDto, Long userId) throws Exception {
         User user = ObjectMapperUtils.map(editUserDto, User.class);
         System.out.println(user);
         userManager.editUser(user, userId);
@@ -58,12 +61,12 @@ public class UserEndpoint implements Serializable {
         userManager.editUserPassword(user, userId);
     }
 
-    public void lockAccount(UserDetailsDto userDetailsDto, Long userId) {
+    public void lockAccount(UserDetailsDto userDetailsDto, Long userId) throws Exception{
         User user = ObjectMapperUtils.map(userDetailsDto, User.class);
         userManager.editUser(user, userId);
     }
 
-    public void unlockAccount(UserDetailsDto userDetailsDto, Long userId) {
+    public void unlockAccount(UserDetailsDto userDetailsDto, Long userId) throws Exception {
         User user = ObjectMapperUtils.map(userDetailsDto, User.class);
         userManager.editUser(user, userId);
     }
