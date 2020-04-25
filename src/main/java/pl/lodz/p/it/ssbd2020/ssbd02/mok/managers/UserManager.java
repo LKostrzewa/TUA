@@ -84,7 +84,7 @@ public class UserManager {
     private String createVeryficationLink(User user) {
         String activationCode = user.getActivationCode();
         //String veryficationLink = "Jachtex"+activationCode;
-        String content="<a href=" +"\"http://localhost:8080/login/activate.xhtml?key="+ activationCode+"\">activation code</a>";
+        String content="<a href=" +"\"http://localhost:8080/login/activate.xhtml?key="+ activationCode+"\">click here</a>";
         return content;
     }
 
