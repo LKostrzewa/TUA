@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 
 import javax.annotation.ManagedBean;
@@ -21,47 +22,23 @@ import java.util.logging.Logger;
 public class Email {
 
     @Inject
-   UserManager userManager;
+    UserEndpoint userEndpoint;
 
-    //@ManagedProperty(value="#{param.key}")
     private String key;
 
     private static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-    private boolean valid=true;
+    private int valid= 5;
 
     @PostConstruct
     public void init() {
-        // Get User based on activation key.
-        // Delete activation key from database.
-        // Login user.
-        //userManager.confirmActivationCode(key);
+
         key =FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key");
-        logger.info("GIT");
         logger.info("Klucz:"+key);
-        userManager.confirmActivationCode(key);
+        userEndpoint.confirmActivationCode(key);
 
     }
 
-
-    public static String getCurrentUrlFromRequest(ServletRequest request)
-    {
-        if (! (request instanceof HttpServletRequest))
-            return null;
-
-        return getCurrentUrlFromRequest((HttpServletRequest)request);
-    }
-
-    public static String getCurrentUrlFromRequest(HttpServletRequest request)
-    {
-        StringBuffer requestURL = request.getRequestURL();
-        String queryString = request.getQueryString();
-
-        if (queryString == null)
-            return requestURL.toString();
-
-        return requestURL.append('?').append(queryString).toString();
-    }
 
 
     public String getKey() {
@@ -72,11 +49,11 @@ public class Email {
         this.key = key;
     }
 
-    public boolean isValid() {
+    public int getValid() {
         return valid;
     }
 
-    public void setValid(boolean valid) {
+    public void setValid(int valid) {
         this.valid = valid;
     }
 }

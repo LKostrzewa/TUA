@@ -67,4 +67,8 @@ public class UserEndpoint implements Serializable {
         User user = ObjectMapperUtils.map(userDetailsDto, User.class);
         userManager.editUser(user, userId);
     }
+
+    public void confirmActivationCode(String code) {
+        userManager.confirmActivationCode(code);
+    }
 }

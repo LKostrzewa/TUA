@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.utils;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -13,14 +12,14 @@ import java.util.Properties;
 @LocalBean
 public class SendEmail {
 
-    String to = "gornik.przemek@wp.pl";
+
     String from = "ssbd202002@gmail.com";
     String username = "ssbd202002@gmail.com";
     String password = "SSBD202002";
     String host = "smtp.gmail.com";
 
 
-    public void sendEmail(String activationlink) {
+    public void sendEmail(String activationlink, String to) {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth",true);
         properties.put("mail.smtp.ssl.enable", true);
@@ -38,8 +37,9 @@ public class SendEmail {
         try {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-            message.setSubject("My first Message with JavaMail");
+            InternetAddress[] addresses = {new InternetAddress(to)};
+            message.setRecipients(Message.RecipientType.TO, addresses);
+            message.setSubject("Jachtpol - aktywacja konta");
             //message.setText("KLiknij w link" + activationlink);
             //String content="<a href=\"http://localhost:8080/login/login.xhtml\">click here</a>";
             message.setText(activationlink, "UTF-8", "html");
@@ -51,11 +51,6 @@ public class SendEmail {
     }
 
 
-//    private String createVeryficationLink(User user) {
-//        String activationCode = user.getActivationCode();
-//        String veryficationLink = "Jachtex"+activationCode;
-//        return veryficationLink;
-//    }
 
 
 

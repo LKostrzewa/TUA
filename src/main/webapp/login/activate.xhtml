@@ -6,19 +6,13 @@
       xmlns:ui="http://java.sun.com/jsf/facelets" xml:lang="en" lang="en">
 <h:head>
     <ui:fragment>
-        <meta http-equiv="refresh" content="3;url=login.xhtml" />
+        <meta http-equiv="refresh" content="5;url=login.xhtml" />
     </ui:fragment>
 </h:head>
 <h:body>
     <h:panelGroup layout="block" >
-        <p>Your account is successfully activated!</p>
-        <p>You will in 3 seconds be redirected to <h:link outcome="home">home page</h:link></p>
-    </h:panelGroup>
-    <h:panelGroup layout="block">
-        <p>Activation failed! Please enter your email address to try once again.</p>
-        <h:form>
-#{email.valid}
-        </h:form>
+        <p>Twoje Konto zostało aktywowane!</p>
+        <p>Za #{email.valid} sekund zostaniesz przeniesiony na  <h:link outcome="home">stronę logowania</h:link></p>
     </h:panelGroup>
 </h:body>
 </html>

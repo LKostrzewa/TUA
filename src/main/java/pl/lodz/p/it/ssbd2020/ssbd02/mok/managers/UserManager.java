@@ -84,19 +84,18 @@ public class UserManager {
     private String createVeryficationLink(User user) {
         String activationCode = user.getActivationCode();
         //String veryficationLink = "Jachtex"+activationCode;
-        String content="<a href=" +"\"http://localhost:8080/login/activate.xhtml?key="+ activationCode+"\">click here</a>";
+        String content="<a href=" +"\"http://localhost:8080/login/activate.xhtml?key="+ activationCode+"\">Link aktywacyjny</a>";
         return content;
     }
 
     public void confirmActivationCode(String code) {
         User user = userFacade.findByActivationCode(code);
-
         user.setActivated(true);
         userFacade.edit(user);
     }
 
     public void sendEmailwithCode(User user) {
-        sendEmail.sendEmail(createVeryficationLink(user));
-        //confirmActivationCode(user.getActivationCode());
+        String email = user.getEmail();
+        sendEmail.sendEmail(createVeryficationLink(user), email);
     }
 }
