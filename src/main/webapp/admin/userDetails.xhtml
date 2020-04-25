@@ -13,6 +13,7 @@
         <f:event type="preRenderView" listener="#{userDetailsPageBean.init}"/>
     </f:metadata>
     <h:form id="form">
+        <p:growl id="growl" showDetail="true" sticky="true"/>
         <p:panelGrid columns="2">
             <h:outputLabel value="#{msg['first_name']}:"/>
             <h:outputText value="#{userDetailsPageBean.userDetailsDto.firstName}"/>

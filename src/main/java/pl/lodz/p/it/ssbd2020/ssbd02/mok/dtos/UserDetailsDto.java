@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import java.util.Date;
 
 public class UserDetailsDto {
@@ -23,6 +25,10 @@ public class UserDetailsDto {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public boolean isLocked() {
