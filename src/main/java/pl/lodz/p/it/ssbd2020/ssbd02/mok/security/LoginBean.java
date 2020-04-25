@@ -23,6 +23,8 @@ import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
@@ -47,6 +49,7 @@ public class LoginBean implements Serializable {
     private String username;
     @NotBlank(message = "{password.message}")
     private String password;
+    ResourceBundle bundle = ResourceBundle.getBundle("resource", Locale.getDefault());
 
     private UserLoginDto userLoginDto;
 
@@ -67,15 +70,14 @@ public class LoginBean implements Serializable {
                         .credential(credential)
                         .newAuthentication(true));
         displayMessage();
-        //userLoginDto = userEndpoint.getLoginDtoByLogin(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
         userLoginDto = userEndpoint.getLoginDtoByLogin(username);
         switch (status) {
             case SEND_CONTINUE:
                 facesContext.responseComplete();
                 break;
             case SUCCESS:
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Login valid login:", String.valueOf(userLoginDto.getLastValidLogin())));
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Login invalid login:", String.valueOf(userLoginDto.getLastInvalidLogin())));
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("last_valid_login"), String.valueOf(userLoginDto.getLastValidLogin())));
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("last_invalid_login"), String.valueOf(userLoginDto.getLastInvalidLogin())));
                 userLoginDto.setLastValidLogin(new Date());
                 userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
                 if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole(CLIENT_ACCESS_LEVEL)) {
@@ -95,7 +97,7 @@ public class LoginBean implements Serializable {
                 userLoginDto.setLastInvalidLogin(new Date());
                 userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
                 facesContext.addMessage(null,
-                        new FacesMessage(SEVERITY_ERROR, "Authentication failed", null));
+                        new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authentication_failed")));
                 externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
                 break;
             case NOT_DONE:
