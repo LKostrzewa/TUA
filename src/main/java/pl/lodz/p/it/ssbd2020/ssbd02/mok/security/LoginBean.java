@@ -23,7 +23,6 @@ import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
@@ -49,7 +48,6 @@ public class LoginBean implements Serializable {
     private String username;
     @NotBlank(message = "{password.message}")
     private String password;
-    ResourceBundle bundle = ResourceBundle.getBundle("resource", Locale.getDefault());
 
     private UserLoginDto userLoginDto;
 
@@ -61,7 +59,24 @@ public class LoginBean implements Serializable {
         this.userLoginDto = userLoginDto;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void login() throws IOException {
+        ResourceBundle bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
         Credential credential = new UsernamePasswordCredential(username, new Password(password));
         AuthenticationStatus status = securityContext.authenticate(
                 getHttpRequestFromFacesContext(),
@@ -80,15 +95,15 @@ public class LoginBean implements Serializable {
                 facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("last_invalid_login"), String.valueOf(userLoginDto.getLastInvalidLogin())));
                 userLoginDto.setLastValidLogin(new Date());
                 userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
-                if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole(CLIENT_ACCESS_LEVEL)) {
-                FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/client/index.xhtml");
+                if (FacesContext.getCurrentInstance().getExternalContext().isUserInRole(CLIENT_ACCESS_LEVEL)) {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/client/index.xhtml");
                     break;
                 }
-                if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole(MANAGER_ACCESS_LEVEL)){
+                if (FacesContext.getCurrentInstance().getExternalContext().isUserInRole(MANAGER_ACCESS_LEVEL)) {
                     FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/manager/index.xhtml");
                     break;
                 }
-                if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole(ADMIN_ACCESS_LEVEL)){
+                if (FacesContext.getCurrentInstance().getExternalContext().isUserInRole(ADMIN_ACCESS_LEVEL)) {
                     FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/admin/index.xhtml");
                     break;
                 }
@@ -120,21 +135,5 @@ public class LoginBean implements Serializable {
         return (HttpServletResponse) facesContext
                 .getExternalContext()
                 .getResponse();
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }
