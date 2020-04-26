@@ -31,6 +31,10 @@ public class UserEndpoint implements Serializable {
         userManager.addNewUser(user);
     }
 
+    public Integer getUserInvalidLoginAttempts(Long ID) {
+        return userManager.getUserInvalidLoginAttempts(ID);
+    }
+
     public List<ListUsersDto> getAllUsers() {
         return ObjectMapperUtils.mapAll(userManager.getAll(), ListUsersDto.class);
     }
@@ -76,4 +80,11 @@ public class UserEndpoint implements Serializable {
         User user = ObjectMapperUtils.map(userDetailsDto, User.class);
         userManager.editUser(user, userId);
     }
+
+    public void editInvalidLoginAttempts(Integer attempts, Long userId) {
+
+
+        userManager.editInvalidLoginAttempts(attempts, userId);
+    }
+
 }

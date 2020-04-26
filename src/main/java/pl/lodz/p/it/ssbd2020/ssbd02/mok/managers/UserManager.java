@@ -86,4 +86,18 @@ public class UserManager {
         userToEdit.setLastInvalidLogin(user.getLastInvalidLogin());
         userFacade.edit(userToEdit);
     }
+
+    public void editInvalidLoginAttempts(Integer counter, Long userId) {
+        User userToEdit = userFacade.find(userId);
+        userToEdit.setInvalidLoginAttempts(counter);
+        if(counter==0) {
+            userToEdit.setLocked(true);
+        }
+        userFacade.edit(userToEdit);
+    }
+
+    public Integer getUserInvalidLoginAttempts(Long ID) {
+        User user = getUserById(ID);
+        return user.getInvalidLoginAttempts();
+    }
 }

@@ -6,6 +6,8 @@ public class UserLoginDto {
     private Long id;
     private Date lastValidLogin;
     private Date lastInvalidLogin;
+    private Integer invalidLoginAttempts;
+    private Boolean locked;
 
     public Long getId() {
         return id;
@@ -29,5 +31,22 @@ public class UserLoginDto {
 
     public void setLastInvalidLogin(Date lastInvalidLogin) {
         this.lastInvalidLogin = lastInvalidLogin;
+    }
+
+
+    public Boolean getLocked() {
+        return locked;
+    }
+
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
+    }
+
+    public Integer getInvalidLoginAttempts() {
+        return invalidLoginAttempts;
+    }
+
+    public void setInvalidLoginAttempts(Integer invalidLoginAttempts) {
+        this.invalidLoginAttempts = invalidLoginAttempts;
     }
 }

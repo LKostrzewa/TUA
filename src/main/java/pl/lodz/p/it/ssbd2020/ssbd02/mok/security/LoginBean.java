@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserLoginDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
@@ -48,6 +50,8 @@ public class LoginBean implements Serializable {
     private String username;
     @NotBlank(message = "{password.message}")
     private String password;
+
+    Logger logger =Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     private UserLoginDto userLoginDto;
 
@@ -109,10 +113,20 @@ public class LoginBean implements Serializable {
                 }
                 break;
             case SEND_FAILURE:
+                //userLoginDto.setInvalidLoginAttempts(1);
+                //userEndpoint.editInvalidLoginAttempts(userLoginDto, userLoginDto.getId());
+                InvalidLoginAttemptsHandler();
+//                facesContext.addMessage(null,
+//                        new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("invalid_login_attempts")));
+
+
                 userLoginDto.setLastInvalidLogin(new Date());
                 userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
                 facesContext.addMessage(null,
                         new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authentication_failed")));
+
+
+
                 externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
                 break;
             case NOT_DONE:
@@ -135,5 +149,19 @@ public class LoginBean implements Serializable {
         return (HttpServletResponse) facesContext
                 .getExternalContext()
                 .getResponse();
+    }
+
+
+    private void InvalidLoginAttemptsHandler() {
+        ResourceBundle bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
+         Integer attempts = userEndpoint.getUserInvalidLoginAttempts(userLoginDto.getId());
+         logger.info("Attempts:"+ attempts);
+         attempts = attempts +1;
+         if(attempts <=2) {
+             userEndpoint.editInvalidLoginAttempts(attempts, userLoginDto.getId());
+             facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("error"),attempts + " " + bundle.getString("invalid_login_attempts")));
+         } else {
+             userEndpoint.editInvalidLoginAttempts(0, userLoginDto.getId());
+             facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("block"), bundle.getString("blockAccount")));}
     }
 }
