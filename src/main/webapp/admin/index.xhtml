@@ -4,11 +4,10 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xml:lang="en" lang="en">
-<h:head>
-    <title>Admin index</title>
-</h:head>
+<h:head/>
 <h:body>
     <ui:composition template="/templates/adminTemplate.xhtml">
+        <ui:define name="title">Admin index</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
                 <p:menuitem value="Categories" url="#"/>
@@ -18,11 +17,10 @@
 
         <ui:define name="content">
             <h:form>
-                <p:growl id="growl" showDetail="true" />
+                <p:growl id="growl" showDetail="true"/>
                 <h1>#{msg['hello.world']}</h1>
             </h:form>
         </ui:define>
-
     </ui:composition>
 </h:body>
 </html>

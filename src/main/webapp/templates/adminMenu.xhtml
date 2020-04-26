@@ -8,22 +8,30 @@
 <h:head/>
 <h:body>
     <ui:composition>
-        <p:menubar>
-            <p:submenu label="#{msg['menu.admin.accounts']}">
-                <p:menuitem value="#{msg['menu.admin.accounts.add']}" url="/admin/addUser.xhtml"/>
-                <p:separator/>
-                <p:menuitem value="#{msg['menu.admin.accounts.list']}" url="/admin/listUsers.xhtml"/>
-            </p:submenu>
-            <p:menuitem value="#{msg['menu.account']}" url="/admin/account.xhtml"/>
-            <f:facet name="options">
-            <!--<p:selectOneMenu id="caseSelection" value="#{currentUser.currentRole}" onchange="#{currentUser.redirectAdmin()}">
-                <f:selectItem itemLabel="Admin" itemValue="#{currentUser.redirectAdmin()}" />
-                <f:selectItem itemLabel="Manager" itemValue="#{currentUser.redirectManager()}" />
-                <f:selectItem itemLabel="Client" itemValue="#{currentUser.redirectClient()}" />
-            </p:selectOneMenu>-->
-                <p:commandButton value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
-            </f:facet>
-        </p:menubar>
+        <h:form>
+            <p:menubar>
+                <p:menuitem id="addUserButton" value="#{msg['menu.admin.accounts.add']}" url="/admin/addUser.xhtml"/>
+                <p:menuitem id="listUsersButton" value="#{msg['menu.admin.accounts.list']}"
+                            url="/admin/listUsers.xhtml"/>
+                <f:facet name="options">
+                    <h:panelGroup>
+                        <p:selectOneMenu id="roleSelection" value="#{currentUser.currentRole}">
+                            <f:selectItem itemLabel="Admin" itemValue="#{currentUser.redirectAdmin()}"
+                                          itemDisabled="#{!currentUser.administrator}"/>
+                            <f:selectItem itemLabel="Manager" itemValue="#{currentUser.redirectManager()}"
+                                          itemDisabled="#{!currentUser.manager}"/>
+                            <f:selectItem itemLabel="Client" itemValue="#{currentUser.redirectClient()}"
+                                          itemDisabled="#{!currentUser.client}"/>
+                        </p:selectOneMenu>
+                        <p:menuButton value="#{msg['options']}">
+                            <p:menuitem value="#{msg['menu.account']}" url="/admin/account.xhtml"/>
+                            <p:separator/>
+                            <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
+                        </p:menuButton>
+                    </h:panelGroup>
+                </f:facet>
+            </p:menubar>
+        </h:form>
     </ui:composition>
 </h:body>
 </html>

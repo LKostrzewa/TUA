@@ -5,11 +5,10 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-<h:head>
-    <title>Add user</title>
-</h:head>
+<h:head/>
 <h:body>
     <ui:composition template="/templates/adminTemplate.xhtml">
+        <ui:define name="title">New user</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
                 <p:menuitem value="Categories" url="#"/>
@@ -23,7 +22,7 @@
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="login" value="#{addUserPageBean.addUserDto.login}"/>
                         <p:outputLabel for="@previous" value="#{msg['login']}"/>
-                        <p:message for="login" />
+                        <p:message for="login"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:password id="password" value="#{addUserPageBean.addUserDto.password}"/>
@@ -32,22 +31,22 @@
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="firstName" value="#{addUserPageBean.addUserDto.firstName}"/>
                         <p:outputLabel for="@previous" value="#{msg['first_name']}"/>
-                        <p:message for="firstName" />
+                        <p:message for="firstName"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="lastName" value="#{addUserPageBean.addUserDto.lastName}"/>
                         <p:outputLabel for="@previous" value="#{msg['last_name']}"/>
-                        <p:message for="lastName" />
+                        <p:message for="lastName"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="phoneNumber" value="#{addUserPageBean.addUserDto.phoneNumber}"/>
                         <p:outputLabel for="@previous" value="#{msg['phone_number']}"/>
-                        <p:message for="phoneNumber" />
+                        <p:message for="phoneNumber"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="email" value="#{addUserPageBean.addUserDto.email}"/>
                         <p:outputLabel for="@previous" value="#{msg['email']}"/>
-                        <p:message for="email" />
+                        <p:message for="email"/>
                     </span>
                 </div>
                 <p:commandButton value="#{msg['cancel']}" onclick="window.history.back();"/>
