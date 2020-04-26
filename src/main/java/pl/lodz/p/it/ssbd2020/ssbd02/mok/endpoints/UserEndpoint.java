@@ -80,4 +80,8 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserDetailsDto.class);
     }
 
+
+    public void confirmActivationCode(String code) {
+        userManager.confirmActivationCode(code);
+    }
 }

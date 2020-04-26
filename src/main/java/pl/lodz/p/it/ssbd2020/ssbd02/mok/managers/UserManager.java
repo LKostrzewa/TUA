@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
@@ -26,13 +27,15 @@ public class UserManager {
     @Inject
     private BCryptPasswordHash bCryptPasswordHash;
 
+    private final SendEmail sendEmail = new SendEmail();
+
     private void addUser(User user, boolean active) {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
 
         user.setActivated(active);
         user.setLocked(false);
         user.setPassword(passwordHash);
-        user.setActivationCode(UUID.randomUUID().toString());
+        user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
         user.setResetPasswordCode(UUID.randomUUID().toString());
 
         UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
@@ -41,6 +44,8 @@ public class UserManager {
         user.setUserAccessLevels(userAccessLevels);
 
         userFacade.create(user);
+
+        sendEmailWithCode(user);
     }
 
     public void registerNewUser(User user) {
@@ -85,5 +90,21 @@ public class UserManager {
         userToEdit.setLastValidLogin(user.getLastValidLogin());
         userToEdit.setLastInvalidLogin(user.getLastInvalidLogin());
         userFacade.edit(userToEdit);
+    }
+
+    private String createVeryficationLink(User user) {
+        String activationCode = user.getActivationCode();
+        return "<a href=" + "\"http://localhost:8080/login/activate.xhtml?key=" + activationCode + "\">Link</a>";
+    }
+
+    public void confirmActivationCode(String code) {
+        User user = userFacade.findByActivationCode(code);
+        user.setActivated(true);
+        userFacade.edit(user);
+    }
+
+    public void sendEmailWithCode(User user) {
+        String email = user.getEmail();
+        sendEmail.sendEmail(createVeryficationLink(user), email);
     }
 }
