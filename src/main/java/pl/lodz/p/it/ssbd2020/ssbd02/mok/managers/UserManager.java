@@ -90,7 +90,8 @@ public class UserManager {
     public void editInvalidLoginAttempts(Integer counter, Long userId) {
         User userToEdit = userFacade.find(userId);
         userToEdit.setInvalidLoginAttempts(counter);
-        if(counter==0) {
+        if(counter==3) {
+            userToEdit.setInvalidLoginAttempts(0);
             userToEdit.setLocked(true);
         }
         userFacade.edit(userToEdit);
