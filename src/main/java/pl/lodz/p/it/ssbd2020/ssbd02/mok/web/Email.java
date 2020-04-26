@@ -2,18 +2,12 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 
-import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.annotation.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 import java.util.logging.Logger;
 
 
@@ -28,17 +22,16 @@ public class Email {
 
     private static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-    private int valid= 5;
+    private int valid = 5;
 
     @PostConstruct
     public void init() {
 
-        key =FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key");
-        logger.info("Klucz:"+key);
+        key = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key");
+        logger.info("Klucz:" + key);
         userEndpoint.confirmActivationCode(key);
 
     }
-
 
 
     public String getKey() {

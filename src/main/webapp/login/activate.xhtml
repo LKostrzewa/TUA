@@ -11,8 +11,8 @@
 </h:head>
 <h:body>
     <h:panelGroup layout="block" >
-        <p>Twoje Konto zostało aktywowane!</p>
-        <p>Za #{email.valid} sekund zostaniesz przeniesiony na  <h:link outcome="home">stronę logowania</h:link></p>
+        <p>#{msg['activateMessage']}</p>
+        <p>#{msg['prop']} #{email.valid} #{msg['redirectMessage']}</p>
     </h:panelGroup>
 </h:body>
 </html>

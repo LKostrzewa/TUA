@@ -39,9 +39,7 @@ public class SendEmail {
             message.setFrom(new InternetAddress(from));
             InternetAddress[] addresses = {new InternetAddress(to)};
             message.setRecipients(Message.RecipientType.TO, addresses);
-            message.setSubject("Jachtpol - aktywacja konta");
-            //message.setText("KLiknij w link" + activationlink);
-            //String content="<a href=\"http://localhost:8080/login/login.xhtml\">click here</a>";
+            message.setSubject("Jachtpol");
             message.setText(activationlink, "UTF-8", "html");
             Transport.send(message);
 
