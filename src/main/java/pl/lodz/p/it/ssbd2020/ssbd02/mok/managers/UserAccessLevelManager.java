@@ -77,4 +77,8 @@ public class UserAccessLevelManager implements Serializable {
     public Collection<UserAccessLevel> findUserAccessLevelById(Long userId) {
         return userFacade.find(userId).getUserAccessLevels();
     }
+
+    public Collection<UserAccessLevel> findUserAccessLevelByLogin(String userLogin) {
+        return userFacade.findByLogin(userLogin).getUserAccessLevels();
+    }
 }

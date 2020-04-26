@@ -81,6 +81,17 @@ public class UserManager {
         userFacade.edit(userToEdit);
     }
 
+    public User getUserByLogin(String userLogin) {
+        return userFacade.findByLogin(userLogin);
+    }
+
+    public void editUserLastLogin(User user, Long userId) {
+        User userToEdit = userFacade.find(userId);
+        userToEdit.setLastValidLogin(user.getLastValidLogin());
+        userToEdit.setLastInvalidLogin(user.getLastInvalidLogin());
+        userFacade.edit(userToEdit);
+    }
+
     private String createVeryficationLink(User user) {
         String activationCode = user.getActivationCode();
         return "<a href=" + "\"http://localhost:8080/login/activate.xhtml?key=" + activationCode + "\">Link</a>";
