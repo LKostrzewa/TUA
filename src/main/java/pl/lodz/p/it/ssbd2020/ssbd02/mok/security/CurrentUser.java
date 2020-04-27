@@ -94,10 +94,8 @@ public class CurrentUser implements Serializable {
     }
 
     public void redirectToCurrentRole() {
-        System.out.println("ROLA:" + currentRole);
         switch (currentRole) {
             case ADMIN_ACCESS_LEVEL:
-                System.out.println("ADMIN KURWOO");
                 try {
                     FacesContext.getCurrentInstance()
                             .getExternalContext()
@@ -107,7 +105,6 @@ public class CurrentUser implements Serializable {
                 }
                 break;
             case MANAGER_ACCESS_LEVEL:
-                System.out.println("MANAGER KURWOO");
                 try {
                     FacesContext.getCurrentInstance()
                             .getExternalContext()
@@ -117,7 +114,6 @@ public class CurrentUser implements Serializable {
                 }
                 break;
             case CLIENT_ACCESS_LEVEL:
-                System.out.println("KLIENT KURWOO");
                 try {
                     FacesContext.getCurrentInstance()
                             .getExternalContext()
