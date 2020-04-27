@@ -15,15 +15,17 @@
                             url="/admin/listUsers.xhtml"/>
                 <f:facet name="options">
                     <h:panelGroup>
-                        <p:selectOneMenu id="roleSelection" value="#{currentUser.currentRole}">
-                            <f:selectItem itemLabel="Admin" itemValue="#{currentUser.redirectAdmin()}"
+                        <p:selectOneMenu value="#{currentUser.currentRole}">
+                            <f:selectItem itemLabel="Admin" itemValue="ADMINISTRATOR"
                                           itemDisabled="#{!currentUser.administrator}"/>
-                            <f:selectItem itemLabel="Manager" itemValue="#{currentUser.redirectManager()}"
+                            <f:selectItem itemLabel="Manager" itemValue="MANAGER"
                                           itemDisabled="#{!currentUser.manager}"/>
-                            <f:selectItem itemLabel="Client" itemValue="#{currentUser.redirectClient()}"
+                            <f:selectItem itemLabel="Client" itemValue="CLIENT"
                                           itemDisabled="#{!currentUser.client}"/>
+                            <p:ajax listener="#{currentUser.redirectToCurrentRole()}"
+                                    process="@this" partialSubmit="true"/>
                         </p:selectOneMenu>
-                        <p:menuButton value="#{msg['options']}">
+                        <p:menuButton value="#{msg['options']}" >
                             <p:menuitem value="#{msg['menu.account']}" url="/admin/account.xhtml"/>
                             <p:separator/>
                             <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>

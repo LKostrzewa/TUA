@@ -1,17 +1,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets" xml:lang="en" lang="en">
-<h:head>
-    <title>Editing my information</title>
-</h:head>
+<h:head/>
 <h:body>
     <ui:composition template="/templates/adminTemplate.xhtml">
-        <ui:define name="title">Edit your account </ui:define>
+        <ui:define name="title">#{msg['title.editOwnData']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
                 <p:menuitem value="Categories" url="#"/>
                 <p:menuitem value="#{msg['bread.main']}" url="/admin/index.xhtml"/>
-                <p:menuitem value="#{msg['bread.users']}" url="/admin/listUsers.xhtml"/>
+                <p:menuitem value="#{msg['bread.account']}" url="/admin/account.xhtml"/>
+                <p:menuitem value="#{msg['bread.edit.user']}" url="/admin/editOwnData.xhtml" includeViewParams="true">
+                    <f:param name="userId" value="#{myEditPageBean.userId}"/>
+                </p:menuitem>
             </p:breadCrumb>
         </ui:define>
         <ui:define name="content">
