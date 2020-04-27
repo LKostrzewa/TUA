@@ -1,33 +1,48 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
-<h:head>
-    <title>Editing my information</title>
-</h:head>
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xml:lang="en" lang="en">
+<h:head/>
 <h:body>
-    <f:metadata>
-        <f:viewParam name="userId" value="#{myEditPageBean.userId}"/>
-        <f:event type="preRenderView" listener="#{myEditPageBean.init}"/>
-    </f:metadata>
-    <h:form>
-        <div>
+    <ui:composition template="/templates/adminTemplate.xhtml">
+        <ui:define name="title">#{msg['title.editOwnData']}</ui:define>
+        <ui:define name="breadCrumbs">
+            <p:breadCrumb>
+                <p:menuitem value="Categories" url="#"/>
+                <p:menuitem value="#{msg['bread.main']}" url="/admin/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.account']}" url="/admin/account.xhtml"/>
+                <p:menuitem value="#{msg['bread.edit.user']}" url="/admin/editOwnData.xhtml" includeViewParams="true">
+                    <f:param name="userId" value="#{myEditPageBean.userId}"/>
+                </p:menuitem>
+            </p:breadCrumb>
+        </ui:define>
+        <ui:define name="content">
+            <f:metadata>
+                <f:viewParam name="userId" value="#{myEditPageBean.userId}"/>
+                <f:event type="preRenderView" listener="#{myEditPageBean.init}"/>
+            </f:metadata>
+            <h:form>
+                <div>
             <span class="ui-float-label" style="margin: 20px">
                 <p:inputText id="firstName" value="#{myEditPageBean.editUserDto.firstName}"/>
                 <p:outputLabel for="@previous" value="#{msg['first_name']}"/>
-                <p:message for="firstName" />
+                <p:message for="firstName"/>
             </span>
-            <span class="ui-float-label" style="margin: 20px">
+                    <span class="ui-float-label" style="margin: 20px">
                 <p:inputText id="lastName" value="#{myEditPageBean.editUserDto.lastName}"/>
                 <p:outputLabel for="@previous" value="#{msg['last_name']}"/>
-                <p:message for="lastName" />
+                <p:message for="lastName"/>
             </span>
-            <span class="ui-float-label" style="margin: 20px">
+                    <span class="ui-float-label" style="margin: 20px">
                 <p:inputText id="phoneNumber" value="#{myEditPageBean.editUserDto.phoneNumber}"/>
                 <p:outputLabel for="@previous" value="#{msg['phone_number']}"/>
-                <p:message for="phoneNumber" />
+                <p:message for="phoneNumber"/>
             </span>
-        </div>
-        <p:button value="#{msg['cancel']}" outcome="/admin/account.xhtml?faces-redirect=true?includeViewParams=true"/>
-        <p:commandButton value="#{msg['save']}" action="#{myEditPageBean.editUser()}" update="@form"/>
-    </h:form>
+                </div>
+                <p:button value="#{msg['cancel']}"
+                          outcome="/admin/account.xhtml?faces-redirect=true?includeViewParams=true"/>
+                <p:commandButton value="#{msg['save']}" action="#{myEditPageBean.editUser()}" update="@form"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
 </h:body>
 </html>

@@ -6,11 +6,10 @@
       xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xml:lang="en" lang="en">
-<h:head>
-    <title>Client account</title>
-</h:head>
+<h:head/>
 <body>
 <ui:composition template="/templates/clientTemplate.xhtml">
+    <ui:define name="title">#{msg['title.account']}</ui:define>
     <ui:define name="breadCrumbs">
         <p:breadCrumb>
             <p:menuitem value="Categories" url="#"/>
@@ -68,15 +67,6 @@
             <p:button value="${msg['edit']}" outcome="/client/editOwnData.xhtml?faces-redirect=true">
                 <f:param name="userId" value="#{myDetailsPageBean.userId}"/>
             </p:button>
-            <p:commandButton rendered="#{currentUser.isAdministrator()}" value="Admin"
-                             action="#{currentUser.redirectAdmin}" ajax="false">
-            </p:commandButton>
-            <p:commandButton rendered="#{currentUser.isManager()}" value="Manager"
-                             action="#{currentUser.redirectManager}" ajax="false">
-            </p:commandButton>
-            <p:commandButton rendered="#{currentUser.isClient()}" value="Client" action="#{currentUser.redirectClient}"
-                             ajax="false">
-            </p:commandButton>
         </h:form>
     </ui:define>
 </ui:composition>
