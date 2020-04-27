@@ -28,7 +28,7 @@ public class UserManager {
     private UserFacade userFacade;
     @Inject
     private BCryptPasswordHash bCryptPasswordHash;
-    @Inject
+
     private User userEntityEdit;
 
     private void addUser(User user, boolean active) {
