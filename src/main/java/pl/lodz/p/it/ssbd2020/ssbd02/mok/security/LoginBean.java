@@ -51,8 +51,6 @@ public class LoginBean implements Serializable {
     @NotBlank(message = "{password.message}")
     private String password;
 
-    Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
     private UserLoginDto userLoginDto;
 
     public UserLoginDto getUserLoginDto() {
