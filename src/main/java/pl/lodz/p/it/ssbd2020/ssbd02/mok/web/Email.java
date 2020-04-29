@@ -26,7 +26,6 @@ public class Email {
 
     @PostConstruct
     public void init() {
-
         key = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key");
         logger.info("Klucz:" + key);
         userEndpoint.confirmActivationCode(key);
