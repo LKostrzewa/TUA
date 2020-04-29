@@ -97,6 +97,7 @@ public class LoginBean implements Serializable {
                 facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("last_invalid_login"), String.valueOf(userLoginDto.getLastInvalidLogin())));
                 userLoginDto.setLastValidLogin(new Date());
                 userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
+                userEndpoint.editInvalidLoginAttempts(0, userLoginDto.getId());
                 if (FacesContext.getCurrentInstance().getExternalContext().isUserInRole(CLIENT_ACCESS_LEVEL)) {
                     FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/client/index.xhtml");
                     break;
@@ -111,10 +112,25 @@ public class LoginBean implements Serializable {
                 }
                 break;
             case SEND_FAILURE:
-                userLoginDto.setLastInvalidLogin(new Date());
-                userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
-                facesContext.addMessage(null,
-                        new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authentication_failed")));
+
+                if (!userLoginDto.getLocked()) {
+
+                    Integer attempts = userEndpoint.getUserInvalidLoginAttempts(userLoginDto.getId());
+                    attempts += 1;
+                    userEndpoint.editInvalidLoginAttempts(attempts, userLoginDto.getId());
+                    if (attempts <= 2) {
+
+                        facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), attempts + " " + bundle.getString("invalid_login_attempts")));
+                    } else {
+                        facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("block"), attempts + " " + bundle.getString("invalid_login_attempts") + bundle.getString("blockAccount")));
+                    }
+                    userLoginDto.setLastInvalidLogin(new Date());
+                    userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
+                    facesContext.addMessage(null,
+                            new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authentication_failed")));
+
+                }
+
                 externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
                 break;
             case NOT_DONE:

@@ -12,7 +12,9 @@
 <h:body>
     <h:form>
         <p:growl id="growl" showDetail="true" />
-        <h:outputLabel value="#{msg['invalid_login']}"/>
+        <h:outputLabel value="#{msg['invalid_login']}"  rendered="#{!loginBean.userLoginDto.locked}"/>
+        <h:outputLabel value="#{msg['blockAccount']}" rendered="#{loginBean.userLoginDto.locked}"/>
+
     </h:form>
 </h:body>
 <!--<f:view>
