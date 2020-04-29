@@ -9,6 +9,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 
 import javax.ejb.LocalBean;
+import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
-public class UserManager {
+public class UserManager extends AbstractManager implements SessionSynchronization {
     public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
     @Inject
     private AccessLevelFacade accessLevelFacade;

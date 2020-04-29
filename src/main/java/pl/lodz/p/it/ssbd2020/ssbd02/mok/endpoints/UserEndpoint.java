@@ -7,6 +7,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
@@ -52,7 +53,23 @@ public class UserEndpoint implements Serializable {
     }
 
     public UserLoginDto getLoginDtoByLogin(String userLogin) {
-        return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserLoginDto.class);
+        UserLoginDto userLoginDto = null; // nie podoba mi się to
+        try{
+            int callLimit = 3; //do wczytania z property;
+
+            do {
+                userLoginDto = ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserLoginDto.class);
+                callLimit--;
+            } while (callLimit > 0 && userManager.isLastTransactionRollback());
+
+            if(callLimit == 0){
+                throw new EJBTransactionRolledbackException("Nie udalo sie"); //komnikat do wczytania z resource
+            }
+        }
+        catch (Exception ex){
+            //Obsluga naszych customowych wyjatkow
+        }
+        return userLoginDto;
     }
 
     public void editUser(EditUserDto editUserDto, Long userId) {
