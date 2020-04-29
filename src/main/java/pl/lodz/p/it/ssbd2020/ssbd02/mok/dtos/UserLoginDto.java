@@ -6,6 +6,7 @@ public class UserLoginDto {
     private Long id;
     private Date lastValidLogin;
     private Date lastInvalidLogin;
+    private String lastLoginIp;
 
     public Long getId() {
         return id;
@@ -29,5 +30,13 @@ public class UserLoginDto {
 
     public void setLastInvalidLogin(Date lastInvalidLogin) {
         this.lastInvalidLogin = lastInvalidLogin;
+    }
+
+    public String getLastLoginIp() {
+        return lastLoginIp;
+    }
+
+    public void setLastLoginIp(String lastLoginIp) {
+        this.lastLoginIp = lastLoginIp;
     }
 }

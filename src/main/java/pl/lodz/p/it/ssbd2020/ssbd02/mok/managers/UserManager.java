@@ -89,6 +89,7 @@ public class UserManager {
         User userToEdit = userFacade.find(userId);
         userToEdit.setLastValidLogin(user.getLastValidLogin());
         userToEdit.setLastInvalidLogin(user.getLastInvalidLogin());
+        userToEdit.setLastLoginIp(user.getLastLoginIp());
         userFacade.edit(userToEdit);
     }
 
