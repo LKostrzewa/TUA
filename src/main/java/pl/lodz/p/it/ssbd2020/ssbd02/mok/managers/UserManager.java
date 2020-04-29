@@ -121,6 +121,7 @@ public class UserManager {
 
     public void sendEmailWithCode(User user) {
         String email = user.getEmail();
-        sendEmail.sendEmail(createVeryficationLink(user), email);
+        String userName = user.getFirstName();
+        sendEmail.sendEmail(createVeryficationLink(user), userName, email);
     }
 }

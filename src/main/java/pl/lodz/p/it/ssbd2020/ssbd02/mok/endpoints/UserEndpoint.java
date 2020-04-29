@@ -90,8 +90,6 @@ public class UserEndpoint implements Serializable {
     }
 
     public void editInvalidLoginAttempts(Integer attempts, Long userId) {
-
-
         userManager.editInvalidLoginAttempts(attempts, userId);
     }
 

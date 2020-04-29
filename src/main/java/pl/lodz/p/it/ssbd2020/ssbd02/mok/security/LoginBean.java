@@ -3,7 +3,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserLoginDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.annotation.FacesConfig;
 import javax.faces.application.FacesMessage;
@@ -34,9 +36,9 @@ import static javax.security.enterprise.authentication.mechanism.http.Authentica
 @SessionScoped
 @Interceptors(LoggerInterceptor.class)
 public class LoginBean implements Serializable {
-    public final static String ADMIN_ACCESS_LEVEL = "ADMINISTRATOR";
-    public final static String MANAGER_ACCESS_LEVEL = "MANAGER";
-    public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
+    private String ADMIN_ACCESS_LEVEL;
+    private String MANAGER_ACCESS_LEVEL;
+    private String CLIENT_ACCESS_LEVEL;
     @Inject
     private UserEndpoint userEndpoint;
     @Inject
@@ -74,6 +76,14 @@ public class LoginBean implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @PostConstruct
+    private void init() {
+        PropertyReader propertyReader= new PropertyReader();
+        ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config","ADMIN_ACCESS_LEVEL");
+        MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config","MANAGER_ACCESS_LEVEL");
+        CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config","CLIENT_ACCESS_LEVEL");
     }
 
     public void login() throws IOException {
