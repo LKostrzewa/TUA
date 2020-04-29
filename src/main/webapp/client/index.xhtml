@@ -4,19 +4,16 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xml:lang="en" lang="en">
-<h:head>
-    <title>Client index</title>
-</h:head>
+<h:head/>
 <body>
 <ui:composition template="/templates/clientTemplate.xhtml">
-
+    <ui:define name="title">#{msg['title.index']}</ui:define>
     <ui:define name="breadCrumbs">
         <p:breadCrumb>
             <p:menuitem value="Categories" url="#"/>
             <p:menuitem value="#{msg['bread.main']}" url="/client/index.xhtml"/>
         </p:breadCrumb>
     </ui:define>
-
     <ui:define name="content">
         <h:form>
             <p:growl id="growl" showDetail="true"/>

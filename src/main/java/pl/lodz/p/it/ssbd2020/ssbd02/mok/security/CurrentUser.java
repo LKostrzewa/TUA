@@ -80,16 +80,51 @@ public class CurrentUser implements Serializable {
 
     public String redirectAdmin() {
         currentRole = ADMIN_ACCESS_LEVEL;
-        return "adminMain";
+        return "/admin/index.xhtml";
     }
 
     public String redirectManager() {
         currentRole = MANAGER_ACCESS_LEVEL;
-        return "managerMain";
+        return "/manager/index.xhtml";
     }
 
     public String redirectClient() {
         currentRole = CLIENT_ACCESS_LEVEL;
-        return "clientMain";
+        return "/client/index.xhtml";
+    }
+
+    public void redirectToCurrentRole() {
+        switch (currentRole) {
+            case ADMIN_ACCESS_LEVEL:
+                try {
+                    FacesContext.getCurrentInstance()
+                            .getExternalContext()
+                            .redirect(redirectAdmin());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case MANAGER_ACCESS_LEVEL:
+                try {
+                    FacesContext.getCurrentInstance()
+                            .getExternalContext()
+                            .redirect(redirectManager());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case CLIENT_ACCESS_LEVEL:
+                try {
+                    FacesContext.getCurrentInstance()
+                            .getExternalContext()
+                            .redirect(redirectClient());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 }
+

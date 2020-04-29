@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 
-
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserLoginDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -25,7 +24,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
+import java.util.StringTokenizer;
 
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
@@ -88,6 +87,7 @@ public class LoginBean implements Serializable {
                         .newAuthentication(true));
         displayMessage();
         userLoginDto = userEndpoint.getLoginDtoByLogin(username);
+        userLoginDto.setLastLoginIp(getClientIpAddress());
         switch (status) {
             case SEND_CONTINUE:
                 facesContext.responseComplete();
@@ -136,7 +136,6 @@ public class LoginBean implements Serializable {
             case NOT_DONE:
                 break;
         }
-
     }
 
     public void displayMessage() {
@@ -156,5 +155,12 @@ public class LoginBean implements Serializable {
                 .getResponse();
     }
 
-
+    public String getClientIpAddress() {
+        String xForwardedForHeader = getHttpRequestFromFacesContext().getHeader("X-Forwarded-For");
+        if (xForwardedForHeader == null) {
+            return getHttpRequestFromFacesContext().getRemoteAddr();
+        } else {
+            return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
+        }
+    }
 }

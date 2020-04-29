@@ -8,6 +8,7 @@ public class UserLoginDto {
     private Date lastInvalidLogin;
     private Integer invalidLoginAttempts;
     private Boolean locked;
+    private String lastLoginIp;
 
     public Long getId() {
         return id;
@@ -48,5 +49,13 @@ public class UserLoginDto {
 
     public void setInvalidLoginAttempts(Integer invalidLoginAttempts) {
         this.invalidLoginAttempts = invalidLoginAttempts;
+    }
+
+    public String getLastLoginIp() {
+        return lastLoginIp;
+    }
+
+    public void setLastLoginIp(String lastLoginIp) {
+        this.lastLoginIp = lastLoginIp;
     }
 }

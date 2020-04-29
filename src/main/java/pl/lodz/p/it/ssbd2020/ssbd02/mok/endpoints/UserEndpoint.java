@@ -57,7 +57,6 @@ public class UserEndpoint implements Serializable {
 
     public void editUser(EditUserDto editUserDto, Long userId) {
         User user = ObjectMapperUtils.map(editUserDto, User.class);
-        System.out.println(user);
         userManager.editUser(user, userId);
     }
 
@@ -79,6 +78,15 @@ public class UserEndpoint implements Serializable {
     public void unlockAccount(UserDetailsDto userDetailsDto, Long userId) {
         User user = ObjectMapperUtils.map(userDetailsDto, User.class);
         userManager.editUser(user, userId);
+    }
+
+    public UserDetailsDto getOwnDetailsDtoByLogin(String userLogin) {
+        return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserDetailsDto.class);
+    }
+
+
+    public void confirmActivationCode(String code) {
+        userManager.confirmActivationCode(code);
     }
 
     public void editInvalidLoginAttempts(Integer attempts, Long userId) {
