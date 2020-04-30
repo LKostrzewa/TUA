@@ -3,54 +3,70 @@
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
-<h:head>
-    <title>User details</title>
-</h:head>
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xml:lang="en" lang="en">
+<h:head/>
 <h:body>
-    <f:metadata>
-        <f:viewParam name="userId" value="#{userDetailsPageBean.userId}"/>
-        <f:event type="preRenderView" listener="#{userDetailsPageBean.init}"/>
-    </f:metadata>
-    <h:form id="form">
-        <p:panelGrid columns="2">
-            <h:outputLabel value="#{msg['first_name']}:"/>
-            <h:outputText value="#{userDetailsPageBean.userDetailsDto.firstName}"/>
-            <h:outputLabel value="#{msg['last_name']}:"/>
-            <h:outputText value="#{userDetailsPageBean.userDetailsDto.lastName}"/>
-            <h:outputLabel value="#{msg['login']}:"/>
-            <h:outputText value="#{userDetailsPageBean.userDetailsDto.login}"/>
-            <h:outputLabel value="#{msg['email']}:"/>
-            <h:outputText value="#{userDetailsPageBean.userDetailsDto.email}"/>
-            <h:outputLabel value="#{msg['phone_number']}:"/>
-            <h:outputText value="#{userDetailsPageBean.userDetailsDto.phoneNumber}"/>
-            <h:outputLabel value="#{msg['created']}:"/>
-            <h:outputText value="#{userDetailsPageBean.userDetailsDto.created}"/>
-            <h:outputLabel value="#{msg['last_valid_login']}:"/>
-            <h:outputText value="#{userDetailsPageBean.userDetailsDto.lastValidLogin}"/>
-            <h:outputLabel value="#{msg['activated']}:"/>
-            <h:outputText value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDto.activated}"/>
-            <h:outputText value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDto.activated}"/>
-            <h:outputLabel value="#{msg['locked']}:"/>
-            <h:outputText value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDto.locked}"/>
-            <h:outputText value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDto.locked}"/>
-            <h:outputLabel value="#{msg['access_level']}:"/>
-            <h:outputText value="#{userDetailsPageBean.getAccessLevels()}"/>
-        </p:panelGrid>
-        <p:commandButton value="${msg['lock']}" action="#{userDetailsPageBean.lockAccount}" update="form"
-                         rendered="#{not userDetailsPageBean.userDetailsDto.locked}"/>
-        <p:commandButton value="${msg['unlock']}" action="#{userDetailsPageBean.unlockAccount}" update="form"
-                         rendered="#{userDetailsPageBean.userDetailsDto.locked}"/>
-        <p:button value="#{msg['go_back']}" outcome="listUsers.xhtml?faces-redirect=true"/>
-        <p:button value="${msg['edit']}" outcome="editUser.xhtml?faces-redirect=true">
-            <f:param name="userId" value="#{userDetailsPageBean.userId}"/>
-        </p:button>
-        <p:button value="${msg['change_password']}" outcome="changePassword.xhtml?faces-redirect=true">
-            <f:param name="userId" value="#{userDetailsPageBean.userId}"/>
-        </p:button>
-        <p:button value="${msg['change_access_level']}" outcome="changeAccessLevel.xhtml?faces-redirect=true">
-            <f:param name="userId" value="#{userDetailsPageBean.userId}"/>
-        </p:button>
-    </h:form>
+    <ui:composition template="/templates/adminTemplate.xhtml">
+        <ui:define name="title">#{msg['title.userDetails']}</ui:define>
+        <ui:define name="breadCrumbs">
+            <p:breadCrumb>
+                <p:menuitem value="Categories" url="#"/>
+                <p:menuitem value="#{msg['bread.main']}" url="/admin/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.users']}" url="/admin/listUsers.xhtml"/>
+                <p:menuitem value="#{msg['bread.user']}" url="/admin/userDetails.xhtml"
+                            includeViewParams="true">
+                    <f:param name="userId" value="#{userDetailsPageBean.userId}"/>
+                </p:menuitem>
+            </p:breadCrumb>
+        </ui:define>
+        <ui:define name="content">
+            <f:metadata>
+                <f:viewParam name="userId" value="#{userDetailsPageBean.userId}"/>
+                <f:event type="preRenderView" listener="#{userDetailsPageBean.init}"/>
+            </f:metadata>
+            <h:form id="form">
+                <p:growl id="growl" showDetail="true" sticky="true"/>
+                <p:panelGrid columns="2">
+                    <h:outputLabel value="#{msg['first_name']}:"/>
+                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.firstName}"/>
+                    <h:outputLabel value="#{msg['last_name']}:"/>
+                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.lastName}"/>
+                    <h:outputLabel value="#{msg['login']}:"/>
+                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.login}"/>
+                    <h:outputLabel value="#{msg['email']}:"/>
+                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.email}"/>
+                    <h:outputLabel value="#{msg['phone_number']}:"/>
+                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.phoneNumber}"/>
+                    <h:outputLabel value="#{msg['created']}:"/>
+                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.created}"/>
+                    <h:outputLabel value="#{msg['last_valid_login']}:"/>
+                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.lastValidLogin}"/>
+                    <h:outputLabel value="#{msg['activated']}:"/>
+                    <h:outputText value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDto.activated}"/>
+                    <h:outputText value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDto.activated}"/>
+                    <h:outputLabel value="#{msg['locked']}:"/>
+                    <h:outputText value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDto.locked}"/>
+                    <h:outputText value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDto.locked}"/>
+                    <h:outputLabel value="#{msg['access_level']}:"/>
+                    <h:outputText value="#{userDetailsPageBean.getAccessLevels()}"/>
+                </p:panelGrid>
+                <p:commandButton value="${msg['lock']}" action="#{userDetailsPageBean.lockAccount}" update="form"
+                                 rendered="#{not userDetailsPageBean.userDetailsDto.locked}"/>
+                <p:commandButton value="${msg['unlock']}" action="#{userDetailsPageBean.unlockAccount}" update="form"
+                                 rendered="#{userDetailsPageBean.userDetailsDto.locked}"/>
+                <p:button value="#{msg['go_back']}" outcome="listUsers.xhtml?faces-redirect=true"/>
+                <p:button value="${msg['edit']}" outcome="editUser.xhtml?faces-redirect=true">
+                    <f:param name="userId" value="#{userDetailsPageBean.userId}"/>
+                </p:button>
+                <p:button value="${msg['change_password']}" outcome="changePassword.xhtml?faces-redirect=true">
+                    <f:param name="userId" value="#{userDetailsPageBean.userId}"/>
+                </p:button>
+                <p:button value="${msg['change_access_level']}" outcome="changeAccessLevel.xhtml?faces-redirect=true">
+                    <f:param name="userId" value="#{userDetailsPageBean.userId}"/>
+                </p:button>
+            </h:form>
+        </ui:define>
+    </ui:composition>
 </h:body>
 </html>

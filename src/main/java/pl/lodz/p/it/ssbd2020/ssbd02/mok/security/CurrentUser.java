@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -14,9 +15,9 @@ import java.io.Serializable;
 @Named
 @Interceptors(LoggerInterceptor.class)
 public class CurrentUser implements Serializable {
-    public final static String ADMIN_ACCESS_LEVEL = "ADMINISTRATOR";
-    public final static String MANAGER_ACCESS_LEVEL = "MANAGER";
-    public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
+    private String ADMIN_ACCESS_LEVEL;
+    private String MANAGER_ACCESS_LEVEL;
+    private String CLIENT_ACCESS_LEVEL;
     private String currentRole;
 
     public String getCurrentRole() {
@@ -29,6 +30,11 @@ public class CurrentUser implements Serializable {
 
     @PostConstruct
     private void init() {
+        PropertyReader propertyReader = new PropertyReader();
+        ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
+        MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config", "MANAGER_ACCESS_LEVEL");
+        CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
+
         if (isClient() && currentRole == null) currentRole = CLIENT_ACCESS_LEVEL;
         if (isManager() && currentRole == null) currentRole = MANAGER_ACCESS_LEVEL;
         if (isAdministrator() && currentRole == null) currentRole = ADMIN_ACCESS_LEVEL;
@@ -80,16 +86,48 @@ public class CurrentUser implements Serializable {
 
     public String redirectAdmin() {
         currentRole = ADMIN_ACCESS_LEVEL;
-        return "adminMain";
+        return "/admin/index.xhtml";
     }
 
     public String redirectManager() {
         currentRole = MANAGER_ACCESS_LEVEL;
-        return "managerMain";
+        return "/manager/index.xhtml";
     }
 
     public String redirectClient() {
         currentRole = CLIENT_ACCESS_LEVEL;
-        return "clientMain";
+        return "/client/index.xhtml";
+    }
+
+    public void redirectToCurrentRole() {
+        if (currentRole.equals(ADMIN_ACCESS_LEVEL)) {
+            try {
+                FacesContext.getCurrentInstance()
+                        .getExternalContext()
+                        .redirect(redirectAdmin());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (currentRole.equals(MANAGER_ACCESS_LEVEL)) {
+            try {
+                FacesContext.getCurrentInstance()
+                        .getExternalContext()
+                        .redirect(redirectManager());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (currentRole.equals(CLIENT_ACCESS_LEVEL)) {
+            try {
+                FacesContext.getCurrentInstance()
+                        .getExternalContext()
+                        .redirect(redirectClient());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        throw new IllegalArgumentException();
     }
 }
+

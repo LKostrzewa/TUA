@@ -1,8 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import java.util.Date;
 
 public class UserDetailsDto {
+    private Long id;
     private String login;
     private String email;
     private boolean locked;
@@ -12,6 +15,14 @@ public class UserDetailsDto {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getLogin() {
         return login;
@@ -23,6 +34,10 @@ public class UserDetailsDto {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public boolean isLocked() {

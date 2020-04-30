@@ -4,12 +4,12 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xml:lang="en" lang="en">
-<h:head>
-    <title>Manager account</title>
-</h:head>
+<h:head/>
 <h:body>
     <ui:composition template="/templates/managerTemplate.xhtml">
+        <ui:define name="title">#{msg['title.account']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
                 <p:menuitem value="Categories" url="#"/>
@@ -18,7 +18,7 @@
             </p:breadCrumb>
         </ui:define>
 
-        <ui:define name="content">
+        <!--<ui:define name="content">
             <h:form>
                 <h:outputLabel>#{msg['account.login']}#{currentUser.currentUserLogin}</h:outputLabel><br/>
                 <h:outputLabel>#{msg['account.all.access']}#{currentUser.allUserAccessLevel()}  </h:outputLabel><br/>
@@ -33,6 +33,40 @@
                 <p:commandButton rendered="#{currentUser.isClient()}" value="Client"
                                  action="#{currentUser.redirectClient}" ajax="false">
                 </p:commandButton>
+            </h:form>
+        </ui:define>-->
+
+        <ui:define name="content">
+            <h:form id="form">
+                <p:panelGrid columns="2">
+                    <h:outputLabel value="IDDDD:"/>
+                    <h:outputText value="#{myDetailsPageBean.userDetailsDto.id}"/>
+                    <h:outputLabel value="#{msg['first_name']}:"/>
+                    <h:outputText value="#{myDetailsPageBean.userDetailsDto.firstName}"/>
+                    <h:outputLabel value="#{msg['last_name']}:"/>
+                    <h:outputText value="#{myDetailsPageBean.userDetailsDto.lastName}"/>
+                    <h:outputLabel value="#{msg['login']}:"/>
+                    <h:outputText value="#{myDetailsPageBean.userDetailsDto.login}"/>
+                    <h:outputLabel value="#{msg['email']}:"/>
+                    <h:outputText value="#{myDetailsPageBean.userDetailsDto.email}"/>
+                    <h:outputLabel value="#{msg['phone_number']}:"/>
+                    <h:outputText value="#{myDetailsPageBean.userDetailsDto.phoneNumber}"/>
+                    <h:outputLabel value="#{msg['created']}:"/>
+                    <h:outputText value="#{myDetailsPageBean.userDetailsDto.created}"/>
+                    <h:outputLabel value="#{msg['last_valid_login']}:"/>
+                    <h:outputText value="#{myDetailsPageBean.userDetailsDto.lastValidLogin}"/>
+                    <h:outputLabel value="#{msg['activated']}:"/>
+                    <h:outputText value="${msg['yes']}" rendered="#{myDetailsPageBean.userDetailsDto.activated}"/>
+                    <h:outputText value="${msg['no']}" rendered="#{!myDetailsPageBean.userDetailsDto.activated}"/>
+                    <h:outputLabel value="#{msg['locked']}:"/>
+                    <h:outputText value="${msg['yes']}" rendered="#{myDetailsPageBean.userDetailsDto.locked}"/>
+                    <h:outputText value="${msg['no']}" rendered="#{!myDetailsPageBean.userDetailsDto.locked}"/>
+                    <h:outputLabel value="#{msg['access_level']}:"/>
+                    <h:outputText value="#{myDetailsPageBean.getAccessLevels()}"/>
+                </p:panelGrid>
+                <p:button value="${msg['edit']}" outcome="/manager/editOwnData.xhtml?faces-redirect=true">
+                    <f:param name="userId" value="#{myDetailsPageBean.userId}"/>
+                </p:button>
             </h:form>
         </ui:define>
     </ui:composition>

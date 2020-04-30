@@ -1,7 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserLoginDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.annotation.FacesConfig;
 import javax.faces.application.FacesMessage;
@@ -20,6 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.ResourceBundle;
+import java.util.StringTokenizer;
 
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
@@ -29,9 +36,11 @@ import static javax.security.enterprise.authentication.mechanism.http.Authentica
 @SessionScoped
 @Interceptors(LoggerInterceptor.class)
 public class LoginBean implements Serializable {
-    public final static String ADMIN_ACCESS_LEVEL = "ADMINISTRATOR";
-    public final static String MANAGER_ACCESS_LEVEL = "MANAGER";
-    public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
+    private String ADMIN_ACCESS_LEVEL;
+    private String MANAGER_ACCESS_LEVEL;
+    private String CLIENT_ACCESS_LEVEL;
+    @Inject
+    private UserEndpoint userEndpoint;
     @Inject
     private SecurityContext securityContext;
     @Inject
@@ -43,55 +52,14 @@ public class LoginBean implements Serializable {
     @NotBlank(message = "{password.message}")
     private String password;
 
-    public void login() throws IOException {
-        Credential credential = new UsernamePasswordCredential(username, new Password(password));
-        AuthenticationStatus status = securityContext.authenticate(
-                getHttpRequestFromFacesContext(),
-                getHttpResponseFromFacesContext(),
-                withParams()
-                        .credential(credential)
-                        .newAuthentication(true));
+    private UserLoginDto userLoginDto;
 
-        switch (status) {
-            case SEND_CONTINUE:
-                facesContext.responseComplete();
-                break;
-            case SUCCESS:
-                facesContext.addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Login succeed", null));
-                if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole(CLIENT_ACCESS_LEVEL)) {
-                FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/client/index.xhtml");
-                    break;
-                }
-                if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole(MANAGER_ACCESS_LEVEL)){
-                    FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/manager/index.xhtml");
-                    break;
-                }
-                if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole(ADMIN_ACCESS_LEVEL)){
-                    FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/admin/index.xhtml");
-                    break;
-                }
-                break;
-            case SEND_FAILURE:
-                facesContext.addMessage(null,
-                        new FacesMessage(SEVERITY_ERROR, "Authentication failed", null));
-                externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
-                break;
-            case NOT_DONE:
-                break;
-        }
+    public UserLoginDto getUserLoginDto() {
+        return userLoginDto;
     }
 
-    private HttpServletRequest getHttpRequestFromFacesContext() {
-        return (HttpServletRequest) facesContext
-                .getExternalContext()
-                .getRequest();
-    }
-
-    private HttpServletResponse getHttpResponseFromFacesContext() {
-        return (HttpServletResponse) facesContext
-                .getExternalContext()
-                .getResponse();
+    public void setUserLoginDto(UserLoginDto userLoginDto) {
+        this.userLoginDto = userLoginDto;
     }
 
     public String getUsername() {
@@ -108,5 +76,101 @@ public class LoginBean implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @PostConstruct
+    private void init() {
+        PropertyReader propertyReader= new PropertyReader();
+        ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config","ADMIN_ACCESS_LEVEL");
+        MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config","MANAGER_ACCESS_LEVEL");
+        CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config","CLIENT_ACCESS_LEVEL");
+    }
+
+    public void login() throws IOException {
+        ResourceBundle bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
+        Credential credential = new UsernamePasswordCredential(username, new Password(password));
+        AuthenticationStatus status = securityContext.authenticate(
+                getHttpRequestFromFacesContext(),
+                getHttpResponseFromFacesContext(),
+                withParams()
+                        .credential(credential)
+                        .newAuthentication(true));
+        displayMessage();
+        userLoginDto = userEndpoint.getLoginDtoByLogin(username);
+        userLoginDto.setLastLoginIp(getClientIpAddress());
+        switch (status) {
+            case SEND_CONTINUE:
+                facesContext.responseComplete();
+                break;
+            case SUCCESS:
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("last_valid_login"), String.valueOf(userLoginDto.getLastValidLogin())));
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("last_invalid_login"), String.valueOf(userLoginDto.getLastInvalidLogin())));
+                userLoginDto.setLastValidLogin(new Date());
+                userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
+                userEndpoint.editInvalidLoginAttempts(0, userLoginDto.getId());
+                if (FacesContext.getCurrentInstance().getExternalContext().isUserInRole(CLIENT_ACCESS_LEVEL)) {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/client/index.xhtml");
+                    break;
+                }
+                if (FacesContext.getCurrentInstance().getExternalContext().isUserInRole(MANAGER_ACCESS_LEVEL)) {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/manager/index.xhtml");
+                    break;
+                }
+                if (FacesContext.getCurrentInstance().getExternalContext().isUserInRole(ADMIN_ACCESS_LEVEL)) {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/admin/index.xhtml");
+                    break;
+                }
+                break;
+            case SEND_FAILURE:
+
+                if (!userLoginDto.getLocked()) {
+
+                    Integer attempts = userEndpoint.getUserInvalidLoginAttempts(userLoginDto.getId());
+                    attempts += 1;
+                    userEndpoint.editInvalidLoginAttempts(attempts, userLoginDto.getId());
+                    if (attempts <= 2) {
+
+                        facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), attempts + " " + bundle.getString("invalid_login_attempts")));
+                    } else {
+                        facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("block"), attempts + " " + bundle.getString("invalid_login_attempts") + bundle.getString("blockAccount")));
+                    }
+                    userLoginDto.setLastInvalidLogin(new Date());
+                    userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
+                    facesContext.addMessage(null,
+                            new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authentication_failed")));
+
+                }
+
+                externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
+                break;
+            case NOT_DONE:
+                break;
+        }
+    }
+
+    public void displayMessage() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
+    }
+
+    private HttpServletRequest getHttpRequestFromFacesContext() {
+        return (HttpServletRequest) facesContext
+                .getExternalContext()
+                .getRequest();
+    }
+
+    private HttpServletResponse getHttpResponseFromFacesContext() {
+        return (HttpServletResponse) facesContext
+                .getExternalContext()
+                .getResponse();
+    }
+
+    public String getClientIpAddress() {
+        String xForwardedForHeader = getHttpRequestFromFacesContext().getHeader("X-Forwarded-For");
+        if (xForwardedForHeader == null) {
+            return getHttpRequestFromFacesContext().getRemoteAddr();
+        } else {
+            return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
+        }
     }
 }
