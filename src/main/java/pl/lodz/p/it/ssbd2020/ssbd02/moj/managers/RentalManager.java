@@ -65,4 +65,12 @@ public class RentalManager {
 //        rentalToCancel.setRentalStatus(rentalStatus);
         rentalFacade.edit(rentalToCancel);
     }
+
+    public void updateRentalStatus(){
+        List<Rental> allRentals = rentalFacade.findAll();
+        for (Rental rental : allRentals) {
+            //tu logika tego wszyskiego
+            //rentalFacade.edit(rental);
+        }
+    }
 }

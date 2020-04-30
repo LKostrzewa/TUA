@@ -37,7 +37,8 @@ public class MyEditPageBean implements Serializable {
         this.editUserDto = userEndpoint.getEditUserDtoById(userId);
     }
 
-    public String editUser() {
+    //TODO obsługa tego wyjątku
+    public String editUser() throws Exception {
         userEndpoint.editUser(editUserDto, userId);
         return "account.xhtml?faces-redirect=true?includeViewParams=true";
     }
