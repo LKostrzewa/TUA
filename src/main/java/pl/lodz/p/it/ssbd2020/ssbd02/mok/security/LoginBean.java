@@ -103,8 +103,8 @@ public class LoginBean implements Serializable {
                 facesContext.responseComplete();
                 break;
             case SUCCESS:
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("last_valid_login"), String.valueOf(userLoginDto.getLastValidLogin())));
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("last_invalid_login"), String.valueOf(userLoginDto.getLastInvalidLogin())));
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastValidLogin"), String.valueOf(userLoginDto.getLastValidLogin())));
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastInvalidLogin"), String.valueOf(userLoginDto.getLastInvalidLogin())));
                 userLoginDto.setLastValidLogin(new Date());
                 userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
                 userEndpoint.editInvalidLoginAttempts(0, userLoginDto.getId());
@@ -130,14 +130,14 @@ public class LoginBean implements Serializable {
                     userEndpoint.editInvalidLoginAttempts(attempts, userLoginDto.getId());
                     if (attempts <= 2) {
 
-                        facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), attempts + " " + bundle.getString("invalid_login_attempts")));
+                        facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), attempts + " " + bundle.getString("invalidLoginAttempts")));
                     } else {
-                        facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("block"), attempts + " " + bundle.getString("invalid_login_attempts") + bundle.getString("blockAccount")));
+                        facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("block"), attempts + " " + bundle.getString("invalidLoginAttempts") + bundle.getString("blockAccount")));
                     }
                     userLoginDto.setLastInvalidLogin(new Date());
                     userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
                     facesContext.addMessage(null,
-                            new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authentication_failed")));
+                            new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authenticationFailed")));
 
                 }
 

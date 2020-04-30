@@ -24,7 +24,9 @@ public class UserEndpoint implements Serializable {
     private UserManager userManager;
 
     public void registerNewUser(AddUserDto userDTO) {
-        User user = new User(userDTO.getLogin(), userDTO.getPassword(), userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getPhoneNumber());
+        User user = new User(userDTO.getLogin(), userDTO.getPassword(),
+                userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(),
+                userDTO.getPhoneNumber());
         userManager.registerNewUser(user);
     }
 
@@ -73,7 +75,7 @@ public class UserEndpoint implements Serializable {
         userManager.editUserLastLogin(user, userId);
     }
 
-    public void lockAccount(UserDetailsDto userDetailsDto, Long userId) throws Exception{
+    public void lockAccount(UserDetailsDto userDetailsDto, Long userId) throws Exception {
         User user = ObjectMapperUtils.map(userDetailsDto, User.class);
         userManager.editUser(user, userId);
     }
@@ -87,7 +89,6 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserDetailsDto.class);
     }
 
-
     public void confirmActivationCode(String code) {
         userManager.confirmActivationCode(code);
     }
@@ -95,5 +96,4 @@ public class UserEndpoint implements Serializable {
     public void editInvalidLoginAttempts(Integer attempts, Long userId) {
         userManager.editInvalidLoginAttempts(attempts, userId);
     }
-
 }

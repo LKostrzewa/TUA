@@ -7,12 +7,12 @@
 <h:body>
     <h:outputStylesheet library="css" name="registration.css"/>
     <h:form method="post" class="registration-form">
-        <h1>#{msg['register.register']}</h1>
+        <h1>#{msg['registration.register']}</h1>
 
         <div class="text-box">
-            <p:inputText id="username" type="text" a:placeholder="#{msg['register.username']}"
+            <p:inputText id="username" type="text" a:placeholder="#{msg['registration.username']}"
                          value="${userRegistrationBean.userDto.login}" required="true"
-                         requiredMessage="#{msg['register.field.required']}">
+                         requiredMessage="#{msg['registration.field.required']}">
                 <f:validator validatorId="loginValidator"/>
             </p:inputText>
             <span class="gradient"/>
@@ -23,9 +23,9 @@
         </div>
 
         <div class="text-box">
-            <p:password id="password1" a:placeholder="#{msg['register.password']}" match="password2" validatorMessage="#{msg['validation.password.match']}"
+            <p:password id="password1" a:placeholder="#{msg['registration.password']}" match="password2" validatorMessage="#{msg['validation.password.match']}"
                         value="${userRegistrationBean.userDto.password}" required="true"
-                        requiredMessage="#{msg['register.field.required']}">
+                        requiredMessage="#{msg['registration.field.required']}">
                 <f:validator validatorId="passwordValidator"/>
             </p:password>
             <span class="gradient"/>
@@ -35,9 +35,9 @@
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
         <div class="text-box">
-            <p:password id="password2" a:placeholder="#{msg['register.repeat.password']}"
+            <p:password id="password2" a:placeholder="#{msg['registration.repeat.password']}"
                         value="${userRegistrationBean.userDto.password}" required="true"
-                        requiredMessage="#{msg['register.field.required']}">
+                        requiredMessage="#{msg['registration.field.required']}">
                 <f:validator validatorId="passwordValidator"/>
             </p:password>
             <span class="gradient"/>
@@ -47,8 +47,8 @@
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
         <div class="text-box">
-            <p:inputText id="email" a:placeholder="#{msg['register.email']}" value="${userRegistrationBean.userDto.email}"
-                         required="true" requiredMessage="#{msg['register.field.required']}">
+            <p:inputText id="email" a:placeholder="#{msg['registration.email']}" value="${userRegistrationBean.userDto.email}"
+                         required="true" requiredMessage="#{msg['registration.field.required']}">
                 <f:validator validatorId="emailValidator"/>
             </p:inputText>
             <span class="gradient"/>
@@ -59,8 +59,8 @@
         </div>
 
         <div class="text-box">
-            <p:inputText id="name" a:placeholder="#{msg['register.name']}" value="${userRegistrationBean.userDto.firstName}"
-                         required="true" requiredMessage="#{msg['register.field.required']}">
+            <p:inputText id="name" a:placeholder="#{msg['registration.name']}" value="${userRegistrationBean.userDto.firstName}"
+                         required="true" requiredMessage="#{msg['registration.field.required']}">
                 <f:validator validatorId="nameValidator"/>
             </p:inputText>
             <span class="gradient"/>
@@ -71,9 +71,9 @@
         </div>
 
         <div class="text-box">
-            <p:inputText id="surname" a:placeholder="#{msg['register.surname']}"
+            <p:inputText id="surname" a:placeholder="#{msg['registration.surname']}"
                          value="${userRegistrationBean.userDto.lastName}" required="true"
-                         requiredMessage="#{msg['register.field.required']}">
+                         requiredMessage="#{msg['registration.field.required']}">
                 <f:validator validatorId="nameValidator"/>
             </p:inputText>
             <span class="gradient"/>
@@ -84,9 +84,9 @@
         </div>
 
         <div class="text-box">
-            <p:inputText id="phoneNumber" a:placeholder="#{msg['register.phone.number']}"
+            <p:inputText id="phoneNumber" a:placeholder="#{msg['registration.phone.number']}"
                          value="${userRegistrationBean.userDto.phoneNumber}" required="true"
-                         requiredMessage="#{msg['register.field.required']}">
+                         requiredMessage="#{msg['registration.field.required']}">
                 <f:validator validatorId="phoneNumberValidator"/>
             </p:inputText>
             <span class="gradient"/>
@@ -95,10 +95,10 @@
                        style="box-sizing: border-box; position: absolute;display: block;
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
-        <p:commandButton class="register-button" value="#{msg['register.register']}"
+        <p:commandButton class="register-button" value="#{msg['registration.register']}"
                          action="#{userRegistrationBean.registerAccountAction}" update="@form"/>
         <div class="bottom-text">
-            <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['register.cancel']}</a>
+            <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['registration.cancel']}</a>
         </div>
     </h:form>
 
