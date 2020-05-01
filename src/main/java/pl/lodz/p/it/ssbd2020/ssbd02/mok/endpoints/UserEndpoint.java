@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -23,14 +24,14 @@ public class UserEndpoint implements Serializable {
     @Inject
     private UserManager userManager;
 
-    public void registerNewUser(AddUserDto userDTO) {
+    public void registerNewUser(AddUserDto userDTO) throws AppBaseException {
         User user = new User(userDTO.getLogin(), userDTO.getPassword(),
                 userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(),
                 userDTO.getPhoneNumber());
         userManager.registerNewUser(user);
     }
 
-    public void addNewUser(AddUserDto userDTO) {
+    public void addNewUser(AddUserDto userDTO) throws AppBaseException {
         User user = new User(userDTO.getLogin(), userDTO.getPassword(), userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getPhoneNumber());
         userManager.addNewUser(user);
     }

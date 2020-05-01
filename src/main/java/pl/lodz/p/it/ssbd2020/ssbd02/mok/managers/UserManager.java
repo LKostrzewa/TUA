@@ -2,6 +2,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.EmailNotUniqueException;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.LoginNotUniqueException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
@@ -34,8 +37,14 @@ public class UserManager {
 
     private User userEntityEdit;
 
-    private void addUser(User user, boolean active) {
+    private void addUser(User user, boolean active) throws AppBaseException {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
+        if(userFacade.existByLogin(user.getLogin())) {
+            throw new LoginNotUniqueException("exception.loginNotUnique");
+        }
+        if(userFacade.existByEmail(user.getEmail())) {
+            throw new EmailNotUniqueException("exception.emailNotUnique");
+        }
         user.setActivated(active);
         user.setLocked(false);
         user.setPassword(passwordHash);
@@ -49,13 +58,13 @@ public class UserManager {
         userFacade.create(user);
     }
 
-    public void registerNewUser(User user) {
+    public void registerNewUser(User user) throws AppBaseException{
         addUser(user, false);
 
         sendEmailWithCode(user);
     }
 
-    public void addNewUser(User user) {
+    public void addNewUser(User user) throws AppBaseException{
         addUser(user, true);
     }
 
