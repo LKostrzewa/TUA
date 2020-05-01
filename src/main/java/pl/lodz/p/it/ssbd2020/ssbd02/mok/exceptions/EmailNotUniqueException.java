@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.NotUniqueValueException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 
-public class EmailNotUniqueException extends NotUniqueValueException {
+public class EmailNotUniqueException extends AppBaseException {
 }

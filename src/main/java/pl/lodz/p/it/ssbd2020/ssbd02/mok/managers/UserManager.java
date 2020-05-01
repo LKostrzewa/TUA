@@ -44,16 +44,15 @@ public class UserManager {
 
         UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
 
-        List<UserAccessLevel> userAccessLevels = List.of(userAccessLevel);
-        user.setUserAccessLevels(userAccessLevels);
+        user.getUserAccessLevels().add(userAccessLevel);
 
         userFacade.create(user);
-
-        sendEmailWithCode(user);
     }
 
     public void registerNewUser(User user) {
         addUser(user, false);
+
+        sendEmailWithCode(user);
     }
 
     public void addNewUser(User user) {
