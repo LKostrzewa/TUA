@@ -53,23 +53,7 @@ public class UserEndpoint implements Serializable {
     }
 
     public UserLoginDto getLoginDtoByLogin(String userLogin) {
-        UserLoginDto userLoginDto = null; // nie podoba mi się to
-        try{
-            int callLimit = 3; //do wczytania z property;
-
-            do {
-                userLoginDto = ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserLoginDto.class);
-                callLimit--;
-            } while (callLimit > 0 && userManager.isLastTransactionRollback());
-
-            if(callLimit == 0){
-                throw new EJBTransactionRolledbackException("Nie udalo sie"); //komnikat do wczytania z resource
-            }
-        }
-        catch (Exception ex){
-            //Obsluga naszych customowych wyjatkow
-        }
-        return userLoginDto;
+        return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserLoginDto.class);
     }
 
     public void editUser(EditUserDto editUserDto, Long userId) {
