@@ -36,7 +36,6 @@ public class UserManager {
 
     private void addUser(User user, boolean active) {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
-
         user.setActivated(active);
         user.setLocked(false);
         user.setPassword(passwordHash);

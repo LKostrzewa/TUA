@@ -20,7 +20,7 @@ public class Email {
 
     private String key;
 
-    private static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private static final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     private int valid = 5;
 
