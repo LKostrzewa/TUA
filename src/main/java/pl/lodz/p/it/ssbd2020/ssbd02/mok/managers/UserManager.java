@@ -9,6 +9,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 
 import javax.ejb.LocalBean;
@@ -25,7 +26,6 @@ import java.util.UUID;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserManager {
-    public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
     @Inject
     private AccessLevelFacade accessLevelFacade;
     @Inject
@@ -38,6 +38,7 @@ public class UserManager {
     private User userEntityEdit;
 
     private void addUser(User user, boolean active) throws AppBaseException {
+        PropertyReader propertyReader = new PropertyReader();
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         if(userFacade.existByLogin(user.getLogin())) {
             throw new LoginNotUniqueException("exception.loginNotUnique");
@@ -51,7 +52,7 @@ public class UserManager {
         user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
         user.setResetPasswordCode(UUID.randomUUID().toString());
 
-        UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
+        UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(propertyReader.getProperty("config","CLIENT_ACCESS_LEVEL")));
 
         user.getUserAccessLevels().add(userAccessLevel);
 
@@ -129,7 +130,7 @@ public class UserManager {
         return user.getInvalidLoginAttempts();
     }
 
-    private String createVeryficationLink(User user) {
+    private String createVerificationLink(User user) {
         String activationCode = user.getActivationCode();
         return "<a href=" + "\"http://localhost:8080/login/activate.xhtml?key=" + activationCode + "\">Link</a>";
     }
@@ -143,6 +144,6 @@ public class UserManager {
     public void sendEmailWithCode(User user) {
         String email = user.getEmail();
         String userName = user.getFirstName();
-        sendEmail.sendEmail(createVeryficationLink(user), userName, email);
+        sendEmail.sendEmail(createVerificationLink(user), userName, email);
     }
 }

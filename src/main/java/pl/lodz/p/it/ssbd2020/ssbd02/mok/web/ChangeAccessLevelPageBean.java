@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 
@@ -9,6 +10,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ResourceBundle;
 
 @Named
 @ViewScoped
@@ -38,15 +40,29 @@ public class ChangeAccessLevelPageBean implements Serializable {
         this.userDto = userAccessLevelEndpoint.findAccessLevelById(userId);
     }
 
-    public void displayMessage() {
-        FacesContext context = FacesContext.getCurrentInstance();
+    public void displayMessage(FacesContext context, ResourceBundle resourceBundle) {
         context.getExternalContext().getFlash().setKeepMessages(true);
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successful", "Message"));
+        String msg = resourceBundle.getString("users.changeAccessLevelInfo");
+        String head = resourceBundle.getString("success");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
     public String changeAccessLevel() {
-        userAccessLevelEndpoint.editAccessLevels(userDto, userId);
-        displayMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        //czy do bundle można się odwoływać w ten sposób tzn hardCoded base name ?
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
+        try {
+            userAccessLevelEndpoint.editAccessLevels(userDto, userId);
+        }
+        catch (AppBaseException e){
+            //TODO w odpowiednim pliku xhtml dodac growl
+            String msg = resourceBundle.getString(e.getLocalizedMessage());
+            String head = resourceBundle.getString("error");
+            context.getExternalContext().getFlash().setKeepMessages(true);
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
+            return "changeAccessLevel.xhtml";
+        }
+        displayMessage(context, resourceBundle);
         return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 }
