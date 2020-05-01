@@ -37,16 +37,23 @@ public class AddUserPageBean implements Serializable {
     }
 
     public String addUser() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        //czy do bundle można się odwoływać w ten sposób tzn hardCoded base name ?
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
         try {
             userEndpoint.addNewUser(addUserDto);
         }
         catch (AppBaseException e){
-            FacesContext context = FacesContext.getCurrentInstance();
-            String msg = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale()).getString(e.getLocalizedMessage());
+            String msg = resourceBundle.getString(e.getLocalizedMessage());
+            String head = resourceBundle.getString("error");
             context.getExternalContext().getFlash().setKeepMessages(true);
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail", msg));
-            return "addUser.xhtml?faces-redirect=true";
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
+            return "addUser.xhtml";
         }
+        String msg = resourceBundle.getString("users.addInfo");
+        String head = resourceBundle.getString("success");
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
         return "listUsers.xhtml?faces-redirect=true";
     }
 }
