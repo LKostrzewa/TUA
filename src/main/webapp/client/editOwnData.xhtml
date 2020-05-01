@@ -26,6 +26,10 @@
                 <p:message for="phoneNumber" />
             </span>
         </div>
+        <div>
+            <p:captcha id="Captcha" label="Captcha" required="true" requiredMessage="#{msg['registration.field.required']}" language="#{myEditPageBean.language}"/>
+            <p:messages for="Captcha" closable="false" />
+        </div>
         <p:button value="#{msg['cancel']}" outcome="/client/account.xhtml?faces-redirect=true?includeViewParams=true"/>
         <p:commandButton value="#{msg['save']}" action="#{myEditPageBean.editUser()}" update="@form"/>
     </h:form>
