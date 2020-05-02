@@ -36,12 +36,12 @@
     text-align: center;
 }
 
-#j_idt13\:options_button .ui-button-icon-left {
+[id*='options'] .ui-button-icon-left {
     left: unset;
     right: 0.5em;
 }
 
-#j_idt13\:options_button .ui-button-text {
+[id*='options'] .ui-button-text {
     right: 1em;
     position: relative;
 }

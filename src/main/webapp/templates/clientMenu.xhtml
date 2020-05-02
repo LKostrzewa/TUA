@@ -5,39 +5,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
-<h:head>
-</h:head>
+<h:head/>
 <h:body>
-<ui:composition>
-    <h:form>
-        <p:menubar>
-            <p:menuitem value="#{msg['client.menu.ports']}" url="#"/>
-            <p:submenu label="#{msg['client.menu.reservation']}">
-                <p:menuitem value="#{msg['client.menu.reservation.add']}" url="#"/>
-                <p:separator/>
-                <p:menuitem value="#{msg['client.menu.reservation.list']}" url="#"/>
-            </p:submenu>
-            <f:facet name="options">
-                <h:panelGroup>
-                    <p:selectOneMenu value="#{currentUser.currentRole}">
-                        <f:selectItem itemLabel="Admin" itemValue="ADMINISTRATOR"
-                                      itemDisabled="#{!currentUser.administrator}"/>
-                        <f:selectItem itemLabel="Manager" itemValue="MANAGER"
-                                      itemDisabled="#{!currentUser.manager}"/>
-                        <f:selectItem itemLabel="Client" itemValue="CLIENT"
-                                      itemDisabled="#{!currentUser.client}"/>
-                        <p:ajax listener="#{currentUser.redirectToCurrentRole()}"
-                                process="@this" partialSubmit="true"/>
-                    </p:selectOneMenu>
-                    <p:menuButton id="options" value="#{msg['options']}">
-                        <p:menuitem value="#{msg['menu.account']}" url="/client/account.xhtml"/>
-                        <p:separator/>
-                        <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
-                    </p:menuButton>
-                </h:panelGroup>
-            </f:facet>
-        </p:menubar>
-    </h:form>
-</ui:composition>
+    <ui:composition>
+        <h:form>
+            <p:menubar>
+                <p:menuitem value="#{msg['client.menu.ports']}" url="#"/>
+                <p:submenu label="#{msg['client.menu.reservation']}">
+                    <p:menuitem value="#{msg['client.menu.reservation.add']}" url="#"/>
+                    <p:separator/>
+                    <p:menuitem value="#{msg['client.menu.reservation.list']}" url="#"/>
+                </p:submenu>
+                <f:facet name="options">
+                    <h:panelGroup>
+                        <p:selectOneMenu value="#{currentUser.currentRole}">
+                            <f:selectItem itemLabel="Admin" itemValue="ADMINISTRATOR"
+                                          itemDisabled="#{!currentUser.administrator}"/>
+                            <f:selectItem itemLabel="Manager" itemValue="MANAGER"
+                                          itemDisabled="#{!currentUser.manager}"/>
+                            <f:selectItem itemLabel="Client" itemValue="CLIENT"
+                                          itemDisabled="#{!currentUser.client}"/>
+                            <p:ajax listener="#{currentUser.redirectToCurrentRole()}"
+                                    process="@this" partialSubmit="true"/>
+                        </p:selectOneMenu>
+                        <p:menuButton id="options" value="#{msg['options']}">
+                            <p:menuitem value="#{msg['menu.account']}" url="/client/account.xhtml"/>
+                            <p:separator/>
+                            <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
+                        </p:menuButton>
+                    </h:panelGroup>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+    </ui:composition>
 </h:body>
 </html>
