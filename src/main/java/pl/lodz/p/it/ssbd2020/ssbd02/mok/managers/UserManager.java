@@ -76,14 +76,14 @@ public class UserManager {
     public void editUser(User user, Long userId) throws Exception {
 
         try {
-            if(userEntityEdit.getId().equals(userId)){
+            if (userEntityEdit.getId().equals(userId)) {
                 userEntityEdit.setFirstName(user.getFirstName());
                 userEntityEdit.setLastName(user.getLastName());
                 userEntityEdit.setPhoneNumber(user.getPhoneNumber());
                 userEntityEdit.setLocked(user.getLocked());
                 userFacade.edit(userEntityEdit);
             }
-        }catch (OptimisticLockException ex){
+        } catch (OptimisticLockException ex) {
             throw new Exception("Optimistic lock exception", ex);
         }
     }
@@ -104,6 +104,7 @@ public class UserManager {
         }
         sendEmail.lockInfoEmail(lock.getEmail());
     }
+
     public void unlockAccount(User user, Long userId) {
         User unlock = getUserById(userId);
 
@@ -113,7 +114,6 @@ public class UserManager {
         }
         sendEmail.unlockInfoEmail(unlock.getEmail());
     }
-
 
 
     public User getUserByLogin(String userLogin) {
@@ -131,7 +131,7 @@ public class UserManager {
     public void editInvalidLoginAttempts(Integer counter, Long userId) {
         User userToEdit = userFacade.find(userId);
         userToEdit.setInvalidLoginAttempts(counter);
-        if(counter==3) {
+        if (counter == 3) {
             userToEdit.setInvalidLoginAttempts(0);
             userToEdit.setLocked(true);
         }

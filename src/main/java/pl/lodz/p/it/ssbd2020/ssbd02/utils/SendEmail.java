@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.utils;
 
 
-import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.mail.*;
@@ -9,8 +8,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-@Stateless
-@LocalBean
+
 public class SendEmail {
     private String from = "ssbd202002@gmail.com";
     private String username = "ssbd202002@gmail.com";
@@ -82,7 +80,6 @@ public class SendEmail {
         }
 
     }
-
 
 
 }
