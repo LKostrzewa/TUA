@@ -64,28 +64,18 @@ public class UserManager {
         return userFacade.findAll();
     }
 
-    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserById(Long id) {
         this.userEntityEdit = userFacade.find(id);
         return userEntityEdit;
     }
 
-    @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public void editUser(User user, Long userId) throws Exception {
-
-        try {
-            if(userEntityEdit.getId().equals(userId)){
-                userEntityEdit.setFirstName(user.getFirstName());
-                userEntityEdit.setLastName(user.getLastName());
-                userEntityEdit.setPhoneNumber(user.getPhoneNumber());
-                userEntityEdit.setLocked(user.getLocked());
-                userFacade.edit(userEntityEdit);
-            }
-        }catch (OptimisticLockException ex){
-            throw new Exception("Optimistic lock exception", ex);
-        }
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void editUser(User user, long id){
+        userFacade.edit(user);
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editUserPassword(User user, Long userId) {
         User userToEdit = userFacade.find(userId);
         BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
@@ -98,6 +88,7 @@ public class UserManager {
         return userFacade.findByLogin(userLogin);
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editUserLastLogin(User user, Long userId) {
         User userToEdit = userFacade.find(userId);
         userToEdit.setLastValidLogin(user.getLastValidLogin());
@@ -106,6 +97,7 @@ public class UserManager {
         userFacade.edit(userToEdit);
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editInvalidLoginAttempts(Integer counter, Long userId) {
         User userToEdit = userFacade.find(userId);
         userToEdit.setInvalidLoginAttempts(counter);
@@ -126,6 +118,7 @@ public class UserManager {
         return "<a href=" + "\"http://localhost:8080/login/activate.xhtml?key=" + activationCode + "\">Link</a>";
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void confirmActivationCode(String code) {
         User user = userFacade.findByActivationCode(code);
         user.setActivated(true);

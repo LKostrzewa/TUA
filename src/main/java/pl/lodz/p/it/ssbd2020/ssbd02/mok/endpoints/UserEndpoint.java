@@ -13,6 +13,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.persistence.OptimisticLockException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,6 +23,8 @@ import java.util.List;
 public class UserEndpoint implements Serializable {
     @Inject
     private UserManager userManager;
+
+    private User userEditEntity;
 
     public void registerNewUser(AddUserDto userDTO) {
         User user = new User(userDTO.getLogin(), userDTO.getPassword(),
@@ -48,7 +51,8 @@ public class UserEndpoint implements Serializable {
     }
 
     public EditUserDto getEditUserDtoById(Long userId) {
-        return ObjectMapperUtils.map(userManager.getUserById(userId), EditUserDto.class);
+        this.userEditEntity = userManager.getUserById(userId);
+        return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
     }
 
     public UserDetailsDto getUserDetailsDtoById(Long userId) {
@@ -59,10 +63,17 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserLoginDto.class);
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editUser(EditUserDto editUserDto, Long userId) throws Exception {
-        User user = ObjectMapperUtils.map(editUserDto, User.class);
-        userManager.editUser(user, userId);
+        try {
+            if(userEditEntity.getId().equals(userId)){
+                userEditEntity.setFirstName(editUserDto.getFirstName());
+                userEditEntity.setLastName(editUserDto.getLastName());
+                userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
+                userManager.editUser(this.userEditEntity,userId);
+            }
+        }catch (OptimisticLockException ex){
+            throw new Exception("Optimistic lock exception", ex);
+        }
     }
 
     public void editUserPassword(ChangePasswordDto changePasswordDto, Long userId) {
@@ -75,12 +86,12 @@ public class UserEndpoint implements Serializable {
         userManager.editUserLastLogin(user, userId);
     }
 
-    public void lockAccount(UserDetailsDto userDetailsDto, Long userId) throws Exception {
+    public void lockAccount(UserDetailsDto userDetailsDto, Long userId){
         User user = ObjectMapperUtils.map(userDetailsDto, User.class);
         userManager.editUser(user, userId);
     }
 
-    public void unlockAccount(UserDetailsDto userDetailsDto, Long userId) throws Exception {
+    public void unlockAccount(UserDetailsDto userDetailsDto, Long userId){
         User user = ObjectMapperUtils.map(userDetailsDto, User.class);
         userManager.editUser(user, userId);
     }
