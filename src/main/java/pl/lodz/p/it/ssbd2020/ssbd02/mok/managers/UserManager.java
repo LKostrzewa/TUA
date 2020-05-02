@@ -49,11 +49,13 @@ public class UserManager {
 
         userFacade.create(user);
 
-        sendEmailWithCode(user);
+
     }
 
     public void registerNewUser(User user) {
+
         addUser(user, false);
+        sendEmailWithCode(user);
     }
 
     public void addNewUser(User user) {
@@ -94,6 +96,26 @@ public class UserManager {
         userFacade.edit(userToEdit);
     }
 
+    public void lockAccount(User user, Long userId) {
+        User lock = getUserById(userId);
+        if (userEntityEdit.getId().equals(userId)) {
+            userEntityEdit.setLocked(user.getLocked());
+            userFacade.edit(userEntityEdit);
+        }
+        sendEmail.lockInfoEmail(lock.getEmail());
+    }
+    public void unlockAccount(User user, Long userId) {
+        User unlock = getUserById(userId);
+
+        if (userEntityEdit.getId().equals(userId)) {
+            userEntityEdit.setLocked(user.getLocked());
+            userFacade.edit(userEntityEdit);
+        }
+        sendEmail.unlockInfoEmail(unlock.getEmail());
+    }
+
+
+
     public User getUserByLogin(String userLogin) {
         return userFacade.findByLogin(userLogin);
     }
@@ -123,18 +145,20 @@ public class UserManager {
 
     private String createVeryficationLink(User user) {
         String activationCode = user.getActivationCode();
-        return "<a href=" + "\"http://localhost:8080/login/activate.xhtml?key=" + activationCode + "\">Link</a>";
+        return "<a href=" + "\"http://studapp.it.p.lodz.pl:8002/login/activate.xhtml?key=" + activationCode + "\">Link</a>";
+        //http://studapp.it.p.lodz.pl:8002
     }
 
     public void confirmActivationCode(String code) {
         User user = userFacade.findByActivationCode(code);
         user.setActivated(true);
         userFacade.edit(user);
+        sendEmail.activationInfoEmail(user.getEmail());
     }
 
     public void sendEmailWithCode(User user) {
         String email = user.getEmail();
         String userName = user.getFirstName();
-        sendEmail.sendEmail(createVeryficationLink(user), userName, email);
+        sendEmail.sendActivationEmail(createVeryficationLink(user), userName, email);
     }
 }

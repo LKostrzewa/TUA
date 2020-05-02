@@ -12,33 +12,63 @@ import java.util.Properties;
 @Stateless
 @LocalBean
 public class SendEmail {
+    private String from = "ssbd202002@gmail.com";
+    private String username = "ssbd202002@gmail.com";
+    private String password = "SSBD202002";
+    private String host = "smtp.gmail.com";
+    private final Integer port = 465;
 
-    public void sendEmail(String activationlink, String userName, String userEmail) {
-        PropertyReader propertyReader= new PropertyReader();
-        String from = propertyReader.getProperty("config","from");
-        String username = propertyReader.getProperty("config","username");
-        String password = propertyReader.getProperty("config","password");
-        String host = propertyReader.getProperty("config","host");
+    public void sendActivationEmail(String activationlink, String userName, String userEmail) {
+        PropertyReader propertyReader = new PropertyReader();
+        String emailSubject = propertyReader.getProperty("emailMessages", "activationSubject", userName);
+        String emailText = propertyReader.getProperty("emailMessages", "activationText", activationlink);
+        emailBody(userEmail, emailSubject, emailText);
+    }
 
-        String emailSubject= propertyReader.getProperty("emailMessages","activationSubject",userName);
-        String emailText= propertyReader.getProperty("emailMessages","activationText",activationlink);
 
+    public void activationInfoEmail(String userEmail) {
+        PropertyReader propertyReader = new PropertyReader();
+        String emailSubject = propertyReader.getProperty("emailMessages", "afterActivationSubject");
+        String emailText = propertyReader.getProperty("emailMessages", "afterActivationText");
+        emailBody(userEmail, emailSubject, emailText);
+    }
+
+    public void lockInfoEmail(String userEmail) {
+        PropertyReader propertyReader = new PropertyReader();
+        String emailSubject = propertyReader.getProperty("emailMessages", "lockInfoSubject");
+        String emailText = propertyReader.getProperty("emailMessages", "lockInfoText");
+        emailBody(userEmail, emailSubject, emailText);
+    }
+
+
+    public void unlockInfoEmail(String userEmail) {
+        PropertyReader propertyReader = new PropertyReader();
+        String emailSubject = propertyReader.getProperty("emailMessages", "unlockInfoSubject");
+        String emailText = propertyReader.getProperty("emailMessages", "unlockInfoText");
+        emailBody(userEmail, emailSubject, emailText);
+    }
+
+
+    private Session emailSettings() {
         Properties properties = new Properties();
-        properties.put("mail.smtp.auth",true);
+        properties.put("mail.smtp.auth", true);
         properties.put("mail.smtp.ssl.enable", true);
         properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.port", 465);
+        properties.put("mail.smtp.port", port);
 
-
-        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+        return Session.getInstance(properties, new javax.mail.Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username,password);
+                return new PasswordAuthentication(username, password);
             }
         });
 
+    }
+
+
+    private void emailBody(String userEmail, String emailSubject, String emailText) {
         try {
-            MimeMessage message = new MimeMessage(session);
+            MimeMessage message = new MimeMessage(emailSettings());
             message.setFrom(new InternetAddress(from));
             InternetAddress[] addresses = {new InternetAddress(userEmail)};
             message.setRecipients(Message.RecipientType.TO, addresses);
@@ -46,12 +76,12 @@ public class SendEmail {
             message.setText(emailText, "UTF-8", "html");
             Transport.send(message);
 
+
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+
     }
-
-
 
 
 
