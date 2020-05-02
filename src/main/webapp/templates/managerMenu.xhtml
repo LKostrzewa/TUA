@@ -39,7 +39,7 @@
                         <p:ajax listener="#{currentUser.redirectToCurrentRole()}"
                                 process="@this" partialSubmit="true"/>
                     </p:selectOneMenu>
-                    <p:menuButton value="#{msg['options']}">
+                    <p:menuButton id="options" value="#{msg['options']}">
                         <p:menuitem value="#{msg['menu.account']}" url="/manager/account.xhtml"/>
                         <p:separator/>
                         <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
