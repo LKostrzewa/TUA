@@ -10,7 +10,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -38,7 +37,6 @@ public class AddUserPageBean implements Serializable {
 
     public String addUser() {
         FacesContext context = FacesContext.getCurrentInstance();
-        //czy do bundle można się odwoływać w ten sposób tzn hardCoded base name ?
         ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
         try {
             userEndpoint.addNewUser(addUserDto);

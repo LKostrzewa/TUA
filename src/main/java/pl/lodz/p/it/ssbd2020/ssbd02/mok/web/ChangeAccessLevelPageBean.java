@@ -49,7 +49,6 @@ public class ChangeAccessLevelPageBean implements Serializable {
 
     public String changeAccessLevel() {
         FacesContext context = FacesContext.getCurrentInstance();
-        //czy do bundle można się odwoływać w ten sposób tzn hardCoded base name ?
         ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
         try {
             userAccessLevelEndpoint.editAccessLevels(userDto, userId);
