@@ -69,11 +69,11 @@ public class MyDetailsPageBean implements Serializable {
 
     public String getAccessLevels() {
         String string = "";
-        if (userAccessLevelDto.getAdmin())
+        if (userAccessLevelDto.getAdmin().getLeft())
             string += "ADMINISTRATOR ";
-        if (userAccessLevelDto.getManager())
+        if (userAccessLevelDto.getManager().getLeft())
             string += "MANAGER ";
-        if (userAccessLevelDto.getClient())
+        if (userAccessLevelDto.getClient().getLeft())
             string += "CLIENT";
         return string;
     }

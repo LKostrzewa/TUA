@@ -45,7 +45,7 @@ public class ChangeAccessLevelPageBean implements Serializable {
     }
 
     public String changeAccessLevel() {
-        userAccessLevelEndpoint.editAccessLevels(userDto, userId);
+        userAccessLevelEndpoint.editAccessLevels(userDto);
         displayMessage();
         return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
