@@ -11,22 +11,22 @@
 <ui:composition>
     <h:form>
         <p:menubar>
-            <p:submenu label="#{msg['menu.manager.ports']}">
-                <p:menuitem value="#{msg['menu.manager.ports.add']}" url="#"/>
+            <p:submenu label="#{msg['manager.menu.ports']}">
+                <p:menuitem value="#{msg['manager.menu.ports.add']}" url="#"/>
                 <p:separator/>
-                <p:menuitem value="#{msg['menu.manager.ports.list']}" url="#"/>
+                <p:menuitem value="#{msg['manager.menu.ports.list']}" url="#"/>
             </p:submenu>
-            <p:submenu label="#{msg['menu.manager.models']}">
-                <p:menuitem value="#{msg['menu.manager.models.add']}" url="#"/>
+            <p:submenu label="#{msg['manager.menu.models']}">
+                <p:menuitem value="#{msg['manager.menu.models.add']}" url="#"/>
                 <p:separator/>
-                <p:menuitem value="#{msg['menu.manager.models.list']}" url="#"/>
+                <p:menuitem value="#{msg['manager.menu.models.list']}" url="#"/>
             </p:submenu>
-            <p:submenu label="#{msg['menu.manager.yachts']}">
-                <p:menuitem value="#{msg['menu.manager.yachts.add']}" url="#"/>
+            <p:submenu label="#{msg['manager.menu.yachts']}">
+                <p:menuitem value="#{msg['manager.menu.yachts.add']}" url="#"/>
                 <p:separator/>
-                <p:menuitem value="#{msg['menu.manager.yachts.list']}" url="#"/>
+                <p:menuitem value="#{msg['manager.menu.yachts.list']}" url="#"/>
             </p:submenu>
-            <p:menuitem value="#{msg['menu.manager.reservation']}" url="#"/>
+            <p:menuitem value="#{msg['manager.menu.reservation']}" url="#"/>
             <f:facet name="options">
                 <h:panelGroup>
                     <p:selectOneMenu value="#{currentUser.currentRole}">

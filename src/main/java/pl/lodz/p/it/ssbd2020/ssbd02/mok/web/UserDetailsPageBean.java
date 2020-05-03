@@ -63,12 +63,12 @@ public class UserDetailsPageBean implements Serializable {
         return string;
     }
 
-    public void lockAccount() {
+    public void lockAccount() throws Exception{
         userDetailsDto.setLocked(true);
         userEndpoint.lockAccount(userDetailsDto, userId);
     }
 
-    public void unlockAccount() {
+    public void unlockAccount() throws Exception{
         userDetailsDto.setLocked(false);
         userEndpoint.unlockAccount(userDetailsDto, userId);
     }

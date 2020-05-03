@@ -5,7 +5,9 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserAccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
@@ -19,15 +21,23 @@ import java.util.UUID;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserAccessLevelManager implements Serializable {
-    public final static String ADMIN_ACCESS_LEVEL = "ADMINISTRATOR";
-    public final static String MANAGER_ACCESS_LEVEL = "MANAGER";
-    public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
+    private String ADMIN_ACCESS_LEVEL;
+    private String MANAGER_ACCESS_LEVEL;
+    private String CLIENT_ACCESS_LEVEL;
     @Inject
     private UserAccessLevelFacade userAccessLevelFacade;
     @Inject
     private AccessLevelFacade accessLevelFacade;
     @Inject
     private UserFacade userFacade;
+
+    @PostConstruct
+    private void init() {
+        PropertyReader propertyReader = new PropertyReader();
+        ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
+        MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config", "MANAGER_ACCESS_LEVEL");
+        CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
+    }
 
     public void editAccessLevels(Long id, List<Boolean> levels) {
         Collection<UserAccessLevel> accessLevelsForUser = findUserAccessLevelById(id);

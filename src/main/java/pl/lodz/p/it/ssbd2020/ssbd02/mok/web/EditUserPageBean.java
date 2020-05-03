@@ -44,9 +44,17 @@ public class EditUserPageBean implements Serializable {
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successful", "Message"));
     }
 
+    private String reload(){
+        return "editUser.xhtml?faces-redirect=true?includeViewParams=true";
+    }
+
     public String editUser() {
-        userEndpoint.editUser(editUserDto, userId);
-        displayMessage();
-        return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
+        try{
+            userEndpoint.editUser(editUserDto, userId);
+            displayMessage();
+            return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
+        }catch (Exception ex){
+            return reload();
+        }
     }
 }

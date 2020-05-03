@@ -18,6 +18,15 @@
         <param-value>/WEB-INF/faces-config.xml</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
+        <param-value>6LetoN8UAAAAABdsv7lnRrpSchH80U2RMNf-rFQ6</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
+        <param-value>6LetoN8UAAAAAGKHlB1FjKsyjpNQ0Uv7mOljYSXX</param-value>
+    </context-param>
+
     <session-config>
         <session-timeout>
             30

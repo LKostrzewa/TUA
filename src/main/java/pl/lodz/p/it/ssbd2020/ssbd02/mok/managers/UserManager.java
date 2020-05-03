@@ -6,13 +6,18 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.persistence.OptimisticLockException;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +25,7 @@ import java.util.UUID;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserManager extends AbstractManager implements SessionSynchronization {
-    public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
+    private String CLIENT_ACCESS_LEVEL;
     @Inject
     private AccessLevelFacade accessLevelFacade;
     @Inject
@@ -30,9 +35,16 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
     private final SendEmail sendEmail = new SendEmail();
 
+    private User userEntityEdit;
+
+    @PostConstruct
+    private void init() {
+        PropertyReader propertyReader= new PropertyReader();
+        CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config","CLIENT_ACCESS_LEVEL");
+    }
+
     private void addUser(User user, boolean active) {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
-
         user.setActivated(active);
         user.setLocked(false);
         user.setPassword(passwordHash);
@@ -61,19 +73,18 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         return userFacade.findAll();
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserById(Long id) {
-        return userFacade.find(id);
+        this.userEntityEdit = userFacade.find(id);
+        return userEntityEdit;
     }
 
-    public void editUser(User user, Long userId) {
-        User userToEdit = userFacade.find(userId);
-        userToEdit.setFirstName(user.getFirstName());
-        userToEdit.setLastName(user.getLastName());
-        userToEdit.setPhoneNumber(user.getPhoneNumber());
-        userToEdit.setLocked(user.getLocked());
-        userFacade.edit(userToEdit);
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void editUser(User user, long id){
+        userFacade.edit(user);
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editUserPassword(User user, Long userId) {
         User userToEdit = userFacade.find(userId);
         BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
@@ -86,6 +97,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         return userFacade.findByLogin(userLogin);
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editUserLastLogin(User user, Long userId) {
         User userToEdit = userFacade.find(userId);
         userToEdit.setLastValidLogin(user.getLastValidLogin());
@@ -94,6 +106,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.edit(userToEdit);
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editInvalidLoginAttempts(Integer counter, Long userId) {
         User userToEdit = userFacade.find(userId);
         userToEdit.setInvalidLoginAttempts(counter);
@@ -114,6 +127,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         return "<a href=" + "\"http://localhost:8080/login/activate.xhtml?key=" + activationCode + "\">Link</a>";
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void confirmActivationCode(String code) {
         User user = userFacade.findByActivationCode(code);
         user.setActivated(true);
@@ -122,6 +136,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
     public void sendEmailWithCode(User user) {
         String email = user.getEmail();
-        sendEmail.sendEmail(createVeryficationLink(user), email);
+        String userName = user.getFirstName();
+        sendEmail.sendEmail(createVeryficationLink(user), userName, email);
     }
 }

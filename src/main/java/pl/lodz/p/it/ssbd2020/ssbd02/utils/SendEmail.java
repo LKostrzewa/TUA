@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.utils;
 
 
+import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.mail.*;
@@ -12,14 +13,16 @@ import java.util.Properties;
 @LocalBean
 public class SendEmail {
 
+    public void sendEmail(String activationlink, String userName, String userEmail) {
+        PropertyReader propertyReader= new PropertyReader();
+        String from = propertyReader.getProperty("config","from");
+        String username = propertyReader.getProperty("config","username");
+        String password = propertyReader.getProperty("config","password");
+        String host = propertyReader.getProperty("config","host");
 
-    String from = "ssbd202002@gmail.com";
-    String username = "ssbd202002@gmail.com";
-    String password = "SSBD202002";
-    String host = "smtp.gmail.com";
+        String emailSubject= propertyReader.getProperty("emailMessages","activationSubject",userName);
+        String emailText= propertyReader.getProperty("emailMessages","activationText",activationlink);
 
-
-    public void sendEmail(String activationlink, String to) {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth",true);
         properties.put("mail.smtp.ssl.enable", true);
@@ -37,10 +40,10 @@ public class SendEmail {
         try {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
-            InternetAddress[] addresses = {new InternetAddress(to)};
+            InternetAddress[] addresses = {new InternetAddress(userEmail)};
             message.setRecipients(Message.RecipientType.TO, addresses);
-            message.setSubject("Jachtpol");
-            message.setText(activationlink, "UTF-8", "html");
+            message.setSubject(emailSubject);
+            message.setText(emailText, "UTF-8", "html");
             Transport.send(message);
 
         } catch (MessagingException e) {
@@ -49,7 +52,40 @@ public class SendEmail {
     }
 
 
+    public void sendEmailNotificationAboutNewAdminAuthentication(String email, String clientIpAddress) {
+        PropertyReader propertyReader= new PropertyReader();
+        String from = propertyReader.getProperty("config","from");
+        String username = propertyReader.getProperty("config","username");
+        String password = propertyReader.getProperty("config","password");
+        String host = propertyReader.getProperty("config","host");
 
+        String emailSubject= propertyReader.getProperty("emailMessages","adminAuthenticationSubject");
+        String emailText= propertyReader.getProperty("emailMessages","adminAuthenticationText",clientIpAddress);
 
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth",true);
+        properties.put("mail.smtp.ssl.enable", true);
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.port", 465);
 
+        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username,password);
+            }
+        });
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(from));
+            InternetAddress[] addresses = {new InternetAddress(email)};
+            message.setRecipients(Message.RecipientType.TO, addresses);
+            message.setSubject(emailSubject);
+            message.setText(emailText, "UTF-8", "html");
+            Transport.send(message);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 }
