@@ -7,16 +7,27 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.util.ResourceBundle;
 
 @Named
 @RequestScoped
 public class UserRegistrationBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
+
+    @Inject
+    private FacesContext facesContext;
+
     private AddUserDto userDto;
+
+    ResourceBundle language;
 
     public AddUserDto getUserDto() {
         return userDto;
@@ -29,10 +40,26 @@ public class UserRegistrationBean implements Serializable {
     @PostConstruct
     public void init() {
         userDto = new AddUserDto();
+        language = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
     }
 
     public String registerAccountAction() {
         userEndpoint.registerNewUser(userDto);
         return "login.xhtml?faces-redirect=true";
+    }
+
+
+    public ResourceBundle getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(ResourceBundle language) {
+        this.language = language;
+    }
+
+    private HttpServletRequest getHttpRequestFromFacesContext() {
+        return (HttpServletRequest) facesContext
+                .getExternalContext()
+                .getRequest();
     }
 }

@@ -95,8 +95,14 @@
                        style="box-sizing: border-box; position: absolute;display: block;
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
-        <p:commandButton class="register-button" value="#{msg['registration.register']}"
-                         action="#{userRegistrationBean.registerAccountAction}" update="@form"/>
+        <div>
+            <p:captcha id="Captcha" label="Captcha" required="true" requiredMessage="#{msg['registration.field.required']}" language="#{userRegistrationBean.language}"/>
+            <p:messages for="Captcha" closable="false" />
+        </div>
+        <div class="text-box">
+            <p:commandButton class="register-button" value="#{msg['registration.register']}"
+                             action="#{userRegistrationBean.registerAccountAction}" update="@form"/>
+        </div>
         <div class="bottom-text">
             <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['registration.cancel']}</a>
         </div>
