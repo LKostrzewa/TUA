@@ -1,43 +1,44 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ListUsersDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserReportDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 @Named
-@RequestScoped
-public class ListUsersPageBean {
+@ViewScoped
+public class UserReportPageBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
-    private List<ListUsersDto> users;
-    private List<ListUsersDto> filteredUsers;
+    private List<UserReportDto> users;
+    private List<UserReportDto> filteredUsers;
 
-    public List<ListUsersDto> getUsers() {
+    public List<UserReportDto> getUsers() {
         return users;
     }
 
-    public void setUsers(List<ListUsersDto> users) {
+    public void setUsers(List<UserReportDto> users) {
         this.users = users;
     }
 
-    public List<ListUsersDto> getFilteredUsers() {
+    public List<UserReportDto> getFilteredUsers() {
         return filteredUsers;
     }
 
-    public void setFilteredUsers(List<ListUsersDto> filteredUsers) {
+    public void setFilteredUsers(List<UserReportDto> filteredUsers) {
         this.filteredUsers = filteredUsers;
     }
 
     @PostConstruct
     private void init() {
-        this.users = userEndpoint.getAllListUsersDto();
+        this.users = userEndpoint.getAllUserReportDto();
         Collections.sort(this.users);
     }
 
@@ -47,9 +48,7 @@ public class ListUsersPageBean {
             return true;
         }
 
-        ListUsersDto listUsersDto = (ListUsersDto) value;
-        return listUsersDto.getFirstName().toLowerCase().contains(filterText)
-                || listUsersDto.getLastName().toLowerCase().contains(filterText);
+        UserReportDto userReportDto = (UserReportDto) value;
+        return userReportDto.getLogin().toLowerCase().contains(filterText);
     }
 }
-

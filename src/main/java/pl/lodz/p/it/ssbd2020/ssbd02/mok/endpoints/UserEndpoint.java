@@ -8,11 +8,8 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
-import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.persistence.OptimisticLockException;
@@ -44,8 +41,12 @@ public class UserEndpoint implements Serializable {
         return userManager.getUserInvalidLoginAttempts(ID);
     }
 
-    public List<ListUsersDto> getAllUsers() {
+    public List<ListUsersDto> getAllListUsersDto() {
         return ObjectMapperUtils.mapAll(userManager.getAll(), ListUsersDto.class);
+    }
+
+    public List<UserReportDto> getAllUserReportDto() {
+        return ObjectMapperUtils.mapAll(userManager.getAll(), UserReportDto.class);
     }
 
     public ChangePasswordDto getChangePasswordDtoById(Long id) {
@@ -67,13 +68,13 @@ public class UserEndpoint implements Serializable {
 
     public void editUser(EditUserDto editUserDto, Long userId) throws Exception {
         try {
-            if(userEditEntity.getId().equals(userId)){
+            if (userEditEntity.getId().equals(userId)) {
                 userEditEntity.setFirstName(editUserDto.getFirstName());
                 userEditEntity.setLastName(editUserDto.getLastName());
                 userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
-                userManager.editUser(this.userEditEntity,userId);
+                userManager.editUser(this.userEditEntity, userId);
             }
-        }catch (OptimisticLockException ex){
+        } catch (OptimisticLockException ex) {
             throw new Exception("Optimistic lock exception", ex);
         }
     }
@@ -88,12 +89,12 @@ public class UserEndpoint implements Serializable {
         userManager.editUserLastLogin(user, userId);
     }
 
-    public void lockAccount(UserDetailsDto userDetailsDto, Long userId){
+    public void lockAccount(UserDetailsDto userDetailsDto, Long userId) {
         User user = ObjectMapperUtils.map(userDetailsDto, User.class);
         userManager.editUser(user, userId);
     }
 
-    public void unlockAccount(UserDetailsDto userDetailsDto, Long userId){
+    public void unlockAccount(UserDetailsDto userDetailsDto, Long userId) {
         User user = ObjectMapperUtils.map(userDetailsDto, User.class);
         userManager.editUser(user, userId);
     }
