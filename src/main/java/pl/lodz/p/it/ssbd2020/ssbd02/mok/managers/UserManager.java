@@ -6,8 +6,10 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -22,7 +24,7 @@ import java.util.UUID;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserManager {
-    public final static String CLIENT_ACCESS_LEVEL = "CLIENT";
+    private String CLIENT_ACCESS_LEVEL;
     @Inject
     private AccessLevelFacade accessLevelFacade;
     @Inject
@@ -33,6 +35,12 @@ public class UserManager {
     private final SendEmail sendEmail = new SendEmail();
 
     private User userEntityEdit;
+
+    @PostConstruct
+    private void init() {
+        PropertyReader propertyReader= new PropertyReader();
+        CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config","CLIENT_ACCESS_LEVEL");
+    }
 
     private void addUser(User user, boolean active) {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
