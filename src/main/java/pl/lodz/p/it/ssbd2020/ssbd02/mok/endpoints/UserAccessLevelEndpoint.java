@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserAccessLevelManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -58,7 +59,7 @@ public class UserAccessLevelEndpoint implements Serializable {
         return userAccessLevelDto;
     }
 
-    public void editAccessLevels(UserAccessLevelDto userAccessLevelDto,Long userId) {
+    public void editAccessLevels(UserAccessLevelDto userAccessLevelDto,Long userId) throws AppBaseException {
         List<Boolean> levels = new ArrayList<>();
         levels.add(userAccessLevelDto.getAdmin());
         levels.add(userAccessLevelDto.getManager());

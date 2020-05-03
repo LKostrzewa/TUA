@@ -1,9 +1,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough" xml:lang="en" lang="en">
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xml:lang="en" lang="en">
 <h:head/>
 <h:body>
     <h:outputStylesheet library="css" name="login.css"/>
     <h:form class="login-form">
+        <p:growl id="growl" showDetail="true" sticky="true"/>
         <img src="../resources/images/yacht_logo.png" alt="Yacht logo"/>
 
         <div class="text-box">

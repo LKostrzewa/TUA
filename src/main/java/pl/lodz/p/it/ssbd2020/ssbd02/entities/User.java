@@ -34,7 +34,9 @@ import java.util.UUID;
         @NamedQuery(name = "User.findByLastValidLogin", query = "SELECT u FROM User u WHERE u.lastValidLogin = :lastValidLogin"),
         @NamedQuery(name = "User.findByLastInvalidLogin", query = "SELECT u FROM User u WHERE u.lastInvalidLogin = :lastInvalidLogin"),
         @NamedQuery(name = "User.findByActivationCode", query = "SELECT u FROM User u WHERE u.activationCode = :activationCode"),
-        @NamedQuery(name = "User.findByInvalidLoginAttempts", query = "SELECT u FROM User u WHERE u.invalidLoginAttempts = :invalidLoginAttemps")})
+        @NamedQuery(name = "User.findByInvalidLoginAttempts", query = "SELECT u FROM User u WHERE u.invalidLoginAttempts = :invalidLoginAttemps"),
+        @NamedQuery(name = "User.countByLogin", query = "SELECT COUNT(u) FROM User u WHERE u.login = :login"),
+        @NamedQuery(name = "User.countByEmail", query = "SELECT COUNT(u) FROM User u WHERE u.email = :email")})
 public class User implements Serializable {
 
     @Id

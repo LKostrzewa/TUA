@@ -4,4 +4,7 @@ import javax.ejb.ApplicationException;
 
 @ApplicationException
 public class AppBaseException extends Exception {
+    public AppBaseException(String message) {
+        super(message);
+    }
 }

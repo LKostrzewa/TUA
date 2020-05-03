@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserAccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
@@ -39,7 +40,7 @@ public class UserAccessLevelManager implements Serializable {
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
     }
 
-    public void editAccessLevels(Long id, List<Boolean> levels) {
+    public void editAccessLevels(Long id, List<Boolean> levels) throws AppBaseException {
         Collection<UserAccessLevel> accessLevelsForUser = findUserAccessLevelById(id);
 
         if (levels.get(0).equals(true) && !isInRole(accessLevelsForUser, ADMIN_ACCESS_LEVEL)) {

@@ -56,6 +56,16 @@ public class UserFacade extends AbstractFacade<User> {
                 .setParameter("login",userLogin).getSingleResult();
     }
 
+    public boolean existByLogin(String login) {
+        return entityManager.createNamedQuery("User.countByLogin", Long.class)
+                .setParameter("login", login).getSingleResult() > 0;
+    }
+
+    public boolean existByEmail(String email) {
+        return entityManager.createNamedQuery("User.countByEmail", Long.class)
+                .setParameter("email", email).getSingleResult() > 0;
+    }
+
     @PermitAll
     public User findByActivationCode(String activationCode) {
         TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByActivationCode", User.class);

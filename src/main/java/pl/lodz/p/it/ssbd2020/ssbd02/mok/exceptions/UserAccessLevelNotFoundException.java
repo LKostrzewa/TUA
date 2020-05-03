@@ -1,6 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.ObjectNotFoundException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 
-public class UserAccessLevelNotFoundException extends ObjectNotFoundException {
+public class UserAccessLevelNotFoundException extends AppBaseException {
+    public UserAccessLevelNotFoundException(String message) {
+        super(message);
+    }
 }
