@@ -11,6 +11,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
+import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -23,7 +24,7 @@ import java.util.UUID;
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
-public class UserManager {
+public class UserManager extends AbstractManager implements SessionSynchronization {
     private String CLIENT_ACCESS_LEVEL;
     @Inject
     private AccessLevelFacade accessLevelFacade;

@@ -7,6 +7,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
