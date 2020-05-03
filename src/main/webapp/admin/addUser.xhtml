@@ -18,7 +18,7 @@
         </ui:define>
         <ui:define name="content">
             <h:form>
-                <p:growl id="growl" showDetail="true" sticky="true"/>
+                <p:growl id="growl" showDetail="true" sticky="true" severity="info, fatal"/>
                 <div>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="login" value="#{addUserPageBean.addUserDto.login}"/>
@@ -28,6 +28,7 @@
                     <span class="ui-float-label" style="margin: 20px">
                         <p:password id="password" value="#{addUserPageBean.addUserDto.password}"/>
                         <p:outputLabel for="@previous" value="#{msg['password']}"/>
+                        <p:message for="password"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="firstName" value="#{addUserPageBean.addUserDto.firstName}"/>

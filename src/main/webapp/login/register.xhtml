@@ -7,7 +7,7 @@
 <h:body>
     <h:outputStylesheet library="css" name="registration.css"/>
     <h:form method="post" class="registration-form">
-        <p:growl id="growl" showDetail="true" sticky="true"/>
+        <p:growl id="growl" showDetail="true" sticky="true" severity="info, fatal"/>
         <h1>#{msg['registration.register']}</h1>
 
         <div class="text-box">
@@ -97,7 +97,7 @@
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
         <div>
-            <p:captcha id="Captcha" label="Captcha" required="true" requiredMessage="#{msg['registration.field.required']}" language="#{userRegistrationBean.language}"/>
+            <p:captcha id="Captcha" label="Captcha" required="true" requiredMessage="#{msg['registration.field.required']}" language="#{userRegistrationBean.bundle}"/>
             <p:messages for="Captcha" closable="false" />
         </div>
         <div class="text-box">

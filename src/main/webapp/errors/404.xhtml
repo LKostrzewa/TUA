@@ -5,7 +5,13 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<f:view>
-    <h:outputLabel value="${msg['error.404info']}"/>
-</f:view>
+<h:head/>
+<h:body>
+    <h1 style="text-align: center">${msg['error.404info']}</h1>
+    <h:form style="text-align: center; font-size: 22px;">
+        <h:commandLink action="#{currentUser.redirectToCurrentRole()}">
+            ${msg['redirect.toMain']}
+        </h:commandLink>
+    </h:form>
+</h:body>
 </html>
