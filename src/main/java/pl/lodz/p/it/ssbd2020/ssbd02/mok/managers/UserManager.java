@@ -99,21 +99,20 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.edit(userToEdit);
     }
 
-    public void lockAccount(User user, Long userId) {
-        if (userEntityEdit.getId().equals(userId)) {
-            userEntityEdit.setLocked(user.getLocked());
-            userFacade.edit(userEntityEdit);
-        }
-        sendEmail.lockInfoEmail(userEntityEdit.getEmail());
+    public void lockAccount(Long userId) throws AppBaseException {
+        User userToEdit = userFacade.find(userId);
+        userToEdit.setLocked(true);
+        userFacade.edit(userToEdit);
+
+        sendEmail.lockInfoEmail(userToEdit.getEmail());
     }
 
-    public void unlockAccount(User user, Long userId) {
+    public void unlockAccount(Long userId) throws AppBaseException {
+        User userToEdit = userFacade.find(userId);
+        userToEdit.setLocked(false);
+        userFacade.edit(userToEdit);
 
-        if (userEntityEdit.getId().equals(userId)) {
-            userEntityEdit.setLocked(user.getLocked());
-            userFacade.edit(userEntityEdit);
-        }
-        sendEmail.unlockInfoEmail(userEntityEdit.getEmail());
+        sendEmail.unlockInfoEmail(userToEdit.getEmail());
     }
 
 
