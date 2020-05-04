@@ -5,7 +5,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class AddUserDto {
-    @Size(min = 5, message = "{validation.login}")
+    @Size(min = 6, message = "{validation.login}")
     private String login;
     //@NotBlank
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$", message = "{validation.password}")
