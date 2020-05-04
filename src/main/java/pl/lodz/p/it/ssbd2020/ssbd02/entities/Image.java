@@ -81,14 +81,13 @@ public class Image implements Serializable {
             return false;
         }
         Image other = (Image) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
     @Override
     public String toString() {
-        return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Image[ id=" + id + " ]";
+        return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Image[ id=" + id
+                + ", key=" + businessKey
+                + ", version=" + version + " ]";
     }
 }

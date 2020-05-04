@@ -147,15 +147,14 @@ public class Port implements Serializable {
             return false;
         }
         Port other = (Port) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
     @Override
     public String toString() {
-        return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Port[ id=" + id + " ]";
+        return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Port[ id=" + id
+                + ", key=" + businessKey
+                + ", version=" + version + " ]";
     }
 
 }

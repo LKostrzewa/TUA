@@ -10,15 +10,19 @@ import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @SessionScoped
 @Named
-@Interceptors(LoggerInterceptor.class)
+//@Interceptors(LoggerInterceptor.class)
 public class CurrentUser implements Serializable {
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
     private String currentRole;
+
+    private final Logger LOGGER = Logger.getGlobal();
 
     public String getCurrentRole() {
         return currentRole;

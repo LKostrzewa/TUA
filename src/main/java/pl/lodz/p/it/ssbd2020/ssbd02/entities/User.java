@@ -255,15 +255,14 @@ public class User implements Serializable {
             return false;
         }
         User other = (User) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
     @Override
     public String toString() {
-        return "pl.lodz.p.it.ssbd2020.ssbd02.entities.User[ id=" + id + " ]";
+        return "pl.lodz.p.it.ssbd2020.ssbd02.entities.User[ id=" + id
+                + ", key=" + businessKey
+                + ", version=" + version + " ]";
     }
 
 
