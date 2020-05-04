@@ -35,3 +35,13 @@
     background-color: #7581ff;
     text-align: center;
 }
+
+[id*='options'] .ui-button-icon-left {
+    left: unset;
+    right: 0.5em;
+}
+
+[id*='options'] .ui-button-text {
+    right: 1em;
+    position: relative;
+}

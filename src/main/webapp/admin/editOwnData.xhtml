@@ -21,6 +21,7 @@
                 <f:event type="preRenderView" listener="#{myEditPageBean.init}"/>
             </f:metadata>
             <h:form>
+                <p:growl id="message" showDetail="true" sticky="true"/>
                 <div>
             <span class="ui-float-label" style="margin: 20px">
                 <p:inputText id="firstName" value="#{myEditPageBean.editUserDto.firstName}"/>
@@ -40,7 +41,17 @@
                 </div>
                 <p:button value="#{msg['cancel']}"
                           outcome="/admin/account.xhtml?faces-redirect=true?includeViewParams=true"/>
-                <p:commandButton value="#{msg['save']}" action="#{myEditPageBean.editUser()}" update="@form"/>
+                <p:commandButton value="#{msg['save']}" action="#{myEditPageBean.editUser()}"
+                                 update="message">
+                    <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
+                               icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                                     icon="pi pi-check"/>
+                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                                     icon="pi pi-times"/>
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>
