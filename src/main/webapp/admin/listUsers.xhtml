@@ -18,6 +18,7 @@
         </ui:define>
         <ui:define name="content">
             <h:form>
+                <p:growl id="growl" showDetail="true" sticky="true"/>
                 <p:dataTable var="user" value="#{listUsersPageBean.users}" widgetVar="usersTable" rows="10"
                              border="2"
                              paginator="true"

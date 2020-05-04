@@ -7,6 +7,8 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import javax.annotation.security.PermitAll;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,11 +40,13 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User find(Object id) {
         return super.find(id);
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(User user) {
         super.edit(user);
     }
@@ -50,6 +54,16 @@ public class UserFacade extends AbstractFacade<User> {
     public User findByLogin(String userLogin){
         return getEntityManager().createNamedQuery("User.findByLogin", User.class)
                 .setParameter("login",userLogin).getSingleResult();
+    }
+
+    public boolean existByLogin(String login) {
+        return entityManager.createNamedQuery("User.countByLogin", Long.class)
+                .setParameter("login", login).getSingleResult() > 0;
+    }
+
+    public boolean existByEmail(String email) {
+        return entityManager.createNamedQuery("User.countByEmail", Long.class)
+                .setParameter("email", email).getSingleResult() > 0;
     }
 
     @PermitAll

@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class UserLoginDto {
     private Long id;
+    private String email;
     private Date lastValidLogin;
     private Date lastInvalidLogin;
     private Integer invalidLoginAttempts;
@@ -16,6 +17,14 @@ public class UserLoginDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Date getLastValidLogin() {
