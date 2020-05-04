@@ -18,7 +18,7 @@
         </ui:define>
         <ui:define name="content">
             <h:form>
-                <p:growl id="growl" showDetail="true" sticky="true"/>
+                <p:growl id="message" showDetail="true" sticky="true"/>
                 <div>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="login" value="#{addUserPageBean.addUserDto.login}"/>
@@ -51,7 +51,16 @@
                     </span>
                 </div>
                 <p:commandButton value="#{msg['cancel']}" onclick="window.history.back();"/>
-                <p:commandButton value="#{msg['save']}" action="#{addUserPageBean.addUser()}" update="@form"/>
+                <p:commandButton value="#{msg['save']}" action="#{addUserPageBean.addUser()}" update="message">
+                    <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
+                               icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                                     icon="pi pi-check"/>
+                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                                     icon="pi pi-times"/>
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>
