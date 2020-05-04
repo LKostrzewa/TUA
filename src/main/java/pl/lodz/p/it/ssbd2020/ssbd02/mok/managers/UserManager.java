@@ -38,8 +38,6 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
     private final SendEmail sendEmail = new SendEmail();
 
-    private User userEntityEdit;
-
     @PostConstruct
     private void init() {
         PropertyReader propertyReader= new PropertyReader();
@@ -84,8 +82,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserById(Long id) {
-        this.userEntityEdit = userFacade.find(id);
-        return userEntityEdit;
+        return userFacade.find(id);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
