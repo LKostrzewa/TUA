@@ -26,14 +26,14 @@
                         <p:message for="login"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
-                        <p:password id="password" value="#{addUserPageBean.addUserDto.password}" />
+                        <p:password id="password" match="password2" validatorMessage="#{msg['validation.password.match']}" />
                         <p:outputLabel for="@previous" value="#{msg['password']}"/>
-                        <p:message for="password"/>
+                        <p:message for="password2"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
-                        <p:password id="password2" match="password" validatorMessage="#{msg['validation.password.match']}" />
+                        <p:password id="password2" value="#{addUserPageBean.addUserDto.password}"/>
                         <p:outputLabel for="@previous" value="#{msg['registration.repeat.password']}"/>
-                        <p:message for="password2"/>
+                        <p:message for="password"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="firstName" value="#{addUserPageBean.addUserDto.firstName}"/>
