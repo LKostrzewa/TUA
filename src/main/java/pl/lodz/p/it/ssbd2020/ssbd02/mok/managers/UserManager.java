@@ -97,22 +97,20 @@ public class UserManager {
     }
 
     public void lockAccount(User user, Long userId) {
-        User lock = getUserById(userId);
         if (userEntityEdit.getId().equals(userId)) {
             userEntityEdit.setLocked(user.getLocked());
             userFacade.edit(userEntityEdit);
         }
-        sendEmail.lockInfoEmail(lock.getEmail());
+        sendEmail.lockInfoEmail(userEntityEdit.getEmail());
     }
 
     public void unlockAccount(User user, Long userId) {
-        User unlock = getUserById(userId);
 
         if (userEntityEdit.getId().equals(userId)) {
             userEntityEdit.setLocked(user.getLocked());
             userFacade.edit(userEntityEdit);
         }
-        sendEmail.unlockInfoEmail(unlock.getEmail());
+        sendEmail.unlockInfoEmail(userEntityEdit.getEmail());
     }
 
 
