@@ -29,7 +29,7 @@ public abstract class AbstractFacade<T> {
             getEntityManager().merge(entity);
             getEntityManager().flush();
         } catch (OptimisticLockException e) {
-            throw new ApplicationOptimisticLockException(e.getMessage());
+            throw new ApplicationOptimisticLockException("exception.optimisticLock");
         }
 
     }
