@@ -89,12 +89,12 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUser(User user, long id){
+    public void editUser(User user, long id) throws AppBaseException{
         userFacade.edit(user);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUserPassword(User user, Long userId) {
+    public void editUserPassword(User user, Long userId) throws AppBaseException {
         User userToEdit = userFacade.find(userId);
         BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
@@ -107,7 +107,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUserLastLogin(User user, Long userId) {
+    public void editUserLastLogin(User user, Long userId) throws AppBaseException {
         User userToEdit = userFacade.find(userId);
         userToEdit.setLastValidLogin(user.getLastValidLogin());
         userToEdit.setLastInvalidLogin(user.getLastInvalidLogin());
@@ -116,7 +116,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editInvalidLoginAttempts(Integer counter, Long userId) {
+    public void editInvalidLoginAttempts(Integer counter, Long userId) throws AppBaseException{
         User userToEdit = userFacade.find(userId);
         userToEdit.setInvalidLoginAttempts(counter);
         if(counter==3) {
@@ -137,7 +137,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void confirmActivationCode(String code) {
+    public void confirmActivationCode(String code) throws AppBaseException {
         User user = userFacade.findByActivationCode(code);
         user.setActivated(true);
         userFacade.edit(user);

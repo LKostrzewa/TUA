@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.PortFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -29,12 +30,12 @@ public class PortManager {
         return portFacade.find(portId);
     }
 
-    public void editPort(Long portId, Port portToEdit) {
+    public void editPort(Long portId, Port portToEdit) throws AppBaseException {
         //portToEdit.setId(portId);
         portFacade.edit(portToEdit);
     }
 
-    public void deactivatePort(Long portId) {
+    public void deactivatePort(Long portId) throws AppBaseException{
         Port portToDeactivate = getPortById(portId);
         portToDeactivate.setActive(false);
         portFacade.edit(portToDeactivate);

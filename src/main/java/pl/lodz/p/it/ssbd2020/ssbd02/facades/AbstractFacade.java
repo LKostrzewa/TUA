@@ -1,6 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.facades;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.ApplicationOptimisticLockException;
+
 import javax.persistence.EntityManager;
+import javax.persistence.OptimisticLockException;
 import java.util.List;
 
 /**
@@ -20,9 +24,14 @@ public abstract class AbstractFacade<T> {
         getEntityManager().flush();
     }
 
-    public void edit(T entity) {
-        getEntityManager().merge(entity);
-        getEntityManager().flush();
+    public void edit(T entity) throws AppBaseException {
+        try {
+            getEntityManager().merge(entity);
+            getEntityManager().flush();
+        } catch (OptimisticLockException e) {
+            throw new ApplicationOptimisticLockException(e.getMessage());
+        }
+
     }
 
 
