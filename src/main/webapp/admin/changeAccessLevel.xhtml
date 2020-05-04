@@ -30,23 +30,27 @@
                 <f:event type="preRenderView" listener="#{changeAccessLevelPageBean.init}"/>
             </f:metadata>
             <h:form>
+                <p:growl id="message" showDetail="true"/>
                 <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
                     <h:outputText value="#{msg['admin']}"/>
-                    <p:inputSwitch value="#{changeAccessLevelPageBean.userDto.admin}"/>
+                    <p:inputSwitch value="#{changeAccessLevelPageBean.userDto.admin.right}"/>
                     <h:outputText value="#{msg['manager']}"/>
-                    <p:inputSwitch value="#{changeAccessLevelPageBean.userDto.manager}"/>
+                    <p:inputSwitch value="#{changeAccessLevelPageBean.userDto.manager.right}"/>
                     <h:outputText value="#{msg['client']}"/>
-                    <p:inputSwitch value="#{changeAccessLevelPageBean.userDto.client}"/>
+                    <p:inputSwitch value="#{changeAccessLevelPageBean.userDto.client.right}"/>
                 </h:panelGrid>
                 <p:button value="#{msg['cancel']}"
                           outcome="userDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
-                <p:commandButton value="#{msg['edit']}">
-                    <p:confirm header="#{msg['warning']}" message="#{msg['accessLevelMessage']}"
+                <p:commandButton value="#{msg['edit']}" action="#{changeAccessLevelPageBean.changeAccessLevel()}"
+                                 update="message">
+                    <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="#{msg['ok']}" action="#{changeAccessLevelPageBean.changeAccessLevel()}"
-                                     styleClass="ui-confirmdialog-yes"/>
+                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                                     icon="pi pi-check"/>
+                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                                     icon="pi pi-times"/>
                 </p:confirmDialog>
             </h:form>
         </ui:define>

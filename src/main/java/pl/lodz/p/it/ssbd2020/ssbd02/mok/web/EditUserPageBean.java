@@ -9,6 +9,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ResourceBundle;
 
 @Named
 @ViewScoped
@@ -41,7 +42,10 @@ public class EditUserPageBean implements Serializable {
     public void displayMessage() {
         FacesContext context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successful", "Message"));
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
+        String msg = resourceBundle.getString("users.editInfo");
+        String head = resourceBundle.getString("success");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
     private String reload(){

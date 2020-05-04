@@ -5,8 +5,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -54,11 +52,11 @@ public class UserDetailsPageBean implements Serializable {
 
     public String getAccessLevels() {
         String string = "";
-        if (userAccessLevelDto.getAdmin())
+        if (userAccessLevelDto.getAdmin().getLeft())
             string += "ADMINISTRATOR ";
-        if (userAccessLevelDto.getManager())
+        if (userAccessLevelDto.getManager().getLeft())
             string += "MANAGER ";
-        if (userAccessLevelDto.getClient())
+        if (userAccessLevelDto.getClient().getLeft())
             string += "CLIENT";
         return string;
     }

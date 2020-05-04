@@ -1,9 +1,12 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserLoginDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -47,6 +50,8 @@ public class LoginBean implements Serializable {
     private FacesContext facesContext;
     @Inject
     private ExternalContext externalContext;
+    @Inject
+    private UserAccessLevelEndpoint userAccessLevelEndpoint;
     @NotBlank(message = "{username.message}")
     private String username;
     @NotBlank(message = "{password.message}")
@@ -80,10 +85,10 @@ public class LoginBean implements Serializable {
 
     @PostConstruct
     private void init() {
-        PropertyReader propertyReader= new PropertyReader();
-        ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config","ADMIN_ACCESS_LEVEL");
-        MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config","MANAGER_ACCESS_LEVEL");
-        CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config","CLIENT_ACCESS_LEVEL");
+        PropertyReader propertyReader = new PropertyReader();
+        ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
+        MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config", "MANAGER_ACCESS_LEVEL");
+        CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
     }
 
     public void login() throws IOException {
@@ -96,18 +101,28 @@ public class LoginBean implements Serializable {
                         .credential(credential)
                         .newAuthentication(true));
         displayMessage();
-        userLoginDto = userEndpoint.getLoginDtoByLogin(username);
-        userLoginDto.setLastLoginIp(getClientIpAddress());
+
         switch (status) {
             case SEND_CONTINUE:
                 facesContext.responseComplete();
                 break;
             case SUCCESS:
+                userLoginDto = userEndpoint.getLoginDtoByLogin(username);
+
                 facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastValidLogin"), String.valueOf(userLoginDto.getLastValidLogin())));
                 facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastInvalidLogin"), String.valueOf(userLoginDto.getLastInvalidLogin())));
+
+                userLoginDto.setLastLoginIp(getClientIpAddress());
                 userLoginDto.setLastValidLogin(new Date());
                 userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
                 userEndpoint.editInvalidLoginAttempts(0, userLoginDto.getId());
+
+                UserAccessLevelDto userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(userLoginDto.getId());
+                if (userAccessLevelDto.getAdmin().getLeft()) {
+                    SendEmail sendEmail = new SendEmail();
+                    sendEmail.sendEmailNotificationAboutNewAdminAuthentication(userLoginDto.getEmail(), getClientIpAddress());
+                }
+
                 if (FacesContext.getCurrentInstance().getExternalContext().isUserInRole(CLIENT_ACCESS_LEVEL)) {
                     FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/client/index.xhtml");
                     break;
@@ -122,14 +137,13 @@ public class LoginBean implements Serializable {
                 }
                 break;
             case SEND_FAILURE:
+                userLoginDto = userEndpoint.getLoginDtoByLogin(username);
 
-                if (!userLoginDto.getLocked()) {
-
+                if (userLoginDto != null && !userLoginDto.getLocked()) {
                     Integer attempts = userEndpoint.getUserInvalidLoginAttempts(userLoginDto.getId());
                     attempts += 1;
                     userEndpoint.editInvalidLoginAttempts(attempts, userLoginDto.getId());
                     if (attempts <= 2) {
-
                         facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), attempts + " " + bundle.getString("invalidLoginAttempts")));
                     } else {
                         facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("block"), attempts + " " + bundle.getString("invalidLoginAttempts") + bundle.getString("blockAccount")));
@@ -138,7 +152,6 @@ public class LoginBean implements Serializable {
                     userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
                     facesContext.addMessage(null,
                             new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authenticationFailed")));
-
                 }
 
                 externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");

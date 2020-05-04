@@ -18,7 +18,8 @@
         </ui:define>
         <ui:define name="content">
             <h:form>
-                <p:dataTable var="listUsersDto" value="#{listUsersPageBean.users}" widgetVar="usersTable" rows="10"
+                <p:growl id="growl" showDetail="true" sticky="true"/>
+                <p:dataTable var="user" value="#{listUsersPageBean.users}" widgetVar="usersTable" rows="10"
                              border="2"
                              paginator="true"
                              paginatorPosition="bottom"
@@ -35,29 +36,29 @@
                         </p:outputPanel>
                     </f:facet>
 
-                    <p:column id="login" headerText="${msg['login']}">
-                        <h:outputText value="#{listUsersDto.login}"/>
+                    <p:column headerText="${msg['login']}">
+                        <h:outputText value="#{user.login}"/>
                     </p:column>
-                    <p:column id="firstName" headerText="${msg['firstName']}">
-                        <h:outputText value="#{listUsersDto.firstName}"/>
+                    <p:column headerText="${msg['firstName']}">
+                        <h:outputText value="#{user.firstName}"/>
                     </p:column>
-                    <p:column id="lastName" headerText="${msg['lastName']}">
-                        <h:outputText value="#{listUsersDto.lastName}"/>
+                    <p:column headerText="${msg['lastName']}">
+                        <h:outputText value="#{user.lastName}"/>
                     </p:column>
-                    <p:column id="email" headerText="${msg['email']}">
-                        <h:outputText value="#{listUsersDto.email}"/>
+                    <p:column headerText="${msg['email']}">
+                        <h:outputText value="#{user.email}"/>
                     </p:column>
-                    <p:column id="locked" headerText="${msg['locked']}">
-                        <h:outputText value="${msg['yes']}" rendered="#{listUsersDto.locked}"/>
-                        <h:outputText value="${msg['no']}" rendered="#{!listUsersDto.locked}"/>
+                    <p:column headerText="${msg['locked']}">
+                        <h:outputText value="${msg['yes']}" rendered="#{user.locked}"/>
+                        <h:outputText value="${msg['no']}" rendered="#{!user.locked}"/>
                     </p:column>
-                    <p:column id="activated" headerText="${msg['activated']}">
-                        <h:outputText value="${msg['yes']}" rendered="#{listUsersDto.activated}"/>
-                        <h:outputText value="${msg['no']}" rendered="#{!listUsersDto.activated}"/>
+                    <p:column headerText="${msg['activated']}">
+                        <h:outputText value="${msg['yes']}" rendered="#{user.activated}"/>
+                        <h:outputText value="${msg['no']}" rendered="#{!user.activated}"/>
                     </p:column>
-                    <p:column id="actions" headerText="${msg['actions']}">
+                    <p:column headerText="${msg['actions']}">
                         <p:button value="${msg['details']}" outcome="userDetails.xhtml?faces-redirect=true">
-                            <f:param name="userId" value="#{listUsersDto.id}"/>
+                            <f:param name="userId" value="#{user.id}"/>
                         </p:button>
                     </p:column>
                 </p:dataTable>

@@ -18,6 +18,15 @@
         <param-value>/WEB-INF/faces-config.xml</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
+        <param-value>6LetoN8UAAAAABdsv7lnRrpSchH80U2RMNf-rFQ6</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
+        <param-value>6LetoN8UAAAAAGKHlB1FjKsyjpNQ0Uv7mOljYSXX</param-value>
+    </context-param>
+
     <session-config>
         <session-timeout>
             30
@@ -112,5 +121,17 @@
         </user-data-constraint>
     </security-constraint>
 
+    <error-page>
+        <error-code>403</error-code>
+        <location>/errors/403.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/errors/404.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/errors/500.xhtml</location>
+    </error-page>
 
 </web-app>

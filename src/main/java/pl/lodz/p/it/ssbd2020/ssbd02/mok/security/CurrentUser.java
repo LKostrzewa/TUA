@@ -100,7 +100,14 @@ public class CurrentUser implements Serializable {
     }
 
     public void redirectToCurrentRole() {
-        if (currentRole.equals(ADMIN_ACCESS_LEVEL)) {
+        if(currentRole == null) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/login/login.xhtml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if (currentRole.equals(ADMIN_ACCESS_LEVEL)) {
             try {
                 FacesContext.getCurrentInstance()
                         .getExternalContext()
@@ -109,7 +116,7 @@ public class CurrentUser implements Serializable {
                 e.printStackTrace();
             }
         }
-        if (currentRole.equals(MANAGER_ACCESS_LEVEL)) {
+        else if (currentRole.equals(MANAGER_ACCESS_LEVEL)) {
             try {
                 FacesContext.getCurrentInstance()
                         .getExternalContext()
@@ -118,7 +125,7 @@ public class CurrentUser implements Serializable {
                 e.printStackTrace();
             }
         }
-        if (currentRole.equals(CLIENT_ACCESS_LEVEL)) {
+        else if (currentRole.equals(CLIENT_ACCESS_LEVEL)) {
             try {
                 FacesContext.getCurrentInstance()
                         .getExternalContext()
@@ -127,7 +134,6 @@ public class CurrentUser implements Serializable {
                 e.printStackTrace();
             }
         }
-        throw new IllegalArgumentException();
     }
 }
 
