@@ -119,7 +119,7 @@ public class LoginBean implements Serializable {
                 userEndpoint.editInvalidLoginAttempts(0, userLoginDto.getId());
 
                 UserAccessLevelDto userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(userLoginDto.getId());
-                if (userAccessLevelDto.getAdmin()) {
+                if (userAccessLevelDto.getAdmin().getLeft()) {
                     SendEmail sendEmail = new SendEmail();
                     sendEmail.sendEmailNotificationAboutNewAdminAuthentication(userLoginDto.getEmail(), getClientIpAddress());
                 }

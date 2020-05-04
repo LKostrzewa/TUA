@@ -89,12 +89,12 @@ public class UserEndpoint implements Serializable {
 
     public void lockAccount(UserDetailsDto userDetailsDto, Long userId) throws AppBaseException{
         User user = ObjectMapperUtils.map(userDetailsDto, User.class);
-        userManager.editUser(user, userId);
+        userManager.lockAccount(user, userId);
     }
 
     public void unlockAccount(UserDetailsDto userDetailsDto, Long userId) throws AppBaseException{
         User user = ObjectMapperUtils.map(userDetailsDto, User.class);
-        userManager.editUser(user, userId);
+        userManager.unlockAccount(user, userId);
     }
 
     public UserDetailsDto getOwnDetailsDtoByLogin(String userLogin) {
