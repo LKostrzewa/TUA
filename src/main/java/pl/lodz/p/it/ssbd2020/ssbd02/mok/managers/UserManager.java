@@ -60,8 +60,6 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         user.setLocked(false);
         user.setPassword(passwordHash);
         user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
-        //user.setResetPasswordCode(UUID.randomUUID().toString());
-        //user.setRessetPasswordCodeAddDate(new Date());
 
         UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
 
