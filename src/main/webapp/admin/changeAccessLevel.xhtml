@@ -33,11 +33,11 @@
                 <p:growl id="message" showDetail="true"/>
                 <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
                     <h:outputText value="#{msg['admin']}"/>
-                    <p:inputSwitch value="#{changeAccessLevelPageBean.userDto.admin}"/>
+                    <p:inputSwitch value="#{changeAccessLevelPageBean.userDto.admin.right}"/>
                     <h:outputText value="#{msg['manager']}"/>
-                    <p:inputSwitch value="#{changeAccessLevelPageBean.userDto.manager}"/>
+                    <p:inputSwitch value="#{changeAccessLevelPageBean.userDto.manager.right}"/>
                     <h:outputText value="#{msg['client']}"/>
-                    <p:inputSwitch value="#{changeAccessLevelPageBean.userDto.client}"/>
+                    <p:inputSwitch value="#{changeAccessLevelPageBean.userDto.client.right}"/>
                 </h:panelGrid>
                 <p:button value="#{msg['cancel']}"
                           outcome="userDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
