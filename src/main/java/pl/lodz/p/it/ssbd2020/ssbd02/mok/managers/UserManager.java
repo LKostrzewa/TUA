@@ -22,6 +22,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.persistence.OptimisticLockException;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -58,7 +59,6 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         user.setLocked(false);
         user.setPassword(passwordHash);
         user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
-        user.setResetPasswordCode(UUID.randomUUID().toString());
 
         UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
 
