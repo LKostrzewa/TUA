@@ -93,10 +93,10 @@ public class UserFacade extends AbstractFacade<User> {
                     continue;
                 }
 
-                Expression<String> expr = root.get(field).as(String.class);
-                Predicate p = criteriaBuilder.like(criteriaBuilder.lower(expr),
+                Expression<String> expression = root.get(field).as(String.class);
+                Predicate predicate = criteriaBuilder.like(criteriaBuilder.lower(expression),
                         "%" + value.toString().toLowerCase() + "%");
-                predicates.add(p);
+                predicates.add(predicate);
             }
             if (predicates.size() > 0) {
                 criteriaQuery.where(criteriaBuilder.and(predicates.toArray
@@ -122,10 +122,10 @@ public class UserFacade extends AbstractFacade<User> {
                     continue;
                 }
 
-                Expression<String> expr = root.get(field).as(String.class);
-                Predicate p = criteriaBuilder.like(criteriaBuilder.lower(expr),
+                Expression<String> expression = root.get(field).as(String.class);
+                Predicate predicate = criteriaBuilder.like(criteriaBuilder.lower(expression),
                         "%" + value.toString().toLowerCase() + "%");
-                predicates.add(p);
+                predicates.add(predicate);
             }
             if (predicates.size() > 0) {
                 criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));

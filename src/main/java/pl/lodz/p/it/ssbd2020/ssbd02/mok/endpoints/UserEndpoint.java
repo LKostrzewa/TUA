@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.persistence.OptimisticLockException;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -114,6 +115,8 @@ public class UserEndpoint implements Serializable {
     }
 
     public List<ListUsersDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
-        return ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
+        List<ListUsersDto> users = ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
+        Collections.sort(users);
+        return users;
     }
 }
