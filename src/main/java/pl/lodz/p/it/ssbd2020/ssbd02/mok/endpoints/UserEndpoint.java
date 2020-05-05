@@ -4,6 +4,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
@@ -61,7 +62,7 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.map(userManager.getUserById(userId), UserDetailsDto.class);
     }
 
-    public UserLoginDto getLoginDtoByLogin(String userLogin) {
+    public UserLoginDto getLoginDtoByLogin(String userLogin) throws AppBaseException {
         return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserLoginDto.class);
     }
 
@@ -95,7 +96,7 @@ public class UserEndpoint implements Serializable {
         userManager.unlockAccount(userId);
     }
 
-    public UserDetailsDto getOwnDetailsDtoByLogin(String userLogin) {
+    public UserDetailsDto getOwnDetailsDtoByLogin(String userLogin) throws AppBaseException {
         return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserDetailsDto.class);
     }
 

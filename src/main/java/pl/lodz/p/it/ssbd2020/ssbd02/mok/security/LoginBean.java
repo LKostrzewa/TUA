@@ -92,7 +92,7 @@ public class LoginBean implements Serializable {
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
     }
 
-    public void login() throws IOException, AppBaseException {
+    public void login() throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
         Credential credential = new UsernamePasswordCredential(username, new Password(password));
         AuthenticationStatus status = securityContext.authenticate(
@@ -108,15 +108,28 @@ public class LoginBean implements Serializable {
                 facesContext.responseComplete();
                 break;
             case SUCCESS:
-                userLoginDto = userEndpoint.getLoginDtoByLogin(username);
+                try {
+                    userLoginDto = userEndpoint.getLoginDtoByLogin(username);
+                } catch (AppBaseException e) {
+                    // TODO czy chcemy wyswietlac tu że nie ma takiego konta?
+                    displayError(e.getLocalizedMessage());
+                    break;
+                }
 
                 facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastValidLogin"), String.valueOf(userLoginDto.getLastValidLogin())));
                 facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastInvalidLogin"), String.valueOf(userLoginDto.getLastInvalidLogin())));
 
                 userLoginDto.setLastLoginIp(getClientIpAddress());
                 userLoginDto.setLastValidLogin(new Date());
-                userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
-                userEndpoint.editInvalidLoginAttempts(0, userLoginDto.getId());
+
+                try {
+                    userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
+                    userEndpoint.editInvalidLoginAttempts(0, userLoginDto.getId());
+                } catch (AppBaseException e) {
+                    // TODO czy chcemy wyswietlac tu że nie ma takiego konta?
+                    displayError(e.getLocalizedMessage());
+                    break;
+                }
 
                 UserAccessLevelDto userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(userLoginDto.getId());
                 if (userAccessLevelDto.getAdmin().getLeft()) {
@@ -138,19 +151,42 @@ public class LoginBean implements Serializable {
                 }
                 break;
             case SEND_FAILURE:
-                userLoginDto = userEndpoint.getLoginDtoByLogin(username);
+                try {
+                    userLoginDto = userEndpoint.getLoginDtoByLogin(username);
+                } catch (AppBaseException e) {
+                    // TODO czy chcemy wyswietlac tu że nie ma takiego konta?
+                    displayError(e.getLocalizedMessage());
+                    break;
+                }
+
 
                 if (userLoginDto != null && !userLoginDto.getLocked()) {
                     Integer attempts = userEndpoint.getUserInvalidLoginAttempts(userLoginDto.getId());
                     attempts += 1;
-                    userEndpoint.editInvalidLoginAttempts(attempts, userLoginDto.getId());
+                    try {
+                        userEndpoint.editInvalidLoginAttempts(attempts, userLoginDto.getId());
+                    } catch (AppBaseException e) {
+                        // TODO czy chcemy wyswietlac tu że nie ma takiego konta?
+                        displayError(e.getLocalizedMessage());
+                        break;
+                    }
+
                     if (attempts <= 2) {
                         facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), attempts + " " + bundle.getString("invalidLoginAttempts")));
                     } else {
                         facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("block"), attempts + " " + bundle.getString("invalidLoginAttempts") + bundle.getString("blockAccount")));
                     }
                     userLoginDto.setLastInvalidLogin(new Date());
-                    userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
+
+                    try {
+                        userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
+                    } catch (AppBaseException e) {
+                        // TODO czy chcemy wyswietlac tu że nie ma takiego konta?
+                        displayError(e.getLocalizedMessage());
+                        break;
+                    }
+
+
                     facesContext.addMessage(null,
                             new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authenticationFailed")));
                 }
@@ -165,6 +201,14 @@ public class LoginBean implements Serializable {
     public void displayMessage() {
         FacesContext context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
+    }
+    private void displayError(String message) {
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+        String msg = resourceBundle.getString(message);
+        String head = resourceBundle.getString("error");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
+
     }
 
     private HttpServletRequest getHttpRequestFromFacesContext() {

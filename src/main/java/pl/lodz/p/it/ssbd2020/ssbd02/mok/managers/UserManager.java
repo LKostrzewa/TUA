@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.EmailNotUniqueException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.LoginNotUniqueException;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
@@ -116,8 +117,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
 
-    public User getUserByLogin(String userLogin) {
-        return userFacade.findByLogin(userLogin);
+    public User getUserByLogin(String userLogin) throws AppBaseException {
+             return  userFacade.findByLogin(userLogin);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
