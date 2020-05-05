@@ -145,5 +145,16 @@
         <exception-type>javax.ejb.EJBException</exception-type>
         <location>/errors/ejbExp.xhtml</location>
     </error-page>
+    <error-page>
+        <exception-type>javax.ejb.EJBTransactionRequiredException</exception-type>
+        <location>/errors/ejbTranReqExp.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>javax.ejb.EJBTransactionRolledbackException</exception-type>
+        <location>/errors/ejbTranRollExp.xhtml</location>
+    </error-page>
+    <error-page>
+        <location>/errors/other.xhtml</location>
+    </error-page>
 
 </web-app>
