@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 
+import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
@@ -8,16 +9,14 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
-import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.persistence.OptimisticLockException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 @Stateful
 @LocalBean
@@ -67,13 +66,13 @@ public class UserEndpoint implements Serializable {
 
     public void editUser(EditUserDto editUserDto, Long userId) throws Exception {
         try {
-            if(userEditEntity.getId().equals(userId)){
+            if (userEditEntity.getId().equals(userId)) {
                 userEditEntity.setFirstName(editUserDto.getFirstName());
                 userEditEntity.setLastName(editUserDto.getLastName());
                 userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
-                userManager.editUser(this.userEditEntity,userId);
+                userManager.editUser(this.userEditEntity, userId);
             }
-        }catch (OptimisticLockException ex){
+        } catch (OptimisticLockException ex) {
             throw new Exception("Optimistic lock exception", ex);
         }
     }
@@ -88,12 +87,12 @@ public class UserEndpoint implements Serializable {
         userManager.editUserLastLogin(user, userId);
     }
 
-    public void lockAccount(UserDetailsDto userDetailsDto, Long userId){
+    public void lockAccount(UserDetailsDto userDetailsDto, Long userId) {
         User user = ObjectMapperUtils.map(userDetailsDto, User.class);
         userManager.editUser(user, userId);
     }
 
-    public void unlockAccount(UserDetailsDto userDetailsDto, Long userId){
+    public void unlockAccount(UserDetailsDto userDetailsDto, Long userId) {
         User user = ObjectMapperUtils.map(userDetailsDto, User.class);
         userManager.editUser(user, userId);
     }
@@ -108,5 +107,13 @@ public class UserEndpoint implements Serializable {
 
     public void editInvalidLoginAttempts(Integer attempts, Long userId) {
         userManager.editInvalidLoginAttempts(attempts, userId);
+    }
+
+    public int getFilteredRowCount(Map<String, FilterMeta> filters) {
+        return userManager.getFilteredRowCount(filters);
+    }
+
+    public List<ListUsersDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
+        return ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
     }
 }
