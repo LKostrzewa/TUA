@@ -39,8 +39,6 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
     private final SendEmail sendEmail = new SendEmail();
 
-    private User userEntityEdit;
-
     @PostConstruct
     private void init() {
         PropertyReader propertyReader= new PropertyReader();
@@ -84,28 +82,16 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserById(Long id) {
-        this.userEntityEdit = userFacade.find(id);
-        return userEntityEdit;
+        return userFacade.find(id);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUser(User user, Long userId) throws Exception {
-
-        try {
-            if (userEntityEdit.getId().equals(userId)) {
-                userEntityEdit.setFirstName(user.getFirstName());
-                userEntityEdit.setLastName(user.getLastName());
-                userEntityEdit.setPhoneNumber(user.getPhoneNumber());
-                userEntityEdit.setLocked(user.getLocked());
-                userFacade.edit(userEntityEdit);
-            }
-        } catch (OptimisticLockException ex) {
-            throw new Exception("Optimistic lock exception", ex);
-        }
+    public void editUser(User user, Long id) throws AppBaseException{
+        userFacade.edit(user);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUserPassword(User user, Long userId) {
+    public void editUserPassword(User user, Long userId) throws AppBaseException {
         User userToEdit = userFacade.find(userId);
         BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
@@ -113,21 +99,20 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.edit(userToEdit);
     }
 
-    public void lockAccount(User user, Long userId) {
-        if (userEntityEdit.getId().equals(userId)) {
-            userEntityEdit.setLocked(user.getLocked());
-            userFacade.edit(userEntityEdit);
-        }
-        sendEmail.lockInfoEmail(userEntityEdit.getEmail());
+    public void lockAccount(Long userId) throws AppBaseException {
+        User userToEdit = userFacade.find(userId);
+        userToEdit.setLocked(true);
+        userFacade.edit(userToEdit);
+
+        sendEmail.lockInfoEmail(userToEdit.getEmail());
     }
 
-    public void unlockAccount(User user, Long userId) {
+    public void unlockAccount(Long userId) throws AppBaseException {
+        User userToEdit = userFacade.find(userId);
+        userToEdit.setLocked(false);
+        userFacade.edit(userToEdit);
 
-        if (userEntityEdit.getId().equals(userId)) {
-            userEntityEdit.setLocked(user.getLocked());
-            userFacade.edit(userEntityEdit);
-        }
-        sendEmail.unlockInfoEmail(userEntityEdit.getEmail());
+        sendEmail.unlockInfoEmail(userToEdit.getEmail());
     }
 
 
@@ -136,7 +121,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUserLastLogin(User user, Long userId) {
+    public void editUserLastLogin(User user, Long userId) throws AppBaseException {
         User userToEdit = userFacade.find(userId);
         userToEdit.setLastValidLogin(user.getLastValidLogin());
         userToEdit.setLastInvalidLogin(user.getLastInvalidLogin());
@@ -145,7 +130,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editInvalidLoginAttempts(Integer counter, Long userId) {
+    public void editInvalidLoginAttempts(Integer counter, Long userId) throws AppBaseException{
         User userToEdit = userFacade.find(userId);
         userToEdit.setInvalidLoginAttempts(counter);
         if (counter == 3) {
@@ -167,7 +152,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void confirmActivationCode(String code) {
+    public void confirmActivationCode(String code) throws AppBaseException {
         User user = userFacade.findByActivationCode(code);
         user.setActivated(true);
         userFacade.edit(user);

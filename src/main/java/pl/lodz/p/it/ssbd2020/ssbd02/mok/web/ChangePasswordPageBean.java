@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ChangePasswordDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
@@ -44,7 +45,7 @@ public class ChangePasswordPageBean implements Serializable {
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successful", "Message"));
     }
 
-    public String changePassword() {
+    public String changePassword() throws AppBaseException {
         userEndpoint.editUserPassword(changePasswordDto, userId);
         displayMessage();
         return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";

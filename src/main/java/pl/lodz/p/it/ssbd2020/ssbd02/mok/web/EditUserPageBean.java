@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.EditUserDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
@@ -16,6 +17,8 @@ import java.util.ResourceBundle;
 public class EditUserPageBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
+    @Inject
+    private FacesContext facesContext;
     private EditUserDto editUserDto;
     private Long userId;
 
@@ -39,26 +42,30 @@ public class EditUserPageBean implements Serializable {
         this.editUserDto = userEndpoint.getEditUserDtoById(userId);
     }
 
-    public void displayMessage() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getFlash().setKeepMessages(true);
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
-        String msg = resourceBundle.getString("users.editInfo");
-        String head = resourceBundle.getString("success");
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
-    }
-
-    private String reload(){
-        return "editUser.xhtml?faces-redirect=true?includeViewParams=true";
-    }
-
     public String editUser() {
-        try{
+        try {
             userEndpoint.editUser(editUserDto, userId);
             displayMessage();
-            return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
-        }catch (Exception ex){
-            return reload();
+        } catch (AppBaseException e) {
+            displayError(e.getLocalizedMessage());
         }
+        return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
+    }
+
+    public void displayMessage() {
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+        String msg = resourceBundle.getString("users.editInfo");
+        String head = resourceBundle.getString("success");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
+    }
+
+    private void displayError(String message) {
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+        String msg = resourceBundle.getString(message);
+        String head = resourceBundle.getString("error");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
+
     }
 }

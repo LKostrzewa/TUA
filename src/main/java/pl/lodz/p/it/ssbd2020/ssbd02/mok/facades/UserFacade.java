@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -47,7 +48,7 @@ public class UserFacade extends AbstractFacade<User> {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public void edit(User user) {
+    public void edit(User user) throws AppBaseException {
         super.edit(user);
     }
 
