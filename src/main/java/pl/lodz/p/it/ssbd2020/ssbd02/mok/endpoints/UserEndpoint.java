@@ -67,25 +67,17 @@ public class UserEndpoint implements Serializable {
     }
 
     public void editUser(EditUserDto editUserDto, Long userId) throws AppBaseException {
-
             if(userEditEntity.getId().equals(userId)){
                 userEditEntity.setFirstName(editUserDto.getFirstName());
                 userEditEntity.setLastName(editUserDto.getLastName());
                 userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
                 userManager.editUser(this.userEditEntity,userId);
             }
-
-
     }
 
     public void editUserPassword(ChangePasswordDto changePasswordDto, Long userId) throws AppBaseException {
         User user = ObjectMapperUtils.map(changePasswordDto, User.class);
         userManager.editUserPassword(user, userId);
-    }
-
-    public void editUserLastLogin(UserLoginDto userLoginDto, Long userId) throws AppBaseException {
-        User user = ObjectMapperUtils.map(userLoginDto, User.class);
-        userManager.editUserLastLogin(user, userId);
     }
 
     public void lockAccount(Long userId) throws AppBaseException{
@@ -104,7 +96,8 @@ public class UserEndpoint implements Serializable {
         userManager.confirmActivationCode(code);
     }
 
-    public void editInvalidLoginAttempts(Integer attempts, Long userId) throws AppBaseException{
-        userManager.editInvalidLoginAttempts(attempts, userId);
+    public void editUserLastLoginAndInvalidLoginAttempts(UserLoginDto userLoginDto, Long userId,Integer attempts) throws AppBaseException {
+        User user = ObjectMapperUtils.map(userLoginDto, User.class);
+        userManager.editUserLastLoginAndInvalidLoginAttempts(user, userId,attempts);
     }
 }

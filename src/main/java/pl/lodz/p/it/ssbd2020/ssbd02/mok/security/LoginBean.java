@@ -111,7 +111,6 @@ public class LoginBean implements Serializable {
                 try {
                     userLoginDto = userEndpoint.getLoginDtoByLogin(username);
                 } catch (AppBaseException e) {
-                    // TODO czy chcemy wyswietlac tu że nie ma takiego konta?
                     displayError(e.getLocalizedMessage());
                     break;
                 }
@@ -121,12 +120,11 @@ public class LoginBean implements Serializable {
 
                 userLoginDto.setLastLoginIp(getClientIpAddress());
                 userLoginDto.setLastValidLogin(new Date());
+                userLoginDto.setInvalidLoginAttempts(0);
 
                 try {
-                    userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
-                    userEndpoint.editInvalidLoginAttempts(0, userLoginDto.getId());
+                    userEndpoint.editUserLastLoginAndInvalidLoginAttempts(userLoginDto, userLoginDto.getId(),0);
                 } catch (AppBaseException e) {
-                    // TODO czy chcemy wyswietlac tu że nie ma takiego konta?
                     displayError(e.getLocalizedMessage());
                     break;
                 }
@@ -154,22 +152,15 @@ public class LoginBean implements Serializable {
                 try {
                     userLoginDto = userEndpoint.getLoginDtoByLogin(username);
                 } catch (AppBaseException e) {
-                    // TODO czy chcemy wyswietlac tu że nie ma takiego konta?
                     displayError(e.getLocalizedMessage());
+                    externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
                     break;
                 }
 
 
                 if (userLoginDto != null && !userLoginDto.getLocked()) {
-                    Integer attempts = userEndpoint.getUserInvalidLoginAttempts(userLoginDto.getId());
+                    Integer attempts = userLoginDto.getInvalidLoginAttempts();
                     attempts += 1;
-                    try {
-                        userEndpoint.editInvalidLoginAttempts(attempts, userLoginDto.getId());
-                    } catch (AppBaseException e) {
-                        // TODO czy chcemy wyswietlac tu że nie ma takiego konta?
-                        displayError(e.getLocalizedMessage());
-                        break;
-                    }
 
                     if (attempts <= 2) {
                         facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), attempts + " " + bundle.getString("invalidLoginAttempts")));
@@ -179,10 +170,10 @@ public class LoginBean implements Serializable {
                     userLoginDto.setLastInvalidLogin(new Date());
 
                     try {
-                        userEndpoint.editUserLastLogin(userLoginDto, userLoginDto.getId());
+                        userEndpoint.editUserLastLoginAndInvalidLoginAttempts(userLoginDto, userLoginDto.getId(),attempts);
                     } catch (AppBaseException e) {
-                        // TODO czy chcemy wyswietlac tu że nie ma takiego konta?
                         displayError(e.getLocalizedMessage());
+                        externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
                         break;
                     }
 
