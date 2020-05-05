@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.PermitAll;
@@ -12,6 +13,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -52,9 +54,15 @@ public class UserFacade extends AbstractFacade<User> {
         super.edit(user);
     }
 
-    public User findByLogin(String userLogin){
-        return getEntityManager().createNamedQuery("User.findByLogin", User.class)
-                .setParameter("login",userLogin).getSingleResult();
+    public User findByLogin(String userLogin) throws AppBaseException {
+        try {
+            return getEntityManager().createNamedQuery("User.findByLogin", User.class)
+                    .setParameter("login",userLogin).getSingleResult();
+        } catch (NoResultException e){
+            throw new UserNotFoundException("exception.userNotFound");
+        }
+
+
     }
 
     public boolean existByLogin(String login) {

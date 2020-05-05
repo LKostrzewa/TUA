@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.EmailNotUniqueException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.LoginNotUniqueException;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
@@ -116,28 +117,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
 
-    public User getUserByLogin(String userLogin) {
-        return userFacade.findByLogin(userLogin);
-    }
-
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUserLastLogin(User user, Long userId) throws AppBaseException {
-        User userToEdit = userFacade.find(userId);
-        userToEdit.setLastValidLogin(user.getLastValidLogin());
-        userToEdit.setLastInvalidLogin(user.getLastInvalidLogin());
-        userToEdit.setLastLoginIp(user.getLastLoginIp());
-        userFacade.edit(userToEdit);
-    }
-
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editInvalidLoginAttempts(Integer counter, Long userId) throws AppBaseException{
-        User userToEdit = userFacade.find(userId);
-        userToEdit.setInvalidLoginAttempts(counter);
-        if (counter == 3) {
-            userToEdit.setInvalidLoginAttempts(0);
-            userToEdit.setLocked(true);
-        }
-        userFacade.edit(userToEdit);
+    public User getUserByLogin(String userLogin) throws AppBaseException {
+             return  userFacade.findByLogin(userLogin);
     }
 
     public Integer getUserInvalidLoginAttempts(Long ID) {
@@ -163,5 +144,19 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         String email = user.getEmail();
         String userName = user.getFirstName();
         sendEmail.sendActivationEmail(createVerificationLink(user), userName, email);
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void editUserLastLoginAndInvalidLoginAttempts(User user, Long userId, Integer attempts) throws AppBaseException {
+        User userToEdit = userFacade.find(userId);
+        userToEdit.setLastValidLogin(user.getLastValidLogin());
+        userToEdit.setLastInvalidLogin(user.getLastInvalidLogin());
+        userToEdit.setLastLoginIp(user.getLastLoginIp());
+        userToEdit.setInvalidLoginAttempts(attempts);
+        if (attempts == 3) {
+            userToEdit.setInvalidLoginAttempts(0);
+            userToEdit.setLocked(true);
+        }
+        userFacade.edit(userToEdit);
     }
 }
