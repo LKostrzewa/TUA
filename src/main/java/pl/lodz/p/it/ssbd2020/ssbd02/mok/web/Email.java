@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.annotation.PostConstruct;
@@ -28,7 +29,11 @@ public class Email {
     public void init() {
         key = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key");
         logger.info("Klucz:" + key);
-        userEndpoint.confirmActivationCode(key);
+        try {
+            userEndpoint.confirmActivationCode(key);
+        }catch (Exception e){
+            //TODO obsluga
+        }
 
     }
 

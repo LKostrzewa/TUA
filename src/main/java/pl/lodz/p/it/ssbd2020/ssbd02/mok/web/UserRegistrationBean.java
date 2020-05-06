@@ -3,14 +3,10 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.AddUserDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -30,7 +26,7 @@ public class UserRegistrationBean implements Serializable {
 
     private AddUserDto userDto;
 
-    ResourceBundle language;
+    private ResourceBundle bundle;
 
     public AddUserDto getUserDto() {
         return userDto;
@@ -43,36 +39,34 @@ public class UserRegistrationBean implements Serializable {
     @PostConstruct
     public void init() {
         userDto = new AddUserDto();
-        language = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
+        bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
     }
 
     public String registerAccountAction() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
         try {
             userEndpoint.registerNewUser(userDto);
         }
         catch (AppBaseException e) {
-            String msg = resourceBundle.getString(e.getLocalizedMessage());
-            String head = resourceBundle.getString("error");
-            context.getExternalContext().getFlash().setKeepMessages(true);
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
+            String msg = bundle.getString(e.getLocalizedMessage());
+            String head = bundle.getString("error");
+            facesContext.getExternalContext().getFlash().setKeepMessages(true);
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
             return "register.xhtml";
         }
-        String msg = resourceBundle.getString("users.registerInfo");
-        String head = resourceBundle.getString("success");
-        context.getExternalContext().getFlash().setKeepMessages(true);
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
+        String msg = bundle.getString("users.registerInfo");
+        String head = bundle.getString("success");
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
         return "login.xhtml?faces-redirect=true";
     }
 
 
-    public ResourceBundle getLanguage() {
-        return language;
+    public ResourceBundle getBundle() {
+        return bundle;
     }
 
-    public void setLanguage(ResourceBundle language) {
-        this.language = language;
+    public void setBundle(ResourceBundle bundle) {
+        this.bundle = bundle;
     }
 
     private HttpServletRequest getHttpRequestFromFacesContext() {

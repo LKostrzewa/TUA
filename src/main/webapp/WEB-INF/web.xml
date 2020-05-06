@@ -121,5 +121,40 @@
         </user-data-constraint>
     </security-constraint>
 
+    <error-page>
+        <error-code>403</error-code>
+        <location>/errors/403.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/errors/404.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/errors/500.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>javax.ejb.EJBAccessException</exception-type>
+        <location>/errors/ejbAccessExp.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>javax.ejb.NoSuchEJBException</exception-type>
+        <location>/errors/noSuchEJBExp.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>javax.ejb.EJBException</exception-type>
+        <location>/errors/ejbExp.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>javax.ejb.EJBTransactionRequiredException</exception-type>
+        <location>/errors/ejbTranReqExp.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>javax.ejb.EJBTransactionRolledbackException</exception-type>
+        <location>/errors/ejbTranRollExp.xhtml</location>
+    </error-page>
+    <error-page>
+        <location>/errors/other.xhtml</location>
+    </error-page>
 
 </web-app>

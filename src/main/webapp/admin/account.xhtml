@@ -42,6 +42,7 @@
         </f:metadata>-->
         <ui:define name="content">
             <h:form id="form">
+                <p:growl id="growl" showDetail="true" sticky="true"/>
                 <p:panelGrid columns="2">
                     <h:outputLabel value="IDDDD:"/>
                     <h:outputText value="#{myDetailsPageBean.userDetailsDto.id}"/>

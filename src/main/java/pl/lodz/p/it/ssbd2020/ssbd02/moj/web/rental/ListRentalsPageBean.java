@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.rental;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListRentalsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.RentalEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.security.CurrentUser;
@@ -28,7 +29,7 @@ public class ListRentalsPageBean implements Serializable {
         this.rentals = rentals;
     }
 
-    public void cancelRental(Long rentalId) {
+    public void cancelRental(Long rentalId) throws AppBaseException {
         rentalEndpoint.cancelRental(rentalId);
     }
 

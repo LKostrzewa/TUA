@@ -18,7 +18,7 @@
         </ui:define>
         <ui:define name="content">
             <h:form>
-                <p:growl id="growl" showDetail="true" sticky="true"/>
+                <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
                 <div>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="login" value="#{addUserPageBean.addUserDto.login}"/>
@@ -26,8 +26,14 @@
                         <p:message for="login"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
-                        <p:password id="password" value="#{addUserPageBean.addUserDto.password}"/>
+                        <p:password id="password" match="password2" validatorMessage="#{msg['validation.password.match']}" />
                         <p:outputLabel for="@previous" value="#{msg['password']}"/>
+                        <p:message for="password2"/>
+                    </span>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:password id="password2" value="#{addUserPageBean.addUserDto.password}"/>
+                        <p:outputLabel for="@previous" value="#{msg['registration.repeat.password']}"/>
+                        <p:message for="password"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="firstName" value="#{addUserPageBean.addUserDto.firstName}"/>
@@ -50,8 +56,17 @@
                         <p:message for="email"/>
                     </span>
                 </div>
-                <p:commandButton value="#{msg['cancel']}" onclick="window.history.back();"/>
-                <p:commandButton value="#{msg['save']}" action="#{addUserPageBean.addUser()}" update="@form"/>
+                <p:button value="#{msg['cancel']}" outcome="index.xhtml?faces-redirect=true"/>
+                <p:commandButton value="#{msg['save']}" action="#{addUserPageBean.addUser()}" update="@form">
+                    <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
+                               icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                                     icon="pi pi-check"/>
+                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                                     icon="pi pi-times"/>
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>
