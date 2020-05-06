@@ -31,6 +31,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
@@ -59,6 +61,8 @@ public class LoginBean implements Serializable {
     private String password;
 
     private UserLoginDto userLoginDto;
+
+    private final Logger LOGGER = Logger.getGlobal();
 
     public UserLoginDto getUserLoginDto() {
         return userLoginDto;
@@ -128,6 +132,8 @@ public class LoginBean implements Serializable {
                     displayError(e.getLocalizedMessage());
                     break;
                 }
+
+                LOGGER.log(Level.INFO,"User: " + username + " starts the session with the IP address: " + getClientIpAddress());
 
                 UserAccessLevelDto userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(userLoginDto.getId());
                 if (userAccessLevelDto.getAdmin().getLeft()) {
