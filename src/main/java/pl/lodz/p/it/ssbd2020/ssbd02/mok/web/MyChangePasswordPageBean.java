@@ -67,4 +67,8 @@ public class MyChangePasswordPageBean implements Serializable {
                 .getExternalContext()
                 .getRequest();
     }
+
+    public ResourceBundle getBundle() {
+        return bundle;
+    }
 }
