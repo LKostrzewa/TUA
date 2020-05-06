@@ -53,9 +53,9 @@
                 </p:panelGrid>
                 <p:commandButton value="${msg['lock']}" action="#{userDetailsPageBean.lockAccount}" update="form"
                                  rendered="#{not userDetailsPageBean.userDetailsDto.locked}"/>
-                <p:commandButton value="${msg['unlock']}" action="#{userDetailsPageBean.unlockAccount}" update="form"
-                                 rendered="#{userDetailsPageBean.userDetailsDto.locked}"/>
-                <p:commandButton value="#{msg['goBack']}" onclick="window.history.back();"/>
+                <p:button value="${msg['unlock']}" action="#{userDetailsPageBean.unlockAccount}" update="form"
+                          rendered="#{userDetailsPageBean.userDetailsDto.locked}"/>
+                <p:button value="#{msg['goBack']}" outcome="listUsers.xhtml?faces-redirect=true"/>
                 <p:button value="${msg['edit']}" outcome="editUser.xhtml?faces-redirect=true">
                     <f:param name="userId" value="#{userDetailsPageBean.userId}"/>
                 </p:button>
