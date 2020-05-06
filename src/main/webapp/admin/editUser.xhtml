@@ -4,7 +4,7 @@
 <h:head/>
 <h:body>
     <ui:composition template="/templates/adminTemplate.xhtml">
-        <ui:define name="title">#{msg['title.editUser']}</ui:define>
+        <ui:define name="title">#{msg['admin.title.editUser']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
                 <p:menuitem value="Categories" url="#"/>
@@ -26,7 +26,7 @@
                 <f:event type="preRenderView" listener="#{editUserPageBean.init}"/>
             </f:metadata>
             <h:form>
-                <p:growl id="message" showDetail="true"/>
+                <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
                 <div>
             <span class="ui-float-label" style="margin: 20px">
                <p:inputText id="firstName" value="#{editUserPageBean.editUserDto.firstName}"/>
@@ -47,7 +47,7 @@
                 <p:button value="#{msg['cancel']}"
                           outcome="userDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
                 <p:commandButton value="#{msg['edit']}" action="#{editUserPageBean.editUser()}"
-                                 update="message">
+                                 update="message @form">
                     <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>

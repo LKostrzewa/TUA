@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
@@ -61,13 +62,13 @@ public class UserDetailsPageBean implements Serializable {
         return string;
     }
 
-    public void lockAccount() throws Exception{
+    public void lockAccount() throws AppBaseException{
         userDetailsDto.setLocked(true);
-        userEndpoint.lockAccount(userDetailsDto, userId);
+        userEndpoint.lockAccount(userId);
     }
 
-    public void unlockAccount() throws Exception{
+    public void unlockAccount() throws AppBaseException {
         userDetailsDto.setLocked(false);
-        userEndpoint.unlockAccount(userDetailsDto, userId);
+        userEndpoint.unlockAccount(userId);
     }
 }

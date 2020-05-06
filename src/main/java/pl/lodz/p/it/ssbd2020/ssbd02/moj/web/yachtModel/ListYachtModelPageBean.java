@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yachtModel;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.ListYachtModelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
 
@@ -30,7 +31,7 @@ public class ListYachtModelPageBean implements Serializable {
         this.yachtModels = yachtModelEndpoint.getAllYachtModels();
     }
 
-    public String deactivateYachtModel(Long yachtModelID) {
+    public String deactivateYachtModel(Long yachtModelID) throws AppBaseException {
         yachtModelEndpoint.deactivateYachtModel(yachtModelID);
         return "/manager/listYachtModels.xhtml?faces-redirect=true";
     }
