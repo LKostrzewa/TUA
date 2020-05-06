@@ -48,11 +48,6 @@
                     <p:column headerText="${msg['lastLoginIp']}">
                         <h:outputText value="#{user.lastLoginIp}"/>
                     </p:column>
-                    <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}" outcome="userDetails.xhtml?faces-redirect=true">
-                            <f:param name="userId" value="#{user.id}"/>
-                        </p:button>
-                    </p:column>
                 </p:dataTable>
             </h:form>
         </ui:define>
