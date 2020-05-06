@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 @SessionScoped
 @Named
-@Interceptors(LoggerInterceptor.class)
+//@Interceptors(LoggerInterceptor.class)
 public class CurrentUser implements Serializable {
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;

@@ -1,0 +1,91 @@
+package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
+
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ChangeOwnPasswordDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ChangePasswordDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
+
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
+import java.util.ResourceBundle;
+
+@Named
+@ViewScoped
+public class MyChangePasswordPageBean implements Serializable {
+    @Inject
+    private UserEndpoint userEndpoint;
+
+    @Inject
+    private FacesContext facesContext;
+
+    private ChangeOwnPasswordDto changeOwnPasswordDto;
+    private Long userId;
+    private String userLogin;
+    private String givenOldPassword;
+
+    private ResourceBundle bundle;
+
+    public ChangeOwnPasswordDto getChangeOwnPasswordDto() {
+        return changeOwnPasswordDto;
+    }
+
+    public void setChangeOwnPasswordDto(ChangeOwnPasswordDto changeOwnPasswordDto) {
+        this.changeOwnPasswordDto = changeOwnPasswordDto;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getGivenOldPassword() {
+        return givenOldPassword;
+    }
+
+    public void setGivenOldPassword(String givenOldPassword) {
+        this.givenOldPassword = givenOldPassword;
+    }
+
+    @PostConstruct
+    public void init(){
+        userLogin = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        this.changeOwnPasswordDto = new ChangeOwnPasswordDto();
+        bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
+    }
+
+    public String changePassword() throws AppBaseException {
+        try{
+            userEndpoint.editOwnPassword(changeOwnPasswordDto, userLogin);
+        } catch (AppBaseException e){
+            String msg = bundle.getString(e.getLocalizedMessage());
+            String head = bundle.getString("error");
+            facesContext.getExternalContext().getFlash().setKeepMessages(true);
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
+            return "/admin/changeOwnPassword.xhtml";
+        }
+        String msg = bundle.getString("shared.password.changeSuccess");
+        String head = bundle.getString("success");
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
+
+        //displayMessage();
+        return "account.xhtml?faces-redirect=true?includeViewParams=true";
+    }
+
+    private HttpServletRequest getHttpRequestFromFacesContext() {
+        return (HttpServletRequest) facesContext
+                .getExternalContext()
+                .getRequest();
+    }
+}

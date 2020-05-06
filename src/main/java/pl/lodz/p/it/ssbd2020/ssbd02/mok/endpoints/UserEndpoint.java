@@ -87,6 +87,11 @@ public class UserEndpoint implements Serializable {
         userManager.editUserPassword(user, userId);
     }
 
+    public void editOwnPassword(ChangeOwnPasswordDto changeOwnPasswordDto, String userLogin) throws AppBaseException {
+        User user = ObjectMapperUtils.map(changeOwnPasswordDto, User.class);
+        userManager.editOwnPassword(user, userLogin, changeOwnPasswordDto.getOldPassword());
+    }
+
     public void lockAccount(Long userId) throws AppBaseException{
         userManager.lockAccount(userId);
     }
