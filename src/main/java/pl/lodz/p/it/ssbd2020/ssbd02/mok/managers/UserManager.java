@@ -130,7 +130,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
 
     public User getUserByLogin(String userLogin) throws AppBaseException {
-             return  userFacade.findByLogin(userLogin);
+         return userFacade.findByLogin(userLogin);
     }
 
     public Integer getUserInvalidLoginAttempts(Long ID) {
