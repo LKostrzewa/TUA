@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Opinion;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.EditOpinionDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.NewOpinionDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.OpinionDto;
@@ -22,7 +23,7 @@ public class OpinionEndpoint implements Serializable {
     @Inject
     private OpinionManager opinionManager;
 
-    public void addOpinion(NewOpinionDto newOpinionDto) {
+    public void addOpinion(NewOpinionDto newOpinionDto) throws AppBaseException {
         Opinion opinion = ObjectMapperUtils.map(newOpinionDto, Opinion.class);
         opinionManager.addOpinion(opinion);
     }
@@ -36,7 +37,7 @@ public class OpinionEndpoint implements Serializable {
         return ObjectMapperUtils.map(opinion, EditOpinionDto.class);
     }
 
-    public void editOpinion(Long opinionId, EditOpinionDto editOpinionDto) {
+    public void editOpinion(Long opinionId, EditOpinionDto editOpinionDto) throws AppBaseException{
         Opinion opinionToEdit = ObjectMapperUtils.map(editOpinionDto, Opinion.class);
         opinionManager.editOpinion(opinionId, opinionToEdit);
     }

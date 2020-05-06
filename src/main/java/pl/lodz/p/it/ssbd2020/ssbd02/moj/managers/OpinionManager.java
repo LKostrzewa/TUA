@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Opinion;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.OpinionFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
@@ -27,7 +28,7 @@ public class OpinionManager {
     @Inject
     private YachtFacade yachtFacade;
 
-    public void addOpinion(Opinion opinion) {
+    public void addOpinion(Opinion opinion) throws AppBaseException {
         opinionFacade.create(opinion);
         calculateAvgRating(opinion.getRental().getYacht().getId());
     }
@@ -43,14 +44,14 @@ public class OpinionManager {
         return opinionFacade.find(opinionId);
     }
 
-    public void editOpinion(Long opinionId, Opinion opinionToEdit) {
+    public void editOpinion(Long opinionId, Opinion opinionToEdit) throws AppBaseException {
         //opinionToEdit.setId(opinionId);
         opinionToEdit.setEdited(true);
         opinionFacade.edit(opinionToEdit);
         calculateAvgRating(opinionToEdit.getRental().getYacht().getId());
     }
 
-    public void calculateAvgRating(Long yachtId){
+    public void calculateAvgRating(Long yachtId) throws AppBaseException{
         Yacht yacht = yachtFacade.find(yachtId);
         BigDecimal tmp = BigDecimal.valueOf(yacht.getRentals().stream()
                 .map(Rental::getOpinion)

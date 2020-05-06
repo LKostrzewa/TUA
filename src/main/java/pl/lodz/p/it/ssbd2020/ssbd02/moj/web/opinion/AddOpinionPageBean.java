@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.opinion;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.NewOpinionDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.OpinionEndpoint;
 
@@ -28,7 +29,7 @@ public class AddOpinionPageBean {
         newOpinionDTO = new NewOpinionDto();
     }
 
-    public String addOpinion() {
+    public String addOpinion() throws AppBaseException {
         opinionEndpoint.addOpinion(newOpinionDTO);
         return "client/rentalDetails.xhtml?faces-redirect=true";
     }
