@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ListUsersDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserReportDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.annotation.PostConstruct;
@@ -14,31 +14,31 @@ import java.util.Locale;
 
 @Named
 @ViewScoped
-public class ListUsersPageBean implements Serializable {
+public class UserReportPageBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
-    private List<ListUsersDto> users;
-    private List<ListUsersDto> filteredUsers;
+    private List<UserReportDto> users;
+    private List<UserReportDto> filteredUsers;
 
-    public List<ListUsersDto> getUsers() {
+    public List<UserReportDto> getUsers() {
         return users;
     }
 
-    public void setUsers(List<ListUsersDto> users) {
+    public void setUsers(List<UserReportDto> users) {
         this.users = users;
     }
 
-    public List<ListUsersDto> getFilteredUsers() {
+    public List<UserReportDto> getFilteredUsers() {
         return filteredUsers;
     }
 
-    public void setFilteredUsers(List<ListUsersDto> filteredUsers) {
+    public void setFilteredUsers(List<UserReportDto> filteredUsers) {
         this.filteredUsers = filteredUsers;
     }
 
     @PostConstruct
     private void init() {
-        this.users = userEndpoint.getAllListUsersDto();
+        this.users = userEndpoint.getAllUserReportDto();
         Collections.sort(this.users);
     }
 
@@ -48,9 +48,7 @@ public class ListUsersPageBean implements Serializable {
             return true;
         }
 
-        ListUsersDto listUsersDto = (ListUsersDto) value;
-        return listUsersDto.getFirstName().toLowerCase().contains(filterText)
-                || listUsersDto.getLastName().toLowerCase().contains(filterText);
+        UserReportDto userReportDto = (UserReportDto) value;
+        return userReportDto.getLogin().toLowerCase().contains(filterText);
     }
 }
-

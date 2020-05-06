@@ -45,8 +45,12 @@ public class UserEndpoint implements Serializable {
         return userManager.getUserInvalidLoginAttempts(ID);
     }
 
-    public List<ListUsersDto> getAllUsers() {
+    public List<ListUsersDto> getAllListUsersDto() {
         return ObjectMapperUtils.mapAll(userManager.getAll(), ListUsersDto.class);
+    }
+
+    public List<UserReportDto> getAllUserReportDto() {
+        return ObjectMapperUtils.mapAll(userManager.getAll(), UserReportDto.class);
     }
 
     public ChangePasswordDto getChangePasswordDtoById(Long id) {
@@ -71,7 +75,7 @@ public class UserEndpoint implements Serializable {
                 userEditEntity.setFirstName(editUserDto.getFirstName());
                 userEditEntity.setLastName(editUserDto.getLastName());
                 userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
-                userManager.editUser(this.userEditEntity,userId);
+                userManager.editUser(this.userEditEntity, userId);
             }
     }
 
