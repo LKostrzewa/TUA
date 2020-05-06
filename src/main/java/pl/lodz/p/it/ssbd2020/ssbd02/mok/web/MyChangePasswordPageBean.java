@@ -2,12 +2,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ChangeOwnPasswordDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ChangePasswordDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -27,9 +24,7 @@ public class MyChangePasswordPageBean implements Serializable {
     private FacesContext facesContext;
 
     private ChangeOwnPasswordDto changeOwnPasswordDto;
-    private Long userId;
     private String userLogin;
-    private String givenOldPassword;
 
     private ResourceBundle bundle;
 
@@ -39,22 +34,6 @@ public class MyChangePasswordPageBean implements Serializable {
 
     public void setChangeOwnPasswordDto(ChangeOwnPasswordDto changeOwnPasswordDto) {
         this.changeOwnPasswordDto = changeOwnPasswordDto;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getGivenOldPassword() {
-        return givenOldPassword;
-    }
-
-    public void setGivenOldPassword(String givenOldPassword) {
-        this.givenOldPassword = givenOldPassword;
     }
 
     @PostConstruct
@@ -72,7 +51,7 @@ public class MyChangePasswordPageBean implements Serializable {
             String head = bundle.getString("error");
             facesContext.getExternalContext().getFlash().setKeepMessages(true);
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
-            return "/admin/changeOwnPassword.xhtml";
+            return "changeOwnPassword.xhtml";
         }
         String msg = bundle.getString("shared.password.changeSuccess");
         String head = bundle.getString("success");
