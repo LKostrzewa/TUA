@@ -86,6 +86,17 @@ public class UserFacade extends AbstractFacade<User> {
         }
     }
 
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public User findByResetPasswordCode(String resetPasswordCode) throws AppBaseException{
+        TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByResetPasswordCode", User.class);
+        typedQuery.setParameter("resetPasswordCode", resetPasswordCode);
+        try {
+            return typedQuery.getSingleResult();
+        } catch (NoResultException e){
+            throw new UserNotFoundException("exception.userNotFound");
+        }
+    }
+
     @PermitAll
     public User findByActivationCode(String activationCode) {
         TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByActivationCode", User.class);

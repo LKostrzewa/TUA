@@ -4,19 +4,14 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
-import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import javax.persistence.OptimisticLockException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -101,7 +96,11 @@ public class UserEndpoint implements Serializable {
         userManager.editUserLastLoginAndInvalidLoginAttempts(user, userId,attempts);
     }
 
-    public void resetPassword(String email) throws AppBaseException {
-        userManager.resetPassword(email);
+    public void sendResetPasswordEmail(String email) throws AppBaseException {
+        userManager.sendResetPasswordEmail(email);
+    }
+
+    public void resetPassword(String resetPasswordCode, String password) throws AppBaseException {
+        userManager.resetPassword(resetPasswordCode,password);
     }
 }

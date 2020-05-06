@@ -8,44 +8,55 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
+
 
 @Named
-@RequestScoped
-public class UserResetPasswordBean implements Serializable {
-    @Inject
-    private UserEndpoint userEndpoint;
+@ViewScoped
+public class ResetPasswordBean implements Serializable {
 
+    @Inject
+    UserEndpoint userEndpoint;
     @Inject
     private FacesContext facesContext;
 
-    @Pattern(regexp = "^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$",
-            message = "{validation.email}")
-    private String email;
-    private ResourceBundle bundle;
+    private String resetPasswordCode;
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$", message = "{validation.password}")
+    private String password;
 
-    public String getEmail() {
-        return email;
+    private static final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
+    public String getPassword() {
+        return password;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPassword(String password) {
+        this.password = password;
     }
+    public String getKey() {
+        return resetPasswordCode;
+    }
+
+    public void setKey(String key) {
+        this.resetPasswordCode = key;
+    }
+
 
     @PostConstruct
     public void init() {
-
-        bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
+        resetPasswordCode = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key");
+        logger.info("Klucz:" + resetPasswordCode);
     }
 
     public String resetPassword() {
         try {
-            userEndpoint.resetPassword(email);
+            userEndpoint.resetPassword(resetPasswordCode,password);
             displayMessage();
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
@@ -56,7 +67,7 @@ public class UserResetPasswordBean implements Serializable {
     public void displayMessage() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
-        String msg = resourceBundle.getString("forgetPassword.sendEmail");
+        String msg = resourceBundle.getString("resetPassword.resetPasswordSuccess");
         String head = resourceBundle.getString("success");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
@@ -70,9 +81,5 @@ public class UserResetPasswordBean implements Serializable {
 
     }
 
-    private HttpServletRequest getHttpRequestFromFacesContext() {
-        return (HttpServletRequest) facesContext
-                .getExternalContext()
-                .getRequest();
-    }
+
 }
