@@ -1,10 +1,12 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -41,18 +43,31 @@ public class UserResetPasswordBean implements Serializable {
         bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
     }
 
-    public String sendResetPasswordEmail() {
-
+    public String resetPassword() {
+        try {
+            userEndpoint.resetPassword(email);
+            displayMessage();
+        } catch (AppBaseException e) {
+            displayError(e.getLocalizedMessage());
+        }
         return "login.xhtml?faces-redirect=true";
     }
 
-
-    public ResourceBundle getBundle() {
-        return bundle;
+    public void displayMessage() {
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+        String msg = resourceBundle.getString("forgetPassword.sendEmail");
+        String head = resourceBundle.getString("success");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
-    public void setBundle(ResourceBundle bundle) {
-        this.bundle = bundle;
+    private void displayError(String message) {
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+        String msg = resourceBundle.getString(message);
+        String head = resourceBundle.getString("error");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
+
     }
 
     private HttpServletRequest getHttpRequestFromFacesContext() {

@@ -100,4 +100,8 @@ public class UserEndpoint implements Serializable {
         User user = ObjectMapperUtils.map(userLoginDto, User.class);
         userManager.editUserLastLoginAndInvalidLoginAttempts(user, userId,attempts);
     }
+
+    public void resetPassword(String email) throws AppBaseException {
+        userManager.resetPassword(email);
+    }
 }

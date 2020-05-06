@@ -47,6 +47,13 @@ public class SendEmail {
         emailBody(userEmail, emailSubject, emailText);
     }
 
+    public void sendResetPasswordEmail(String userEmail, String resetPasswordCode) {
+        PropertyReader propertyReader= new PropertyReader();
+        String emailSubject= propertyReader.getProperty("emailMessages","resetPasswordSubject");
+        String emailText= propertyReader.getProperty("emailMessages","resetPasswordText",resetPasswordCode);
+        emailBody(userEmail, emailSubject, emailText);
+    }
+
     private Session emailSettings() {
         Properties properties = new Properties();
         PropertyReader propertyReader= new PropertyReader();
@@ -83,5 +90,6 @@ public class SendEmail {
             e.printStackTrace();
         }
     }
+
 
 }

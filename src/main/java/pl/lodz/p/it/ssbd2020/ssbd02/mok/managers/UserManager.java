@@ -159,4 +159,15 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         }
         userFacade.edit(userToEdit);
     }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void resetPassword(String email) throws AppBaseException {
+        User userToEdit = userFacade.findByEmail(email);
+        String resetPasswordCode = UUID.randomUUID().toString().replace("-", "");
+        userToEdit.setResetPasswordCode(resetPasswordCode);
+        userToEdit.setRessetPasswordCodeAddDate(new Date());
+        userFacade.edit(userToEdit);
+        // TODO tutaj hashowanie resetPasswordCode?
+        sendEmail.sendResetPasswordEmail(email,resetPasswordCode);
+    }
 }
