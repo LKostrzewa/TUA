@@ -19,7 +19,7 @@ abstract public class AbstractManager {
 
     private boolean lastTransactionRollback;
 
-    public final Integer METHOD_INVOCATION_CONSTANT=3;
+    protected final int METHOD_INVOCATION_LIMIT=3;
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public boolean isLastTransactionRollback() {

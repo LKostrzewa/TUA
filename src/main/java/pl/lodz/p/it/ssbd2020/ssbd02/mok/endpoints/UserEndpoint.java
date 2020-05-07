@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Stateful
 @LocalBean
@@ -33,22 +34,21 @@ public class UserEndpoint implements Serializable {
 
     private User userEditEntity;
 
-    public void registerNewUser(AddUserDto userDTO) throws AppBaseException {
+    Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
+
+    public void registerNewUser(AddUserDto userDTO) throws AppBaseException {
         try {
-            int businessMethodCallLimit = userManager.METHOD_INVOCATION_CONSTANT;
             do {
                 User user = new User(userDTO.getLogin(), userDTO.getPassword(),
                         userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(),
                         userDTO.getPhoneNumber());
                 userManager.registerNewUser(user);
-                businessMethodCallLimit--;
-            } while (userManager.isLastTransactionRollback() && businessMethodCallLimit>0);
-            if(businessMethodCallLimit==0) {
-                throw new RepeatedRollBackException("exception.repeated.rollback");
-            }
-        }catch (EJBTransactionRolledbackException ex) {
+            } while (userManager.isLastTransactionRollback());
+        } catch (EJBTransactionRolledbackException ex) {
             registerNewUser(userDTO);
+        } catch (RepeatedRollBackException ex) {
+            logger.info("Catch RepeatedRollbackException");
         }
     }
 
