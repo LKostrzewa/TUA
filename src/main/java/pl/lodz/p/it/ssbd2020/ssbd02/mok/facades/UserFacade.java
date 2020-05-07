@@ -85,6 +85,28 @@ public class UserFacade extends AbstractFacade<User> {
                 .setParameter("email", email).getSingleResult() > 0;
     }
 
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public User findByEmail(String email) throws AppBaseException{
+        TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByEmail", User.class);
+        typedQuery.setParameter("email", email);
+        try {
+            return typedQuery.getSingleResult();
+        } catch (NoResultException e){
+            throw new UserNotFoundException("exception.userNotFound");
+        }
+    }
+
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public User findByResetPasswordCode(String resetPasswordCode) throws AppBaseException{
+        TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByResetPasswordCode", User.class);
+        typedQuery.setParameter("resetPasswordCode", resetPasswordCode);
+        try {
+            return typedQuery.getSingleResult();
+        } catch (NoResultException e){
+            throw new UserNotFoundException("exception.userNotFound");
+        }
+    }
+
     @PermitAll
     public User findByActivationCode(String activationCode) {
         TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByActivationCode", User.class);

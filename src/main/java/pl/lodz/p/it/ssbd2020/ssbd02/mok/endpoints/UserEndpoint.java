@@ -6,19 +6,15 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
-import javax.ejb.EJBTransactionRolledbackException;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import javax.persistence.OptimisticLockException;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -127,5 +123,13 @@ public class UserEndpoint implements Serializable {
         List<ListUsersDto> users = ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
         Collections.sort(users);
         return users;
+    }
+
+    public void sendResetPasswordEmail(String email) throws AppBaseException {
+        userManager.sendResetPasswordEmail(email);
+    }
+
+    public void resetPassword(String resetPasswordCode, String password) throws AppBaseException {
+        userManager.resetPassword(resetPasswordCode,password);
     }
 }

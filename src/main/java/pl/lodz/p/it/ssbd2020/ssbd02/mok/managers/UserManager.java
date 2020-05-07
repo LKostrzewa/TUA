@@ -8,19 +8,19 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.EmailNotUniqueException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.LoginNotUniqueException;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.ResetPasswordCodeExpiredException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
+import static java.util.concurrent.TimeUnit.*;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import javax.persistence.OptimisticLockException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -117,7 +117,6 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editUserPassword(User user, Long userId) throws AppBaseException {
         User userToEdit = userFacade.find(userId);
-        BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         userToEdit.setPassword(passwordHash);
         userFacade.edit(userToEdit);
@@ -189,5 +188,35 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
     public List<User> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
         return userFacade.getResultList(first, pageSize, filters);
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void sendResetPasswordEmail(String email) throws AppBaseException {
+        User userToEdit = userFacade.findByEmail(email);
+        String resetPasswordCode = UUID.randomUUID().toString().replace("-", "");
+        userToEdit.setResetPasswordCode(resetPasswordCode);
+        userToEdit.setResetPasswordCodeAddDate(new Date());
+        userFacade.edit(userToEdit);
+        // TODO tutaj hashowanie resetPasswordCode?
+
+        String link = "<a href=" + "\"http://studapp.it.p.lodz.pl:8002/login/resetPassword.xhtml?key=" + resetPasswordCode + "\">Link</a>";
+
+        sendEmail.sendResetPasswordEmail(email,link);
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void resetPassword(String resetPasswordCode, String password) throws AppBaseException {
+        User userToEdit = userFacade.findByResetPasswordCode(resetPasswordCode);
+
+        Date resetPasswordCodeAddDate = userToEdit.getResetPasswordCodeAddDate();
+        Date now = new Date();
+        long MAX_DURATION = MILLISECONDS.convert(15, MINUTES);
+        long duration = now.getTime()-resetPasswordCodeAddDate.getTime();
+        if(duration>=MAX_DURATION){
+            throw new ResetPasswordCodeExpiredException("exception.codeExpired");
+        }
+        String passwordHash = bCryptPasswordHash.generate(password.toCharArray());
+        userToEdit.setPassword(passwordHash);
+        userFacade.edit(userToEdit);
     }
 }
