@@ -47,8 +47,6 @@ public class UserEndpoint implements Serializable {
             } while (userManager.isLastTransactionRollback());
         } catch (EJBTransactionRolledbackException ex) {
             registerNewUser(userDTO);
-        } catch (RepeatedRollBackException ex) {
-            logger.info("Catch RepeatedRollbackException");
         }
     }
 
