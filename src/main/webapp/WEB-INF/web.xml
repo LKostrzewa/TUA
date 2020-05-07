@@ -47,6 +47,49 @@
         <role-name>ADMINISTRATOR</role-name>
     </security-role>
 
+    <security-role>
+        <role-name>addAccount</role-name>
+    </security-role>
+    <security-role>
+        <role-name>blockAccount</role-name>
+    </security-role>
+    <security-role>
+        <role-name>unblockAccount</role-name>
+    </security-role>
+    <security-role>
+        <role-name>addUserAccessLevel</role-name>
+    </security-role>
+    <security-role>
+        <role-name>deleteUserAccessLevel</role-name>
+    </security-role>
+    <security-role>
+        <role-name>changeMyPassword</role-name>
+    </security-role>
+    <security-role>
+        <role-name>changePassword</role-name>
+    </security-role>
+    <security-role>
+        <role-name>editMyAccountDetails</role-name>
+    </security-role>
+    <security-role>
+        <role-name>editAccountDetails</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getUsers</role-name>
+    </security-role>
+    <security-role>
+        <role-name>activeAccount</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getAccountDetails</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getMyAccountDetails</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getRaport</role-name>
+    </security-role>
+
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Https redirection</web-resource-name>
