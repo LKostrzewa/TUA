@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 
+import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
@@ -8,12 +9,15 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Stateful
 @LocalBean
@@ -98,6 +102,16 @@ public class UserEndpoint implements Serializable {
     public void editUserLastLoginAndInvalidLoginAttempts(UserLoginDto userLoginDto, Long userId,Integer attempts) throws AppBaseException {
         User user = ObjectMapperUtils.map(userLoginDto, User.class);
         userManager.editUserLastLoginAndInvalidLoginAttempts(user, userId,attempts);
+    }
+
+    public int getFilteredRowCount(Map<String, FilterMeta> filters) {
+        return userManager.getFilteredRowCount(filters);
+    }
+
+    public List<ListUsersDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
+        List<ListUsersDto> users = ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
+        Collections.sort(users);
+        return users;
     }
 
     public void sendResetPasswordEmail(String email) throws AppBaseException {

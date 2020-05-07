@@ -55,7 +55,7 @@ public class User implements Serializable {
     private String login;
     @Column(name = "password", nullable = false, length = 64)
     private String password;
-    @Pattern(regexp = "^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$", message = "Invalid email")
+    @Pattern(regexp = "^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$")
     @Column(name = "email", nullable = false, unique = true, updatable = false, length = 64)
     private String email;
     @Column(name = "locked", nullable = false)
@@ -270,7 +270,9 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "pl.lodz.p.it.ssbd2020.ssbd02.entities.User[ id=" + id + " ]";
+        return "pl.lodz.p.it.ssbd2020.ssbd02.entities.User[ id=" + id
+                + ", key=" + businessKey
+                + ", version=" + version + " ]";
     }
 
 

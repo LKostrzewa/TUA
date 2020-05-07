@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 
+import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
@@ -16,7 +17,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Klasa fasadowa powiązana z encją User
@@ -103,4 +107,63 @@ public class UserFacade extends AbstractFacade<User> {
         typedQuery.setParameter("activationCode", activationCode);
         return typedQuery.getSingleResult();
     }
+
+    public List<User> getResultList(int start, int size,
+                                    Map<String, FilterMeta> filters) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+        Root<User> root = criteriaQuery.from(User.class);
+        CriteriaQuery<User> select = criteriaQuery.select(root);
+
+        if (filters != null && filters.size() > 0) {
+            List<Predicate> predicates = new ArrayList<>();
+            for (Map.Entry<String, FilterMeta> entry : filters.entrySet()) {
+                String field = entry.getKey();
+                Object value = entry.getValue().getFilterValue();
+                if (value == null) {
+                    continue;
+                }
+
+                Expression<String> expression = root.get(field).as(String.class);
+                Predicate predicate = criteriaBuilder.like(criteriaBuilder.lower(expression),
+                        "%" + value.toString().toLowerCase() + "%");
+                predicates.add(predicate);
+            }
+            if (predicates.size() > 0) {
+                criteriaQuery.where(criteriaBuilder.and(predicates.toArray
+                        (new Predicate[0])));
+            }
+        }
+
+        return entityManager.createQuery(select).setFirstResult(start).setMaxResults(size).getResultList();
+    }
+
+    public int getFilteredRowCount(Map<String, FilterMeta> filters) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<User> root = criteriaQuery.from(User.class);
+        CriteriaQuery<Long> select = criteriaQuery.select(criteriaBuilder.count(root));
+
+        if (filters != null && filters.size() > 0) {
+            List<Predicate> predicates = new ArrayList<>();
+            for (Map.Entry<String, FilterMeta> entry : filters.entrySet()) {
+                String field = entry.getKey();
+                Object value = entry.getValue().getFilterValue();
+                if (value == null) {
+                    continue;
+                }
+
+                Expression<String> expression = root.get(field).as(String.class);
+                Predicate predicate = criteriaBuilder.like(criteriaBuilder.lower(expression),
+                        "%" + value.toString().toLowerCase() + "%");
+                predicates.add(predicate);
+            }
+            if (predicates.size() > 0) {
+                criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
+            }
+        }
+        Long count = entityManager.createQuery(select).getSingleResult();
+        return count.intValue();
+    }
 }
+
