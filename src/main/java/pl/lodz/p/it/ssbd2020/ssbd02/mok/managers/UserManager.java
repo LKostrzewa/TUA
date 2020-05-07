@@ -5,6 +5,7 @@ import org.primefaces.model.SortOrder;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.EmailNotUniqueException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.LoginNotUniqueException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
@@ -39,6 +40,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     private BCryptPasswordHash bCryptPasswordHash;
     private User userEntityEdit;
 
+    private int methodInvocationCounter = 0;
+
     @PostConstruct
     private void init() {
         PropertyReader propertyReader = new PropertyReader();
@@ -66,8 +69,29 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.create(user);
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void registerNewUser(User user) throws AppBaseException {
-        addUser(user, false);
+    methodInvocationCounter++;
+    if(methodInvocationCounter==METHOD_INVOCATION_LIMIT) {
+        throw new RepeatedRollBackException("exception.repeated.rollback");
+    }
+        String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
+        if (userFacade.existByLogin(user.getLogin())) {
+            throw new LoginNotUniqueException("exception.loginNotUnique");
+        }
+        if (userFacade.existByEmail(user.getEmail())) {
+            throw new EmailNotUniqueException("exception.emailNotUnique");
+        }
+        user.setActivated(false);
+        user.setLocked(false);
+        user.setPassword(passwordHash);
+        user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
+
+        UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
+
+        user.getUserAccessLevels().add(userAccessLevel);
+
+        userFacade.create(user);
 
         sendEmailWithCode(user);
     }
