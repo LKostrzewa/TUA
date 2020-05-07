@@ -82,15 +82,14 @@ public class UserAccessLevel implements Serializable {
             return false;
         }
         UserAccessLevel other = (UserAccessLevel) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
     @Override
     public String toString() {
-        return "pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel[ id=" + id + " ]";
+        return "pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel[ id=" + id
+                + ", key=" + businessKey
+                + ", version=" + version + " ]";
     }
 
 }

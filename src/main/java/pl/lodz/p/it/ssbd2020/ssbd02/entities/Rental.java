@@ -131,15 +131,14 @@ public class Rental implements Serializable {
             return false;
         }
         Rental other = (Rental) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
     @Override
     public String toString() {
-        return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental[ id=" + id + " ]";
+        return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental[ id=" + id
+                + ", key=" + businessKey
+                + ", version=" + version + " ]";
     }
 
 }
