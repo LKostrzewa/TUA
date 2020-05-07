@@ -55,7 +55,7 @@ public class User implements Serializable {
     private String login;
     @Column(name = "password", nullable = false, length = 64)
     private String password;
-    @Pattern(regexp = "^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$")
+    @Pattern(regexp = "^[^\\s\\\\@]+@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.){1,11}[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$", message = "Invalid email")
     @Column(name = "email", nullable = false, unique = true, updatable = false, length = 64)
     private String email;
     @Column(name = "locked", nullable = false)

@@ -58,6 +58,12 @@ public class UserFacade extends AbstractFacade<User> {
         super.edit(user);
     }
 
+    @Override
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void create(User user) {
+        super.create(user);
+    }
+
     public User findByLogin(String userLogin) throws AppBaseException {
         try {
             return getEntityManager().createNamedQuery("User.findByLogin", User.class)

@@ -4,6 +4,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -18,6 +19,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Stateful
 @LocalBean
@@ -28,11 +30,20 @@ public class UserEndpoint implements Serializable {
 
     private User userEditEntity;
 
+    Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
+
     public void registerNewUser(AddUserDto userDTO) throws AppBaseException {
-        User user = new User(userDTO.getLogin(), userDTO.getPassword(),
-                userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(),
-                userDTO.getPhoneNumber());
-        userManager.registerNewUser(user);
+        try {
+            do {
+                User user = new User(userDTO.getLogin(), userDTO.getPassword(),
+                        userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(),
+                        userDTO.getPhoneNumber());
+                userManager.registerNewUser(user);
+            } while (userManager.isLastTransactionRollback());
+        } catch (EJBTransactionRolledbackException ex) {
+            registerNewUser(userDTO);
+        }
     }
 
     public void addNewUser(AddUserDto userDTO) throws AppBaseException {
