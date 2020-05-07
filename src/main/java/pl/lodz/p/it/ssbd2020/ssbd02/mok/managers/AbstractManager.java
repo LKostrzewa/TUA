@@ -19,6 +19,8 @@ abstract public class AbstractManager {
 
     private boolean lastTransactionRollback;
 
+    public final Integer METHOD_INVOCATION_CONSTANT=3;
+
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public boolean isLastTransactionRollback() {
         return lastTransactionRollback;

@@ -4,6 +4,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
@@ -33,10 +34,22 @@ public class UserEndpoint implements Serializable {
     private User userEditEntity;
 
     public void registerNewUser(AddUserDto userDTO) throws AppBaseException {
-        User user = new User(userDTO.getLogin(), userDTO.getPassword(),
-                userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(),
-                userDTO.getPhoneNumber());
-        userManager.registerNewUser(user);
+
+        try {
+            int businessMethodCallLimit = userManager.METHOD_INVOCATION_CONSTANT;
+            do {
+                User user = new User(userDTO.getLogin(), userDTO.getPassword(),
+                        userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(),
+                        userDTO.getPhoneNumber());
+                userManager.registerNewUser(user);
+                businessMethodCallLimit--;
+            } while (userManager.isLastTransactionRollback() && businessMethodCallLimit>0);
+            if(businessMethodCallLimit==0) {
+                throw new RepeatedRollBackException("exception.repeated.rollback");
+            }
+        }catch (EJBTransactionRolledbackException ex) {
+            registerNewUser(userDTO);
+        }
     }
 
     public void addNewUser(AddUserDto userDTO) throws AppBaseException {

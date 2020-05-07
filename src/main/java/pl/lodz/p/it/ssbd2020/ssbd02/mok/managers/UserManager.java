@@ -66,8 +66,26 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.create(user);
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void registerNewUser(User user) throws AppBaseException {
-        addUser(user, false);
+        PropertyReader propertyReader = new PropertyReader();
+        String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
+        if (userFacade.existByLogin(user.getLogin())) {
+            throw new LoginNotUniqueException("exception.loginNotUnique");
+        }
+        if (userFacade.existByEmail(user.getEmail())) {
+            throw new EmailNotUniqueException("exception.emailNotUnique");
+        }
+        user.setActivated(false);
+        user.setLocked(false);
+        user.setPassword(passwordHash);
+        user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
+
+        UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
+
+        user.getUserAccessLevels().add(userAccessLevel);
+
+        userFacade.create(user);
 
         sendEmailWithCode(user);
     }
