@@ -168,9 +168,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.edit(userToEdit);
         // TODO tutaj hashowanie resetPasswordCode?
 
-
-        String link = "<a href=" + "\"https://localhost:8181/login/resetPassword.xhtml?key=" + resetPasswordCode + "\">Link</a>";
-        //http://studapp.it.p.lodz.pl:8002
+        String link = "<a href=" + "\"http://studapp.it.p.lodz.pl:8002/login/resetPassword.xhtml?key=" + resetPasswordCode + "\">Link</a>";
 
         sendEmail.sendResetPasswordEmail(email,link);
     }
