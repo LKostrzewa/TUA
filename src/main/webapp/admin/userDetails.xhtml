@@ -26,7 +26,7 @@
                 <f:event type="preRenderView" listener="#{userDetailsPageBean.init}"/>
             </f:metadata>
             <h:form id="form">
-                <p:growl id="growl" showDetail="true" sticky="true"/>
+                <p:growl id="message" showDetail="true"/>
                 <p:panelGrid columns="2">
                     <h:outputLabel value="#{msg['firstName']}:"/>
                     <h:outputText value="#{userDetailsPageBean.userDetailsDto.firstName}"/>
@@ -51,10 +51,29 @@
                     <h:outputLabel value="#{msg['accessLevel']}:"/>
                     <h:outputText value="#{userDetailsPageBean.getAccessLevels()}"/>
                 </p:panelGrid>
-                <p:commandButton value="${msg['lock']}" action="#{userDetailsPageBean.lockAccount}" update="form"
-                                 rendered="#{not userDetailsPageBean.userDetailsDto.locked}"/>
-                <p:button value="${msg['unlock']}" action="#{userDetailsPageBean.unlockAccount}" update="form"
-                          rendered="#{userDetailsPageBean.userDetailsDto.locked}"/>
+                <p:commandButton value="${msg['lock']}" action="#{userDetailsPageBean.lockAccount}" update="message form"
+                                 rendered="#{not userDetailsPageBean.userDetailsDto.locked}">
+                    <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
+                               icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                                     icon="pi pi-check"/>
+                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                                     icon="pi pi-times"/>
+                </p:confirmDialog>
+                <p:commandButton value="${msg['unlock']}" action="#{userDetailsPageBean.unlockAccount}"
+                                 update="message form"
+                                 rendered="#{userDetailsPageBean.userDetailsDto.locked}">
+                    <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
+                               icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                                     icon="pi pi-check"/>
+                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                                     icon="pi pi-times"/>
+                </p:confirmDialog>
                 <p:button value="#{msg['goBack']}" outcome="listUsers.xhtml?faces-redirect=true"/>
                 <p:button value="${msg['edit']}" outcome="editUser.xhtml?faces-redirect=true">
                     <f:param name="userId" value="#{userDetailsPageBean.userId}"/>

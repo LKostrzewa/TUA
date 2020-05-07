@@ -1,20 +1,29 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 
+import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.persistence.OptimisticLockException;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 @Stateful
 @LocalBean
@@ -25,11 +34,20 @@ public class UserEndpoint implements Serializable {
 
     private User userEditEntity;
 
+    Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
+
     public void registerNewUser(AddUserDto userDTO) throws AppBaseException {
-        User user = new User(userDTO.getLogin(), userDTO.getPassword(),
-                userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(),
-                userDTO.getPhoneNumber());
-        userManager.registerNewUser(user);
+        try {
+            do {
+                User user = new User(userDTO.getLogin(), userDTO.getPassword(),
+                        userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(),
+                        userDTO.getPhoneNumber());
+                userManager.registerNewUser(user);
+            } while (userManager.isLastTransactionRollback());
+        } catch (EJBTransactionRolledbackException ex) {
+            registerNewUser(userDTO);
+        }
     }
 
     public void addNewUser(AddUserDto userDTO) throws AppBaseException {
@@ -62,52 +80,52 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.map(userManager.getUserById(userId), UserDetailsDto.class);
     }
 
-    public UserLoginDto getLoginDtoByLogin(String userLogin) {
+    public UserLoginDto getLoginDtoByLogin(String userLogin) throws AppBaseException {
         return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserLoginDto.class);
     }
 
-    public void editUser(EditUserDto editUserDto, Long userId) throws Exception {
-        try {
-            if (userEditEntity.getId().equals(userId)) {
+    public void editUser(EditUserDto editUserDto, Long userId) throws AppBaseException {
+            if(userEditEntity.getId().equals(userId)){
                 userEditEntity.setFirstName(editUserDto.getFirstName());
                 userEditEntity.setLastName(editUserDto.getLastName());
                 userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
                 userManager.editUser(this.userEditEntity, userId);
             }
-        } catch (OptimisticLockException ex) {
-            throw new Exception("Optimistic lock exception", ex);
-        }
     }
 
-    public void editUserPassword(ChangePasswordDto changePasswordDto, Long userId) {
+    public void editUserPassword(ChangePasswordDto changePasswordDto, Long userId) throws AppBaseException {
         User user = ObjectMapperUtils.map(changePasswordDto, User.class);
         userManager.editUserPassword(user, userId);
     }
 
-    public void editUserLastLogin(UserLoginDto userLoginDto, Long userId) {
-        User user = ObjectMapperUtils.map(userLoginDto, User.class);
-        userManager.editUserLastLogin(user, userId);
+    public void lockAccount(Long userId) throws AppBaseException{
+        userManager.lockAccount(userId);
     }
 
-    public void lockAccount(UserDetailsDto userDetailsDto, Long userId) {
-        User user = ObjectMapperUtils.map(userDetailsDto, User.class);
-        userManager.editUser(user, userId);
+    public void unlockAccount(Long userId) throws AppBaseException{
+        userManager.unlockAccount(userId);
     }
 
-    public void unlockAccount(UserDetailsDto userDetailsDto, Long userId) {
-        User user = ObjectMapperUtils.map(userDetailsDto, User.class);
-        userManager.editUser(user, userId);
-    }
-
-    public UserDetailsDto getOwnDetailsDtoByLogin(String userLogin) {
+    public UserDetailsDto getOwnDetailsDtoByLogin(String userLogin) throws AppBaseException {
         return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserDetailsDto.class);
     }
 
-    public void confirmActivationCode(String code) {
+    public void confirmActivationCode(String code) throws AppBaseException{
         userManager.confirmActivationCode(code);
     }
 
-    public void editInvalidLoginAttempts(Integer attempts, Long userId) {
-        userManager.editInvalidLoginAttempts(attempts, userId);
+    public void editUserLastLoginAndInvalidLoginAttempts(UserLoginDto userLoginDto, Long userId,Integer attempts) throws AppBaseException {
+        User user = ObjectMapperUtils.map(userLoginDto, User.class);
+        userManager.editUserLastLoginAndInvalidLoginAttempts(user, userId,attempts);
+    }
+
+    public int getFilteredRowCount(Map<String, FilterMeta> filters) {
+        return userManager.getFilteredRowCount(filters);
+    }
+
+    public List<ListUsersDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
+        List<ListUsersDto> users = ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
+        Collections.sort(users);
+        return users;
     }
 }

@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.EditYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
@@ -35,7 +36,7 @@ public class EditYachtPageBean implements Serializable {
         return "editYacht";
     }
 
-    public String updateYacht() {
+    public String updateYacht() throws AppBaseException {
         yachtEndpoint.editYacht(yachtID, editYachtDto);
         conversation.end();
         return "listYachts";

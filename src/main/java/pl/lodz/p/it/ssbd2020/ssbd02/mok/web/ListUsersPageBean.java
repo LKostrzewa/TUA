@@ -1,55 +1,44 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
+import org.primefaces.model.FilterMeta;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ListUsersDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 
 @Named
-@RequestScoped
-public class ListUsersPageBean {
+@ViewScoped
+public class ListUsersPageBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
-    private List<ListUsersDto> users;
-    private List<ListUsersDto> filteredUsers;
-
-    public List<ListUsersDto> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<ListUsersDto> users) {
-        this.users = users;
-    }
-
-    public List<ListUsersDto> getFilteredUsers() {
-        return filteredUsers;
-    }
-
-    public void setFilteredUsers(List<ListUsersDto> filteredUsers) {
-        this.filteredUsers = filteredUsers;
-    }
+    private LazyDataModel<ListUsersDto> model;
 
     @PostConstruct
-    private void init() {
-        this.users = userEndpoint.getAllListUsersDto();
-        Collections.sort(this.users);
+    public void init() {
+        model = new LazyDataModel<>() {
+            @Override
+            public List<ListUsersDto> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, FilterMeta> filters) {
+                model.setRowCount(userEndpoint.getFilteredRowCount(filters));
+                return userEndpoint.getResultList(first, pageSize, filters);
+            }
+        };
     }
 
-    public boolean globalFilterFunction(Object value, Object filter, Locale locale) {
-        String filterText = (filter == null) ? null : filter.toString().trim().toLowerCase();
-        if (filterText == null || filterText.equals("")) {
-            return true;
-        }
+    public LazyDataModel<ListUsersDto> getModel() {
+        return model;
+    }
 
-        ListUsersDto listUsersDto = (ListUsersDto) value;
-        return listUsersDto.getFirstName().toLowerCase().contains(filterText)
-                || listUsersDto.getLastName().toLowerCase().contains(filterText);
+    public void setModel(LazyDataModel<ListUsersDto> model) {
+        this.model = model;
     }
 }
 

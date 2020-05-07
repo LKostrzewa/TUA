@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtModelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -29,12 +30,12 @@ public class YachtModelManager {
         return yachtModelFacade.find(yachtModelId);
     }
 
-    public void editYachtModel(Long yachtModelId, YachtModel yachtModelToEdit) {
+    public void editYachtModel(Long yachtModelId, YachtModel yachtModelToEdit) throws AppBaseException {
       //  yachtModelToEdit.setId(yachtModelId);
         yachtModelFacade.edit(yachtModelToEdit);
     }
 
-    public void deactivateYachtModel(Long yachtModelId) {
+    public void deactivateYachtModel(Long yachtModelId) throws AppBaseException{
         YachtModel yachtModelToDeactivate = getYachtModelById(yachtModelId);
         yachtModelToDeactivate.setActive(false);
         yachtModelFacade.edit(yachtModelToDeactivate);

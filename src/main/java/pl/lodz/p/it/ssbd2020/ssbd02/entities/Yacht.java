@@ -162,15 +162,14 @@ public class Yacht implements Serializable {
             return false;
         }
         Yacht other = (Yacht) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
     @Override
     public String toString() {
-        return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht[ id=" + id + " ]";
+        return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht[ id=" + id
+                + ", key=" + businessKey
+                + ", version=" + version + " ]";
     }
 
 }

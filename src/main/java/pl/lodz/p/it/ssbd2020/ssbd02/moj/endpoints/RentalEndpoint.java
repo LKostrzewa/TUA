@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.AddRentalDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.EditRentalDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListAllRentalsDto;
@@ -45,12 +46,12 @@ public class RentalEndpoint implements Serializable {
         return ObjectMapperUtils.map(rental, EditRentalDto.class);
     }
 
-    public void editRental(EditRentalDto editRentalDto) {
+    public void editRental(EditRentalDto editRentalDto) throws AppBaseException {
         Rental rentalToEdit = ObjectMapperUtils.map(editRentalDto, Rental.class);
         rentalManager.editRental(rentalToEdit);
     }
 
-    public void cancelRental(Long rentalId) {
+    public void cancelRental(Long rentalId) throws AppBaseException {
         rentalManager.cancelRental(rentalId);
     }
 }

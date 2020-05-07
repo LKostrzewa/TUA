@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.PortFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -27,7 +28,7 @@ public class YachtPortManager {
         return (List<Yacht>) port.getYachts();
     }
 
-    public void assignYachtToPort(Long portId, Long yachtId) {
+    public void assignYachtToPort(Long portId, Long yachtId) throws AppBaseException {
         Port port = portFacade.find(portId);
         Yacht yacht = yachtFacade.find(yachtId);
         yacht.setCurrentPort(port);
@@ -37,7 +38,7 @@ public class YachtPortManager {
         portFacade.edit(port);
     }
 
-    public void retractYachtFromPort(Long portId, Long yachtId) {
+    public void retractYachtFromPort(Long portId, Long yachtId) throws AppBaseException {
         Port port = portFacade.find(portId);
         Yacht yacht = yachtFacade.find(yachtId);
         yacht.setCurrentPort(null);

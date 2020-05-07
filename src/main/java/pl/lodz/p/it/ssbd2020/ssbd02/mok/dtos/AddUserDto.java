@@ -5,11 +5,12 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class AddUserDto {
-    @Size(min = 5, message = "{validation.login}")
+    @Size(min = 4, message = "{validation.login}")
     private String login;
-    @NotBlank
+    //@Size(min = 8, message = "{validation.password}")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$", message = "{validation.password}")
     private String password;
-    @Pattern(regexp = "^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$",
+    @Pattern(regexp = "^[^\\s\\\\@]+@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.){1,11}[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$",
             message = "{validation.email}")
     private String email;
     @Size(min = 2, message = "{validation.first_name}")

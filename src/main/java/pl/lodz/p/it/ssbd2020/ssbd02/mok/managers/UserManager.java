@@ -1,10 +1,14 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.managers;
 
+import org.primefaces.model.FilterMeta;
+import org.primefaces.model.SortOrder;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.EmailNotUniqueException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.LoginNotUniqueException;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
@@ -13,21 +17,20 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.LocalBean;
-import javax.ejb.SessionSynchronization;
-import javax.ejb.Stateful;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.persistence.OptimisticLockException;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserManager extends AbstractManager implements SessionSynchronization {
+    private final SendEmail sendEmail = new SendEmail();
     private String CLIENT_ACCESS_LEVEL;
     @Inject
     private AccessLevelFacade accessLevelFacade;
@@ -35,31 +38,29 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     private UserFacade userFacade;
     @Inject
     private BCryptPasswordHash bCryptPasswordHash;
-
-    private final SendEmail sendEmail = new SendEmail();
-
     private User userEntityEdit;
+
+    private int methodInvocationCounter = 0;
 
     @PostConstruct
     private void init() {
-        PropertyReader propertyReader= new PropertyReader();
-        CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config","CLIENT_ACCESS_LEVEL");
+        PropertyReader propertyReader = new PropertyReader();
+        CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
     }
 
     private void addUser(User user, boolean active) throws AppBaseException {
         PropertyReader propertyReader = new PropertyReader();
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
-        if(userFacade.existByLogin(user.getLogin())) {
+        if (userFacade.existByLogin(user.getLogin())) {
             throw new LoginNotUniqueException("exception.loginNotUnique");
         }
-        if(userFacade.existByEmail(user.getEmail())) {
+        if (userFacade.existByEmail(user.getEmail())) {
             throw new EmailNotUniqueException("exception.emailNotUnique");
         }
         user.setActivated(active);
         user.setLocked(false);
         user.setPassword(passwordHash);
         user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
-        user.setResetPasswordCode(UUID.randomUUID().toString());
 
         UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
 
@@ -68,13 +69,34 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.create(user);
     }
 
-    public void registerNewUser(User user) throws AppBaseException{
-        addUser(user, false);
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void registerNewUser(User user) throws AppBaseException {
+    methodInvocationCounter++;
+    if(methodInvocationCounter==METHOD_INVOCATION_LIMIT) {
+        throw new RepeatedRollBackException("exception.repeated.rollback");
+    }
+        String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
+        if (userFacade.existByLogin(user.getLogin())) {
+            throw new LoginNotUniqueException("exception.loginNotUnique");
+        }
+        if (userFacade.existByEmail(user.getEmail())) {
+            throw new EmailNotUniqueException("exception.emailNotUnique");
+        }
+        user.setActivated(false);
+        user.setLocked(false);
+        user.setPassword(passwordHash);
+        user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
+
+        UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
+
+        user.getUserAccessLevels().add(userAccessLevel);
+
+        userFacade.create(user);
 
         sendEmailWithCode(user);
     }
 
-    public void addNewUser(User user) throws AppBaseException{
+    public void addNewUser(User user) throws AppBaseException {
         addUser(user, true);
     }
 
@@ -84,17 +106,16 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserById(Long id) {
-        this.userEntityEdit = userFacade.find(id);
-        return userEntityEdit;
+        return userFacade.find(id);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUser(User user, long id){
+    public void editUser(User user, Long id) throws AppBaseException{
         userFacade.edit(user);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUserPassword(User user, Long userId) {
+    public void editUserPassword(User user, Long userId) throws AppBaseException {
         User userToEdit = userFacade.find(userId);
         BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
@@ -102,28 +123,25 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.edit(userToEdit);
     }
 
-    public User getUserByLogin(String userLogin) {
-        return userFacade.findByLogin(userLogin);
+    public void lockAccount(Long userId) throws AppBaseException {
+        User userToEdit = userFacade.find(userId);
+        userToEdit.setLocked(true);
+        userFacade.edit(userToEdit);
+
+        sendEmail.lockInfoEmail(userToEdit.getEmail());
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUserLastLogin(User user, Long userId) {
+    public void unlockAccount(Long userId) throws AppBaseException {
         User userToEdit = userFacade.find(userId);
-        userToEdit.setLastValidLogin(user.getLastValidLogin());
-        userToEdit.setLastInvalidLogin(user.getLastInvalidLogin());
-        userToEdit.setLastLoginIp(user.getLastLoginIp());
+        userToEdit.setLocked(false);
         userFacade.edit(userToEdit);
+
+        sendEmail.unlockInfoEmail(userToEdit.getEmail());
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editInvalidLoginAttempts(Integer counter, Long userId) {
-        User userToEdit = userFacade.find(userId);
-        userToEdit.setInvalidLoginAttempts(counter);
-        if(counter==3) {
-            userToEdit.setInvalidLoginAttempts(0);
-            userToEdit.setLocked(true);
-        }
-        userFacade.edit(userToEdit);
+
+    public User getUserByLogin(String userLogin) throws AppBaseException {
+             return  userFacade.findByLogin(userLogin);
     }
 
     public Integer getUserInvalidLoginAttempts(Long ID) {
@@ -133,19 +151,43 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
     private String createVerificationLink(User user) {
         String activationCode = user.getActivationCode();
-        return "<a href=" + "\"http://localhost:8080/login/activate.xhtml?key=" + activationCode + "\">Link</a>";
+        return "<a href=" + "\"http://studapp.it.p.lodz.pl:8002/login/activate.xhtml?key=" + activationCode + "\">Link</a>";
+        //http://studapp.it.p.lodz.pl:8002
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void confirmActivationCode(String code) {
+    public void confirmActivationCode(String code) throws AppBaseException {
         User user = userFacade.findByActivationCode(code);
         user.setActivated(true);
         userFacade.edit(user);
+        sendEmail.activationInfoEmail(user.getEmail());
     }
 
     public void sendEmailWithCode(User user) {
         String email = user.getEmail();
         String userName = user.getFirstName();
-        sendEmail.sendEmail(createVerificationLink(user), userName, email);
+        sendEmail.sendActivationEmail(createVerificationLink(user), userName, email);
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void editUserLastLoginAndInvalidLoginAttempts(User user, Long userId, Integer attempts) throws AppBaseException {
+        User userToEdit = userFacade.find(userId);
+        userToEdit.setLastValidLogin(user.getLastValidLogin());
+        userToEdit.setLastInvalidLogin(user.getLastInvalidLogin());
+        userToEdit.setLastLoginIp(user.getLastLoginIp());
+        userToEdit.setInvalidLoginAttempts(attempts);
+        if (attempts == 3) {
+            userToEdit.setInvalidLoginAttempts(0);
+            userToEdit.setLocked(true);
+        }
+        userFacade.edit(userToEdit);
+    }
+
+    public int getFilteredRowCount(Map<String, FilterMeta> filters) {
+        return userFacade.getFilteredRowCount(filters);
+    }
+
+    public List<User> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
+        return userFacade.getResultList(first, pageSize, filters);
     }
 }

@@ -1,24 +1,27 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.interceptor.Interceptors;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @SessionScoped
 @Named
-@Interceptors(LoggerInterceptor.class)
 public class CurrentUser implements Serializable {
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
     private String currentRole;
+
+    private final Logger LOGGER = Logger.getGlobal();
 
     public String getCurrentRole() {
         return currentRole;
@@ -100,7 +103,14 @@ public class CurrentUser implements Serializable {
     }
 
     public void redirectToCurrentRole() {
-        if (currentRole.equals(ADMIN_ACCESS_LEVEL)) {
+        if(currentRole == null) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/login/login.xhtml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if (currentRole.equals(ADMIN_ACCESS_LEVEL)) {
             try {
                 FacesContext.getCurrentInstance()
                         .getExternalContext()
@@ -109,7 +119,7 @@ public class CurrentUser implements Serializable {
                 e.printStackTrace();
             }
         }
-        if (currentRole.equals(MANAGER_ACCESS_LEVEL)) {
+        else if (currentRole.equals(MANAGER_ACCESS_LEVEL)) {
             try {
                 FacesContext.getCurrentInstance()
                         .getExternalContext()
@@ -118,7 +128,7 @@ public class CurrentUser implements Serializable {
                 e.printStackTrace();
             }
         }
-        if (currentRole.equals(CLIENT_ACCESS_LEVEL)) {
+        else if (currentRole.equals(CLIENT_ACCESS_LEVEL)) {
             try {
                 FacesContext.getCurrentInstance()
                         .getExternalContext()
@@ -127,7 +137,27 @@ public class CurrentUser implements Serializable {
                 e.printStackTrace();
             }
         }
-        throw new IllegalArgumentException();
+        LOGGER.log(Level.INFO, "User: "
+                + FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName()
+                + " has changed the access level to: "
+                + currentRole
+                + " with IP address: "
+                + getClientIpAddress());
+    }
+
+    private HttpServletRequest getHttpRequestFromFacesContext() {
+        return (HttpServletRequest) FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getRequest();
+    }
+
+    public String getClientIpAddress() {
+        String xForwardedForHeader = getHttpRequestFromFacesContext().getHeader("X-Forwarded-For");
+        if (xForwardedForHeader == null) {
+            return getHttpRequestFromFacesContext().getRemoteAddr();
+        } else {
+            return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
+        }
     }
 }
 
