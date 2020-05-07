@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 public class AddUserDto {
     @Size(min = 4, message = "{validation.login}")
     private String login;
-    //@NotBlank
+    //@Size(min = 8, message = "{validation.password}")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$", message = "{validation.password}")
     private String password;
     @Pattern(regexp = "^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$",
