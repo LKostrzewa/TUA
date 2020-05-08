@@ -127,4 +127,12 @@ public class UserEndpoint implements Serializable {
         Collections.sort(users);
         return users;
     }
+
+    public void sendResetPasswordEmail(String email) throws AppBaseException {
+        userManager.sendResetPasswordEmail(email);
+    }
+
+    public void resetPassword(String resetPasswordCode, String password) throws AppBaseException {
+        userManager.resetPassword(resetPasswordCode,password);
+    }
 }
