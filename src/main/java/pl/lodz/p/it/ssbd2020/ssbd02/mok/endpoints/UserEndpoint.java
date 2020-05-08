@@ -11,6 +11,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
@@ -36,7 +37,7 @@ public class UserEndpoint implements Serializable {
 
     Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-
+    // tutaj permitAll
     public void registerNewUser(AddUserDto userDTO) throws AppBaseException {
         try {
             do {
@@ -54,19 +55,11 @@ public class UserEndpoint implements Serializable {
         User user = new User(userDTO.getLogin(), userDTO.getPassword(), userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getPhoneNumber());
         userManager.addNewUser(user);
     }
-
-    public Integer getUserInvalidLoginAttempts(Long ID) {
-        return userManager.getUserInvalidLoginAttempts(ID);
-    }
-
-    public List<ListUsersDto> getAllListUsersDto() {
-        return ObjectMapperUtils.mapAll(userManager.getAll(), ListUsersDto.class);
-    }
-
+    // może zmienić nazwe na getReport
     public List<UserReportDto> getAllUserReportDto() {
         return ObjectMapperUtils.mapAll(userManager.getAll(), UserReportDto.class);
     }
-
+    // po co pobierać DTO do zmiany hasła z bazy? do wywaleni xd
     public ChangePasswordDto getChangePasswordDtoById(Long id) {
         return ObjectMapperUtils.map(userManager.getUserById(id), ChangePasswordDto.class);
     }
@@ -85,6 +78,7 @@ public class UserEndpoint implements Serializable {
     }
 
     public void editUser(EditUserDto editUserDto, Long userId) throws AppBaseException {
+        // tutaj jakis wyjątek jak if nie jest spełniony
             if(userEditEntity.getId().equals(userId)){
                 userEditEntity.setFirstName(editUserDto.getFirstName());
                 userEditEntity.setLastName(editUserDto.getLastName());
@@ -98,6 +92,13 @@ public class UserEndpoint implements Serializable {
         userManager.editUserPassword(user, userId);
     }
 
+    /**
+     * Metoda, która blokuje konto o podanym id.
+     *
+     * @param userId id użytkownika.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("lockAccount")
     public void lockAccount(Long userId) throws AppBaseException{
         userManager.lockAccount(userId);
     }
@@ -109,7 +110,7 @@ public class UserEndpoint implements Serializable {
     public UserDetailsDto getOwnDetailsDtoByLogin(String userLogin) throws AppBaseException {
         return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserDetailsDto.class);
     }
-
+    // permit all??, zmienic nazwe na activeAccount
     public void confirmActivationCode(String code) throws AppBaseException{
         userManager.confirmActivationCode(code);
     }
@@ -118,11 +119,9 @@ public class UserEndpoint implements Serializable {
         User user = ObjectMapperUtils.map(userLoginDto, User.class);
         userManager.editUserLastLoginAndInvalidLoginAttempts(user, userId,attempts);
     }
-
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userManager.getFilteredRowCount(filters);
     }
-
     public List<ListUsersDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
         List<ListUsersDto> users = ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
         Collections.sort(users);

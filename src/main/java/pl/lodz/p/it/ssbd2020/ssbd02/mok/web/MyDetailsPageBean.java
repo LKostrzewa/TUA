@@ -69,6 +69,7 @@ public class MyDetailsPageBean implements Serializable {
     public void init()  {
         userLogin = facesContext.getExternalContext().getRemoteUser();
         try {
+            // dlaczego nie pobiera też poziomów dostępu?
             this.userDetailsDto = userEndpoint.getOwnDetailsDtoByLogin(userLogin);
             this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelByLogin(userLogin);
         } catch (AppBaseException e) {

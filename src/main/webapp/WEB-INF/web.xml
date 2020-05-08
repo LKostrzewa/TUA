@@ -47,48 +47,54 @@
         <role-name>ADMINISTRATOR</role-name>
     </security-role>
 
+<!--UserEndpoint-->
     <security-role>
-        <role-name>addAccount</role-name>
+        <role-name>addNewUser</role-name>
     </security-role>
     <security-role>
-        <role-name>blockAccount</role-name>
+        <role-name>getAllUserReportDto</role-name>
     </security-role>
     <security-role>
-        <role-name>unblockAccount</role-name>
+        <role-name>getEditUserDtoById</role-name>
     </security-role>
     <security-role>
-        <role-name>addUserAccessLevel</role-name>
+        <role-name>getUserDetailsDtoById</role-name>
     </security-role>
     <security-role>
-        <role-name>deleteUserAccessLevel</role-name>
+        <role-name>getLoginDtoByLogin</role-name>
     </security-role>
     <security-role>
-        <role-name>changeMyPassword</role-name>
+        <role-name>editUserPassword</role-name>
     </security-role>
     <security-role>
-        <role-name>changePassword</role-name>
+        <role-name>lockAccount</role-name>
     </security-role>
     <security-role>
-        <role-name>editMyAccountDetails</role-name>
+        <role-name>unlockAccount</role-name>
     </security-role>
     <security-role>
-        <role-name>editAccountDetails</role-name>
+        <role-name>getOwnDetailsDtoByLogin</role-name>
     </security-role>
     <security-role>
-        <role-name>getUsers</role-name>
+        <role-name>editUserLastLoginAndInvalidLoginAttempts</role-name>
     </security-role>
     <security-role>
-        <role-name>activeAccount</role-name>
+        <role-name>getFilteredRowCount</role-name>
     </security-role>
     <security-role>
-        <role-name>getAccountDetails</role-name>
+        <role-name>getResultList</role-name>
+    </security-role>
+    <!--UserAccessLevelEndpoint-->
+    <security-role>
+        <role-name>findAccessLevelById</role-name>
     </security-role>
     <security-role>
-        <role-name>getMyAccountDetails</role-name>
+        <role-name>findAccessLevelByLogin</role-name>
     </security-role>
     <security-role>
-        <role-name>getRaport</role-name>
+        <role-name>editAccessLevels</role-name>
     </security-role>
+
 
     <security-constraint>
         <web-resource-collection>
