@@ -10,7 +10,6 @@ import org.eclipse.persistence.annotations.TypeConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,6 +33,7 @@ import java.util.UUID;
         @NamedQuery(name = "User.findByLastValidLogin", query = "SELECT u FROM User u WHERE u.lastValidLogin = :lastValidLogin"),
         @NamedQuery(name = "User.findByLastInvalidLogin", query = "SELECT u FROM User u WHERE u.lastInvalidLogin = :lastInvalidLogin"),
         @NamedQuery(name = "User.findByActivationCode", query = "SELECT u FROM User u WHERE u.activationCode = :activationCode"),
+        @NamedQuery(name = "User.findByResetPasswordCode", query = "SELECT u FROM User u WHERE u.resetPasswordCode = :resetPasswordCode"),
         @NamedQuery(name = "User.findByInvalidLoginAttempts", query = "SELECT u FROM User u WHERE u.invalidLoginAttempts = :invalidLoginAttemps"),
         @NamedQuery(name = "User.countByLogin", query = "SELECT COUNT(u) FROM User u WHERE u.login = :login"),
         @NamedQuery(name = "User.countByEmail", query = "SELECT COUNT(u) FROM User u WHERE u.email = :email")})
@@ -55,7 +55,7 @@ public class User implements Serializable {
     private String login;
     @Column(name = "password", nullable = false, length = 64)
     private String password;
-    @Pattern(regexp = "^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$", message = "Invalid email")
+    @Pattern(regexp = "^[^\\s\\\\@]+@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.){1,11}[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$", message = "Invalid email")
     @Column(name = "email", nullable = false, unique = true, updatable = false, length = 64)
     private String email;
     @Column(name = "locked", nullable = false)
@@ -80,7 +80,7 @@ public class User implements Serializable {
     @Column(name = "reset_password_code", unique = true, length = 64)
     private String resetPasswordCode;
     @Column(name = "reset_password_code_add_date")
-    private Date ressetPasswordCodeAddDate;
+    private Date resetPasswordCodeAddDate;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "user")
     private Collection<UserAccessLevel> userAccessLevels = new ArrayList<>();
 
@@ -203,12 +203,12 @@ public class User implements Serializable {
         this.resetPasswordCode = resetPasswordCode;
     }
 
-    public Date getRessetPasswordCodeAddDate() {
-        return ressetPasswordCodeAddDate;
+    public Date getResetPasswordCodeAddDate() {
+        return resetPasswordCodeAddDate;
     }
 
-    public void setRessetPasswordCodeAddDate(Date ressetPasswordCodeAddDate) {
-        this.ressetPasswordCodeAddDate = ressetPasswordCodeAddDate;
+    public void setResetPasswordCodeAddDate(Date resetPasswordCodeAddDate) {
+        this.resetPasswordCodeAddDate = resetPasswordCodeAddDate;
     }
 
     public Collection<UserAccessLevel> getUserAccessLevels() {
@@ -270,7 +270,9 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "pl.lodz.p.it.ssbd2020.ssbd02.entities.User[ id=" + id + " ]";
+        return "pl.lodz.p.it.ssbd2020.ssbd02.entities.User[ id=" + id
+                + ", key=" + businessKey
+                + ", version=" + version + " ]";
     }
 
 

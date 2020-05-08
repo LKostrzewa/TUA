@@ -4,6 +4,8 @@ import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.security.enterprise.SecurityContext;
+import javax.servlet.http.HttpSessionActivationListener;
+import javax.servlet.http.HttpSessionListener;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,7 +15,7 @@ import java.util.logging.Logger;
  * wykonuje zapisy do dziennika zdarzeń
  */
 
-public class LoggerInterceptor implements Serializable {
+public class LoggerInterceptor implements Serializable, HttpSessionListener {
     private static final Logger LOGGER = Logger.getGlobal();
     private final SecurityContext securityContext;
 
@@ -65,7 +67,7 @@ public class LoggerInterceptor implements Serializable {
                 exceptionInfo += " caused by " + cause.getClass().getName() + ": \"" + cause.getMessage() + "\"";
             }
 
-            LOGGER.log(Level.INFO,
+            LOGGER.log(Level.WARNING,
                     "{0} - {1}({2}) called by: {3} has thrown {4}",
                     new Object[]{className, methodName, param.toString(), callerName, exceptionInfo});
 
