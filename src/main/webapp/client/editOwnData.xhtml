@@ -4,20 +4,17 @@
 <h:head/>
 <h:body>
     <ui:composition template="/templates/clientTemplate.xhtml">
-        <ui:define name="title">#{msg['title.editOwnData']}</ui:define>
+        <ui:define name="title">#{msg['shared.title.editOwnData']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
                 <p:menuitem value="Categories" url="#"/>
                 <p:menuitem value="#{msg['bread.main']}" url="/client/index.xhtml"/>
                 <p:menuitem value="#{msg['bread.account']}" url="/client/account.xhtml"/>
-                <p:menuitem value="#{msg['bread.edit.user']}" url="/client/editOwnData.xhtml" includeViewParams="true">
-                    <f:param name="userId" value="#{myEditPageBean.userId}"/>
-                </p:menuitem>
+                <p:menuitem value="#{msg['bread.edit.user']}" url="/client/editOwnData.xhtml"/>
             </p:breadCrumb>
         </ui:define>
         <ui:define name="content">
             <f:metadata>
-                <f:viewParam name="userId" value="#{myEditPageBean.userId}"/>
                 <f:event type="preRenderView" listener="#{myEditPageBean.init}"/>
             </f:metadata>
             <h:form>
@@ -42,7 +39,7 @@
                 <div>
                     <p:captcha id="Captcha" label="Captcha" required="true"
                                requiredMessage="#{msg['registration.field.required']}"
-                               language="#{myEditPageBean.language}"/>
+                               language="#{myEditPageBean.bundle}"/>
                     <p:messages for="Captcha" closable="false"/>
                 </div>
             <p:button value="#{msg['cancel']}"

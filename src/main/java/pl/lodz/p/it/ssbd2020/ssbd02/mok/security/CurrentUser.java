@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 @SessionScoped
 @Named
+//@Interceptors(LoggerInterceptor.class)
 public class CurrentUser implements Serializable {
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;

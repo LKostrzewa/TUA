@@ -72,8 +72,6 @@ public class UserFacade extends AbstractFacade<User> {
         } catch (NoResultException e){
             throw new UserNotFoundException("exception.userNotFound");
         }
-
-
     }
 
     public boolean existByLogin(String login) {

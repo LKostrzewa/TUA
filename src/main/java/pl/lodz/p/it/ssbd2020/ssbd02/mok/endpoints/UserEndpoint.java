@@ -69,6 +69,11 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
     }
 
+    public EditUserDto getEditUserDtoByLogin(String userLogin) throws AppBaseException {
+        this.userEditEntity = userManager.getUserByLogin(userLogin);
+        return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
+    }
+
     public UserDetailsDto getUserDetailsDtoById(Long userId) {
         return ObjectMapperUtils.map(userManager.getUserById(userId), UserDetailsDto.class);
     }
@@ -87,9 +92,23 @@ public class UserEndpoint implements Serializable {
             }
     }
 
+    public void editOwnData(EditUserDto editUserDto, String userLogin) throws AppBaseException {
+            if(userEditEntity.getLogin().equals(userLogin)){
+                userEditEntity.setFirstName(editUserDto.getFirstName());
+                userEditEntity.setLastName(editUserDto.getLastName());
+                userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
+                userManager.editUser(this.userEditEntity, userEditEntity.getId());
+            }
+    }
+
     public void editUserPassword(ChangePasswordDto changePasswordDto, Long userId) throws AppBaseException {
         User user = ObjectMapperUtils.map(changePasswordDto, User.class);
         userManager.editUserPassword(user, userId);
+    }
+
+    public void editOwnPassword(ChangeOwnPasswordDto changeOwnPasswordDto, String userLogin) throws AppBaseException {
+        User user = ObjectMapperUtils.map(changeOwnPasswordDto, User.class);
+        userManager.editOwnPassword(user, userLogin, changeOwnPasswordDto.getOldPassword());
     }
 
     /**
