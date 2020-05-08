@@ -48,12 +48,14 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     @Override
+    @RolesAllowed("lockAccount")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User find(Object id) {
         return super.find(id);
     }
 
     @Override
+    @RolesAllowed("lockAccount")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(User user) throws AppBaseException {
         super.edit(user);

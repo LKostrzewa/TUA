@@ -143,6 +143,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("lockAccount")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void lockAccount(Long userId) throws AppBaseException {
         User userToEdit = userFacade.find(userId);
         userToEdit.setLocked(true);
