@@ -5,10 +5,7 @@ import org.primefaces.model.SortOrder;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.EmailNotUniqueException;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.LoginNotUniqueException;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.ResetPasswordCodeExpiredException;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
@@ -122,6 +119,21 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.edit(userToEdit);
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void editOwnPassword(User user, String userLogin, String givenOldPassword) throws AppBaseException {
+        User userToEdit = userFacade.findByLogin(userLogin);
+        BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
+        if(!bCryptPasswordHash.verify(givenOldPassword.toCharArray(), userToEdit.getPassword())) {
+            throw new IncorrectPasswordException("exception.incorrectPassword");
+        }
+        if(bCryptPasswordHash.verify(user.getPassword().toCharArray(), userToEdit.getPassword())) {
+            throw new PasswordIdenticalException("exception.passwordIdentical");
+        }
+        String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
+        userToEdit.setPassword(passwordHash);
+        userFacade.edit(userToEdit);
+    }
+
     public void lockAccount(Long userId) throws AppBaseException {
         User userToEdit = userFacade.find(userId);
         userToEdit.setLocked(true);
@@ -140,7 +152,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
 
     public User getUserByLogin(String userLogin) throws AppBaseException {
-             return  userFacade.findByLogin(userLogin);
+         return userFacade.findByLogin(userLogin);
     }
 
     public Integer getUserInvalidLoginAttempts(Long ID) {
