@@ -47,6 +47,55 @@
         <role-name>ADMINISTRATOR</role-name>
     </security-role>
 
+<!--UserEndpoint-->
+    <security-role>
+        <role-name>addNewUser</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getAllUserReportDto</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getEditUserDtoById</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getUserDetailsDtoById</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getLoginDtoByLogin</role-name>
+    </security-role>
+    <security-role>
+        <role-name>editUserPassword</role-name>
+    </security-role>
+    <security-role>
+        <role-name>lockAccount</role-name>
+    </security-role>
+    <security-role>
+        <role-name>unlockAccount</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getOwnDetailsDtoByLogin</role-name>
+    </security-role>
+    <security-role>
+        <role-name>editUserLastLoginAndInvalidLoginAttempts</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getFilteredRowCount</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getResultList</role-name>
+    </security-role>
+    <!--UserAccessLevelEndpoint-->
+    <security-role>
+        <role-name>findAccessLevelById</role-name>
+    </security-role>
+    <security-role>
+        <role-name>findAccessLevelByLogin</role-name>
+    </security-role>
+    <security-role>
+        <role-name>editAccessLevels</role-name>
+    </security-role>
+
+
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Https redirection</web-resource-name>

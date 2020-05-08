@@ -8,6 +8,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -47,12 +48,14 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     @Override
+    @RolesAllowed("lockAccount")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User find(Object id) {
         return super.find(id);
     }
 
     @Override
+    @RolesAllowed("lockAccount")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(User user) throws AppBaseException {
         super.edit(user);
@@ -111,7 +114,6 @@ public class UserFacade extends AbstractFacade<User> {
         typedQuery.setParameter("activationCode", activationCode);
         return typedQuery.getSingleResult();
     }
-
     public List<User> getResultList(int start, int size,
                                     Map<String, FilterMeta> filters) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -141,7 +143,6 @@ public class UserFacade extends AbstractFacade<User> {
 
         return entityManager.createQuery(select).setFirstResult(start).setMaxResults(size).getResultList();
     }
-
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);

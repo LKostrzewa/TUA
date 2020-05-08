@@ -16,6 +16,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 import static java.util.concurrent.TimeUnit.*;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
@@ -135,11 +136,19 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.edit(userToEdit);
     }
 
+    /**
+     * Metoda, która blokuje konto o podanym id.
+     *
+     * @param userId id użytkownika.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("lockAccount")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void lockAccount(Long userId) throws AppBaseException {
         User userToEdit = userFacade.find(userId);
         userToEdit.setLocked(true);
         userFacade.edit(userToEdit);
-
+        // to przeniesc do endpointu?? + LOG o wysłaniu maila jeśli nie ma
         sendEmail.lockInfoEmail(userToEdit.getEmail());
     }
 
@@ -154,11 +163,6 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
     public User getUserByLogin(String userLogin) throws AppBaseException {
          return userFacade.findByLogin(userLogin);
-    }
-
-    public Integer getUserInvalidLoginAttempts(Long ID) {
-        User user = getUserById(ID);
-        return user.getInvalidLoginAttempts();
     }
 
     private String createVerificationLink(User user) {
@@ -194,11 +198,9 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         }
         userFacade.edit(userToEdit);
     }
-
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userFacade.getFilteredRowCount(filters);
     }
-
     public List<User> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
         return userFacade.getResultList(first, pageSize, filters);
     }

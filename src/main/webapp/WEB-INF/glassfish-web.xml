@@ -16,5 +16,12 @@
         <group-name>ADMINISTRATOR</group-name>
     </security-role-mapping>
 
+
+    <security-role-mapping>
+        <role-name>lockAccount</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+    </security-role-mapping>
+
+
     <class-loader delegate="true"/>
 </glassfish-web-app>
