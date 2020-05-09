@@ -42,6 +42,7 @@ import static javax.security.enterprise.authentication.mechanism.http.Authentica
 @SessionScoped
 @Interceptors(LoggerInterceptor.class)
 public class LoginBean implements Serializable {
+    private final Logger LOGGER = Logger.getGlobal();
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
@@ -59,10 +60,7 @@ public class LoginBean implements Serializable {
     private String username;
     @NotBlank(message = "{password.message}")
     private String password;
-
     private UserLoginDto userLoginDto;
-
-    private final Logger LOGGER = Logger.getGlobal();
 
     public UserLoginDto getUserLoginDto() {
         return userLoginDto;
@@ -119,21 +117,31 @@ public class LoginBean implements Serializable {
                     break;
                 }
 
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastValidLogin"), String.valueOf(userLoginDto.getLastValidLogin())));
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastInvalidLogin"), String.valueOf(userLoginDto.getLastInvalidLogin())));
+                if (userLoginDto.getLastValidLogin() != null) {
+                    facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            bundle.getString("lastValidLogin"),
+                            String.valueOf(userLoginDto.getLastValidLogin())));
+                }
+
+                if (userLoginDto.getLastInvalidLogin() != null) {
+                    facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            bundle.getString("lastInvalidLogin"),
+                            String.valueOf(userLoginDto.getLastInvalidLogin())));
+                }
+
 
                 userLoginDto.setLastLoginIp(getClientIpAddress());
                 userLoginDto.setLastValidLogin(new Date());
                 userLoginDto.setInvalidLoginAttempts(0);
 
                 try {
-                    userEndpoint.editUserLastLoginAndInvalidLoginAttempts(userLoginDto, userLoginDto.getId(),0);
+                    userEndpoint.editUserLastLoginAndInvalidLoginAttempts(userLoginDto, userLoginDto.getId(), 0);
                 } catch (AppBaseException e) {
                     displayError(e.getLocalizedMessage());
                     break;
                 }
 
-                LOGGER.log(Level.INFO,"User: " + username + " starts the session with the IP address: " + getClientIpAddress());
+                LOGGER.log(Level.INFO, "User: " + username + " starts the session with the IP address: " + getClientIpAddress());
 
                 UserAccessLevelDto userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(userLoginDto.getId());
                 if (userAccessLevelDto.getAdmin().getLeft()) {
@@ -176,7 +184,7 @@ public class LoginBean implements Serializable {
                     userLoginDto.setLastInvalidLogin(new Date());
 
                     try {
-                        userEndpoint.editUserLastLoginAndInvalidLoginAttempts(userLoginDto, userLoginDto.getId(),attempts);
+                        userEndpoint.editUserLastLoginAndInvalidLoginAttempts(userLoginDto, userLoginDto.getId(), attempts);
                     } catch (AppBaseException e) {
                         displayError(e.getLocalizedMessage());
                         externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
@@ -199,6 +207,7 @@ public class LoginBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
     }
+
     private void displayError(String message) {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
