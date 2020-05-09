@@ -41,7 +41,7 @@ import static javax.security.enterprise.authentication.mechanism.http.Authentica
 @Named
 @SessionScoped
 @Interceptors(LoggerInterceptor.class)
-public class LoginBean implements Serializable {
+public class LoginPageBean implements Serializable {
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
@@ -53,8 +53,7 @@ public class LoginBean implements Serializable {
     private FacesContext facesContext;
     @Inject
     private ExternalContext externalContext;
-    @Inject
-    private UserAccessLevelEndpoint userAccessLevelEndpoint;
+
     @NotBlank(message = "{username.message}")
     private String username;
     @NotBlank(message = "{password.message}")
@@ -105,8 +104,8 @@ public class LoginBean implements Serializable {
                 withParams()
                         .credential(credential)
                         .newAuthentication(true));
-        displayMessage();
 
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
         switch (status) {
             case SEND_CONTINUE:
                 facesContext.responseComplete();
@@ -118,27 +117,15 @@ public class LoginBean implements Serializable {
                     displayError(e.getLocalizedMessage());
                     break;
                 }
-
                 facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastValidLogin"), String.valueOf(userLoginDto.getLastValidLogin())));
                 facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastInvalidLogin"), String.valueOf(userLoginDto.getLastInvalidLogin())));
 
-                userLoginDto.setLastLoginIp(getClientIpAddress());
-                userLoginDto.setLastValidLogin(new Date());
-                userLoginDto.setInvalidLoginAttempts(0);
-
                 try {
-                    userEndpoint.editUserLastLoginAndInvalidLoginAttempts(userLoginDto, userLoginDto.getId(),0);
+                    userEndpoint.saveSuccessAuthenticate(username, getClientIpAddress(), new Date());
                 } catch (AppBaseException e) {
+                    // TODO co zrobić tutaj z wyjątkiem jeszcze??
                     displayError(e.getLocalizedMessage());
                     break;
-                }
-
-                LOGGER.log(Level.INFO,"User: " + username + " starts the session with the IP address: " + getClientIpAddress());
-
-                UserAccessLevelDto userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(userLoginDto.getId());
-                if (userAccessLevelDto.getAdmin().getLeft()) {
-                    SendEmail sendEmail = new SendEmail();
-                    sendEmail.sendEmailNotificationAboutNewAdminAuthentication(userLoginDto.getEmail(), getClientIpAddress());
                 }
 
                 if (FacesContext.getCurrentInstance().getExternalContext().isUserInRole(CLIENT_ACCESS_LEVEL)) {
@@ -156,51 +143,21 @@ public class LoginBean implements Serializable {
                 break;
             case SEND_FAILURE:
                 try {
-                    userLoginDto = userEndpoint.getLoginDtoByLogin(username);
+                    userEndpoint.saveFailureAuthenticate(username, new Date());
                 } catch (AppBaseException e) {
-                    displayError(e.getLocalizedMessage());
-                    externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
-                    break;
-                }
-
-
-                if (userLoginDto != null && !userLoginDto.getLocked()) {
-                    Integer attempts = userLoginDto.getInvalidLoginAttempts();
-                    attempts += 1;
-
-                    if (attempts <= 2) {
-                        facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), attempts + " " + bundle.getString("invalidLoginAttempts")));
-                    } else {
-                        facesContext.addMessage(null, new FacesMessage(SEVERITY_ERROR, bundle.getString("block"), attempts + " " + bundle.getString("invalidLoginAttempts") + bundle.getString("blockAccount")));
-                    }
-                    userLoginDto.setLastInvalidLogin(new Date());
-
-                    try {
-                        userEndpoint.editUserLastLoginAndInvalidLoginAttempts(userLoginDto, userLoginDto.getId(),attempts);
-                    } catch (AppBaseException e) {
-                        displayError(e.getLocalizedMessage());
-                        externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
-                        break;
-                    }
-
-
+                    LOGGER.log(Level.WARNING, "In authenticate, return status=SEND_FAILURE, User: " + username + " Exception: " + e.toString());
+                } finally {
                     facesContext.addMessage(null,
                             new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authenticationFailed")));
+                    externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
                 }
-
-                externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
                 break;
             case NOT_DONE:
                 break;
         }
     }
 
-    public void displayMessage() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getFlash().setKeepMessages(true);
-    }
     private void displayError(String message) {
-        facesContext.getExternalContext().getFlash().setKeepMessages(true);
         ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
         String msg = resourceBundle.getString(message);
         String head = resourceBundle.getString("error");

@@ -16,6 +16,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 import static java.util.concurrent.TimeUnit.*;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
@@ -30,6 +31,7 @@ import java.util.UUID;
 @Interceptors(LoggerInterceptor.class)
 public class UserManager extends AbstractManager implements SessionSynchronization {
     private final SendEmail sendEmail = new SendEmail();
+    private String ADMIN_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
     @Inject
     private AccessLevelFacade accessLevelFacade;
@@ -37,13 +39,14 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     private UserFacade userFacade;
     @Inject
     private BCryptPasswordHash bCryptPasswordHash;
-    private User userEntityEdit;
+
 
     private int methodInvocationCounter = 0;
 
     @PostConstruct
     private void init() {
         PropertyReader propertyReader = new PropertyReader();
+        ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
     }
 
@@ -160,7 +163,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         sendEmail.unlockInfoEmail(userToEdit.getEmail());
     }
 
-
+    @RolesAllowed("getLoginDtoByLogin")
     public User getUserByLogin(String userLogin) throws AppBaseException {
          return userFacade.findByLogin(userLogin);
     }
@@ -184,20 +187,43 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         String userName = user.getFirstName();
         sendEmail.sendActivationEmail(createVerificationLink(user), userName, email);
     }
-
+    @RolesAllowed("saveSuccessAuthenticate")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUserLastLoginAndInvalidLoginAttempts(User user, Long userId, Integer attempts) throws AppBaseException {
-        User userToEdit = userFacade.find(userId);
-        userToEdit.setLastValidLogin(user.getLastValidLogin());
-        userToEdit.setLastInvalidLogin(user.getLastInvalidLogin());
-        userToEdit.setLastLoginIp(user.getLastLoginIp());
-        userToEdit.setInvalidLoginAttempts(attempts);
-        if (attempts == 3) {
-            userToEdit.setInvalidLoginAttempts(0);
-            userToEdit.setLocked(true);
-        }
+    public void saveSuccessAuthenticate(String login, String clientIpAddress, Date date) throws AppBaseException {
+        User userToEdit = userFacade.findByLogin(login);
+        userToEdit.setLastLoginIp(clientIpAddress);
+        userToEdit.setLastValidLogin(date);
+        userToEdit.setInvalidLoginAttempts(0);
         userFacade.edit(userToEdit);
+
+        if(userToEdit.getUserAccessLevels().stream().anyMatch(n -> n.getAccessLevel().getName().equals(ADMIN_ACCESS_LEVEL))){
+            sendEmail.sendEmailNotificationAboutNewAdminAuthentication(userToEdit.getEmail(), clientIpAddress);
+        }
     }
+    @PermitAll
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void saveFailureAuthenticate(String login, Date date) throws AppBaseException{
+        User userToEdit = userFacade.findByLogin(login);
+        boolean sendBlockEmail = false;
+        if(userToEdit.isActivated() && !userToEdit.isLocked()) {
+            userToEdit.setLastInvalidLogin(date);
+            Integer attempts = userToEdit.getInvalidLoginAttempts() + 1;
+            if (attempts == 3) {
+                userToEdit.setInvalidLoginAttempts(0);
+                userToEdit.setLocked(true);
+                sendBlockEmail=true;
+
+            } else {
+                userToEdit.setInvalidLoginAttempts(attempts);
+            }
+            userFacade.flush();
+
+            if(sendBlockEmail){
+                sendEmail.lockInfoEmail(userToEdit.getEmail());
+            }
+        }
+    }
+
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userFacade.getFilteredRowCount(filters);
     }
@@ -234,4 +260,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userToEdit.setPassword(passwordHash);
         userFacade.edit(userToEdit);
     }
+
+
+
 }

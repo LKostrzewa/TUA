@@ -11,6 +11,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.LocalBean;
@@ -20,8 +21,10 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.persistence.OptimisticLockException;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -77,7 +80,7 @@ public class UserEndpoint implements Serializable {
     public UserDetailsDto getUserDetailsDtoById(Long userId) {
         return ObjectMapperUtils.map(userManager.getUserById(userId), UserDetailsDto.class);
     }
-
+    @RolesAllowed("getLoginDtoByLogin")
     public UserLoginDto getLoginDtoByLogin(String userLogin) throws AppBaseException {
         return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserLoginDto.class);
     }
@@ -133,11 +136,15 @@ public class UserEndpoint implements Serializable {
     public void confirmActivationCode(String code) throws AppBaseException{
         userManager.confirmActivationCode(code);
     }
-
-    public void editUserLastLoginAndInvalidLoginAttempts(UserLoginDto userLoginDto, Long userId,Integer attempts) throws AppBaseException {
-        User user = ObjectMapperUtils.map(userLoginDto, User.class);
-        userManager.editUserLastLoginAndInvalidLoginAttempts(user, userId,attempts);
+    @RolesAllowed("saveSuccessAuthenticate")
+    public void saveSuccessAuthenticate(String login, String clientIpAddress, Date date) throws AppBaseException {
+        userManager.saveSuccessAuthenticate(login, clientIpAddress, date);
     }
+    @PermitAll
+    public void saveFailureAuthenticate(String login, Date date) throws AppBaseException {
+        userManager.saveFailureAuthenticate(login, date);
+    }
+
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userManager.getFilteredRowCount(filters);
     }
@@ -154,4 +161,7 @@ public class UserEndpoint implements Serializable {
     public void resetPassword(String resetPasswordCode, String password) throws AppBaseException {
         userManager.resetPassword(resetPasswordCode,password);
     }
+
+
+
 }
