@@ -67,6 +67,9 @@
         <role-name>changeUserPassword</role-name>
     </security-role>
     <security-role>
+        <role-name>changeOwnPassword</role-name>
+    </security-role>
+    <security-role>
         <role-name>lockAccount</role-name>
     </security-role>
     <security-role>

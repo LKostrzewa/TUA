@@ -57,9 +57,7 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     @Override
-    @RolesAllowed({"lockAccount", "changeUserPassword"})
-    //????
-//    @PermitAll
+    @RolesAllowed({"lockAccount", "changeUserPassword", "changeOwnPassword"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(User user) throws AppBaseException {
         super.edit(user);
@@ -71,7 +69,7 @@ public class UserFacade extends AbstractFacade<User> {
         super.create(user);
     }
 
-    @PermitAll
+    @RolesAllowed("changeOwnPassword")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User findByLogin(String userLogin) throws AppBaseException {
         try {

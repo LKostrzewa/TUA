@@ -14,7 +14,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
@@ -146,7 +145,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param givenOldPassword hasło podane w formularzu wykorzystywane przy weryfikacji użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @PermitAll
+    @RolesAllowed("changeOwnPassword")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void changeOwnPassword(User user, String userLogin, String givenOldPassword) throws AppBaseException {
         User userToEdit = userFacade.findByLogin(userLogin);

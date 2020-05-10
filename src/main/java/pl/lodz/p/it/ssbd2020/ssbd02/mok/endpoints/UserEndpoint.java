@@ -117,7 +117,7 @@ public class UserEndpoint implements Serializable {
      * @param userLogin            login użytkownika, którego hasło ulegnie modyfikacji
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @PermitAll
+    @RolesAllowed("changeOwnPassword")
     public void changeOwnPassword(ChangeOwnPasswordDto changeOwnPasswordDto, String userLogin) throws AppBaseException {
         User user = ObjectMapperUtils.map(changeOwnPasswordDto, User.class);
         userManager.changeOwnPassword(user, userLogin, changeOwnPasswordDto.getOldPassword());
