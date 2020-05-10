@@ -47,16 +47,16 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
     }
 
-    private void addUser(User user, boolean active) throws AppBaseException {
-        PropertyReader propertyReader = new PropertyReader();
+    public void addNewUser(User user) throws AppBaseException {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         if (userFacade.existByLogin(user.getLogin())) {
-            throw new LoginNotUniqueException("exception.loginNotUnique");
+            throw LoginNotUniqueException.createLoginNotUniqueException(user);
+            //throw new LoginNotUniqueException("exception.loginNotUnique");
         }
         if (userFacade.existByEmail(user.getEmail())) {
             throw new EmailNotUniqueException("exception.emailNotUnique");
         }
-        user.setActivated(active);
+        user.setActivated(true);
         user.setLocked(false);
         user.setPassword(passwordHash);
         user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
@@ -72,11 +72,13 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     public void registerNewUser(User user) throws AppBaseException {
     methodInvocationCounter++;
     if(methodInvocationCounter==METHOD_INVOCATION_LIMIT) {
-        throw new RepeatedRollBackException("exception.repeated.rollback");
+        //throw new RepeatedRollBackException("exception.repeated.rollback");
+        throw RepeatedRollBackException.createRepeatedRollBackException(user);
     }
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         if (userFacade.existByLogin(user.getLogin())) {
-            throw new LoginNotUniqueException("exception.loginNotUnique");
+            throw LoginNotUniqueException.createLoginNotUniqueException(user);
+            //throw new LoginNotUniqueException("exception.loginNotUnique");
         }
         if (userFacade.existByEmail(user.getEmail())) {
             throw new EmailNotUniqueException("exception.emailNotUnique");
@@ -93,10 +95,6 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.create(user);
 
         sendEmailWithCode(user);
-    }
-
-    public void addNewUser(User user) throws AppBaseException {
-        addUser(user, true);
     }
 
     public List<User> getAll() {
