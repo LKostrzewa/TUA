@@ -47,12 +47,12 @@
         <role-name>ADMINISTRATOR</role-name>
     </security-role>
 
-<!--UserEndpoint-->
+    <!--UserEndpoint-->
     <security-role>
         <role-name>addNewUser</role-name>
     </security-role>
     <security-role>
-        <role-name>getAllUserReportDto</role-name>
+        <role-name>getUserReport</role-name>
     </security-role>
     <security-role>
         <role-name>getEditUserDtoById</role-name>

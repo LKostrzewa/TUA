@@ -46,7 +46,7 @@ public class ChangePasswordPageBean implements Serializable {
     }
 
     public String changePassword() throws AppBaseException {
-        userEndpoint.editUserPassword(changePasswordDto, userId);
+        userEndpoint.changeUserPassword(changePasswordDto, userId);
         displayMessage();
         return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
