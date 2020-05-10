@@ -52,14 +52,10 @@ public class UserEndpoint implements Serializable {
     /**
      * Metoda, która pobiera z bazy listę obiektów.
      *
-     * @return lista obiektów typu UserReportDto
+     * @return lista obiektów
      */
     public List<UserReportDto> getUserReport() {
         return ObjectMapperUtils.mapAll(userManager.getAll(), UserReportDto.class);
-    }
-
-    public ChangePasswordDto getChangePasswordDtoById(Long id) {
-        return ObjectMapperUtils.map(userManager.getUserById(id), ChangePasswordDto.class);
     }
 
     public EditUserDto getEditUserDtoById(Long userId) {
@@ -152,10 +148,24 @@ public class UserEndpoint implements Serializable {
         userManager.editUserLastLoginAndInvalidLoginAttempts(user, userId, attempts);
     }
 
+    /**
+     * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
+     *
+     * @param filters para filtrowanych pól i ich wartości
+     * @return liczba obiektów poddanych filtrowaniu
+     */
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userManager.getFilteredRowCount(filters);
     }
 
+    /**
+     * Metoda, która pobiera z bazy listę filtrowanych obiektów.
+     *
+     * @param first    numer pierwszego obiektu
+     * @param pageSize rozmiar strony
+     * @param filters  para filtrowanych pól i ich wartości
+     * @return lista filtrowanych obiektów
+     */
     public List<ListUsersDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
         List<ListUsersDto> users = ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
         Collections.sort(users);

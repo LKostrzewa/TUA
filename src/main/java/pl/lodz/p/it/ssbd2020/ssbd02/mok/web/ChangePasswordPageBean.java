@@ -36,7 +36,7 @@ public class ChangePasswordPageBean implements Serializable {
     }
 
     public void init() {
-        this.changePasswordDto = userEndpoint.getChangePasswordDtoById(userId);
+        this.changePasswordDto = new ChangePasswordDto();
     }
 
     public void displayMessage() {

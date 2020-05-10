@@ -42,6 +42,7 @@ public class UserFacade extends AbstractFacade<User> {
         return entityManager;
     }
 
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     @Override
     public List<User> findAll() {
         return super.findAll();
@@ -70,8 +71,8 @@ public class UserFacade extends AbstractFacade<User> {
     public User findByLogin(String userLogin) throws AppBaseException {
         try {
             return getEntityManager().createNamedQuery("User.findByLogin", User.class)
-                    .setParameter("login",userLogin).getSingleResult();
-        } catch (NoResultException e){
+                    .setParameter("login", userLogin).getSingleResult();
+        } catch (NoResultException e) {
             throw new UserNotFoundException("exception.userNotFound");
         }
     }
@@ -87,23 +88,23 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public User findByEmail(String email) throws AppBaseException{
+    public User findByEmail(String email) throws AppBaseException {
         TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByEmail", User.class);
         typedQuery.setParameter("email", email);
         try {
             return typedQuery.getSingleResult();
-        } catch (NoResultException e){
+        } catch (NoResultException e) {
             throw new UserNotFoundException("exception.userNotFound");
         }
     }
 
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public User findByResetPasswordCode(String resetPasswordCode) throws AppBaseException{
+    public User findByResetPasswordCode(String resetPasswordCode) throws AppBaseException {
         TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByResetPasswordCode", User.class);
         typedQuery.setParameter("resetPasswordCode", resetPasswordCode);
         try {
             return typedQuery.getSingleResult();
-        } catch (NoResultException e){
+        } catch (NoResultException e) {
             throw new UserNotFoundException("exception.userNotFound");
         }
     }
@@ -114,6 +115,16 @@ public class UserFacade extends AbstractFacade<User> {
         typedQuery.setParameter("activationCode", activationCode);
         return typedQuery.getSingleResult();
     }
+
+    /**
+     * Metoda, która pobiera z bazy listę filtrowanych obiektów.
+     *
+     * @param start   numer pierwszego obiektu
+     * @param size    rozmiar strony
+     * @param filters para filtrowanych pól i ich wartości
+     * @return lista filtrowanych obiektów
+     */
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<User> getResultList(int start, int size,
                                     Map<String, FilterMeta> filters) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -143,6 +154,14 @@ public class UserFacade extends AbstractFacade<User> {
 
         return entityManager.createQuery(select).setFirstResult(start).setMaxResults(size).getResultList();
     }
+
+    /**
+     * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
+     *
+     * @param filters para filtrowanych pól i ich wartości
+     * @return liczba obiektów poddanych filtrowaniu
+     */
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);

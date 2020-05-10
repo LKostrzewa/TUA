@@ -103,8 +103,9 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     /**
      * Metoda, która pobiera z bazy listę obiektów.
      *
-     * @return lista obiektów typu User
+     * @return lista obiektów
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<User> getAll() {
         return userFacade.findAll();
     }
@@ -122,8 +123,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     /**
      * Metoda wykorzystywana do zmiany hasła innego użytkownika zgodnie z przekazanymi parametrami.
      *
-     * @param user obiekt przechowujący dane wprowadzone w formularzu
-     * @param userId            id użytkownika, którego hasło ulegnie modyfikacji
+     * @param user   obiekt przechowujący dane wprowadzone w formularzu
+     * @param userId id użytkownika, którego hasło ulegnie modyfikacji
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -181,7 +182,6 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         sendEmail.unlockInfoEmail(userToEdit.getEmail());
     }
 
-
     public User getUserByLogin(String userLogin) throws AppBaseException {
         return userFacade.findByLogin(userLogin);
     }
@@ -220,10 +220,26 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.edit(userToEdit);
     }
 
+    /**
+     * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
+     *
+     * @param filters para filtrowanych pól i ich wartości
+     * @return liczba obiektów poddanych filtrowaniu
+     */
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userFacade.getFilteredRowCount(filters);
     }
 
+    /**
+     * Metoda, która pobiera z bazy listę filtrowanych obiektów.
+     *
+     * @param first    numer pierwszego obiektu
+     * @param pageSize rozmiar strony
+     * @param filters  para filtrowanych pól i ich wartości
+     * @return lista filtrowanych obiektów
+     */
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<User> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
         return userFacade.getResultList(first, pageSize, filters);
     }
