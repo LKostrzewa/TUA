@@ -9,6 +9,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.LocalBean;
@@ -54,6 +55,7 @@ public class UserEndpoint implements Serializable {
      *
      * @return lista obiektów
      */
+    @RolesAllowed("getUserReport")
     public List<UserReportDto> getUserReport() {
         return ObjectMapperUtils.mapAll(userManager.getAll(), UserReportDto.class);
     }
@@ -102,6 +104,7 @@ public class UserEndpoint implements Serializable {
      * @param userId            id użytkownika, którego hasło ulegnie modyfikacji
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
+    @RolesAllowed("changeUserPassword")
     public void changeUserPassword(ChangePasswordDto changePasswordDto, Long userId) throws AppBaseException {
         User user = ObjectMapperUtils.map(changePasswordDto, User.class);
         userManager.changeUserPassword(user, userId);
@@ -114,6 +117,7 @@ public class UserEndpoint implements Serializable {
      * @param userLogin            login użytkownika, którego hasło ulegnie modyfikacji
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
+    @PermitAll
     public void changeOwnPassword(ChangeOwnPasswordDto changeOwnPasswordDto, String userLogin) throws AppBaseException {
         User user = ObjectMapperUtils.map(changeOwnPasswordDto, User.class);
         userManager.changeOwnPassword(user, userLogin, changeOwnPasswordDto.getOldPassword());
@@ -154,6 +158,7 @@ public class UserEndpoint implements Serializable {
      * @param filters para filtrowanych pól i ich wartości
      * @return liczba obiektów poddanych filtrowaniu
      */
+    @RolesAllowed("getFilteredRowCount")
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userManager.getFilteredRowCount(filters);
     }
@@ -166,6 +171,7 @@ public class UserEndpoint implements Serializable {
      * @param filters  para filtrowanych pól i ich wartości
      * @return lista filtrowanych obiektów
      */
+    @RolesAllowed("getResultList")
     public List<ListUsersDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
         List<ListUsersDto> users = ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
         Collections.sort(users);

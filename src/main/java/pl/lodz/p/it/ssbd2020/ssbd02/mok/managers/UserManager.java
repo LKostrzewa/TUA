@@ -14,6 +14,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
@@ -105,6 +106,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      *
      * @return lista obiektów
      */
+    @RolesAllowed("getUserReport")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<User> getAll() {
         return userFacade.findAll();
@@ -127,6 +129,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param userId id użytkownika, którego hasło ulegnie modyfikacji
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
+    @RolesAllowed("changeUserPassword")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void changeUserPassword(User user, Long userId) throws AppBaseException {
         User userToEdit = userFacade.find(userId);
@@ -143,6 +146,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param givenOldPassword hasło podane w formularzu wykorzystywane przy weryfikacji użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void changeOwnPassword(User user, String userLogin, String givenOldPassword) throws AppBaseException {
         User userToEdit = userFacade.findByLogin(userLogin);
@@ -226,6 +230,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param filters para filtrowanych pól i ich wartości
      * @return liczba obiektów poddanych filtrowaniu
      */
+    @RolesAllowed("getFilteredRowCount")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userFacade.getFilteredRowCount(filters);
@@ -239,6 +244,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param filters  para filtrowanych pól i ich wartości
      * @return lista filtrowanych obiektów
      */
+    @RolesAllowed("getResultList")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<User> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
         return userFacade.getResultList(first, pageSize, filters);

@@ -64,7 +64,7 @@
         <role-name>getLoginDtoByLogin</role-name>
     </security-role>
     <security-role>
-        <role-name>editUserPassword</role-name>
+        <role-name>changeUserPassword</role-name>
     </security-role>
     <security-role>
         <role-name>lockAccount</role-name>
@@ -94,7 +94,6 @@
     <security-role>
         <role-name>editAccessLevels</role-name>
     </security-role>
-
 
     <security-constraint>
         <web-resource-collection>

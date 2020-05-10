@@ -43,20 +43,23 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    @RolesAllowed("getUserReport")
     @Override
     public List<User> findAll() {
         return super.findAll();
     }
 
     @Override
-    @RolesAllowed("lockAccount")
+    @RolesAllowed({"lockAccount", "changeUserPassword"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User find(Object id) {
         return super.find(id);
     }
 
     @Override
-    @RolesAllowed("lockAccount")
+    @RolesAllowed({"lockAccount", "changeUserPassword"})
+    //????
+//    @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(User user) throws AppBaseException {
         super.edit(user);
@@ -68,6 +71,8 @@ public class UserFacade extends AbstractFacade<User> {
         super.create(user);
     }
 
+    @PermitAll
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User findByLogin(String userLogin) throws AppBaseException {
         try {
             return getEntityManager().createNamedQuery("User.findByLogin", User.class)
@@ -124,6 +129,7 @@ public class UserFacade extends AbstractFacade<User> {
      * @param filters para filtrowanych pól i ich wartości
      * @return lista filtrowanych obiektów
      */
+    @RolesAllowed("getResultList")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<User> getResultList(int start, int size,
                                     Map<String, FilterMeta> filters) {
@@ -161,6 +167,7 @@ public class UserFacade extends AbstractFacade<User> {
      * @param filters para filtrowanych pól i ich wartości
      * @return liczba obiektów poddanych filtrowaniu
      */
+    @RolesAllowed("getFilteredRowCount")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
