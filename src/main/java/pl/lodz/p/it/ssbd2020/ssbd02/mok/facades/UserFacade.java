@@ -55,7 +55,7 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     @Override
-    @RolesAllowed({"lockAccount","saveSuccessAuthenticate"})
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(User user) throws AppBaseException {
         super.edit(user);

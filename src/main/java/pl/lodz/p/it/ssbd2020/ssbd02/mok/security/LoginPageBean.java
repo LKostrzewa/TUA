@@ -115,7 +115,6 @@ public class LoginPageBean implements Serializable {
                     userLoginDto = userEndpoint.getLoginDtoByLogin(username);
                 } catch (AppBaseException e) {
                     displayError(e.getLocalizedMessage());
-                    break;
                 }
                 facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastValidLogin"), String.valueOf(userLoginDto.getLastValidLogin())));
                 facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastInvalidLogin"), String.valueOf(userLoginDto.getLastInvalidLogin())));
@@ -123,9 +122,7 @@ public class LoginPageBean implements Serializable {
                 try {
                     userEndpoint.saveSuccessAuthenticate(username, getClientIpAddress(), new Date());
                 } catch (AppBaseException e) {
-                    // TODO co zrobić tutaj z wyjątkiem jeszcze??
                     displayError(e.getLocalizedMessage());
-                    break;
                 }
 
                 if (FacesContext.getCurrentInstance().getExternalContext().isUserInRole(CLIENT_ACCESS_LEVEL)) {

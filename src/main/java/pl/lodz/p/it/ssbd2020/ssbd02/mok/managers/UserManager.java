@@ -216,7 +216,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
             } else {
                 userToEdit.setInvalidLoginAttempts(attempts);
             }
-            userFacade.flush();
+            userFacade.edit(userToEdit);
 
             if(sendBlockEmail){
                 sendEmail.lockInfoEmail(userToEdit.getEmail());
