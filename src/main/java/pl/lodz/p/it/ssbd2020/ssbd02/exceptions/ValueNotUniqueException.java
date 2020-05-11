@@ -4,8 +4,8 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 
 public class ValueNotUniqueException extends AppBaseException {
 
-    public static String EMAIL_MESSAGE_KEY = "exception.emailNotUnique";
-    public static String LOGIN_MESSAGE_KEY = "exception.loginNotUnique";
+    public static final String EMAIL_MESSAGE_KEY = "exception.emailNotUnique";
+    public static final String LOGIN_MESSAGE_KEY = "exception.loginNotUnique";
 
     private Object object;
 

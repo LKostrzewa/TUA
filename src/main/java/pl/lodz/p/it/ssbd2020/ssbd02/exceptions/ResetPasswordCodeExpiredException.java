@@ -5,7 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 
 public class ResetPasswordCodeExpiredException extends AppBaseException {
 
-    public static String RESET_CODE_EXPIRED_CONSTRAINT_KEY = "exception.codeExpired";
+    public static final String RESET_CODE_EXPIRED_CONSTRAINT_KEY = "exception.codeExpired";
 
     private User user;
 

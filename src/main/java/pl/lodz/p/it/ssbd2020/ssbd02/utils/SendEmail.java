@@ -2,7 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.utils;
 
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.EmailNotSentException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.EmailNotSentException;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -91,7 +91,7 @@ public class SendEmail {
             Transport.send(message);
 
         } catch (MessagingException e) {
-            throw new EmailNotSentException("exception.emailNotSent");
+            throw EmailNotSentException.createEmailNotSentException(e);
         }
     }
 }

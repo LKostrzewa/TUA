@@ -50,10 +50,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         if (userFacade.existByLogin(user.getLogin())) {
             throw ValueNotUniqueException.createLoginNotUniqueException(user);
-            //throw new LoginNotUniqueException("exception.loginNotUnique");
         }
         if (userFacade.existByEmail(user.getEmail())) {
-            //throw new EmailNotUniqueException("exception.emailNotUnique");
             throw ValueNotUniqueException.createEmailNotUniqueException(user);
         }
         user.setActivated(true);

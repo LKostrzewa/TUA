@@ -1,11 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.exceptions;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 
 public class IncorrectPasswordException extends AppBaseException {
 
-    public static String INCORRECT_CONSTRAINT_KEY = "exception.incorrectPassword";
+    public static final String INCORRECT_CONSTRAINT_KEY = "exception.incorrectPassword";
 
     private User user;
 
