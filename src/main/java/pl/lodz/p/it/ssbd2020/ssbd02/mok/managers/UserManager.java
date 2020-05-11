@@ -162,7 +162,13 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
         sendEmail.unlockInfoEmail(userToEdit.getEmail());
     }
-
+    /**
+     * Metoda, która zwraca użytkownika o podanym loginie.
+     *
+     * @param userLogin login użytkownika.
+     * @return encje User
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @RolesAllowed("getLoginDtoByLogin")
     public User getUserByLogin(String userLogin) throws AppBaseException {
          return userFacade.findByLogin(userLogin);
@@ -187,6 +193,16 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         String userName = user.getFirstName();
         sendEmail.sendActivationEmail(createVerificationLink(user), userName, email);
     }
+
+    /**
+     * Metoda, która zapisuje informacje o poprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
+     * Ustawia ilość niepoprawnych logować na 0. Wysyła mail do użytkownika jeśli zalogował się administrator.
+     *
+     * @param login login użytkownika
+     * @param clientIpAddress adres ip użytkownika
+     * @param date data zalogowania użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @RolesAllowed("saveSuccessAuthenticate")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void saveSuccessAuthenticate(String login, String clientIpAddress, Date date) throws AppBaseException {
@@ -200,6 +216,15 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
             sendEmail.sendEmailNotificationAboutNewAdminAuthentication(userToEdit.getEmail(), clientIpAddress);
         }
     }
+
+    /**
+     * Metoda, która zapisuje informacje o niepoprawnym uwierzytelnianiu( adres ip użytkownika, data logowania)
+     * Zwiększa ilość niepoprawnych logować o 1. Jeśli wartość niepoprawnych logowań osiągnie 3, blokuje konto i wysyła maila.
+     *
+     * @param login login użytkownika
+     * @param date data zalogowania użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void saveFailureAuthenticate(String login, Date date) throws AppBaseException{

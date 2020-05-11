@@ -54,6 +54,12 @@ public class UserFacade extends AbstractFacade<User> {
         return super.find(id);
     }
 
+    /**
+     * Metoda, która edytuje encje user.
+     *
+     * @param user encja użytkownika.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @Override
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -67,6 +73,13 @@ public class UserFacade extends AbstractFacade<User> {
         super.create(user);
     }
 
+    /**
+     * Metoda, która zwraca użytkownika o podanym loginie.
+     *
+     * @param userLogin login użytkownika.
+     * @return encje User
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User findByLogin(String userLogin) throws AppBaseException {

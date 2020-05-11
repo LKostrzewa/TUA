@@ -24,7 +24,11 @@ public class SendEmail {
         String emailText = propertyReader.getProperty("emailMessages", "afterActivationText");
         emailBody(userEmail, emailSubject, emailText);
     }
-
+    /**
+     * Metoda, która wysyła maila do użytkownika, powiadamiająca go o zablokowaniu konta.
+     *
+     * @param userEmail email użytkownika
+     */
     public void lockInfoEmail(String userEmail) {
         PropertyReader propertyReader = new PropertyReader();
         String emailSubject = propertyReader.getProperty("emailMessages", "lockInfoSubject");
@@ -39,7 +43,12 @@ public class SendEmail {
         String emailText = propertyReader.getProperty("emailMessages", "unlockInfoText");
         emailBody(userEmail, emailSubject, emailText);
     }
-
+    /**
+     * Metoda, która wysyła maila do użytkownika z poziomem dostępu administrator, powiadamiająca go o zalogowaniu
+     *
+     * @param userEmail email użytkownika
+     * @param clientIpAddress adres ip użytkownika
+     */
     public void sendEmailNotificationAboutNewAdminAuthentication(String userEmail, String clientIpAddress) {
         PropertyReader propertyReader= new PropertyReader();
         String emailSubject= propertyReader.getProperty("emailMessages","adminAuthenticationSubject");
