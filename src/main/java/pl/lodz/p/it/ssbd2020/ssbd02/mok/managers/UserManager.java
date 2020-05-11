@@ -234,7 +234,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         boolean sendBlockEmail = false;
         if (userToEdit.isActivated() && !userToEdit.isLocked()) {
             userToEdit.setLastInvalidLogin(date);
-            Integer attempts = userToEdit.getInvalidLoginAttempts() + 1;
+            int attempts = userToEdit.getInvalidLoginAttempts() + 1;
             if (attempts == 3) {
                 userToEdit.setInvalidLoginAttempts(0);
                 userToEdit.setLocked(true);
