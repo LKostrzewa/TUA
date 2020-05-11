@@ -1,13 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserLoginDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -31,7 +28,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
@@ -42,6 +38,7 @@ import static javax.security.enterprise.authentication.mechanism.http.Authentica
 @SessionScoped
 @Interceptors(LoggerInterceptor.class)
 public class LoginPageBean implements Serializable {
+    private final Logger LOGGER = Logger.getGlobal();
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
@@ -53,15 +50,11 @@ public class LoginPageBean implements Serializable {
     private FacesContext facesContext;
     @Inject
     private ExternalContext externalContext;
-
     @NotBlank(message = "{username.message}")
     private String username;
     @NotBlank(message = "{password.message}")
     private String password;
-
     private UserLoginDto userLoginDto;
-
-    private final Logger LOGGER = Logger.getGlobal();
 
     public UserLoginDto getUserLoginDto() {
         return userLoginDto;
@@ -142,8 +135,6 @@ public class LoginPageBean implements Serializable {
                 try {
                     userEndpoint.saveFailureAuthenticate(username, new Date());
                 } catch (AppBaseException e) {
-                    LOGGER.log(Level.WARNING, "In authenticate, return status=SEND_FAILURE, User: " + username + " Exception: " + e.toString());
-                } finally {
                     facesContext.addMessage(null,
                             new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authenticationFailed")));
                     externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
