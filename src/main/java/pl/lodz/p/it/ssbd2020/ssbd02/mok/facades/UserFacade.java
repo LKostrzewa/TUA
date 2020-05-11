@@ -54,8 +54,14 @@ public class UserFacade extends AbstractFacade<User> {
         return super.find(id);
     }
 
+    /**
+     * Metoda, która edytuje encje user.
+     *
+     * @param user encja użytkownika.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @Override
-    @RolesAllowed("lockAccount")
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(User user) throws AppBaseException {
         super.edit(user);
@@ -67,6 +73,15 @@ public class UserFacade extends AbstractFacade<User> {
         super.create(user);
     }
 
+    /**
+     * Metoda, która zwraca użytkownika o podanym loginie.
+     *
+     * @param userLogin login użytkownika.
+     * @return encje User
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User findByLogin(String userLogin) throws AppBaseException {
         try {
             return getEntityManager().createNamedQuery("User.findByLogin", User.class)
@@ -114,6 +129,14 @@ public class UserFacade extends AbstractFacade<User> {
         typedQuery.setParameter("activationCode", activationCode);
         return typedQuery.getSingleResult();
     }
+
+    @Override
+    @PermitAll
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void flush() throws AppBaseException {
+        super.flush();
+    }
+
     public List<User> getResultList(int start, int size,
                                     Map<String, FilterMeta> filters) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
