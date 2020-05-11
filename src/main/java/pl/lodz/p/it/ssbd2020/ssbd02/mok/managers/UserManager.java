@@ -70,16 +70,13 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     public void registerNewUser(User user) throws AppBaseException {
     methodInvocationCounter++;
     if(methodInvocationCounter==METHOD_INVOCATION_LIMIT) {
-        //throw new RepeatedRollBackException("exception.repeated.rollback");
         throw RepeatedRollBackException.createRepeatedRollBackException(user);
     }
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         if (userFacade.existByLogin(user.getLogin())) {
             throw ValueNotUniqueException.createLoginNotUniqueException(user);
-            //throw new LoginNotUniqueException("exception.loginNotUnique");
         }
         if (userFacade.existByEmail(user.getEmail())) {
-            //throw new EmailNotUniqueException("exception.emailNotUnique");
             throw ValueNotUniqueException.createEmailNotUniqueException(user);
         }
         user.setActivated(false);
@@ -126,7 +123,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
             throw IncorrectPasswordException.createIncorrectPasswordException(user);
         }
         if(bCryptPasswordHash.verify(user.getPassword().toCharArray(), userToEdit.getPassword())) {
-            throw IncorrectPasswordException.createIncorrectPasswordException(user);
+            throw PasswordIdenticalException.createPasswordIdenticalException(user);
         }
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         userToEdit.setPassword(passwordHash);
@@ -225,8 +222,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         long MAX_DURATION = MILLISECONDS.convert(15, MINUTES);
         long duration = now.getTime()-resetPasswordCodeAddDate.getTime();
         if(duration>=MAX_DURATION){
-            throw new ResetPasswordCodeExpiredException("exception.codeExpired");
-            //throw ResetPasswordCodeExpiredException.createPasswordExceptionWithCodeExpiredConstraint(userToEdit);
+            throw ResetPasswordCodeExpiredException.createPasswordExceptionWithCodeExpiredConstraint(userToEdit);
         }
         String passwordHash = bCryptPasswordHash.generate(password.toCharArray());
         userToEdit.setPassword(passwordHash);
