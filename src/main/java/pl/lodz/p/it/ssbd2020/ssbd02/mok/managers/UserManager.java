@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.managers;
 
 import org.primefaces.model.FilterMeta;
-import org.primefaces.model.SortOrder;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
@@ -13,7 +12,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
-import static java.util.concurrent.TimeUnit.*;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
@@ -24,6 +22,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 @Stateful
 @LocalBean
@@ -70,10 +71,10 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void registerNewUser(User user) throws AppBaseException {
-    methodInvocationCounter++;
-    if(methodInvocationCounter==METHOD_INVOCATION_LIMIT) {
-        throw new RepeatedRollBackException("exception.repeated.rollback");
-    }
+        methodInvocationCounter++;
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw new RepeatedRollBackException("exception.repeated.rollback");
+        }
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         if (userFacade.existByLogin(user.getLogin())) {
             throw new LoginNotUniqueException("exception.loginNotUnique");
@@ -109,7 +110,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUser(User user, Long id) throws AppBaseException{
+    public void editUser(User user, Long id) throws AppBaseException {
         userFacade.edit(user);
     }
 
@@ -125,10 +126,10 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     public void editOwnPassword(User user, String userLogin, String givenOldPassword) throws AppBaseException {
         User userToEdit = userFacade.findByLogin(userLogin);
         BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
-        if(!bCryptPasswordHash.verify(givenOldPassword.toCharArray(), userToEdit.getPassword())) {
+        if (!bCryptPasswordHash.verify(givenOldPassword.toCharArray(), userToEdit.getPassword())) {
             throw new IncorrectPasswordException("exception.incorrectPassword");
         }
-        if(bCryptPasswordHash.verify(user.getPassword().toCharArray(), userToEdit.getPassword())) {
+        if (bCryptPasswordHash.verify(user.getPassword().toCharArray(), userToEdit.getPassword())) {
             throw new PasswordIdenticalException("exception.passwordIdentical");
         }
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
@@ -162,7 +163,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
 
     public User getUserByLogin(String userLogin) throws AppBaseException {
-         return userFacade.findByLogin(userLogin);
+        return userFacade.findByLogin(userLogin);
     }
 
     private String createVerificationLink(User user) {
@@ -179,7 +180,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         sendEmail.activationInfoEmail(user.getEmail());
     }
 
-    public void sendEmailWithCode(User user) {
+    public void sendEmailWithCode(User user) throws AppBaseException {
         String email = user.getEmail();
         String userName = user.getFirstName();
         sendEmail.sendActivationEmail(createVerificationLink(user), userName, email);
@@ -198,9 +199,11 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         }
         userFacade.edit(userToEdit);
     }
+
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userFacade.getFilteredRowCount(filters);
     }
+
     public List<User> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
         return userFacade.getResultList(first, pageSize, filters);
     }
@@ -216,7 +219,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
         String link = "<a href=" + "\"http://studapp.it.p.lodz.pl:8002/login/resetPassword.xhtml?key=" + resetPasswordCode + "\">Link</a>";
 
-        sendEmail.sendResetPasswordEmail(email,link);
+        sendEmail.sendResetPasswordEmail(email, link);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -226,8 +229,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         Date resetPasswordCodeAddDate = userToEdit.getResetPasswordCodeAddDate();
         Date now = new Date();
         long MAX_DURATION = MILLISECONDS.convert(15, MINUTES);
-        long duration = now.getTime()-resetPasswordCodeAddDate.getTime();
-        if(duration>=MAX_DURATION){
+        long duration = now.getTime() - resetPasswordCodeAddDate.getTime();
+        if (duration >= MAX_DURATION) {
             throw new ResetPasswordCodeExpiredException("exception.codeExpired");
         }
         String passwordHash = bCryptPasswordHash.generate(password.toCharArray());
