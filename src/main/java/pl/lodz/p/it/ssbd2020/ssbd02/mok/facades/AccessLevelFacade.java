@@ -42,9 +42,8 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
             return typedQuery.getSingleResult();
         }
         catch (NoResultException e) {
-            //throw new AccessLevelNotFoundException("exception.accessLevelDeleted");
-           // throw AppNotFoundException.createAccessLevelNotFoundException();
-            throw new AppNotFoundException(AppNotFoundException.ACCESS_LEVEL_MESSAGE_KEY, e);
+            throw AppNotFoundException.createAccessLevelNotFoundException(e);
+            //throw new AppNotFoundException(AppNotFoundException.ACCESS_LEVEL_MESSAGE_KEY, e);
         }
     }
 }

@@ -72,9 +72,7 @@ public class UserFacade extends AbstractFacade<User> {
             return getEntityManager().createNamedQuery("User.findByLogin", User.class)
                     .setParameter("login",userLogin).getSingleResult();
         } catch (NoResultException e){
-            //throw new UserNotFoundException("exception.userNotFound");
-            throw new AppNotFoundException(AppNotFoundException.USER_MESSAGE_KEY, e);
-            //throw AppNotFoundException.createUserNotFoundException();
+            throw AppNotFoundException.createUserNotFoundException(e);
         }
     }
 
@@ -89,26 +87,24 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public User findByEmail(String email) throws AppBaseException{
+    public User findByEmail(String email) throws AppBaseException {
         TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByEmail", User.class);
         typedQuery.setParameter("email", email);
         try {
             return typedQuery.getSingleResult();
         } catch (NoResultException e){
-            //throw new UserNotFoundException("exception.userNotFound");
-            throw new AppNotFoundException(AppNotFoundException.USER_MESSAGE_KEY, e);
+            throw AppNotFoundException.createUserNotFoundException(e);
         }
     }
 
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public User findByResetPasswordCode(String resetPasswordCode) throws AppBaseException{
+    public User findByResetPasswordCode(String resetPasswordCode) throws AppBaseException {
         TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByResetPasswordCode", User.class);
         typedQuery.setParameter("resetPasswordCode", resetPasswordCode);
         try {
             return typedQuery.getSingleResult();
         } catch (NoResultException e){
-            //throw new UserNotFoundException("exception.userNotFound");
-            throw new AppNotFoundException(AppNotFoundException.USER_MESSAGE_KEY, e);
+            throw AppNotFoundException.createUserNotFoundException(e);
         }
     }
 

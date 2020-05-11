@@ -4,7 +4,6 @@ import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
@@ -124,10 +123,10 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         User userToEdit = userFacade.findByLogin(userLogin);
         BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
         if(!bCryptPasswordHash.verify(givenOldPassword.toCharArray(), userToEdit.getPassword())) {
-            throw new IncorrectPasswordException("exception.incorrectPassword");
+            throw IncorrectPasswordException.createIncorrectPasswordException(user);
         }
         if(bCryptPasswordHash.verify(user.getPassword().toCharArray(), userToEdit.getPassword())) {
-            throw new PasswordIdenticalException("exception.passwordIdentical");
+            throw IncorrectPasswordException.createIncorrectPasswordException(user);
         }
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         userToEdit.setPassword(passwordHash);

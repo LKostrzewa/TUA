@@ -9,7 +9,7 @@ public class AppNotFoundException extends AppBaseException{
     public static String ACCESS_LEVEL_MESSAGE_KEY = "exception.accessLevelDeleted";
     //public static String USER_ACCESS_LEVEL_MESSAGE_KEY = "exception.userNotFound";
     public static String USER_MESSAGE_KEY = "exception.userNotFound";
-    private Object object;
+    private Class objectClass;
     public AppNotFoundException(String message) {
         super(message);
     }
@@ -17,23 +17,23 @@ public class AppNotFoundException extends AppBaseException{
         super(message, cause);
     }
 
-    public Object getObject() {
-        return object;
+    public Class getObjectClass() {
+        return objectClass;
     }
 
-    public void setObject(Object object) {
-        this.object = object;
+    public void setObjectClass(Class objectClass) {
+        this.objectClass = objectClass;
     }
 
-    public static AppNotFoundException createAccessLevelNotFoundException(AccessLevel accessLevel, Throwable cause) {
+    public static AppNotFoundException createAccessLevelNotFoundException(Throwable cause) {
         AppNotFoundException nfe = new AppNotFoundException(ACCESS_LEVEL_MESSAGE_KEY, cause);
-        nfe.setObject(accessLevel);
+        nfe.setObjectClass(AccessLevel.class);
         return nfe;
     }
 
-    public static AppNotFoundException createUserNotFoundException(User user, Throwable cause) {
+    public static AppNotFoundException createUserNotFoundException(Throwable cause) {
         AppNotFoundException nfe = new AppNotFoundException(USER_MESSAGE_KEY, cause);
-        nfe.setObject(user);
+        nfe.setObjectClass(User.class);
         return nfe;
     }
     /*
