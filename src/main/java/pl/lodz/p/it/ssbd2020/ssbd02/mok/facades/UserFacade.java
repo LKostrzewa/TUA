@@ -3,8 +3,8 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.PermitAll;
@@ -72,7 +72,9 @@ public class UserFacade extends AbstractFacade<User> {
             return getEntityManager().createNamedQuery("User.findByLogin", User.class)
                     .setParameter("login",userLogin).getSingleResult();
         } catch (NoResultException e){
-            throw new UserNotFoundException("exception.userNotFound");
+            //throw new UserNotFoundException("exception.userNotFound");
+            throw new AppNotFoundException(AppNotFoundException.USER_MESSAGE_KEY, e);
+            //throw AppNotFoundException.createUserNotFoundException();
         }
     }
 
@@ -93,7 +95,8 @@ public class UserFacade extends AbstractFacade<User> {
         try {
             return typedQuery.getSingleResult();
         } catch (NoResultException e){
-            throw new UserNotFoundException("exception.userNotFound");
+            //throw new UserNotFoundException("exception.userNotFound");
+            throw new AppNotFoundException(AppNotFoundException.USER_MESSAGE_KEY, e);
         }
     }
 
@@ -104,7 +107,8 @@ public class UserFacade extends AbstractFacade<User> {
         try {
             return typedQuery.getSingleResult();
         } catch (NoResultException e){
-            throw new UserNotFoundException("exception.userNotFound");
+            //throw new UserNotFoundException("exception.userNotFound");
+            throw new AppNotFoundException(AppNotFoundException.USER_MESSAGE_KEY, e);
         }
     }
 

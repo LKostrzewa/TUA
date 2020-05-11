@@ -2,8 +2,8 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.AccessLevelNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.PermitAll;
@@ -42,7 +42,9 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
             return typedQuery.getSingleResult();
         }
         catch (NoResultException e) {
-            throw new AccessLevelNotFoundException("exception.accessLevelDeleted");
+            //throw new AccessLevelNotFoundException("exception.accessLevelDeleted");
+           // throw AppNotFoundException.createAccessLevelNotFoundException();
+            throw new AppNotFoundException(AppNotFoundException.ACCESS_LEVEL_MESSAGE_KEY, e);
         }
     }
 }

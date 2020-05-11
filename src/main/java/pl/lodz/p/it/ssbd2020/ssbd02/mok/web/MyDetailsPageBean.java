@@ -5,7 +5,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;

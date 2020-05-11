@@ -1,11 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.managers;
 
 import org.primefaces.model.FilterMeta;
-import org.primefaces.model.SortOrder;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
@@ -50,11 +48,12 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     public void addNewUser(User user) throws AppBaseException {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         if (userFacade.existByLogin(user.getLogin())) {
-            throw LoginNotUniqueException.createLoginNotUniqueException(user);
+            throw ValueNotUniqueException.createLoginNotUniqueException(user);
             //throw new LoginNotUniqueException("exception.loginNotUnique");
         }
         if (userFacade.existByEmail(user.getEmail())) {
-            throw new EmailNotUniqueException("exception.emailNotUnique");
+            //throw new EmailNotUniqueException("exception.emailNotUnique");
+            throw ValueNotUniqueException.createEmailNotUniqueException(user);
         }
         user.setActivated(true);
         user.setLocked(false);
@@ -77,11 +76,12 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         if (userFacade.existByLogin(user.getLogin())) {
-            throw LoginNotUniqueException.createLoginNotUniqueException(user);
+            throw ValueNotUniqueException.createLoginNotUniqueException(user);
             //throw new LoginNotUniqueException("exception.loginNotUnique");
         }
         if (userFacade.existByEmail(user.getEmail())) {
-            throw new EmailNotUniqueException("exception.emailNotUnique");
+            //throw new EmailNotUniqueException("exception.emailNotUnique");
+            throw ValueNotUniqueException.createEmailNotUniqueException(user);
         }
         user.setActivated(false);
         user.setLocked(false);
@@ -227,6 +227,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         long duration = now.getTime()-resetPasswordCodeAddDate.getTime();
         if(duration>=MAX_DURATION){
             throw new ResetPasswordCodeExpiredException("exception.codeExpired");
+            //throw ResetPasswordCodeExpiredException.createPasswordExceptionWithCodeExpiredConstraint(userToEdit);
         }
         String passwordHash = bCryptPasswordHash.generate(password.toCharArray());
         userToEdit.setPassword(passwordHash);
