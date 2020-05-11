@@ -173,9 +173,7 @@ public class UserEndpoint implements Serializable {
      */
     @RolesAllowed("getResultList")
     public List<ListUsersDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
-        List<ListUsersDto> users = ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
-        Collections.sort(users);
-        return users;
+        return ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
     }
 
     public void sendResetPasswordEmail(String email) throws AppBaseException {

@@ -155,6 +155,7 @@ public class UserFacade extends AbstractFacade<User> {
                         (new Predicate[0])));
             }
         }
+        criteriaQuery.orderBy(criteriaBuilder.asc(root.get("login")));
 
         return entityManager.createQuery(select).setFirstResult(start).setMaxResults(size).getResultList();
     }
