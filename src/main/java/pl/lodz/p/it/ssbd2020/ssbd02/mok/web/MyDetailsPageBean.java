@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.ResourceBundle;
 
 /**
- * Klasa od obsługi widoku szczegółowych informacje własnego konta
+ * Klasa od obsługi widoku szczegółowych informacji własnego konta
  */
 @Named
 @ViewScoped

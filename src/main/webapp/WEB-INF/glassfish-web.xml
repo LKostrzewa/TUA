@@ -47,6 +47,16 @@
         <group-name>MANAGER</group-name>
         <group-name>CLIENT</group-name>
     </security-role-mapping>
+    <security-role-mapping>
+        <role-name>findUserAccessLevelByLogin</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+        <group-name>MANAGER</group-name>
+        <group-name>CLIENT</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>findUserAccessLevelById</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+    </security-role-mapping>
 
     <!--YachtEndpoint-->
     <security-role-mapping>

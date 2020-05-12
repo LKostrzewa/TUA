@@ -11,8 +11,11 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
@@ -67,7 +70,14 @@ public class UserAccessLevelManager implements Serializable {
         }
         return null;
     }
-
+    /**
+     * Metoda zwracająca encje user o podanym identyfikatorze
+     * @param userId identyfikator użytkownika
+     * @return Encja user o podanym identyfikatorze
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("findUserAccessLevelById")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User findUserById(Long userId) throws AppBaseException {
         return userFacade.find(userId).orElseThrow(AppNotFoundException::createUserNotFoundException);
     }
@@ -78,6 +88,8 @@ public class UserAccessLevelManager implements Serializable {
      * @return Kolekcja UserAccessLevel'i dla danego użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
+    @RolesAllowed("findUserAccessLevelByLogin")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Collection<UserAccessLevel> findUserAccessLevelByLogin(String userLogin) throws AppBaseException {
         return userFacade.findByLogin(userLogin).getUserAccessLevels();
     }

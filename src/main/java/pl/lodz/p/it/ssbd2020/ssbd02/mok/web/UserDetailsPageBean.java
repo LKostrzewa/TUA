@@ -10,7 +10,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-
+/**
+ * Klasa od obsługi widoku szczegółowych informacji konta innego użytkownika
+ */
 @Named
 @ViewScoped
 public class UserDetailsPageBean implements Serializable {
@@ -51,7 +53,11 @@ public class UserDetailsPageBean implements Serializable {
         this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelById(userId);
         this.userDetailsDto = userAccessLevelDto.getUserDetailsDto();
     }
-
+    /**
+     * Metoda zwracająca łańcuch wszystkich poziomó dostępu konta
+     *
+     * @return połączony łańcuch poziomów dostępu konta
+     */
     public String getAccessLevels() {
         String string = "";
         if (userAccessLevelDto.getAdmin().getLeft())

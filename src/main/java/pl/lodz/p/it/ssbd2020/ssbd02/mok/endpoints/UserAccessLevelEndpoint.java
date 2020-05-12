@@ -13,6 +13,8 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
@@ -45,7 +47,13 @@ public class UserAccessLevelEndpoint implements Serializable {
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
         this.accessLevels = accessLevelManager.getAllAccessLevels();
     }
-
+    /**
+     * Metoda zwracająca klasę UserAccessLevelDto na podstawie identyfikatoru użytkownika
+     * @param userId identyfikator użytkownika
+     * @return UserAccessLevelDto dla danego użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("findUserAccessLevelById")
     public UserAccessLevelDto findUserAccessLevelById(Long userId) throws AppBaseException{
         user = userAccessLevelManager.findUserById(userId);
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
@@ -73,6 +81,7 @@ public class UserAccessLevelEndpoint implements Serializable {
      * @return UserAccessLevelDto dla danego użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
+    @RolesAllowed("findUserAccessLevelByLogin")
     public UserAccessLevelDto findUserAccessLevelByLogin(String userLogin) throws AppBaseException {
         Collection<UserAccessLevel> userAccessLevels = userAccessLevelManager.findUserAccessLevelByLogin(userLogin);
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
