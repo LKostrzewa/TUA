@@ -26,8 +26,9 @@ public class PortManager {
         return portFacade.findAll();
     }
 
-    public Port getPortById(Long portId) {
-        return portFacade.find(portId);
+    public Port getPortById(Long portId) throws AppBaseException {
+        //TODO poprawic na odpowiedni wyjątek
+        return portFacade.find(portId).orElseThrow(() -> new AppBaseException("nie ma tego portu"));
     }
 
     public void editPort(Long portId, Port portToEdit) throws AppBaseException {

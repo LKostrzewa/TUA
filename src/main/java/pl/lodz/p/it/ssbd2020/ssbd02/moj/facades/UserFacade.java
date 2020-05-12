@@ -11,6 +11,7 @@ import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Klasa fasadowa powiązana z encją User
@@ -37,7 +38,7 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     @Override
-    public User find(Object id) {
+    public Optional<User> find(Object id) {
         return super.find(id);
     }
 

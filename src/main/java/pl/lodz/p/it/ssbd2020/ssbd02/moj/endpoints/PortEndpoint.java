@@ -32,7 +32,7 @@ public class PortEndpoint implements Serializable {
         return ObjectMapperUtils.mapAll(portManager.getAllPorts(), PortDto.class);
     }
 
-    public PortDto getPortById(Long portId) {
+    public PortDto getPortById(Long portId) throws AppBaseException{
         Port port = portManager.getPortById(portId);
         return ObjectMapperUtils.map(port, PortDto.class);
     }

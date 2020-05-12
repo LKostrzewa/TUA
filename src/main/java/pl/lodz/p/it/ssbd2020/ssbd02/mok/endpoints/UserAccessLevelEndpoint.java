@@ -46,7 +46,7 @@ public class UserAccessLevelEndpoint implements Serializable {
         this.accessLevels = accessLevelManager.getAllAccessLevels();
     }
 
-    public UserAccessLevelDto findAccessLevelById(Long userId) {
+    public UserAccessLevelDto findAccessLevelById(Long userId) throws AppBaseException{
         this.user = userAccessLevelManager.findUserAccessLevelById(userId);
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
         for (UserAccessLevel level : user.getUserAccessLevels()) {

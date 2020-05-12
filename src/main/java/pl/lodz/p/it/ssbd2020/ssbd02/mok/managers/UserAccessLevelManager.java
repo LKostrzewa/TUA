@@ -67,8 +67,9 @@ public class UserAccessLevelManager implements Serializable {
         return null;
     }
 
-    public User findUserAccessLevelById(Long userId) {
-        return userFacade.find(userId);
+    public User findUserAccessLevelById(Long userId) throws AppBaseException {
+        //TODO poprawic na odpowiedni wyjątek
+        return userFacade.find(userId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
     }
 
     public Collection<UserAccessLevel> findUserAccessLevelByLogin(String userLogin) throws AppBaseException {

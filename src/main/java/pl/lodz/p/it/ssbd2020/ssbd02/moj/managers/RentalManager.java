@@ -36,8 +36,9 @@ public class RentalManager {
         return rentalFacade.findAll();
     }
 
-    public Rental getRentalById(Long rentalId) {
-        return rentalFacade.find(rentalId);
+    public Rental getRentalById(Long rentalId) throws AppBaseException {
+        //TODO poprawic na odpowiedni wyjątek
+        return rentalFacade.find(rentalId).orElseThrow(() -> new AppBaseException("nie ma tego wypozyczenia"));
     }
 
     public List<Rental> getAllRentalsByUser(String userLogin) {
@@ -55,7 +56,8 @@ public class RentalManager {
     }
 
     public void editRental(Rental rental) throws AppBaseException {
-        Rental rentalToEdit = rentalFacade.find(rental.getId());
+        //TODO poprawic na odpowiedni wyjątek
+        Rental rentalToEdit = rentalFacade.find(rental.getId()).orElseThrow(() -> new AppBaseException("nie ma tego wypozyczenia"));
         //USTAWIANIE PÓL
         rentalFacade.edit(rental);
     }

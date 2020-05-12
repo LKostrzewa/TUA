@@ -57,11 +57,11 @@ public class UserEndpoint implements Serializable {
     }
 
     // po co pobierać DTO do zmiany hasła z bazy? do wywaleni xd
-    public ChangePasswordDto getChangePasswordDtoById(Long id) {
+    public ChangePasswordDto getChangePasswordDtoById(Long id) throws AppBaseException {
         return ObjectMapperUtils.map(userManager.getUserById(id), ChangePasswordDto.class);
     }
 
-    public EditUserDto getEditUserDtoById(Long userId) {
+    public EditUserDto getEditUserDtoById(Long userId) throws AppBaseException{
         this.userEditEntity = userManager.getUserById(userId);
         return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
     }
@@ -71,7 +71,7 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
     }
 
-    public UserDetailsDto getUserDetailsDtoById(Long userId) {
+    public UserDetailsDto getUserDetailsDtoById(Long userId) throws AppBaseException{
         return ObjectMapperUtils.map(userManager.getUserById(userId), UserDetailsDto.class);
     }
 

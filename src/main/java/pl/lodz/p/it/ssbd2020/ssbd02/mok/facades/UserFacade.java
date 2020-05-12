@@ -22,6 +22,7 @@ import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Klasa fasadowa powiązana z encją User
@@ -50,7 +51,7 @@ public class UserFacade extends AbstractFacade<User> {
     @Override
     @RolesAllowed("lockAccount")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public User find(Object id) {
+    public Optional<User> find(Object id) {
         return super.find(id);
     }
 

@@ -6,8 +6,11 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtModelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
@@ -25,12 +28,30 @@ public class YachtManager {
         yachtFacade.create(yacht);
     }
 
-    public List<Yacht> getAllYachts() {
+    /**
+     * Metoda, która zwraca wszystkie jachty
+     *
+     * @return lista jachtów
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getAllYachts")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public List<Yacht> getAllYachts(){
         return yachtFacade.findAll();
     }
 
-    public Yacht getYachtById(Long yachtId) {
-        return yachtFacade.find(yachtId);
+    /**
+     * Metoda, która zwraca yacht o podanym id.
+     *
+     * @param yachtId id jachtu.
+     * @return yacht dto
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getYachtById")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public Yacht getYachtById(Long yachtId) throws AppBaseException {
+        //TODO poprawic na odpowiedni wyjątek
+        return yachtFacade.find(yachtId).orElseThrow(() -> new AppBaseException("nie ma tego jachtu"));
     }
 
     public void editYacht(Long yachtId, Yacht yachtToEdit) throws AppBaseException {

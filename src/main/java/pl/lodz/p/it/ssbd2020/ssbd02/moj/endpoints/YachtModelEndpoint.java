@@ -32,7 +32,7 @@ public class YachtModelEndpoint implements Serializable {
         return ObjectMapperUtils.mapAll(yachtModelManager.getAllYachtModels(), ListYachtModelDto.class);
     }
 
-    public ListYachtModelDto getYachtModelById(Long yachtModelId) {
+    public ListYachtModelDto getYachtModelById(Long yachtModelId) throws AppBaseException{
         YachtModel yachtModel = yachtModelManager.getYachtModelById(yachtModelId);
         return ObjectMapperUtils.map(yachtModel, ListYachtModelDto.class);
     }

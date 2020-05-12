@@ -29,7 +29,7 @@ public class EditYachtPageBean implements Serializable {
         this.editYachtDto = editYachtDto;
     }
 
-    public String openEditYachtPage(Long yachtID) {
+    public String openEditYachtPage(Long yachtID) throws AppBaseException{
         conversation.begin();
         this.yachtID = yachtID;
         this.editYachtDto = ObjectMapperUtils.map(yachtEndpoint.getYachtById(yachtID), EditYachtDto.class);
