@@ -3,9 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.managers;
 import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.*;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
@@ -51,16 +49,15 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
     }
 
-    private void addUser(User user, boolean active) throws AppBaseException {
-        PropertyReader propertyReader = new PropertyReader();
+    public void addNewUser(User user) throws AppBaseException {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         if (userFacade.existByLogin(user.getLogin())) {
-            throw new LoginNotUniqueException("exception.loginNotUnique");
+            throw ValueNotUniqueException.createLoginNotUniqueException(user);
         }
         if (userFacade.existByEmail(user.getEmail())) {
-            throw new EmailNotUniqueException("exception.emailNotUnique");
+            throw ValueNotUniqueException.createEmailNotUniqueException(user);
         }
-        user.setActivated(active);
+        user.setActivated(true);
         user.setLocked(false);
         user.setPassword(passwordHash);
         user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
@@ -74,16 +71,16 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void registerNewUser(User user) throws AppBaseException {
-        methodInvocationCounter++;
-        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
-            throw new RepeatedRollBackException("exception.repeated.rollback");
-        }
+    methodInvocationCounter++;
+    if(methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+        throw RepeatedRollBackException.createRepeatedRollBackException(user);
+    }
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         if (userFacade.existByLogin(user.getLogin())) {
-            throw new LoginNotUniqueException("exception.loginNotUnique");
+            throw ValueNotUniqueException.createLoginNotUniqueException(user);
         }
         if (userFacade.existByEmail(user.getEmail())) {
-            throw new EmailNotUniqueException("exception.emailNotUnique");
+            throw ValueNotUniqueException.createEmailNotUniqueException(user);
         }
         user.setActivated(false);
         user.setLocked(false);
@@ -97,10 +94,6 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.create(user);
 
         sendEmailWithCode(user);
-    }
-
-    public void addNewUser(User user) throws AppBaseException {
-        addUser(user, true);
     }
 
     public List<User> getAll() {
@@ -132,10 +125,10 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         User userToEdit = userFacade.findByLogin(userLogin);
         BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
         if (!bCryptPasswordHash.verify(givenOldPassword.toCharArray(), userToEdit.getPassword())) {
-            throw new IncorrectPasswordException("exception.incorrectPassword");
+            throw IncorrectPasswordException.createIncorrectPasswordException(user);
         }
         if (bCryptPasswordHash.verify(user.getPassword().toCharArray(), userToEdit.getPassword())) {
-            throw new PasswordIdenticalException("exception.passwordIdentical");
+            throw PasswordIdenticalException.createPasswordIdenticalException(user);
         }
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         userToEdit.setPassword(passwordHash);
@@ -194,7 +187,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         sendEmail.activationInfoEmail(user.getEmail());
     }
 
-    public void sendEmailWithCode(User user) {
+    public void sendEmailWithCode(User user) throws AppBaseException {
         String email = user.getEmail();
         String userName = user.getFirstName();
         sendEmail.sendActivationEmail(createVerificationLink(user), userName, email);
@@ -286,7 +279,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         long MAX_DURATION = MILLISECONDS.convert(15, MINUTES);
         long duration = now.getTime() - resetPasswordCodeAddDate.getTime();
         if (duration >= MAX_DURATION) {
-            throw new ResetPasswordCodeExpiredException("exception.codeExpired");
+            throw ResetPasswordCodeExpiredException.createPasswordExceptionWithCodeExpiredConstraint(userToEdit);
         }
         String passwordHash = bCryptPasswordHash.generate(password.toCharArray());
         userToEdit.setPassword(passwordHash);

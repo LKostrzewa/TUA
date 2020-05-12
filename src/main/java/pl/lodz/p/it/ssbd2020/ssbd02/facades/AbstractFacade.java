@@ -1,7 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.ApplicationOptimisticLockException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppOptimisticLockException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
@@ -30,7 +30,8 @@ public abstract class AbstractFacade<T> {
             getEntityManager().merge(entity);
             getEntityManager().flush();
         } catch (OptimisticLockException e) {
-            throw new ApplicationOptimisticLockException("exception.optimisticLock");
+            //throw new AppOptimisticLockException("exception.optimisticLock", e);
+            throw AppOptimisticLockException.createAppOptimisticLockException(entity, e);
         }
 
     }
@@ -73,12 +74,13 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-
+    // TODO czy będziemy tego używać?
     public void flush() throws AppBaseException {
         try {
             getEntityManager().flush();
         } catch (OptimisticLockException e) {
-            throw new ApplicationOptimisticLockException("exception.optimisticLock");
+            throw new AppBaseException("exception.optimisticLock");
+
         }
     }
 }

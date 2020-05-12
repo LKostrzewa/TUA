@@ -45,3 +45,8 @@
     right: 1em;
     position: relative;
 }
+
+.ui-growl {
+    top: auto;
+    bottom: 0;
+}

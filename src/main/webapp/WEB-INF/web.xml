@@ -28,9 +28,7 @@
     </context-param>
 
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>10</session-timeout>
     </session-config>
 
     <welcome-file-list>
@@ -47,7 +45,7 @@
         <role-name>ADMINISTRATOR</role-name>
     </security-role>
 
-<!--UserEndpoint-->
+    <!--UserEndpoint-->
     <security-role>
         <role-name>addNewUser</role-name>
     </security-role>
@@ -190,29 +188,6 @@
     <error-page>
         <error-code>500</error-code>
         <location>/errors/500.xhtml</location>
-    </error-page>
-    <error-page>
-        <exception-type>javax.ejb.EJBAccessException</exception-type>
-        <location>/errors/ejbAccessExp.xhtml</location>
-    </error-page>
-    <error-page>
-        <exception-type>javax.ejb.NoSuchEJBException</exception-type>
-        <location>/errors/noSuchEJBExp.xhtml</location>
-    </error-page>
-    <error-page>
-        <exception-type>javax.ejb.EJBException</exception-type>
-        <location>/errors/ejbExp.xhtml</location>
-    </error-page>
-    <error-page>
-        <exception-type>javax.ejb.EJBTransactionRequiredException</exception-type>
-        <location>/errors/ejbTranReqExp.xhtml</location>
-    </error-page>
-    <error-page>
-        <exception-type>javax.ejb.EJBTransactionRolledbackException</exception-type>
-        <location>/errors/ejbTranRollExp.xhtml</location>
-    </error-page>
-    <error-page>
-        <location>/errors/other.xhtml</location>
     </error-page>
 
 </web-app>

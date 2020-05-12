@@ -3,8 +3,8 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.PermitAll;
@@ -88,7 +88,7 @@ public class UserFacade extends AbstractFacade<User> {
             return getEntityManager().createNamedQuery("User.findByLogin", User.class)
                     .setParameter("login",userLogin).getSingleResult();
         } catch (NoResultException e){
-            throw new UserNotFoundException("exception.userNotFound");
+            throw AppNotFoundException.createUserNotFoundException(e);
         }
     }
 
@@ -103,24 +103,24 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public User findByEmail(String email) throws AppBaseException{
+    public User findByEmail(String email) throws AppBaseException {
         TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByEmail", User.class);
         typedQuery.setParameter("email", email);
         try {
             return typedQuery.getSingleResult();
         } catch (NoResultException e){
-            throw new UserNotFoundException("exception.userNotFound");
+            throw AppNotFoundException.createUserNotFoundException(e);
         }
     }
 
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public User findByResetPasswordCode(String resetPasswordCode) throws AppBaseException{
+    public User findByResetPasswordCode(String resetPasswordCode) throws AppBaseException {
         TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByResetPasswordCode", User.class);
         typedQuery.setParameter("resetPasswordCode", resetPasswordCode);
         try {
             return typedQuery.getSingleResult();
         } catch (NoResultException e){
-            throw new UserNotFoundException("exception.userNotFound");
+            throw AppNotFoundException.createUserNotFoundException(e);
         }
     }
 
