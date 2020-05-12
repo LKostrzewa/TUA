@@ -28,9 +28,7 @@
     </context-param>
 
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>10</session-timeout>
     </session-config>
 
     <welcome-file-list>
@@ -47,7 +45,7 @@
         <role-name>ADMINISTRATOR</role-name>
     </security-role>
 
-<!--UserEndpoint-->
+    <!--UserEndpoint-->
     <security-role>
         <role-name>addNewUser</role-name>
     </security-role>

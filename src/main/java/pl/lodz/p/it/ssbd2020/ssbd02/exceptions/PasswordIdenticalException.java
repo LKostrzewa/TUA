@@ -4,7 +4,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 
 public class PasswordIdenticalException extends AppBaseException {
 
-    public static String PASSWORD_IDENTICAL_KEY = "exception.passwordIdentical";
+    public static final String PASSWORD_IDENTICAL_KEY = "exception.passwordIdentical";
 
     private User user;
 

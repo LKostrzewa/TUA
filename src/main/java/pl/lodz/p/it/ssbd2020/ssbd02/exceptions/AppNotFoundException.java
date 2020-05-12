@@ -6,9 +6,9 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 
 public class AppNotFoundException extends AppBaseException{
 
-    public static String ACCESS_LEVEL_MESSAGE_KEY = "exception.accessLevelDeleted";
+    public static final String ACCESS_LEVEL_MESSAGE_KEY = "exception.accessLevelDeleted";
     //public static String USER_ACCESS_LEVEL_MESSAGE_KEY = "exception.userNotFound";
-    public static String USER_MESSAGE_KEY = "exception.userNotFound";
+    public static final String USER_MESSAGE_KEY = "exception.userNotFound";
     private Class objectClass;
     public AppNotFoundException(String message) {
         super(message);

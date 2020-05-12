@@ -53,10 +53,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         if (userFacade.existByLogin(user.getLogin())) {
             throw ValueNotUniqueException.createLoginNotUniqueException(user);
-            //throw new LoginNotUniqueException("exception.loginNotUnique");
         }
         if (userFacade.existByEmail(user.getEmail())) {
-            //throw new EmailNotUniqueException("exception.emailNotUnique");
             throw ValueNotUniqueException.createEmailNotUniqueException(user);
         }
         user.setActivated(true);
@@ -74,7 +72,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void registerNewUser(User user) throws AppBaseException {
     methodInvocationCounter++;
-    if(methodInvocationCounter==METHOD_INVOCATION_LIMIT) {
+    if(methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
         throw RepeatedRollBackException.createRepeatedRollBackException(user);
     }
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
@@ -124,10 +122,10 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     public void editOwnPassword(User user, String userLogin, String givenOldPassword) throws AppBaseException {
         User userToEdit = userFacade.findByLogin(userLogin);
         BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
-        if(!bCryptPasswordHash.verify(givenOldPassword.toCharArray(), userToEdit.getPassword())) {
+        if (!bCryptPasswordHash.verify(givenOldPassword.toCharArray(), userToEdit.getPassword())) {
             throw IncorrectPasswordException.createIncorrectPasswordException(user);
         }
-        if(bCryptPasswordHash.verify(user.getPassword().toCharArray(), userToEdit.getPassword())) {
+        if (bCryptPasswordHash.verify(user.getPassword().toCharArray(), userToEdit.getPassword())) {
             throw PasswordIdenticalException.createPasswordIdenticalException(user);
         }
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
@@ -185,7 +183,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         sendEmail.activationInfoEmail(user.getEmail());
     }
 
-    public void sendEmailWithCode(User user) {
+    public void sendEmailWithCode(User user) throws AppBaseException {
         String email = user.getEmail();
         String userName = user.getFirstName();
         sendEmail.sendActivationEmail(createVerificationLink(user), userName, email);
@@ -275,8 +273,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         Date resetPasswordCodeAddDate = userToEdit.getResetPasswordCodeAddDate();
         Date now = new Date();
         long MAX_DURATION = MILLISECONDS.convert(15, MINUTES);
-        long duration = now.getTime()-resetPasswordCodeAddDate.getTime();
-        if(duration>=MAX_DURATION){
+        long duration = now.getTime() - resetPasswordCodeAddDate.getTime();
+        if (duration >= MAX_DURATION) {
             throw ResetPasswordCodeExpiredException.createPasswordExceptionWithCodeExpiredConstraint(userToEdit);
         }
         String passwordHash = bCryptPasswordHash.generate(password.toCharArray());
