@@ -10,10 +10,14 @@
     <title>#{msg['invalidLogin']}</title>
 </h:head>
 <h:body>
-    <h:form>
+    <h:outputStylesheet library="css" name="registration.css"/>
+    <h:form class="registration-form">
         <p:growl id="growl" showDetail="true" />
-        <h:outputLabel value="#{msg['invalidLogin']}" rendered="#{!loginBean.userLoginDto.locked}"/>
-        <h:outputLabel value="#{msg['blockAccount']}" rendered="#{loginBean.userLoginDto.locked}"/>
+        <h1>#{msg['invalidLogin']}</h1>
+        <div class="bottom-text">
+            <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['error.login']}</a>
+        </div>
+
 
     </h:form>
 </h:body>

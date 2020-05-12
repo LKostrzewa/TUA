@@ -76,6 +76,9 @@
         <role-name>getOwnDetailsDtoByLogin</role-name>
     </security-role>
     <security-role>
+        <role-name>saveSuccessAuthenticate</role-name>
+    </security-role>
+    <security-role>
         <role-name>editUserLastLoginAndInvalidLoginAttempts</role-name>
     </security-role>
     <security-role>

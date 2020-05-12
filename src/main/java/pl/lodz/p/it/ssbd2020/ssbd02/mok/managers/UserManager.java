@@ -10,9 +10,9 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
-import static java.util.concurrent.TimeUnit.*;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
@@ -22,11 +22,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
+
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserManager extends AbstractManager implements SessionSynchronization {
     private final SendEmail sendEmail = new SendEmail();
+    private String ADMIN_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
     @Inject
     private AccessLevelFacade accessLevelFacade;
@@ -34,13 +38,14 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     private UserFacade userFacade;
     @Inject
     private BCryptPasswordHash bCryptPasswordHash;
-    private User userEntityEdit;
+
 
     private int methodInvocationCounter = 0;
 
     @PostConstruct
     private void init() {
         PropertyReader propertyReader = new PropertyReader();
+        ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
     }
 
@@ -103,7 +108,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUser(User user, Long id) throws AppBaseException{
+    public void editUser(User user, Long id) throws AppBaseException {
         userFacade.edit(user);
     }
 
@@ -154,9 +159,16 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         sendEmail.unlockInfoEmail(userToEdit.getEmail());
     }
 
-
+    /**
+     * Metoda, która zwraca użytkownika o podanym loginie.
+     *
+     * @param userLogin login użytkownika.
+     * @return encje User
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getLoginDtoByLogin")
     public User getUserByLogin(String userLogin) throws AppBaseException {
-         return userFacade.findByLogin(userLogin);
+        return userFacade.findByLogin(userLogin);
     }
 
     private String createVerificationLink(User user) {
@@ -179,22 +191,65 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         sendEmail.sendActivationEmail(createVerificationLink(user), userName, email);
     }
 
+    /**
+     * Metoda, która zapisuje informacje o poprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
+     * Ustawia ilość niepoprawnych logować na 0. Wysyła mail do użytkownika jeśli zalogował się administrator.
+     *
+     * @param login           login użytkownika
+     * @param clientIpAddress adres ip użytkownika
+     * @param date            data zalogowania użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("saveSuccessAuthenticate")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUserLastLoginAndInvalidLoginAttempts(User user, Long userId, Integer attempts) throws AppBaseException {
-        User userToEdit = userFacade.find(userId);
-        userToEdit.setLastValidLogin(user.getLastValidLogin());
-        userToEdit.setLastInvalidLogin(user.getLastInvalidLogin());
-        userToEdit.setLastLoginIp(user.getLastLoginIp());
-        userToEdit.setInvalidLoginAttempts(attempts);
-        if (attempts == 3) {
-            userToEdit.setInvalidLoginAttempts(0);
-            userToEdit.setLocked(true);
-        }
+    public void saveSuccessAuthenticate(String login, String clientIpAddress, Date date) throws AppBaseException {
+        User userToEdit = userFacade.findByLogin(login);
+        userToEdit.setLastLoginIp(clientIpAddress);
+        userToEdit.setLastValidLogin(date);
+        userToEdit.setInvalidLoginAttempts(0);
         userFacade.edit(userToEdit);
+
+        if (userToEdit.getUserAccessLevels().stream().anyMatch(n -> n.getAccessLevel().getName().equals(ADMIN_ACCESS_LEVEL))) {
+            sendEmail.sendEmailNotificationAboutNewAdminAuthentication(userToEdit.getEmail(), clientIpAddress);
+        }
     }
+
+    /**
+     * Metoda, która zapisuje informacje o niepoprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
+     * Zwiększa ilość niepoprawnych logować o 1. Jeśli wartość niepoprawnych logowań osiągnie 3, blokuje konto i wysyła maila.
+     *
+     * @param login login użytkownika
+     * @param date  data zalogowania użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void saveFailureAuthenticate(String login, Date date) throws AppBaseException {
+        User userToEdit = userFacade.findByLogin(login);
+        boolean sendBlockEmail = false;
+        if (userToEdit.isActivated() && !userToEdit.isLocked()) {
+            userToEdit.setLastInvalidLogin(date);
+            int attempts = userToEdit.getInvalidLoginAttempts() + 1;
+            if (attempts == 3) {
+                userToEdit.setInvalidLoginAttempts(0);
+                userToEdit.setLocked(true);
+                sendBlockEmail = true;
+
+            } else {
+                userToEdit.setInvalidLoginAttempts(attempts);
+            }
+            userFacade.edit(userToEdit);
+
+            if (sendBlockEmail) {
+                sendEmail.lockInfoEmail(userToEdit.getEmail());
+            }
+        }
+    }
+
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userFacade.getFilteredRowCount(filters);
     }
+
     public List<User> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
         return userFacade.getResultList(first, pageSize, filters);
     }
@@ -210,7 +265,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
         String link = "<a href=" + "\"http://studapp.it.p.lodz.pl:8002/login/resetPassword.xhtml?key=" + resetPasswordCode + "\">Link</a>";
 
-        sendEmail.sendResetPasswordEmail(email,link);
+        sendEmail.sendResetPasswordEmail(email, link);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
