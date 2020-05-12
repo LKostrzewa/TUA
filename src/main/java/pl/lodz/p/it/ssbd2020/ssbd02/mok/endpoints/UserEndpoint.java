@@ -137,6 +137,7 @@ public class UserEndpoint implements Serializable {
         userManager.unlockAccount(userId);
     }
 
+    //TODO wyrzucić jeżeli okaże się niepotrzebna na pewno
     public UserDetailsDto getOwnDetailsDtoByLogin(String userLogin) throws AppBaseException {
         return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserDetailsDto.class);
     }

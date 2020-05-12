@@ -36,6 +36,12 @@ public class AppNotFoundException extends AppBaseException{
         nfe.setObjectClass(User.class);
         return nfe;
     }
+
+    public static AppNotFoundException createUserNotFoundException() {
+        AppNotFoundException nfe = new AppNotFoundException(USER_MESSAGE_KEY);
+        nfe.setObjectClass(User.class);
+        return nfe;
+    }
     /*
     public static AppNotFoundException createUserAccessLevelNotFoundException(UserAccessLevel userAccessLevel, Throwable cause) {
         AppNotFoundException nfe = new AppNotFoundException(USER_ACCESS_LEVEL_MESSAGE_KEY, cause);

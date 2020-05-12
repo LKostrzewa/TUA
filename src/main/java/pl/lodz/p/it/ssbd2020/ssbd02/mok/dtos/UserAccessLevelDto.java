@@ -9,6 +9,7 @@ public class UserAccessLevelDto {
     private MutablePair<Boolean,Boolean> admin = new MutablePair<Boolean,Boolean>(false,false);
     private MutablePair<Boolean,Boolean> manager = new MutablePair<Boolean,Boolean>(false,false);
     private MutablePair<Boolean,Boolean> client = new MutablePair<Boolean,Boolean>(false,false);
+    private UserDetailsDto userDetailsDto;
 
     public MutablePair<Boolean, Boolean> getAdmin() {
         return admin;
@@ -32,5 +33,13 @@ public class UserAccessLevelDto {
 
     public void setClient(MutablePair<Boolean, Boolean> client) {
         this.client = client;
+    }
+
+    public UserDetailsDto getUserDetailsDto() {
+        return userDetailsDto;
+    }
+
+    public void setUserDetailsDto(UserDetailsDto userDetailsDto) {
+        this.userDetailsDto = userDetailsDto;
     }
 }

@@ -5,9 +5,11 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.AccessLevelManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserAccessLevelManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.PostConstruct;
@@ -45,8 +47,9 @@ public class UserAccessLevelEndpoint implements Serializable {
     }
 
     public UserAccessLevelDto findUserAccessLevelById(Long userId) throws AppBaseException{
-        this.user = userAccessLevelManager.findUserById(userId);
+        user = userAccessLevelManager.findUserById(userId);
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
+        userAccessLevelDto.setUserDetailsDto(ObjectMapperUtils.map(user, UserDetailsDto.class));
         for (UserAccessLevel level : user.getUserAccessLevels()) {
             if (level.getAccessLevel().getName().equals(ADMIN_ACCESS_LEVEL)) {
                 userAccessLevelDto.getAdmin().setLeft(true);
@@ -64,9 +67,16 @@ public class UserAccessLevelEndpoint implements Serializable {
         return userAccessLevelDto;
     }
 
+    /**
+     * Metoda zwracająca klasę UserAccessLevelDto na podstawie loginu użytkownika
+     * @param userLogin login użytkownika
+     * @return UserAccessLevelDto dla danego użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     public UserAccessLevelDto findUserAccessLevelByLogin(String userLogin) throws AppBaseException {
         Collection<UserAccessLevel> userAccessLevels = userAccessLevelManager.findUserAccessLevelByLogin(userLogin);
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
+        userAccessLevelDto.setUserDetailsDto(ObjectMapperUtils.map(user, UserDetailsDto.class));
         for (UserAccessLevel level : userAccessLevels) {
             if (level.getAccessLevel().getName().equals(ADMIN_ACCESS_LEVEL))
                 userAccessLevelDto.getAdmin().setLeft(true);

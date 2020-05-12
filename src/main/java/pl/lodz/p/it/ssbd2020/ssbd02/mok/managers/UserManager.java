@@ -111,7 +111,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserById(Long id) throws AppBaseException {
         //TODO poprawic na odpowiedni wyjątek
-        return userFacade.find(id).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
+        return userFacade.find(id).orElseThrow(AppNotFoundException::createUserNotFoundException);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
