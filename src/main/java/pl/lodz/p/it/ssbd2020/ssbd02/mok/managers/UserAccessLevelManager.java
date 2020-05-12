@@ -41,7 +41,7 @@ public class UserAccessLevelManager implements Serializable {
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
     }
 
-    public void addUserAccessLevel(UserAccessLevel userAccessLevel) {
+    public void addUserAccessLevel(UserAccessLevel userAccessLevel) throws AppBaseException {
         userAccessLevelFacade.create(userAccessLevel);
     }
 
@@ -67,7 +67,7 @@ public class UserAccessLevelManager implements Serializable {
         return null;
     }
 
-    public User findUserAccessLevelById(Long userId) throws AppBaseException {
+    public User findUserById(Long userId) throws AppBaseException {
         //TODO poprawic na odpowiedni wyjątek
         return userFacade.find(userId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
     }

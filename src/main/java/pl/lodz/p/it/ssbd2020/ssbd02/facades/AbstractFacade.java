@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppOptimisticLockException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppPersistenceException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
@@ -20,7 +21,7 @@ public abstract class AbstractFacade<T> {
 
     protected abstract EntityManager getEntityManager();
 
-    public void create(T entity) {
+    public void create(T entity) throws AppBaseException {
         getEntityManager().persist(entity);
         getEntityManager().flush();
     }

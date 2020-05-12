@@ -18,7 +18,7 @@ public class YachtModelManager {
     @Inject
     private YachtModelFacade yachtModelFacade;
 
-    public void addYachtModel(YachtModel yachtModel) {
+    public void addYachtModel(YachtModel yachtModel) throws AppBaseException {
         yachtModelFacade.create(yachtModel);
     }
 

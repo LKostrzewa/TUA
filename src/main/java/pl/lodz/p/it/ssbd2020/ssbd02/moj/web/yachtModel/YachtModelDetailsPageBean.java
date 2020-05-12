@@ -55,7 +55,7 @@ public class YachtModelDetailsPageBean implements Serializable {
         return "/manager/listYachtModels.xhtml?faces-redirect=true";
     }
 
-    public String addImage(String path) throws IOException {
+    public String addImage(String path) throws IOException, AppBaseException {
         imageEndpoint.addImage(path);
         return "/manager/yachtModelDetails.xhtml?faces-redirect=true";
     }

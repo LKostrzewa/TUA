@@ -26,7 +26,7 @@ public class ImageEndpoint implements Serializable {
         return IOUtils.toByteArray(in);
     }
 
-    public void addImage(String path) throws IOException {
+    public void addImage(String path) throws IOException, AppBaseException {
         InputStream inputStream = null;
         byte[] bytes = null;
         try {

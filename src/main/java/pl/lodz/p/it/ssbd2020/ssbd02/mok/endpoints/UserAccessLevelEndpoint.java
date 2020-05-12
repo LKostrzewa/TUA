@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
-import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
@@ -17,7 +16,6 @@ import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -46,8 +44,8 @@ public class UserAccessLevelEndpoint implements Serializable {
         this.accessLevels = accessLevelManager.getAllAccessLevels();
     }
 
-    public UserAccessLevelDto findAccessLevelById(Long userId) throws AppBaseException{
-        this.user = userAccessLevelManager.findUserAccessLevelById(userId);
+    public UserAccessLevelDto findUserAccessLevelById(Long userId) throws AppBaseException{
+        this.user = userAccessLevelManager.findUserById(userId);
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
         for (UserAccessLevel level : user.getUserAccessLevels()) {
             if (level.getAccessLevel().getName().equals(ADMIN_ACCESS_LEVEL)) {
@@ -66,7 +64,7 @@ public class UserAccessLevelEndpoint implements Serializable {
         return userAccessLevelDto;
     }
 
-    public UserAccessLevelDto findAccessLevelByLogin(String userLogin) throws AppBaseException {
+    public UserAccessLevelDto findUserAccessLevelByLogin(String userLogin) throws AppBaseException {
         Collection<UserAccessLevel> userAccessLevels = userAccessLevelManager.findUserAccessLevelByLogin(userLogin);
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
         for (UserAccessLevel level : userAccessLevels) {

@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yachtModel;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.NewYachtModelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
 
@@ -28,7 +29,7 @@ public class AddYachtModelPageBean {
         newYachtModelDto = new NewYachtModelDto();
     }
 
-    public String addNewYachtModel() {
+    public String addNewYachtModel() throws AppBaseException {
         yachtModelEndpoint.addYachtModel(newYachtModelDto);
         return "/manager/listYachtModels.xhtml?faces-redirect=true";
     }
