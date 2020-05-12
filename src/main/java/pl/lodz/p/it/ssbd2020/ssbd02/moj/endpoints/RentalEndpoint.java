@@ -2,10 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.AddRentalDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.EditRentalDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListAllRentalsDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListRentalsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.RentalManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
@@ -37,11 +34,11 @@ public class RentalEndpoint implements Serializable {
         return ObjectMapperUtils.mapAll(rentalManager.getAllRentalsByUser(userLogin), ListRentalsDto.class);
     }
 
-    public List<ListAllRentalsDto> getRentalsByYacht(String yachtName){
+    public List<ListAllRentalsDto> getRentalsByYacht(String yachtName) {
         return ObjectMapperUtils.mapAll(rentalManager.getAllRentalsByYacht(yachtName), ListAllRentalsDto.class);
     }
 
-    public EditRentalDto getRentalById(Long rentalId) throws AppBaseException{
+    public EditRentalDto getRentalById(Long rentalId) throws AppBaseException {
         Rental rental = rentalManager.getRentalById(rentalId);
         return ObjectMapperUtils.map(rental, EditRentalDto.class);
     }
@@ -53,5 +50,10 @@ public class RentalEndpoint implements Serializable {
 
     public void cancelRental(Long rentalId) throws AppBaseException {
         rentalManager.cancelRental(rentalId);
+    }
+
+    public MyRentalDetailsDto getUserRentalDetails(Long rentalId) throws AppBaseException {
+        Rental rental = rentalManager.getRentalById(rentalId);
+        return ObjectMapperUtils.map(rental, MyRentalDetailsDto.class);
     }
 }
