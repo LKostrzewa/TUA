@@ -68,6 +68,12 @@ public class UserFacade extends AbstractFacade<User> {
         super.edit(user);
     }
 
+    /**
+     * Metoda, dodaje podanego użytkownika do bazy danych.
+     *
+     * @param user encja użytkownika do dodania do bazy.
+     * //TODO @throws
+     */
     @Override
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void create(User user) {
@@ -92,11 +98,28 @@ public class UserFacade extends AbstractFacade<User> {
         }
     }
 
+    /**
+     * Metoda, sprawdza czy istnieje użytkownik w bazie o danym loginie poprzez sprawdzenie czy rezultat wykonania
+     * zapytania COUNT jest większy od 0.
+     *
+     * @param login login użytkownika.
+     * @return true/false zależnie czy użytkownik z danym loginem istnieje lub nie
+     */
+    @PermitAll
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public boolean existByLogin(String login) {
         return entityManager.createNamedQuery("User.countByLogin", Long.class)
                 .setParameter("login", login).getSingleResult() > 0;
     }
-
+    /**
+     * Metoda, sprawdza czy istnieje użytkownik w bazie o danym emailu poprzez sprawdzenie czy rezultat wykonania
+     * zapytania COUNT jest większy od 0.
+     *
+     * @param email email użytkownika.
+     * @return true/false zależnie czy użytkownik z danym emailem istnieje lub nie
+     */
+    @PermitAll
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public boolean existByEmail(String email) {
         return entityManager.createNamedQuery("User.countByEmail", Long.class)
                 .setParameter("email", email).getSingleResult() > 0;

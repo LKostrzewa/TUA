@@ -45,7 +45,13 @@ public class UserEndpoint implements Serializable {
             registerNewUser(userDTO);
         }
     }
-
+    /**
+     * Metoda, służy do dodawania nowych użytkowników do bazy danych przez administratora
+     *
+     * @param userDTO obiekt DTO z danymi nowego użytkownika.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("addNewUser")
     public void addNewUser(AddUserDto userDTO) throws AppBaseException {
         User user = new User(userDTO.getLogin(), userDTO.getPassword(), userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getPhoneNumber());
         userManager.addNewUser(user);

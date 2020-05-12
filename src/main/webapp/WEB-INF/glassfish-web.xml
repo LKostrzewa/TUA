@@ -33,6 +33,20 @@
         <role-name>lockAccount</role-name>
         <group-name>ADMINISTRATOR</group-name>
     </security-role-mapping>
+    <security-role-mapping>
+        <role-name>addNewUser</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getUserDetailsDtoById</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getOwnDetailsDtoByLogin</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+        <group-name>MANAGER</group-name>
+        <group-name>CLIENT</group-name>
+    </security-role-mapping>
 
     <!--YachtEndpoint-->
     <security-role-mapping>

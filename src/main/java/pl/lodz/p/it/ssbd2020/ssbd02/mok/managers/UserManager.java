@@ -49,6 +49,14 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
     }
 
+    /**
+     * Metoda, która dodaje nowego użytkownika do bazy danych poprzez userFacade.
+     *
+     * @param user Encja użytkownika do dodania.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("addNewUser")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addNewUser(User user) throws AppBaseException {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         if (userFacade.existByLogin(user.getLogin())) {
