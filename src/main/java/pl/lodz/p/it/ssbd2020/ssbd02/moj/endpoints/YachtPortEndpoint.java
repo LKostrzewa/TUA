@@ -20,7 +20,7 @@ public class YachtPortEndpoint implements Serializable {
     @Inject
     private YachtPortManager yachtPortManager;
 
-    public List<YachtDto> getAllYachtsByPort(Long portId) {
+    public List<YachtDto> getAllYachtsByPort(Long portId) throws AppBaseException {
         return ObjectMapperUtils.mapAll(yachtPortManager.getAllYachtsByPort(portId), YachtDto.class);
     }
 

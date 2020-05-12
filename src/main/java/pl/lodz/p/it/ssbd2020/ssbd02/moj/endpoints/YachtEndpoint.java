@@ -42,14 +42,14 @@ public class YachtEndpoint implements Serializable {
     }
 
     /**
-     * Metoda, która zwraca yacht o podanym od.
+     * Metoda, która zwraca yacht o podanym id.
      *
      * @param yachtId id jachtu.
      * @return yacht dto
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getYachtById")
-    public YachtDto getYachtById(Long yachtId)  {
+    public YachtDto getYachtById(Long yachtId) throws AppBaseException  {
         Yacht yacht = yachtManager.getYachtById(yachtId);
         return ObjectMapperUtils.map(yacht, YachtDto.class);
     }

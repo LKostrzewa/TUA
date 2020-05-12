@@ -40,8 +40,9 @@ public class OpinionManager {
                 .collect(Collectors.toList());
     }
 
-    public Opinion getOpinionById(Long opinionId) {
-        return opinionFacade.find(opinionId);
+    public Opinion getOpinionById(Long opinionId) throws AppBaseException {
+        //TODO poprawic na odpowiedni wyjątek
+        return opinionFacade.find(opinionId).orElseThrow(() -> new AppBaseException("nie ma takiej opini"));
     }
 
     public void editOpinion(Long opinionId, Opinion opinionToEdit) throws AppBaseException {
@@ -52,7 +53,8 @@ public class OpinionManager {
     }
 
     public void calculateAvgRating(Long yachtId) throws AppBaseException{
-        Yacht yacht = yachtFacade.find(yachtId);
+        //TODO poprawic na odpowiedni wyjątek
+        Yacht yacht = yachtFacade.find(yachtId).orElseThrow(() -> new AppBaseException("nie ma tego jachtu"));
         BigDecimal tmp = BigDecimal.valueOf(yacht.getRentals().stream()
                 .map(Rental::getOpinion)
                 .mapToDouble(Opinion::getRating)

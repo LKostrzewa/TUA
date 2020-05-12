@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.ApplicationOptimisticLockExceptio
 import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Fasadowa klasa abstrakcyjna po której dziedziczą wszystkie inne klasy fasadowe
@@ -40,8 +41,14 @@ public abstract class AbstractFacade<T> {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
 
-    public T find(Object id) {
-        return getEntityManager().find(entityClass, id);
+    /**
+     * Metoda, która służy do wyszukania obiektu po kluczu głównym.
+     *
+     * @param id wartość klucza głównego
+     * @return optional z wyszukanym obiektem encji lub pusty, jeśli poszukiwany obiekt encji nie istnieje
+     */
+    public Optional<T> find(Object id) {
+        return Optional.ofNullable(getEntityManager().find(entityClass, id));
     }
 
     public List<T> findAll() {

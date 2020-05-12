@@ -14,6 +14,7 @@ import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 @Stateless
 @LocalBean
@@ -42,7 +43,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
     }
 
     /**
-     * Metoda, która zwraca yacht o podanym od.
+     * Metoda, która zwraca yacht o podanym id.
      *
      * @param id id jachtu.
      * @return yacht dto
@@ -51,7 +52,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
     @Override
     @RolesAllowed("getYachtById")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public Yacht find(Object id) {
+    public Optional<Yacht> find(Object id) {
         return super.find(id);
     }
 

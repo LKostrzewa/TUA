@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
 
@@ -33,7 +34,7 @@ public class YachtDetailsPageBean implements Serializable {
         this.yachtDto = yachtDto;
     }
 
-    public void init() {
+    public void init() throws AppBaseException {
         this.yachtDto = yachtEndpoint.getYachtById(yachtId);
     }
 }

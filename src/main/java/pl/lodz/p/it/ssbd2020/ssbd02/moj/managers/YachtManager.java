@@ -41,7 +41,7 @@ public class YachtManager {
     }
 
     /**
-     * Metoda, która zwraca yacht o podanym od.
+     * Metoda, która zwraca yacht o podanym id.
      *
      * @param yachtId id jachtu.
      * @return yacht dto
@@ -49,8 +49,9 @@ public class YachtManager {
      */
     @RolesAllowed("getYachtById")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public Yacht getYachtById(Long yachtId){
-        return yachtFacade.find(yachtId);
+    public Yacht getYachtById(Long yachtId) throws AppBaseException {
+        //TODO poprawic na odpowiedni wyjątek
+        return yachtFacade.find(yachtId).orElseThrow(() -> new AppBaseException("nie ma tego jachtu"));
     }
 
     public void editYacht(Long yachtId, Yacht yachtToEdit) throws AppBaseException {

@@ -36,7 +36,7 @@ public class ChangeAccessLevelPageBean implements Serializable {
         this.userId = userId;
     }
 
-    public void init() {
+    public void init() throws AppBaseException{
         this.userDto = userAccessLevelEndpoint.findAccessLevelById(userId);
     }
 

@@ -46,7 +46,7 @@ public class UserDetailsPageBean implements Serializable {
         this.userId = userId;
     }
 
-    public void init() {
+    public void init() throws AppBaseException{
         this.userDetailsDto = userEndpoint.getUserDetailsDtoById(userId);
         this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelById(userId);
     }

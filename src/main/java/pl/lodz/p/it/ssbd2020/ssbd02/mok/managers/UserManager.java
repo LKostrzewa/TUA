@@ -108,8 +108,9 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public User getUserById(Long id) {
-        return userFacade.find(id);
+    public User getUserById(Long id) throws AppBaseException {
+        //TODO poprawic na odpowiedni wyjątek
+        return userFacade.find(id).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -119,7 +120,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editUserPassword(User user, Long userId) throws AppBaseException {
-        User userToEdit = userFacade.find(userId);
+        //TODO poprawic na odpowiedni wyjątek
+        User userToEdit = userFacade.find(userId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         userToEdit.setPassword(passwordHash);
         userFacade.edit(userToEdit);
@@ -149,7 +151,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     @RolesAllowed("lockAccount")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void lockAccount(Long userId) throws AppBaseException {
-        User userToEdit = userFacade.find(userId);
+        //TODO poprawic na odpowiedni wyjątek
+        User userToEdit = userFacade.find(userId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
         userToEdit.setLocked(true);
         userFacade.edit(userToEdit);
         // to przeniesc do endpointu?? + LOG o wysłaniu maila jeśli nie ma
@@ -157,7 +160,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     public void unlockAccount(Long userId) throws AppBaseException {
-        User userToEdit = userFacade.find(userId);
+        //TODO poprawic na odpowiedni wyjątek
+        User userToEdit = userFacade.find(userId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
         userToEdit.setLocked(false);
         userFacade.edit(userToEdit);
 

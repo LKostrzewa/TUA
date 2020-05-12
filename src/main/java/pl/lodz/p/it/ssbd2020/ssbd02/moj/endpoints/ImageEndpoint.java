@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import org.apache.commons.io.IOUtils;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Image;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.ImageManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -40,7 +41,7 @@ public class ImageEndpoint implements Serializable {
         imageManager.addImage(image);
     }
 
-    public void deleteImage(Long imageId) {
+    public void deleteImage(Long imageId) throws AppBaseException{
         imageManager.deleteImage(imageId);
     }
 
@@ -48,7 +49,7 @@ public class ImageEndpoint implements Serializable {
         return imageManager.getAllImagesByYachtModel(model);
     }
 
-    public Image getImageById(Long imageId) {
+    public Image getImageById(Long imageId) throws AppBaseException{
         return imageManager.getImageById(imageId);
     }
 }

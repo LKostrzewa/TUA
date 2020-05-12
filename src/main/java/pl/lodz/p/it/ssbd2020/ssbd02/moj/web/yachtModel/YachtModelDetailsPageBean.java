@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yachtModel;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Image;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.YachtModelDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.ImageEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
@@ -42,7 +43,7 @@ public class YachtModelDetailsPageBean implements Serializable {
         this.images = imageEndpoint.getAllImagesByYachtMode(modelName);
     }
 
-    public String openYachtModelDetailsPage(Long yachtModelId) {
+    public String openYachtModelDetailsPage(Long yachtModelId) throws AppBaseException {
         conversation.begin();
         this.yachtModelId = yachtModelId;
         this.yachtModelDetailsDto = ObjectMapperUtils.map(yachtModelEndpoint.getYachtModelById(yachtModelId), YachtModelDetailsDto.class);
@@ -59,7 +60,7 @@ public class YachtModelDetailsPageBean implements Serializable {
         return "/manager/yachtModelDetails.xhtml?faces-redirect=true";
     }
 
-    public String deleteImage(Long id) {
+    public String deleteImage(Long id) throws AppBaseException{
         imageEndpoint.deleteImage(id);
         return "/manager/yachtModelDetails.xhtml?faces-redirect=true";
     }
