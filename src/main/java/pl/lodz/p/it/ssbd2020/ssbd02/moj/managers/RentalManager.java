@@ -4,8 +4,8 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalStatusFacade;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.UserFacade;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.ejb.LocalBean;
@@ -62,14 +62,14 @@ public class RentalManager {
         rentalFacade.edit(rental);
     }
 
-    public void cancelRental(Long rentalId) throws AppBaseException{
+    public void cancelRental(Long rentalId) throws AppBaseException {
         Rental rentalToCancel = getRentalById(rentalId);
 //        RentalStatus rentalStatus = rentalStatusFacade.findByName("CANCELED");
 //        rentalToCancel.setRentalStatus(rentalStatus);
         rentalFacade.edit(rentalToCancel);
     }
 
-    public void updateRentalStatus(){
+    public void updateRentalStatus() {
         List<Rental> allRentals = rentalFacade.findAll();
         for (Rental rental : allRentals) {
             //tu logika tego wszyskiego
