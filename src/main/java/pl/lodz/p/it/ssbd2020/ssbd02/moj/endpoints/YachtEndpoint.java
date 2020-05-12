@@ -11,6 +11,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.YachtManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
@@ -29,12 +30,26 @@ public class YachtEndpoint implements Serializable {
         Yacht yacht = ObjectMapperUtils.map(newYachtDto, Yacht.class);
         yachtManager.addYacht(yacht);
     }
-
+    /**
+     * Metoda, która zwraca wszystkie jachty
+     *
+     * @return lista jachtów
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getAllYachts")
     public List<YachtListDto> getAllYachts() {
         return ObjectMapperUtils.mapAll(yachtManager.getAllYachts(), YachtListDto.class);
     }
 
-    public YachtDto getYachtById(Long yachtId) {
+    /**
+     * Metoda, która zwraca yacht o podanym od.
+     *
+     * @param yachtId id jachtu.
+     * @return yacht dto
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getYachtById")
+    public YachtDto getYachtById(Long yachtId)  {
         Yacht yacht = yachtManager.getYachtById(yachtId);
         return ObjectMapperUtils.map(yacht, YachtDto.class);
     }

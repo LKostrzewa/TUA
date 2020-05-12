@@ -97,7 +97,13 @@
     <security-role>
         <role-name>editAccessLevels</role-name>
     </security-role>
-
+    <!--YachtEndpoint-->
+    <security-role>
+        <role-name>getAllYachts</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getYachtById</role-name>
+    </security-role>
 
     <security-constraint>
         <web-resource-collection>

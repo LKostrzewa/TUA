@@ -137,8 +137,9 @@ public class LoginPageBean implements Serializable {
                 } catch (AppBaseException e) {
                     facesContext.addMessage(null,
                             new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authenticationFailed")));
-                    externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
+
                 }
+                externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
                 break;
             case NOT_DONE:
                 break;

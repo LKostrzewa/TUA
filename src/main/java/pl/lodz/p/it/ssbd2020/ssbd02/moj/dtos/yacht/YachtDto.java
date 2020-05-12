@@ -4,12 +4,13 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 public class YachtDto {
     private Long id;
     private String name;
-    private Integer produciton_year;
-    private Long yachtModelId;
+    private Integer productionYear;
     private Float priceMultiplier;
-    private Long currentPortId;
     private String equipment;
     private Float avgRating;
+    private boolean active;
+    private Long yachtModelId;
+    private Long currentPortId;
 
     public Long getId() {
         return id;
@@ -27,12 +28,12 @@ public class YachtDto {
         this.name = name;
     }
 
-    public Integer getProduciton_year() {
-        return produciton_year;
+    public Integer getProductionYear() {
+        return productionYear;
     }
 
-    public void setProduciton_year(Integer produciton_year) {
-        this.produciton_year = produciton_year;
+    public void setProductionYear(Integer productionYear) {
+        this.productionYear = productionYear;
     }
 
     public Long getYachtModelId() {
@@ -73,5 +74,12 @@ public class YachtDto {
 
     public void setAvgRating(Float avgRating) {
         this.avgRating = avgRating;
+    }
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
