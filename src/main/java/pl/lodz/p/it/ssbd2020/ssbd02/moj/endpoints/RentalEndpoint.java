@@ -7,6 +7,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.RentalManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
@@ -30,6 +31,13 @@ public class RentalEndpoint implements Serializable {
         return ObjectMapperUtils.mapAll(rentalManager.getAllRentals(), ListAllRentalsDto.class);
     }
 
+    /**
+     * Metoda, która zwraca listę wypożyczeń danego klienta.
+     *
+     * @param userLogin login użytkownika
+     * @return lista wypożyczeń użytkownika o podanym loginie
+     */
+    @RolesAllowed("getRentals")
     public List<ListRentalsDto> getRentals(String userLogin) {
         return ObjectMapperUtils.mapAll(rentalManager.getAllRentalsByUser(userLogin), ListRentalsDto.class);
     }

@@ -9,8 +9,11 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
@@ -37,11 +40,21 @@ public class RentalManager {
         return rentalFacade.findAll();
     }
 
+    @RolesAllowed("getRentalById")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Rental getRentalById(Long rentalId) throws AppBaseException {
         //TODO poprawic na odpowiedni wyjątek
         return rentalFacade.find(rentalId).orElseThrow(() -> new AppBaseException("nie ma tego wypozyczenia"));
     }
 
+    /**
+     * Metoda, która zwraca listę wypożyczeń danego klienta.
+     *
+     * @param userLogin login użytkownika
+     * @return lista wypożyczeń użytkownika o podanym loginie
+     */
+    @RolesAllowed("getRentals")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<Rental> getAllRentalsByUser(String userLogin) {
         return rentalFacade.findAll()
                 .stream()

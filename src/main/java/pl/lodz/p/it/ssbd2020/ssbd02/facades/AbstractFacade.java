@@ -3,6 +3,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.facades;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppOptimisticLockException;
 
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
 import java.util.List;
@@ -37,7 +40,6 @@ public abstract class AbstractFacade<T> {
     }
 
 
-
     public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
@@ -48,10 +50,19 @@ public abstract class AbstractFacade<T> {
      * @param id wartość klucza głównego
      * @return optional z wyszukanym obiektem encji lub pusty, jeśli poszukiwany obiekt encji nie istnieje
      */
+    @RolesAllowed("getRentalById")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<T> find(Object id) {
         return Optional.ofNullable(getEntityManager().find(entityClass, id));
     }
 
+    /**
+     * Metoda, która zwraca listę wypożyczeń.
+     *
+     * @return lista wypożyczeń
+     */
+    @RolesAllowed("getRentals")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<T> findAll() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
@@ -74,6 +85,7 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
+
     // TODO czy będziemy tego używać?
     public void flush() throws AppBaseException {
         try {

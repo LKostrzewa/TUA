@@ -102,6 +102,13 @@
     <security-role>
         <role-name>getYachtById</role-name>
     </security-role>
+    <!--Rentals-->
+    <security-role>
+        <role-name>getRentals</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getRentalById</role-name>
+    </security-role>
 
     <security-constraint>
         <web-resource-collection>
