@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.RentalStatus;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalStatusFacade;
@@ -64,8 +65,8 @@ public class RentalManager {
 
     public void cancelRental(Long rentalId) throws AppBaseException {
         Rental rentalToCancel = getRentalById(rentalId);
-//        RentalStatus rentalStatus = rentalStatusFacade.findByName("CANCELED");
-//        rentalToCancel.setRentalStatus(rentalStatus);
+        RentalStatus rentalStatus = rentalStatusFacade.findByName("CANCELED");
+        rentalToCancel.setRentalStatus(rentalStatus);
         rentalFacade.edit(rentalToCancel);
     }
 

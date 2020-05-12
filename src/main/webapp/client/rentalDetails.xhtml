@@ -52,6 +52,18 @@
                     <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.price}"/>
                 </p:panelGrid>
                 <p:button value="#{msg['goBack']}" outcome="listRentals.xhtml?faces-redirect=true"/>
+                <p:commandButton value="${msg['cancel']}" action="#{myRentalDetailsPageBean.cancelRental}"
+                                 update="message form"
+                                 rendered="#{myRentalDetailsPageBean.rentalDetails.statusName.equals('PENDING')}">
+                    <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
+                               icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                                     icon="pi pi-check"/>
+                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                                     icon="pi pi-times"/>
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>

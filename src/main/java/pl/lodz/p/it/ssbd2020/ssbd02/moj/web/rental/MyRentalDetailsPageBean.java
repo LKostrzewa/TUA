@@ -36,4 +36,8 @@ public class MyRentalDetailsPageBean implements Serializable {
     public void init() throws AppBaseException {
         this.rentalDetails = rentalEndpoint.getUserRentalDetails(rentalId);
     }
+
+    public void cancelRental() throws AppBaseException {
+        rentalEndpoint.cancelRental(rentalId);
+    }
 }
