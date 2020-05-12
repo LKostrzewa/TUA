@@ -67,12 +67,13 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-
+    // TODO czy będziemy tego używać?
     public void flush() throws AppBaseException {
         try {
             getEntityManager().flush();
         } catch (OptimisticLockException e) {
-            throw new ApplicationOptimisticLockException("exception.optimisticLock");
+            throw new AppBaseException("exception.optimisticLock");
+
         }
     }
 }
