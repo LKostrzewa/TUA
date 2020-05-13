@@ -83,7 +83,8 @@ public class UserAccessLevelEndpoint implements Serializable {
      */
     @RolesAllowed("findUserAccessLevelByLogin")
     public UserAccessLevelDto findUserAccessLevelByLogin(String userLogin) throws AppBaseException {
-        Collection<UserAccessLevel> userAccessLevels = userAccessLevelManager.findUserAccessLevelByLogin(userLogin);
+        user = userAccessLevelManager.findUserByLogin(userLogin);
+        Collection<UserAccessLevel> userAccessLevels = user.getUserAccessLevels();
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
         userAccessLevelDto.setUserDetailsDto(ObjectMapperUtils.map(user, UserDetailsDto.class));
         for (UserAccessLevel level : userAccessLevels) {

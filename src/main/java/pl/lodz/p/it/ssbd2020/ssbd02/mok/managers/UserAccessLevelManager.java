@@ -83,14 +83,14 @@ public class UserAccessLevelManager implements Serializable {
     }
 
     /**
-     * Metoda zwracająca kolekcję UserAccessLevel'i , które posiadają encje użytkowników o wskazanym loginie
+     * Metoda zwracająca encje user o wskazanym loginie
      * @param userLogin login użytkownika
-     * @return Kolekcja UserAccessLevel'i dla danego użytkownika
+     * @return Encja usera o podanym loginie
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("findUserAccessLevelByLogin")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public Collection<UserAccessLevel> findUserAccessLevelByLogin(String userLogin) throws AppBaseException {
-        return userFacade.findByLogin(userLogin).getUserAccessLevels();
+    public User findUserByLogin(String userLogin) throws AppBaseException {
+        return userFacade.findByLogin(userLogin);
     }
 }
