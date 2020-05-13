@@ -70,9 +70,10 @@ public class UserFacade extends AbstractFacade<User> {
      * Metoda, dodaje podanego użytkownika do bazy danych.
      *
      * @param user encja użytkownika do dodania do bazy.
-     * //TODO @throws
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void create(User user) throws AppBaseException {
         try {
