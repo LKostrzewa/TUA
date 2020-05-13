@@ -87,10 +87,10 @@
     </security-role>
     <!--UserAccessLevelEndpoint-->
     <security-role>
-        <role-name>findAccessLevelById</role-name>
+        <role-name>findUserAccessLevelById</role-name>
     </security-role>
     <security-role>
-        <role-name>findAccessLevelByLogin</role-name>
+        <role-name>findUserAccessLevelByLogin</role-name>
     </security-role>
     <security-role>
         <role-name>editAccessLevels</role-name>

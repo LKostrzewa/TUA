@@ -4,6 +4,7 @@ import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppPersistenceException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -14,10 +15,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,10 +66,22 @@ public class UserFacade extends AbstractFacade<User> {
         super.edit(user);
     }
 
+    /**
+     * Metoda, dodaje podanego użytkownika do bazy danych.
+     *
+     * @param user encja użytkownika do dodania do bazy.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @Override
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public void create(User user) {
-        super.create(user);
+    public void create(User user) throws AppBaseException {
+        try {
+            super.create(user);
+        }
+        catch (PersistenceException e) {
+            throw AppPersistenceException.createAppPersistenceException(user, e);
+        }
     }
 
     /**
@@ -92,11 +102,28 @@ public class UserFacade extends AbstractFacade<User> {
         }
     }
 
+    /**
+     * Metoda, sprawdza czy istnieje użytkownik w bazie o danym loginie poprzez sprawdzenie czy rezultat wykonania
+     * zapytania COUNT jest większy od 0.
+     *
+     * @param login login użytkownika.
+     * @return true/false zależnie czy użytkownik z danym loginem istnieje lub nie
+     */
+    @PermitAll
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public boolean existByLogin(String login) {
         return entityManager.createNamedQuery("User.countByLogin", Long.class)
                 .setParameter("login", login).getSingleResult() > 0;
     }
-
+    /**
+     * Metoda, sprawdza czy istnieje użytkownik w bazie o danym emailu poprzez sprawdzenie czy rezultat wykonania
+     * zapytania COUNT jest większy od 0.
+     *
+     * @param email email użytkownika.
+     * @return true/false zależnie czy użytkownik z danym emailem istnieje lub nie
+     */
+    @PermitAll
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public boolean existByEmail(String email) {
         return entityManager.createNamedQuery("User.countByEmail", Long.class)
                 .setParameter("email", email).getSingleResult() > 0;

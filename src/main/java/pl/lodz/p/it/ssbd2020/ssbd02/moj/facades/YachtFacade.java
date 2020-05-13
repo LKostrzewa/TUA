@@ -33,7 +33,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
     }
 
     @Override
-    public void create(Yacht entity) {
+    public void create(Yacht entity) throws AppBaseException {
         super.create(entity);
     }
 

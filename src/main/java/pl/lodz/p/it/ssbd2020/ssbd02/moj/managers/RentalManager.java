@@ -32,7 +32,7 @@ public class RentalManager {
     @Inject
     private YachtFacade yachtFacade;
 
-    public void addRental(Rental rental) {
+    public void addRental(Rental rental) throws AppBaseException {
         rentalFacade.create(rental);
     }
 

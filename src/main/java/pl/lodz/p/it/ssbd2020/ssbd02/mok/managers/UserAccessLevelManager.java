@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.managers;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserAccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
@@ -10,8 +11,11 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
@@ -41,7 +45,7 @@ public class UserAccessLevelManager implements Serializable {
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
     }
 
-    public void addUserAccessLevel(UserAccessLevel userAccessLevel) {
+    public void addUserAccessLevel(UserAccessLevel userAccessLevel) throws AppBaseException {
         userAccessLevelFacade.create(userAccessLevel);
     }
 
@@ -66,13 +70,27 @@ public class UserAccessLevelManager implements Serializable {
         }
         return null;
     }
-
-    public User findUserAccessLevelById(Long userId) throws AppBaseException {
-        //TODO poprawic na odpowiedni wyjątek
-        return userFacade.find(userId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
+    /**
+     * Metoda zwracająca encje user o podanym identyfikatorze
+     * @param userId identyfikator użytkownika
+     * @return Encja user o podanym identyfikatorze
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("findUserAccessLevelById")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public User findUserById(Long userId) throws AppBaseException {
+        return userFacade.find(userId).orElseThrow(AppNotFoundException::createUserNotFoundException);
     }
 
-    public Collection<UserAccessLevel> findUserAccessLevelByLogin(String userLogin) throws AppBaseException {
-        return userFacade.findByLogin(userLogin).getUserAccessLevels();
+    /**
+     * Metoda zwracająca encje user o wskazanym loginie
+     * @param userLogin login użytkownika
+     * @return Encja usera o podanym loginie
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("findUserAccessLevelByLogin")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public User findUserByLogin(String userLogin) throws AppBaseException {
+        return userFacade.findByLogin(userLogin);
     }
 }

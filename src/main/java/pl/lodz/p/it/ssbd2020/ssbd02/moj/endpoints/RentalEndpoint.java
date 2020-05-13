@@ -22,7 +22,7 @@ public class RentalEndpoint implements Serializable {
     @Inject
     private RentalManager rentalManager;
 
-    public void addRental(AddRentalDto addRentalDto) {
+    public void addRental(AddRentalDto addRentalDto) throws AppBaseException {
         Rental rental = ObjectMapperUtils.map(addRentalDto, Rental.class);
         rentalManager.addRental(rental);
     }
