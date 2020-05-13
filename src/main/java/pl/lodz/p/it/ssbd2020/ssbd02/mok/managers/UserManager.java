@@ -104,6 +104,14 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         sendEmailWithCode(user);
     }
 
+
+    /**
+     * Metoda, która pobiera z bazy listę obiektów.
+     *
+     * @return lista obiektów
+     */
+    @RolesAllowed("getUserReport")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<User> getAll() {
         return userFacade.findAll();
     }
@@ -119,8 +127,16 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.edit(user);
     }
 
+    /**
+     * Metoda wykorzystywana do zmiany hasła innego użytkownika zgodnie z przekazanymi parametrami.
+     *
+     * @param user   obiekt przechowujący dane wprowadzone w formularzu
+     * @param userId id użytkownika, którego hasło ulegnie modyfikacji
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("changeUserPassword")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUserPassword(User user, Long userId) throws AppBaseException {
+    public void changeUserPassword(User user, Long userId) throws AppBaseException {
         //TODO poprawic na odpowiedni wyjątek
         User userToEdit = userFacade.find(userId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
@@ -128,8 +144,17 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.edit(userToEdit);
     }
 
+    /**
+     * Metoda wykorzystywana do zmiany własnego hasła zgodnie z przekazanymi parametrami.
+     *
+     * @param user             obiekt przechowujący dane wprowadzone w formularzu
+     * @param userLogin        login użytkownika, którego hasło ulegnie modyfikacji
+     * @param givenOldPassword hasło podane w formularzu wykorzystywane przy weryfikacji użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("changeOwnPassword")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editOwnPassword(User user, String userLogin, String givenOldPassword) throws AppBaseException {
+    public void changeOwnPassword(User user, String userLogin, String givenOldPassword) throws AppBaseException {
         User userToEdit = userFacade.findByLogin(userLogin);
         BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
         if (!bCryptPasswordHash.verify(givenOldPassword.toCharArray(), userToEdit.getPassword())) {
@@ -256,10 +281,28 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         }
     }
 
+    /**
+     * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
+     *
+     * @param filters para filtrowanych pól i ich wartości
+     * @return liczba obiektów poddanych filtrowaniu
+     */
+    @RolesAllowed("getFilteredRowCount")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userFacade.getFilteredRowCount(filters);
     }
 
+    /**
+     * Metoda, która pobiera z bazy listę filtrowanych obiektów.
+     *
+     * @param first    numer pierwszego obiektu
+     * @param pageSize rozmiar strony
+     * @param filters  para filtrowanych pól i ich wartości
+     * @return lista filtrowanych obiektów
+     */
+    @RolesAllowed("getResultList")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<User> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
         return userFacade.getResultList(first, pageSize, filters);
     }

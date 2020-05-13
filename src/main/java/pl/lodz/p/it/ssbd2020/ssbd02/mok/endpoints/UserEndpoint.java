@@ -57,14 +57,14 @@ public class UserEndpoint implements Serializable {
         userManager.addNewUser(user);
     }
 
-    // może zmienić nazwe na getReport
-    public List<UserReportDto> getAllUserReportDto() {
+    /**
+     * Metoda, która pobiera z bazy listę obiektów.
+     *
+     * @return lista obiektów
+     */
+    @RolesAllowed("getUserReport")
+    public List<UserReportDto> getUserReport() {
         return ObjectMapperUtils.mapAll(userManager.getAll(), UserReportDto.class);
-    }
-
-    // po co pobierać DTO do zmiany hasła z bazy? do wywaleni xd
-    public ChangePasswordDto getChangePasswordDtoById(Long id) throws AppBaseException {
-        return ObjectMapperUtils.map(userManager.getUserById(id), ChangePasswordDto.class);
     }
 
     public EditUserDto getEditUserDtoById(Long userId) throws AppBaseException{
@@ -112,14 +112,30 @@ public class UserEndpoint implements Serializable {
         }
     }
 
-    public void editUserPassword(ChangePasswordDto changePasswordDto, Long userId) throws AppBaseException {
+    /**
+     * Metoda wykorzystywana do zmiany hasła innego użytkownika zgodnie z przekazanymi parametrami.
+     *
+     * @param changePasswordDto obiekt przechowujący dane wprowadzone w formularzu
+     * @param userId            id użytkownika, którego hasło ulegnie modyfikacji
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("changeUserPassword")
+    public void changeUserPassword(ChangePasswordDto changePasswordDto, Long userId) throws AppBaseException {
         User user = ObjectMapperUtils.map(changePasswordDto, User.class);
-        userManager.editUserPassword(user, userId);
+        userManager.changeUserPassword(user, userId);
     }
 
-    public void editOwnPassword(ChangeOwnPasswordDto changeOwnPasswordDto, String userLogin) throws AppBaseException {
+    /**
+     * Metoda wykorzystywana do zmiany własnego hasła zgodnie z przekazanymi parametrami.
+     *
+     * @param changeOwnPasswordDto obiekt przechowujący dane wprowadzone w formularzu
+     * @param userLogin            login użytkownika, którego hasło ulegnie modyfikacji
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("changeOwnPassword")
+    public void changeOwnPassword(ChangeOwnPasswordDto changeOwnPasswordDto, String userLogin) throws AppBaseException {
         User user = ObjectMapperUtils.map(changeOwnPasswordDto, User.class);
-        userManager.editOwnPassword(user, userLogin, changeOwnPasswordDto.getOldPassword());
+        userManager.changeOwnPassword(user, userLogin, changeOwnPasswordDto.getOldPassword());
     }
 
     /**
@@ -172,14 +188,29 @@ public class UserEndpoint implements Serializable {
         userManager.saveFailureAuthenticate(login, date);
     }
 
+
+    /**
+     * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
+     *
+     * @param filters para filtrowanych pól i ich wartości
+     * @return liczba obiektów poddanych filtrowaniu
+     */
+    @RolesAllowed("getFilteredRowCount")
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userManager.getFilteredRowCount(filters);
     }
 
+    /**
+     * Metoda, która pobiera z bazy listę filtrowanych obiektów.
+     *
+     * @param first    numer pierwszego obiektu
+     * @param pageSize rozmiar strony
+     * @param filters  para filtrowanych pól i ich wartości
+     * @return lista filtrowanych obiektów
+     */
+    @RolesAllowed("getResultList")
     public List<ListUsersDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
-        List<ListUsersDto> users = ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
-        Collections.sort(users);
-        return users;
+        return ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
     }
 
     public void sendResetPasswordEmail(String email) throws AppBaseException {

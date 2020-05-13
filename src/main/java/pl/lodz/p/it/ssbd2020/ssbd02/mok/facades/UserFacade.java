@@ -41,13 +41,15 @@ public class UserFacade extends AbstractFacade<User> {
         return entityManager;
     }
 
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    @RolesAllowed("getUserReport")
     @Override
     public List<User> findAll() {
         return super.findAll();
     }
 
     @Override
-    @RolesAllowed("lockAccount")
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<User> find(Object id) {
         return super.find(id);
@@ -165,6 +167,17 @@ public class UserFacade extends AbstractFacade<User> {
         super.flush();
     }
 
+
+    /**
+     * Metoda, która pobiera z bazy listę filtrowanych obiektów.
+     *
+     * @param start   numer pierwszego obiektu
+     * @param size    rozmiar strony
+     * @param filters para filtrowanych pól i ich wartości
+     * @return lista filtrowanych obiektów
+     */
+    @RolesAllowed("getResultList")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<User> getResultList(int start, int size,
                                     Map<String, FilterMeta> filters) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -191,9 +204,19 @@ public class UserFacade extends AbstractFacade<User> {
                         (new Predicate[0])));
             }
         }
+        criteriaQuery.orderBy(criteriaBuilder.asc(root.get("login")));
 
         return entityManager.createQuery(select).setFirstResult(start).setMaxResults(size).getResultList();
     }
+
+    /**
+     * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
+     *
+     * @param filters para filtrowanych pól i ich wartości
+     * @return liczba obiektów poddanych filtrowaniu
+     */
+    @RolesAllowed("getFilteredRowCount")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
