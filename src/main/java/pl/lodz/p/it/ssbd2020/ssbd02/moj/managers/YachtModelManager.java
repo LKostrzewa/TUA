@@ -26,8 +26,9 @@ public class YachtModelManager {
         return yachtModelFacade.findAll();
     }
 
-    public YachtModel getYachtModelById(Long yachtModelId) {
-        return yachtModelFacade.find(yachtModelId);
+    public YachtModel getYachtModelById(Long yachtModelId) throws AppBaseException {
+        //TODO poprawic na odpowiedni wyjątek
+        return yachtModelFacade.find(yachtModelId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
     }
 
     public void editYachtModel(Long yachtModelId, YachtModel yachtModelToEdit) throws AppBaseException {

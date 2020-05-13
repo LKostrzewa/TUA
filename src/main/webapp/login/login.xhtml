@@ -6,11 +6,11 @@
 <h:body>
     <h:outputStylesheet library="css" name="login.css"/>
     <h:form class="login-form">
-        <p:growl id="growl" showDetail="true" sticky="true" severity="info, fatal"/>
+        <p:growl id="growl" showDetail="true" sticky="true" severity="info, fatal" />
         <img src="../resources/images/yacht_logo.png" alt="Yacht logo"/>
 
         <div class="text-box">
-            <h:inputText id="username" value="#{loginBean.username}"
+            <h:inputText id="username" value="#{loginPageBean.username}"
                          a:placeholder="#{msg['username']}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
@@ -20,7 +20,7 @@
         </div>
 
         <div class="text-box">
-            <h:inputSecret id="password" type="password" value="#{loginBean.password}"
+            <h:inputSecret id="password" type="password" value="#{loginPageBean.password}"
                            a:placeholder="#{msg['password']}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
@@ -29,14 +29,14 @@
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
 
-        <h:commandButton action="#{loginBean.login}" class="log-button" value="#{msg['signIn']}"/>
+        <h:commandButton action="#{loginPageBean.login}" class="log-button" value="#{msg['signIn']}"/>
         <div class="bottom-text">
             #{msg['noAccount']} <a
                 href="${pageContext.request.contextPath}/login/register.xhtml">#{msg['register']}</a>
         </div>
         <div class="bottom-reset-password">
             #{msg['forgetPassword']} <a
-                href="${pageContext.request.contextPath}/login/forgetPassword.xhtml">#{msg['resetPassword']}</a>
+                href="${pageContext.request.contextPath}/login/forgotPassword.xhtml">#{msg['resetPassword']}</a>
         </div>
     </h:form>
 </h:body>

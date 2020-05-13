@@ -3,8 +3,8 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.PermitAll;
@@ -22,6 +22,7 @@ import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Klasa fasadowa powiązana z encją User
@@ -52,12 +53,18 @@ public class UserFacade extends AbstractFacade<User> {
     @Override
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public User find(Object id) {
+    public Optional<User> find(Object id) {
         return super.find(id);
     }
 
+    /**
+     * Metoda, która edytuje encje user.
+     *
+     * @param user encja użytkownika.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @Override
-    @RolesAllowed({"lockAccount", "changeUserPassword", "changeOwnPassword"})
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(User user) throws AppBaseException {
         super.edit(user);
@@ -69,14 +76,21 @@ public class UserFacade extends AbstractFacade<User> {
         super.create(user);
     }
 
-    @RolesAllowed("changeOwnPassword")
+    /**
+     * Metoda, która zwraca użytkownika o podanym loginie.
+     *
+     * @param userLogin login użytkownika.
+     * @return encje User
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User findByLogin(String userLogin) throws AppBaseException {
         try {
             return getEntityManager().createNamedQuery("User.findByLogin", User.class)
-                    .setParameter("login", userLogin).getSingleResult();
-        } catch (NoResultException e) {
-            throw new UserNotFoundException("exception.userNotFound");
+                    .setParameter("login",userLogin).getSingleResult();
+        } catch (NoResultException e){
+            throw AppNotFoundException.createUserNotFoundException(e);
         }
     }
 
@@ -96,8 +110,8 @@ public class UserFacade extends AbstractFacade<User> {
         typedQuery.setParameter("email", email);
         try {
             return typedQuery.getSingleResult();
-        } catch (NoResultException e) {
-            throw new UserNotFoundException("exception.userNotFound");
+        } catch (NoResultException e){
+            throw AppNotFoundException.createUserNotFoundException(e);
         }
     }
 
@@ -107,8 +121,8 @@ public class UserFacade extends AbstractFacade<User> {
         typedQuery.setParameter("resetPasswordCode", resetPasswordCode);
         try {
             return typedQuery.getSingleResult();
-        } catch (NoResultException e) {
-            throw new UserNotFoundException("exception.userNotFound");
+        } catch (NoResultException e){
+            throw AppNotFoundException.createUserNotFoundException(e);
         }
     }
 
@@ -118,6 +132,14 @@ public class UserFacade extends AbstractFacade<User> {
         typedQuery.setParameter("activationCode", activationCode);
         return typedQuery.getSingleResult();
     }
+
+    @Override
+    @PermitAll
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void flush() throws AppBaseException {
+        super.flush();
+    }
+
 
     /**
      * Metoda, która pobiera z bazy listę filtrowanych obiektów.

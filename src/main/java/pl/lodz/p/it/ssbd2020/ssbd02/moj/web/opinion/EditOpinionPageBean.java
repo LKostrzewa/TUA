@@ -28,7 +28,7 @@ public class EditOpinionPageBean implements Serializable {
         this.editOpinionDTO = editOpinionDTO;
     }
 
-    public String openEditOpinionPage(Long opinionId) {
+    public String openEditOpinionPage(Long opinionId) throws AppBaseException{
         conversation.begin();
         this.editOpinionDTO = opinionEndpoint.getOpinionById(opinionId);
         return "client/editOpinion.xhtml?faces-redirect=true";

@@ -6,8 +6,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.UserNotFoundException;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.AccessLevelManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserAccessLevelManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -48,7 +46,7 @@ public class UserAccessLevelEndpoint implements Serializable {
         this.accessLevels = accessLevelManager.getAllAccessLevels();
     }
 
-    public UserAccessLevelDto findAccessLevelById(Long userId) {
+    public UserAccessLevelDto findAccessLevelById(Long userId) throws AppBaseException{
         this.user = userAccessLevelManager.findUserAccessLevelById(userId);
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
         for (UserAccessLevel level : user.getUserAccessLevels()) {

@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -60,7 +61,7 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.mapAll(userManager.getAll(), UserReportDto.class);
     }
 
-    public EditUserDto getEditUserDtoById(Long userId) {
+    public EditUserDto getEditUserDtoById(Long userId) throws AppBaseException{
         this.userEditEntity = userManager.getUserById(userId);
         return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
     }
@@ -70,10 +71,18 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
     }
 
-    public UserDetailsDto getUserDetailsDtoById(Long userId) {
+    public UserDetailsDto getUserDetailsDtoById(Long userId) throws AppBaseException{
         return ObjectMapperUtils.map(userManager.getUserById(userId), UserDetailsDto.class);
     }
 
+    /**
+     * Metoda, która zwraca login dto o podanym loginie.
+     *
+     * @param userLogin login użytkownika.
+     * @return user login dot
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getLoginDtoByLogin")
     public UserLoginDto getLoginDtoByLogin(String userLogin) throws AppBaseException {
         return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserLoginDto.class);
     }
@@ -147,10 +156,31 @@ public class UserEndpoint implements Serializable {
         userManager.confirmActivationCode(code);
     }
 
-    public void editUserLastLoginAndInvalidLoginAttempts(UserLoginDto userLoginDto, Long userId, Integer attempts) throws AppBaseException {
-        User user = ObjectMapperUtils.map(userLoginDto, User.class);
-        userManager.editUserLastLoginAndInvalidLoginAttempts(user, userId, attempts);
+    /**
+     * Metoda, która zapisuje informacje o poprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
+     *
+     * @param login           login użytkownika
+     * @param clientIpAddress adres ip użytkownika
+     * @param date            data zalogowania użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("saveSuccessAuthenticate")
+    public void saveSuccessAuthenticate(String login, String clientIpAddress, Date date) throws AppBaseException {
+        userManager.saveSuccessAuthenticate(login, clientIpAddress, date);
     }
+
+    /**
+     * Metoda, która zapisuje informacje o niepoprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
+     *
+     * @param login login użytkownika
+     * @param date  data zalogowania użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
+    public void saveFailureAuthenticate(String login, Date date) throws AppBaseException {
+        userManager.saveFailureAuthenticate(login, date);
+    }
+
 
     /**
      * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.

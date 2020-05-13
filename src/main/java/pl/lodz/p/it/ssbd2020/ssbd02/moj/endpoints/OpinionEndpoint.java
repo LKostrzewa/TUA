@@ -32,7 +32,7 @@ public class OpinionEndpoint implements Serializable {
         return ObjectMapperUtils.mapAll(opinionManager.getAllOpinionsByYacht(yachtId), OpinionDto.class);
     }
 
-    public EditOpinionDto getOpinionById(Long opinionId) {
+    public EditOpinionDto getOpinionById(Long opinionId) throws AppBaseException{
         Opinion opinion = opinionManager.getOpinionById(opinionId);
         return ObjectMapperUtils.map(opinion, EditOpinionDto.class);
     }

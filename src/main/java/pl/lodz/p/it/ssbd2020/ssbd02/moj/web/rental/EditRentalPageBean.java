@@ -27,7 +27,7 @@ public class EditRentalPageBean implements Serializable {
         this.editRentalDto = editRentalDto;
     }
 
-    public String onClick(Long id) {
+    public String onClick(Long id) throws AppBaseException{
         conversation.begin();
         this.editRentalDto = rentalEndpoint.getRentalById(id);
         return "editRental.xhtml?faces-redirect=true";

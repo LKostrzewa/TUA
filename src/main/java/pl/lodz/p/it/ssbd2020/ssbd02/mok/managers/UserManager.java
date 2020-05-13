@@ -3,9 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.managers;
 import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.*;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
@@ -14,6 +12,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
@@ -31,6 +30,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 @Interceptors(LoggerInterceptor.class)
 public class UserManager extends AbstractManager implements SessionSynchronization {
     private final SendEmail sendEmail = new SendEmail();
+    private String ADMIN_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
     @Inject
     private AccessLevelFacade accessLevelFacade;
@@ -38,26 +38,26 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     private UserFacade userFacade;
     @Inject
     private BCryptPasswordHash bCryptPasswordHash;
-    private User userEntityEdit;
+
 
     private int methodInvocationCounter = 0;
 
     @PostConstruct
     private void init() {
         PropertyReader propertyReader = new PropertyReader();
+        ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
     }
 
-    private void addUser(User user, boolean active) throws AppBaseException {
-        PropertyReader propertyReader = new PropertyReader();
+    public void addNewUser(User user) throws AppBaseException {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         if (userFacade.existByLogin(user.getLogin())) {
-            throw new LoginNotUniqueException("exception.loginNotUnique");
+            throw ValueNotUniqueException.createLoginNotUniqueException(user);
         }
         if (userFacade.existByEmail(user.getEmail())) {
-            throw new EmailNotUniqueException("exception.emailNotUnique");
+            throw ValueNotUniqueException.createEmailNotUniqueException(user);
         }
-        user.setActivated(active);
+        user.setActivated(true);
         user.setLocked(false);
         user.setPassword(passwordHash);
         user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
@@ -71,16 +71,16 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void registerNewUser(User user) throws AppBaseException {
-        methodInvocationCounter++;
-        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
-            throw new RepeatedRollBackException("exception.repeated.rollback");
-        }
+    methodInvocationCounter++;
+    if(methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+        throw RepeatedRollBackException.createRepeatedRollBackException(user);
+    }
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         if (userFacade.existByLogin(user.getLogin())) {
-            throw new LoginNotUniqueException("exception.loginNotUnique");
+            throw ValueNotUniqueException.createLoginNotUniqueException(user);
         }
         if (userFacade.existByEmail(user.getEmail())) {
-            throw new EmailNotUniqueException("exception.emailNotUnique");
+            throw ValueNotUniqueException.createEmailNotUniqueException(user);
         }
         user.setActivated(false);
         user.setLocked(false);
@@ -96,9 +96,6 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         sendEmailWithCode(user);
     }
 
-    public void addNewUser(User user) throws AppBaseException {
-        addUser(user, true);
-    }
 
     /**
      * Metoda, która pobiera z bazy listę obiektów.
@@ -112,8 +109,9 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public User getUserById(Long id) {
-        return userFacade.find(id);
+    public User getUserById(Long id) throws AppBaseException {
+        //TODO poprawic na odpowiedni wyjątek
+        return userFacade.find(id).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -131,7 +129,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     @RolesAllowed("changeUserPassword")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void changeUserPassword(User user, Long userId) throws AppBaseException {
-        User userToEdit = userFacade.find(userId);
+        //TODO poprawic na odpowiedni wyjątek
+        User userToEdit = userFacade.find(userId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         userToEdit.setPassword(passwordHash);
         userFacade.edit(userToEdit);
@@ -151,10 +150,10 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         User userToEdit = userFacade.findByLogin(userLogin);
         BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
         if (!bCryptPasswordHash.verify(givenOldPassword.toCharArray(), userToEdit.getPassword())) {
-            throw new IncorrectPasswordException("exception.incorrectPassword");
+            throw IncorrectPasswordException.createIncorrectPasswordException(user);
         }
         if (bCryptPasswordHash.verify(user.getPassword().toCharArray(), userToEdit.getPassword())) {
-            throw new PasswordIdenticalException("exception.passwordIdentical");
+            throw PasswordIdenticalException.createPasswordIdenticalException(user);
         }
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         userToEdit.setPassword(passwordHash);
@@ -170,7 +169,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     @RolesAllowed("lockAccount")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void lockAccount(Long userId) throws AppBaseException {
-        User userToEdit = userFacade.find(userId);
+        //TODO poprawic na odpowiedni wyjątek
+        User userToEdit = userFacade.find(userId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
         userToEdit.setLocked(true);
         userFacade.edit(userToEdit);
         // to przeniesc do endpointu?? + LOG o wysłaniu maila jeśli nie ma
@@ -178,13 +178,22 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     public void unlockAccount(Long userId) throws AppBaseException {
-        User userToEdit = userFacade.find(userId);
+        //TODO poprawic na odpowiedni wyjątek
+        User userToEdit = userFacade.find(userId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
         userToEdit.setLocked(false);
         userFacade.edit(userToEdit);
 
         sendEmail.unlockInfoEmail(userToEdit.getEmail());
     }
 
+    /**
+     * Metoda, która zwraca użytkownika o podanym loginie.
+     *
+     * @param userLogin login użytkownika.
+     * @return encje User
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getLoginDtoByLogin")
     public User getUserByLogin(String userLogin) throws AppBaseException {
         return userFacade.findByLogin(userLogin);
     }
@@ -203,24 +212,65 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         sendEmail.activationInfoEmail(user.getEmail());
     }
 
-    public void sendEmailWithCode(User user) {
+    public void sendEmailWithCode(User user) throws AppBaseException {
         String email = user.getEmail();
         String userName = user.getFirstName();
         sendEmail.sendActivationEmail(createVerificationLink(user), userName, email);
     }
 
+    /**
+     * Metoda, która zapisuje informacje o poprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
+     * Ustawia ilość niepoprawnych logować na 0. Wysyła mail do użytkownika jeśli zalogował się administrator.
+     *
+     * @param login           login użytkownika
+     * @param clientIpAddress adres ip użytkownika
+     * @param date            data zalogowania użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("saveSuccessAuthenticate")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUserLastLoginAndInvalidLoginAttempts(User user, Long userId, Integer attempts) throws AppBaseException {
-        User userToEdit = userFacade.find(userId);
-        userToEdit.setLastValidLogin(user.getLastValidLogin());
-        userToEdit.setLastInvalidLogin(user.getLastInvalidLogin());
-        userToEdit.setLastLoginIp(user.getLastLoginIp());
-        userToEdit.setInvalidLoginAttempts(attempts);
-        if (attempts == 3) {
-            userToEdit.setInvalidLoginAttempts(0);
-            userToEdit.setLocked(true);
-        }
+    public void saveSuccessAuthenticate(String login, String clientIpAddress, Date date) throws AppBaseException {
+        User userToEdit = userFacade.findByLogin(login);
+        userToEdit.setLastLoginIp(clientIpAddress);
+        userToEdit.setLastValidLogin(date);
+        userToEdit.setInvalidLoginAttempts(0);
         userFacade.edit(userToEdit);
+
+        if (userToEdit.getUserAccessLevels().stream().anyMatch(n -> n.getAccessLevel().getName().equals(ADMIN_ACCESS_LEVEL))) {
+            sendEmail.sendEmailNotificationAboutNewAdminAuthentication(userToEdit.getEmail(), clientIpAddress);
+        }
+    }
+
+    /**
+     * Metoda, która zapisuje informacje o niepoprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
+     * Zwiększa ilość niepoprawnych logować o 1. Jeśli wartość niepoprawnych logowań osiągnie 3, blokuje konto i wysyła maila.
+     *
+     * @param login login użytkownika
+     * @param date  data zalogowania użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void saveFailureAuthenticate(String login, Date date) throws AppBaseException {
+        User userToEdit = userFacade.findByLogin(login);
+        boolean sendBlockEmail = false;
+        if (userToEdit.isActivated() && !userToEdit.isLocked()) {
+            userToEdit.setLastInvalidLogin(date);
+            int attempts = userToEdit.getInvalidLoginAttempts() + 1;
+            if (attempts == 3) {
+                userToEdit.setInvalidLoginAttempts(0);
+                userToEdit.setLocked(true);
+                sendBlockEmail = true;
+
+            } else {
+                userToEdit.setInvalidLoginAttempts(attempts);
+            }
+            userFacade.edit(userToEdit);
+
+            if (sendBlockEmail) {
+                sendEmail.lockInfoEmail(userToEdit.getEmail());
+            }
+        }
     }
 
     /**
@@ -272,7 +322,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         long MAX_DURATION = MILLISECONDS.convert(15, MINUTES);
         long duration = now.getTime() - resetPasswordCodeAddDate.getTime();
         if (duration >= MAX_DURATION) {
-            throw new ResetPasswordCodeExpiredException("exception.codeExpired");
+            throw ResetPasswordCodeExpiredException.createPasswordExceptionWithCodeExpiredConstraint(userToEdit);
         }
         String passwordHash = bCryptPasswordHash.generate(password.toCharArray());
         userToEdit.setPassword(passwordHash);

@@ -28,9 +28,7 @@
     </context-param>
 
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>10</session-timeout>
     </session-config>
 
     <welcome-file-list>
@@ -79,6 +77,9 @@
         <role-name>getOwnDetailsDtoByLogin</role-name>
     </security-role>
     <security-role>
+        <role-name>saveSuccessAuthenticate</role-name>
+    </security-role>
+    <security-role>
         <role-name>editUserLastLoginAndInvalidLoginAttempts</role-name>
     </security-role>
     <security-role>
@@ -96,6 +97,20 @@
     </security-role>
     <security-role>
         <role-name>editAccessLevels</role-name>
+    </security-role>
+    <!--YachtEndpoint-->
+    <security-role>
+        <role-name>getAllYachts</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getYachtById</role-name>
+    </security-role>
+    <!--Rentals-->
+    <security-role>
+        <role-name>getRentals</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getRentalById</role-name>
     </security-role>
 
     <security-constraint>

@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Image;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.ImageFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtModelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -27,12 +28,14 @@ public class ImageManager {
                 .collect(Collectors.toList());
     }
 
-    public Image getImageById(Long imageId) {
-        return imageFacade.find(imageId);
+    public Image getImageById(Long imageId) throws AppBaseException {
+        //TODO poprawic na odpowiedni wyjątek
+        return imageFacade.find(imageId).orElseThrow(() -> new AppBaseException("nie ma tego obrazka"));
     }
 
-    public void deleteImage(Long imageId) {
-        imageFacade.remove(imageFacade.find(imageId));
+    public void deleteImage(Long imageId) throws AppBaseException {
+        //TODO poprawic na odpowiedni wyjątek
+        imageFacade.remove(imageFacade.find(imageId).orElseThrow(() -> new AppBaseException("nie ma tego jachtu")));
     }
 
     public void addImage(Image image) {

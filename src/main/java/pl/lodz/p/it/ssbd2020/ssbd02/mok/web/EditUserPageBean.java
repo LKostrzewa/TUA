@@ -38,7 +38,7 @@ public class EditUserPageBean implements Serializable {
         this.userId = userId;
     }
 
-    public void init() {
+    public void init() throws AppBaseException{
         this.editUserDto = userEndpoint.getEditUserDtoById(userId);
     }
 
