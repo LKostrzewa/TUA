@@ -50,7 +50,7 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     @Override
-    @RolesAllowed({"lockAccount", "changeUserPassword"})
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User find(Object id) {
         return super.find(id);
