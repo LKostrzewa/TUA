@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.rental;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListRentalsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.RentalEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.security.CurrentUser;
@@ -10,6 +9,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 @Named
@@ -29,12 +30,18 @@ public class ListRentalsPageBean implements Serializable {
         this.rentals = rentals;
     }
 
-    public void cancelRental(Long rentalId) throws AppBaseException {
-        rentalEndpoint.cancelRental(rentalId);
-    }
-
     @PostConstruct
     private void init() {
-        this.rentals = rentalEndpoint.getRentals(currentUser.getCurrentUserLogin());
+        List<ListRentalsDto> rentals = rentalEndpoint.getRentals(currentUser.getCurrentUserLogin());
+        rentals.sort(new Comparator<>() {
+            private final List<String> definedOrder =
+                    Arrays.asList("STARTED", "PENDING", "FINISHED", "CANCELED");
+
+            @Override
+            public int compare(final ListRentalsDto r1, final ListRentalsDto r2) {
+                return Integer.compare(definedOrder.indexOf(r1.getStatusName()), definedOrder.indexOf(r2.getStatusName()));
+            }
+        });
+        this.rentals = rentals;
     }
 }
