@@ -48,11 +48,17 @@ public class UserFacade extends AbstractFacade<User> {
         return super.findAll();
     }
 
+    /**
+     * Metoda, która zwraca użytkownika o podanym identyfikatorze.
+     *
+     * @param id identyfikator użytkownika
+     * @return encja User
+     */
     @Override
-    @RolesAllowed("lockAccount")
+    @RolesAllowed({"lockAccount","findAccessLevelById"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<User> find(Object id) {
-        return super.find(id);
+            return super.find(id);
     }
 
     /**

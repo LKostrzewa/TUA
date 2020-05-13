@@ -12,6 +12,8 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
@@ -46,6 +48,14 @@ public class UserAccessLevelEndpoint implements Serializable {
         this.accessLevels = accessLevelManager.getAllAccessLevels();
     }
 
+    /**
+     * Metoda, która zwraca obiekt UserAccessLevelDto zawierający informacje o poziomach dostępu danego użytkownika
+     *
+     * @param userId identyfikator użytkownika.
+     * @return obiekt klasy UserAccessLevelDto
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem.
+     */
+    @RolesAllowed("findAccessLevelById")
     public UserAccessLevelDto findAccessLevelById(Long userId) throws AppBaseException{
         this.user = userAccessLevelManager.findUserAccessLevelById(userId);
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
@@ -66,6 +76,14 @@ public class UserAccessLevelEndpoint implements Serializable {
         return userAccessLevelDto;
     }
 
+    /**
+     * Metoda, która zwraca obiekt UserAccessLevelDto zawierający informacje o poziomach dostępu danego użytkownika
+     *
+     * @param userLogin login użytkownika.
+     * @return obiekt klasy UserAccessLevelDto
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem.
+     */
+    @PermitAll
     public UserAccessLevelDto findAccessLevelByLogin(String userLogin) throws AppBaseException {
         Collection<UserAccessLevel> userAccessLevels = userAccessLevelManager.findUserAccessLevelByLogin(userLogin);
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
@@ -80,6 +98,13 @@ public class UserAccessLevelEndpoint implements Serializable {
         return userAccessLevelDto;
     }
 
+    /**
+     * Metoda, która modyfikuje przypisane do użytkownika poziomy dostępu.
+     *
+     * @param userAccessLevelDto obiekt zawierająy informacje o obecnych i pożądanych poziomach dotępu.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem.
+     */
+    @RolesAllowed("editAccessLevels")
     public void editAccessLevels(UserAccessLevelDto userAccessLevelDto) throws AppBaseException {
         if (userAccessLevelDto.getAdmin().getLeft() ^ userAccessLevelDto.getAdmin().getRight()) {
             if (userAccessLevelDto.getAdmin().getRight()) {

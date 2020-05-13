@@ -34,6 +34,13 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
         return entityManager;
     }
 
+    /**
+     * Metoda, która zwraca poziom dostępu o podanej nazwie.
+     *
+     * @param name nazwa poziomu dostępu.
+     * @return encja AccessLevel
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @PermitAll
     public AccessLevel findByAccessLevelName(String name) throws AppBaseException {
         TypedQuery<AccessLevel> typedQuery = entityManager.createNamedQuery("AccessLevel.findByName", AccessLevel.class);
