@@ -36,6 +36,7 @@ public class RentalManager {
         rentalFacade.create(rental);
     }
 
+
     public List<Rental> getAllRentals() {
         return rentalFacade.findAll();
     }

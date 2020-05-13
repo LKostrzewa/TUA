@@ -44,25 +44,10 @@ public abstract class AbstractFacade<T> {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
 
-    /**
-     * Metoda, która służy do wyszukania obiektu po kluczu głównym.
-     *
-     * @param id wartość klucza głównego
-     * @return optional z wyszukanym obiektem encji lub pusty, jeśli poszukiwany obiekt encji nie istnieje
-     */
-    @RolesAllowed("getRentalById")
-    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<T> find(Object id) {
         return Optional.ofNullable(getEntityManager().find(entityClass, id));
     }
 
-    /**
-     * Metoda, która zwraca listę wypożyczeń.
-     *
-     * @return lista wypożyczeń
-     */
-    @RolesAllowed("getRentals")
-    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<T> findAll() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
