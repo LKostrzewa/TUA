@@ -9,6 +9,7 @@ public class AppNotFoundException extends AppBaseException{
     public static final String ACCESS_LEVEL_MESSAGE_KEY = "exception.accessLevelDeleted";
     //public static String USER_ACCESS_LEVEL_MESSAGE_KEY = "exception.userNotFound";
     public static final String USER_MESSAGE_KEY = "exception.userNotFound";
+    public static final String RENTAL_MESSAGE_KEY = "exception.rentalNotFound";
     private Class objectClass;
     public AppNotFoundException(String message) {
         super(message);
@@ -39,6 +40,12 @@ public class AppNotFoundException extends AppBaseException{
 
     public static AppNotFoundException createUserNotFoundException() {
         AppNotFoundException nfe = new AppNotFoundException(USER_MESSAGE_KEY);
+        nfe.setObjectClass(User.class);
+        return nfe;
+    }
+
+    public static AppNotFoundException createRentalNotFoundException(Throwable cause) {
+        AppNotFoundException nfe = new AppNotFoundException(RENTAL_MESSAGE_KEY, cause);
         nfe.setObjectClass(User.class);
         return nfe;
     }

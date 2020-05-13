@@ -11,11 +11,7 @@
         <h:form>
             <p:menubar>
                 <p:menuitem value="#{msg['client.menu.ports']}" url="#"/>
-                <p:submenu label="#{msg['client.menu.reservation']}">
-                    <p:menuitem value="#{msg['client.menu.reservation.add']}" url="#"/>
-                    <p:separator/>
-                    <p:menuitem value="#{msg['client.menu.reservation.list']}" url="#"/>
-                </p:submenu>
+                <p:menuitem value="#{msg['menu.rentals']}" url="/client/listRentals.xhtml"/>
                 <f:facet name="options">
                     <h:panelGroup>
                         <p:selectOneMenu value="#{currentUser.currentRole}">
