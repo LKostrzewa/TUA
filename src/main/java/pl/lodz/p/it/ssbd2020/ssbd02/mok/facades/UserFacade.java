@@ -84,12 +84,7 @@ public class UserFacade extends AbstractFacade<User> {
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void create(User user) throws AppBaseException {
-        try {
             super.create(user);
-        }
-        catch (PersistenceException e) {
-            throw AppPersistenceException.createAppPersistenceException(user, e);
-        }
     }
 
     /**

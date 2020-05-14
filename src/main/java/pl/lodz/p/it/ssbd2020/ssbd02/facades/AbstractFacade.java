@@ -9,6 +9,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
+import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +26,13 @@ public abstract class AbstractFacade<T> {
     protected abstract EntityManager getEntityManager();
 
     public void create(T entity) throws AppBaseException {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
+        try {
+            getEntityManager().persist(entity);
+            getEntityManager().flush();
+        }
+        catch (PersistenceException e) {
+            throw AppPersistenceException.createAppPersistenceException(entity, e);
+        }
     }
 
     public void edit(T entity) throws AppBaseException {
