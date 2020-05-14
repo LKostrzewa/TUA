@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserLoginDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerIP;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
@@ -50,6 +51,8 @@ public class LoginPageBean implements Serializable {
     private FacesContext facesContext;
     @Inject
     private ExternalContext externalContext;
+    @Inject
+    private LoggerIP loggerIP;
     @NotBlank(message = "{username.message}")
     private String username;
     @NotBlank(message = "{password.message}")
@@ -111,6 +114,8 @@ public class LoginPageBean implements Serializable {
                 }
                 facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastValidLogin"), String.valueOf(userLoginDto.getLastValidLogin())));
                 facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastInvalidLogin"), String.valueOf(userLoginDto.getLastInvalidLogin())));
+
+                loggerIP.login();
 
                 try {
                     userEndpoint.saveSuccessAuthenticate(username, getClientIpAddress(), new Date());
