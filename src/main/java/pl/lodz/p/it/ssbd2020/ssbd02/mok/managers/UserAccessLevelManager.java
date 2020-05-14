@@ -8,8 +8,10 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserAccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.PostConstruct;
@@ -41,7 +43,7 @@ public class UserAccessLevelManager implements Serializable {
      */
     @RolesAllowed("editAccessLevels")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void addUserAccessLevel(UserAccessLevel userAccessLevel) {
+    public void addUserAccessLevel(UserAccessLevel userAccessLevel) throws AppBaseException {
         userAccessLevelFacade.create(userAccessLevel);
     }
 

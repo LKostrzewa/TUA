@@ -42,7 +42,7 @@ public class UserAccessLevelFacade extends AbstractFacade<UserAccessLevel> {
     @Override
     @RolesAllowed("editAccessLevels")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public void create(UserAccessLevel entity) {
+    public void create(UserAccessLevel entity) throws AppBaseException {
         super.create(entity);
     }
 
