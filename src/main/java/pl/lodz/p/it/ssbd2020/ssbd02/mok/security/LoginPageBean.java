@@ -39,7 +39,7 @@ import static javax.security.enterprise.authentication.mechanism.http.Authentica
 @SessionScoped
 @Interceptors(LoggerInterceptor.class)
 public class LoginPageBean implements Serializable {
-    private final Logger LOGGER = Logger.getGlobal();
+
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
