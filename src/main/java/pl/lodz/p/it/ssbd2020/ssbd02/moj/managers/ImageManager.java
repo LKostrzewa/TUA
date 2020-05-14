@@ -38,7 +38,7 @@ public class ImageManager {
         imageFacade.remove(imageFacade.find(imageId).orElseThrow(() -> new AppBaseException("nie ma tego jachtu")));
     }
 
-    public void addImage(Image image) {
+    public void addImage(Image image) throws AppBaseException {
         imageFacade.create(image);
     }
 }

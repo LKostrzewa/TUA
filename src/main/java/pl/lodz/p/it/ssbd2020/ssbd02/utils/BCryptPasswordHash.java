@@ -15,8 +15,8 @@ public class BCryptPasswordHash implements PasswordHash {
     /**
      * Metoda generująca skrót hasła.
      *
-     * @param password hasło.
-     * @return wygenerowany skrót hasła.
+     * @param password hasło
+     * @return wygenerowany skrót hasła
      */
     @Override
     public String generate(char[] password) {
@@ -27,9 +27,9 @@ public class BCryptPasswordHash implements PasswordHash {
     /**
      * Metoda weryfikująca zgodność hasła ze skrótem.
      *
-     * @param password hasło do weryfikacji.
-     * @param hash     skrót hasła.
-     * @return wartość logiczna.
+     * @param password hasło do weryfikacji
+     * @param hash     skrót hasła
+     * @return wartość logiczna
      */
     @Override
     public boolean verify(char[] password, String hash) {

@@ -18,7 +18,7 @@ public class ObjectMapperUtils {
      */
     static {
         modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
     }
 
     /**
@@ -30,11 +30,11 @@ public class ObjectMapperUtils {
     /**
      * Meteoda mapuje obiekt na obiekt o podanym typie.
      *
-     * @param <D>      typ obiektu wynikowego.
-     * @param <T>      typ mapowanego obiektu źródłowego.
-     * @param entity   encja, która ma zostać zmapowana.
-     * @param outClass klasa obiektu wynikowego.
-     * @return nowy obiekt typu <code>outClass</code>.
+     * @param <D>      typ obiektu wynikowego
+     * @param <T>      typ mapowanego obiektu źródłowego
+     * @param entity   encja, która ma zostać zmapowana
+     * @param outClass klasa obiektu wynikowego
+     * @return nowy obiekt typu <code>outClass</code>
      */
     public static <D, T> D map(final T entity, Class<D> outClass) {
         return modelMapper.map(entity, outClass);
@@ -47,7 +47,7 @@ public class ObjectMapperUtils {
      * @param outCLass   klasa elementu listy wynikowej
      * @param <D>        typ obiektów z listy wynikowej
      * @param <T>        typ encji <code>entityList</code>
-     * @return list of mapped object with <code><D></code> type.
+     * @return lista zmapowanych obiektów typu <code><D></code>
      */
     public static <D, T> List<D> mapAll(final Collection<T> entityList, Class<D> outCLass) {
         return entityList.stream()

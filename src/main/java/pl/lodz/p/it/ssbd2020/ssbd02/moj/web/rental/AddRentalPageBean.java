@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.rental;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.AddRentalDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.RentalEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.security.CurrentUser;
@@ -36,7 +37,7 @@ public class AddRentalPageBean implements Serializable {
         return "addRental.xhtml?faces-redirect=true";
     }
 
-    public String onFinish() {
+    public String onFinish() throws AppBaseException {
         rentalEndpoint.addRental(addRentalDto);
         conversation.end();
         return "listRentals.xhtml?faces-redirect=true";

@@ -1,14 +1,15 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
-import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.AccessLevelManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserAccessLevelManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +20,6 @@ import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -47,7 +47,6 @@ public class UserAccessLevelEndpoint implements Serializable {
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
         this.accessLevels = accessLevelManager.getAllAccessLevels();
     }
-
     /**
      * Metoda, która zwraca obiekt UserAccessLevelDto zawierający informacje o poziomach dostępu danego użytkownika
      *
@@ -55,10 +54,11 @@ public class UserAccessLevelEndpoint implements Serializable {
      * @return obiekt klasy UserAccessLevelDto
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem.
      */
-    @RolesAllowed("findAccessLevelById")
-    public UserAccessLevelDto findAccessLevelById(Long userId) throws AppBaseException{
-        this.user = userAccessLevelManager.findUserAccessLevelById(userId);
+    @RolesAllowed("findUserAccessLevelById")
+    public UserAccessLevelDto findUserAccessLevelById(Long userId) throws AppBaseException{
+        user = userAccessLevelManager.findUserById(userId);
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
+        userAccessLevelDto.setUserDetailsDto(ObjectMapperUtils.map(user, UserDetailsDto.class));
         for (UserAccessLevel level : user.getUserAccessLevels()) {
             if (level.getAccessLevel().getName().equals(ADMIN_ACCESS_LEVEL)) {
                 userAccessLevelDto.getAdmin().setLeft(true);
@@ -83,10 +83,12 @@ public class UserAccessLevelEndpoint implements Serializable {
      * @return obiekt klasy UserAccessLevelDto
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem.
      */
-    @PermitAll
-    public UserAccessLevelDto findAccessLevelByLogin(String userLogin) throws AppBaseException {
-        Collection<UserAccessLevel> userAccessLevels = userAccessLevelManager.findUserAccessLevelByLogin(userLogin);
+    @RolesAllowed("findUserAccessLevelByLogin")
+    public UserAccessLevelDto findUserAccessLevelByLogin(String userLogin) throws AppBaseException {
+        user = userAccessLevelManager.findUserByLogin(userLogin);
+        Collection<UserAccessLevel> userAccessLevels = user.getUserAccessLevels();
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
+        userAccessLevelDto.setUserDetailsDto(ObjectMapperUtils.map(user, UserDetailsDto.class));
         for (UserAccessLevel level : userAccessLevels) {
             if (level.getAccessLevel().getName().equals(ADMIN_ACCESS_LEVEL))
                 userAccessLevelDto.getAdmin().setLeft(true);

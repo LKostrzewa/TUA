@@ -26,7 +26,7 @@ public class YachtEndpoint implements Serializable {
     @Inject
     private YachtManager yachtManager;
 
-    public void addYacht(NewYachtDto newYachtDto) {
+    public void addYacht(NewYachtDto newYachtDto) throws AppBaseException {
         Yacht yacht = ObjectMapperUtils.map(newYachtDto, Yacht.class);
         yachtManager.addYacht(yacht);
     }
