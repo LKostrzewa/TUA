@@ -116,13 +116,10 @@ public class UserEndpoint implements Serializable {
      */
     @RolesAllowed("editUser")
     public void editUser(EditUserDto editUserDto) throws AppBaseException {
-        // tutaj jakis wyjątek jak if nie jest spełniony
-        //if (userEditEntity.getId().equals(userId)) {
-            userEditEntity.setFirstName(editUserDto.getFirstName());
-            userEditEntity.setLastName(editUserDto.getLastName());
-            userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
-            userManager.editUser(this.userEditEntity);
-        //}
+        userEditEntity.setFirstName(editUserDto.getFirstName());
+        userEditEntity.setLastName(editUserDto.getLastName());
+        userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
+        userManager.editUser(this.userEditEntity);
     }
 
     /**
@@ -133,12 +130,10 @@ public class UserEndpoint implements Serializable {
      */
     @RolesAllowed("editOwnData")
     public void editOwnData(EditUserDto editUserDto) throws AppBaseException {
-        //if (userEditEntity.getLogin().equals(userLogin)) {
-            userEditEntity.setFirstName(editUserDto.getFirstName());
-            userEditEntity.setLastName(editUserDto.getLastName());
-            userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
-            userManager.editUser(this.userEditEntity);
-        //}
+        userEditEntity.setFirstName(editUserDto.getFirstName());
+        userEditEntity.setLastName(editUserDto.getLastName());
+        userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
+        userManager.editUser(this.userEditEntity);
     }
 
     /**
@@ -242,10 +237,25 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
     }
 
+    /**
+     * Metoda, która na podany email wysyła wiadomość z linkiem, pod którym można zresetować zapomniane hasło
+     *
+     * @param email adres email
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
     public void sendResetPasswordEmail(String email) throws AppBaseException {
         userManager.sendResetPasswordEmail(email);
     }
 
+    /**
+     * Metoda, która zmienia zapomniane hasło
+     *
+     * @param resetPasswordCode kod do resetowania hasła wysłany na adres email
+     * @param password nowo wprowadzone hasło
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
     public void resetPassword(String resetPasswordCode, String password) throws AppBaseException {
         userManager.resetPassword(resetPasswordCode, password);
     }
