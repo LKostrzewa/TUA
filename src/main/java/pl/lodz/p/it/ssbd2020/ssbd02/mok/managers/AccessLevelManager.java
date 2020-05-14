@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -16,7 +17,11 @@ import java.util.List;
 public class AccessLevelManager {
     @Inject
     AccessLevelFacade accessLevelFacade;
-
+    /**
+     * Metoda, która zwraca wszystkie poziomy dostępu.
+     *
+     * @return Lista encji AccessLevel
+     */
     public List<AccessLevel> getAllAccessLevels(){
         return accessLevelFacade.findAll();
     }

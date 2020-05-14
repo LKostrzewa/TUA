@@ -85,6 +85,15 @@
         <role-name>getResultList</role-name>
         <group-name>ADMINISTRATOR</group-name>
     </security-role-mapping>
+    <!--UserAccessLevelEndpoint-->
+<!--    <security-role-mapping>-->
+<!--        <role-name>editAccessLevels</role-name>-->
+<!--        <group-name>ADMINISTRATOR</group-name>-->
+<!--    </security-role-mapping>-->
+<!--    <security-role-mapping>-->
+<!--        <role-name>findAccessLevelById</role-name>-->
+<!--        <group-name>ADMINISTRATOR</group-name>-->
+<!--    </security-role-mapping>-->
     <!--YachtEndpoint-->
     <security-role-mapping>
         <role-name>getAllYachts</role-name>
