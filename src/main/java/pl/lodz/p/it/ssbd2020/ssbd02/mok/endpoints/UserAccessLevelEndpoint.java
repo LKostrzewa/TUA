@@ -106,8 +106,8 @@ public class UserAccessLevelEndpoint implements Serializable {
      * @param userAccessLevelDto obiekt zawierająy informacje o obecnych i pożądanych poziomach dotępu.
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem.
      */
-    @RolesAllowed("editAccessLevels")
-    public void editAccessLevels(UserAccessLevelDto userAccessLevelDto) throws AppBaseException {
+    @RolesAllowed("editUserAccessLevels")
+    public void editUserAccessLevels(UserAccessLevelDto userAccessLevelDto) throws AppBaseException {
         if (userAccessLevelDto.getAdmin().getLeft() ^ userAccessLevelDto.getAdmin().getRight()) {
             if (userAccessLevelDto.getAdmin().getRight()) {
                 UserAccessLevel userAccessLevel = new UserAccessLevel(this.user, accessLevels.stream().filter(accessLevel -> accessLevel.getName().equals(ADMIN_ACCESS_LEVEL)).findAny().orElse(null));

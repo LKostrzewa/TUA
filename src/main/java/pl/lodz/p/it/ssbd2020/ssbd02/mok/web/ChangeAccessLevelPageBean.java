@@ -51,7 +51,7 @@ public class ChangeAccessLevelPageBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
         try {
-            userAccessLevelEndpoint.editAccessLevels(userDto);
+            userAccessLevelEndpoint.editUserAccessLevels(userDto);
         }
         catch (AppBaseException e){
             //TODO w odpowiednim pliku xhtml dodac growl
