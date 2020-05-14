@@ -109,6 +109,13 @@
     <security-role>
         <role-name>getRentalById</role-name>
     </security-role>
+    <!--Ports-->
+    <security-role>
+        <role-name>getAllPorts</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getPortById</role-name>
+    </security-role>
 
     <security-constraint>
         <web-resource-collection>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
+<h:head/>
+<h:body>
+    <ui:composition template="/templates/clientTemplate.xhtml">
+        <ui:define name="title">#{msg['client.title.ports']}</ui:define>
+        <ui:define name="breadCrumbs">
+            <p:breadCrumb>
+                <p:menuitem value="Categories" url="#"/>
+                <p:menuitem value="#{msg['bread.main']}" url="/client/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.ports']}" url="/client/port/listPorts.xhtml"/>
+            </p:breadCrumb>
+        </ui:define>
+        <ui:define name="content">
+            <h:form>
+                <p:growl id="growl" showDetail="true" sticky="true"/>
+                <p:dataTable var="port" value="#{listPortsPageBean.ports}" rows="10"
+                             border="2"
+                             paginator="true"
+                             first="0"
+                             paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
+
+                    <p:column headerText="${msg['port.name']}">
+                        <h:outputText value="#{port.name}"/>
+                    </p:column>
+                    <p:column headerText="${msg['port.lake']}">
+                        <h:outputText value="#{port.lake}"/>
+                    </p:column>
+                    <p:column headerText="${msg['port.city']}">
+                        <h:outputText value="#{port.nearestCity}"/>
+                    </p:column>
+                    <p:column headerText="${msg['actions']}">
+                        <p:button value="${msg['details']}" outcome="portDetails.xhtml?faces-redirect=true">
+                            <f:param name="portId" value="#{port.id}"/>
+                        </p:button>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>
