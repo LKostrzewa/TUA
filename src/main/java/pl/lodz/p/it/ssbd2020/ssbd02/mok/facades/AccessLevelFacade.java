@@ -45,7 +45,7 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public AccessLevel findByAccessLevelName(String name) throws AppBaseException {
+    public AccessLevel findByAccessLevelByName(String name) throws AppBaseException {
         TypedQuery<AccessLevel> typedQuery = entityManager.createNamedQuery("AccessLevel.findByName", AccessLevel.class);
         typedQuery.setParameter("name", name);
         try {

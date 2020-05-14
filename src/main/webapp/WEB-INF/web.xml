@@ -199,7 +199,7 @@
         <error-code>500</error-code>
         <location>/errors/500.xhtml</location>
     </error-page>
-    <error-page>
+    <!--<error-page>
         <exception-type>javax.ejb.EJBAccessException</exception-type>
         <location>/errors/ejbAccessExp.xhtml</location>
     </error-page>
@@ -218,7 +218,7 @@
     <error-page>
         <exception-type>javax.ejb.EJBTransactionRolledbackException</exception-type>
         <location>/errors/ejbTranRollExp.xhtml</location>
-    </error-page>
+    </error-page>-->
     <error-page>
         <location>/errors/other.xhtml</location>
     </error-page>

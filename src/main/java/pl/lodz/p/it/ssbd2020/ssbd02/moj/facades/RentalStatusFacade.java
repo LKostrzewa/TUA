@@ -35,7 +35,7 @@ public class RentalStatusFacade extends AbstractFacade<RentalStatus> {
             return getEntityManager().createNamedQuery("RentalStatus.findByName", RentalStatus.class)
                     .setParameter("name", statusName).getSingleResult();
         } catch (NoResultException e) {
-            throw AppNotFoundException.createUserNotFoundException(e);
+            throw AppNotFoundException.createRentalNotFoundException(e);
         }
     }
 }
