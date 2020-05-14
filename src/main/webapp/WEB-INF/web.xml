@@ -96,7 +96,7 @@
         <role-name>findUserAccessLevelByLogin</role-name>
     </security-role>
     <security-role>
-        <role-name>editAccessLevels</role-name>
+        <role-name>editUserAccessLevels</role-name>
     </security-role>
     <!--YachtEndpoint-->
     <security-role>

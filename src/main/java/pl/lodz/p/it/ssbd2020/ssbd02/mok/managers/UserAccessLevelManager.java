@@ -41,7 +41,7 @@ public class UserAccessLevelManager implements Serializable {
      *
      * @param userAccessLevel encja poziomu dostępu.
      */
-    @RolesAllowed("editAccessLevels")
+    @RolesAllowed("editUserAccessLevels")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addUserAccessLevel(UserAccessLevel userAccessLevel) throws AppBaseException {
         userAccessLevelFacade.create(userAccessLevel);
@@ -52,7 +52,7 @@ public class UserAccessLevelManager implements Serializable {
      *
      * @param userAccessLevel encja poziomu dostępu.
      */
-    @RolesAllowed("editAccessLevels")
+    @RolesAllowed("editUserAccessLevels")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void removeUserAccessLevel(UserAccessLevel userAccessLevel) {
         userAccessLevelFacade.remove(userAccessLevel);
