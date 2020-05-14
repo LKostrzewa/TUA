@@ -45,6 +45,7 @@ public class UserEndpoint implements Serializable {
             registerNewUser(userDTO);
         }
     }
+
     /**
      * Metoda, służy do dodawania nowych użytkowników do bazy danych przez administratora
      *
@@ -67,11 +68,25 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.mapAll(userManager.getAll(), UserReportDto.class);
     }
 
+    /**
+     * Metoda, która pobiera użytkownika do edycji przez administratora po identyfikatorze użytkownika
+     *
+     * @param userId identyfikator użytkownika.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getEditUserDtoById")
     public EditUserDto getEditUserDtoById(Long userId) throws AppBaseException{
         this.userEditEntity = userManager.getUserById(userId);
         return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
     }
 
+    /**
+     * Metoda, która pobiera użytkownika do edycji własnych danych po jego loginie
+     *
+     * @param userLogin login użytkownika.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getEditUserDtoByLogin")
     public EditUserDto getEditUserDtoByLogin(String userLogin) throws AppBaseException {
         this.userEditEntity = userManager.getUserByLogin(userLogin);
         return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
@@ -93,23 +108,37 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserLoginDto.class);
     }
 
-    public void editUser(EditUserDto editUserDto, Long userId) throws AppBaseException {
+    /**
+     * Metoda, która zapisuje wprowadzone przez administratora zmiany w danych konta użytkownika
+     *
+     * @param editUserDto  obiekt przechowujący dane wprowadzone w formularzu
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("editUser")
+    public void editUser(EditUserDto editUserDto) throws AppBaseException {
         // tutaj jakis wyjątek jak if nie jest spełniony
-        if (userEditEntity.getId().equals(userId)) {
+        //if (userEditEntity.getId().equals(userId)) {
             userEditEntity.setFirstName(editUserDto.getFirstName());
             userEditEntity.setLastName(editUserDto.getLastName());
             userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
-            userManager.editUser(this.userEditEntity, userId);
-        }
+            userManager.editUser(this.userEditEntity);
+        //}
     }
 
-    public void editOwnData(EditUserDto editUserDto, String userLogin) throws AppBaseException {
-        if (userEditEntity.getLogin().equals(userLogin)) {
+    /**
+     * Metoda, która zapisuje wprowadzone zmiany w danych swojego konta
+     *
+     * @param editUserDto  obiekt przechowujący dane wprowadzone w formularzu
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("editOwnData")
+    public void editOwnData(EditUserDto editUserDto) throws AppBaseException {
+        //if (userEditEntity.getLogin().equals(userLogin)) {
             userEditEntity.setFirstName(editUserDto.getFirstName());
             userEditEntity.setLastName(editUserDto.getLastName());
             userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
-            userManager.editUser(this.userEditEntity, userEditEntity.getId());
-        }
+            userManager.editUser(this.userEditEntity);
+        //}
     }
 
     /**

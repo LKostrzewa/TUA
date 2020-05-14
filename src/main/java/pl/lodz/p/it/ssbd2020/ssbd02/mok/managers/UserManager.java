@@ -116,14 +116,29 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         return userFacade.findAll();
     }
 
+
+    /**
+     * Metoda, która pobiera z użytkownika na podstawie jego identyfikatora w bazie
+     *
+     * @param id identyfikator Użytkownika
+     * @return encja User
+     */
+    @RolesAllowed("getEditUserDtoById")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserById(Long id) throws AppBaseException {
         //TODO poprawic na odpowiedni wyjątek
         return userFacade.find(id).orElseThrow(AppNotFoundException::createUserNotFoundException);
     }
 
+    /**
+     * Metoda wykorzystywana do zmiany danych konta użytkownika
+     *
+     * @param user obiekt przechowujący dane wprowadzone w formularzu
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed({"editUser","editOwnData"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUser(User user, Long id) throws AppBaseException {
+    public void editUser(User user) throws AppBaseException {
         userFacade.edit(user);
     }
 
@@ -201,7 +216,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @return encje User
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getLoginDtoByLogin")
+    @RolesAllowed({"getLoginDtoByLogin","getEditUserDtoByLogin"})
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserByLogin(String userLogin) throws AppBaseException {
         return userFacade.findByLogin(userLogin);
     }
