@@ -4,8 +4,11 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xml:lang="en" lang="en">
-<h:head/>
+<h:head>
+
+</h:head>
 <h:body>
+
     <ui:composition template="/templates/adminTemplate.xhtml">
         <ui:define name="title">#{msg['title.index']}</ui:define>
         <ui:define name="breadCrumbs">
@@ -17,7 +20,18 @@
         <ui:define name="content">
             <h:form>
                 <p:growl id="growl" showDetail="true"/>
-                <h1>#{msg['helloWorld']}</h1>
+                <style type="text/css">
+                    body
+                    {
+                        background-image: url(/resources/images/yachcik3.jpg);
+                        background-repeat: no-repeat;
+                        background-attachment:fixed;
+                        background-size: cover;
+                        background-position: center;
+                        height: 100%;
+                    }
+                </style>
+
             </h:form>
         </ui:define>
     </ui:composition>

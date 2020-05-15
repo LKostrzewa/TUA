@@ -3,6 +3,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
 <h:head/>
 <h:body>
+
     <ui:composition template="/templates/adminTemplate.xhtml">
         <ui:define name="title">#{msg['title.editUser']}</ui:define>
         <ui:define name="breadCrumbs">
@@ -26,6 +27,19 @@
                 <f:event type="preRenderView" listener="#{editUserPageBean.init}"/>
             </f:metadata>
             <h:form>
+                <style type="text/css">
+                    body
+                    {
+                        background-image: url(/resources/images/edit22.jpg);
+                        background-repeat: no-repeat;
+                        background-attachment:fixed;
+                        background-size: cover;
+                        background-position: center;
+                        height: 100%;
+                    }
+                </style>
+
+
                 <p:growl id="message" showDetail="true"/>
                 <div>
             <span class="ui-float-label" style="margin: 20px">

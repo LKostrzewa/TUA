@@ -1,0 +1,39 @@
+body {
+    background-image: url('http://clipartse.com/stock-clipart/6728/waves-pattern-clipart.png');
+    background-size: 200px 400px;
+}
+
+.canoa1 {
+    width: 100px;
+    position: absolute;
+    top:100px;
+    left:300px;
+    z-index: 10;
+
+    -webkit-animation: boatMove 25s linear infinite;
+}
+
+.canoa2 {
+    width: 100px;
+    position: absolute;
+    top:250px;
+    z-index: 20;
+
+    animation-name: boatMove;
+    animation-duration: 35s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-fill-mode: backwards;
+
+    -webkit-animation: boatMove 5s linear infinite;
+}
+
+@keyframes boatMove {
+    0% { transform: translateX(-300px);}
+    100% { transform: translateX(1800px);}
+}
+
+@-webkit-keyframes boatMove {
+    0% { transform: translateX(-300px);}
+    100% { transform: translateX(1800px);}
+}

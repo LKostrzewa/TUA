@@ -7,6 +7,7 @@
     <h:outputStylesheet library="css" name="login.css"/>
     <h:form class="login-form">
         <p:growl id="growl" showDetail="true" sticky="true"/>
+
         <img src="../resources/images/yacht_logo.png" alt="Yacht logo"/>
 
         <div class="text-box">
@@ -35,5 +36,15 @@
                 href="${pageContext.request.contextPath}/login/register.xhtml">#{msg['register']}</a>
         </div>
     </h:form>
+    <div class="animation-wrapper">
+        <div class="water">
+            <ul class="waves">
+                <li class="wave-one" style="background-image: url('https://i.postimg.cc/7LtCC11Y/wave1.png');"></li>
+                <li class="wave-two" style="background-image: url('https://i.postimg.cc/P5hv05rh/wave2.png');"></li>
+            </ul>
+        </div>
+        <div class="boat" style="background-image: url('https://i.postimg.cc/GmQTRnHD/boat2.png');"></div>
+        <div class="boat2" style="background-image: url('https://i.postimg.cc/GmQTRnHD/boat2.png');"></div>
+    </div>
 </h:body>
 </html>
