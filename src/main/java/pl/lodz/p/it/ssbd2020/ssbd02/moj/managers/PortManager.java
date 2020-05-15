@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.PortFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -48,7 +49,7 @@ public class PortManager {
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Port getPortById(Long portId) throws AppBaseException {
         //TODO poprawic na odpowiedni wyjątek
-        return portFacade.find(portId).orElseThrow(() -> new AppBaseException("nie ma tego portu"));
+        return portFacade.find(portId).orElseThrow(() -> new AppNotFoundException("nie ma tego portu"));
     }
 
     public void editPort(Long portId, Port portToEdit) throws AppBaseException {
