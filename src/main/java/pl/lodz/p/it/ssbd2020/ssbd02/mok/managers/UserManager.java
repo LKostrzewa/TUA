@@ -70,7 +70,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         user.setPassword(passwordHash);
         user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
 
-        UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
+        UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelByName(CLIENT_ACCESS_LEVEL));
 
         user.getUserAccessLevels().add(userAccessLevel);
 
@@ -95,7 +95,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         user.setPassword(passwordHash);
         user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
 
-        UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
+        UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelByName(CLIENT_ACCESS_LEVEL));
 
         user.getUserAccessLevels().add(userAccessLevel);
 
@@ -118,7 +118,6 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserById(Long id) throws AppBaseException {
-        //TODO poprawic na odpowiedni wyjątek
         return userFacade.find(id).orElseThrow(AppNotFoundException::createUserNotFoundException);
     }
 
@@ -137,8 +136,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     @RolesAllowed("changeUserPassword")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void changeUserPassword(User user, Long userId) throws AppBaseException {
-        //TODO poprawic na odpowiedni wyjątek
-        User userToEdit = userFacade.find(userId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
+        User userToEdit = userFacade.find(userId).orElseThrow(AppNotFoundException::createUserNotFoundException);
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         userToEdit.setPassword(passwordHash);
         userFacade.edit(userToEdit);
@@ -177,8 +175,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     @RolesAllowed("lockAccount")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void lockAccount(Long userId) throws AppBaseException {
-        //TODO poprawic na odpowiedni wyjątek
-        User userToEdit = userFacade.find(userId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
+        User userToEdit = userFacade.find(userId).orElseThrow(AppNotFoundException::createUserNotFoundException);
         userToEdit.setLocked(true);
         userFacade.edit(userToEdit);
         // to przeniesc do endpointu?? + LOG o wysłaniu maila jeśli nie ma
@@ -186,8 +183,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     public void unlockAccount(Long userId) throws AppBaseException {
-        //TODO poprawic na odpowiedni wyjątek
-        User userToEdit = userFacade.find(userId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
+        User userToEdit = userFacade.find(userId).orElseThrow(AppNotFoundException::createUserNotFoundException);
         userToEdit.setLocked(false);
         userFacade.edit(userToEdit);
 
