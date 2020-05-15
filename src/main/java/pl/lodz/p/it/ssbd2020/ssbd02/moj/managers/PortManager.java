@@ -48,8 +48,7 @@ public class PortManager {
     @RolesAllowed("getPortById")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Port getPortById(Long portId) throws AppBaseException {
-        //TODO poprawic na odpowiedni wyjątek
-        return portFacade.find(portId).orElseThrow(() -> new AppNotFoundException("nie ma tego portu"));
+        return portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
     }
 
     public void editPort(Long portId, Port portToEdit) throws AppBaseException {
