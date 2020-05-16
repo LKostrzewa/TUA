@@ -35,6 +35,9 @@
                     <p:column headerText="${msg['yacht.avgRating']}" >
                         <h:outputText value="#{yacht.avgRating}"/>
                     </p:column>
+                    <p:column headerText="${msg['yacht.active']}" >
+                        <h:outputText value="#{yacht.active}"/>
+                    </p:column>
                     <p:column headerText="${msg['actions']}">
                         <p:button value="${msg['details']}" outcome="yachtDetails.xhtml?faces-redirect=true">
                             <f:param name="yachtId" value="#{yacht.id}"/>

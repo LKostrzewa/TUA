@@ -29,7 +29,7 @@ public class YachtManager {
 
     @RolesAllowed("addYacht")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void addYacht(NewYachtDto newYachtDto, Long yachtModelId) throws AppBaseException {
+    public void addYacht(Yacht newYachtDto, Long yachtModelId) throws AppBaseException {
         // TODO zmienic wyjatek na yacht model not find
         YachtModel yachtModel = yachtModelFacade.find(yachtModelId).orElseThrow(AppNotFoundException::createUserNotFoundException);
         Yacht newYacht = new Yacht(newYachtDto.getName(),newYachtDto.getProductionYear(),newYachtDto.getPriceMultiplier(),newYachtDto.getEquipment(), yachtModel);

@@ -49,7 +49,7 @@ public class Yacht implements Serializable {
     @Column(name = "avg_rating")
     private BigDecimal avgRating;
     @Column(name = "active", nullable = false)
-    private boolean active;
+    private boolean active = true;
     @JoinColumn(name = "current_port_id", referencedColumnName = "id")
     @ManyToOne
     private Port currentPort;

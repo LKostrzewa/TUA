@@ -6,6 +6,7 @@ public class YachtListDto {
     private Long yachtModelId;
     private Long currentPortId;
     private Float avgRating;
+    private boolean active;
 
     public Long getId() {
         return id;
@@ -45,5 +46,13 @@ public class YachtListDto {
 
     public void setAvgRating(Float avgRating) {
         this.avgRating = avgRating;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
