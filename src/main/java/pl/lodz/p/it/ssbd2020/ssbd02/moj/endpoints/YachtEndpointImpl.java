@@ -29,8 +29,7 @@ public class YachtEndpointImpl implements Serializable, YachtEndpoint {
 
     @RolesAllowed("addYacht")
     public void addYacht(NewYachtDto newYachtDto) throws AppBaseException {
-        Yacht yacht = ObjectMapperUtils.map(newYachtDto, Yacht.class);
-        yachtManager.addYacht(yacht);
+        yachtManager.addYacht(newYachtDto, newYachtDto.getYachtModelId());
     }
 
     /**

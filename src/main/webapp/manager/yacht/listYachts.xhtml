@@ -39,6 +39,9 @@
                         <p:button value="${msg['details']}" outcome="yachtDetails.xhtml?faces-redirect=true">
                             <f:param name="yachtId" value="#{yacht.id}"/>
                         </p:button>
+                        <p:commandButton value="#{msg['deactivate']}" action="#{listYachtPageBean.deactivateYacht(yacht.id)}"
+                                         update="@form">
+                        </p:commandButton>
                     </p:column>
                 </p:dataTable>
             </h:form>

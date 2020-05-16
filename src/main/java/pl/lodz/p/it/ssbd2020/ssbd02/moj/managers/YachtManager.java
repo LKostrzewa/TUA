@@ -1,7 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.NewYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtModelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -26,8 +29,11 @@ public class YachtManager {
 
     @RolesAllowed("addYacht")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void addYacht(Yacht yacht) throws AppBaseException {
-        yachtFacade.create(yacht);
+    public void addYacht(NewYachtDto newYachtDto, Long yachtModelId) throws AppBaseException {
+        // TODO zmienic wyjatek na yacht model not find
+        YachtModel yachtModel = yachtModelFacade.find(yachtModelId).orElseThrow(AppNotFoundException::createUserNotFoundException);
+        Yacht newYacht = new Yacht(newYachtDto.getName(),newYachtDto.getProductionYear(),newYachtDto.getPriceMultiplier(),newYachtDto.getEquipment(), yachtModel);
+        yachtFacade.create(newYacht);
     }
 
     /**

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
+<h:head/>
+<h:body>
+    <ui:composition template="/templates/commonTemplate.xhtml">
+        <ui:define name="title">#{msg['manager.title.yachtDetails']}</ui:define>
+        <ui:define name="breadCrumbs">
+            <p:breadCrumb>
+                <p:menuitem value="Categories" url="#"/>
+                <p:menuitem value="#{msg['bread.main']}" url="/manager/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.yachts']}" url="/manager/yacht/listYachts.xhtml"/>
+                <p:menuitem value="#{msg['bread.yacht']}" url="/manager/yacht/yachtDetails.xhtml"
+                            includeViewParams="true">
+                    <f:param name="yachtId" value="#{yachtDetailsPageBean.yachtId}"/>
+                </p:menuitem>
+            </p:breadCrumb>
+        </ui:define>
+        <ui:define name="content">
+            <h:form id="form">
+                <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
+                <div>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:inputText id="name" value="#{addYachtPageBean.newYachtDto.name}"/>
+                        <p:outputLabel for="@previous" value="#{msg['name']}"/>
+                        <p:message for="name"/>
+                    </span>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:inputText id="productionYear" value="#{addYachtPageBean.newYachtDto.productionYear}"/>
+                        <p:outputLabel for="@previous" value="#{msg['productionYear']}"/>
+                        <p:message for="productionYear"/>
+                    </span>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:inputText id="yachtModelId" value="#{addYachtPageBean.newYachtDto.yachtModelId}"/>
+                        <p:outputLabel for="@previous" value="#{msg['yachtModelId']}"/>
+                        <p:message for="yachtModelId"/>
+                    </span>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:inputText id="priceMultiplier" value="#{addYachtPageBean.newYachtDto.priceMultiplier}"/>
+                        <p:outputLabel for="@previous" value="#{msg['priceMultiplier']}"/>
+                        <p:message for="priceMultiplier"/>
+                    </span>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:inputText id="equipment" value="#{addYachtPageBean.newYachtDto.equipment}"/>
+                        <p:outputLabel for="@previous" value="#{msg['equipment']}"/>
+                        <p:message for="equipment"/>
+                    </span>
+                </div>
+                <p:button value="#{msg['goBack']}" outcome="listYachts.xhtml?faces-redirect=true"/>
+                <p:commandButton value="#{msg['save']}" action="#{addYachtPageBean.addNewYacht}" update="@form" ajax="false"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>
