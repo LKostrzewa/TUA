@@ -8,36 +8,37 @@
 <h:head/>
 <h:body>
     <ui:composition template="/templates/commonTemplate.xhtml">
-        <ui:define name="title">#{msg['manager.title.listYachts']}</ui:define>
+        <ui:define name="title">#{msg['manager.title.ports']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
                 <p:menuitem value="Categories" url="#"/>
                 <p:menuitem value="#{msg['bread.main']}" url="/manager/index.xhtml"/>
-                <p:menuitem value="#{msg['bread.yachts']}" url="/manager/yacht/listYachts.xhtml"/>
+                <p:menuitem value="#{msg['bread.ports']}" url="/manager/port/listPorts.xhtml"/>
             </p:breadCrumb>
         </ui:define>
         <ui:define name="content">
             <h:form>
                 <p:growl id="growl" showDetail="true" sticky="true"/>
-                <p:dataTable var="yacht" value="#{listYachtPageBean.yachts}" rows="10"
+                <p:dataTable var="port" value="#{listPortsPageBean.ports}" rows="10"
                              border="2"
                              paginator="true"
-                             lazy="true"
                              first="0"
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                             emptyMessage="${msg['admin.accounts.noUsersFoundMessage']}">
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
 
-                    <p:column headerText="${msg['yacht.name']}">
-                        <h:outputText value="#{yacht.name}"/>
+                    <p:column headerText="${msg['port.name']}">
+                        <h:outputText value="#{port.name}"/>
                     </p:column>
-                    <p:column headerText="${msg['yacht.avgRating']}" >
-                        <h:outputText value="#{yacht.avgRating}"/>
+                    <p:column headerText="${msg['port.lake']}">
+                        <h:outputText value="#{port.lake}"/>
+                    </p:column>
+                    <p:column headerText="${msg['port.city']}">
+                        <h:outputText value="#{port.nearestCity}"/>
                     </p:column>
                     <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}" outcome="yachtDetails.xhtml?faces-redirect=true">
-                            <f:param name="yachtId" value="#{yacht.id}"/>
+                        <p:button value="${msg['details']}" outcome="portDetails.xhtml?faces-redirect=true">
+                            <f:param name="portId" value="#{port.id}"/>
                         </p:button>
                     </p:column>
                 </p:dataTable>
