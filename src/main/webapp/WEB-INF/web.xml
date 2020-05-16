@@ -56,10 +56,19 @@
         <role-name>getEditUserDtoById</role-name>
     </security-role>
     <security-role>
+        <role-name>getEditUserDtoByLogin</role-name>
+    </security-role>
+    <security-role>
         <role-name>getUserDetailsDtoById</role-name>
     </security-role>
     <security-role>
         <role-name>getLoginDtoByLogin</role-name>
+    </security-role>
+    <security-role>
+        <role-name>editUser</role-name>
+    </security-role>
+    <security-role>
+        <role-name>editOwnData</role-name>
     </security-role>
     <security-role>
         <role-name>changeUserPassword</role-name>

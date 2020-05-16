@@ -55,7 +55,7 @@ public class UserFacade extends AbstractFacade<User> {
      * @return encja User
      */
     @Override
-    @RolesAllowed({"lockAccount","findUserAccessLevelById"})
+    @RolesAllowed({"lockAccount","findUserAccessLevelById", "getEditUserDtoById"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<User> find(Object id) {
             return super.find(id);

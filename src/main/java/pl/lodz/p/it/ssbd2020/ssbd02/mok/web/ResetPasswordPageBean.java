@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 @Named
 @ViewScoped
-public class ResetPasswordBean implements Serializable {
+public class ResetPasswordPageBean implements Serializable {
 
     @Inject
     UserEndpoint userEndpoint;
@@ -30,7 +30,8 @@ public class ResetPasswordBean implements Serializable {
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$", message = "{validation.password}")
     private String password;
 
-    private static final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private ResourceBundle resourceBundle;
+    //private static final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public String getPassword() {
         return password;
@@ -51,7 +52,7 @@ public class ResetPasswordBean implements Serializable {
     @PostConstruct
     public void init() {
         resetPasswordCode = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key");
-        logger.info("Klucz:" + resetPasswordCode);
+        //logger.info("Klucz:" + resetPasswordCode);
     }
 
     public String resetPassword() {
@@ -64,21 +65,23 @@ public class ResetPasswordBean implements Serializable {
         return "login.xhtml?faces-redirect=true";
     }
 
-    public void displayMessage() {
+    public void displayInit(){
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+        resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+    }
+
+    public void displayMessage() {
+        displayInit();
         String msg = resourceBundle.getString("resetPassword.resetPasswordSuccess");
         String head = resourceBundle.getString("success");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
     private void displayError(String message) {
-        facesContext.getExternalContext().getFlash().setKeepMessages(true);
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+        displayInit();
         String msg = resourceBundle.getString(message);
         String head = resourceBundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
-
     }
 
 

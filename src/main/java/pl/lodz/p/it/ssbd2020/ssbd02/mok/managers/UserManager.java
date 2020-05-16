@@ -116,13 +116,28 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         return userFacade.findAll();
     }
 
+
+    /**
+     * Metoda, która pobiera z użytkownika na podstawie jego identyfikatora w bazie
+     *
+     * @param id identyfikator Użytkownika
+     * @return encja User
+     */
+    @RolesAllowed("getEditUserDtoById")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserById(Long id) throws AppBaseException {
         return userFacade.find(id).orElseThrow(AppNotFoundException::createUserNotFoundException);
     }
 
+    /**
+     * Metoda wykorzystywana do zmiany danych konta użytkownika
+     *
+     * @param user obiekt przechowujący dane wprowadzone w formularzu
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed({"editUser","editOwnData"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUser(User user, Long id) throws AppBaseException {
+    public void editUser(User user) throws AppBaseException {
         userFacade.edit(user);
     }
 
@@ -197,7 +212,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @return encje User
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getLoginDtoByLogin")
+    @RolesAllowed({"getLoginDtoByLogin","getEditUserDtoByLogin"})
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserByLogin(String userLogin) throws AppBaseException {
         return userFacade.findByLogin(userLogin);
     }
@@ -303,8 +319,18 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         return userFacade.getResultList(first, pageSize, filters);
     }
 
+    /**
+     * Metoda, która na podany email wysyła wiadomość z linkiem, pod którym można zresetować zapomniane hasło
+     *
+     * @param email adres email
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void sendResetPasswordEmail(String email) throws AppBaseException {
+        if (!userFacade.existByEmail(email)) {
+            throw AppNotFoundException.createEmailNotFoundException();
+        }
         User userToEdit = userFacade.findByEmail(email);
         String resetPasswordCode = UUID.randomUUID().toString().replace("-", "");
         userToEdit.setResetPasswordCode(resetPasswordCode);
@@ -312,21 +338,34 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.edit(userToEdit);
         // TODO tutaj hashowanie resetPasswordCode?
 
-        String link = "<a href=" + "\"http://studapp.it.p.lodz.pl:8002/login/resetPassword.xhtml?key=" + resetPasswordCode + "\">Link</a>";
+        PropertyReader propertyReader = new PropertyReader();
+        String url = propertyReader.getProperty("config", "link_to_reset_password");
+        String link = "<a href=" + "\"" + url + resetPasswordCode + "\">Link</a>";
 
         sendEmail.sendResetPasswordEmail(email, link);
     }
 
+    /**
+     * Metoda, która zmienia zapomniane hasło
+     *
+     * @param resetPasswordCode kod do resetowania hasła wysłany na adres email
+     * @param password nowo wprowadzone hasło
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void resetPassword(String resetPasswordCode, String password) throws AppBaseException {
         User userToEdit = userFacade.findByResetPasswordCode(resetPasswordCode);
-
         Date resetPasswordCodeAddDate = userToEdit.getResetPasswordCodeAddDate();
         Date now = new Date();
-        long MAX_DURATION = MILLISECONDS.convert(15, MINUTES);
+        PropertyReader propertyReader = new PropertyReader();
+        Long time = Long.parseLong(propertyReader.getProperty("config", "reset_password_key_valid_time"));
+        long MAX_DURATION = MILLISECONDS.convert(time, MINUTES);
         long duration = now.getTime() - resetPasswordCodeAddDate.getTime();
         if (duration >= MAX_DURATION) {
             throw ResetPasswordCodeExpiredException.createPasswordExceptionWithCodeExpiredConstraint(userToEdit);
+        }
+        if (bCryptPasswordHash.verify(password.toCharArray(), userToEdit.getPassword())){
+            throw PasswordIdenticalException.createPasswordIdenticalException(userToEdit);
         }
         String passwordHash = bCryptPasswordHash.generate(password.toCharArray());
         userToEdit.setPassword(passwordHash);

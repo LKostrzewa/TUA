@@ -4,6 +4,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.utils;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.EmailNotSentException;
 
+import javax.annotation.security.PermitAll;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -60,6 +63,15 @@ public class SendEmail {
         emailBody(userEmail, emailSubject, emailText);
     }
 
+    /**
+     * Metoda, która wysyła maila do użytkownika z linkiem do resetowania hasła
+     *
+     * @param userEmail email użytkownika
+     * @param resetPasswordCode kod do resetowania hasła
+     */
+    @PermitAll
+    //TODO nw czy to tutaj
+    //@TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void sendResetPasswordEmail(String userEmail, String resetPasswordCode) throws AppBaseException {
         PropertyReader propertyReader = new PropertyReader();
         String emailSubject = propertyReader.getProperty("emailMessages", "resetPasswordSubject");
@@ -88,6 +100,16 @@ public class SendEmail {
 
     }
 
+    /**
+     * Metoda, która wysyła przygotowane emaile
+     *
+     * @param userEmail email użytkownika
+     * @param emailSubject temat wiadomości
+     * @param emailText treść wiadomości
+     */
+    @PermitAll
+    //TODO też nw czy tak
+    //@TransactionAttribute(TransactionAttributeType.MANDATORY)
     private void emailBody(String userEmail, String emailSubject, String emailText) throws AppBaseException {
         PropertyReader propertyReader = new PropertyReader();
         String from = propertyReader.getProperty("config", "from");
