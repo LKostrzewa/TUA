@@ -1,39 +1,102 @@
 body {
-    background-image: url('http://clipartse.com/stock-clipart/6728/waves-pattern-clipart.png');
-    background-size: 200px 400px;
+
+    background-image: url(/resources/images/mainPage.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+
 }
-
-.canoa1 {
-    width: 100px;
-    position: absolute;
-    top:100px;
-    left:300px;
-    z-index: 10;
-
-    -webkit-animation: boatMove 25s linear infinite;
+.box-drift {
+    position: absolute; !important;
+    width: 100px; !important;
+    height: 100%; !important;
+    animation: doDrift 35s infinite; !important;
 }
-
-.canoa2 {
-    width: 100px;
-    position: absolute;
-    top:250px;
-    z-index: 20;
-
-    animation-name: boatMove;
-    animation-duration: 35s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-fill-mode: backwards;
-
-    -webkit-animation: boatMove 5s linear infinite;
+.box-bob {
+    position: absolute; !important;
+    top: 55%; !important;
+    width: 100px; !important;
+    background: none; !important;
+    animation: doBob 5s infinite; !important;
 }
-
-@keyframes boatMove {
-    0% { transform: translateX(-300px);}
-    100% { transform: translateX(1800px);}
+.box-pitch {
+    height: 100px; !important;
+    animation: doPitch 4s infinite; !important;
 }
-
-@-webkit-keyframes boatMove {
-    0% { transform: translateX(-300px);}
-    100% { transform: translateX(1800px);}
+.left-sail {
+    background: #c9e4ca !important;
+    position: absolute; !important;
+    top: 20%; !important;
+    left: 5%; !important;
+    width: 40%; !important;
+    height: 40%; !important;
+    -webkit-clip-path: polygon(100% 0, 0% 100%, 100% 100%); !important;
+    clip-path: polygon(100% 0, 0% 100%, 100% 100%); !important;
+}
+.right-sail {
+    background: #c9e4ca; !important;
+    position: absolute; !important;
+    top: 5%; !important;
+    left: 50%; !important;
+    width: 45%; !important;
+    height: 55%; !important;
+    -webkit-clip-path: polygon(0 0, 0% 100%, 100% 100%); !important;
+    clip-path: polygon(0 0, 0% 100%, 100% 100%); !important;
+}
+.hull {
+    background: #c9e4ca; !important;
+    position: absolute; !important;
+    top: 65%; !important;
+    left: 10%; !important;
+    width: 80%; !important;
+    height: 25%; !important;
+    -webkit-clip-path: polygon(0 0, 100% 0, 79% 100%, 18% 100%); !important;
+    clip-path: polygon(0 0, 100% 0, 79% 100%, 18% 100%); !important;
+}
+@keyframes doBob {
+    0% { !important;
+        top: 55%; !important;
+    }
+    50% { !important;
+        top: 47%; !important;
+    }
+    100% { !important;
+        top: 55%; !important;
+    }
+}
+@keyframes doDrift {
+    0% { !important;
+        left: 0%; !important;
+    }
+    10% { !important;
+        left: 10%; !important;
+    }
+    20% { !important;
+        left: 20%; !important;
+    }
+    50% { !important;
+        left: 50%; !important;
+    }
+    50% { !important;
+        left: 50%; !important;
+    }
+    80% { !important;
+        left: 80%; !important;
+    }
+    100% { !important;
+        left: 90%; !important;
+    }
+}
+@keyframes doPitch {
+    0% { !important;
+        transform: rotate(-10deg); !important;
+    }
+    50% { !important;
+        transform: rotate(10deg); !important;
+    }
+    100% { !important;
+        transform: rotate(-10deg); !important;
+    }
 }
