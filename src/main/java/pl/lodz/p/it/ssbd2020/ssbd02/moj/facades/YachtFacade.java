@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -33,11 +34,15 @@ public class YachtFacade extends AbstractFacade<Yacht> {
     }
 
     @Override
+    @RolesAllowed("addYacht")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void create(Yacht entity) throws AppBaseException {
         super.create(entity);
     }
 
     @Override
+    @RolesAllowed({"editYacht","deactivateYacht"})
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(Yacht entity) throws AppBaseException {
         super.edit(entity);
     }
@@ -50,7 +55,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed("getYachtById")
+    @RolesAllowed({"getYachtById","getEditYachtDtoById"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Yacht> find(Object id) {
         return super.find(id);
@@ -67,5 +72,11 @@ public class YachtFacade extends AbstractFacade<Yacht> {
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<Yacht> findAll() {
         return super.findAll();
+    }
+
+    @Override
+    @DenyAll
+    public void remove(Yacht entity) {
+        super.remove(entity);
     }
 }

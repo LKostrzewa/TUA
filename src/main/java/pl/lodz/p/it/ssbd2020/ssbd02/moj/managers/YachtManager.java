@@ -24,6 +24,8 @@ public class YachtManager {
     @Inject
     private YachtModelFacade yachtModelFacade;
 
+    @RolesAllowed("addYacht")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addYacht(Yacht yacht) throws AppBaseException {
         yachtFacade.create(yacht);
     }
@@ -47,18 +49,21 @@ public class YachtManager {
      * @return yacht dto
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getYachtById")
+    @RolesAllowed({"getYachtById","getEditYachtDtoById"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Yacht getYachtById(Long yachtId) throws AppBaseException {
         //TODO poprawic na odpowiedni wyjątek
         return yachtFacade.find(yachtId).orElseThrow(() -> new AppBaseException("nie ma tego jachtu"));
     }
 
-    public void editYacht(Long yachtId, Yacht yachtToEdit) throws AppBaseException {
-        //yachtToEdit.setId(yachtId);
+    @RolesAllowed("editYacht")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void editYacht(Yacht yachtToEdit) throws AppBaseException {
         yachtFacade.edit(yachtToEdit);
     }
 
+    @RolesAllowed("deactivateYacht")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void deactivateYacht(Long yachtId) throws AppBaseException{
         Yacht yachtToDeactivate = getYachtById(yachtId);
         yachtToDeactivate.setActive(false);

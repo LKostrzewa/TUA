@@ -7,19 +7,33 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ResourceBundle;
 
 @Named
-@ConversationScoped
+@ViewScoped
 public class EditYachtPageBean implements Serializable {
     @Inject
     private YachtEndpoint yachtEndpoint;
     @Inject
-    private Conversation conversation;
-    private Long yachtID;
+    private FacesContext facesContext;
+    private ResourceBundle resourceBundle;
+
+    private Long yachtId;
     private EditYachtDto editYachtDto;
+
+    public Long getYachtId() {
+        return yachtId;
+    }
+
+    public void setYachtId(Long yachtId) {
+        this.yachtId = yachtId;
+    }
 
     public EditYachtDto getEditYachtDto() {
         return editYachtDto;
@@ -29,16 +43,36 @@ public class EditYachtPageBean implements Serializable {
         this.editYachtDto = editYachtDto;
     }
 
-    public String openEditYachtPage(Long yachtID) throws AppBaseException{
-        conversation.begin();
-        this.yachtID = yachtID;
-        this.editYachtDto = ObjectMapperUtils.map(yachtEndpoint.getYachtById(yachtID), EditYachtDto.class);
-        return "editYacht";
+    public void init() throws AppBaseException{
+        this.editYachtDto = yachtEndpoint.getEditYachtDtoById(yachtId);
     }
 
-    public String updateYacht() throws AppBaseException {
-        yachtEndpoint.editYacht(yachtID, editYachtDto);
-        conversation.end();
-        return "listYachts";
+    public String editYacht() throws AppBaseException {
+        try {
+            yachtEndpoint.editYacht(editYachtDto);
+            displayMessage();
+        } catch (AppBaseException e) {
+            displayError(e.getLocalizedMessage());
+        }
+        return "yachtDetails.xhtml?faces-redirect=true?includeViewParams=true";
+    }
+
+    public void displayInit(){
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+        resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+    }
+
+    public void displayMessage() {
+        displayInit();
+        String msg = resourceBundle.getString("users.editInfo");
+        String head = resourceBundle.getString("success");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
+    }
+
+    private void displayError(String message) {
+        displayInit();
+        String msg = resourceBundle.getString(message);
+        String head = resourceBundle.getString("error");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
     }
 }

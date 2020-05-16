@@ -40,6 +40,9 @@
                     <h:outputText value="#{yachtDetailsPageBean.yachtDto.avgRating}"/>
                 </p:panelGrid>
                 <p:button value="#{msg['goBack']}" outcome="listYachts.xhtml?faces-redirect=true"/>
+                <p:button value="${msg['edit']}" outcome="editYacht.xhtml?faces-redirect=true">
+                    <f:param name="yachtId" value="#{yachtDetailsPageBean.yachtId}"/>
+                </p:button>
             </h:form>
         </ui:define>
     </ui:composition>
