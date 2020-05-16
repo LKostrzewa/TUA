@@ -46,26 +46,47 @@ public class UserEndpoint implements Serializable {
         }
     }
 
+    /**
+     * Metoda, służy do dodawania nowych użytkowników do bazy danych przez administratora
+     *
+     * @param userDTO obiekt DTO z danymi nowego użytkownika.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("addNewUser")
     public void addNewUser(AddUserDto userDTO) throws AppBaseException {
         User user = new User(userDTO.getLogin(), userDTO.getPassword(), userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getPhoneNumber());
         userManager.addNewUser(user);
     }
 
-    // może zmienić nazwe na getReport
-    public List<UserReportDto> getAllUserReportDto() {
+    /**
+     * Metoda, która pobiera z bazy listę obiektów.
+     *
+     * @return lista obiektów
+     */
+    @RolesAllowed("getUserReport")
+    public List<UserReportDto> getUserReport() {
         return ObjectMapperUtils.mapAll(userManager.getAll(), UserReportDto.class);
     }
 
-    // po co pobierać DTO do zmiany hasła z bazy? do wywaleni xd
-    public ChangePasswordDto getChangePasswordDtoById(Long id) throws AppBaseException {
-        return ObjectMapperUtils.map(userManager.getUserById(id), ChangePasswordDto.class);
-    }
-
+    /**
+     * Metoda, która pobiera użytkownika do edycji przez administratora po identyfikatorze użytkownika
+     *
+     * @param userId identyfikator użytkownika.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getEditUserDtoById")
     public EditUserDto getEditUserDtoById(Long userId) throws AppBaseException{
         this.userEditEntity = userManager.getUserById(userId);
         return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
     }
 
+    /**
+     * Metoda, która pobiera użytkownika do edycji własnych danych po jego loginie
+     *
+     * @param userLogin login użytkownika.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getEditUserDtoByLogin")
     public EditUserDto getEditUserDtoByLogin(String userLogin) throws AppBaseException {
         this.userEditEntity = userManager.getUserByLogin(userLogin);
         return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
@@ -87,33 +108,58 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserLoginDto.class);
     }
 
-    public void editUser(EditUserDto editUserDto, Long userId) throws AppBaseException {
-        // tutaj jakis wyjątek jak if nie jest spełniony
-        if (userEditEntity.getId().equals(userId)) {
-            userEditEntity.setFirstName(editUserDto.getFirstName());
-            userEditEntity.setLastName(editUserDto.getLastName());
-            userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
-            userManager.editUser(this.userEditEntity, userId);
-        }
+    /**
+     * Metoda, która zapisuje wprowadzone przez administratora zmiany w danych konta użytkownika
+     *
+     * @param editUserDto  obiekt przechowujący dane wprowadzone w formularzu
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("editUser")
+    public void editUser(EditUserDto editUserDto) throws AppBaseException {
+        userEditEntity.setFirstName(editUserDto.getFirstName());
+        userEditEntity.setLastName(editUserDto.getLastName());
+        userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
+        userManager.editUser(this.userEditEntity);
     }
 
-    public void editOwnData(EditUserDto editUserDto, String userLogin) throws AppBaseException {
-        if (userEditEntity.getLogin().equals(userLogin)) {
-            userEditEntity.setFirstName(editUserDto.getFirstName());
-            userEditEntity.setLastName(editUserDto.getLastName());
-            userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
-            userManager.editUser(this.userEditEntity, userEditEntity.getId());
-        }
+    /**
+     * Metoda, która zapisuje wprowadzone zmiany w danych swojego konta
+     *
+     * @param editUserDto  obiekt przechowujący dane wprowadzone w formularzu
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("editOwnData")
+    public void editOwnData(EditUserDto editUserDto) throws AppBaseException {
+        userEditEntity.setFirstName(editUserDto.getFirstName());
+        userEditEntity.setLastName(editUserDto.getLastName());
+        userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
+        userManager.editUser(this.userEditEntity);
     }
 
-    public void editUserPassword(ChangePasswordDto changePasswordDto, Long userId) throws AppBaseException {
+    /**
+     * Metoda wykorzystywana do zmiany hasła innego użytkownika zgodnie z przekazanymi parametrami.
+     *
+     * @param changePasswordDto obiekt przechowujący dane wprowadzone w formularzu
+     * @param userId            id użytkownika, którego hasło ulegnie modyfikacji
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("changeUserPassword")
+    public void changeUserPassword(ChangePasswordDto changePasswordDto, Long userId) throws AppBaseException {
         User user = ObjectMapperUtils.map(changePasswordDto, User.class);
-        userManager.editUserPassword(user, userId);
+        userManager.changeUserPassword(user, userId);
     }
 
-    public void editOwnPassword(ChangeOwnPasswordDto changeOwnPasswordDto, String userLogin) throws AppBaseException {
+    /**
+     * Metoda wykorzystywana do zmiany własnego hasła zgodnie z przekazanymi parametrami.
+     *
+     * @param changeOwnPasswordDto obiekt przechowujący dane wprowadzone w formularzu
+     * @param userLogin            login użytkownika, którego hasło ulegnie modyfikacji
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("changeOwnPassword")
+    public void changeOwnPassword(ChangeOwnPasswordDto changeOwnPasswordDto, String userLogin) throws AppBaseException {
         User user = ObjectMapperUtils.map(changeOwnPasswordDto, User.class);
-        userManager.editOwnPassword(user, userLogin, changeOwnPasswordDto.getOldPassword());
+        userManager.changeOwnPassword(user, userLogin, changeOwnPasswordDto.getOldPassword());
     }
 
     /**
@@ -131,6 +177,7 @@ public class UserEndpoint implements Serializable {
         userManager.unlockAccount(userId);
     }
 
+    //TODO wyrzucić jeżeli okaże się niepotrzebna na pewno
     public UserDetailsDto getOwnDetailsDtoByLogin(String userLogin) throws AppBaseException {
         return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserDetailsDto.class);
     }
@@ -165,20 +212,50 @@ public class UserEndpoint implements Serializable {
         userManager.saveFailureAuthenticate(login, date);
     }
 
+
+    /**
+     * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
+     *
+     * @param filters para filtrowanych pól i ich wartości
+     * @return liczba obiektów poddanych filtrowaniu
+     */
+    @RolesAllowed("getFilteredRowCount")
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userManager.getFilteredRowCount(filters);
     }
 
+    /**
+     * Metoda, która pobiera z bazy listę filtrowanych obiektów.
+     *
+     * @param first    numer pierwszego obiektu
+     * @param pageSize rozmiar strony
+     * @param filters  para filtrowanych pól i ich wartości
+     * @return lista filtrowanych obiektów
+     */
+    @RolesAllowed("getResultList")
     public List<ListUsersDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
-        List<ListUsersDto> users = ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
-        Collections.sort(users);
-        return users;
+        return ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
     }
 
+    /**
+     * Metoda, która na podany email wysyła wiadomość z linkiem, pod którym można zresetować zapomniane hasło
+     *
+     * @param email adres email
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
     public void sendResetPasswordEmail(String email) throws AppBaseException {
         userManager.sendResetPasswordEmail(email);
     }
 
+    /**
+     * Metoda, która zmienia zapomniane hasło
+     *
+     * @param resetPasswordCode kod do resetowania hasła wysłany na adres email
+     * @param password nowo wprowadzone hasło
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
     public void resetPassword(String resetPasswordCode, String password) throws AppBaseException {
         userManager.resetPassword(resetPasswordCode, password);
     }

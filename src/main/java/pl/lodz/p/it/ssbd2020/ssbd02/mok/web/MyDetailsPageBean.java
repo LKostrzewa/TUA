@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.ResourceBundle;
 
 /**
- * Klasa od sasa do lasa hihi
+ * Klasa od obsługi widoku szczegółowych informacji własnego konta
  */
 @Named
 @ViewScoped
@@ -69,8 +69,9 @@ public class MyDetailsPageBean implements Serializable {
         userLogin = facesContext.getExternalContext().getRemoteUser();
         try {
             // dlaczego nie pobiera też poziomów dostępu?
-            this.userDetailsDto = userEndpoint.getOwnDetailsDtoByLogin(userLogin);
-            this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelByLogin(userLogin);
+            //this.userDetailsDto = userEndpoint.getOwnDetailsDtoByLogin(userLogin);
+            this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelByLogin(userLogin);
+            this.userDetailsDto = userAccessLevelDto.getUserDetailsDto();
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
@@ -78,6 +79,11 @@ public class MyDetailsPageBean implements Serializable {
         userId = userDetailsDto.getId();
     }
 
+    /**
+     * Prywatna metoda służąca do wyświetlania błędu użytkownikowi
+     *
+     * @param message wiadomość która ma zostać wyświetlona użytkownikowi
+     */
     private void displayError(String message) {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
@@ -87,6 +93,11 @@ public class MyDetailsPageBean implements Serializable {
 
     }
 
+    /**
+     * Metoda zwracająca łańcuch wszystkich poziomó dostępu konta
+     *
+     * @return połączony łańcuch poziomów dostępu konta
+     */
     public String getAccessLevels() {
         String string = "";
         if (userAccessLevelDto.getAdmin().getLeft())

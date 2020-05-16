@@ -8,6 +8,7 @@ public class AppNotFoundException extends AppBaseException{
     //public static String USER_ACCESS_LEVEL_MESSAGE_KEY = "exception.userNotFound";
     public static final String USER_MESSAGE_KEY = "exception.userNotFound";
     public static final String RENTAL_MESSAGE_KEY = "exception.rentalNotFound";
+    public static final String EMAIL_MESSAGE_KEY = "exception.emailNotFound";
     public static final String PORT_MESSAGE_KEY = "exception.portNotFound";
     private Class objectClass;
     public AppNotFoundException(String message) {
@@ -37,6 +38,12 @@ public class AppNotFoundException extends AppBaseException{
         return nfe;
     }
 
+    public static AppNotFoundException createUserNotFoundException() {
+        AppNotFoundException nfe = new AppNotFoundException(USER_MESSAGE_KEY);
+        nfe.setObjectClass(User.class);
+        return nfe;
+    }
+
     public static AppNotFoundException createRentalNotFoundException(Throwable cause) {
         AppNotFoundException nfe = new AppNotFoundException(RENTAL_MESSAGE_KEY, cause);
         nfe.setObjectClass(Rental.class);
@@ -54,4 +61,10 @@ public class AppNotFoundException extends AppBaseException{
         nfe.setObject(userAccessLevel);
         return nfe;
     }*/
+
+    public static AppNotFoundException createEmailNotFoundException() {
+        AppNotFoundException nfe = new AppNotFoundException(EMAIL_MESSAGE_KEY);
+        nfe.setObjectClass(User.class);
+        return nfe;
+    }
 }

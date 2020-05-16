@@ -18,14 +18,11 @@ import java.util.ResourceBundle;
 public class MyEditPageBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
-
     @Inject
     private FacesContext facesContext;
 
     private EditUserDto editUserDto;
-    private String userLogin;
-
-    ResourceBundle bundle;
+    private ResourceBundle bundle;
 
     public EditUserDto getEditUserDto() {
         return editUserDto;
@@ -44,7 +41,7 @@ public class MyEditPageBean implements Serializable {
     }
 
     public void init() {
-        userLogin = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        String userLogin = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         try{
             this.editUserDto = userEndpoint.getEditUserDtoByLogin(userLogin);
         } catch (AppBaseException e) {
@@ -55,7 +52,7 @@ public class MyEditPageBean implements Serializable {
 
     public String editUser() {
         try {
-            userEndpoint.editOwnData(editUserDto, userLogin);
+            userEndpoint.editOwnData(editUserDto);
             displayMessage();
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());

@@ -9,6 +9,8 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import javax.annotation.security.PermitAll;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -34,8 +36,16 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
         return entityManager;
     }
 
+    /**
+     * Metoda, która zwraca poziom dostępu o podanej nazwie.
+     *
+     * @param name nazwa poziomu dostępu.
+     * @return encje AccessLevel
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @PermitAll
-    public AccessLevel findByAccessLevelName(String name) throws AppBaseException {
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public AccessLevel findByAccessLevelByName(String name) throws AppBaseException {
         TypedQuery<AccessLevel> typedQuery = entityManager.createNamedQuery("AccessLevel.findByName", AccessLevel.class);
         typedQuery.setParameter("name", name);
         try {
@@ -43,7 +53,6 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
         }
         catch (NoResultException e) {
             throw AppNotFoundException.createAccessLevelNotFoundException(e);
-            //throw new AppNotFoundException(AppNotFoundException.ACCESS_LEVEL_MESSAGE_KEY, e);
         }
     }
 }

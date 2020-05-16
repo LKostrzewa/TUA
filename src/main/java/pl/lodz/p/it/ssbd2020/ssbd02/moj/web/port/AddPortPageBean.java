@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.port;
 
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.NewPortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
 
@@ -29,7 +30,8 @@ public class AddPortPageBean {
         newPortDto = new NewPortDto();
     }
 
-    public String addPort() {
+    //throws tymczasowe bedzie obslugiwane na widoku
+    public String addPort() throws AppBaseException {
         portEndpoint.addPort(newPortDto);
         return "/manager/listPorts.xhtml?faces-redirect=true";
     }

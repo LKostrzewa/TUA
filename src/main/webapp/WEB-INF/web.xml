@@ -50,10 +50,13 @@
         <role-name>addNewUser</role-name>
     </security-role>
     <security-role>
-        <role-name>getAllUserReportDto</role-name>
+        <role-name>getUserReport</role-name>
     </security-role>
     <security-role>
         <role-name>getEditUserDtoById</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getEditUserDtoByLogin</role-name>
     </security-role>
     <security-role>
         <role-name>getUserDetailsDtoById</role-name>
@@ -62,7 +65,16 @@
         <role-name>getLoginDtoByLogin</role-name>
     </security-role>
     <security-role>
-        <role-name>editUserPassword</role-name>
+        <role-name>editUser</role-name>
+    </security-role>
+    <security-role>
+        <role-name>editOwnData</role-name>
+    </security-role>
+    <security-role>
+        <role-name>changeUserPassword</role-name>
+    </security-role>
+    <security-role>
+        <role-name>changeOwnPassword</role-name>
     </security-role>
     <security-role>
         <role-name>lockAccount</role-name>
@@ -87,13 +99,13 @@
     </security-role>
     <!--UserAccessLevelEndpoint-->
     <security-role>
-        <role-name>findAccessLevelById</role-name>
+        <role-name>findUserAccessLevelById</role-name>
     </security-role>
     <security-role>
-        <role-name>findAccessLevelByLogin</role-name>
+        <role-name>findUserAccessLevelByLogin</role-name>
     </security-role>
     <security-role>
-        <role-name>editAccessLevels</role-name>
+        <role-name>editUserAccessLevels</role-name>
     </security-role>
     <!--YachtEndpoint-->
     <security-role>
@@ -202,6 +214,29 @@
     <error-page>
         <error-code>500</error-code>
         <location>/errors/500.xhtml</location>
+    </error-page>
+    <!--<error-page>
+        <exception-type>javax.ejb.EJBAccessException</exception-type>
+        <location>/errors/ejbAccessExp.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>javax.ejb.NoSuchEJBException</exception-type>
+        <location>/errors/noSuchEJBExp.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>javax.ejb.EJBException</exception-type>
+        <location>/errors/ejbExp.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>javax.ejb.EJBTransactionRequiredException</exception-type>
+        <location>/errors/ejbTranReqExp.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>javax.ejb.EJBTransactionRolledbackException</exception-type>
+        <location>/errors/ejbTranRollExp.xhtml</location>
+    </error-page>-->
+    <error-page>
+        <location>/errors/other.xhtml</location>
     </error-page>
 
 </web-app>

@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 
 @Named
 @ViewScoped
-public class MyChangePasswordPageBean implements Serializable {
+public class ChangeOwnPasswordPageBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
 
@@ -37,16 +37,16 @@ public class MyChangePasswordPageBean implements Serializable {
     }
 
     @PostConstruct
-    public void init(){
+    public void init() {
         userLogin = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         this.changeOwnPasswordDto = new ChangeOwnPasswordDto();
         bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
     }
 
     public String changePassword() throws AppBaseException {
-        try{
-            userEndpoint.editOwnPassword(changeOwnPasswordDto, userLogin);
-        } catch (AppBaseException e){
+        try {
+            userEndpoint.changeOwnPassword(changeOwnPasswordDto, userLogin);
+        } catch (AppBaseException e) {
             String msg = bundle.getString(e.getLocalizedMessage());
             String head = bundle.getString("error");
             facesContext.getExternalContext().getFlash().setKeepMessages(true);
@@ -58,7 +58,6 @@ public class MyChangePasswordPageBean implements Serializable {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
 
-        //displayMessage();
         return "account.xhtml?faces-redirect=true?includeViewParams=true";
     }
 

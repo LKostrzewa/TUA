@@ -22,7 +22,7 @@ public class PortManager {
     @Inject
     private PortFacade portFacade;
 
-    public void addPort(Port port) {
+    public void addPort(Port port) throws AppBaseException {
         portFacade.create(port);
     }
 

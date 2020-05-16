@@ -49,6 +49,14 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
     }
 
+    /**
+     * Metoda, która dodaje nowego użytkownika do bazy danych poprzez userFacade.
+     *
+     * @param user Encja użytkownika do dodania.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("addNewUser")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addNewUser(User user) throws AppBaseException {
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         if (userFacade.existByLogin(user.getLogin())) {
@@ -62,7 +70,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         user.setPassword(passwordHash);
         user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
 
-        UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
+        UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelByName(CLIENT_ACCESS_LEVEL));
 
         user.getUserAccessLevels().add(userAccessLevel);
 
@@ -87,7 +95,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         user.setPassword(passwordHash);
         user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
 
-        UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelName(CLIENT_ACCESS_LEVEL));
+        UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelByName(CLIENT_ACCESS_LEVEL));
 
         user.getUserAccessLevels().add(userAccessLevel);
 
@@ -96,32 +104,70 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         sendEmailWithCode(user);
     }
 
+
+    /**
+     * Metoda, która pobiera z bazy listę obiektów.
+     *
+     * @return lista obiektów
+     */
+    @RolesAllowed("getUserReport")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<User> getAll() {
         return userFacade.findAll();
     }
 
+
+    /**
+     * Metoda, która pobiera z użytkownika na podstawie jego identyfikatora w bazie
+     *
+     * @param id identyfikator Użytkownika
+     * @return encja User
+     */
+    @RolesAllowed("getEditUserDtoById")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserById(Long id) throws AppBaseException {
-        //TODO poprawic na odpowiedni wyjątek
-        return userFacade.find(id).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
+        return userFacade.find(id).orElseThrow(AppNotFoundException::createUserNotFoundException);
     }
 
+    /**
+     * Metoda wykorzystywana do zmiany danych konta użytkownika
+     *
+     * @param user obiekt przechowujący dane wprowadzone w formularzu
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed({"editUser","editOwnData"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUser(User user, Long id) throws AppBaseException {
+    public void editUser(User user) throws AppBaseException {
         userFacade.edit(user);
     }
 
+    /**
+     * Metoda wykorzystywana do zmiany hasła innego użytkownika zgodnie z przekazanymi parametrami.
+     *
+     * @param user   obiekt przechowujący dane wprowadzone w formularzu
+     * @param userId id użytkownika, którego hasło ulegnie modyfikacji
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("changeUserPassword")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUserPassword(User user, Long userId) throws AppBaseException {
-        //TODO poprawic na odpowiedni wyjątek
-        User userToEdit = userFacade.find(userId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
+    public void changeUserPassword(User user, Long userId) throws AppBaseException {
+        User userToEdit = userFacade.find(userId).orElseThrow(AppNotFoundException::createUserNotFoundException);
         String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
         userToEdit.setPassword(passwordHash);
         userFacade.edit(userToEdit);
     }
 
+    /**
+     * Metoda wykorzystywana do zmiany własnego hasła zgodnie z przekazanymi parametrami.
+     *
+     * @param user             obiekt przechowujący dane wprowadzone w formularzu
+     * @param userLogin        login użytkownika, którego hasło ulegnie modyfikacji
+     * @param givenOldPassword hasło podane w formularzu wykorzystywane przy weryfikacji użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("changeOwnPassword")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editOwnPassword(User user, String userLogin, String givenOldPassword) throws AppBaseException {
+    public void changeOwnPassword(User user, String userLogin, String givenOldPassword) throws AppBaseException {
         User userToEdit = userFacade.findByLogin(userLogin);
         BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
         if (!bCryptPasswordHash.verify(givenOldPassword.toCharArray(), userToEdit.getPassword())) {
@@ -144,8 +190,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     @RolesAllowed("lockAccount")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void lockAccount(Long userId) throws AppBaseException {
-        //TODO poprawic na odpowiedni wyjątek
-        User userToEdit = userFacade.find(userId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
+        User userToEdit = userFacade.find(userId).orElseThrow(AppNotFoundException::createUserNotFoundException);
         userToEdit.setLocked(true);
         userFacade.edit(userToEdit);
         // to przeniesc do endpointu?? + LOG o wysłaniu maila jeśli nie ma
@@ -153,8 +198,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     public void unlockAccount(Long userId) throws AppBaseException {
-        //TODO poprawic na odpowiedni wyjątek
-        User userToEdit = userFacade.find(userId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
+        User userToEdit = userFacade.find(userId).orElseThrow(AppNotFoundException::createUserNotFoundException);
         userToEdit.setLocked(false);
         userFacade.edit(userToEdit);
 
@@ -168,7 +212,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @return encje User
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getLoginDtoByLogin")
+    @RolesAllowed({"getLoginDtoByLogin","getEditUserDtoByLogin"})
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserByLogin(String userLogin) throws AppBaseException {
         return userFacade.findByLogin(userLogin);
     }
@@ -248,16 +293,44 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         }
     }
 
+    /**
+     * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
+     *
+     * @param filters para filtrowanych pól i ich wartości
+     * @return liczba obiektów poddanych filtrowaniu
+     */
+    @RolesAllowed("getFilteredRowCount")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userFacade.getFilteredRowCount(filters);
     }
 
+    /**
+     * Metoda, która pobiera z bazy listę filtrowanych obiektów.
+     *
+     * @param first    numer pierwszego obiektu
+     * @param pageSize rozmiar strony
+     * @param filters  para filtrowanych pól i ich wartości
+     * @return lista filtrowanych obiektów
+     */
+    @RolesAllowed("getResultList")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<User> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
         return userFacade.getResultList(first, pageSize, filters);
     }
 
+    /**
+     * Metoda, która na podany email wysyła wiadomość z linkiem, pod którym można zresetować zapomniane hasło
+     *
+     * @param email adres email
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void sendResetPasswordEmail(String email) throws AppBaseException {
+        if (!userFacade.existByEmail(email)) {
+            throw AppNotFoundException.createEmailNotFoundException();
+        }
         User userToEdit = userFacade.findByEmail(email);
         String resetPasswordCode = UUID.randomUUID().toString().replace("-", "");
         userToEdit.setResetPasswordCode(resetPasswordCode);
@@ -265,21 +338,34 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.edit(userToEdit);
         // TODO tutaj hashowanie resetPasswordCode?
 
-        String link = "<a href=" + "\"http://studapp.it.p.lodz.pl:8002/login/resetPassword.xhtml?key=" + resetPasswordCode + "\">Link</a>";
+        PropertyReader propertyReader = new PropertyReader();
+        String url = propertyReader.getProperty("config", "link_to_reset_password");
+        String link = "<a href=" + "\"" + url + resetPasswordCode + "\">Link</a>";
 
         sendEmail.sendResetPasswordEmail(email, link);
     }
 
+    /**
+     * Metoda, która zmienia zapomniane hasło
+     *
+     * @param resetPasswordCode kod do resetowania hasła wysłany na adres email
+     * @param password nowo wprowadzone hasło
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void resetPassword(String resetPasswordCode, String password) throws AppBaseException {
         User userToEdit = userFacade.findByResetPasswordCode(resetPasswordCode);
-
         Date resetPasswordCodeAddDate = userToEdit.getResetPasswordCodeAddDate();
         Date now = new Date();
-        long MAX_DURATION = MILLISECONDS.convert(15, MINUTES);
+        PropertyReader propertyReader = new PropertyReader();
+        Long time = Long.parseLong(propertyReader.getProperty("config", "reset_password_key_valid_time"));
+        long MAX_DURATION = MILLISECONDS.convert(time, MINUTES);
         long duration = now.getTime() - resetPasswordCodeAddDate.getTime();
         if (duration >= MAX_DURATION) {
             throw ResetPasswordCodeExpiredException.createPasswordExceptionWithCodeExpiredConstraint(userToEdit);
+        }
+        if (bCryptPasswordHash.verify(password.toCharArray(), userToEdit.getPassword())){
+            throw PasswordIdenticalException.createPasswordIdenticalException(userToEdit);
         }
         String passwordHash = bCryptPasswordHash.generate(password.toCharArray());
         userToEdit.setPassword(passwordHash);

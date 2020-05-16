@@ -34,6 +34,82 @@
         <role-name>lockAccount</role-name>
         <group-name>ADMINISTRATOR</group-name>
     </security-role-mapping>
+    <security-role-mapping>
+        <role-name>addNewUser</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getUserDetailsDtoById</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getOwnDetailsDtoByLogin</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+        <group-name>MANAGER</group-name>
+        <group-name>CLIENT</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getEditUserDtoById</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getEditUserDtoByLogin</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+        <group-name>MANAGER</group-name>
+        <group-name>CLIENT</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>editUser</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>editOwnData</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+        <group-name>MANAGER</group-name>
+        <group-name>CLIENT</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>getUserReport</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>changeUserPassword</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>changeOwnPassword</role-name>
+        <group-name>CLIENT</group-name>
+        <group-name>MANAGER</group-name>
+        <group-name>ADMINISTRATOR</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>getFilteredRowCount</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
+        <role-name>getResultList</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+    </security-role-mapping>
+    <!--UserAccessLevelEndpoint-->
+    <security-role-mapping>
+        <role-name>findUserAccessLevelByLogin</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+        <group-name>MANAGER</group-name>
+        <group-name>CLIENT</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>findUserAccessLevelById</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>editUserAccessLevels</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+    </security-role-mapping>
 
     <!--YachtEndpoint-->
     <security-role-mapping>

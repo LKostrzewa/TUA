@@ -2,7 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
 import java.util.Objects;
 
-public class ListUsersDto implements Comparable<ListUsersDto> {
+public class ListUsersDto {
     private Long id;
     private String login;
     private String firstName;
@@ -91,10 +91,5 @@ public class ListUsersDto implements Comparable<ListUsersDto> {
                 "login='" + login + '\'' +
                 ", email='" + email + '\'' +
                 '}';
-    }
-
-    @Override
-    public int compareTo(ListUsersDto listUsersDTO) {
-        return this.login.compareToIgnoreCase(listUsersDTO.login);
     }
 }

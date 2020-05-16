@@ -24,7 +24,7 @@ public class PortEndpoint implements Serializable {
     @Inject
     private PortManager portManager;
 
-    public void addPort(NewPortDto newPortDto) {
+    public void addPort(NewPortDto newPortDto) throws AppBaseException {
         Port port = ObjectMapperUtils.map(newPortDto, Port.class);
         portManager.addPort(port);
     }

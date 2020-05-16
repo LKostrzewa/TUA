@@ -28,7 +28,7 @@ public class UserReportPageBean implements Serializable {
 
     @PostConstruct
     private void init() {
-        this.users = userEndpoint.getAllUserReportDto();
+        this.users = userEndpoint.getUserReport();
         Collections.sort(this.users);
     }
 }

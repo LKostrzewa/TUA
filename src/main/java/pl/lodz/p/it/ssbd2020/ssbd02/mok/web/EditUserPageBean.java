@@ -19,8 +19,10 @@ public class EditUserPageBean implements Serializable {
     private UserEndpoint userEndpoint;
     @Inject
     private FacesContext facesContext;
+
     private EditUserDto editUserDto;
     private Long userId;
+    private ResourceBundle resourceBundle;
 
     public EditUserDto getEditUserDto() {
         return editUserDto;
@@ -44,7 +46,7 @@ public class EditUserPageBean implements Serializable {
 
     public String editUser() {
         try {
-            userEndpoint.editUser(editUserDto, userId);
+            userEndpoint.editUser(editUserDto);
             displayMessage();
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
@@ -52,20 +54,22 @@ public class EditUserPageBean implements Serializable {
         return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
-    public void displayMessage() {
+    public void displayInit(){
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+        resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+    }
+
+    public void displayMessage() {
+        displayInit();
         String msg = resourceBundle.getString("users.editInfo");
         String head = resourceBundle.getString("success");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
     private void displayError(String message) {
-        facesContext.getExternalContext().getFlash().setKeepMessages(true);
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+        displayInit();
         String msg = resourceBundle.getString(message);
         String head = resourceBundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
-
     }
 }

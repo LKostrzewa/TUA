@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 
 @Named
 @RequestScoped
-public class SendEmailWithResetPasswordBean implements Serializable {
+public class SendEmailWithResetPasswordPageBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
 
@@ -26,6 +26,7 @@ public class SendEmailWithResetPasswordBean implements Serializable {
             message = "{validation.email}")
     private String email;
 
+    private ResourceBundle resourceBundle;
 
     public String getEmail() {
         return email;
@@ -46,17 +47,20 @@ public class SendEmailWithResetPasswordBean implements Serializable {
         return "login.xhtml?faces-redirect=true";
     }
 
-    public void displayMessage() {
+    public void displayInit(){
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+        resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+    }
+
+    public void displayMessage() {
+        displayInit();
         String msg = resourceBundle.getString("forgetPassword.sendEmail");
         String head = resourceBundle.getString("success");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
     private void displayError(String message) {
-        facesContext.getExternalContext().getFlash().setKeepMessages(true);
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+        displayInit();
         String msg = resourceBundle.getString(message);
         String head = resourceBundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
