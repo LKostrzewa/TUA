@@ -10,7 +10,6 @@
         <class>pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <shared-cache-mode>NONE</shared-cache-mode>
-        <validation-mode>NONE</validation-mode>
         <properties>
             <property name="eclipselink.logging.level" value="FINE"/>
         </properties>

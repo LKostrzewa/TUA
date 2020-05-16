@@ -161,14 +161,6 @@ public class UserFacade extends AbstractFacade<User> {
         return typedQuery.getSingleResult();
     }
 
-    @Override
-    @PermitAll
-    @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public void flush() throws AppBaseException {
-        super.flush();
-    }
-
-
     /**
      * Metoda, która pobiera z bazy listę filtrowanych obiektów.
      *

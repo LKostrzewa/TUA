@@ -1,17 +1,18 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppConstraintViolationException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppOptimisticLockException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppPersistenceException;
 
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
+import javax.validation.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Fasadowa klasa abstrakcyjna po której dziedziczą wszystkie inne klasy fasadowe
@@ -29,9 +30,10 @@ public abstract class AbstractFacade<T> {
         try {
             getEntityManager().persist(entity);
             getEntityManager().flush();
-        }
-        catch (PersistenceException e) {
+        } catch (PersistenceException e) {
             throw AppPersistenceException.createAppPersistenceException(entity, e);
+        } catch (ConstraintViolationException e) {
+            throw AppConstraintViolationException.createAppConstraintViolationException(entity,e);
         }
     }
 
@@ -41,10 +43,12 @@ public abstract class AbstractFacade<T> {
             getEntityManager().flush();
         } catch (OptimisticLockException e) {
             throw AppOptimisticLockException.createAppOptimisticLockException(entity, e);
+        } catch (PersistenceException e) {
+            throw AppPersistenceException.createAppPersistenceException(entity, e);
+        } catch (ConstraintViolationException e) {
+            throw AppConstraintViolationException.createAppConstraintViolationException(entity,e);
         }
-
     }
-
 
     public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
@@ -55,35 +59,10 @@ public abstract class AbstractFacade<T> {
     }
 
     public List<T> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
-    public List<T> findRange(int[] range) {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        javax.persistence.Query q = getEntityManager().createQuery(cq);
-        q.setMaxResults(range[1] - range[0] + 1);
-        q.setFirstResult(range[0]);
-        return q.getResultList();
-    }
 
-    public int count() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
-        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
-        javax.persistence.Query q = getEntityManager().createQuery(cq);
-        return ((Long) q.getSingleResult()).intValue();
-    }
-
-    // TODO czy będziemy tego używać?
-    public void flush() throws AppBaseException {
-        try {
-            getEntityManager().flush();
-        } catch (OptimisticLockException e) {
-            throw new AppBaseException("exception.optimisticLock");
-
-        }
-    }
 }
