@@ -35,6 +35,10 @@
         <group-name>ADMINISTRATOR</group-name>
     </security-role-mapping>
     <security-role-mapping>
+        <role-name>unlockAccount</role-name>
+        <group-name>ADMINISTRATOR</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
         <role-name>addNewUser</role-name>
         <group-name>ADMINISTRATOR</group-name>
     </security-role-mapping>

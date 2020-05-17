@@ -55,7 +55,7 @@ public class UserFacade extends AbstractFacade<User> {
      * @return encja User
      */
     @Override
-    @RolesAllowed({"lockAccount","findUserAccessLevelById", "getEditUserDtoById"})
+    @RolesAllowed({"lockAccount","findUserAccessLevelById", "getEditUserDtoById", "unlockAccount"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<User> find(Object id) {
             return super.find(id);
@@ -155,10 +155,14 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     @PermitAll
-    public User findByActivationCode(String activationCode) {
+    public User findByActivationCode(String activationCode) throws AppBaseException {
         TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByActivationCode", User.class);
         typedQuery.setParameter("activationCode", activationCode);
-        return typedQuery.getSingleResult();
+        try {
+            return typedQuery.getSingleResult();
+        } catch (NoResultException e) {
+            throw AppNotFoundException.createActivationLinkNotFoundException(e);
+        }
     }
 
     /**

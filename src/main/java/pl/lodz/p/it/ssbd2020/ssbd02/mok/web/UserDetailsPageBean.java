@@ -6,10 +6,14 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ResourceBundle;
+
 /**
  * Klasa od obsługi widoku szczegółowych informacji konta innego użytkownika
  */
@@ -20,6 +24,10 @@ public class UserDetailsPageBean implements Serializable {
     private UserEndpoint userEndpoint;
     @Inject
     private UserAccessLevelEndpoint userAccessLevelEndpoint;
+
+    @Inject
+    private FacesContext facesContext;
+    private ResourceBundle resourceBundle;
     private UserDetailsDto userDetailsDto;
     private UserAccessLevelDto userAccessLevelDto;
     private Long userId;
@@ -70,12 +78,44 @@ public class UserDetailsPageBean implements Serializable {
     }
 
     public void lockAccount() throws AppBaseException{
-        userDetailsDto.setLocked(true);
-        userEndpoint.lockAccount(userId);
+        try {
+            userDetailsDto.setLocked(true);
+            userEndpoint.lockAccount(userId);
+            displayMessage();
+        } catch (AppBaseException e) {
+            displayError(e.getLocalizedMessage());
+        }
+
     }
 
     public void unlockAccount() throws AppBaseException {
-        userDetailsDto.setLocked(false);
-        userEndpoint.unlockAccount(userId);
+        try{
+            userDetailsDto.setLocked(false);
+            userEndpoint.unlockAccount(userId);
+        } catch (AppBaseException e) {
+            displayError(e.getLocalizedMessage());
+        }
+
+    }
+
+
+    public void displayInit(){
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+        resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+    }
+
+    public void displayMessage() {
+        displayInit();
+        String msg = resourceBundle.getString("blockAccount");
+        String head = resourceBundle.getString("success");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
+    }
+
+    private void displayError(String message) {
+        displayInit();
+        String msg = resourceBundle.getString(message);
+        String head = resourceBundle.getString("error");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
+
     }
 }
