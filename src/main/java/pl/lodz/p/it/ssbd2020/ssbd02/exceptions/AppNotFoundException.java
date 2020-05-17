@@ -10,6 +10,8 @@ public class AppNotFoundException extends AppBaseException{
     public static final String RENTAL_MESSAGE_KEY = "exception.rentalNotFound";
     public static final String EMAIL_MESSAGE_KEY = "exception.emailNotFound";
     public static final String PORT_MESSAGE_KEY = "exception.portNotFound";
+    public static final String YACHT_MESSAGE_KEY = "exception.yachtNotFound";
+
     public static final String ACTIVATION_LINK_KEY = "exception.activationLinkNotFound";
     private Class objectClass;
     public AppNotFoundException(String message) {
@@ -56,6 +58,13 @@ public class AppNotFoundException extends AppBaseException{
         nfe.setObjectClass(Port.class);
         return nfe;
     }
+
+    public static AppNotFoundException createYachtNotFoundException() {
+        AppNotFoundException nfe = new AppNotFoundException(YACHT_MESSAGE_KEY);
+        nfe.setObjectClass(Yacht.class);
+        return nfe;
+    }
+
     /*
     public static AppNotFoundException createUserAccessLevelNotFoundException(UserAccessLevel userAccessLevel, Throwable cause) {
         AppNotFoundException nfe = new AppNotFoundException(USER_ACCESS_LEVEL_MESSAGE_KEY, cause);
