@@ -126,6 +126,10 @@
     <security-role>
         <role-name>deactivateYacht</role-name>
     </security-role>
+    <!--YachtModelEndpoint-->
+    <security-role>
+        <role-name>addYachtModel</role-name>
+    </security-role>
     <!--Rentals-->
     <security-role>
         <role-name>getRentals</role-name>

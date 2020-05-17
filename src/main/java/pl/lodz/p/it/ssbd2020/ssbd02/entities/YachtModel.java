@@ -25,7 +25,8 @@ import java.util.UUID;
         @NamedQuery(name = "YachtModel.findByModel", query = "SELECT y FROM YachtModel y WHERE y.model = :model"),
         @NamedQuery(name = "YachtModel.findByCapacity", query = "SELECT y FROM YachtModel y WHERE y.capacity = :capacity"),
         @NamedQuery(name = "YachtModel.findByGeneralDescription", query = "SELECT y FROM YachtModel y WHERE y.generalDescription = :generalDescription"),
-        @NamedQuery(name = "YachtModel.findByBasicPrice", query = "SELECT y FROM YachtModel y WHERE y.basicPrice = :basicPrice")})
+        @NamedQuery(name = "YachtModel.findByBasicPrice", query = "SELECT y FROM YachtModel y WHERE y.basicPrice = :basicPrice"),
+        @NamedQuery(name = "YachtModel.countByModel", query = "SELECT COUNT(y) FROM YachtModel y WHERE y.model = :model")})
 public class YachtModel implements Serializable {
 
     @Id

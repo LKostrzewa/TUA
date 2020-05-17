@@ -2,7 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yachtModel;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.ListYachtModelDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpointImpl;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -15,7 +15,7 @@ import java.util.List;
 @ViewScoped
 public class ListYachtModelPageBean implements Serializable {
     @Inject
-    private YachtModelEndpoint yachtModelEndpoint;
+    private YachtModelEndpointImpl yachtModelEndpoint;
     private List<ListYachtModelDto> yachtModels;
 
     public List<ListYachtModelDto> getYachtModels() {

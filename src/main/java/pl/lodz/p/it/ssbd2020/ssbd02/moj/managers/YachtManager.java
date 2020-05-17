@@ -30,7 +30,7 @@ public class YachtManager {
     private YachtModelFacade yachtModelFacade;
 
     /**
-     * Metoda, służy do dodawania nowych jachtów do bazy danych przez administratora
+     * Metoda, służy do dodawania nowych jachtów do bazy danych przez menadżera
      *
      * @param newYachtDto obiekt DTO z danymi nowego jachtu.
      * @param yachtModelId id modelu jachtu

@@ -4,7 +4,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.Image;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.YachtModelDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.ImageEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpointImpl;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
 import javax.annotation.PostConstruct;
@@ -24,7 +24,7 @@ public class YachtModelDetailsPageBean implements Serializable {
     @Inject
     private ImageEndpoint imageEndpoint;
     @Inject
-    private YachtModelEndpoint yachtModelEndpoint;
+    private YachtModelEndpointImpl yachtModelEndpoint;
     private Long yachtModelId;
     private YachtModelDetailsDto yachtModelDetailsDto;
     private List<Image> images;
