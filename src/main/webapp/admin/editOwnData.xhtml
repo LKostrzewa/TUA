@@ -22,30 +22,33 @@
             </f:metadata>
             <h:form>
                 <p:growl id="message" showDetail="true" sticky="true"/>
-                <div>
+                <h:outputStylesheet library="css" name="editUser.css"/>
+                <div style="text-align: center;">
             <span class="ui-float-label" style="margin: 20px">
-                <p:inputText id="firstName" value="#{myEditPageBean.editUserDto.firstName}"/>
-                <p:outputLabel for="@previous" value="#{msg['firstName']}"/>
+                <p:inputText id="firstName" style="border: 2px solid black" value="#{myEditPageBean.editUserDto.firstName}"/>
+                <p:outputLabel for="@previous" value="#{msg['firstName']}" style="display: block; width: 100%; text-align: center;"/>
                 <p:message for="firstName"/>
             </span>
                     <span class="ui-float-label" style="margin: 20px">
-                <p:inputText id="lastName" value="#{myEditPageBean.editUserDto.lastName}"/>
-                <p:outputLabel for="@previous" value="#{msg['lastName']}"/>
+                <p:inputText id="lastName" style="border: 2px solid black" value="#{myEditPageBean.editUserDto.lastName}"/>
+                <p:outputLabel for="@previous" value="#{msg['lastName']}" style="display: block; width: 100%; text-align: center;"/>
                 <p:message for="lastName"/>
             </span>
                     <span class="ui-float-label" style="margin: 20px">
-                <p:inputText id="phoneNumber" value="#{myEditPageBean.editUserDto.phoneNumber}"/>
-                <p:outputLabel for="@previous" value="#{msg['phoneNumber']}"/>
+                <p:inputText id="phoneNumber" style="border: 2px solid black" value="#{myEditPageBean.editUserDto.phoneNumber}"/>
+                <p:outputLabel for="@previous" value="#{msg['phoneNumber']}" style="display: block; width: 100%; text-align: center;"/>
                 <p:message for="phoneNumber"/>
             </span>
                 </div>
-                <p:button value="#{msg['cancel']}" style="background-color: red"
+                <div style="text-align: center;">
+                <p:button value="#{msg['cancel']}" style="background-color: orange"
                           outcome="/admin/account.xhtml?faces-redirect=true?includeViewParams=true"/>
                 <p:commandButton value="#{msg['save']}" action="#{myEditPageBean.editUser()}" style="background-color: green"
                                  update="message">
                     <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>
+                </div>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes" style="background-color: green"
                                      icon="pi pi-check"/>

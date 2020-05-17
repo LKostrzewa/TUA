@@ -52,7 +52,7 @@
                     <h:outputLabel value="#{msg['accessLevel']}:"/>
                     <h:outputText value="#{userDetailsPageBean.getAccessLevels()}"/>
                 </p:panelGrid>
-                <div style="text-align: center;">
+                <div>
                 <p:commandButton value="${msg['lock']}" action="#{userDetailsPageBean.lockAccount}" update="message form" style="background-color: red"
                                  rendered="#{not userDetailsPageBean.userDetailsDto.locked}">
                     <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"

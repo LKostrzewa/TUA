@@ -38,7 +38,8 @@
 
     <ui:define name="content">
         <h:form id="form">
-            <p:panelGrid columns="2">
+            <h:outputStylesheet library="css" name="userDetails.css"/>
+            <p:panelGrid columns="2" styleClass="userDetails">
                 <h:outputLabel value="IDDDD:"/>
                 <h:outputText value="#{myDetailsPageBean.userDetailsDto.id}"/>
                 <h:outputLabel value="#{msg['firstName']}:"/>
@@ -64,7 +65,7 @@
                 <h:outputLabel value="#{msg['accessLevel']}:"/>
                 <h:outputText value="#{myDetailsPageBean.getAccessLevels()}"/>
             </p:panelGrid>
-            <p:button value="${msg['edit']}" outcome="/client/editOwnData.xhtml?faces-redirect=true">
+            <p:button value="${msg['edit']}" outcome="/client/editOwnData.xhtml?faces-redirect=true" style="background-color: orange">
                 <f:param name="userId" value="#{myDetailsPageBean.userId}"/>
             </p:button>
         </h:form>
