@@ -200,7 +200,7 @@ public class UserEndpoint implements Serializable {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @PermitAll
-    public void activeAccount(String code) throws AppBaseException {
+    public void activateAccount(String code) throws AppBaseException {
         userManager.confirmActivationCode(code);
     }
 

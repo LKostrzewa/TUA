@@ -161,7 +161,7 @@ public class UserFacade extends AbstractFacade<User> {
         try {
             return typedQuery.getSingleResult();
         } catch (NoResultException e) {
-            throw AppNotFoundException.createActivationLinkNotFoundException(e);
+            throw AppNotFoundException.createUserNotFoundException(e);
         }
     }
 

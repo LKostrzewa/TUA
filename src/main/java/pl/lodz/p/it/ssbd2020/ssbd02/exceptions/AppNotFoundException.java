@@ -33,12 +33,6 @@ public class AppNotFoundException extends AppBaseException{
         return nfe;
     }
 
-    public static AppNotFoundException createActivationLinkNotFoundException(Throwable cause) {
-        AppNotFoundException nfe = new AppNotFoundException(ACTIVATION_LINK_KEY, cause);
-        nfe.setObjectClass(AccessLevel.class);
-        return nfe;
-    }
-
     public static AppNotFoundException createUserNotFoundException(Throwable cause) {
         AppNotFoundException nfe = new AppNotFoundException(USER_MESSAGE_KEY, cause);
         nfe.setObjectClass(User.class);
