@@ -32,7 +32,12 @@ public class UserEndpoint implements Serializable {
     private UserManager userManager;
     private User userEditEntity;
 
-    // tutaj permitAll
+    /**
+     * Metoda służąca do rejestracji użytkownika
+     * @param userDTO obiekt DTO z danymi rejestrowanego użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
     public void registerNewUser(AddUserDto userDTO) throws AppBaseException {
         try {
             do {
@@ -173,6 +178,13 @@ public class UserEndpoint implements Serializable {
         userManager.lockAccount(userId);
     }
 
+    /**
+     * Metoda, która odblokowywuje konto o podanym id.
+     *
+     * @param userId id użytkownika.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("unlockAccount")
     public void unlockAccount(Long userId) throws AppBaseException {
         userManager.unlockAccount(userId);
     }
@@ -182,8 +194,13 @@ public class UserEndpoint implements Serializable {
         return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserDetailsDto.class);
     }
 
-    // permit all??, zmienic nazwe na activeAccount
-    public void confirmActivationCode(String code) throws AppBaseException {
+    /**
+     * Metoda która aktywuje dane konto po kliknięciu w link aktywacyjny
+     * @param code kod aktywacyjny użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
+    public void activateAccount(String code) throws AppBaseException {
         userManager.confirmActivationCode(code);
     }
 

@@ -12,6 +12,7 @@ public class AppNotFoundException extends AppBaseException{
     public static final String PORT_MESSAGE_KEY = "exception.portNotFound";
     public static final String YACHT_MESSAGE_KEY = "exception.yachtNotFound";
 
+    public static final String ACTIVATION_LINK_KEY = "exception.activationLinkNotFound";
     private Class objectClass;
     public AppNotFoundException(String message) {
         super(message);
