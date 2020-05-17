@@ -4,6 +4,7 @@ import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ResetPasswordDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
@@ -15,12 +16,12 @@ import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -161,14 +162,13 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * Metoda wykorzystywana do zmiany własnego hasła zgodnie z przekazanymi parametrami.
      *
      * @param user             obiekt przechowujący dane wprowadzone w formularzu
-     * @param userLogin        login użytkownika, którego hasło ulegnie modyfikacji
      * @param givenOldPassword hasło podane w formularzu wykorzystywane przy weryfikacji użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("changeOwnPassword")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void changeOwnPassword(User user, String userLogin, String givenOldPassword) throws AppBaseException {
-        User userToEdit = userFacade.findByLogin(userLogin);
+    public void changeOwnPassword(User user, String givenOldPassword) throws AppBaseException {
+        User userToEdit = userFacade.findByLogin();
         BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
         if (!bCryptPasswordHash.verify(givenOldPassword.toCharArray(), userToEdit.getPassword())) {
             throw IncorrectPasswordException.createIncorrectPasswordException(user);
@@ -206,16 +206,15 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     /**
-     * Metoda, która zwraca użytkownika o podanym loginie.
+     * Metoda, która zwraca aktualnie zalogowanego użytkownika
      *
-     * @param userLogin login użytkownika.
      * @return encje User
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed({"getLoginDtoByLogin","getEditUserDtoByLogin"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public User getUserByLogin(String userLogin) throws AppBaseException {
-        return userFacade.findByLogin(userLogin);
+    public User getUserByLogin() throws AppBaseException {
+        return userFacade.findByLogin();
     }
 
     private String createVerificationLink(User user) {
@@ -242,17 +241,25 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * Metoda, która zapisuje informacje o poprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      * Ustawia ilość niepoprawnych logować na 0. Wysyła mail do użytkownika jeśli zalogował się administrator.
      *
-     * @param login           login użytkownika
-     * @param clientIpAddress adres ip użytkownika
-     * @param date            data zalogowania użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("saveSuccessAuthenticate")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void saveSuccessAuthenticate(String login, String clientIpAddress, Date date) throws AppBaseException {
-        User userToEdit = userFacade.findByLogin(login);
+    public void saveSuccessAuthenticate() throws AppBaseException {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getRequest();
+        String xForwardedForHeader = request.getHeader("X-Forwarded-For");
+
+        User userToEdit = userFacade.findByLogin();
+        String clientIpAddress;
+        if (xForwardedForHeader == null) {
+            clientIpAddress = request.getRemoteAddr();
+        } else {
+           clientIpAddress = new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
+        }
         userToEdit.setLastLoginIp(clientIpAddress);
-        userToEdit.setLastValidLogin(date);
+        userToEdit.setLastValidLogin(new Date());
         userToEdit.setInvalidLoginAttempts(0);
         userFacade.edit(userToEdit);
 
@@ -265,17 +272,15 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * Metoda, która zapisuje informacje o niepoprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      * Zwiększa ilość niepoprawnych logować o 1. Jeśli wartość niepoprawnych logowań osiągnie 3, blokuje konto i wysyła maila.
      *
-     * @param login login użytkownika
-     * @param date  data zalogowania użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void saveFailureAuthenticate(String login, Date date) throws AppBaseException {
-        User userToEdit = userFacade.findByLogin(login);
+    public void saveFailureAuthenticate() throws AppBaseException {
+        User userToEdit = userFacade.findByLogin();
         boolean sendBlockEmail = false;
         if (userToEdit.isActivated() && !userToEdit.isLocked()) {
-            userToEdit.setLastInvalidLogin(date);
+            userToEdit.setLastInvalidLogin(new Date());
             int attempts = userToEdit.getInvalidLoginAttempts() + 1;
             if (attempts == 3) {
                 userToEdit.setInvalidLoginAttempts(0);
@@ -348,13 +353,12 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     /**
      * Metoda, która zmienia zapomniane hasło
      *
-     * @param resetPasswordCode kod do resetowania hasła wysłany na adres email
-     * @param password nowo wprowadzone hasło
+     * @param resetPasswordDto
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void resetPassword(String resetPasswordCode, String password) throws AppBaseException {
-        User userToEdit = userFacade.findByResetPasswordCode(resetPasswordCode);
+    public void resetPassword(ResetPasswordDto resetPasswordDto) throws AppBaseException {
+        User userToEdit = userFacade.findByResetPasswordCode(resetPasswordDto.getResetPasswordCode());
         Date resetPasswordCodeAddDate = userToEdit.getResetPasswordCodeAddDate();
         Date now = new Date();
         PropertyReader propertyReader = new PropertyReader();
@@ -364,10 +368,10 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         if (duration >= MAX_DURATION) {
             throw ResetPasswordCodeExpiredException.createPasswordExceptionWithCodeExpiredConstraint(userToEdit);
         }
-        if (bCryptPasswordHash.verify(password.toCharArray(), userToEdit.getPassword())){
+        if (bCryptPasswordHash.verify(resetPasswordDto.getPassword().toCharArray(), userToEdit.getPassword())){
             throw PasswordIdenticalException.createPasswordIdenticalException(userToEdit);
         }
-        String passwordHash = bCryptPasswordHash.generate(password.toCharArray());
+        String passwordHash = bCryptPasswordHash.generate(resetPasswordDto.getPassword().toCharArray());
         userToEdit.setPassword(passwordHash);
         userFacade.edit(userToEdit);
     }

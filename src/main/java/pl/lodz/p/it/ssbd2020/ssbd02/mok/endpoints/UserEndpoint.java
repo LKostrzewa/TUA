@@ -81,14 +81,13 @@ public class UserEndpoint implements Serializable {
     }
 
     /**
-     * Metoda, która pobiera użytkownika do edycji własnych danych po jego loginie
+     * Metoda, która pobiera użytkownika do edycji własnych danych osobowych
      *
-     * @param userLogin login użytkownika.
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getEditUserDtoByLogin")
-    public EditUserDto getEditUserDtoByLogin(String userLogin) throws AppBaseException {
-        this.userEditEntity = userManager.getUserByLogin(userLogin);
+    public EditUserDto getEditUserDtoByLogin() throws AppBaseException {
+        this.userEditEntity = userManager.getUserByLogin();
         return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
     }
 
@@ -97,15 +96,14 @@ public class UserEndpoint implements Serializable {
     }
 
     /**
-     * Metoda, która zwraca login dto o podanym loginie.
+     * Metoda, która zwraca login dto o aktualnie zalogowanego użytkownika
      *
-     * @param userLogin login użytkownika.
      * @return user login dot
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getLoginDtoByLogin")
-    public UserLoginDto getLoginDtoByLogin(String userLogin) throws AppBaseException {
-        return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserLoginDto.class);
+    public UserLoginDto getLoginDtoByLogin() throws AppBaseException {
+        return ObjectMapperUtils.map(userManager.getUserByLogin(), UserLoginDto.class);
     }
 
     /**
@@ -153,13 +151,12 @@ public class UserEndpoint implements Serializable {
      * Metoda wykorzystywana do zmiany własnego hasła zgodnie z przekazanymi parametrami.
      *
      * @param changeOwnPasswordDto obiekt przechowujący dane wprowadzone w formularzu
-     * @param userLogin            login użytkownika, którego hasło ulegnie modyfikacji
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("changeOwnPassword")
-    public void changeOwnPassword(ChangeOwnPasswordDto changeOwnPasswordDto, String userLogin) throws AppBaseException {
+    public void changeOwnPassword(ChangeOwnPasswordDto changeOwnPasswordDto) throws AppBaseException {
         User user = ObjectMapperUtils.map(changeOwnPasswordDto, User.class);
-        userManager.changeOwnPassword(user, userLogin, changeOwnPasswordDto.getOldPassword());
+        userManager.changeOwnPassword(user, changeOwnPasswordDto.getOldPassword());
     }
 
     /**
@@ -178,8 +175,8 @@ public class UserEndpoint implements Serializable {
     }
 
     //TODO wyrzucić jeżeli okaże się niepotrzebna na pewno
-    public UserDetailsDto getOwnDetailsDtoByLogin(String userLogin) throws AppBaseException {
-        return ObjectMapperUtils.map(userManager.getUserByLogin(userLogin), UserDetailsDto.class);
+    public UserDetailsDto getOwnDetailsDtoByLogin() throws AppBaseException {
+        return ObjectMapperUtils.map(userManager.getUserByLogin(), UserDetailsDto.class);
     }
 
     // permit all??, zmienic nazwe na activeAccount
@@ -190,26 +187,21 @@ public class UserEndpoint implements Serializable {
     /**
      * Metoda, która zapisuje informacje o poprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      *
-     * @param login           login użytkownika
-     * @param clientIpAddress adres ip użytkownika
-     * @param date            data zalogowania użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("saveSuccessAuthenticate")
-    public void saveSuccessAuthenticate(String login, String clientIpAddress, Date date) throws AppBaseException {
-        userManager.saveSuccessAuthenticate(login, clientIpAddress, date);
+    public void saveSuccessAuthenticate() throws AppBaseException {
+        userManager.saveSuccessAuthenticate();
     }
 
     /**
      * Metoda, która zapisuje informacje o niepoprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      *
-     * @param login login użytkownika
-     * @param date  data zalogowania użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @PermitAll
-    public void saveFailureAuthenticate(String login, Date date) throws AppBaseException {
-        userManager.saveFailureAuthenticate(login, date);
+    public void saveFailureAuthenticate() throws AppBaseException {
+        userManager.saveFailureAuthenticate();
     }
 
 
@@ -251,12 +243,11 @@ public class UserEndpoint implements Serializable {
     /**
      * Metoda, która zmienia zapomniane hasło
      *
-     * @param resetPasswordCode kod do resetowania hasła wysłany na adres email
-     * @param password nowo wprowadzone hasło
+     * @param resetPasswordDto  obiekt przechowujący dane wprowadzone w formularzu
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @PermitAll
-    public void resetPassword(String resetPasswordCode, String password) throws AppBaseException {
-        userManager.resetPassword(resetPasswordCode, password);
+    public void resetPassword(ResetPasswordDto resetPasswordDto) throws AppBaseException {
+        userManager.resetPassword(resetPasswordDto);
     }
 }

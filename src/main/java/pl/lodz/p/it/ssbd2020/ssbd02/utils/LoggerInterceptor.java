@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.io.StringWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 /**
  * Klasa loggera, będąca obiektem przechwytującym (interceptor),
@@ -48,9 +49,15 @@ public class LoggerInterceptor implements Serializable, HttpSessionListener {
 
         StringBuilder param = new StringBuilder();
 
+
+
         if (invocationContext.getParameters() != null) {
             for (Object p : invocationContext.getParameters()) {
-                param.append(p.getClass().getSimpleName()).append("=").append(p.toString()).append(",");
+                if(p.getClass().getSimpleName().equals("String")){
+                    param.append(p.getClass().getSimpleName()).append("=").append("***").append(",");
+                } else {
+                    param.append(p.getClass().getSimpleName()).append("=").append(p.toString()).append(",");
+                }
             }
         }
 

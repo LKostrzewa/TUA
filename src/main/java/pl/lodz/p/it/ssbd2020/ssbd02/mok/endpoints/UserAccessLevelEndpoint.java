@@ -79,13 +79,12 @@ public class UserAccessLevelEndpoint implements Serializable {
     /**
      * Metoda, która zwraca obiekt UserAccessLevelDto zawierający informacje o poziomach dostępu danego użytkownika
      *
-     * @param userLogin login użytkownika.
      * @return obiekt klasy UserAccessLevelDto
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem.
      */
     @RolesAllowed("findUserAccessLevelByLogin")
-    public UserAccessLevelDto findUserAccessLevelByLogin(String userLogin) throws AppBaseException {
-        user = userAccessLevelManager.findUserByLogin(userLogin);
+    public UserAccessLevelDto findUserAccessLevelByLogin() throws AppBaseException {
+        user = userAccessLevelManager.findUserByLogin();
         Collection<UserAccessLevel> userAccessLevels = user.getUserAccessLevels();
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
         userAccessLevelDto.setUserDetailsDto(ObjectMapperUtils.map(user, UserDetailsDto.class));

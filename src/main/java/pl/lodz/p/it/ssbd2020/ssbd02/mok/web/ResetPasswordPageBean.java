@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ResetPasswordDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.annotation.PostConstruct;
@@ -26,38 +27,30 @@ public class ResetPasswordPageBean implements Serializable {
     @Inject
     private FacesContext facesContext;
 
-    private String resetPasswordCode;
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$", message = "{validation.password}")
-    private String password;
+    private ResetPasswordDto resetPasswordDto;
 
     private ResourceBundle resourceBundle;
     //private static final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-    public String getPassword() {
-        return password;
+
+    public ResetPasswordDto getResetPasswordDto() {
+        return resetPasswordDto;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setResetPasswordDto(ResetPasswordDto resetPasswordDto) {
+        this.resetPasswordDto = resetPasswordDto;
     }
-    public String getKey() {
-        return resetPasswordCode;
-    }
-
-    public void setKey(String key) {
-        this.resetPasswordCode = key;
-    }
-
 
     @PostConstruct
     public void init() {
-        resetPasswordCode = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key");
+        resetPasswordDto = new ResetPasswordDto();
+        resetPasswordDto.setResetPasswordCode(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key"));
         //logger.info("Klucz:" + resetPasswordCode);
     }
 
     public String resetPassword() {
         try {
-            userEndpoint.resetPassword(resetPasswordCode,password);
+            userEndpoint.resetPassword(resetPasswordDto);
             displayMessage();
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
