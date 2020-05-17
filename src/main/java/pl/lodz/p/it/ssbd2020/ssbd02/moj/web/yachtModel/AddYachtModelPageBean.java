@@ -2,7 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yachtModel;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.NewYachtModelDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpointImpl;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -13,7 +13,7 @@ import javax.inject.Named;
 @RequestScoped
 public class AddYachtModelPageBean {
     @Inject
-    private YachtModelEndpointImpl yachtModelEndpoint;
+    private YachtModelEndpoint yachtModelEndpoint;
     private NewYachtModelDto newYachtModelDto;
 
     public NewYachtModelDto getNewYachtModelDto() {
