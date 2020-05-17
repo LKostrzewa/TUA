@@ -109,10 +109,22 @@
     </security-role>
     <!--YachtEndpoint-->
     <security-role>
+        <role-name>addYacht</role-name>
+    </security-role>
+    <security-role>
         <role-name>getAllYachts</role-name>
     </security-role>
     <security-role>
         <role-name>getYachtById</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getEditYachtDtoById</role-name>
+    </security-role>
+    <security-role>
+        <role-name>editYacht</role-name>
+    </security-role>
+    <security-role>
+        <role-name>deactivateYacht</role-name>
     </security-role>
     <!--Rentals-->
     <security-role>

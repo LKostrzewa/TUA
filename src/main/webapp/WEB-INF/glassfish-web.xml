@@ -117,11 +117,28 @@
 
     <!--YachtEndpoint-->
     <security-role-mapping>
+        <role-name>addYacht</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
         <role-name>getAllYachts</role-name>
         <group-name>MANAGER</group-name>
     </security-role-mapping>
     <security-role-mapping>
         <role-name>getYachtById</role-name>
+        <group-name>MANAGER</group-name>
+        <group-name>CLIENT</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getEditYachtDtoById</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>editYacht</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>deactivateYacht</role-name>
         <group-name>MANAGER</group-name>
     </security-role-mapping>
 

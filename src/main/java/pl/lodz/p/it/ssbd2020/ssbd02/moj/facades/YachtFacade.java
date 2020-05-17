@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -32,25 +33,41 @@ public class YachtFacade extends AbstractFacade<Yacht> {
         return entityManager;
     }
 
+    /**
+     * Metoda, dodaje podany jacht do bazy danych.
+     *
+     * @param yacht encja jachtu do dodania do bazy.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @Override
-    public void create(Yacht entity) throws AppBaseException {
-        super.create(entity);
+    @RolesAllowed("addYacht")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void create(Yacht yacht) throws AppBaseException {
+        super.create(yacht);
     }
 
+    /**
+     * Metoda, która edytuje encje jacht.
+     *
+     * @param yacht encja jachtu.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @Override
-    public void edit(Yacht entity) throws AppBaseException {
-        super.edit(entity);
+    @RolesAllowed({"editYacht","deactivateYacht"})
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void edit(Yacht yacht) throws AppBaseException {
+        super.edit(yacht);
     }
 
     /**
      * Metoda, która zwraca yacht o podanym id.
      *
      * @param id id jachtu.
-     * @return yacht dto
+     * @return optional <yacht>
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed("getYachtById")
+    @RolesAllowed({"getYachtById","getEditYachtDtoById"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Yacht> find(Object id) {
         return super.find(id);
@@ -67,5 +84,31 @@ public class YachtFacade extends AbstractFacade<Yacht> {
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<Yacht> findAll() {
         return super.findAll();
+    }
+
+    /**
+     * Metoda, która usuwa encje jacht z bazy.
+     *
+     * @param yacht encja jacht.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @Override
+    @DenyAll
+    public void remove(Yacht yacht) {
+        super.remove(yacht);
+    }
+
+    /**
+     * Metoda, sprawdza czy istnieje jacht w bazie o danej nazwie poprzez sprawdzenie czy rezultat wykonania
+     * zapytania COUNT jest większy od 0.
+     *
+     * @param name nazwa jachtu.
+     * @return true/false zależnie czy użytkownik z danym loginem istnieje lub nie
+     */
+    @RolesAllowed("addYacht")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public boolean existByName(String name) {
+        return entityManager.createNamedQuery("Yacht.countByName", Long.class)
+                .setParameter("name", name).getSingleResult() > 0;
     }
 }

@@ -1,10 +1,12 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
+import java.math.BigDecimal;
+
 public class NewYachtDto {
     private String name;
     private Integer productionYear;
     private Long yachtModelId;
-    private Float priceMultiplier;
+    private BigDecimal priceMultiplier;
     private String equipment;
 
     public String getName() {
@@ -31,11 +33,11 @@ public class NewYachtDto {
         this.yachtModelId = yachtModelId;
     }
 
-    public Float getPriceMultiplier() {
+    public BigDecimal getPriceMultiplier() {
         return priceMultiplier;
     }
 
-    public void setPriceMultiplier(Float priceMultiplier) {
+    public void setPriceMultiplier(BigDecimal priceMultiplier) {
         this.priceMultiplier = priceMultiplier;
     }
 
