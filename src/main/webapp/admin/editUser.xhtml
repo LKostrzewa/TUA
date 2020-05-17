@@ -27,48 +27,39 @@
                 <f:event type="preRenderView" listener="#{editUserPageBean.init}"/>
             </f:metadata>
             <h:form>
-                <style type="text/css">
-                    body
-                    {
-                        background-image: url(/resources/images/edit22.jpg);
-                        background-repeat: no-repeat;
-                        background-attachment:fixed;
-                        background-size: cover;
-                        background-position: center;
-                        height: 100%;
-                    }
-                </style>
-
 
                 <p:growl id="message" showDetail="true"/>
-                <div>
+                <h:outputStylesheet library="css" name="editUser.css"/>
+                <div style="text-align: center;">
             <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="firstName" value="#{editUserPageBean.editUserDto.firstName}"/>
-               <p:outputLabel for="@previous" value="#{msg['firstName']}"/>
+               <p:inputText id="firstName" style="border: 2px solid black" value="#{editUserPageBean.editUserDto.firstName}"/>
+               <p:outputLabel for="@previous" style="display: block; width: 100%; text-align: center" value="#{msg['firstName']}"/>
                 <p:message for="firstName"/>
            </span>
                     <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="lastName" value="#{editUserPageBean.editUserDto.lastName}"/>
-               <p:outputLabel for="@previous" value="#{msg['lastName']}"/>
+               <p:inputText id="lastName" style="border: 2px solid black" value="#{editUserPageBean.editUserDto.lastName}"/>
+               <p:outputLabel for="@previous" style="display: block; width: 100%; text-align: center" value="#{msg['lastName']}"/>
                 <p:message for="lastName"/>
            </span>
                     <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="phoneNumber" value="#{editUserPageBean.editUserDto.phoneNumber}"/>
-               <p:outputLabel for="@previous" value="#{msg['phoneNumber']}"/>
+               <p:inputText id="phoneNumber" style="border: 2px solid black" value="#{editUserPageBean.editUserDto.phoneNumber}"/>
+               <p:outputLabel for="@previous" style="display: block; width: 100%; text-align: center" value="#{msg['phoneNumber']}"/>
                 <p:message for="phoneNumber"/>
            </span>
                 </div>
-                <p:button value="#{msg['cancel']}"
+                <div style="text-align: center;">
+                <p:button value="#{msg['cancel']}" style="background-color: orange"
                           outcome="userDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
-                <p:commandButton value="#{msg['edit']}" action="#{editUserPageBean.editUser()}"
+                <p:commandButton value="#{msg['edit']}" action="#{editUserPageBean.editUser()}" style="background-color: green"
                                  update="message">
                     <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>
+                </div>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes" style="background-color: green"
                                      icon="pi pi-check"/>
-                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no" style="background-color: red"
                                      icon="pi pi-times"/>
                 </p:confirmDialog>
             </h:form>

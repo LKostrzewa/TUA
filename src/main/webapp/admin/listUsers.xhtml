@@ -7,6 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
 <h:head/>
 <h:body>
+
     <ui:composition template="/templates/adminTemplate.xhtml">
         <ui:define name="title">#{msg['title.listUsers']}</ui:define>
         <ui:define name="breadCrumbs">
@@ -20,14 +21,16 @@
             <h:form>
                 <p:growl id="growl" showDetail="true" sticky="true"/>
                 <p:dataTable var="user" value="#{listUsersPageBean.users}" widgetVar="usersTable" rows="10"
+                             styleClass="tableClass"
                              border="2"
                              paginator="true"
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                              emptyMessage="${msg['admin.accounts.noUsersFoundMessage']}"
-                             filteredValue="#{listUsersPageBean.filteredUsers}"
+                             filteredValue="#{listUsersPageBean.filteredUsers}" style="background-color: #4caf50;"
                              globalFilterFunction="#{listUsersPageBean.globalFilterFunction}">
+                    <h:outputStylesheet library="css" name="tableClass.css"/>
 
                     <f:facet name="header">
                         <p:outputPanel>
@@ -57,7 +60,7 @@
                         <h:outputText value="${msg['no']}" rendered="#{!user.activated}"/>
                     </p:column>
                     <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}" outcome="userDetails.xhtml?faces-redirect=true">
+                        <p:button value="${msg['details']}" outcome="userDetails.xhtml?faces-redirect=true" style="background-color: orange">
                             <f:param name="userId" value="#{user.id}"/>
                         </p:button>
                     </p:column>

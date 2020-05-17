@@ -1,0 +1,20 @@
+body {
+    background-image: url(/resources/images/seaWater.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+}
+
+.ui-panelgrid td {
+    background-color: #DEF3CA !important;
+    text-align: center !important;
+    border-collapse: separate !important;
+}
+
+.panelGridCenter {
+    margin: 0 auto !important;
+}
+

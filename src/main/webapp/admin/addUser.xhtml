@@ -19,19 +19,8 @@
         <ui:define name="content">
             <h:form>
                 <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
+                <h:outputStylesheet library="css" name="addUser.css"/>
 
-                <style type="text/css">
-                    body
-                    {
-                        background-image: url(/resources/images/edit33.jpg);
-                        background-repeat: no-repeat;
-                        background-attachment:fixed;
-                        background-size: cover;
-                        background-position: 50% 5%;
-                        height: 100%;
-                        width: 100%;
-                    }
-                </style>
 
 
 
@@ -73,16 +62,16 @@
                     </span>
                 </div>
                 <div style="text-align: center;">
-                    <p:button value="#{msg['cancel']}" outcome="index.xhtml?faces-redirect=true"/>
-                    <p:commandButton value="#{msg['save']}" action="#{addUserPageBean.addUser()}" update="@form">
+                    <p:button value="#{msg['cancel']}" outcome="index.xhtml?faces-redirect=true" style="background-color: red"/>
+                    <p:commandButton value="#{msg['save']}" action="#{addUserPageBean.addUser()}" update="@form" style="background-color: green">
                         <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                    icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                 </div>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes" style="background-color: green"
                                      icon="pi pi-check"/>
-                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no" style="background-color: red"
                                      icon="pi pi-times"/>
                 </p:confirmDialog>
             </h:form>

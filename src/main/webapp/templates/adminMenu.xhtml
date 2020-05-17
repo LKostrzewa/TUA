@@ -10,7 +10,15 @@
     <ui:composition>
         <h:form>
             <p:menubar>
+                <p:menuitem>
+                    <div class="pi pi-user-plus" style="font-size: 20px;">
+                    </div>
+                </p:menuitem>
                 <p:menuitem id="addUserButton" value="#{msg['admin.menu.accounts.add']}" url="/admin/addUser.xhtml"/>
+                <p:menuitem>
+                    <div class="pi pi-users" style="font-size: 20px;">
+                    </div>
+                </p:menuitem>
                 <p:menuitem id="listUsersButton" value="#{msg['admin.menu.accounts.list']}"
                             url="/admin/listUsers.xhtml?"/>
                 <f:facet name="options">

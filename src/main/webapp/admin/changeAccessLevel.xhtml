@@ -41,15 +41,15 @@
                 </h:panelGrid>
                 <p:button value="#{msg['cancel']}"
                           outcome="userDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
-                <p:commandButton value="#{msg['edit']}" action="#{changeAccessLevelPageBean.changeAccessLevel()}"
+                <p:commandButton value="#{msg['edit']}" action="#{changeAccessLevelPageBean.changeAccessLevel()}" style="background-color: orange"
                                  update="message">
                     <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes" style="background-color: green;"
                                      icon="pi pi-check"/>
-                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no" style="background-color: red;"
                                      icon="pi pi-times"/>
                 </p:confirmDialog>
             </h:form>
