@@ -9,6 +9,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
@@ -28,6 +29,7 @@ public class OpinionManager {
     @Inject
     private YachtFacade yachtFacade;
 
+    @RolesAllowed("addOpinion")
     public void addOpinion(Opinion opinion) throws AppBaseException {
         opinionFacade.create(opinion);
         calculateAvgRating(opinion.getRental().getYacht().getId());

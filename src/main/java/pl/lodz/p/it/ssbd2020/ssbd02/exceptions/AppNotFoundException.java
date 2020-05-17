@@ -64,6 +64,12 @@ public class AppNotFoundException extends AppBaseException{
         return nfe;
     }
 
+    public static AppNotFoundException createYachtNotFoundException(Throwable cause) {
+        AppNotFoundException nfe = new AppNotFoundException(YACHT_MESSAGE_KEY, cause);
+        nfe.setObjectClass(Yacht.class);
+        return nfe;
+    }
+
     /*
     public static AppNotFoundException createUserAccessLevelNotFoundException(UserAccessLevel userAccessLevel, Throwable cause) {
         AppNotFoundException nfe = new AppNotFoundException(USER_ACCESS_LEVEL_MESSAGE_KEY, cause);

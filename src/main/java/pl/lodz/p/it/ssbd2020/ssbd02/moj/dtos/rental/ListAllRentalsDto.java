@@ -4,21 +4,12 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class ListAllRentalsDto {
-    private Long id;
     private String userLogin;
     private String yachtName;
     private Date beginDate;
     private Date endDate;
     private String statusName;
     private BigDecimal price;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUserLogin() {
         return userLogin;
