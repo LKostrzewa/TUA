@@ -8,12 +8,14 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppPersistenceException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.faces.context.FacesContext;
 import javax.interceptor.Interceptors;
 import javax.persistence.*;
 import javax.persistence.criteria.*;
@@ -88,15 +90,16 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     /**
-     * Metoda, która zwraca użytkownika o podanym loginie.
+     * Metoda, która zwraca aktualnie zalogowanego użytkownika
      *
-     * @param userLogin login użytkownika.
+     *
      * @return encje User
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public User findByLogin(String userLogin) throws AppBaseException {
+    public User findByLogin() throws AppBaseException {
+        String userLogin = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
         try {
             return getEntityManager().createNamedQuery("User.findByLogin", User.class)
                     .setParameter("login",userLogin).getSingleResult();
@@ -241,5 +244,17 @@ public class UserFacade extends AbstractFacade<User> {
         Long count = entityManager.createQuery(select).getSingleResult();
         return count.intValue();
     }
+
+    /**
+     * Metoda do usuwania encji user. W aplikacji niewykorzystywana (DenyAll)
+     * @param entity encja użytkownika do usunięcia
+     */
+    @DenyAll
+    @Override
+    public void remove(User entity) {
+        super.remove(entity);
+    }
+
+
 }
 

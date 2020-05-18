@@ -6,9 +6,12 @@ import javax.interceptor.InvocationContext;
 import javax.security.enterprise.SecurityContext;
 import javax.servlet.http.HttpSessionActivationListener;
 import javax.servlet.http.HttpSessionListener;
+import java.io.PrintWriter;
 import java.io.Serializable;
+import java.io.StringWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 /**
  * Klasa loggera, będąca obiektem przechwytującym (interceptor),
@@ -46,9 +49,15 @@ public class LoggerInterceptor implements Serializable, HttpSessionListener {
 
         StringBuilder param = new StringBuilder();
 
+
+
         if (invocationContext.getParameters() != null) {
             for (Object p : invocationContext.getParameters()) {
-                param.append(p.getClass().getSimpleName()).append("=").append(p.toString()).append(",");
+                if(p.getClass().getSimpleName().equals("String")){
+                    param.append(p.getClass().getSimpleName()).append("=").append("***").append(",");
+                } else {
+                    param.append(p.getClass().getSimpleName()).append("=").append(p.toString()).append(",");
+                }
             }
         }
 
@@ -60,15 +69,19 @@ public class LoggerInterceptor implements Serializable, HttpSessionListener {
         try{
             result = invocationContext.proceed();
         } catch (Exception exception){
-            String exceptionInfo = exception.getClass().getName() + ": \"" + exception.getMessage() + "\"";
-            Throwable cause = exception.getCause();
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            exception.printStackTrace(pw);
+            String exceptionInfo = exception.getClass().getName() + ": \"" + exception.getMessage() + "\""
+                    + sw.toString();
+            //Throwable cause = exception.getCause();
 
-            if(cause != null) {
+            /*if(cause != null) {
                 exceptionInfo += " caused by " + cause.getClass().getName() + ": \"" + cause.getMessage() + "\"";
-            }
+            }*/
 
             LOGGER.log(Level.WARNING,
-                    "{0} - {1}({2}) called by: {3} has thrown {4}",
+                    "{0} - {1}({2}) called by: {3} has thrown\n{4}",
                     new Object[]{className, methodName, param.toString(), callerName, exceptionInfo});
 
             throw exception;
