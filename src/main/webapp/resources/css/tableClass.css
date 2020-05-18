@@ -1,0 +1,26 @@
+body {
+    background-color: #c9e4ca;
+    border:1px;
+    border: black;
+}
+
+.ui-datatable {
+    text-align: center;
+}
+
+.ui-datatable thead th {
+    background-color: #5c9c21;
+    height: 50%;
+
+}
+
+.ui-datatable-even {
+    background-color: #DEF3CA;
+    color: black;
+}
+
+.ui-datatable-odd {
+    background-color: #9DD929;
+    color: black;
+}
+
