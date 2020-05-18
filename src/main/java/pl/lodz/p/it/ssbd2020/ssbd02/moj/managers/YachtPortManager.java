@@ -45,6 +45,7 @@ public class YachtPortManager {
 
     /**
      * Metoda przypisująca jacht do portu
+     *
      * @param portId identyfikator danego portu
      * @param yachtId identyfikator danego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
@@ -70,6 +71,7 @@ public class YachtPortManager {
 
     /**
      * Metoda odpisująca jacht z portu
+     *
      * @param portId identyfikator danego portu
      * @param yachtId identyfikator danego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem

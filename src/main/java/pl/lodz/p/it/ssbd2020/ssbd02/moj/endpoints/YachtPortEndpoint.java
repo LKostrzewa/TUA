@@ -36,6 +36,7 @@ public class YachtPortEndpoint implements Serializable {
 
     /**
      * Metoda przypisująca jacht do portu
+     *
      * @param portId identyfikator danego portu
      * @param yachtId identyfikator danego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
@@ -47,6 +48,7 @@ public class YachtPortEndpoint implements Serializable {
 
     /**
      * Metoda odpisująca jacht z portu
+     *
      * @param portId identyfikator danego portu
      * @param yachtId identyfikator danego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
