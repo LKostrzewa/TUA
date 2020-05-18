@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtModelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -17,7 +18,7 @@ public class YachtModelManager {
     @Inject
     private YachtModelFacade yachtModelFacade;
 
-    public void addYachtModel(YachtModel yachtModel) {
+    public void addYachtModel(YachtModel yachtModel) throws AppBaseException {
         yachtModelFacade.create(yachtModel);
     }
 
@@ -25,16 +26,17 @@ public class YachtModelManager {
         return yachtModelFacade.findAll();
     }
 
-    public YachtModel getYachtModelById(Long yachtModelId) {
-        return yachtModelFacade.find(yachtModelId);
+    public YachtModel getYachtModelById(Long yachtModelId) throws AppBaseException {
+        //TODO poprawic na odpowiedni wyjątek
+        return yachtModelFacade.find(yachtModelId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
     }
 
-    public void editYachtModel(Long yachtModelId, YachtModel yachtModelToEdit) {
+    public void editYachtModel(Long yachtModelId, YachtModel yachtModelToEdit) throws AppBaseException {
       //  yachtModelToEdit.setId(yachtModelId);
         yachtModelFacade.edit(yachtModelToEdit);
     }
 
-    public void deactivateYachtModel(Long yachtModelId) {
+    public void deactivateYachtModel(Long yachtModelId) throws AppBaseException{
         YachtModel yachtModelToDeactivate = getYachtModelById(yachtModelId);
         yachtModelToDeactivate.setActive(false);
         yachtModelFacade.edit(yachtModelToDeactivate);

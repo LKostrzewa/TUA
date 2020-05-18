@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.PortFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -22,14 +23,16 @@ public class YachtPortManager {
     @Inject
     private YachtFacade yachtFacade;
 
-    public List<Yacht> getAllYachtsByPort(Long portId) {
-        Port port = portFacade.find(portId);
+    public List<Yacht> getAllYachtsByPort(Long portId) throws AppBaseException {
+        //TODO poprawic na odpowiedni wyjątek
+        Port port = portFacade.find(portId).orElseThrow(() -> new AppBaseException("nie ma tego portu"));
         return (List<Yacht>) port.getYachts();
     }
 
-    public void assignYachtToPort(Long portId, Long yachtId) {
-        Port port = portFacade.find(portId);
-        Yacht yacht = yachtFacade.find(yachtId);
+    public void assignYachtToPort(Long portId, Long yachtId) throws AppBaseException {
+        //TODO poprawic na odpowiedni wyjątek
+        Port port = portFacade.find(portId).orElseThrow(() -> new AppBaseException("nie ma tego portu"));
+        Yacht yacht = yachtFacade.find(yachtId).orElseThrow(() -> new AppBaseException("nie ma tego jachtu"));
         yacht.setCurrentPort(port);
         Collection<Yacht> yachts = port.getYachts();
         yachts.add(yacht);
@@ -37,9 +40,10 @@ public class YachtPortManager {
         portFacade.edit(port);
     }
 
-    public void retractYachtFromPort(Long portId, Long yachtId) {
-        Port port = portFacade.find(portId);
-        Yacht yacht = yachtFacade.find(yachtId);
+    public void retractYachtFromPort(Long portId, Long yachtId) throws AppBaseException {
+        //TODO poprawic na odpowiedni wyjątek
+        Port port = portFacade.find(portId).orElseThrow(() -> new AppBaseException("nie ma tego portu"));
+        Yacht yacht = yachtFacade.find(yachtId).orElseThrow(() -> new AppBaseException("nie ma tego jachtu"));
         yacht.setCurrentPort(null);
         Collection<Yacht> yachts = port.getYachts();
         yachts.remove(yacht);

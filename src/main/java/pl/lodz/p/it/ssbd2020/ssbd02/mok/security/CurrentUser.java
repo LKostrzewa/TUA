@@ -1,11 +1,13 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.security;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerIP;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.io.IOException;
@@ -19,6 +21,9 @@ public class CurrentUser implements Serializable {
     private String MANAGER_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
     private String currentRole;
+
+    @Inject
+    private LoggerIP loggerIP;
 
     public String getCurrentRole() {
         return currentRole;
@@ -134,6 +139,7 @@ public class CurrentUser implements Serializable {
                 e.printStackTrace();
             }
         }
+        loggerIP.accessLevelChange();
     }
 }
 

@@ -2,13 +2,15 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.AccessLevelNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -34,15 +36,23 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
         return entityManager;
     }
 
+    /**
+     * Metoda, która zwraca poziom dostępu o podanej nazwie.
+     *
+     * @param name nazwa poziomu dostępu.
+     * @return encje AccessLevel
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @PermitAll
-    public AccessLevel findByAccessLevelName(String name) throws AppBaseException {
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public AccessLevel findByAccessLevelByName(String name) throws AppBaseException {
         TypedQuery<AccessLevel> typedQuery = entityManager.createNamedQuery("AccessLevel.findByName", AccessLevel.class);
         typedQuery.setParameter("name", name);
         try {
             return typedQuery.getSingleResult();
         }
         catch (NoResultException e) {
-            throw new AccessLevelNotFoundException("exception.accessLevelDeleted");
+            throw AppNotFoundException.createAccessLevelNotFoundException(e);
         }
     }
 }

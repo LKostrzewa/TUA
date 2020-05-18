@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yachtModel;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.EditYachtModelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
@@ -28,14 +29,14 @@ public class EditYachtModelPageBean implements Serializable {
         this.editYachtModelDto = editYachtModelDto;
     }
 
-    public String openEditYachtModelPage(Long yachtModelID) {
+    public String openEditYachtModelPage(Long yachtModelID) throws AppBaseException{
         conversation.begin();
         this.yachtModelId = yachtModelID;
         this.editYachtModelDto = ObjectMapperUtils.map(yachtModelEndpoint.getYachtModelById(yachtModelID), EditYachtModelDto.class);
         return "/manager/editYachtModel.xhtml?faces-redirect=true";
     }
 
-    public String editYachtModel() {
+    public String editYachtModel() throws AppBaseException {
         yachtModelEndpoint.editYachtModel(yachtModelId, editYachtModelDto);
         conversation.end();
         return "/manager/yachtModelDetails.xhtml?faces-redirect=true";

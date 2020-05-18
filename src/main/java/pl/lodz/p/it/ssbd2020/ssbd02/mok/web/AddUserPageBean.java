@@ -3,8 +3,6 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.AddUserDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.EmailNotUniqueException;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.exceptions.LoginNotUniqueException;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -15,12 +13,17 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
+/**
+ * Klasa do obsługi widoku dodawania użytkownika
+ */
 @Named
 @RequestScoped
 public class AddUserPageBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
     private AddUserDto addUserDto;
+    @Inject
+    private FacesContext context;
 
     @PostConstruct
     public void init() {
@@ -35,8 +38,12 @@ public class AddUserPageBean implements Serializable {
         this.addUserDto = addUserDto;
     }
 
+    /**
+     * Metoda obsługująca wciśnięcie guzika do dodania nowego użytkownika
+     *
+     * @return strona na którą zostanie przekierowany użytkownik
+     */
     public String addUser() {
-        FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
         try {
             userEndpoint.addNewUser(addUserDto);

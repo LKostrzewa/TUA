@@ -2,11 +2,70 @@
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xml:lang="en" lang="en">
+<h:head/>
+<h:body>
+    <ui:composition template="/templates/commonTemplate.xhtml">
+        <ui:define name="title">#{msg['shared.title.rentalDetails']}</ui:define>
+        <ui:define name="breadCrumbs">
+            <p:breadCrumb>
+                <p:menuitem value="Categories" url="#"/>
+                <p:menuitem value="#{msg['bread.main']}" url="/client/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.rentals']}" url="/client/listRentals.xhtml"/>
+                <p:menuitem value="#{msg['bread.rental']}" url="/client/rentalDetails.xhtml"
+                            includeViewParams="true">
+                    <f:param name="rentalId" value="#{myRentalDetailsPageBean.rentalId}"/>
+                </p:menuitem>
+            </p:breadCrumb>
+        </ui:define>
+        <ui:define name="content">
+            <f:metadata>
+                <f:viewParam name="rentalId" value="#{myRentalDetailsPageBean.rentalId}"/>
+                <f:event type="preRenderView" listener="#{myRentalDetailsPageBean.init}"/>
+            </f:metadata>
+            <h:form id="form">
+                <p:growl id="message" showDetail="true"/>
+                <p:panelGrid columns="2">
+                    <h:outputLabel value="#{msg['yacht.name']}:"/>
+                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.yachtName}"/>
+                    <h:outputLabel value="#{msg['yachtModel.model']}:"/>
+                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.yachtYachtModelModel}"/>
+                    <h:outputLabel value="#{msg['port.name']}:"/>
+                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.yachtCurrentPortName}"/>
+                    <h:outputLabel value="#{msg['yacht.productionYear']}:"/>
+                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.yachtProductionYear}"/>
+                    <h:outputLabel value="#{msg['yacht.equipment']}:"/>
+                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.yachtEquipment}"/>
+                    <h:outputLabel value="#{msg['rental.beginDate']}:"/>
+                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.beginDate}">
+                        <f:convertDateTime pattern="dd.MM.yyyy"/>
+                    </h:outputText>
+                    <h:outputLabel value="#{msg['rental.endDate']}:"/>
+                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.endDate}">
+                        <f:convertDateTime pattern="dd.MM.yyyy"/>
+                    </h:outputText>
+                    <h:outputLabel value="#{msg['rental.status']}:"/>
+                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.statusName}"/>
+                    <h:outputLabel value="#{msg['rental.price']}:"/>
+                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.price}"/>
+                </p:panelGrid>
+                <p:button value="#{msg['goBack']}" outcome="listRentals.xhtml?faces-redirect=true"/>
+                <p:commandButton value="${msg['cancel']}" action="#{myRentalDetailsPageBean.cancelRental}"
+                                 update="message form"
+                                 rendered="#{myRentalDetailsPageBean.rentalDetails.statusName.equals('PENDING')}">
+                    <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
+                               icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                                     icon="pi pi-check"/>
+                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                                     icon="pi pi-times"/>
+                </p:confirmDialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
 </html>

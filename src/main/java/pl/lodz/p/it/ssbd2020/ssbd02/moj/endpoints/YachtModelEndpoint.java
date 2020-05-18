@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.ListYachtModelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.NewYachtModelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.EditYachtModelDto;
@@ -22,7 +23,7 @@ public class YachtModelEndpoint implements Serializable {
     @Inject
     private YachtModelManager yachtModelManager;
 
-    public void addYachtModel(NewYachtModelDto newYachtModelDTO) {
+    public void addYachtModel(NewYachtModelDto newYachtModelDTO) throws AppBaseException {
         YachtModel yachtModel = ObjectMapperUtils.map(newYachtModelDTO, YachtModel.class);
         yachtModelManager.addYachtModel(yachtModel);
     }
@@ -31,17 +32,17 @@ public class YachtModelEndpoint implements Serializable {
         return ObjectMapperUtils.mapAll(yachtModelManager.getAllYachtModels(), ListYachtModelDto.class);
     }
 
-    public ListYachtModelDto getYachtModelById(Long yachtModelId) {
+    public ListYachtModelDto getYachtModelById(Long yachtModelId) throws AppBaseException{
         YachtModel yachtModel = yachtModelManager.getYachtModelById(yachtModelId);
         return ObjectMapperUtils.map(yachtModel, ListYachtModelDto.class);
     }
 
-    public void editYachtModel(Long yachtModelId, EditYachtModelDto editYachtModelDto) {
+    public void editYachtModel(Long yachtModelId, EditYachtModelDto editYachtModelDto) throws AppBaseException {
         YachtModel yachtModelToEdit = ObjectMapperUtils.map(editYachtModelDto, YachtModel.class);
         yachtModelManager.editYachtModel(yachtModelId, yachtModelToEdit);
     }
 
-    public void deactivateYachtModel(Long yachtModelId) {
+    public void deactivateYachtModel(Long yachtModelId) throws AppBaseException {
         yachtModelManager.deactivateYachtModel(yachtModelId);
     }
 }

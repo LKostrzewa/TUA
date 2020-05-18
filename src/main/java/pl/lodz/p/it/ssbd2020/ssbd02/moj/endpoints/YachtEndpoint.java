@@ -1,49 +1,63 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
-
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.EditYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.NewYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtListDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.YachtManager;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
-import javax.ejb.LocalBean;
-import javax.ejb.Stateful;
-import javax.inject.Inject;
-import javax.interceptor.Interceptors;
-import java.io.Serializable;
 import java.util.List;
 
-@Stateful
-@LocalBean
-@Interceptors(LoggerInterceptor.class)
-public class YachtEndpoint implements Serializable {
-    @Inject
-    private YachtManager yachtManager;
+public interface YachtEndpoint {
+    /**
+     * Metoda, służy do dodawania nowych jachtów do bazy danych przez administratora
+     *
+     * @param newYachtDto obiekt DTO z danymi nowego jachtu.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    void addYacht(NewYachtDto newYachtDto) throws AppBaseException;
 
-    public void addYacht(NewYachtDto newYachtDto) {
-        Yacht yacht = ObjectMapperUtils.map(newYachtDto, Yacht.class);
-        yachtManager.addYacht(yacht);
-    }
+    /**
+     * Metoda, która zwraca wszystkie jachty
+     *
+     * @return lista jachtów
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    List<YachtListDto> getAllYachts();
 
-    public List<YachtListDto> getAllYachts() {
-        return ObjectMapperUtils.mapAll(yachtManager.getAllYachts(), YachtListDto.class);
-    }
+    /**
+     * Metoda, która zwraca yacht o podanym id.
+     *
+     * @param yachtId id jachtu.
+     * @return YachtDto
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    YachtDto getYachtById(Long yachtId) throws AppBaseException;
 
-    public YachtDto getYachtById(Long yachtId) {
-        Yacht yacht = yachtManager.getYachtById(yachtId);
-        return ObjectMapperUtils.map(yacht, YachtDto.class);
-    }
+    /**
+     * Metoda, która zwraca yacht do edycji o podanym id.
+     *
+     * @param yachtId id jachtu.
+     * @return EditYachtDto
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    EditYachtDto getEditYachtDtoById(Long yachtId) throws AppBaseException;
 
-    public void editYacht(Long yachtId, EditYachtDto editYachtDto) {
-        Yacht yachtToEdit = ObjectMapperUtils.map(editYachtDto, Yacht.class);
-        yachtManager.editYacht(yachtId, yachtToEdit);
-    }
+    /**
+     * Metoda, która zapisuje wprowadzone przez managera zmiany w jachcie
+     *
+     * @param editYachtDto id jachtu.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    void editYacht(EditYachtDto editYachtDto) throws AppBaseException;
 
-    public void deactivateYacht(Long yachtId) {
-        yachtManager.deactivateYacht(yachtId);
-    }
+    /**
+     * Metoda, która deaktywuje jacht o podanym id.
+     *
+     * @param yachtId id jachtu.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    void deactivateYacht(Long yachtId) throws AppBaseException;
+
+
 }

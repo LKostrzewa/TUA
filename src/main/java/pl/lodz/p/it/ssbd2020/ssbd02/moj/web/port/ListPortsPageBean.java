@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.port;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
 
 import javax.annotation.PostConstruct;
@@ -14,13 +14,13 @@ import java.util.List;
 public class ListPortsPageBean {
     @Inject
     private PortEndpoint portEndpoint;
-    private List<PortDto> ports;
+    private List<PortDetailsDto> ports;
 
-    public List<PortDto> getPorts() {
+    public List<PortDetailsDto> getPorts() {
         return ports;
     }
 
-    public void setPorts(List<PortDto> ports) {
+    public void setPorts(List<PortDetailsDto> ports) {
         this.ports = ports;
     }
 

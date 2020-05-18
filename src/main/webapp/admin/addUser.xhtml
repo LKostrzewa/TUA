@@ -7,8 +7,8 @@
       xmlns:p="http://primefaces.org/ui">
 <h:head/>
 <h:body>
-    <ui:composition template="/templates/adminTemplate.xhtml">
-        <ui:define name="title">#{msg['title.addUser']}</ui:define>
+    <ui:composition template="/templates/commonTemplate.xhtml">
+        <ui:define name="title">#{msg['admin.title.addUser']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
                 <p:menuitem value="Categories" url="#"/>
@@ -20,10 +20,6 @@
             <h:form>
                 <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
                 <h:outputStylesheet library="css" name="addUser.css"/>
-
-
-
-
                 <div class="edit-user" style="text-align: center;" >
                     <span class="ui-float-label" style="margin: 20px;">
                         <p:inputText id="login" style="border: 2px solid black" value="#{addUserPageBean.addUserDto.login}"/>
@@ -31,14 +27,14 @@
                         <p:message for="login"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
-                        <p:password id="password" style="border: 2px solid black" value="#{addUserPageBean.addUserDto.password}" />
-                        <p:outputLabel style="display: block; width: 100%; text-align: center"  for="@previous" value="#{msg['password']}"/>
-                        <p:message for="password"/>
+                        <p:password id="password" style="border: 2px solid black" match="password2" validatorMessage="#{msg['validation.password.match']}" />
+                        <p:outputLabel for="@previous" style="display: block; width: 100%; text-align: center" value="#{msg['password']}"/>
+                        <p:message for="password2"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
-                        <p:password id="password2" style="border: 2px solid black" match="password" validatorMessage="#{msg['validation.password.match']}" />
-                        <p:outputLabel style="display: block; width: 100%; text-align: center"  for="@previous" value="#{msg['registration.repeat.password']}"/>
-                        <p:message for="password2"/>
+                        <p:password id="password2" style="border: 2px solid black" value="#{addUserPageBean.addUserDto.password}"/>
+                        <p:outputLabel for="@previous" style="display: block; width: 100%; text-align: center" value="#{msg['registration.repeat.password']}"/>
+                        <p:message for="password"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="firstName" style="border: 2px solid black" value="#{addUserPageBean.addUserDto.firstName}"/>
@@ -75,7 +71,6 @@
                                      icon="pi pi-times"/>
                 </p:confirmDialog>
             </h:form>
-
         </ui:define>
     </ui:composition>
 </h:body>

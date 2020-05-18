@@ -1,19 +1,22 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ResourceBundle;
 
 /**
- * Klasa od sasa do lasa hihi
+ * Klasa od obsługi widoku szczegółowych informacji własnego konta
  */
 @Named
 @ViewScoped
@@ -22,6 +25,8 @@ public class MyDetailsPageBean implements Serializable {
     private UserEndpoint userEndpoint;
     @Inject
     private UserAccessLevelEndpoint userAccessLevelEndpoint;
+    @Inject
+    private FacesContext facesContext;
     private UserDetailsDto userDetailsDto;
     private UserAccessLevelDto userAccessLevelDto;
     private Long userId;
@@ -60,13 +65,39 @@ public class MyDetailsPageBean implements Serializable {
     }
 
     @PostConstruct
-    public void init(){
-        userLogin = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-        this.userDetailsDto = userEndpoint.getOwnDetailsDtoByLogin(userLogin);
-        this.userAccessLevelDto = userAccessLevelEndpoint.findAccessLevelByLogin(userLogin);
+    public void init()  {
+        userLogin = facesContext.getExternalContext().getRemoteUser();
+        try {
+            // dlaczego nie pobiera też poziomów dostępu?
+            //this.userDetailsDto = userEndpoint.getOwnDetailsDtoByLogin(userLogin);
+            this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelByLogin(userLogin);
+            this.userDetailsDto = userAccessLevelDto.getUserDetailsDto();
+        } catch (AppBaseException e) {
+            displayError(e.getLocalizedMessage());
+        }
+
         userId = userDetailsDto.getId();
     }
 
+    /**
+     * Prywatna metoda służąca do wyświetlania błędu użytkownikowi
+     *
+     * @param message wiadomość która ma zostać wyświetlona użytkownikowi
+     */
+    private void displayError(String message) {
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+        String msg = resourceBundle.getString(message);
+        String head = resourceBundle.getString("error");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
+
+    }
+
+    /**
+     * Metoda zwracająca łańcuch wszystkich poziomó dostępu konta
+     *
+     * @return połączony łańcuch poziomów dostępu konta
+     */
     public String getAccessLevels() {
         String string = "";
         if (userAccessLevelDto.getAdmin().getLeft())

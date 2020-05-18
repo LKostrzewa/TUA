@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.rental;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.EditRentalDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.RentalEndpoint;
 
@@ -26,13 +27,13 @@ public class EditRentalPageBean implements Serializable {
         this.editRentalDto = editRentalDto;
     }
 
-    public String onClick(Long id) {
+    public String onClick(Long id) throws AppBaseException{
         conversation.begin();
         this.editRentalDto = rentalEndpoint.getRentalById(id);
         return "editRental.xhtml?faces-redirect=true";
     }
 
-    public String onFinish() {
+    public String onFinish() throws AppBaseException {
         rentalEndpoint.editRental(editRentalDto);
         conversation.end();
         return "listRentals.xhtml?faces-redirect=true";

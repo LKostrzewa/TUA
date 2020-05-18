@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -10,6 +11,7 @@ import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Klasa fasadowa powiązana z encją User
@@ -36,12 +38,12 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     @Override
-    public User find(Object id) {
+    public Optional<User> find(Object id) {
         return super.find(id);
     }
 
     @Override
-    public void edit(User user) {
+    public void edit(User user) throws AppBaseException {
         super.edit(user);
     }
 }

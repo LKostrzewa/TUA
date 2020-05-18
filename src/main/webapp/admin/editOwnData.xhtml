@@ -3,21 +3,18 @@
       xmlns:ui="http://java.sun.com/jsf/facelets" xml:lang="en" lang="en">
 <h:head/>
 <h:body>
-    <ui:composition template="/templates/adminTemplate.xhtml">
-        <ui:define name="title">#{msg['title.editOwnData']}</ui:define>
+    <ui:composition template="/templates/commonTemplate.xhtml">
+        <ui:define name="title">#{msg['shared.title.editOwnData']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
                 <p:menuitem value="Categories" url="#"/>
                 <p:menuitem value="#{msg['bread.main']}" url="/admin/index.xhtml"/>
                 <p:menuitem value="#{msg['bread.account']}" url="/admin/account.xhtml"/>
-                <p:menuitem value="#{msg['bread.edit.user']}" url="/admin/editOwnData.xhtml" includeViewParams="true">
-                    <f:param name="userId" value="#{myEditPageBean.userId}"/>
-                </p:menuitem>
+                <p:menuitem value="#{msg['bread.edit.user']}" url="/admin/editOwnData.xhtml"/>
             </p:breadCrumb>
         </ui:define>
         <ui:define name="content">
             <f:metadata>
-                <f:viewParam name="userId" value="#{myEditPageBean.userId}"/>
                 <f:event type="preRenderView" listener="#{myEditPageBean.init}"/>
             </f:metadata>
             <h:form>

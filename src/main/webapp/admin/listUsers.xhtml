@@ -7,9 +7,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
 <h:head/>
 <h:body>
-
-    <ui:composition template="/templates/adminTemplate.xhtml">
-        <ui:define name="title">#{msg['title.listUsers']}</ui:define>
+    <ui:composition template="/templates/commonTemplate.xhtml">
+        <ui:define name="title">#{msg['admin.title.listUsers']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
                 <p:menuitem value="Categories" url="#"/>
@@ -20,10 +19,12 @@
         <ui:define name="content">
             <h:form>
                 <p:growl id="growl" showDetail="true" sticky="true"/>
-                <p:dataTable var="user" value="#{listUsersPageBean.users}" widgetVar="usersTable" rows="10"
+                <p:dataTable var="user" value="#{listUsersPageBean.model}" widgetVar="usersTable" rows="10"
                              styleClass="tableClass"
                              border="2"
                              paginator="true"
+                             lazy="true"
+                             first="0"
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
@@ -42,10 +43,10 @@
                     <p:column headerText="${msg['login']}">
                         <h:outputText value="#{user.login}"/>
                     </p:column>
-                    <p:column headerText="${msg['firstName']}">
+                    <p:column headerText="${msg['firstName']}" filterBy="#{user.firstName}" filterMatchMode="contains">
                         <h:outputText value="#{user.firstName}"/>
                     </p:column>
-                    <p:column headerText="${msg['lastName']}">
+                    <p:column headerText="${msg['lastName']}" filterBy="#{user.lastName}" filterMatchMode="contains">
                         <h:outputText value="#{user.lastName}"/>
                     </p:column>
                     <p:column headerText="${msg['email']}">

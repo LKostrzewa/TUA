@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.opinion;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.EditOpinionDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.OpinionEndpoint;
 
@@ -27,13 +28,13 @@ public class EditOpinionPageBean implements Serializable {
         this.editOpinionDTO = editOpinionDTO;
     }
 
-    public String openEditOpinionPage(Long opinionId) {
+    public String openEditOpinionPage(Long opinionId) throws AppBaseException{
         conversation.begin();
         this.editOpinionDTO = opinionEndpoint.getOpinionById(opinionId);
         return "client/editOpinion.xhtml?faces-redirect=true";
     }
 
-    public String editOpinion() {
+    public String editOpinion() throws AppBaseException {
         opinionEndpoint.editOpinion(opinionId, editOpinionDTO);
         conversation.end();
         return "client/rentalDetails.xhtml?faces-redirect=true";
