@@ -63,13 +63,12 @@ public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
     /**
      * Metoda służąca do zapisu nowej wersji opinii
      *
-     * @param opinionId identyfikator opinii
      * @param editOpinionDto obiekt DTO z danymi edytowanej opinii.
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("editOpinion")
-    public void editOpinion(Long opinionId, EditOpinionDto editOpinionDto) throws AppBaseException{
+    public void editOpinion(EditOpinionDto editOpinionDto) throws AppBaseException{
         Opinion opinionToEdit = ObjectMapperUtils.map(editOpinionDto, Opinion.class);
-        opinionManager.editOpinion(opinionId, opinionToEdit);
+        opinionManager.editOpinion(opinionToEdit);
     }
 }

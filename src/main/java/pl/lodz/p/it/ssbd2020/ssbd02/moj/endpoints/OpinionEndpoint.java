@@ -38,9 +38,8 @@ public interface OpinionEndpoint {
     /**
      * Metoda służąca do zapisu nowej wersji opinii
      *
-     * @param opinionId identyfikator opinii
      * @param editOpinionDto obiekt DTO z danymi edytowanej opinii.
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    void editOpinion(Long opinionId, EditOpinionDto editOpinionDto) throws AppBaseException;
+    void editOpinion(EditOpinionDto editOpinionDto) throws AppBaseException;
 }

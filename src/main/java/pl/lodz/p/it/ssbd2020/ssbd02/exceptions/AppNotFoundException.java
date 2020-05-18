@@ -11,6 +11,7 @@ public class AppNotFoundException extends AppBaseException{
     public static final String EMAIL_MESSAGE_KEY = "exception.emailNotFound";
     public static final String PORT_MESSAGE_KEY = "exception.portNotFound";
     public static final String YACHT_MESSAGE_KEY = "exception.yachtNotFound";
+    public static final String OPINION_MESSAGE_KEY = "exception.opinionNotFound";
 
     private Class objectClass;
     public AppNotFoundException(String message) {
@@ -80,6 +81,12 @@ public class AppNotFoundException extends AppBaseException{
     public static AppNotFoundException createEmailNotFoundException() {
         AppNotFoundException nfe = new AppNotFoundException(EMAIL_MESSAGE_KEY);
         nfe.setObjectClass(User.class);
+        return nfe;
+    }
+
+    public static AppNotFoundException createOpinionNotFoundException() {
+        AppNotFoundException nfe = new AppNotFoundException(OPINION_MESSAGE_KEY);
+        nfe.setObjectClass(Opinion.class);
         return nfe;
     }
 }

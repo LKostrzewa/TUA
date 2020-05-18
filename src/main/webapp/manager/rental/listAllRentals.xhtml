@@ -16,7 +16,6 @@
                 <p:menuitem value="#{msg['bread.rentals']}" url="/manager/rental/listAllRentals.xhtml"/>
             </p:breadCrumb>
         </ui:define>
-    </ui:composition>
     <ui:define name="content">
         <h:form>
             <p:dataTable var="rental" value="#{listAllRentalsPageBean.rentals}" rows="10"
@@ -36,13 +35,18 @@
                     <h:outputText value="#{rental.userLogin}"/>
                 </p:column>
                 <p:column headerText="${msg['rental.beginDate']}" >
-                    <h:outputText value="#{rental.beginDate}"/>
+                    <h:outputText value="#{rental.beginDate}">
+                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss"/>
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="${msg['rental.endDate']}" >
-                    <h:outputText value="#{rental.endDate}"/>
+                    <h:outputText value="#{rental.endDate}">
+                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss"/>
+                    </h:outputText>
                 </p:column>
             </p:dataTable>
         </h:form>
     </ui:define>
+    </ui:composition>
 </h:body>
 </html>
