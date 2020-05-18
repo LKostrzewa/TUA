@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.port;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
 
@@ -27,5 +28,10 @@ public class ListPortsPageBean {
     @PostConstruct
     private void init() {
         this.ports = portEndpoint.getAllPorts();
+    }
+
+    public String deactivatePort(Long portId) throws AppBaseException {
+        portEndpoint.deactivatePort(portId);
+        return "listPorts";
     }
 }

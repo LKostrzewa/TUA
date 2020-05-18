@@ -11,7 +11,7 @@
         <h:form rendered="#{currentUser.nowManager}">
             <p:menubar>
                 <p:submenu label="#{msg['manager.menu.ports']}">
-                    <p:menuitem value="#{msg['manager.menu.ports.add']}" url="#"/>
+                    <p:menuitem value="#{msg['manager.menu.ports.add']}" url="/manager/port/addPort.xhtml"/>
                     <p:separator/>
                     <p:menuitem value="#{msg['manager.menu.ports.list']}" url="/manager/port/listPorts.xhtml"/>
                 </p:submenu>

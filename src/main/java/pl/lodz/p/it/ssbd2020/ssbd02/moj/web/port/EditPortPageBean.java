@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.port;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.EditPortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpointImp;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;

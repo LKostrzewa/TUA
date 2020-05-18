@@ -1,9 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -55,5 +57,57 @@ public class PortFacade extends AbstractFacade<Port> {
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<Port> findAll() {
         return super.findAll();
+    }
+
+    /**
+     * Metoda, dodaje podany port do bazy danych.
+     *
+     * @param port encja portu do dodania do bazy.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @Override
+    @RolesAllowed("addPort")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void create(Port port) throws AppBaseException {
+        super.create(port);
+    }
+
+    /**
+     * Metoda, która edytuje encje portu.
+     *
+     * @param port encja portu.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @Override
+    @RolesAllowed({"editPort","deactivatePort"})
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void edit(Port port) throws AppBaseException {
+        super.edit(port);
+    }
+
+    /**
+     * Metoda, która usuwa encje portu z bazy.
+     *
+     * @param port encja jacht.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @Override
+    @DenyAll
+    public void remove(Port port) {
+        super.remove(port);
+    }
+
+    /**
+     * Metoda, sprawdza czy istnieje port w bazie o danej nazwie poprzez sprawdzenie czy rezultat wykonania
+     * zapytania COUNT jest większy od 0.
+     *
+     * @param name nazwa portu.
+     * @return true/false zależnie czy port o danej nazwie istnieje lub nie
+     */
+    @RolesAllowed("addPort")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public boolean existByName(String name) {
+        return entityManager.createNamedQuery("Port.countByName", Long.class)
+                .setParameter("name", name).getSingleResult().intValue() > 0;
     }
 }

@@ -6,6 +6,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import org.eclipse.persistence.annotations.Convert;
+import org.eclipse.persistence.annotations.TypeConverter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,7 +25,8 @@ import java.util.UUID;
         @NamedQuery(name = "Port.findByLake", query = "SELECT p FROM Port p WHERE p.lake = :lake"),
         @NamedQuery(name = "Port.findByNearestCity", query = "SELECT p FROM Port p WHERE p.nearestCity = :nearestCity"),
         @NamedQuery(name = "Port.findByLong1", query = "SELECT p FROM Port p WHERE p.long1 = :long1"),
-        @NamedQuery(name = "Port.findByLat", query = "SELECT p FROM Port p WHERE p.lat = :lat")})
+        @NamedQuery(name = "Port.findByLat", query = "SELECT p FROM Port p WHERE p.lat = :lat"),
+        @NamedQuery(name = "Port.countByName", query = "SELECT COUNT(p) FROM Port p WHERE p.name = :name")})
 public class Port implements Serializable {
     @Id
     @SequenceGenerator(name="PortSeqGen",sequenceName="port_id_seq",allocationSize = 1)

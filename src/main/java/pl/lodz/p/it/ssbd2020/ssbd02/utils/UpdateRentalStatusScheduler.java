@@ -14,6 +14,7 @@ public class UpdateRentalStatusScheduler {
     @Schedules({
             @Schedule(hour = "10")
     })
+
     public void performTask() {
         rentalManager.updateRentalStatus();
     }
