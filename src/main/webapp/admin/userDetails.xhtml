@@ -54,10 +54,11 @@
                 </p:panelGrid>
                 <div>
                 <p:commandButton value="${msg['lock']}" action="#{userDetailsPageBean.lockAccount}" update="message form" style="background-color: red"
-                                 rendered="#{not userDetailsPageBean.userDetailsDto.locked}" ajax="false"/>
-                <p:commandButton value="${msg['unlock']}" action="#{userDetailsPageBean.unlockAccount}" style="background-color: green"
-                                 update="message form"
-                                 rendered="#{userDetailsPageBean.userDetailsDto.locked}" ajax="false"/>
+                                 rendered="#{not userDetailsPageBean.userDetailsDto.locked}" ajax="false"
+                                 onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+                <p:commandButton value="${msg['unlock']}" action="#{userDetailsPageBean.unlockAccount}" update="message form" style="background-color: green"
+                                 rendered="#{userDetailsPageBean.userDetailsDto.locked}" ajax="false"
+                                 onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
                 <p:button value="#{msg['goBack']}" outcome="listUsers.xhtml?faces-redirect=true" style="background-color: orange"/>
                 <p:button value="${msg['edit']}" outcome="editUser.xhtml?faces-redirect=true" style="background-color: orange">
                     <f:param name="userId" value="#{userDetailsPageBean.userId}"/>

@@ -43,7 +43,8 @@
                 <p:button value="#{msg['cancel']}"
                           outcome="userDetails.xhtml?faces-redirect=true?includeViewParams=true" style="background-color: red"/>
                 <p:commandButton value="#{msg['edit']}" action="#{changeAccessLevelPageBean.changeAccessLevel()}" style="background-color: orange"
-                                 update="message" ajax="false"/>
+                                 update="message" ajax="false"
+                                 onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
             </h:form>
         </ui:define>
     </ui:composition>

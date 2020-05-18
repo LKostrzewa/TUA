@@ -59,7 +59,8 @@
                 </div>
                 <div style="text-align: center;">
                     <p:button value="#{msg['cancel']}" outcome="index.xhtml?faces-redirect=true" style="background-color: red"/>
-                    <p:commandButton value="#{msg['save']}" action="#{addUserPageBean.addUser()}" update="@form" style="background-color: green" ajax="false"/>
+                    <p:commandButton value="#{msg['save']}" action="#{addUserPageBean.addUser()}" update="@form" style="background-color: green" ajax="false"
+                                     onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
                 </div>
             </h:form>
         </ui:define>
