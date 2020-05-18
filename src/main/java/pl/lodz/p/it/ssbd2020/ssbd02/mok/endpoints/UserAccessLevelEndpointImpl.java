@@ -13,9 +13,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
@@ -33,8 +31,6 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
     private UserAccessLevelManager userAccessLevelManager;
     @Inject
     private AccessLevelManager accessLevelManager;
-
-    List<AccessLevel> accessLevels;
 
     private User user;
 
@@ -106,7 +102,7 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
      */
     @RolesAllowed("editUserAccessLevels")
     public void editUserAccessLevels(UserAccessLevelDto userAccessLevelDto) throws AppBaseException {
-        this.accessLevels = accessLevelManager.getAllAccessLevels();
+        List<AccessLevel> accessLevels = accessLevelManager.getAllAccessLevels();
         if (userAccessLevelDto.getAdmin().getLeft() ^ userAccessLevelDto.getAdmin().getRight()) {
             if (userAccessLevelDto.getAdmin().getRight()) {
                 UserAccessLevel userAccessLevel = new UserAccessLevel(this.user, accessLevels.stream().filter(accessLevel -> accessLevel.getName().equals(ADMIN_ACCESS_LEVEL)).findAny().orElse(null));
