@@ -54,29 +54,10 @@
                 </p:panelGrid>
                 <div>
                 <p:commandButton value="${msg['lock']}" action="#{userDetailsPageBean.lockAccount}" update="message form" style="background-color: red"
-                                 rendered="#{not userDetailsPageBean.userDetailsDto.locked}">
-                    <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
-                               icon="pi pi-exclamation-triangle"/>
-                </p:commandButton>
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes" style="background-color: yes"
-                                     icon="pi pi-check"/>
-                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no" style="background-color: red"
-                                     icon="pi pi-times"/>
-                </p:confirmDialog>
+                                 rendered="#{not userDetailsPageBean.userDetailsDto.locked}" ajax="false"/>
                 <p:commandButton value="${msg['unlock']}" action="#{userDetailsPageBean.unlockAccount}" style="background-color: green"
                                  update="message form"
-                                 rendered="#{userDetailsPageBean.userDetailsDto.locked}">
-                    <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
-                               icon="pi pi-exclamation-triangle"/>
-                </p:commandButton>
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes" style="background-color: orange"
-                                     icon="pi pi-check"/>
-                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no" style="background-color: red"
-                                     icon="pi pi-times"/>
-
-                </p:confirmDialog>
+                                 rendered="#{userDetailsPageBean.userDetailsDto.locked}" ajax="false"/>
                 <p:button value="#{msg['goBack']}" outcome="listUsers.xhtml?faces-redirect=true" style="background-color: orange"/>
                 <p:button value="${msg['edit']}" outcome="editUser.xhtml?faces-redirect=true" style="background-color: orange">
                     <f:param name="userId" value="#{userDetailsPageBean.userId}"/>
