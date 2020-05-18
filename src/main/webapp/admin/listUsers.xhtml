@@ -19,7 +19,8 @@
         <ui:define name="content">
             <h:form>
                 <p:growl id="growl" showDetail="true" sticky="true"/>
-                <p:dataTable var="user" value="#{listUsersPageBean.model}" rows="10"
+                <p:dataTable var="user" value="#{listUsersPageBean.model}" widgetVar="usersTable" rows="10"
+                             styleClass="tableClass"
                              border="2"
                              paginator="true"
                              lazy="true"
@@ -27,7 +28,17 @@
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                             emptyMessage="${msg['admin.accounts.noUsersFoundMessage']}">
+                             emptyMessage="${msg['admin.accounts.noUsersFoundMessage']}"
+                             filteredValue="#{listUsersPageBean.filteredUsers}" style="background-color: #4caf50;"
+                             globalFilterFunction="#{listUsersPageBean.globalFilterFunction}">
+                    <h:outputStylesheet library="css" name="tableClass.css"/>
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px"
+                                         placeholder="${msg['search']}"/>
+                        </p:outputPanel>
+                    </f:facet>
 
                     <p:column headerText="${msg['login']}">
                         <h:outputText value="#{user.login}"/>
@@ -50,7 +61,7 @@
                         <h:outputText value="${msg['no']}" rendered="#{!user.activated}"/>
                     </p:column>
                     <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}" outcome="userDetails.xhtml?faces-redirect=true">
+                        <p:button value="${msg['details']}" outcome="userDetails.xhtml?faces-redirect=true" style="background-color: orange">
                             <f:param name="userId" value="#{user.id}"/>
                         </p:button>
                     </p:column>

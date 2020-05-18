@@ -1,9 +1,8 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
+package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
+
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.NewYachtDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpointImpl;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -13,38 +12,48 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.ResourceBundle;
 
+
 @Named
 @RequestScoped
-public class AddYachtPageBean {
+public class EmailPageBean {
+
     @Inject
-    private YachtEndpoint yachtEndpoint;
+    UserEndpoint userEndpoint;
+
+    private String key;
+    private int valid = 5;
+
     @Inject
     private FacesContext facesContext;
-
-    private NewYachtDto newYachtDto;
     private ResourceBundle resourceBundle;
-
-    public NewYachtDto getNewYachtDto() {
-        return newYachtDto;
-    }
-
-    public void setNewYachtDto(NewYachtDto newYachtDto) {
-        this.newYachtDto = newYachtDto;
-    }
 
     @PostConstruct
     public void init() {
-        newYachtDto = new NewYachtDto();
-    }
-
-    public String addNewYacht() throws AppBaseException {
+        key = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key");
         try {
-            yachtEndpoint.addYacht(newYachtDto);
+            userEndpoint.activateAccount(key);
             displayMessage();
-        } catch (AppBaseException e) {
+        }catch (AppBaseException e){
             displayError(e.getLocalizedMessage());
         }
-        return "listYachts.xhtml?faces-redirect=true?includeViewParams=true";
+
+    }
+
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public int getValid() {
+        return valid;
+    }
+
+    public void setValid(int valid) {
+        this.valid = valid;
     }
 
     public void displayInit(){
@@ -54,7 +63,7 @@ public class AddYachtPageBean {
 
     public void displayMessage() {
         displayInit();
-        String msg = resourceBundle.getString("users.addInfo");
+        String msg = resourceBundle.getString("activateUser");
         String head = resourceBundle.getString("success");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
@@ -64,5 +73,6 @@ public class AddYachtPageBean {
         String msg = resourceBundle.getString(message);
         String head = resourceBundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
+
     }
 }

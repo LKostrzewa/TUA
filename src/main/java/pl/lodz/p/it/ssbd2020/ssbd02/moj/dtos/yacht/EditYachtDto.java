@@ -1,8 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
+import javax.validation.constraints.Size;
+import java.math.BigDecimal;
+
 public class EditYachtDto {
     private String name;
-    private Float priceMultiplier;
+    private BigDecimal priceMultiplier;
     private String equipment;
 
     public String getName() {
@@ -13,11 +16,11 @@ public class EditYachtDto {
         this.name = name;
     }
 
-    public Float getPriceMultiplier() {
+    public BigDecimal getPriceMultiplier() {
         return priceMultiplier;
     }
 
-    public void setPriceMultiplier(Float priceMultiplier) {
+    public void setPriceMultiplier(BigDecimal priceMultiplier) {
         this.priceMultiplier = priceMultiplier;
     }
 

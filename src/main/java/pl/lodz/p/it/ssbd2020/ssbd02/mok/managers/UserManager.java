@@ -78,6 +78,12 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         userFacade.create(user);
     }
 
+    /**
+     * Metoda rejestrujaca nowego uzytkownika poprzez dodanie go do bazy danych za pomocą userFacade
+     * @param user
+     * @throws AppBaseException
+     */
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void registerNewUser(User user) throws AppBaseException {
     methodInvocationCounter++;
@@ -191,14 +197,27 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void lockAccount(Long userId) throws AppBaseException {
         User userToEdit = userFacade.find(userId).orElseThrow(AppNotFoundException::createUserNotFoundException);
+        if(userToEdit.getLocked()) {
+            throw UserDataChangedException.lockValueChanged(userToEdit);
+        }
         userToEdit.setLocked(true);
         userFacade.edit(userToEdit);
-        // to przeniesc do endpointu?? + LOG o wysłaniu maila jeśli nie ma
         sendEmail.lockInfoEmail(userToEdit.getEmail());
     }
 
+    /**
+     * Metoda, która odblokowywuje konto o podanym id.
+     *
+     * @param userId id użytkownika.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("unlockAccount")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void unlockAccount(Long userId) throws AppBaseException {
         User userToEdit = userFacade.find(userId).orElseThrow(AppNotFoundException::createUserNotFoundException);
+        if(!userToEdit.getLocked()) {
+            throw UserDataChangedException.unlockValueChanged(userToEdit);
+        }
         userToEdit.setLocked(false);
         userFacade.edit(userToEdit);
 
@@ -223,6 +242,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         //http://studapp.it.p.lodz.pl:8002
     }
 
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void confirmActivationCode(String code) throws AppBaseException {
         User user = userFacade.findByActivationCode(code);

@@ -12,9 +12,19 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-
+/**
+ * Klasa przeznaczona do wysyłania emaili
+ */
 public class SendEmail {
     private final Integer port = 465;
+
+    /**
+     * Metoda która wysyła maila do użytkownika z linkiem aktywacyjnym
+     * @param activationlink link aktywacyjny użytkownika
+     * @param userName nazwa użytkownika
+     * @param userEmail email użytkownika
+     * @throws AppBaseException bazowy wyjątek aplikacyjny
+     */
 
     public void sendActivationEmail(String activationlink, String userName, String userEmail) throws AppBaseException {
         PropertyReader propertyReader = new PropertyReader();
@@ -23,7 +33,11 @@ public class SendEmail {
         emailBody(userEmail, emailSubject, emailText);
     }
 
-
+    /**
+     * Metoda która wysyła maila do użytkownika i powiadamia go o aktywacji konta
+     * @param userEmail email użytkownika
+     * @throws AppBaseException bazowy wyjątek aplikacyjny
+     */
     public void activationInfoEmail(String userEmail) throws AppBaseException {
         PropertyReader propertyReader = new PropertyReader();
         String emailSubject = propertyReader.getProperty("emailMessages", "afterActivationSubject");
@@ -42,7 +56,11 @@ public class SendEmail {
         emailBody(userEmail, emailSubject, emailText);
     }
 
-
+    /**
+     * Metoda, która wysyła maila do użytkownika, powiadamiająca go o odblokowaniu konta.
+     *
+     * @param userEmail email użytkownika
+     */
     public void unlockInfoEmail(String userEmail) throws AppBaseException {
         PropertyReader propertyReader = new PropertyReader();
         String emailSubject = propertyReader.getProperty("emailMessages", "unlockInfoSubject");
@@ -69,9 +87,6 @@ public class SendEmail {
      * @param userEmail email użytkownika
      * @param resetPasswordCode kod do resetowania hasła
      */
-    @PermitAll
-    //TODO nw czy to tutaj
-    //@TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void sendResetPasswordEmail(String userEmail, String resetPasswordCode) throws AppBaseException {
         PropertyReader propertyReader = new PropertyReader();
         String emailSubject = propertyReader.getProperty("emailMessages", "resetPasswordSubject");
@@ -79,6 +94,11 @@ public class SendEmail {
         emailBody(userEmail, emailSubject, emailText);
     }
 
+    /**
+     * Metoda sluzaca do zainicjalizowania ustawien niezbędnych do łączenia sie serwerem smtp w danej sesji
+     *
+     * @return obiekt sesji
+     */
     private Session emailSettings() {
         Properties properties = new Properties();
         PropertyReader propertyReader = new PropertyReader();
@@ -107,9 +127,6 @@ public class SendEmail {
      * @param emailSubject temat wiadomości
      * @param emailText treść wiadomości
      */
-    @PermitAll
-    //TODO też nw czy tak
-    //@TransactionAttribute(TransactionAttributeType.MANDATORY)
     private void emailBody(String userEmail, String emailSubject, String emailText) throws AppBaseException {
         PropertyReader propertyReader = new PropertyReader();
         String from = propertyReader.getProperty("config", "from");

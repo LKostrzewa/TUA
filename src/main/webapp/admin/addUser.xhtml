@@ -19,52 +19,55 @@
         <ui:define name="content">
             <h:form>
                 <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
-                <div>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="login" value="#{addUserPageBean.addUserDto.login}"/>
-                        <p:outputLabel for="@previous" value="#{msg['login']}"/>
+                <h:outputStylesheet library="css" name="addUser.css"/>
+                <div class="edit-user" style="text-align: center;" >
+                    <span class="ui-float-label" style="margin: 20px;">
+                        <p:inputText id="login" style="border: 2px solid black" value="#{addUserPageBean.addUserDto.login}"/>
+                        <p:outputLabel style="display: block; width: 100%; text-align: center" for="@previous" value="#{msg['login']}"/>
                         <p:message for="login"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
-                        <p:password id="password" match="password2" validatorMessage="#{msg['validation.password.match']}" />
-                        <p:outputLabel for="@previous" value="#{msg['password']}"/>
+                        <p:password id="password" style="border: 2px solid black" match="password2" validatorMessage="#{msg['validation.password.match']}" />
+                        <p:outputLabel for="@previous" style="display: block; width: 100%; text-align: center" value="#{msg['password']}"/>
                         <p:message for="password2"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
-                        <p:password id="password2" value="#{addUserPageBean.addUserDto.password}"/>
-                        <p:outputLabel for="@previous" value="#{msg['registration.repeat.password']}"/>
+                        <p:password id="password2" style="border: 2px solid black" value="#{addUserPageBean.addUserDto.password}"/>
+                        <p:outputLabel for="@previous" style="display: block; width: 100%; text-align: center" value="#{msg['registration.repeat.password']}"/>
                         <p:message for="password"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="firstName" value="#{addUserPageBean.addUserDto.firstName}"/>
-                        <p:outputLabel for="@previous" value="#{msg['firstName']}"/>
+                        <p:inputText id="firstName" style="border: 2px solid black" value="#{addUserPageBean.addUserDto.firstName}"/>
+                        <p:outputLabel style="display: block; width: 100%; text-align: center"  for="@previous" value="#{msg['firstName']}"/>
                         <p:message for="firstName"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="lastName" value="#{addUserPageBean.addUserDto.lastName}"/>
-                        <p:outputLabel for="@previous" value="#{msg['lastName']}"/>
+                        <p:inputText id="lastName" style="border: 2px solid black" value="#{addUserPageBean.addUserDto.lastName}"/>
+                        <p:outputLabel style="display: block; width: 100%; text-align: center"  for="@previous" value="#{msg['lastName']}"/>
                         <p:message for="lastName"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="phoneNumber" value="#{addUserPageBean.addUserDto.phoneNumber}"/>
-                        <p:outputLabel for="@previous" value="#{msg['phoneNumber']}"/>
+                        <p:inputText id="phoneNumber" style="border: 2px solid black" value="#{addUserPageBean.addUserDto.phoneNumber}"/>
+                        <p:outputLabel style="display: block; width: 100%; text-align: center"  for="@previous" value="#{msg['phoneNumber']}"/>
                         <p:message for="phoneNumber"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="email" value="#{addUserPageBean.addUserDto.email}"/>
-                        <p:outputLabel for="@previous" value="#{msg['email']}"/>
+                        <p:inputText id="email" style="border: 2px solid black" value="#{addUserPageBean.addUserDto.email}"/>
+                        <p:outputLabel style="display: block; width: 100%; text-align: center"  for="@previous" value="#{msg['email']}"/>
                         <p:message for="email"/>
                     </span>
                 </div>
-                <p:button value="#{msg['cancel']}" outcome="index.xhtml?faces-redirect=true"/>
-                <p:commandButton value="#{msg['save']}" action="#{addUserPageBean.addUser()}" update="@form">
-                    <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
-                               icon="pi pi-exclamation-triangle"/>
-                </p:commandButton>
+                <div style="text-align: center;">
+                    <p:button value="#{msg['cancel']}" outcome="index.xhtml?faces-redirect=true" style="background-color: red"/>
+                    <p:commandButton value="#{msg['save']}" action="#{addUserPageBean.addUser()}" update="@form" style="background-color: green">
+                        <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
+                                   icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
+                </div>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes" style="background-color: green"
                                      icon="pi pi-check"/>
-                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no" style="background-color: red"
                                      icon="pi pi-times"/>
                 </p:confirmDialog>
             </h:form>
