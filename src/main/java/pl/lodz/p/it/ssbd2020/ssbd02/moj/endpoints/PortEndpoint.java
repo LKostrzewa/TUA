@@ -40,7 +40,22 @@ public interface PortEndpoint {
      */
     public List<PortDetailsDto> getAllPorts();
 
+    /**
+     * Metoda, która zwraca port o podanym id.
+     *
+     * @param portId id portu.
+     * @return EditPortDto
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    public EditPortDto getEditPortById(Long portId) throws AppBaseException;
 
+    /**
+     * Metoda, która zwraca port o podanym id.
+     *
+     * @param portId id portu.
+     * @return PortDetailsDto
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     public PortDetailsDto getPortById(Long portId) throws AppBaseException;
 
     /**

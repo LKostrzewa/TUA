@@ -44,8 +44,12 @@ public class PortEndpointImp implements Serializable,PortEndpoint {
      */
     @RolesAllowed("editPort")
     public void editPort(EditPortDto editPortDto) throws AppBaseException {
-        Port portToEdit = ObjectMapperUtils.map(editPortDto, Port.class);
-        portManager.editPort(portToEdit);
+        this.portEditEntity.setName(editPortDto.getName());
+        this.portEditEntity.setLake(editPortDto.getLake());
+        this.portEditEntity.setNearestCity(editPortDto.getNearestCity());
+        this.portEditEntity.setLong1(editPortDto.getLong1());
+        this.portEditEntity.setLat(editPortDto.getLat());
+        portManager.editPort(this.portEditEntity);
     }
 
     /**
@@ -69,6 +73,27 @@ public class PortEndpointImp implements Serializable,PortEndpoint {
         return ObjectMapperUtils.mapAll(portManager.getAllPorts(), PortDetailsDto.class);
     }
 
+    /**
+     * Metoda, która zwraca port o podanym id.
+     *
+     * @param portId id portu.
+     * @return EditPortDto
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getPortById")
+    public EditPortDto getEditPortById(Long portId) throws AppBaseException {
+        this.portEditEntity = portManager.getPortById(portId);
+        return ObjectMapperUtils.map(this.portEditEntity, EditPortDto.class);
+    }
+
+    /**
+     * Metoda, która zwraca port o podanym id.
+     *
+     * @param portId id portu.
+     * @return PortDetailsDto
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getPortById")
     public PortDetailsDto getPortById(Long portId) throws AppBaseException{
         Port port = portManager.getPortById(portId);
         return ObjectMapperUtils.map(port, PortDetailsDto.class);

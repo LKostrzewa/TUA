@@ -50,6 +50,10 @@ public class PortManager {
     @RolesAllowed("editPort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editPort(Port portToEdit) throws AppBaseException {
+        /*if(portFacade.existByName(portToEdit.getName())){
+            throw ValueNotUniqueException.createPortNameNotUniqueException(portToEdit);
+        }*/
+        //TODO: zdecydowac czy można zmieniać nazwę
         portFacade.edit(portToEdit);
     }
 
