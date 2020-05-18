@@ -5,7 +5,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -14,7 +13,6 @@ import javax.inject.Named;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
 
 
 @Named

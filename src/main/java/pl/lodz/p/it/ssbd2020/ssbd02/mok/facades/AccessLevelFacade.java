@@ -6,7 +6,9 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -16,6 +18,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Klasa fasadowa powiązana z encją AccessLevel
@@ -54,5 +58,56 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
         catch (NoResultException e) {
             throw AppNotFoundException.createAccessLevelNotFoundException(e);
         }
+    }
+
+    /**
+     * Metoda do pobrania wszystkich poziomów dostępu z bazy danych.
+     * @return Lista encji AccessLevel
+     */
+    @Override
+    @RolesAllowed("editUserAccessLevels")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public List<AccessLevel> findAll() {
+        return super.findAll();
+    }
+
+    /**
+     * Metoda do dodania encji AccessLevel do bazy danych. W aplikacji niewykorzystywana (DenyAll)
+     * @param entity encja UserAccessLevel do dodania
+     */
+    @Override
+    @DenyAll
+    public void create(AccessLevel entity) throws AppBaseException {
+        super.create(entity);
+    }
+
+    /**
+     * Metoda do edycji encji AccessLevel. W aplikacji niewykorzystywana (DenyAll)
+     * @param entity encja AccessLevel do edycji
+     */
+    @Override
+    @DenyAll
+    public void edit(AccessLevel entity) throws AppBaseException {
+        super.edit(entity);
+    }
+
+    /**
+     * Metoda do usunięcia encji AccessLevel. W aplikacji niewykorzystywana (DenyAll)
+     * @param entity encja UserAccessLevel do usunięcia
+     */
+    @Override
+    @DenyAll
+    public void remove(AccessLevel entity) {
+        super.remove(entity);
+    }
+
+    /**
+     * Metoda do pobrania encji AccessLevel po identyfikatorze. W aplikacji niewykorzystywana (DenyAll)
+     * @param id id encji AccessLevel do pobrania
+     */
+    @Override
+    @DenyAll
+    public Optional<AccessLevel> find(Object id) {
+        return super.find(id);
     }
 }

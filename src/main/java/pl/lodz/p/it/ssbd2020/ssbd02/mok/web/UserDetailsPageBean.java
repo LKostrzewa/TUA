@@ -62,7 +62,7 @@ public class UserDetailsPageBean implements Serializable {
         this.userDetailsDto = userAccessLevelDto.getUserDetailsDto();
     }
     /**
-     * Metoda zwracająca łańcuch wszystkich poziomó dostępu konta
+     * Metoda zwracająca łańcuch wszystkich poziomów dostępu konta
      *
      * @return połączony łańcuch poziomów dostępu konta
      */
