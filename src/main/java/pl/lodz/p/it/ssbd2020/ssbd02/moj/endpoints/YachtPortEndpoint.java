@@ -2,26 +2,11 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.PortManager;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.YachtPortManager;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateful;
-import javax.inject.Inject;
-import javax.interceptor.Interceptors;
-import java.io.Serializable;
 import java.util.List;
 
-@Stateful
-@LocalBean
-@Interceptors(LoggerInterceptor.class)
-public class YachtPortEndpoint implements Serializable {
-    @Inject
-    private YachtPortManager yachtPortManager;
-
+public interface YachtPortEndpoint {
     /**
      * Metoda pobierająca wszystki jachty przypisane do danego portu
      *
@@ -29,10 +14,7 @@ public class YachtPortEndpoint implements Serializable {
      * @return lista YachtDto
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getAllYachtsByPort")
-    public List<YachtDto> getAllYachtsByPort(Long portId) throws AppBaseException {
-        return ObjectMapperUtils.mapAll(yachtPortManager.getAllYachtsByPort(portId), YachtDto.class);
-    }
+    List<YachtDto> getAllYachtsByPort(Long portId) throws AppBaseException;
 
     /**
      * Metoda przypisująca jacht do portu
@@ -41,10 +23,7 @@ public class YachtPortEndpoint implements Serializable {
      * @param yachtId identyfikator danego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("assignYachtToPort")
-    public void assignYachtToPort(Long portId, Long yachtId) throws AppBaseException {
-        yachtPortManager.assignYachtToPort(portId, yachtId);
-    }
+    void assignYachtToPort(Long portId, Long yachtId) throws AppBaseException;
 
     /**
      * Metoda odpisująca jacht z portu
@@ -53,8 +32,5 @@ public class YachtPortEndpoint implements Serializable {
      * @param yachtId identyfikator danego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("retractYachtToPort")
-    public void retractYachtFromPort(Long portId, Long yachtId) throws AppBaseException {
-        yachtPortManager.retractYachtFromPort(portId, yachtId);
-    }
+    void retractYachtFromPort(Long portId, Long yachtId) throws AppBaseException;
 }
