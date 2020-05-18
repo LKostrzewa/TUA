@@ -17,16 +17,16 @@ public class LoggerIP implements Serializable {
     private final Logger LOGGER = Logger.getGlobal();
 
     public void login(){
-        LOGGER.log(Level.INFO,"User: "
+        LOGGER.log(Level.INFO,"User: \""
                 + facesContext.getExternalContext().getUserPrincipal().getName()
-                + " starts the session with the IP address: "
+                + "\" starts the session with the IP address: "
                 + getClientIpAddress());
     }
 
     public void accessLevelChange(){
-        LOGGER.log(Level.INFO, "User: "
+        LOGGER.log(Level.INFO, "User: \""
                 + FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName()
-                + " has changed the access level with IP address: "
+                + "\" has changed the access level with IP address: "
                 + getClientIpAddress());
     }
 

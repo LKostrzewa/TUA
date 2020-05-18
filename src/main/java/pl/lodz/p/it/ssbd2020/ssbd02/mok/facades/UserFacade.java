@@ -15,6 +15,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.faces.context.FacesContext;
 import javax.interceptor.Interceptors;
 import javax.persistence.*;
 import javax.persistence.criteria.*;
@@ -89,15 +90,16 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     /**
-     * Metoda, która zwraca użytkownika o podanym loginie.
+     * Metoda, która zwraca aktualnie zalogowanego użytkownika
      *
-     * @param userLogin login użytkownika.
+     *
      * @return encje User
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public User findByLogin(String userLogin) throws AppBaseException {
+    public User findByLogin() throws AppBaseException {
+        String userLogin = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
         try {
             return getEntityManager().createNamedQuery("User.findByLogin", User.class)
                     .setParameter("login",userLogin).getSingleResult();

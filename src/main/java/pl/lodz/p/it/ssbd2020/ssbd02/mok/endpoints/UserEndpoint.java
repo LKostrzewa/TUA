@@ -42,19 +42,17 @@ public interface UserEndpoint {
     /**
      * Metoda, która pobiera użytkownika do edycji własnych danych po jego loginie
      *
-     * @param userLogin login użytkownika.
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    EditUserDto getEditUserDtoByLogin(String userLogin) throws AppBaseException;
+    EditUserDto getEditUserDtoByLogin() throws AppBaseException;
 
     /**
      * Metoda, która zwraca login dto o podanym loginie.
      *
-     * @param userLogin login użytkownika.
      * @return user login dot
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    UserLoginDto getLoginDtoByLogin(String userLogin) throws AppBaseException;
+    UserLoginDto getLoginDtoByLogin() throws AppBaseException;
 
     /**
      * Metoda, która zapisuje wprowadzone przez administratora zmiany w danych konta użytkownika
@@ -85,10 +83,9 @@ public interface UserEndpoint {
      * Metoda wykorzystywana do zmiany własnego hasła zgodnie z przekazanymi parametrami.
      *
      * @param changeOwnPasswordDto obiekt przechowujący dane wprowadzone w formularzu
-     * @param userLogin            login użytkownika, którego hasło ulegnie modyfikacji
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    void changeOwnPassword(ChangeOwnPasswordDto changeOwnPasswordDto, String userLogin) throws AppBaseException;
+    void changeOwnPassword(ChangeOwnPasswordDto changeOwnPasswordDto) throws AppBaseException;
 
     /**
      * Metoda, która blokuje konto o podanym id.
@@ -116,21 +113,16 @@ public interface UserEndpoint {
     /**
      * Metoda, która zapisuje informacje o poprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      *
-     * @param login           login użytkownika
-     * @param clientIpAddress adres ip użytkownika
-     * @param date            data zalogowania użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-     void saveSuccessAuthenticate(String login, String clientIpAddress, Date date) throws AppBaseException;
+     void saveSuccessAuthenticate() throws AppBaseException;
 
     /**
      * Metoda, która zapisuje informacje o niepoprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      *
-     * @param login login użytkownika
-     * @param date  data zalogowania użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-     void saveFailureAuthenticate(String login, Date date) throws AppBaseException;
+     void saveFailureAuthenticate() throws AppBaseException;
 
     /**
      * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
@@ -161,10 +153,9 @@ public interface UserEndpoint {
     /**
      * Metoda, która zmienia zapomniane hasło
      *
-     * @param resetPasswordCode kod do resetowania hasła wysłany na adres email
-     * @param password nowo wprowadzone hasło
+     * @param resetPasswordDto  obiekt przechowujący dane wprowadzone w formularzu
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    void resetPassword(String resetPasswordCode, String password) throws AppBaseException;
+    void resetPassword(ResetPasswordDto resetPasswordDto) throws AppBaseException;
 
 }

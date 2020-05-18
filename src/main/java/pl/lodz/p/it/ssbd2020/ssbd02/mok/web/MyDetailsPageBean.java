@@ -70,7 +70,7 @@ public class MyDetailsPageBean implements Serializable {
         try {
             // dlaczego nie pobiera też poziomów dostępu?
             //this.userDetailsDto = userEndpoint.getOwnDetailsDtoByLogin(userLogin);
-            this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelByLogin(userLogin);
+            this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelByLogin();
             this.userDetailsDto = userAccessLevelDto.getUserDetailsDto();
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());

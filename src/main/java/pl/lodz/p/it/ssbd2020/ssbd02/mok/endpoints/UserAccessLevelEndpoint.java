@@ -17,11 +17,10 @@ public interface UserAccessLevelEndpoint {
     /**
      * Metoda, która zwraca obiekt UserAccessLevelDto zawierający informacje o poziomach dostępu danego użytkownika
      *
-     * @param userLogin login użytkownika.
      * @return obiekt klasy UserAccessLevelDto
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem.
      */
-     UserAccessLevelDto findUserAccessLevelByLogin(String userLogin) throws AppBaseException;
+     UserAccessLevelDto findUserAccessLevelByLogin() throws AppBaseException;
 
     /**
      * Metoda, która modyfikuje przypisane do użytkownika poziomy dostępu.
