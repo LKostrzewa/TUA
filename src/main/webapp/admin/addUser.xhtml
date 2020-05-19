@@ -23,10 +23,9 @@
                 <div class="edit-user" style="text-align: center;">
                     <span class="ui-float-label" style="margin: 20px;">
                         <p:inputText id="login" style="border: 2px solid black"
-                                     value="#{addUserPageBean.addUserDto.login}"/>
+                                     value="#{addUserPageBean.addUserDto.login}" required="true"/>
                         <p:outputLabel style="display: block; width: 100%; text-align: center" for="@previous"
                                        value="#{msg['login']}"/>
-                        <span class="asterisk_input"/>
                         <p:message for="login"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
@@ -34,7 +33,6 @@
                                     validatorMessage="#{msg['validation.password.match']}" required="true"/>
                         <p:outputLabel for="@previous" style="display: block; width: 100%; text-align: center"
                                        value="#{msg['password']}"/>
-                        <span class="asterisk_input"/>
                         <p:message for="password2"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
