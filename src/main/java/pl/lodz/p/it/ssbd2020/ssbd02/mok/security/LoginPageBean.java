@@ -29,7 +29,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
@@ -108,7 +107,7 @@ public class LoginPageBean implements Serializable {
                 break;
             case SUCCESS:
                 try {
-                    userLoginDto = userEndpoint.getLoginDtoByLogin(username);
+                    userLoginDto = userEndpoint.getLoginDtoByLogin();
                 } catch (AppBaseException e) {
                     displayError(e.getLocalizedMessage());
                 }
@@ -118,7 +117,7 @@ public class LoginPageBean implements Serializable {
                 loggerIP.login();
 
                 try {
-                    userEndpoint.saveSuccessAuthenticate(username, getClientIpAddress(), new Date());
+                    userEndpoint.saveSuccessAuthenticate();
                 } catch (AppBaseException e) {
                     displayError(e.getLocalizedMessage());
                 }
@@ -138,7 +137,7 @@ public class LoginPageBean implements Serializable {
                 break;
             case SEND_FAILURE:
                 try {
-                    userEndpoint.saveFailureAuthenticate(username, new Date());
+                    userEndpoint.saveFailureAuthenticate();
                 } catch (AppBaseException e) {
                     facesContext.addMessage(null,
                             new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authenticationFailed")));

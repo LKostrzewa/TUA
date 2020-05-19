@@ -9,6 +9,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.ExcludeClassInterceptors;
 import javax.interceptor.Interceptors;
 import java.io.IOException;
 import java.io.Serializable;
@@ -77,14 +78,17 @@ public class CurrentUser implements Serializable {
         return string;
     }
 
+    //@ExcludeClassInterceptors
     public boolean isNowAdministrator() {
         return currentRole.equals(ADMIN_ACCESS_LEVEL);
     }
 
+    //@ExcludeClassInterceptors
     public boolean isNowManager() {
         return currentRole.equals(MANAGER_ACCESS_LEVEL);
     }
 
+    //@ExcludeClassInterceptors
     public boolean isNowClient() {
         return currentRole.equals(CLIENT_ACCESS_LEVEL);
     }

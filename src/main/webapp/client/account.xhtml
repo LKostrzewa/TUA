@@ -18,28 +18,13 @@
         </p:breadCrumb>
     </ui:define>
 
-    <!---<ui:define name="content">
-        <h:form>
-            <h:outputLabel>#{msg['account.login']}#{currentUser.currentUserLogin}</h:outputLabel><br/>
-            <h:outputLabel>#{msg['account.all.access']}#{currentUser.allUserAccessLevel()}  </h:outputLabel><br/>
-            <h:outputLabel>#{msg['account.current.role']}#{currentUser.currentRole}</h:outputLabel><br/>
-            <h:outputLabel>#{msg['account.role.change']}</h:outputLabel>
-            <p:commandButton rendered="#{currentUser.isAdministrator()}" value="Admin"
-                             action="#{currentUser.redirectAdmin}" ajax="false">
-            </p:commandButton>
-            <p:commandButton rendered="#{currentUser.isManager()}" value="Manager"
-                             action="#{currentUser.redirectManager}" ajax="false">
-            </p:commandButton>
-            <p:commandButton rendered="#{currentUser.isClient()}" value="Client" action="#{currentUser.redirectClient}"
-                             ajax="false">
-            </p:commandButton>
-        </h:form>
-    </ui:define>-->
-
     <ui:define name="content">
         <h:form id="form">
             <p:growl id="growl" showDetail="true" sticky="true"/>
-            <p:panelGrid columns="2">
+            <h:outputStylesheet library="css" name="userDetails.css"/>
+            <p:panelGrid columns="2" styleClass="userDetails">
+                <h:outputLabel value="IDDDD:"/>
+                <h:outputText value="#{myDetailsPageBean.userDetailsDto.id}"/>
                 <h:outputLabel value="#{msg['firstName']}:"/>
                 <h:outputText value="#{myDetailsPageBean.userDetailsDto.firstName}"/>
                 <h:outputLabel value="#{msg['lastName']}:"/>
@@ -63,8 +48,8 @@
                 <h:outputLabel value="#{msg['accessLevel']}:"/>
                 <h:outputText value="#{myDetailsPageBean.getAccessLevels()}"/>
             </p:panelGrid>
-            <p:button value="${msg['edit']}" outcome="/client/editOwnData.xhtml?faces-redirect=true"/>
-            <p:button value="${msg['changePassword']}" outcome="/client/changeOwnPassword.xhtml?faces-redirect=true"/>
+            <p:button value="${msg['edit']}" outcome="/client/editOwnData.xhtml?faces-redirect=true" style="background-color: orange"/>
+            <p:button value="${msg['changePassword']}" outcome="/client/changeOwnPassword.xhtml?faces-redirect=true" style="background-color: orange"/>
         </h:form>
     </ui:define>
 </ui:composition>

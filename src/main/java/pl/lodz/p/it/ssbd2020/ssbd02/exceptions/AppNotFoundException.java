@@ -11,8 +11,8 @@ public class AppNotFoundException extends AppBaseException{
     public static final String EMAIL_MESSAGE_KEY = "exception.emailNotFound";
     public static final String PORT_MESSAGE_KEY = "exception.portNotFound";
     public static final String YACHT_MESSAGE_KEY = "exception.yachtNotFound";
+    public static final String OPINION_MESSAGE_KEY = "exception.opinionNotFound";
 
-    public static final String ACTIVATION_LINK_KEY = "exception.activationLinkNotFound";
     private Class objectClass;
     public AppNotFoundException(String message) {
         super(message);
@@ -65,6 +65,12 @@ public class AppNotFoundException extends AppBaseException{
         return nfe;
     }
 
+    public static AppNotFoundException createYachtNotFoundException(Throwable cause) {
+        AppNotFoundException nfe = new AppNotFoundException(YACHT_MESSAGE_KEY, cause);
+        nfe.setObjectClass(Yacht.class);
+        return nfe;
+    }
+
     /*
     public static AppNotFoundException createUserAccessLevelNotFoundException(UserAccessLevel userAccessLevel, Throwable cause) {
         AppNotFoundException nfe = new AppNotFoundException(USER_ACCESS_LEVEL_MESSAGE_KEY, cause);
@@ -75,6 +81,12 @@ public class AppNotFoundException extends AppBaseException{
     public static AppNotFoundException createEmailNotFoundException() {
         AppNotFoundException nfe = new AppNotFoundException(EMAIL_MESSAGE_KEY);
         nfe.setObjectClass(User.class);
+        return nfe;
+    }
+
+    public static AppNotFoundException createOpinionNotFoundException() {
+        AppNotFoundException nfe = new AppNotFoundException(OPINION_MESSAGE_KEY);
+        nfe.setObjectClass(Opinion.class);
         return nfe;
     }
 }

@@ -8,6 +8,9 @@
 <h:head/>
 <h:body>
     <ui:composition>
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" >
+            <p:graphicImage library="images" name="shipWait.gif" width="300" height="200"/>
+        </p:dialog>
         <h:form rendered="#{currentUser.nowManager}">
             <p:menubar>
                 <p:submenu label="#{msg['manager.menu.ports']}">
@@ -25,7 +28,7 @@
                     <p:separator/>
                     <p:menuitem value="#{msg['manager.menu.yachts.list']}" url="/manager/yacht/listYachts.xhtml"/>
                 </p:submenu>
-                <p:menuitem value="#{msg['menu.rentals']}" url="#"/>
+                <p:menuitem value="#{msg['menu.rentals']}" url="/manager/rental/listAllRentals.xhtml"/>
                 <f:facet name="options">
                     <h:panelGroup>
                         <p:selectOneMenu value="#{currentUser.currentRole}">

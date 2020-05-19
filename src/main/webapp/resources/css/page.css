@@ -13,7 +13,7 @@
 }
 
 #adminFooter {
-    height: 100px;
+    height: 50px;
     border-top: 2px solid black;
     width: 100%;
     background-color: #ffcdd7;
@@ -21,7 +21,7 @@
 }
 
 #managerFooter {
-    height: 100px;
+    height: 50px;
     border-top: 2px solid black;
     width: 100%;
     background-color: #76ff87;
@@ -29,7 +29,7 @@
 }
 
 #clientFooter {
-    height: 100px;
+    height: 50px;
     border-top: 2px solid black;
     width: 100%;
     background-color: #7581ff;

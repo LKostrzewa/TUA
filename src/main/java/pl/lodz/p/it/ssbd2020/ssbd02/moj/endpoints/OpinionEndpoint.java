@@ -1,44 +1,45 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.Opinion;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.EditOpinionDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.NewOpinionDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.OpinionDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.OpinionManager;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
-import javax.ejb.LocalBean;
-import javax.ejb.Stateful;
-import javax.inject.Inject;
-import javax.interceptor.Interceptors;
-import java.io.Serializable;
 import java.util.List;
 
-@Stateful
-@LocalBean
-@Interceptors(LoggerInterceptor.class)
-public class OpinionEndpoint implements Serializable {
-    @Inject
-    private OpinionManager opinionManager;
+public interface OpinionEndpoint {
 
-    public void addOpinion(NewOpinionDto newOpinionDto) throws AppBaseException {
-        Opinion opinion = ObjectMapperUtils.map(newOpinionDto, Opinion.class);
-        opinionManager.addOpinion(opinion);
-    }
+    /**
+     * Metoda, która dodaje nową opinię
+     *
+     * @param newOpinionDto obiekt DTO z danymi nowej opinii.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    void addOpinion(NewOpinionDto newOpinionDto) throws AppBaseException;
 
-    public List<OpinionDto> getAllOpinionsByYacht(Long yachtId) {
-        return ObjectMapperUtils.mapAll(opinionManager.getAllOpinionsByYacht(yachtId), OpinionDto.class);
-    }
+    /**
+     * Metoda pobierająca wszystkie opinie przypisane do danego jachtu
+     *
+     * @param yachtId identyfikator jachtu
+     * @return lista opini dla danego jachtu
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    List<OpinionDto> getAllOpinionsByYacht(Long yachtId) throws AppBaseException;
 
-    public EditOpinionDto getOpinionById(Long opinionId) throws AppBaseException{
-        Opinion opinion = opinionManager.getOpinionById(opinionId);
-        return ObjectMapperUtils.map(opinion, EditOpinionDto.class);
-    }
+    /**
+     * Metoda zwracająca opinię do edycji na podstawie przekazanego identyfikatora
+     *
+     * @param opinionId identyfikator opinii
+     * @return opinia do edycji
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    EditOpinionDto getOpinionById(Long opinionId) throws AppBaseException;
 
-    public void editOpinion(Long opinionId, EditOpinionDto editOpinionDto) throws AppBaseException{
-        Opinion opinionToEdit = ObjectMapperUtils.map(editOpinionDto, Opinion.class);
-        opinionManager.editOpinion(opinionId, opinionToEdit);
-    }
+    /**
+     * Metoda służąca do zapisu nowej wersji opinii
+     *
+     * @param editOpinionDto obiekt DTO z danymi edytowanej opinii.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    void editOpinion(EditOpinionDto editOpinionDto) throws AppBaseException;
 }

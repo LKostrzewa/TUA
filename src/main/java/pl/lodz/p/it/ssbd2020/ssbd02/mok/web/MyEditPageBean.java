@@ -43,7 +43,7 @@ public class MyEditPageBean implements Serializable {
     public void init() {
         String userLogin = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         try{
-            this.editUserDto = userEndpoint.getEditUserDtoByLogin(userLogin);
+            this.editUserDto = userEndpoint.getEditUserDtoByLogin();
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }

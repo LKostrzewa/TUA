@@ -8,6 +8,20 @@
     <h:outputStylesheet library="css" name="registration.css"/>
     <h:form method="post" class="registration-form">
         <p:growl id="growl" showDetail="true" sticky="true" severity="info, fatal"/>
+
+        <style type="text/css">
+            body
+            {
+                background-image: url(/resources/images/yacht202.jpg);
+                background-repeat: no-repeat;
+                background-attachment:fixed;
+                background-size: cover;
+                background-position: center;
+                height: 100%;
+            }
+        </style>
+
+
         <h1>#{msg['registration.register']}</h1>
 
         <div class="text-box">
@@ -94,8 +108,8 @@
             <p:messages for="Captcha" closable="false" />
         </div>
         <div class="text-box">
-            <p:commandButton class="register-button" value="#{msg['registration.register']}"
-                             action="#{userRegistrationBean.registerAccountAction}" update="@form"/>
+            <p:commandButton class="register-button" value="#{msg['registration.register']}" style="background-color: #ffdd99"
+                             action="#{userRegistrationBean.registerAccountAction}" ajax="false" update="@form"/>
         </div>
         <div class="bottom-text">
             <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['registration.cancel']}</a>

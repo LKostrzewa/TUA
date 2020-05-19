@@ -6,9 +6,12 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.OpinionEndpoint;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ResourceBundle;
 
 @Named
 @ConversationScoped
@@ -16,7 +19,9 @@ public class EditOpinionPageBean implements Serializable {
     @Inject
     private OpinionEndpoint opinionEndpoint;
     @Inject
-    private Conversation conversation;
+    private FacesContext facesContext;
+    private ResourceBundle resourceBundle;
+
     private Long opinionId;
     private EditOpinionDto editOpinionDTO;
 
@@ -28,15 +33,36 @@ public class EditOpinionPageBean implements Serializable {
         this.editOpinionDTO = editOpinionDTO;
     }
 
-    public String openEditOpinionPage(Long opinionId) throws AppBaseException{
-        conversation.begin();
+    public void init() throws AppBaseException{
         this.editOpinionDTO = opinionEndpoint.getOpinionById(opinionId);
-        return "client/editOpinion.xhtml?faces-redirect=true";
     }
 
-    public String editOpinion() throws AppBaseException {
-        opinionEndpoint.editOpinion(opinionId, editOpinionDTO);
-        conversation.end();
+    public String editOpinion() {
+        try{
+            opinionEndpoint.editOpinion(editOpinionDTO);
+            displayMessage();
+        } catch (AppBaseException e){
+            displayError(e.getLocalizedMessage());
+        }
         return "client/rentalDetails.xhtml?faces-redirect=true";
+    }
+
+    public void displayInit(){
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+        resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+    }
+
+    public void displayMessage() {
+        displayInit();
+        String msg = resourceBundle.getString("opinion.addInfo");
+        String head = resourceBundle.getString("success");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
+    }
+
+    private void displayError(String message) {
+        displayInit();
+        String msg = resourceBundle.getString(message);
+        String head = resourceBundle.getString("error");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
     }
 }

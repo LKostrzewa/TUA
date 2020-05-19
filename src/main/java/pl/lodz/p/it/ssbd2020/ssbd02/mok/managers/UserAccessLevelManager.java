@@ -81,7 +81,7 @@ public class UserAccessLevelManager implements Serializable {
      */
     @RolesAllowed("findUserAccessLevelByLogin")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public User findUserByLogin(String userLogin) throws AppBaseException {
-        return userFacade.findByLogin(userLogin);
+    public User findUserByLogin() throws AppBaseException {
+        return userFacade.findByLogin();
     }
 }

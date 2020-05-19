@@ -145,6 +145,12 @@
         <role-name>getRentals</role-name>
     </security-role>
     <security-role>
+        <role-name>getAllRentals</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getRentalsByYacht</role-name>
+    </security-role>
+    <security-role>
         <role-name>getRentalById</role-name>
     </security-role>
     <!--Ports-->
@@ -153,6 +159,19 @@
     </security-role>
     <security-role>
         <role-name>getPortById</role-name>
+    </security-role>
+    <!--Opinions-->
+    <security-role>
+        <role-name>addOpinion</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getAllOpinionsByYacht</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getOpinionById</role-name>
+    </security-role>
+    <security-role>
+        <role-name>editOpinion</role-name>
     </security-role>
 
     <security-constraint>

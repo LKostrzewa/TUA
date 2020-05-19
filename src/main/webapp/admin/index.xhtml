@@ -16,8 +16,19 @@
         </ui:define>
         <ui:define name="content">
             <h:form>
+
+                <link href="/resources/css/edit.css" rel="stylesheet"/>
                 <p:growl id="growl" showDetail="true"/>
-                <h1>#{msg['helloWorld']}</h1>
+                <h1 style="text-align: center; font-style: oblique">#{msg['helloWorld']}</h1>
+                <div class="box-drift">
+                    <div class="box-bob">
+                        <div class="box-pitch">
+                            <div class="left-sail"></div>
+                            <div class="right-sail"></div>
+                            <div class="hull"></div>
+                        </div>
+                    </div>
+                </div>
             </h:form>
         </ui:define>
     </ui:composition>
