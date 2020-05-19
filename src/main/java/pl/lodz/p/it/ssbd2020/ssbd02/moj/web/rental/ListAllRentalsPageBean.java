@@ -30,7 +30,7 @@ public class ListAllRentalsPageBean implements Serializable {
         this.rentals = rentalEndpoint.getAllRentals();
     }
 
-    public List<ListAllRentalsDto> getAllRentalsByYacht(String yachtName){
+    /*public List<ListAllRentalsDto> getAllRentalsByYacht(String yachtName){
         return rentalEndpoint.getRentalsByYacht(yachtName);
-    }
+    }*/
 }
