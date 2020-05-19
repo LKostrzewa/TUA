@@ -23,10 +23,8 @@ import javax.security.enterprise.credential.Password;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
@@ -52,12 +50,8 @@ public class LoginPageBean implements Serializable {
     private ExternalContext externalContext;
     @Inject
     private LoggerIP loggerIP;
-    @NotBlank(message = "{username.message}")
-    private String username;
-    @NotBlank(message = "{password.message}")
-    private String password;
-    private UserLoginDto userLoginDto;
 
+    private UserLoginDto userLoginDto;
     public UserLoginDto getUserLoginDto() {
         return userLoginDto;
     }
@@ -66,24 +60,9 @@ public class LoginPageBean implements Serializable {
         this.userLoginDto = userLoginDto;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     @PostConstruct
     private void init() {
+        userLoginDto = new UserLoginDto();
         PropertyReader propertyReader = new PropertyReader();
         ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
         MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config", "MANAGER_ACCESS_LEVEL");
@@ -92,7 +71,7 @@ public class LoginPageBean implements Serializable {
 
     public void login() throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
-        Credential credential = new UsernamePasswordCredential(username, new Password(password));
+        Credential credential = new UsernamePasswordCredential(userLoginDto.getUsername(), new Password(userLoginDto.getPassword()));
         AuthenticationStatus status = securityContext.authenticate(
                 getHttpRequestFromFacesContext(),
                 getHttpResponseFromFacesContext(),
