@@ -10,7 +10,7 @@
         <img src="../resources/images/yacht_logo.png" alt="Yacht logo"/>
 
         <div class="text-box">
-            <h:inputText id="username" value="#{loginPageBean.username}"
+            <h:inputText id="username" value="#{loginPageBean.userLoginDto.username}"
                          a:placeholder="#{msg['username']}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
@@ -20,7 +20,7 @@
         </div>
 
         <div class="text-box">
-            <h:inputSecret id="password" type="password" value="#{loginPageBean.password}"
+            <h:inputSecret id="password" type="password" value="#{loginPageBean.userLoginDto.password}"
                            a:placeholder="#{msg['password']}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
