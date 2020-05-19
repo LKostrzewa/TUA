@@ -30,8 +30,4 @@ public class ListPortsPageBean {
         this.ports = portEndpoint.getAllPorts();
     }
 
-    public String deactivatePort(Long portId) throws AppBaseException {
-        portEndpoint.deactivatePort(portId);
-        return "listPorts";
-    }
 }

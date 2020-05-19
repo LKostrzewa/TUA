@@ -9,6 +9,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
@@ -16,6 +17,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,11 +86,23 @@ public class RentalManager {
         rentalFacade.edit(rentalToCancel);
     }
 
-    public void updateRentalStatus() {
+    /**
+     * Metoda, aktualizująca statusy rezerwacji.
+     *
+     */
+    @RolesAllowed("SYSTEM")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void updateRentalStatus() throws AppBaseException {
         List<Rental> allRentals = rentalFacade.findAll();
         for (Rental rental : allRentals) {
-            //tu logika tego wszyskiego
-            //rentalFacade.edit(rental);
+            if(rental.getRentalStatus().equals(rentalStatusFacade.findByName("STARTED"))&&rental.getEndDate().before(new Date())){
+                rental.setRentalStatus(rentalStatusFacade.findByName("FINISHED"));
+                rentalFacade.edit(rental);
+            }
+            if(rental.getRentalStatus().equals(rentalStatusFacade.findByName("PENDING"))&&rental.getBeginDate().after(new Date())){
+                rental.setRentalStatus(rentalStatusFacade.findByName("STARTED"));
+                rentalFacade.edit(rental);
+            }
         }
     }
 }

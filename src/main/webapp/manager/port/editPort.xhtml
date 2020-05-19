@@ -58,6 +58,7 @@
                           outcome="portDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
                 <p:commandButton value="#{msg['edit']}" action="#{editPortPageBean.editPort}"
                                  update="message @form">
+
                     <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>
@@ -66,6 +67,7 @@
                                      icon="pi pi-check"/>
                     <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
                                      icon="pi pi-times"/>
+
                 </p:confirmDialog>
             </h:form>
         </ui:define>

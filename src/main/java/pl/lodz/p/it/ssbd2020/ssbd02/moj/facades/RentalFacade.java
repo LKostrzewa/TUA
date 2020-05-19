@@ -1,9 +1,12 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -55,5 +58,30 @@ public class RentalFacade extends AbstractFacade<Rental> {
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Rental> find(Object id) {
         return super.find(id);
+    }
+
+    @Override
+    @DenyAll
+    public void create(Rental entity) throws AppBaseException {
+        super.create(entity);
+    }
+
+
+    /**
+     * Metoda, służąca do edycji encji.
+     *
+     * @param rental encja
+     */
+    @Override
+    @RolesAllowed("SYSTEM")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void edit(Rental rental) throws AppBaseException {
+        super.edit(rental);
+    }
+
+    @Override
+    @DenyAll
+    public void remove(Rental entity) {
+        super.remove(entity);
     }
 }
