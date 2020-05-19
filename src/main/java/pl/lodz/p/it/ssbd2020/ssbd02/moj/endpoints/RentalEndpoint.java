@@ -56,10 +56,24 @@ public class RentalEndpoint implements Serializable {
         rentalManager.editRental(rentalToEdit);
     }
 
+    /**
+     * Metoda, która anuluje wypożyczenie.
+     *
+     * @param rentalId Id wypożyczenia, które użytkownik chce anulować
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("cancelRental")
     public void cancelRental(Long rentalId) throws AppBaseException {
         rentalManager.cancelRental(rentalId);
     }
 
+    /**
+     * Metoda, która pobiera .
+     *
+     * @param rentalId Id wypożyczenia, które użytkownik chce anulować
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getUserRentalDetails")
     public MyRentalDetailsDto getUserRentalDetails(Long rentalId) throws AppBaseException {
         Rental rental = rentalManager.getRentalById(rentalId);
         return ObjectMapperUtils.map(rental, MyRentalDetailsDto.class);

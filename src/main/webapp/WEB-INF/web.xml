@@ -133,6 +133,12 @@
     <security-role>
         <role-name>getRentalById</role-name>
     </security-role>
+    <security-role>
+        <role-name>cancelRental</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getUserRentalDetails</role-name>
+    </security-role>
     <!--Ports-->
     <security-role>
         <role-name>getAllPorts</role-name>

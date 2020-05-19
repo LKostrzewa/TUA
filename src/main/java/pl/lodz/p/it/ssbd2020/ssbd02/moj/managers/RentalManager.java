@@ -41,7 +41,14 @@ public class RentalManager {
         return rentalFacade.findAll();
     }
 
-    @RolesAllowed("getRentalById")
+    /**
+     * Metoda, która zwraca wypożyczenie o danym id.
+     *
+     * @param rentalId id wypożyczenia
+     * @return Wypożyczenie o podanym Id
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed({"getRentalById", "getUserRentalDetails", "cancelRental"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Rental getRentalById(Long rentalId) throws AppBaseException {
         //TODO poprawic na odpowiedni wyjątek
@@ -77,11 +84,21 @@ public class RentalManager {
         rentalFacade.edit(rental);
     }
 
+    /**
+     * Metoda, która anuluje wypożyczenie.
+     *
+     * @param rentalId Id wypożyczenia, które użytkownik chce anulować
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("cancelRental")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void cancelRental(Long rentalId) throws AppBaseException {
         Rental rentalToCancel = getRentalById(rentalId);
-        RentalStatus rentalStatus = rentalStatusFacade.findByName("CANCELED");
-        rentalToCancel.setRentalStatus(rentalStatus);
-        rentalFacade.edit(rentalToCancel);
+        if (rentalToCancel.getRentalStatus().getName().equals("PENDING")) {
+            RentalStatus rentalStatus = rentalStatusFacade.findByName("CANCELED");
+            rentalToCancel.setRentalStatus(rentalStatus);
+            rentalFacade.edit(rentalToCancel);
+        } else throw new AppBaseException("Nie można już anulować wypożyczenia");
     }
 
     public void updateRentalStatus() {
