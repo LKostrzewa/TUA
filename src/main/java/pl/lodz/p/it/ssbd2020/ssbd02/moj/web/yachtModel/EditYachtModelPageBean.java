@@ -2,7 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yachtModel;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.EditYachtModelDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpointImpl;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
 import javax.enterprise.context.Conversation;
@@ -15,7 +15,7 @@ import java.io.Serializable;
 @ConversationScoped
 public class EditYachtModelPageBean implements Serializable {
     @Inject
-    private YachtModelEndpointImpl yachtModelEndpoint;
+    private YachtModelEndpoint yachtModelEndpoint;
     @Inject
     private Conversation conversation;
     private Long yachtModelId;

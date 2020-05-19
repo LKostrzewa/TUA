@@ -18,7 +18,6 @@ import java.io.Serializable;
 import java.util.List;
 
 @Stateful
-@LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class YachtModelEndpointImpl implements Serializable, YachtModelEndpoint {
     @Inject
