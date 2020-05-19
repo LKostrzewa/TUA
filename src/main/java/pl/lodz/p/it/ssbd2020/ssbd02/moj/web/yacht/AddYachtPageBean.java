@@ -3,7 +3,6 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.NewYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpointImpl;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -47,7 +46,7 @@ public class AddYachtPageBean {
         return "listYachts.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
-    public void displayInit(){
+    public void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }

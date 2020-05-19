@@ -34,29 +34,30 @@ public interface RentalEndpoint {
      * Metoda, która zwraca wszystkie wypożyczenia na dany jacht.
      *
      * @param yachtName nazwa yachtu
-     * @return lista wypożyczeń użytkownika o podanym loginie
+     * @return lista wypożyczeń jachtu o podanej nazwie
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     List<ListAllRentalsDto> getRentalsByYacht(String yachtName) throws AppBaseException;
 
     //TODO to chyba do usunięcia
     EditRentalDto getRentalById(Long rentalId) throws AppBaseException;
+
     //TODO to też
     void editRental(EditRentalDto editRentalDto) throws AppBaseException;
 
     /**
-     * Metoda, która anuluje wypożyczenie
+     * Metoda, która anuluje wypożyczenie.
      *
-     * @param rentalId identfikator wypożyczenia
+     * @param rentalId Id wypożyczenia, które użytkownik chce anulować
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     void cancelRental(Long rentalId) throws AppBaseException;
 
     /**
-     * Metoda, która pobiera szczegóły wypożyczenia o podanym ID
+     * Metoda, która pobiera szczegóły wypożyczenia klienta.
      *
-     * @param rentalId identfikator wypożyczenia
-     * @return obiekt Dto ze szczegółami
+     * @param rentalId Id wypożyczenia, którego szczegóły klient chce zobaczyć
+     * @return obiekt Dto ze szczegółami wypożyczenia
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     MyRentalDetailsDto getUserRentalDetails(Long rentalId) throws AppBaseException;

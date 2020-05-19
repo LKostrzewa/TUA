@@ -2,8 +2,6 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -37,7 +35,6 @@ public class RentalFacade extends AbstractFacade<Rental> {
     protected EntityManager getEntityManager() {
         return entityManager;
     }
-
 
     /**
      * Metoda, która zwraca listę wszystkich wypożyczeń.
@@ -78,7 +75,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
         typedQuery.setParameter("name", yachtName);
         try {
             return typedQuery.getResultList();
-        } catch (NoResultException e){
+        } catch (NoResultException e) {
             throw AppNotFoundException.createYachtNotFoundException(e);
         }
     }
