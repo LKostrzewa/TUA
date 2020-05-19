@@ -87,7 +87,6 @@ public class Image implements Serializable {
     @Override
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Image[ id=" + id
-                + ", key=" + businessKey
                 + ", version=" + version + " ]";
     }
 }

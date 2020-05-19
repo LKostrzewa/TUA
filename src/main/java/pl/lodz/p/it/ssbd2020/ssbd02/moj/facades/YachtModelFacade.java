@@ -32,7 +32,15 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
         return entityManager;
     }
 
+    /**
+     * Metoda, dodaje podany model jachtu do bazy danych.
+     *
+     * @param entity encja modelu jachtu do dodania do bazy.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @Override
+    @RolesAllowed("addYachtModel")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void create(YachtModel entity) throws AppBaseException {
         super.create(entity);
     }
@@ -57,5 +65,19 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
     @Override
     public List<YachtModel> findAll() {
         return super.findAll();
+    }
+
+    /**
+     * Metoda, sprawdza czy istnieje model jachtu w bazie o danym ? poprzez sprawdzenie czy rezultat wykonania
+     * zapytania COUNT jest większy od 0.
+     *
+     * @param model nazwa jachtu.
+     * @return true/false zależnie czy użytkownik z danym loginem istnieje lub nie
+     */
+    @RolesAllowed("addYachtModel")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public boolean existByModel(String model) {
+        return entityManager.createNamedQuery("YachtModel.countByModel", Long.class)
+                .setParameter("model", model).getSingleResult() > 0;
     }
 }

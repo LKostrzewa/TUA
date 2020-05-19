@@ -153,8 +153,6 @@ public class Port implements Serializable {
     @Override
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Port[ id=" + id
-                + ", key=" + businessKey
                 + ", version=" + version + " ]";
     }
-
 }

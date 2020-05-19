@@ -1,43 +1,44 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.opinion;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.rental;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.OpinionDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListAllRentalsDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.OpinionEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.RentalEndpoint;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
 
 @Named
-@RequestScoped
-public class ListOpinionsByYachtPageBean {
+@ViewScoped
+public class ListRentalsByYachtPageBean implements Serializable {
     @Inject
-    private OpinionEndpoint opinionEndpoint;
+    private RentalEndpoint rentalEndpoint;
     @Inject
     private FacesContext facesContext;
 
+    private List<ListAllRentalsDto> rentals;
+
     private ResourceBundle resourceBundle;
 
-    private List<OpinionDto> yachtOpinions;
-
-    public List<OpinionDto> getYachtOpinions() {
-        return yachtOpinions;
+    public List<ListAllRentalsDto> getRentals() {
+        return rentals;
     }
 
-    public void setYachtOpinions(List<OpinionDto> yachtOpinions) {
-        this.yachtOpinions = yachtOpinions;
+    public void setRentals(List<ListAllRentalsDto> rentals) {
+        this.rentals = rentals;
     }
 
     @PostConstruct
-    private void init(Long id) {
-        try{
-            this.yachtOpinions = opinionEndpoint.getAllOpinionsByYacht(id);
+    private void init(String yachtName){
+        try {
+            this.rentals = rentalEndpoint.getRentalsByYacht(yachtName);
+            displayMessage();
         } catch (AppBaseException e){
             displayError(e.getLocalizedMessage());
         }
@@ -46,6 +47,13 @@ public class ListOpinionsByYachtPageBean {
     public void displayInit(){
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+    }
+
+    public void displayMessage() {
+        displayInit();
+        String msg = resourceBundle.getString("CHyba tyy");
+        String head = resourceBundle.getString("success");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
     private void displayError(String message) {

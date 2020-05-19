@@ -1,9 +1,14 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 public class UserLoginDto {
     private Long id;
+    @NotBlank(message = "{username.message}")
+    private String username;
+    @NotBlank(message = "{password.message}")
+    private String password;
     private String email;
     private Date lastValidLogin;
     private Date lastInvalidLogin;
@@ -17,6 +22,22 @@ public class UserLoginDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
@@ -43,6 +64,13 @@ public class UserLoginDto {
         this.lastInvalidLogin = lastInvalidLogin;
     }
 
+    public Integer getInvalidLoginAttempts() {
+        return invalidLoginAttempts;
+    }
+
+    public void setInvalidLoginAttempts(Integer invalidLoginAttempts) {
+        this.invalidLoginAttempts = invalidLoginAttempts;
+    }
 
     public Boolean getLocked() {
         return locked;
@@ -50,14 +78,6 @@ public class UserLoginDto {
 
     public void setLocked(Boolean locked) {
         this.locked = locked;
-    }
-
-    public Integer getInvalidLoginAttempts() {
-        return invalidLoginAttempts;
-    }
-
-    public void setInvalidLoginAttempts(Integer invalidLoginAttempts) {
-        this.invalidLoginAttempts = invalidLoginAttempts;
     }
 
     public String getLastLoginIp() {

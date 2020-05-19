@@ -38,6 +38,13 @@ public class RentalManager {
     }
 
 
+    /**
+     * Metoda, która zwraca listę wszystkich wypożyczeń
+     *
+     * @return lista wypożyczeń użytkownika o podanym loginie
+     */
+    @RolesAllowed("getAllRentals")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<Rental> getAllRentals() {
         return rentalFacade.findAll();
     }
@@ -71,11 +78,20 @@ public class RentalManager {
                 .collect(Collectors.toList());
     }
 
-    public List<Rental> getAllRentalsByYacht(String yachtName) {
-        return rentalFacade.findAll()
-                .stream()
-                .filter(rental -> rental.getYacht().getName().equals(yachtName))
-                .collect(Collectors.toList());
+    /**
+     * Metoda, która zwraca wszystkie wypożyczenia na dany jacht.
+     *
+     * @param yachtName nazwa yachtu
+     * @return lista wypożyczeń użytkownika o podanym loginie
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getRentalsByYacht")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public List<Rental> getAllRentalsByYacht(String yachtName) throws AppBaseException{
+        return rentalFacade.findAllByYacht(yachtName);
+                //.stream()
+                //.filter(rental -> rental.getYacht().getName().equals(yachtName))
+                //.collect(Collectors.toList());
     }
 
     public void editRental(Rental rental) throws AppBaseException {
