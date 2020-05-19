@@ -40,17 +40,15 @@
                 <div style="text-align: center;">
                 <p:button value="#{msg['cancel']}" style="background-color: orange"
                           outcome="/manager/account.xhtml?faces-redirect=true?includeViewParams=true"/>
-                <p:commandButton value="#{msg['save']}" action="#{myEditPageBean.editUser()}" style="background-color: green"
-                                 update="message">
-                    <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
-                               icon="pi pi-exclamation-triangle"/>
-                </p:commandButton>
+                    <p:commandButton value="#{msg['save']}" action="#{myEditPageBean.editUser()}" onclick="PF('editConfirm').show()"
+                                     style="background-color: green"/>
                 </div>
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}" showEffect="explode" hideEffect="explode" widgetVar="editConfirm">
                     <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes" style="background-color: green"
-                                     icon="pi pi-check"/>
+                                     action="#{editUserPageBean.editUser()}" ajax="false" update="message"
+                                     oncomplete="PF('editConfirm').hide()" icon="pi pi-check"/>
                     <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no" style="background-color: red"
-                                     icon="pi pi-times"/>
+                                     oncomplete="PF('editConfirm').hide()" icon="pi pi-times"/>
                 </p:confirmDialog>
             </h:form>
         </ui:define>

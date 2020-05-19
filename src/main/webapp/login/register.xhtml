@@ -109,7 +109,7 @@
         </div>
         <div class="text-box">
             <p:commandButton class="register-button" value="#{msg['registration.register']}" style="background-color: #ffdd99"
-                             action="#{userRegistrationBean.registerAccountAction}" update="@form"/>
+                             action="#{userRegistrationBean.registerAccountAction}" ajax="false" update="@form"/>
         </div>
         <div class="bottom-text">
             <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['registration.cancel']}</a>

@@ -59,17 +59,9 @@
                 </div>
                 <div style="text-align: center;">
                     <p:button value="#{msg['cancel']}" outcome="index.xhtml?faces-redirect=true" style="background-color: red"/>
-                    <p:commandButton value="#{msg['save']}" action="#{addUserPageBean.addUser()}" update="@form" style="background-color: green">
-                        <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
-                                   icon="pi pi-exclamation-triangle"/>
-                    </p:commandButton>
+                    <p:commandButton value="#{msg['save']}" action="#{addUserPageBean.addUser()}" update="@form" style="background-color: green" ajax="false"
+                                     onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
                 </div>
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes" style="background-color: green"
-                                     icon="pi pi-check"/>
-                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no" style="background-color: red"
-                                     icon="pi pi-times"/>
-                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>

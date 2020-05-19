@@ -18,24 +18,6 @@
             </p:breadCrumb>
         </ui:define>
 
-        <!--<ui:define name="content">
-            <h:form>
-                <h:outputLabel>#{msg['account.login']}#{currentUser.currentUserLogin}</h:outputLabel><br/>
-                <h:outputLabel>#{msg['account.all.access']}#{currentUser.allUserAccessLevel()}  </h:outputLabel><br/>
-                <h:outputLabel>#{msg['account.current.role']}#{currentUser.currentRole}</h:outputLabel><br/>
-                <h:outputLabel>#{msg['account.role.change']}</h:outputLabel>
-                <p:commandButton rendered="#{currentUser.isAdministrator()}" value="Admin"
-                                 action="#{currentUser.redirectAdmin}" ajax="false">
-                </p:commandButton>
-                <p:commandButton rendered="#{currentUser.isManager()}" value="Manager"
-                                 action="#{currentUser.redirectManager}" ajax="false">
-                </p:commandButton>
-                <p:commandButton rendered="#{currentUser.isClient()}" value="Client"
-                                 action="#{currentUser.redirectClient}" ajax="false">
-                </p:commandButton>
-            </h:form>
-        </ui:define>-->
-
         <ui:define name="content">
             <h:form id="form">
                 <p:growl id="growl" showDetail="true" sticky="true"/>
