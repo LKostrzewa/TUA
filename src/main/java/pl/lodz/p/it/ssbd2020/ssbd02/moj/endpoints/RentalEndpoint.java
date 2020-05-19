@@ -68,9 +68,9 @@ public class RentalEndpoint implements Serializable {
     }
 
     /**
-     * Metoda, która pobiera .
+     * Metoda, która pobiera szczegóły wypożyczenia klienta.
      *
-     * @param rentalId Id wypożyczenia, które użytkownik chce anulować
+     * @param rentalId Id wypożyczenia, którego szczegóły klient chce zobaczyć
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getUserRentalDetails")
