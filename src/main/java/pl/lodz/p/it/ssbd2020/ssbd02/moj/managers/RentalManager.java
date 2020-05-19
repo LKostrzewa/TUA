@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.RentalStatus;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RentalNotCancelableException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalStatusFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.UserFacade;
@@ -98,7 +99,7 @@ public class RentalManager {
             RentalStatus rentalStatus = rentalStatusFacade.findByName("CANCELED");
             rentalToCancel.setRentalStatus(rentalStatus);
             rentalFacade.edit(rentalToCancel);
-        } else throw new AppBaseException("Nie można już anulować wypożyczenia");
+        } else throw RentalNotCancelableException.createRentalNotCancelableException(rentalToCancel);
     }
 
     public void updateRentalStatus() {
