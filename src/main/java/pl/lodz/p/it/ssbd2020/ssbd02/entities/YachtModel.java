@@ -155,8 +155,6 @@ public class YachtModel implements Serializable {
     @Override
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel[ id=" + id
-                + ", key=" + businessKey
                 + ", version=" + version + " ]";
     }
-
 }
