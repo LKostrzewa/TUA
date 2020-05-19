@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -39,7 +40,7 @@ public class PortFacade extends AbstractFacade<Port> {
      * @return optional z wyszukanym obiektem encji lub pusty, jeśli poszukiwany obiekt encji nie istnieje
      */
     @Override
-    @RolesAllowed("getPortById")
+    @RolesAllowed({"getPortById","getAllYachtsByPort","assignYachtToPort", "retractYachtToPort"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Port> find(Object id) {
         return super.find(id);
@@ -55,5 +56,18 @@ public class PortFacade extends AbstractFacade<Port> {
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<Port> findAll() {
         return super.findAll();
+    }
+
+    /**
+     * Metoda, która edytuje encje port.
+     *
+     * @param entity encja portu.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @Override
+    @RolesAllowed({"assignYachtToPort", "retractYachtToPort"})
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void edit(Port entity) throws AppBaseException {
+        super.edit(entity);
     }
 }

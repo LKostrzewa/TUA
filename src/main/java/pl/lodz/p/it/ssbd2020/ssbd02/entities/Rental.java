@@ -22,7 +22,8 @@ import java.util.UUID;
         @NamedQuery(name = "Rental.findByVersion", query = "SELECT r FROM Rental r WHERE r.version = :version"),
         @NamedQuery(name = "Rental.findByBeginDate", query = "SELECT r FROM Rental r WHERE r.beginDate = :beginDate"),
         @NamedQuery(name = "Rental.findByEndDate", query = "SELECT r FROM Rental r WHERE r.endDate = :endDate"),
-        @NamedQuery(name = "Rental.findByPrice", query = "SELECT r FROM Rental r WHERE r.price = :price")})
+        @NamedQuery(name = "Rental.findByPrice", query = "SELECT r FROM Rental r WHERE r.price = :price"),
+        @NamedQuery(name = "Rental.findByYachtName", query = "SELECT r FROM Rental r WHERE r.yacht.name = :name")})
 public class Rental implements Serializable {
 
     @Id

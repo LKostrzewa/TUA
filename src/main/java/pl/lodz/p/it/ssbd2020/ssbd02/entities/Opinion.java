@@ -23,7 +23,8 @@ import java.util.UUID;
         @NamedQuery(name = "Opinion.findByVersion", query = "SELECT o FROM Opinion o WHERE o.version = :version"),
         @NamedQuery(name = "Opinion.findByRating", query = "SELECT o FROM Opinion o WHERE o.rating = :rating"),
         @NamedQuery(name = "Opinion.findByComment", query = "SELECT o FROM Opinion o WHERE o.comment = :comment"),
-        @NamedQuery(name = "Opinion.findByDate", query = "SELECT o FROM Opinion o WHERE o.date = :date")})
+        @NamedQuery(name = "Opinion.findByDate", query = "SELECT o FROM Opinion o WHERE o.date = :date"),
+        @NamedQuery(name = "Opinion.findAllByYacht", query = "SELECT o FROM Opinion o WHERE o.rental.yacht.id = :id")})
 public class Opinion implements Serializable {
 
     @Id
