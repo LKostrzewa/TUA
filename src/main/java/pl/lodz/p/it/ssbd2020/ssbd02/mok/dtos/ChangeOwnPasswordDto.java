@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 public class ChangeOwnPasswordDto {
     @NotBlank(message = "{oldPassword.message}")
@@ -8,6 +9,7 @@ public class ChangeOwnPasswordDto {
     @NotBlank(message = "{newPassword.message}")
     private String password;
     @NotBlank(message = "{confirmPassword.message}")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$", message = "{validation.password}")
     private String confirmPassword;
 
     public String getOldPassword() {
