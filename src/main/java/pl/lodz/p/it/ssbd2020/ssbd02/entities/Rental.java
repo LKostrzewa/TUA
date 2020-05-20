@@ -8,6 +8,8 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 import org.eclipse.persistence.annotations.Convert;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -30,31 +32,41 @@ public class Rental implements Serializable {
     @SequenceGenerator(name="RentalSeqGen",sequenceName="rental_id_seq",allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RentalSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
+    @NotNull
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
+    @NotNull
     private long version;
     @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @Convert("uuidConverter")
+    @NotNull
     private UUID businessKey;
     @Column(name = "begin_date", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
     private Date beginDate;
     @Column(name = "end_date", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
     private Date endDate;
     @Column(name = "price", nullable = false, updatable = false)
+    @NotNull
+    @Digits(integer = 18,fraction = 2)
     private BigDecimal price;
     @OneToOne(cascade = CascadeType.REFRESH, mappedBy = "rental")
     private Opinion opinion;
     @JoinColumn(name = "rental_status_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
+    @NotNull
     private RentalStatus rentalStatus;
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false, nullable = false)
     @ManyToOne(optional = false)
+    @NotNull
     private User user;
     @JoinColumn(name = "yacht_id", referencedColumnName = "id", updatable = false, nullable = false)
     @ManyToOne(optional = false)
+    @NotNull
     private Yacht yacht;
 
     public Rental() {

@@ -8,6 +8,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 import org.eclipse.persistence.annotations.Convert;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -32,30 +35,44 @@ public class Yacht implements Serializable {
     @SequenceGenerator(name="YachtSeqGen",sequenceName="yacht_id_seq",allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="YachtSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
+    @NotNull
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
+    @NotNull
     private long version;
     @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @Convert("uuidConverter")
+    @NotNull
     private UUID businessKey;
     @Column(name = "name", nullable = false, unique = true, length = 32)
+    @NotNull
+    @Size(max = 32)
     private String name;
     @Column(name = "production_year", nullable = false, updatable = false)
+    @NotNull
     private Integer productionYear;
     @Column(name = "price_multiplier", nullable = false)
+    @NotNull
+    @Digits(integer = 1,fraction = 2)
     private BigDecimal priceMultiplier;
     @Column(name = "equipment", nullable = false, length = 2048)
+    @NotNull
+    @Size(max = 2048)
     private String equipment;
     @Column(name = "avg_rating")
+    @NotNull
+    @Digits(integer = 1,fraction = 2)
     private BigDecimal avgRating;
     @Column(name = "active", nullable = false)
+    @NotNull
     private boolean active = true;
     @JoinColumn(name = "current_port_id", referencedColumnName = "id")
     @ManyToOne
     private Port currentPort;
     @JoinColumn(name = "yacht_model_id", referencedColumnName = "id", nullable = false, updatable = false)
     @ManyToOne(optional = false)
+    @NotNull
     private YachtModel yachtModel;
     @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "yacht")
     private Collection<Rental> rentals = new ArrayList<>();

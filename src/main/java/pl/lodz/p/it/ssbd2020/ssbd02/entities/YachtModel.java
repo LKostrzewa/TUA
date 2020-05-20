@@ -8,6 +8,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 import org.eclipse.persistence.annotations.Convert;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.ws.rs.DefaultValue;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -30,27 +33,40 @@ import java.util.UUID;
 public class YachtModel implements Serializable {
 
     @Id
-    @SequenceGenerator(name="YachtModelSeqGen",sequenceName="yacht_model_id_seq",allocationSize = 1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="YachtModelSeqGen")
+    @SequenceGenerator(name = "YachtModelSeqGen", sequenceName = "yacht_model_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "YachtModelSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
+    @NotNull
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
+    @NotNull
     private long version;
     @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @Convert("uuidConverter")
+    @NotNull
     private UUID businessKey;
     @Column(name = "manufacturer", nullable = false, length = 32)
+    @NotNull
+    @Size(max = 32)
     private String manufacturer;
     @Column(name = "model", nullable = false, unique = true, length = 32)
+    @NotNull
+    @Size(max = 32)
     private String model;
     @Column(name = "capacity", nullable = false)
+    @NotNull
     private int capacity;
     @Column(name = "general_description", nullable = false, length = 4096)
+    @NotNull
+    @Size(max = 4096)
     private String generalDescription;
     @Column(name = "basic_price", nullable = false)
+    @NotNull
+    @Digits(integer = 8, fraction = 2)
     private BigDecimal basicPrice;
     @Column(name = "active", nullable = false)
+    @NotNull
     private boolean active;
     @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "yachtModel")
     private Collection<Image> images = new ArrayList<>();

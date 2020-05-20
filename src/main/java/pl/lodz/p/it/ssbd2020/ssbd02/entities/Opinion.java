@@ -10,6 +10,8 @@ import org.eclipse.persistence.annotations.Convert;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -31,26 +33,35 @@ public class Opinion implements Serializable {
     @SequenceGenerator(name="OpinionSeqGen",sequenceName="opinion_id_seq",allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="OpinionSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
+    @NotNull
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
+    @NotNull
     private long version;
     @Column(name = "business_key", nullable = false, unique = true, updatable = false)
+    @NotNull
     @Convert("uuidConverter")
     private UUID businessKey;
+    @NotNull
     @Min(1)
     @Max(5)
     @Column(name = "rating", nullable = false)
     private int rating;
     @Column(name = "comment", length = 1024)
+    @NotNull
+    @Size(max = 1024)
     private String comment;
     @Column(name = "date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
     private Date date;
     @Column(name = "edited", nullable = false)
+    @NotNull
     private boolean edited = false;
     @JoinColumn(name = "rental_id", referencedColumnName = "id", updatable = false, nullable = false)
     @OneToOne(optional = false)
+    @NotNull
     private Rental rental;
 
     public Opinion() {
