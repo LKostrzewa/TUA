@@ -17,6 +17,8 @@ public class ListYachtsByPortPageBean {
     private YachtPortEndpoint yachtPortEndpoint;
     private List<YachtDto> yachts;
 
+    private Long portId;
+
     public List<YachtDto> getYachts() {
         return yachts;
     }
@@ -25,9 +27,16 @@ public class ListYachtsByPortPageBean {
         this.yachts = yachts;
     }
 
-    //nwm czy tak mozna
-    @PostConstruct
-    private void init(Long id) throws AppBaseException {
-        this.yachts = yachtPortEndpoint.getAllYachtsByPort(id);
+    public Long getPortId() {
+        return portId;
+    }
+
+    public void setPortId(Long portId) {
+        this.portId = portId;
+    }
+
+
+    public void init() throws AppBaseException {
+        this.yachts = yachtPortEndpoint.getAllYachtsByPort(portId);
     }
 }
