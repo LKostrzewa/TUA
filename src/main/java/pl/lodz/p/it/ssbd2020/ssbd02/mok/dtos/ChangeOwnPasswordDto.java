@@ -7,9 +7,9 @@ public class ChangeOwnPasswordDto {
     @NotBlank(message = "{oldPassword.message}")
     private String oldPassword;
     @NotBlank(message = "{newPassword.message}")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$", message = "{validation.password}")
     private String password;
     @NotBlank(message = "{confirmPassword.message}")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$", message = "{validation.password}")
     private String confirmPassword;
 
     public String getOldPassword() {
