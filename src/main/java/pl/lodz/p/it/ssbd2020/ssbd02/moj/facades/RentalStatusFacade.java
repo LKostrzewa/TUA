@@ -36,19 +36,19 @@ public class RentalStatusFacade extends AbstractFacade<RentalStatus> {
     }
 
     /**
-     * Metoda, która zwraca obiekt RentalStatus o podanej nazwie.
+     * Metoda, która zwraca status wypożyczenia o podanej nazwie.
      *
      * @param statusName Nazwa statusu wypożyczenia
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("cancelRental")
+    @RolesAllowed({"cancelRental", "addRental"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public RentalStatus findByName(String statusName) throws AppBaseException {
         try {
             return getEntityManager().createNamedQuery("RentalStatus.findByName", RentalStatus.class)
                     .setParameter("name", statusName).getSingleResult();
         } catch (NoResultException e) {
-            throw AppNotFoundException.createRentalNotFoundException(e);
+            throw AppNotFoundException.createRentalStatusNotFoundException(e);
         }
     }
 

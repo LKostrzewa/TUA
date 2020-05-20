@@ -8,9 +8,9 @@ import java.util.List;
 public interface RentalEndpoint {
 
     /**
-     * Metoda, służy do dodania nowego wypożyczenia
+     * Metoda, która służy do dodania nowego wypożyczenia.
      *
-     * @param addRentalDto obiekt DTO z danymi nowego wypożyczenia.
+     * @param addRentalDto obiekt DTO z danymi nowego wypożyczenia
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     void addRental(AddRentalDto addRentalDto) throws AppBaseException;

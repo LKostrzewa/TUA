@@ -23,11 +23,12 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
     private RentalManager rentalManager;
 
     /**
-     * Metoda, służy do dodania nowego wypożyczenia
+     * Metoda, która służy do dodania nowego wypożyczenia.
      *
-     * @param addRentalDto obiekt DTO z danymi nowego wypożyczenia.
+     * @param addRentalDto obiekt DTO z danymi nowego wypożyczenia
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
+    @RolesAllowed("addRental")
     public void addRental(AddRentalDto addRentalDto) throws AppBaseException {
         Rental rental = ObjectMapperUtils.map(addRentalDto, Rental.class);
         rentalManager.addRental(rental);

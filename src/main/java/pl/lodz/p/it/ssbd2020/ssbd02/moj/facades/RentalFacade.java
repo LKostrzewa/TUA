@@ -81,6 +81,22 @@ public class RentalFacade extends AbstractFacade<Rental> {
     }
 
     /**
+     * Metoda, która sprawdza czy wypożyczenie danego jachtu koliduje z innymi wypożyczeniami w bazie,
+     * poprzez sprawdzenie czy rezultat wykonania zapytania COUNT jest większy od 0.
+     *
+     * @param rental encja wypożyczenia.
+     * @return true/false zależnie czy okres trwania danego wypożyczenia koliduje z innymi wypożyczeniami
+     */
+    @RolesAllowed("addRental")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public boolean interfere(Rental rental) {
+        return entityManager.createNamedQuery("Rental.findBetweenDatesWithYacht", Long.class)
+                .setParameter("name", rental.getYacht().getName())
+                .setParameter("endDate", rental.getEndDate())
+                .setParameter("beginDate", rental.getBeginDate()).getSingleResult() > 0;
+    }
+
+    /**
      * Metoda, która edytuje encję wypożyczenia.
      *
      * @param rental encja wypożyczenia
@@ -88,15 +104,22 @@ public class RentalFacade extends AbstractFacade<Rental> {
      */
     @Override
     @RolesAllowed("cancelRental")
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(Rental rental) throws AppBaseException {
         super.edit(rental);
     }
 
+    /**
+     * Metoda, która dodaje encję nowego wypożyczenia.
+     *
+     * @param rental obiekt encji z danymi nowego wypożyczenia
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @Override
-    @DenyAll
-    public void create(Rental entity) throws AppBaseException {
-        super.create(entity);
+    @RolesAllowed("addRental")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void create(Rental rental) throws AppBaseException {
+        super.create(rental);
     }
 
     @Override

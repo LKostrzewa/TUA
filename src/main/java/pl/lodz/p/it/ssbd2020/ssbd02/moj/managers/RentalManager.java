@@ -2,8 +2,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.RentalStatus;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RentalNotCancelableException;
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalStatusFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.UserFacade;
@@ -17,6 +18,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,10 +35,39 @@ public class RentalManager {
     @Inject
     private YachtFacade yachtFacade;
 
+    /**
+     * Metoda, która służy do dodania nowego wypożyczenia.
+     *
+     * @param rental obiekt encji nowego wypożyczenia
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("addRental")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addRental(Rental rental) throws AppBaseException {
-        rentalFacade.create(rental);
-    }
+        User rentingUser = userFacade.findByLogin(rental.getUser().getLogin());
 
+        Yacht yachtToRent = yachtFacade.findByName(rental.getYacht().getName());
+
+        if (yachtToRent.getCurrentPort() == null)
+            throw YachtNotAssignedException.createYachtNotAssignedException(yachtToRent);
+
+        if (!yachtToRent.getCurrentPort().isActive())
+            throw EntityNotActiveException.createPortNotActiveException(yachtToRent.getCurrentPort());
+
+        if (!yachtToRent.isActive())
+            throw EntityNotActiveException.createYachtNotActiveException(yachtToRent);
+
+        if(rentalFacade.interfere(rental))
+            throw RentalPeriodInterferenceException.createRentalPeriodInterferenceException(rental);
+
+        RentalStatus startedStatus = rentalStatusFacade.findByName("STARTED");
+        BigDecimal bigDecimal = new BigDecimal(0);
+        Rental newRental = new Rental(rental.getBeginDate(), rental.getEndDate(), bigDecimal, rentingUser, yachtToRent);
+
+        newRental.setRentalStatus(startedStatus);
+
+        rentalFacade.create(newRental);
+    }
 
     /**
      * Metoda, która zwraca listę wszystkich wypożyczeń
@@ -87,11 +118,11 @@ public class RentalManager {
      */
     @RolesAllowed("getRentalsByYacht")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public List<Rental> getAllRentalsByYacht(String yachtName) throws AppBaseException{
+    public List<Rental> getAllRentalsByYacht(String yachtName) throws AppBaseException {
         return rentalFacade.findAllByYacht(yachtName);
-                //.stream()
-                //.filter(rental -> rental.getYacht().getName().equals(yachtName))
-                //.collect(Collectors.toList());
+        //.stream()
+        //.filter(rental -> rental.getYacht().getName().equals(yachtName))
+        //.collect(Collectors.toList());
     }
 
     public void editRental(Rental rental) throws AppBaseException {
