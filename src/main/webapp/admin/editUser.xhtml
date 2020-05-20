@@ -48,7 +48,7 @@
                 <div style="text-align: center;">
                 <p:button value="#{msg['cancel']}" style="background-color: orange"
                           outcome="userDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
-                <p:commandButton id="edit" value="#{msg['edit']}" onclick="PF('editConfirm').show()"
+                <p:commandButton id="edit" value="#{msg['edit']}" type="button" onclick="PF('editConfirm').show()"
                                  style="background-color: green"/>
                 </div>
                 <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}" showEffect="explode" hideEffect="explode" widgetVar="editConfirm">
