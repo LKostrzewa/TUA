@@ -8,6 +8,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
@@ -15,6 +16,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Stateful
+@LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class RentalEndpointImpl implements Serializable, RentalEndpoint {
     @Inject
@@ -55,7 +57,7 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
      * Metoda, która zwraca wszystkie wypożyczenia na dany jacht.
      *
      * @param yachtName nazwa yachtu
-     * @return lista wypożyczeń jachtu o podanej nazwie
+     * @return lista wypożyczeń użytkownika o podanym loginie
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     public List<ListAllRentalsDto> getRentalsByYacht(String yachtName) throws AppBaseException {
