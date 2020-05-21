@@ -16,7 +16,6 @@ import java.io.Serializable;
 import java.util.List;
 
 @Stateful
-@LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class RentalEndpointImpl implements Serializable, RentalEndpoint {
     @Inject

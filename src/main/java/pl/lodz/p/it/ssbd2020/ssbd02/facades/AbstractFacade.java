@@ -26,6 +26,12 @@ public abstract class AbstractFacade<T> {
 
     protected abstract EntityManager getEntityManager();
 
+    /**
+     * Abstrakcyjna metoda, która tworzy encje.
+     *
+     * @param entity tworzona encja
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     public void create(T entity) throws AppBaseException {
         try {
             getEntityManager().persist(entity);
@@ -37,6 +43,12 @@ public abstract class AbstractFacade<T> {
         }
     }
 
+    /**
+     * Abstrakcyjna metoda, która edytuje encje.
+     *
+     * @param entity modyfikowana encja
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     public void edit(T entity) throws AppBaseException {
         try {
             getEntityManager().merge(entity);
@@ -50,14 +62,30 @@ public abstract class AbstractFacade<T> {
         }
     }
 
+    /**
+     * Abstrakcyjna metoda, która usuwa encje.
+     *
+     * @param entity usuwana encja
+     */
     public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
 
+    /**
+     * Abstrakcyjna metoda, która zwraca encje o podanym identyfikatorze.
+     *
+     * @param id identyfikator encji
+     * @return encja T
+     */
     public Optional<T> find(Object id) {
         return Optional.ofNullable(getEntityManager().find(entityClass, id));
     }
 
+    /**
+     * Abstrakcyjna metoda, która znajduje wszystkie encje.
+     *
+     * @@return lista encji
+     */
     public List<T> findAll() {
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
