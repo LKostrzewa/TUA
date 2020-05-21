@@ -55,14 +55,26 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
         super.remove(entity);
     }
 
+
+    /**
+     * Metoda która zwraca model jachtu o podanym id
+     * @param id id modelu jachtu
+     * @return Optional<YachtModel>
+     */
     @Override
-    @RolesAllowed("addYacht")
+    @RolesAllowed({"addYacht", "getYachtModelById"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<YachtModel> find(Object id) {
         return super.find(id);
     }
 
+    /**
+     * Metoda która zwraca wszystkie modele jachtów
+     * @return lista modeli jachtów
+     */
     @Override
+    @RolesAllowed("getAllYachtModels")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<YachtModel> findAll() {
         return super.findAll();
     }
