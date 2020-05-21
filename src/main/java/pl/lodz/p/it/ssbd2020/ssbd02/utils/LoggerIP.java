@@ -9,6 +9,10 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Klasa loggera, która zapisuje do dziennika zdarzeń moment logowania (login + adress IP)
+ * oraz zmianę poziomu dostępu (login + adress IP)
+ */
 @SessionScoped
 public class LoggerIP implements Serializable {
     @Inject
@@ -16,6 +20,9 @@ public class LoggerIP implements Serializable {
 
     private final Logger LOGGER = Logger.getGlobal();
 
+    /**
+     * Metoda która zapisuje do dziennika zdarzeń informację o uwierzytelnieniu użytkkownika
+     */
     public void login(){
         LOGGER.log(Level.INFO,"User: \""
                 + facesContext.getExternalContext().getUserPrincipal().getName()
@@ -23,6 +30,9 @@ public class LoggerIP implements Serializable {
                 + getClientIpAddress());
     }
 
+    /**
+     * Metoda która zapisuje do dziennika zdarzeń informację o zmianie poziomu dostępu przez użytkownika
+     */
     public void accessLevelChange(){
         LOGGER.log(Level.INFO, "User: \""
                 + FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName()
@@ -30,12 +40,22 @@ public class LoggerIP implements Serializable {
                 + getClientIpAddress());
     }
 
+    /**
+     * Metoda wyciągająca z FacesContext żądanie http
+     *
+     * @return obiekt HttpServletRequest przechowujący informację o żądaniu http
+     */
     private HttpServletRequest getHttpRequestFromFacesContext() {
         return (HttpServletRequest) facesContext
                 .getExternalContext()
                 .getRequest();
     }
 
+    /**
+     * Metoda pobiera adress IP z żądania http
+     *
+     * @return String z adresem IP, z którego nastąpiło żądanie
+     */
     private String getClientIpAddress() {
         String xForwardedForHeader = getHttpRequestFromFacesContext().getHeader("X-Forwarded-For");
         if (xForwardedForHeader == null) {
