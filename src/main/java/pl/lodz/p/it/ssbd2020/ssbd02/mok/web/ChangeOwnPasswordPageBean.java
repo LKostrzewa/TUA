@@ -26,7 +26,7 @@ public class ChangeOwnPasswordPageBean implements Serializable {
     private FacesContext context;
 
     private ChangeOwnPasswordDto changeOwnPasswordDto;
-    private String userLogin;
+    //private String userLogin;
 
     private ResourceBundle resourceBundle;
 
@@ -43,7 +43,7 @@ public class ChangeOwnPasswordPageBean implements Serializable {
      */
     @PostConstruct
     public void init() {
-        userLogin = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        //userLogin = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         this.changeOwnPasswordDto = new ChangeOwnPasswordDto();
     }
 

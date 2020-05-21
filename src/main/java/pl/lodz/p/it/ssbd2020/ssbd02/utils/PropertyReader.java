@@ -6,21 +6,50 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * Klasa odczytująca własności z plików konfiguracyjnych.
+ */
 public class PropertyReader {
 
+    /**
+     * Metoda zwracająca właśność o podanym kluczu i z pakietu o podanej nazwie
+     *
+     * @param bundleName nazwa pakietu ze stałymi
+     * @param propertyName klucz stałej do pobrania
+     * @return wiadomość z pakietu znajdująca się pod podanym kluczem
+     */
     public String getProperty(String bundleName, String propertyName) {
         return getBundle(bundleName).getString(propertyName);
     }
 
+    /**
+     * Metoda zwracająca właśność o podanym kluczu i z pakietu o podanej nazwie ...
+     *
+     * @param bundleName nazwa pakietu ze stałymi
+     * @param propertyName klucz stałej do pobrania
+     * @param argument
+     * @return wiadomość z pakietu znajdująca się pod podanym kluczem
+     */
     public String getProperty(String bundleName, String propertyName, String argument) {
         String pattern = getBundle(bundleName).getString(propertyName);
         return MessageFormat.format(pattern, argument);
     }
 
+    /**
+     * Metoda zwracająca pakiet o podanej nazwie.
+     *
+     * @param bundleName nazwa pakietu ze stałymi
+     * @return ResourceBundle o podanej nazwie
+     */
     private ResourceBundle getBundle(String bundleName) {
         return ResourceBundle.getBundle(bundleName, getCurrentLocale());
     }
 
+    /**
+     * Metoda zwracająca aktualnie ustawiony region.
+     *
+     * @return aktualne Locale
+     */
     private Locale getCurrentLocale(){
         FacesContext facesContext = FacesContext.getCurrentInstance();
         UIViewRoot viewRoot = facesContext.getViewRoot();

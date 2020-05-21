@@ -28,7 +28,7 @@ public class MyDetailsPageBean implements Serializable {
     private FacesContext facesContext;
     private UserDetailsDto userDetailsDto;
     private UserAccessLevelDto userAccessLevelDto;
-    private String userLogin;
+   // private String userLogin;
 
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;
@@ -50,13 +50,13 @@ public class MyDetailsPageBean implements Serializable {
         this.userAccessLevelDto = userAccessLevelDto;
     }
 
-    public String getUserLogin() {
+    /*public String getUserLogin() {
         return userLogin;
     }
 
     public void setUserLogin(String userLogin) {
         this.userLogin = userLogin;
-    }
+    }*/
 
     /**
      * Metoda inicjalizująca komponent
@@ -68,7 +68,7 @@ public class MyDetailsPageBean implements Serializable {
         MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config", "MANAGER_ACCESS_LEVEL");
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
 
-        userLogin = facesContext.getExternalContext().getRemoteUser();
+        //userLogin = facesContext.getExternalContext().getRemoteUser();
         try {
             this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelByLogin();
             this.userDetailsDto = userAccessLevelDto.getUserDetailsDto();

@@ -96,7 +96,7 @@ public class UserDetailsPageBean implements Serializable {
         try {
             userDetailsDto.setLocked(true);
             userEndpoint.lockAccount(userId);
-            displayMessage();
+            displayMessage("blockAccount");
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
@@ -110,6 +110,7 @@ public class UserDetailsPageBean implements Serializable {
         try{
             userDetailsDto.setLocked(false);
             userEndpoint.unlockAccount(userId);
+            displayMessage("unlockAccount");
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
@@ -126,9 +127,9 @@ public class UserDetailsPageBean implements Serializable {
     /**
      * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
      */
-    public void displayMessage() {
+    public void displayMessage(String message) {
         displayInit();
-        String msg = resourceBundle.getString("blockAccount");
+        String msg = resourceBundle.getString(message);
         String head = resourceBundle.getString("success");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }

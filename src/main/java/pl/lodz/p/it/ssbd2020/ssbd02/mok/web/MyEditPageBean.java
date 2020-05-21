@@ -82,7 +82,7 @@ public class MyEditPageBean implements Serializable {
      */
     private void displayMessage() {
         displayInit();
-        String msg = bundle.getString("users.registerInfo");
+        String msg = bundle.getString("users.editInfo");
         String head = bundle.getString("success");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
