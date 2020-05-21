@@ -27,7 +27,7 @@ public abstract class AbstractFacade<T> {
     protected abstract EntityManager getEntityManager();
 
     /**
-     * Abstrakcyjna metoda, która tworzy encje.
+     * Bazowa metoda, która tworzy encje.
      *
      * @param entity tworzona encja
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
@@ -44,7 +44,7 @@ public abstract class AbstractFacade<T> {
     }
 
     /**
-     * Abstrakcyjna metoda, która edytuje encje.
+     * Bazowa metoda, która edytuje encje.
      *
      * @param entity modyfikowana encja
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
@@ -63,7 +63,7 @@ public abstract class AbstractFacade<T> {
     }
 
     /**
-     * Abstrakcyjna metoda, która usuwa encje.
+     * Bazowa metoda, która usuwa encje.
      *
      * @param entity usuwana encja
      */
@@ -72,7 +72,7 @@ public abstract class AbstractFacade<T> {
     }
 
     /**
-     * Abstrakcyjna metoda, która zwraca encje o podanym identyfikatorze.
+     * Bazowa metoda, która zwraca encje o podanym identyfikatorze.
      *
      * @param id identyfikator encji
      * @return encja T
@@ -82,7 +82,7 @@ public abstract class AbstractFacade<T> {
     }
 
     /**
-     * Abstrakcyjna metoda, która znajduje wszystkie encje.
+     * Bazowa metoda, która znajduje wszystkie encje.
      *
      * @@return lista encji
      */
