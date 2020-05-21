@@ -376,6 +376,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param resetPasswordDto
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void resetPassword(ResetPasswordDto resetPasswordDto) throws AppBaseException {
         User userToEdit = userFacade.findByResetPasswordCode(resetPasswordDto.getResetPasswordCode());

@@ -21,7 +21,7 @@ public class LoggerIP implements Serializable {
     private final Logger LOGGER = Logger.getGlobal();
 
     /**
-     * Metoda która zapisuje do dziennika zdarzeń informację o uwierzytelnieniu użytkkownika
+     * Metoda która zapisuje do dziennika zdarzeń informację o uwierzytelnieniu użytkownika
      */
     public void login(){
         LOGGER.log(Level.INFO,"User: \""

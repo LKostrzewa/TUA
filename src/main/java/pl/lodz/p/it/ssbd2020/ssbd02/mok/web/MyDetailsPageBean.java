@@ -23,8 +23,6 @@ import java.util.ResourceBundle;
 @ViewScoped
 public class MyDetailsPageBean implements Serializable {
     @Inject
-    private UserEndpoint userEndpoint;
-    @Inject
     private UserAccessLevelEndpoint userAccessLevelEndpoint;
     @Inject
     private FacesContext facesContext;

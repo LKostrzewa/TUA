@@ -11,7 +11,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ResourceBundle;
-
+/**
+ * Klasa do obsługi widoku edycji danych innego użytkownika
+ */
 @Named
 @ViewScoped
 public class EditUserPageBean implements Serializable {
@@ -40,6 +42,9 @@ public class EditUserPageBean implements Serializable {
         this.userId = userId;
     }
 
+    /**
+     * Metoda inicjalizująca komponent
+     */
     public void init() {
         try {
             this.editUserDto = userEndpoint.getEditUserDtoById(userId);
@@ -51,6 +56,11 @@ public class EditUserPageBean implements Serializable {
         }
     }
 
+    /**
+     * Metoda obsługująca wciśnięcie guzika do edycji
+     *
+     * @return strona na którą zostanie przekierowany użytkownik
+     */
     public String editUser() {
         try {
             userEndpoint.editUser(editUserDto);
@@ -61,11 +71,17 @@ public class EditUserPageBean implements Serializable {
         return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości
+     */
     private void displayInit(){
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     */
     private void displayMessage() {
         displayInit();
         String msg = resourceBundle.getString("users.editInfo");
