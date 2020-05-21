@@ -29,7 +29,7 @@ public class MyDetailsPageBean implements Serializable {
     private FacesContext facesContext;
     private UserDetailsDto userDetailsDto;
     private UserAccessLevelDto userAccessLevelDto;
-    private Long userId;
+    //private Long userId;
     private String userLogin;
 
     public UserDetailsDto getUserDetailsDto() {
@@ -48,13 +48,13 @@ public class MyDetailsPageBean implements Serializable {
         this.userAccessLevelDto = userAccessLevelDto;
     }
 
-    public Long getUserId() {
+    /*public Long getUserId() {
         return userId;
     }
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
+    }*/
 
     public String getUserLogin() {
         return userLogin;
@@ -76,7 +76,7 @@ public class MyDetailsPageBean implements Serializable {
             displayError(e.getLocalizedMessage());
         }
 
-        userId = userDetailsDto.getId();
+        //userId = userDetailsDto.getId();
     }
 
     /**
