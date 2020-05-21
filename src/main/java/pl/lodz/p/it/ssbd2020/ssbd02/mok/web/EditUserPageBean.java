@@ -54,12 +54,12 @@ public class EditUserPageBean implements Serializable {
         return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
-    public void displayInit(){
+    private void displayInit(){
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
 
-    public void displayMessage() {
+    private void displayMessage() {
         displayInit();
         String msg = resourceBundle.getString("users.editInfo");
         String head = resourceBundle.getString("success");
