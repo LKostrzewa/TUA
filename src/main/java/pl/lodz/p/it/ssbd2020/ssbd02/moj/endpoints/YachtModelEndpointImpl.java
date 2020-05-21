@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.ListYachtModelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.NewYachtModelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.EditYachtModelDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.YachtModelDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.YachtModelManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
@@ -35,13 +36,25 @@ public class YachtModelEndpointImpl implements Serializable, YachtModelEndpoint 
         yachtModelManager.addYachtModel(yachtModel);
     }
 
+    /**
+     * Metoda, która zwraca listę wszystkich modeli jachtów
+     * @return lista wszystkich modeli jachtów
+     */
+    @RolesAllowed("getAllYachtModels")
     public List<ListYachtModelDto> getAllYachtModels() {
         return ObjectMapperUtils.mapAll(yachtModelManager.getAllYachtModels(), ListYachtModelDto.class);
     }
 
-    public ListYachtModelDto getYachtModelById(Long yachtModelId) throws AppBaseException{
+    /**
+     * Metoda, która zwraca szczegóły danego modelu jachtu
+     * @param yachtModelId id danego modelu jachtu
+     * @return dto szczegółów danego modelu jachtu
+     * @throws AppBaseException wyjątek aplikacyjny jeśli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getYachtModelById")
+    public YachtModelDetailsDto getYachtModelById(Long yachtModelId) throws AppBaseException{
         YachtModel yachtModel = yachtModelManager.getYachtModelById(yachtModelId);
-        return ObjectMapperUtils.map(yachtModel, ListYachtModelDto.class);
+        return ObjectMapperUtils.map(yachtModel, YachtModelDetailsDto.class);
     }
 
     public void editYachtModel(Long yachtModelId, EditYachtModelDto editYachtModelDto) throws AppBaseException {
