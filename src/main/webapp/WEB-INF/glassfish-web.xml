@@ -147,6 +147,14 @@
         <role-name>addYachtModel</role-name>
         <group-name>MANAGER</group-name>
     </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getAllYachtModels</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getYachtModelById</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
 
     <!--YachtPortEndpoint-->
     <security-role-mapping>

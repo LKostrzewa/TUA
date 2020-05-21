@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
+import org.eclipse.persistence.annotations.ReadOnly;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.ValueNotUniqueException;
@@ -37,10 +38,24 @@ public class YachtModelManager {
         yachtModelFacade.create(yachtModel);
     }
 
+    /**
+     * Metoda która zwraca listę wszystkich modeli jachtów
+     * @return lista modeli jachtów
+     */
+    @RolesAllowed("getAllYachtModels")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<YachtModel> getAllYachtModels() {
         return yachtModelFacade.findAll();
     }
 
+    /**
+     * Metoda która zwraca model jachtu o podanym id
+     * @param yachtModelId id modelu jachtu
+     * @return model jachtu
+     * @throws AppBaseException wyjątek aplikacyjny jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getYachtModelById")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public YachtModel getYachtModelById(Long yachtModelId) throws AppBaseException {
         //TODO poprawic na odpowiedni wyjątek
         return yachtModelFacade.find(yachtModelId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));

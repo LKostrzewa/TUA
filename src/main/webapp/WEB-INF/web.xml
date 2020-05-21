@@ -130,6 +130,12 @@
     <security-role>
         <role-name>addYachtModel</role-name>
     </security-role>
+    <security-role>
+        <role-name>getAllYachtModels</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getYachtModelById</role-name>
+    </security-role>
     <!--YachtPortEndpoint-->
     <security-role>
         <role-name>getAllYachtsByPort</role-name>
