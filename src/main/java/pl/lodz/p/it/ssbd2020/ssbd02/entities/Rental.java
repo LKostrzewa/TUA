@@ -23,12 +23,15 @@ import java.util.UUID;
         @NamedQuery(name = "Rental.findByBeginDate", query = "SELECT r FROM Rental r WHERE r.beginDate = :beginDate"),
         @NamedQuery(name = "Rental.findByEndDate", query = "SELECT r FROM Rental r WHERE r.endDate = :endDate"),
         @NamedQuery(name = "Rental.findByPrice", query = "SELECT r FROM Rental r WHERE r.price = :price"),
-        @NamedQuery(name = "Rental.findByYachtName", query = "SELECT r FROM Rental r WHERE r.yacht.name = :name")})
+        @NamedQuery(name = "Rental.findByYachtName", query = "SELECT r FROM Rental r WHERE r.yacht.name = :name"),
+        @NamedQuery(name = "Rental.findBetweenDatesWithYacht", query = "SELECT COUNT(r) FROM Rental r WHERE r.yacht.name = :name " +
+                "and r.beginDate<= :endDate " +
+                "and r.endDate>= :beginDate")})
 public class Rental implements Serializable {
 
     @Id
-    @SequenceGenerator(name="RentalSeqGen",sequenceName="rental_id_seq",allocationSize = 1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RentalSeqGen")
+    @SequenceGenerator(name = "RentalSeqGen", sequenceName = "rental_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RentalSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
     @Version

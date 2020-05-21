@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
@@ -37,31 +36,13 @@ public class RentalFacade extends AbstractFacade<Rental> {
         return entityManager;
     }
 
-    @Override
-    @DenyAll
-    public void create(Rental entity) throws AppBaseException {
-        super.create(entity);
-    }
-
-    @Override
-    @DenyAll
-    public void edit(Rental entity) throws AppBaseException {
-        super.edit(entity);
-    }
-
-    @Override
-    @DenyAll
-    public void remove(Rental entity) {
-        super.remove(entity);
-    }
-
     /**
      * Metoda, która zwraca listę wszystkich wypożyczeń.
      *
      * @return lista wypożyczeń
      */
     @Override
-    @RolesAllowed({"getRentals","getAllRentals"})
+    @RolesAllowed("getRentals")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<Rental> findAll() {
         return super.findAll();
@@ -74,7 +55,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * @return optional z wyszukanym obiektem encji lub pusty, jeśli poszukiwany obiekt encji nie istnieje
      */
     @Override
-    @RolesAllowed("getRentalById")
+    @RolesAllowed({"getRentalById", "getUserRentalDetails", "cancelRental"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Rental> find(Object id) {
         return super.find(id);
@@ -94,8 +75,56 @@ public class RentalFacade extends AbstractFacade<Rental> {
         typedQuery.setParameter("name", yachtName);
         try {
             return typedQuery.getResultList();
-        } catch (NoResultException e){
+        } catch (NoResultException e) {
             throw AppNotFoundException.createYachtNotFoundException(e);
         }
+    }
+
+    /**
+     * Metoda, która sprawdza czy wypożyczenie danego jachtu koliduje z innymi wypożyczeniami w bazie,
+     * poprzez sprawdzenie czy rezultat wykonania zapytania COUNT jest większy od 0.
+     *
+     * @param rental encja wypożyczenia.
+     * @return true/false zależnie czy okres trwania danego wypożyczenia koliduje z innymi wypożyczeniami
+     */
+    @RolesAllowed("addRental")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public boolean interfere(Rental rental) {
+        return entityManager.createNamedQuery("Rental.findBetweenDatesWithYacht", Long.class)
+                .setParameter("name", rental.getYacht().getName())
+                .setParameter("endDate", rental.getEndDate())
+                .setParameter("beginDate", rental.getBeginDate()).getSingleResult() > 0;
+    }
+
+    /**
+     * Metoda, która edytuje encję wypożyczenia.
+     *
+     * @param rental encja wypożyczenia
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @Override
+    @RolesAllowed("cancelRental")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void edit(Rental rental) throws AppBaseException {
+        super.edit(rental);
+    }
+
+    /**
+     * Metoda, która dodaje encję nowego wypożyczenia.
+     *
+     * @param rental obiekt encji z danymi nowego wypożyczenia
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @Override
+    @RolesAllowed("addRental")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void create(Rental rental) throws AppBaseException {
+        super.create(rental);
+    }
+
+    @Override
+    @DenyAll
+    public void remove(Rental entity) {
+        super.remove(entity);
     }
 }
