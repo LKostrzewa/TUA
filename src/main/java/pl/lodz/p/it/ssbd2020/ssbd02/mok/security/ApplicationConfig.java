@@ -11,7 +11,7 @@ import javax.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
 
 
 @DatabaseIdentityStoreDefinition(
-        dataSourceLookup = "${'java:app/jdbc/ssbd02authDS'}",
+        dataSourceLookup = "${'jdbc/ssbd02authDS'}",
         callerQuery = "#{'select password from public.auth_view where login = ?'}",
         groupsQuery = "select access_level from public.auth_view where login = ?",
         hashAlgorithm = BCryptPasswordHash.class
