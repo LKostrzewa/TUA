@@ -41,7 +41,6 @@ public class MyEditPageBean implements Serializable {
     }
 
     public void init() {
-        String userLogin = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         try{
             this.editUserDto = userEndpoint.getEditUserDtoByLogin();
         } catch (AppBaseException e) {
@@ -62,7 +61,6 @@ public class MyEditPageBean implements Serializable {
 
     public void displayMessage() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
-        //ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
         String msg = bundle.getString("users.editInfo");
         String head = bundle.getString("success");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
@@ -70,7 +68,6 @@ public class MyEditPageBean implements Serializable {
 
     private void displayError(String message) {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
-        //ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
         String msg = bundle.getString(message);
         String head = bundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));

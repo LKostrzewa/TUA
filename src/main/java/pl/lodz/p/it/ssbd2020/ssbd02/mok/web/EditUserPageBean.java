@@ -40,8 +40,15 @@ public class EditUserPageBean implements Serializable {
         this.userId = userId;
     }
 
-    public void init() throws AppBaseException{
-        this.editUserDto = userEndpoint.getEditUserDtoById(userId);
+    public void init() {
+        try {
+            this.editUserDto = userEndpoint.getEditUserDtoById(userId);
+        }
+        catch (AppBaseException e) {
+            //tutaj do potestowania i zastanowienia
+            displayError(e.getLocalizedMessage());
+            //FacesContext.getCurrentInstance().getExternalContext().redirect("userDetails.xhtml?faces-redirect=true?includeViewParams=true");
+        }
     }
 
     public String editUser() {

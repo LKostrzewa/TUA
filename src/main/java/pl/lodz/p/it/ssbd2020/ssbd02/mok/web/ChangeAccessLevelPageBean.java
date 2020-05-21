@@ -12,6 +12,9 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
+/**
+ * Klasa do obsługi widoku zmiany poziomu dostępu
+ */
 @Named
 @ViewScoped
 public class ChangeAccessLevelPageBean implements Serializable {
@@ -19,6 +22,9 @@ public class ChangeAccessLevelPageBean implements Serializable {
     private UserAccessLevelEndpoint userAccessLevelEndpoint;
     private UserAccessLevelDto userDto;
     private Long userId;
+    @Inject
+    private FacesContext context;
+    private ResourceBundle resourceBundle;
 
     public UserAccessLevelDto getUserDto() {
         return userDto;
@@ -36,37 +42,64 @@ public class ChangeAccessLevelPageBean implements Serializable {
         this.userId = userId;
     }
 
+    /**
+     * Metoda inicjalizująca komponent
+     */
     public void init(){
         try {
             this.userDto = userAccessLevelEndpoint.findUserAccessLevelById(userId);
         }
         catch (AppBaseException e) {
-            //TODO fill
+            //tutaj też co z redirect ??
+            displayError(e.getLocalizedMessage());
+            //FacesContext.getCurrentInstance().getExternalContext().redirect("userDetails.xhtml?faces-redirect=true?includeViewParams=true");
         }
     }
+    /**
+     * Metoda obsługująca wciśnięcie guzika do zmiany poziomu dostępu
+     *
+     * @return strona na którą zostanie przekierowany użytkownik
+     */
+    public String changeAccessLevel() {
+        try {
+            userAccessLevelEndpoint.editUserAccessLevels(userDto);
+        }
+        catch (AppBaseException e){
+            //tutaj do potestowania bo cos nie halo chyba przy współbieżności
+            displayError(e.getLocalizedMessage());
+            return "changeAccessLevel.xhtml";
+        }
+        displayMessage();
+        return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
+    }
 
-    public void displayMessage(FacesContext context, ResourceBundle resourceBundle) {
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości
+     */
+    private void displayInit(){
         context.getExternalContext().getFlash().setKeepMessages(true);
+        resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     */
+    private void displayMessage() {
+        displayInit();
         String msg = resourceBundle.getString("users.changeAccessLevelInfo");
         String head = resourceBundle.getString("success");
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
-    public String changeAccessLevel() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
-        try {
-            userAccessLevelEndpoint.editUserAccessLevels(userDto);
-        }
-        catch (AppBaseException e){
-            //TODO w odpowiednim pliku xhtml dodac growl
-            String msg = resourceBundle.getString(e.getLocalizedMessage());
-            String head = resourceBundle.getString("error");
-            context.getExternalContext().getFlash().setKeepMessages(true);
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
-            return "changeAccessLevel.xhtml";
-        }
-        displayMessage(context, resourceBundle);
-        return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     *
+     * @param message wiadomość do wyświetlenia
+     */
+    private void displayError(String message) {
+        displayInit();
+        String msg = resourceBundle.getString(message);
+        String head = resourceBundle.getString("error");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
     }
 }

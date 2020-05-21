@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -18,10 +19,10 @@ import java.util.ResourceBundle;
 public class EmailPageBean {
 
     @Inject
-    UserEndpoint userEndpoint;
+    private UserEndpoint userEndpoint;
 
     private String key;
-    private int valid = 5;
+    private int valid;
 
     @Inject
     private FacesContext facesContext;
@@ -29,7 +30,9 @@ public class EmailPageBean {
 
     @PostConstruct
     public void init() {
+        PropertyReader propertyReader = new PropertyReader();
         key = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key");
+        valid = Integer.parseInt(propertyReader.getProperty("config", "email_valid_time"));;
         try {
             userEndpoint.activateAccount(key);
             displayMessage();

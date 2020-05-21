@@ -29,7 +29,6 @@ public class MyDetailsPageBean implements Serializable {
     private FacesContext facesContext;
     private UserDetailsDto userDetailsDto;
     private UserAccessLevelDto userAccessLevelDto;
-    //private Long userId;
     private String userLogin;
 
     public UserDetailsDto getUserDetailsDto() {
@@ -48,14 +47,6 @@ public class MyDetailsPageBean implements Serializable {
         this.userAccessLevelDto = userAccessLevelDto;
     }
 
-    /*public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }*/
-
     public String getUserLogin() {
         return userLogin;
     }
@@ -68,15 +59,12 @@ public class MyDetailsPageBean implements Serializable {
     public void init()  {
         userLogin = facesContext.getExternalContext().getRemoteUser();
         try {
-            // dlaczego nie pobiera też poziomów dostępu?
-            //this.userDetailsDto = userEndpoint.getOwnDetailsDtoByLogin(userLogin);
             this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelByLogin();
             this.userDetailsDto = userAccessLevelDto.getUserDetailsDto();
         } catch (AppBaseException e) {
+            //redirect ?
             displayError(e.getLocalizedMessage());
         }
-
-        //userId = userDetailsDto.getId();
     }
 
     /**
