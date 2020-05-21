@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -32,6 +33,10 @@ public class UserDetailsPageBean implements Serializable {
     private UserAccessLevelDto userAccessLevelDto;
     private Long userId;
 
+    private String ADMIN_ACCESS_LEVEL;
+    private String MANAGER_ACCESS_LEVEL;
+    private String CLIENT_ACCESS_LEVEL;
+
     public UserAccessLevelDto getUserAccessLevelDto() {
         return userAccessLevelDto;
     }
@@ -56,8 +61,15 @@ public class UserDetailsPageBean implements Serializable {
         this.userId = userId;
     }
 
+    /**
+     * Metoda inicjalizująca komponent
+     */
     public void init() throws AppBaseException{
-        //this.userDetailsDto = userEndpoint.getUserDetailsDtoById(userId);
+        PropertyReader propertyReader = new PropertyReader();
+        ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
+        MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config", "MANAGER_ACCESS_LEVEL");
+        CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
+
         this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelById(userId);
         this.userDetailsDto = userAccessLevelDto.getUserDetailsDto();
     }
@@ -69,15 +81,18 @@ public class UserDetailsPageBean implements Serializable {
     public String getAccessLevels() {
         String string = "";
         if (userAccessLevelDto.getAdmin().getLeft())
-            string += "ADMINISTRATOR ";
+            string += ADMIN_ACCESS_LEVEL + " ";
         if (userAccessLevelDto.getManager().getLeft())
-            string += "MANAGER ";
+            string += MANAGER_ACCESS_LEVEL + " ";
         if (userAccessLevelDto.getClient().getLeft())
-            string += "CLIENT";
+            string += CLIENT_ACCESS_LEVEL;
         return string;
     }
 
-    public void lockAccount() throws AppBaseException{
+    /**
+     * Metoda obsługująca wciśnięcie guzika do zablokowania użytkownika
+     */
+    public void lockAccount() {
         try {
             userDetailsDto.setLocked(true);
             userEndpoint.lockAccount(userId);
@@ -88,22 +103,29 @@ public class UserDetailsPageBean implements Serializable {
 
     }
 
-    public void unlockAccount() throws AppBaseException {
+    /**
+     * Metoda obsługująca wciśnięcie guzika do odblokowania użytkownika
+     */
+    public void unlockAccount() {
         try{
             userDetailsDto.setLocked(false);
             userEndpoint.unlockAccount(userId);
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
-
     }
 
-
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości
+     */
     public void displayInit(){
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     */
     public void displayMessage() {
         displayInit();
         String msg = resourceBundle.getString("blockAccount");
@@ -111,6 +133,11 @@ public class UserDetailsPageBean implements Serializable {
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     *
+     * @param message wiadomość do wyświetlenia
+     */
     private void displayError(String message) {
         displayInit();
         String msg = resourceBundle.getString(message);

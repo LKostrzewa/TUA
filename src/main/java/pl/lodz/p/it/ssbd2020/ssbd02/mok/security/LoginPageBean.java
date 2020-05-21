@@ -148,13 +148,4 @@ public class LoginPageBean implements Serializable {
                 .getExternalContext()
                 .getResponse();
     }
-
-    public String getClientIpAddress() {
-        String xForwardedForHeader = getHttpRequestFromFacesContext().getHeader("X-Forwarded-For");
-        if (xForwardedForHeader == null) {
-            return getHttpRequestFromFacesContext().getRemoteAddr();
-        } else {
-            return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
-        }
-    }
 }

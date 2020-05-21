@@ -66,18 +66,6 @@ public class CurrentUser implements Serializable {
         return FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
     }
 
-    public String allUserAccessLevel() {
-        String string = "";
-        if (isAdministrator())
-            string += ADMIN_ACCESS_LEVEL + " ";
-        if (isManager())
-            string += MANAGER_ACCESS_LEVEL + " ";
-        if (isClient())
-            string += CLIENT_ACCESS_LEVEL;
-
-        return string;
-    }
-
     //@ExcludeClassInterceptors
     public boolean isNowAdministrator() {
         return currentRole.equals(ADMIN_ACCESS_LEVEL);

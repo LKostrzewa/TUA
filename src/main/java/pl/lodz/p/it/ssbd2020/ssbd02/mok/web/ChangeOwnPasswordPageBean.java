@@ -43,7 +43,7 @@ public class ChangeOwnPasswordPageBean implements Serializable {
         bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
     }
 
-    public String changePassword() throws AppBaseException {
+    public String changePassword() {
         try {
             userEndpoint.changeOwnPassword(changeOwnPasswordDto);
         } catch (AppBaseException e) {

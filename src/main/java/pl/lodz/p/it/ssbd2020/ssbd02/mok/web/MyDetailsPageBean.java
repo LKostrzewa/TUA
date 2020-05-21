@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -31,6 +32,10 @@ public class MyDetailsPageBean implements Serializable {
     private UserAccessLevelDto userAccessLevelDto;
     private String userLogin;
 
+    private String ADMIN_ACCESS_LEVEL;
+    private String MANAGER_ACCESS_LEVEL;
+    private String CLIENT_ACCESS_LEVEL;
+
     public UserDetailsDto getUserDetailsDto() {
         return userDetailsDto;
     }
@@ -55,8 +60,16 @@ public class MyDetailsPageBean implements Serializable {
         this.userLogin = userLogin;
     }
 
+    /**
+     * Metoda inicjalizująca komponent
+     */
     @PostConstruct
     public void init()  {
+        PropertyReader propertyReader = new PropertyReader();
+        ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
+        MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config", "MANAGER_ACCESS_LEVEL");
+        CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
+
         userLogin = facesContext.getExternalContext().getRemoteUser();
         try {
             this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelByLogin();
@@ -82,18 +95,18 @@ public class MyDetailsPageBean implements Serializable {
     }
 
     /**
-     * Metoda zwracająca łańcuch wszystkich poziomó dostępu konta
+     * Metoda zwracająca łańcuch wszystkich poziomów dostępu konta
      *
      * @return połączony łańcuch poziomów dostępu konta
      */
     public String getAccessLevels() {
         String string = "";
         if (userAccessLevelDto.getAdmin().getLeft())
-            string += "ADMINISTRATOR ";
+            string += ADMIN_ACCESS_LEVEL + " ";
         if (userAccessLevelDto.getManager().getLeft())
-            string += "MANAGER ";
+            string += MANAGER_ACCESS_LEVEL + " ";
         if (userAccessLevelDto.getClient().getLeft())
-            string += "CLIENT";
+            string += CLIENT_ACCESS_LEVEL;
         return string;
     }
 }

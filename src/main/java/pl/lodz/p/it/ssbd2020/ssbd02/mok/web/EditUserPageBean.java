@@ -73,6 +73,11 @@ public class EditUserPageBean implements Serializable {
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     *
+     * @param message wiadomość do wyświetlenia
+     */
     private void displayError(String message) {
         displayInit();
         String msg = resourceBundle.getString(message);

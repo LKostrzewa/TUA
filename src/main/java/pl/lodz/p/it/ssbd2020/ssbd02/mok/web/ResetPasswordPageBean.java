@@ -21,14 +21,13 @@ import java.util.ResourceBundle;
 public class ResetPasswordPageBean implements Serializable {
 
     @Inject
-    UserEndpoint userEndpoint;
+    private UserEndpoint userEndpoint;
     @Inject
     private FacesContext facesContext;
 
     private ResetPasswordDto resetPasswordDto;
 
     private ResourceBundle resourceBundle;
-    //private static final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 
     public ResetPasswordDto getResetPasswordDto() {
@@ -43,7 +42,6 @@ public class ResetPasswordPageBean implements Serializable {
     public void init() {
         resetPasswordDto = new ResetPasswordDto();
         resetPasswordDto.setResetPasswordCode(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key"));
-        //logger.info("Klucz:" + resetPasswordCode);
     }
 
     public String resetPassword() {

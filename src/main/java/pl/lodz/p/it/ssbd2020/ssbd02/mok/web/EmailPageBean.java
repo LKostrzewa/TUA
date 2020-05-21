@@ -13,7 +13,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.ResourceBundle;
 
-
+/**
+ * Klasa do obsługi strony pojawiającej się po kliknięciu w link aktywacyjiny
+ */
 @Named
 @RequestScoped
 public class EmailPageBean {
@@ -28,6 +30,9 @@ public class EmailPageBean {
     private FacesContext facesContext;
     private ResourceBundle resourceBundle;
 
+    /**
+     * Metoda inicjalizująca komponent
+     */
     @PostConstruct
     public void init() {
         PropertyReader propertyReader = new PropertyReader();
@@ -36,10 +41,10 @@ public class EmailPageBean {
         try {
             userEndpoint.activateAccount(key);
             displayMessage();
-        }catch (AppBaseException e){
+        } catch (AppBaseException e){
+            //jak tutaj ten wyjątek będzie skoro strona jest aktywan 5 sekund?
             displayError(e.getLocalizedMessage());
         }
-
     }
 
 
@@ -59,11 +64,17 @@ public class EmailPageBean {
         this.valid = valid;
     }
 
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości
+     */
     public void displayInit(){
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     */
     public void displayMessage() {
         displayInit();
         String msg = resourceBundle.getString("activateUser");
@@ -71,6 +82,11 @@ public class EmailPageBean {
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     *
+     * @param message wiadomość do wyświetlenia
+     */
     private void displayError(String message) {
         displayInit();
         String msg = resourceBundle.getString(message);
