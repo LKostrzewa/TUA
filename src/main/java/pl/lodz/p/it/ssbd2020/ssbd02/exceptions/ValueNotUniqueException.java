@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.exceptions;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel;
@@ -10,6 +11,7 @@ public class ValueNotUniqueException extends AppBaseException {
     public static final String LOGIN_MESSAGE_KEY = "exception.loginNotUnique";
     public static final String YACHT_NAME_MESSAGE_KEY = "exception.yachtNameNotUnique";
     public static final String YACHT_MODEL_MESSAGE_KEY = "exception.yachtModelNotUnique";
+    public static final String PORT_NAME_MESSAGE_KEY = "exception.portNameNotUnique";
 
     private Object object;
 
@@ -46,6 +48,12 @@ public class ValueNotUniqueException extends AppBaseException {
     public static ValueNotUniqueException createYachtModelNotUniqueException(YachtModel yachtModel) {
         ValueNotUniqueException nue = new ValueNotUniqueException(YACHT_MODEL_MESSAGE_KEY);
         nue.setObject(yachtModel);
+        return nue;
+    }
+
+    public static ValueNotUniqueException createPortNameNotUniqueException(Port port) {
+        ValueNotUniqueException nue = new ValueNotUniqueException(PORT_NAME_MESSAGE_KEY);
+        nue.setObject(port);
         return nue;
     }
 }

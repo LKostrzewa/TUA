@@ -14,14 +14,14 @@
         <h:form rendered="#{currentUser.nowManager}">
             <p:menubar>
                 <p:submenu label="#{msg['manager.menu.ports']}">
-                    <p:menuitem value="#{msg['manager.menu.ports.add']}" url="#"/>
+                    <p:menuitem value="#{msg['manager.menu.ports.add']}" url="/manager/port/addPort.xhtml"/>
                     <p:separator/>
                     <p:menuitem value="#{msg['manager.menu.ports.list']}" url="/manager/port/listPorts.xhtml"/>
                 </p:submenu>
                 <p:submenu label="#{msg['manager.menu.models']}">
                     <p:menuitem value="#{msg['manager.menu.models.add']}" url="#"/>
                     <p:separator/>
-                    <p:menuitem value="#{msg['manager.menu.models.list']}" url="#"/>
+                    <p:menuitem value="#{msg['manager.menu.models.list']}" url="/manager/yachtModel/listYachtModels.xhtml"/>
                 </p:submenu>
                 <p:submenu label="#{msg['manager.menu.yachts']}">
                     <p:menuitem value="#{msg['manager.menu.yachts.add']}" url="/manager/yacht/addYacht.xhtml"/>

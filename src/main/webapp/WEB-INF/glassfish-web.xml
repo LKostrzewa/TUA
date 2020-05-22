@@ -147,6 +147,14 @@
         <role-name>addYachtModel</role-name>
         <group-name>MANAGER</group-name>
     </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getAllYachtModels</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getYachtModelById</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
 
     <!--YachtPortEndpoint-->
     <security-role-mapping>
@@ -203,6 +211,19 @@
         <group-name>MANAGER</group-name>
         <group-name>CLIENT</group-name>
     </security-role-mapping>
+    <security-role-mapping>
+        <role-name>addPort</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>editPort</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>deactivatePort</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+
     <!--Opinions-->
     <security-role-mapping>
         <role-name>addOpinion</role-name>

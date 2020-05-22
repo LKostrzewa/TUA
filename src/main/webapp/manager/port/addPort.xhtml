@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
+<h:head/>
+<h:body>
+    <ui:composition template="/templates/commonTemplate.xhtml">
+        <ui:define name="title">#{msg['manager.title.addPort']}</ui:define>
+        <ui:define name="breadCrumbs">
+            <p:breadCrumb>
+                <p:menuitem value="Categories" url="#"/>
+                <p:menuitem value="#{msg['bread.main']}" url="/manager/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.addport']}" url="/manager/port/addPort.xhtml"/>
+            </p:breadCrumb>
+        </ui:define>
+        <ui:define name="content">
+            <h:form id="form">
+                <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
+                <div>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:inputText id="name" value="#{addPortPageBean.newPortDto.name}"/>
+                        <p:outputLabel for="@previous" value="#{msg['port.name']}"/>
+                        <p:message for="name"/>
+                    </span>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:inputText id="lake" value="#{addPortPageBean.newPortDto.lake}"/>
+                        <p:outputLabel for="@previous" value="#{msg['port.lake']}"/>
+                        <p:message for="lake"/>
+                    </span>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:inputText id="city" value="#{addPortPageBean.newPortDto.nearestCity}"/>
+                        <p:outputLabel for="@previous" value="#{msg['port.city']}"/>
+                        <p:message for="city"/>
+                    </span>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:inputText id="long" value="#{addPortPageBean.newPortDto.long1}"/>
+                        <p:outputLabel for="@previous" value="#{msg['port.long']}"/>
+                        <p:message for="long"/>
+                    </span>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:inputText id="lat" value="#{addPortPageBean.newPortDto.lat}"/>
+                        <p:outputLabel for="@previous" value="#{msg['port.lat']}"/>
+                        <p:message for="lat"/>
+                    </span>
+                </div>
+                <p:button value="#{msg['goBack']}" outcome="listPorts.xhtml?faces-redirect=true"/>
+                <p:commandButton value="#{msg['save']}" action="#{addPortPageBean.addPort}" update="@form" ajax="false"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

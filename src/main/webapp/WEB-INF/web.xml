@@ -130,6 +130,12 @@
     <security-role>
         <role-name>addYachtModel</role-name>
     </security-role>
+    <security-role>
+        <role-name>getAllYachtModels</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getYachtModelById</role-name>
+    </security-role>
     <!--YachtPortEndpoint-->
     <security-role>
         <role-name>getAllYachtsByPort</role-name>
@@ -168,6 +174,15 @@
     </security-role>
     <security-role>
         <role-name>getPortById</role-name>
+    </security-role>
+    <security-role>
+        <role-name>addPort</role-name>
+    </security-role>
+    <security-role>
+        <role-name>editPort</role-name>
+    </security-role>
+    <security-role>
+        <role-name>deactivatePort</role-name>
     </security-role>
     <!--Opinions-->
     <security-role>

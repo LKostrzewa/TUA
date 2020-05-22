@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
+<head>
+    <title>Title</title>
+</head>
+<body>
+<ui:composition template="/templates/commonTemplate.xhtml">
+    <ui:define name="title">#{msg['manager.title.yachtModelDetails']}</ui:define>
+    <ui:define name="breadCrumbs">
+        <p:breadCrumb>
+            <p:menuitem value="Categories" url="#"/>
+            <p:menuitem value="#{msg['bread.main']}" url="/manager/index.xhtml"/>
+            <p:menuitem value="#{msg['bread.yachtModels']}" url="/manager/yachtModel/listYachtModels.xhtml"/>
+            <p:menuitem value="#{msg['bread.yachtModel']}" url="/manager/yachtModel/yachtModelDetails.xhtml"
+                        includeViewParams="true">
+                <f:param name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
+            </p:menuitem>
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
+            <f:event type="preRenderView" listener="#{yachtModelDetailsPageBean.init}"/>
+        </f:metadata>
+        <h:form id="form">
+            <p:growl id="message" showDetail="true"/>
+            <p:panelGrid columns="2">
+                <h:outputLabel value="#{msg['yachtModel.model']}:"/>
+                <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.model}"/>
+                <h:outputLabel value="#{msg['yachtModel.manufacturer']}:"/>
+                <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.manufacturer}"/>
+                <h:outputLabel value="#{msg['yachtMode.active']}:"/>
+                <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.active}"/>
+                <h:outputLabel value="#{msg['yachtModel.capacity']}:"/>
+                <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.capacity}"/>
+                <h:outputLabel value="#{msg['yachtModel.basicPrice']}:"/>
+                <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.basicPrice}"/>
+                <h:outputLabel value="#{msg['yachtModel.description']}:"/>
+                <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.description}"/>
+            </p:panelGrid>
+            <p:button value="#{msg['goBack']}" outcome="listYachtModels.xhtml?faces-redirect=true"/>
+            <p:button value="${msg['edit']}" outcome="editYachtModel.xhtml?faces-redirect=true">
+                <f:param name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
+            </p:button>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</body>
+</html>
