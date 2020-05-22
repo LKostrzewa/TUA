@@ -27,7 +27,7 @@ public class YachtEndpointImpl implements Serializable, YachtEndpoint {
     private Yacht yachtEditEntity;
 
     /**
-     * Metoda, służy do dodawania nowych jachtów do bazy danych przez administratora
+     * Metoda, służy do dodawania nowych jachtów do bazy danych przez menadżera
      *
      * @param newYachtDto obiekt DTO z danymi nowego jachtu.
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem

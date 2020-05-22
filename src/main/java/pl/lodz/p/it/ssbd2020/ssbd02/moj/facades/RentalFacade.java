@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -14,7 +15,9 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,9 +37,8 @@ public class RentalFacade extends AbstractFacade<Rental> {
         return entityManager;
     }
 
-
     /**
-     * Metoda, która zwraca listę wypożyczeń.
+     * Metoda, która zwraca listę wszystkich wypożyczeń.
      *
      * @return lista wypożyczeń
      */
@@ -54,29 +56,71 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * @return optional z wyszukanym obiektem encji lub pusty, jeśli poszukiwany obiekt encji nie istnieje
      */
     @Override
-    @RolesAllowed("getRentalById")
+    @RolesAllowed({"getRentalById", "getUserRentalDetails", "cancelRental"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Rental> find(Object id) {
         return super.find(id);
     }
 
-    @Override
-    @DenyAll
-    public void create(Rental entity) throws AppBaseException {
-        super.create(entity);
+    /**
+     * Metoda, która zwraca wszystkie wypożyczenia na dany jacht.
+     *
+     * @param yachtName nazwa yachtu
+     * @return lista wypożyczeń użytkownika o podanym loginie
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getRentalsByYacht")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public List<Rental> findAllByYacht(String yachtName) throws AppBaseException {
+        TypedQuery<Rental> typedQuery = entityManager.createNamedQuery("Rental.findByYachtName", Rental.class);
+        typedQuery.setParameter("name", yachtName);
+        try {
+            return typedQuery.getResultList();
+        } catch (NoResultException e) {
+            throw AppNotFoundException.createYachtNotFoundException(e);
+        }
     }
 
+    /**
+     * Metoda, która sprawdza czy wypożyczenie danego jachtu koliduje z innymi wypożyczeniami w bazie,
+     * poprzez sprawdzenie czy rezultat wykonania zapytania COUNT jest większy od 0.
+     *
+     * @param rental encja wypożyczenia.
+     * @return true/false zależnie czy okres trwania danego wypożyczenia koliduje z innymi wypożyczeniami
+     */
+    @RolesAllowed("addRental")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public boolean interfere(Rental rental) {
+        return entityManager.createNamedQuery("Rental.findBetweenDatesWithYacht", Long.class)
+                .setParameter("name", rental.getYacht().getName())
+                .setParameter("endDate", rental.getEndDate())
+                .setParameter("beginDate", rental.getBeginDate()).getSingleResult() > 0;
+    }
 
     /**
-     * Metoda, służąca do edycji encji.
+     * Metoda, która edytuje encję wypożyczenia.
      *
-     * @param rental encja
+     * @param rental encja wypożyczenia
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed("SYSTEM")
+    @RolesAllowed({"cancelRental","SYSTEM"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(Rental rental) throws AppBaseException {
         super.edit(rental);
+    }
+
+    /**
+     * Metoda, która dodaje encję nowego wypożyczenia.
+     *
+     * @param rental obiekt encji z danymi nowego wypożyczenia
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @Override
+    @RolesAllowed("addRental")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void create(Rental rental) throws AppBaseException {
+        super.create(rental);
     }
 
     @Override

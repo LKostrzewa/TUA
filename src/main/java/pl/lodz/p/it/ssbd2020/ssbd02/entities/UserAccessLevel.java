@@ -8,6 +8,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 import org.eclipse.persistence.annotations.Convert;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -24,18 +25,23 @@ public class UserAccessLevel implements Serializable {
     @SequenceGenerator(name="UserAccessLevelSeqGen",sequenceName="user_access_level_id_seq",allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="UserAccessLevelSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
+    @NotNull
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
+    @NotNull
     private long version;
     @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @Convert("uuidConverter")
+    @NotNull
     private UUID businessKey;
     @JoinColumn(name = "access_level_id", referencedColumnName = "id", updatable = false)
     @ManyToOne(optional = false)
+    @NotNull
     private AccessLevel accessLevel;
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @ManyToOne(optional = false)
+    @NotNull
     private User user;
 
     public UserAccessLevel() {
@@ -88,8 +94,6 @@ public class UserAccessLevel implements Serializable {
     @Override
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel[ id=" + id
-                + ", key=" + businessKey
                 + ", version=" + version + " ]";
     }
-
 }

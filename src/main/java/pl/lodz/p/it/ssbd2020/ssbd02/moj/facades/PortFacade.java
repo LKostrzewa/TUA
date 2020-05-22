@@ -41,7 +41,7 @@ public class PortFacade extends AbstractFacade<Port> {
      * @return optional z wyszukanym obiektem encji lub pusty, jeśli poszukiwany obiekt encji nie istnieje
      */
     @Override
-    @RolesAllowed("getPortById")
+    @RolesAllowed({"getPortById","getAllYachtsByPort","assignYachtToPort", "retractYachtToPort"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Port> find(Object id) {
         return super.find(id);
@@ -79,7 +79,7 @@ public class PortFacade extends AbstractFacade<Port> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"editPort","deactivatePort"})
+    @RolesAllowed({"editPort","deactivatePort","assignYachtToPort", "retractYachtToPort"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(Port port) throws AppBaseException {
         super.edit(port);

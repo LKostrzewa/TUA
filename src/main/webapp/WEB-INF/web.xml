@@ -126,12 +126,47 @@
     <security-role>
         <role-name>deactivateYacht</role-name>
     </security-role>
+    <!--YachtModelEndpoint-->
+    <security-role>
+        <role-name>addYachtModel</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getAllYachtModels</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getYachtModelById</role-name>
+    </security-role>
+    <!--YachtPortEndpoint-->
+    <security-role>
+        <role-name>getAllYachtsByPort</role-name>
+    </security-role>
+    <security-role>
+        <role-name>assignYachtToPort</role-name>
+    </security-role>
+    <security-role>
+        <role-name>retractYachtFromPort</role-name>
+    </security-role>
     <!--Rentals-->
     <security-role>
         <role-name>getRentals</role-name>
     </security-role>
     <security-role>
+        <role-name>getAllRentals</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getRentalsByYacht</role-name>
+    </security-role>
+    <security-role>
         <role-name>getRentalById</role-name>
+    </security-role>
+    <security-role>
+        <role-name>cancelRental</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getUserRentalDetails</role-name>
+    </security-role>
+    <security-role>
+        <role-name>addRental</role-name>
     </security-role>
     <!--Ports-->
     <security-role>
@@ -148,6 +183,19 @@
     </security-role>
     <security-role>
         <role-name>deactivatePort</role-name>
+    </security-role>
+    <!--Opinions-->
+    <security-role>
+        <role-name>addOpinion</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getAllOpinionsByYacht</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getOpinionById</role-name>
+    </security-role>
+    <security-role>
+        <role-name>editOpinion</role-name>
     </security-role>
 
     <security-constraint>

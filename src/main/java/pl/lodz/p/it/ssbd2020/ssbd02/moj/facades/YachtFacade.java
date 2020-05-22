@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -13,6 +14,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
@@ -53,7 +55,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"editYacht","deactivateYacht"})
+    @RolesAllowed({"editYacht", "deactivateYacht"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(Yacht yacht) throws AppBaseException {
         super.edit(yacht);
@@ -67,7 +69,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"getYachtById","getEditYachtDtoById"})
+    @RolesAllowed({"getYachtById", "getEditYachtDtoById", "assignYachtToPort", "retractYachtToPort"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Yacht> find(Object id) {
         return super.find(id);
@@ -110,5 +112,22 @@ public class YachtFacade extends AbstractFacade<Yacht> {
     public boolean existByName(String name) {
         return entityManager.createNamedQuery("Yacht.countByName", Long.class)
                 .setParameter("name", name).getSingleResult() > 0;
+    }
+
+    /**
+     * Metoda, która zwraca jacht o podanej nazwie.
+     *
+     * @param yachtName Nazwa jachtu
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("addRental")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public Yacht findByName(String yachtName) throws AppBaseException {
+        try {
+            return getEntityManager().createNamedQuery("Yacht.findByName", Yacht.class)
+                    .setParameter("name", yachtName).getSingleResult();
+        } catch (NoResultException e) {
+            throw AppNotFoundException.createYachtNotFoundException(e);
+        }
     }
 }

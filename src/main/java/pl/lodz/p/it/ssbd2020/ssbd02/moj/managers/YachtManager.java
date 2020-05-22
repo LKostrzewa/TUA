@@ -30,18 +30,18 @@ public class YachtManager {
     private YachtModelFacade yachtModelFacade;
 
     /**
-     * Metoda, służy do dodawania nowych jachtów do bazy danych przez administratora
+     * Metoda, służy do dodawania nowych jachtów do bazy danych przez menadżera
      *
-     * @param newYachtDto obiekt DTO z danymi nowego jachtu.
+     * @param yacht obiekt jacht z danymi nowego jachtu.
      * @param yachtModelId id modelu jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("addYacht")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void addYacht(Yacht newYachtDto, Long yachtModelId) throws AppBaseException {
+    public void addYacht(Yacht yacht, Long yachtModelId) throws AppBaseException {
         // TODO zmienic wyjatek na yacht model not find
         YachtModel yachtModel = yachtModelFacade.find(yachtModelId).orElseThrow(AppNotFoundException::createUserNotFoundException);
-        Yacht newYacht = new Yacht(newYachtDto.getName(),newYachtDto.getProductionYear(),newYachtDto.getPriceMultiplier(),newYachtDto.getEquipment(), yachtModel);
+        Yacht newYacht = new Yacht(yacht.getName(),yacht.getProductionYear(),yacht.getPriceMultiplier(),yacht.getEquipment(), yachtModel);
 
         if(!yachtModel.isActive()){
             throw EntityNotActiveException.createYachtModelNotActiveException(yachtModel);

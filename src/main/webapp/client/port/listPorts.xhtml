@@ -25,7 +25,7 @@
                              first="0"
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
+                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['bread.ports']}">
 
                     <p:column headerText="${msg['port.name']}">
                         <h:outputText value="#{port.name}"/>
@@ -40,7 +40,11 @@
                         <p:button value="${msg['details']}" outcome="portDetails.xhtml?faces-redirect=true">
                             <f:param name="portId" value="#{port.id}"/>
                         </p:button>
+                        <p:button value="${msg['manager.menu.yachts.list']}" outcome="/client/yacht/listYachts.xhtml?faces-redirect=true">
+                            <f:param name="portId" value="#{port.id}"/>
+                        </p:button>
                     </p:column>
+
                 </p:dataTable>
             </h:form>
         </ui:define>

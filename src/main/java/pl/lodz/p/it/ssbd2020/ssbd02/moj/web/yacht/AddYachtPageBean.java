@@ -46,7 +46,7 @@ public class AddYachtPageBean {
         return "listYachts.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
-    public void displayInit(){
+    public void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }

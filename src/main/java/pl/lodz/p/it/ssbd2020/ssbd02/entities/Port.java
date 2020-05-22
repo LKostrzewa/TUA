@@ -9,6 +9,9 @@ import org.eclipse.persistence.annotations.Convert;
 import org.eclipse.persistence.annotations.TypeConverter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -32,24 +35,38 @@ public class Port implements Serializable {
     @SequenceGenerator(name="PortSeqGen",sequenceName="port_id_seq",allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PortSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
+    @NotNull
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
+    @NotNull
     private long version;
     @Column(name = "business_key", nullable = false, unique = true, updatable = false)
+    @NotNull
     @Convert("uuidConverter")
     private UUID businessKey;
     @Column(name = "name", nullable = false, unique = true, length = 64)
+    @NotNull
+    @Size(max = 64)
     private String name;
     @Column(name = "lake", nullable = false, length = 32)
+    @NotNull
+    @Size(max = 32)
     private String lake;
     @Column(name = "nearest_city", length = 32, nullable = false)
+    @NotNull
+    @Size(max = 32)
     private String nearestCity;
     @Column(name = "long", nullable = false)
+    @NotNull
+    @Digits(integer = 3,fraction = 6)
     private BigDecimal long1;
     @Column(name = "lat", nullable = false)
+    @NotNull
+    @Digits(integer = 3,fraction = 6)
     private BigDecimal lat;
     @Column(name = "active", nullable = false)
+    @NotNull
     private boolean active;
     @OneToMany(mappedBy = "currentPort")
     private Collection<Yacht> yachts = new ArrayList<>();
@@ -155,8 +172,6 @@ public class Port implements Serializable {
     @Override
     public String toString() {
         return "pl.lodz.p.it.ssbd2020.ssbd02.entities.Port[ id=" + id
-                + ", key=" + businessKey
                 + ", version=" + version + " ]";
     }
-
 }

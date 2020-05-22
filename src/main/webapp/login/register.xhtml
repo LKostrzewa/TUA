@@ -1,20 +1,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
-<h:head/>
+<h:head>
+    <title>#{msg['shared.title.signUp']}</title>
+</h:head>
 <h:body>
     <h:outputStylesheet library="css" name="registration.css"/>
     <h:form method="post" class="registration-form">
         <p:growl id="growl" showDetail="true" sticky="true" severity="info, fatal"/>
 
         <style type="text/css">
-            body
-            {
+            body {
                 background-image: url(/resources/images/yacht202.jpg);
                 background-repeat: no-repeat;
-                background-attachment:fixed;
+                background-attachment: fixed;
                 background-size: cover;
                 background-position: center;
                 height: 100%;
@@ -26,8 +26,7 @@
 
         <div class="text-box">
             <p:inputText id="username" type="text" a:placeholder="#{msg['registration.username']}"
-                         value="${userRegistrationBean.userDto.login}" required="true"
-                         requiredMessage="#{msg['registration.field.required']}">
+                         value="#{userRegistrationBean.userDto.login}">
             </p:inputText>
             <span class="gradient"/>
             <span class="asterisk_input"/>
@@ -37,10 +36,8 @@
         </div>
 
         <div class="text-box">
-            <p:password id="password1" a:placeholder="#{msg['registration.password']}" match="password2" validatorMessage="#{msg['validation.password.match']}"
-                        required="true"
-                        requiredMessage="#{msg['registration.field.required']}">
-            </p:password>
+            <p:password id="password1" a:placeholder="#{msg['registration.password']}" match="password2"
+                        validatorMessage="Passwords do not match"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message id="password1_err" styleClass="message" for="password2"
@@ -49,9 +46,7 @@
         </div>
         <div class="text-box">
             <p:password id="password2" a:placeholder="#{msg['registration.repeat.password']}"
-                        value="${userRegistrationBean.userDto.password}" required="true"
-                        requiredMessage="#{msg['registration.field.required']}">
-            </p:password>
+                        value="#{userRegistrationBean.userDto.password}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message id="password2_err" styleClass="message" for="password1"
@@ -59,9 +54,8 @@
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
         <div class="text-box">
-            <p:inputText id="email" a:placeholder="#{msg['registration.email']}" value="${userRegistrationBean.userDto.email}"
-                         required="true" requiredMessage="#{msg['registration.field.required']}">
-            </p:inputText>
+            <p:inputText id="email" a:placeholder="#{msg['registration.email']}"
+                         value="#{userRegistrationBean.userDto.email}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message id="email_err" styleClass="message" for="email"
@@ -70,9 +64,8 @@
         </div>
 
         <div class="text-box">
-            <p:inputText id="name" a:placeholder="#{msg['registration.name']}" value="${userRegistrationBean.userDto.firstName}"
-                         required="true" requiredMessage="#{msg['registration.field.required']}">
-            </p:inputText>
+            <p:inputText id="name" a:placeholder="#{msg['registration.name']}"
+                         value="#{userRegistrationBean.userDto.firstName}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message id="name_err" styleClass="message" for="name"
@@ -82,9 +75,7 @@
 
         <div class="text-box">
             <p:inputText id="surname" a:placeholder="#{msg['registration.surname']}"
-                         value="${userRegistrationBean.userDto.lastName}" required="true"
-                         requiredMessage="#{msg['registration.field.required']}">
-            </p:inputText>
+                         value="#{userRegistrationBean.userDto.lastName}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message id="surname_err" styleClass="message" for="surname"
@@ -94,9 +85,7 @@
 
         <div class="text-box">
             <p:inputText id="phoneNumber" a:placeholder="#{msg['registration.phone.number']}"
-                         value="${userRegistrationBean.userDto.phoneNumber}" required="true"
-                         requiredMessage="#{msg['registration.field.required']}">
-            </p:inputText>
+                         value="#{userRegistrationBean.userDto.phoneNumber}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message id="phone_err" styleClass="message" for="phoneNumber"
@@ -104,12 +93,15 @@
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
         <div>
-            <p:captcha id="Captcha" label="Captcha" required="true" requiredMessage="#{msg['registration.field.required']}" language="#{userRegistrationBean.bundle}"/>
-            <p:messages for="Captcha" closable="false" />
+            <p:captcha id="Captcha" label="Captcha" required="true"
+                       requiredMessage="#{msg['registration.field.required']}"
+                       language="#{userRegistrationBean.bundle}"/>
+            <p:messages for="Captcha" closable="false"/>
         </div>
         <div class="text-box">
-            <p:commandButton class="register-button" value="#{msg['registration.register']}" style="background-color: #ffdd99"
-                             action="#{userRegistrationBean.registerAccountAction}" update="@form"/>
+            <p:commandButton class="register-button" value="#{msg['registration.register']}"
+                             style="background-color: #ffdd99"
+                             action="#{userRegistrationBean.registerAccountAction}" ajax="false" update="@form"/>
         </div>
         <div class="bottom-text">
             <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['registration.cancel']}</a>
