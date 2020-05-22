@@ -137,7 +137,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param id identyfikator Użytkownika
      * @return encja User
      */
-    @RolesAllowed("getEditUserDtoById")
+    @RolesAllowed({"getEditUserDtoById", "findUserAccessLevelById"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserById(Long id) throws AppBaseException {
         return userFacade.find(id).orElseThrow(AppNotFoundException::createUserNotFoundException);
@@ -257,7 +257,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @return encje User
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"getLoginDtoByLogin", "getEditUserDtoByLogin"})
+    @RolesAllowed({"getLoginDtoByLogin", "getEditUserDtoByLogin", "findUserAccessLevelByLogin"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserByLogin() throws AppBaseException {
         return userFacade.findByLogin();
