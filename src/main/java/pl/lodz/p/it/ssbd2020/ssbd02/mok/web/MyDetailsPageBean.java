@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
@@ -62,7 +63,7 @@ public class MyDetailsPageBean implements Serializable {
      * Metoda inicjalizująca komponent
      */
     @PostConstruct
-    public void init()  {
+    public void init() throws IOException {
         PropertyReader propertyReader = new PropertyReader();
         ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
         MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config", "MANAGER_ACCESS_LEVEL");
@@ -73,8 +74,10 @@ public class MyDetailsPageBean implements Serializable {
             this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelByLogin();
             this.userDetailsDto = userAccessLevelDto.getUserDetailsDto();
         } catch (AppBaseException e) {
-            //redirect ?
+            //do przetestowania / poprawienia
             displayError(e.getLocalizedMessage());
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .redirect("listUsers.xhtml");
         }
     }
 

@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
@@ -64,14 +65,21 @@ public class UserDetailsPageBean implements Serializable {
     /**
      * Metoda inicjalizująca komponent
      */
-    public void init() throws AppBaseException{
+    public void init() throws IOException {
         PropertyReader propertyReader = new PropertyReader();
         ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
         MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config", "MANAGER_ACCESS_LEVEL");
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
 
-        this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelById(userId);
-        this.userDetailsDto = userAccessLevelDto.getUserDetailsDto();
+        try {
+            this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelById(userId);
+            this.userDetailsDto = userAccessLevelDto.getUserDetailsDto();
+        }
+        catch (AppBaseException e) {
+            //do przetestowania / poprawnienia
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .redirect("listUsers.xhtml");
+        }
     }
     /**
      * Metoda zwracająca łańcuch wszystkich poziomów dostępu konta

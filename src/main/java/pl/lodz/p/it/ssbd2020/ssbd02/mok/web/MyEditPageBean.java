@@ -10,6 +10,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
@@ -46,11 +47,14 @@ public class MyEditPageBean implements Serializable {
     /**
      * Metoda inicjalizująca komponent
      */
-    public void init() {
+    public void init() throws IOException {
         try{
             this.editUserDto = userEndpoint.getEditUserDtoByLogin();
         } catch (AppBaseException e) {
+            //do przetestowania / poprawienia
             displayError(e.getLocalizedMessage());
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .redirect("account.xhtml?faces-redirect=true?includeViewParams=true");
         }
     }
 

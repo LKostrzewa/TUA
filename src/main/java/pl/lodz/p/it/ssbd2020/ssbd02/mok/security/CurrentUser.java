@@ -93,44 +93,52 @@ public class CurrentUser implements Serializable {
         return "/client/index.xhtml";
     }
 
-    public void redirectToCurrentRole() {
+    /**
+     * Metoda do zmiany aktualnego poziomu dostępu użytkownika
+     *
+     * @throws IOException wyjątek jeżeli przekierowanie zakończy się niepowodzeniem
+     * (nie powinien wystąpić)
+     */
+    public void redirectToCurrentRole() throws IOException {
+        changeAccessLevel();
+        loggerIP.accessLevelChange();
+    }
+
+    /**
+     * Metoda do przekierowania użytkownika na swoją główną stronę
+     *
+     * @throws IOException wyjątek jeżeli przekierowanie zakończy się niepowodzeniem
+     * (nie powinien wystąpić)
+     */
+    public void redirectToMain() throws IOException {
         if(currentRole == null) {
-            try {
-                //Jezeli uzytkownik niezalogowany wykonuje redirect nie jest to wtedy zmiana poziomu dostępu -> brak logowania
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/login/login.xhtml");
-                return;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-        else if (currentRole.equals(ADMIN_ACCESS_LEVEL)) {
-            try {
+        else changeAccessLevel();
+    }
+
+    /**
+     * Metoda prywatna do przekierowania użytkownika na odpowiednią stronę w zależności od poziomu dostępu
+     *
+     * @throws IOException wyjątek jeżeli przekierowanie zakończy się niepowodzeniem
+     * (nie powinien wystąpić)
+     */
+    private void changeAccessLevel() throws IOException {
+        if (currentRole.equals(ADMIN_ACCESS_LEVEL)) {
                 FacesContext.getCurrentInstance()
                         .getExternalContext()
                         .redirect(redirectAdmin());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
         else if (currentRole.equals(MANAGER_ACCESS_LEVEL)) {
-            try {
                 FacesContext.getCurrentInstance()
                         .getExternalContext()
                         .redirect(redirectManager());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
         else if (currentRole.equals(CLIENT_ACCESS_LEVEL)) {
-            try {
                 FacesContext.getCurrentInstance()
                         .getExternalContext()
                         .redirect(redirectClient());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-        loggerIP.accessLevelChange();
     }
 }
 

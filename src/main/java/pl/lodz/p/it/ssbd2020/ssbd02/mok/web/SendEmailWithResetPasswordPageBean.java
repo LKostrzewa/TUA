@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 /**
- * Klasa do obsługi widoku wpisania maila przez użytkownika
+ * Klasa do obsługi widoku wpisania maila do użytkownika
  * do resetu hasła
  */
 @Named

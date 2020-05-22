@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
@@ -45,14 +46,15 @@ public class ChangeAccessLevelPageBean implements Serializable {
     /**
      * Metoda inicjalizująca komponent
      */
-    public void init(){
+    public void init() throws IOException {
         try {
             this.userDto = userAccessLevelEndpoint.findUserAccessLevelById(userId);
         }
         catch (AppBaseException e) {
-            //tutaj też co z redirect ??
+            //do sprawdzenia/poprawy
             displayError(e.getLocalizedMessage());
-            //FacesContext.getCurrentInstance().getExternalContext().redirect("userDetails.xhtml?faces-redirect=true?includeViewParams=true");
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .redirect("userDetails.xhtml?faces-redirect=true?includeViewParams=true");
         }
     }
     /**

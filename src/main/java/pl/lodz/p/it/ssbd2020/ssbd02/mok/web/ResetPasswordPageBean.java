@@ -15,7 +15,9 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
-
+/**
+ * Klasa do obsługi widoku resetowania hasła
+ */
 @Named
 @ViewScoped
 public class ResetPasswordPageBean implements Serializable {
@@ -38,12 +40,20 @@ public class ResetPasswordPageBean implements Serializable {
         this.resetPasswordDto = resetPasswordDto;
     }
 
+    /**
+     * Metoda inicjalizująca komponent
+     */
     @PostConstruct
     public void init() {
         resetPasswordDto = new ResetPasswordDto();
         resetPasswordDto.setResetPasswordCode(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key"));
     }
 
+    /**
+     * Metoda obsługująca wciśnięcie guzika do resetowania hasła
+     *
+     * @return strona na którą zostanie przekierowany użytkownik
+     */
     public String resetPassword() {
         try {
             userEndpoint.resetPassword(resetPasswordDto);
@@ -54,18 +64,29 @@ public class ResetPasswordPageBean implements Serializable {
         return "login.xhtml?faces-redirect=true";
     }
 
-    public void displayInit(){
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości
+     */
+    private void displayInit(){
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
 
-    public void displayMessage() {
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     */
+    private void displayMessage() {
         displayInit();
         String msg = resourceBundle.getString("resetPassword.resetPasswordSuccess");
         String head = resourceBundle.getString("success");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     *
+     * @param message wiadomość do wyświetlenia
+     */
     private void displayError(String message) {
         displayInit();
         String msg = resourceBundle.getString(message);
