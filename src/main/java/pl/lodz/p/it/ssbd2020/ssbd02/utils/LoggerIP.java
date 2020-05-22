@@ -35,7 +35,7 @@ public class LoggerIP implements Serializable {
      */
     public void accessLevelChange(){
         LOGGER.log(Level.INFO, "User: \""
-                + FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName()
+                + facesContext.getExternalContext().getUserPrincipal().getName()
                 + "\" has changed the access level with IP address: "
                 + getClientIpAddress());
     }

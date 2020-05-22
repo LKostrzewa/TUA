@@ -23,11 +23,11 @@ public class PropertyReader {
     }
 
     /**
-     * Metoda zwracająca właśność o podanym kluczu i z pakietu o podanej nazwie ...
+     * Metoda zwracająca właśność o podanym kluczu i z pakietu o podanej nazwie wstrzykując podany argument
      *
      * @param bundleName nazwa pakietu ze stałymi
      * @param propertyName klucz stałej do pobrania
-     * @param argument
+     * @param argument argument zawarty w wiadomości
      * @return wiadomość z pakietu znajdująca się pod podanym kluczem
      */
     public String getProperty(String bundleName, String propertyName, String argument) {

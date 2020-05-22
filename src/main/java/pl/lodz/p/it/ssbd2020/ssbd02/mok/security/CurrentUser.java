@@ -16,7 +16,7 @@ import java.io.Serializable;
 
 @SessionScoped
 @Named
-@Interceptors(LoggerInterceptor.class)
+//@Interceptors(LoggerInterceptor.class)
 public class CurrentUser implements Serializable {
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;
@@ -66,17 +66,14 @@ public class CurrentUser implements Serializable {
         return FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
     }
 
-    //@ExcludeClassInterceptors
     public boolean isNowAdministrator() {
         return currentRole.equals(ADMIN_ACCESS_LEVEL);
     }
 
-    //@ExcludeClassInterceptors
     public boolean isNowManager() {
         return currentRole.equals(MANAGER_ACCESS_LEVEL);
     }
 
-    //@ExcludeClassInterceptors
     public boolean isNowClient() {
         return currentRole.equals(CLIENT_ACCESS_LEVEL);
     }
