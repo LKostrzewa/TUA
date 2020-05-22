@@ -99,7 +99,9 @@ public class CurrentUser implements Serializable {
     public void redirectToCurrentRole() {
         if(currentRole == null) {
             try {
+                //Jezeli uzytkownik niezalogowany wykonuje redirect nie jest to wtedy zmiana poziomu dostępu -> brak logowania
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/login/login.xhtml");
+                return;
             } catch (IOException e) {
                 e.printStackTrace();
             }
