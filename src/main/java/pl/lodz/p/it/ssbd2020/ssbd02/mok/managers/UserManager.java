@@ -13,6 +13,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
@@ -40,6 +41,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     @Inject
     private BCryptPasswordHash bCryptPasswordHash;
 
+    @Resource
+    SessionContext sctx;
 
     private int methodInvocationCounter = 0;
 
@@ -58,57 +61,62 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      */
     @RolesAllowed("addNewUser")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void addNewUser(User user) throws AppBaseException {
-        String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
-        if (userFacade.existByLogin(user.getLogin())) {
-            throw ValueNotUniqueException.createLoginNotUniqueException(user);
+    public void addNewUser(User user) throws AppBaseException, EJBTransactionRolledbackException {
+        try {
+            String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
+            if (userFacade.existByLogin(user.getLogin())) {
+                throw ValueNotUniqueException.createLoginNotUniqueException(user);
+            }
+            if (userFacade.existByEmail(user.getEmail())) {
+                throw ValueNotUniqueException.createEmailNotUniqueException(user);
+            }
+            user.setActivated(true);
+            user.setLocked(false);
+            user.setPassword(passwordHash);
+            user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
+
+            UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelByName(CLIENT_ACCESS_LEVEL));
+
+            user.getUserAccessLevels().add(userAccessLevel);
+
+            userFacade.create(user);
+        } catch (EJBTransactionRolledbackException e) {
+            throw new AppEJBTransactionRolledbackException("exception.repeated.rollback");
         }
-        if (userFacade.existByEmail(user.getEmail())) {
-            throw ValueNotUniqueException.createEmailNotUniqueException(user);
-        }
-        user.setActivated(true);
-        user.setLocked(false);
-        user.setPassword(passwordHash);
-        user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
-
-        UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelByName(CLIENT_ACCESS_LEVEL));
-
-        user.getUserAccessLevels().add(userAccessLevel);
-
-        userFacade.create(user);
     }
 
     /**
      * Metoda rejestrujaca nowego uzytkownika poprzez dodanie go do bazy danych za pomocą userFacade
+     *
      * @param user
      * @throws AppBaseException
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void registerNewUser(User user) throws AppBaseException {
-    methodInvocationCounter++;
-    if(methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
-        throw RepeatedRollBackException.createRepeatedRollBackException(user);
-    }
-        String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
-        if (userFacade.existByLogin(user.getLogin())) {
-            throw ValueNotUniqueException.createLoginNotUniqueException(user);
+    public void registerNewUser(User user) throws AppBaseException, EJBTransactionRolledbackException {
+        try {
+            String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
+            if (userFacade.existByLogin(user.getLogin())) {
+                throw ValueNotUniqueException.createLoginNotUniqueException(user);
+            }
+            if (userFacade.existByEmail(user.getEmail())) {
+                throw ValueNotUniqueException.createEmailNotUniqueException(user);
+            }
+            user.setActivated(false);
+            user.setLocked(false);
+            user.setPassword(passwordHash);
+            user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
+
+            UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelByName(CLIENT_ACCESS_LEVEL));
+
+            user.getUserAccessLevels().add(userAccessLevel);
+
+            userFacade.create(user);
+
+            sendEmailWithCode(user);
+        } catch (EJBTransactionRolledbackException e) {
+            throw new AppEJBTransactionRolledbackException("exception.repeated.rollback");
         }
-        if (userFacade.existByEmail(user.getEmail())) {
-            throw ValueNotUniqueException.createEmailNotUniqueException(user);
-        }
-        user.setActivated(false);
-        user.setLocked(false);
-        user.setPassword(passwordHash);
-        user.setActivationCode(UUID.randomUUID().toString().replace("-", ""));
-
-        UserAccessLevel userAccessLevel = new UserAccessLevel(user, accessLevelFacade.findByAccessLevelByName(CLIENT_ACCESS_LEVEL));
-
-        user.getUserAccessLevels().add(userAccessLevel);
-
-        userFacade.create(user);
-
-        sendEmailWithCode(user);
     }
 
 
@@ -142,10 +150,14 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param user obiekt przechowujący dane wprowadzone w formularzu
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"editUser","editOwnData"})
+    @RolesAllowed({"editUser", "editOwnData"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editUser(User user) throws AppBaseException {
-        userFacade.edit(user);
+    public void editUser(User user) throws AppBaseException, EJBTransactionRolledbackException {
+        try {
+            userFacade.edit(user);
+        } catch (EJBTransactionRolledbackException e) {
+            throw new AppEJBTransactionRolledbackException("exception.repeated.rollback");
+        }
     }
 
     /**
@@ -157,11 +169,15 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      */
     @RolesAllowed("changeUserPassword")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void changeUserPassword(User user, Long userId) throws AppBaseException {
-        User userToEdit = userFacade.find(userId).orElseThrow(AppNotFoundException::createUserNotFoundException);
-        String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
-        userToEdit.setPassword(passwordHash);
-        userFacade.edit(userToEdit);
+    public void changeUserPassword(User user, Long userId) throws AppBaseException, EJBTransactionRolledbackException {
+        try {
+            User userToEdit = userFacade.find(userId).orElseThrow(AppNotFoundException::createUserNotFoundException);
+            String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
+            userToEdit.setPassword(passwordHash);
+            userFacade.edit(userToEdit);
+        } catch (EJBTransactionRolledbackException e) {
+            throw new AppEJBTransactionRolledbackException("exception.repeated.rollback");
+        }
     }
 
     /**
@@ -173,18 +189,22 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      */
     @RolesAllowed("changeOwnPassword")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void changeOwnPassword(User user, String givenOldPassword) throws AppBaseException {
-        User userToEdit = userFacade.findByLogin();
-        BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
-        if (!bCryptPasswordHash.verify(givenOldPassword.toCharArray(), userToEdit.getPassword())) {
-            throw IncorrectPasswordException.createIncorrectPasswordException(user);
+    public void changeOwnPassword(User user, String givenOldPassword) throws AppBaseException, EJBTransactionRolledbackException {
+        try {
+            User userToEdit = userFacade.findByLogin();
+            BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
+            if (!bCryptPasswordHash.verify(givenOldPassword.toCharArray(), userToEdit.getPassword())) {
+                throw IncorrectPasswordException.createIncorrectPasswordException(user);
+            }
+            if (bCryptPasswordHash.verify(user.getPassword().toCharArray(), userToEdit.getPassword())) {
+                throw PasswordIdenticalException.createPasswordIdenticalException(user);
+            }
+            String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
+            userToEdit.setPassword(passwordHash);
+            userFacade.edit(userToEdit);
+        } catch (EJBTransactionRolledbackException e) {
+            throw new AppEJBTransactionRolledbackException("exception.repeated.rollback");
         }
-        if (bCryptPasswordHash.verify(user.getPassword().toCharArray(), userToEdit.getPassword())) {
-            throw PasswordIdenticalException.createPasswordIdenticalException(user);
-        }
-        String passwordHash = bCryptPasswordHash.generate(user.getPassword().toCharArray());
-        userToEdit.setPassword(passwordHash);
-        userFacade.edit(userToEdit);
     }
 
     /**
@@ -195,14 +215,18 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      */
     @RolesAllowed("lockAccount")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void lockAccount(Long userId) throws AppBaseException {
-        User userToEdit = userFacade.find(userId).orElseThrow(AppNotFoundException::createUserNotFoundException);
-        if(userToEdit.getLocked()) {
-            throw UserDataChangedException.lockValueChanged(userToEdit);
+    public void lockAccount(Long userId) throws AppBaseException, EJBTransactionRolledbackException {
+        try {
+            User userToEdit = userFacade.find(userId).orElseThrow(AppNotFoundException::createUserNotFoundException);
+            if (userToEdit.getLocked()) {
+                throw UserDataChangedException.lockValueChanged(userToEdit);
+            }
+            userToEdit.setLocked(true);
+            userFacade.edit(userToEdit);
+            sendEmail.lockInfoEmail(userToEdit.getEmail());
+        } catch (EJBTransactionRolledbackException e) {
+            throw new AppEJBTransactionRolledbackException("exception.repeated.rollback");
         }
-        userToEdit.setLocked(true);
-        userFacade.edit(userToEdit);
-        sendEmail.lockInfoEmail(userToEdit.getEmail());
     }
 
     /**
@@ -213,15 +237,19 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      */
     @RolesAllowed("unlockAccount")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void unlockAccount(Long userId) throws AppBaseException {
-        User userToEdit = userFacade.find(userId).orElseThrow(AppNotFoundException::createUserNotFoundException);
-        if(!userToEdit.getLocked()) {
-            throw UserDataChangedException.unlockValueChanged(userToEdit);
-        }
-        userToEdit.setLocked(false);
-        userFacade.edit(userToEdit);
+    public void unlockAccount(Long userId) throws AppBaseException, EJBTransactionRolledbackException {
+        try {
+            User userToEdit = userFacade.find(userId).orElseThrow(AppNotFoundException::createUserNotFoundException);
+            if (!userToEdit.getLocked()) {
+                throw UserDataChangedException.unlockValueChanged(userToEdit);
+            }
+            userToEdit.setLocked(false);
+            userFacade.edit(userToEdit);
 
-        sendEmail.unlockInfoEmail(userToEdit.getEmail());
+            sendEmail.unlockInfoEmail(userToEdit.getEmail());
+        } catch (EJBTransactionRolledbackException e) {
+            throw new AppEJBTransactionRolledbackException("exception.repeated.rollback");
+        }
     }
 
     /**
@@ -230,7 +258,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @return encje User
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"getLoginDtoByLogin","getEditUserDtoByLogin"})
+    @RolesAllowed({"getLoginDtoByLogin", "getEditUserDtoByLogin"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserByLogin() throws AppBaseException {
         return userFacade.findByLogin();
@@ -244,17 +272,25 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void confirmActivationCode(String code) throws AppBaseException {
-        User user = userFacade.findByActivationCode(code);
-        user.setActivated(true);
-        userFacade.edit(user);
-        sendEmail.activationInfoEmail(user.getEmail());
+    public void confirmActivationCode(String code) throws AppBaseException, EJBTransactionRolledbackException {
+        try {
+            User user = userFacade.findByActivationCode(code);
+            user.setActivated(true);
+            userFacade.edit(user);
+            sendEmail.activationInfoEmail(user.getEmail());
+        } catch (EJBTransactionRolledbackException e) {
+            throw new AppEJBTransactionRolledbackException("exception.repeated.rollback");
+        }
     }
 
-    public void sendEmailWithCode(User user) throws AppBaseException {
-        String email = user.getEmail();
-        String userName = user.getFirstName();
-        sendEmail.sendActivationEmail(createVerificationLink(user), userName, email);
+    public void sendEmailWithCode(User user) throws AppBaseException, EJBTransactionRolledbackException {
+        try {
+            String email = user.getEmail();
+            String userName = user.getFirstName();
+            sendEmail.sendActivationEmail(createVerificationLink(user), userName, email);
+        } catch (EJBTransactionRolledbackException e) {
+            throw new AppEJBTransactionRolledbackException("exception.repeated.rollback");
+        }
     }
 
     /**
@@ -265,26 +301,30 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      */
     @RolesAllowed("saveSuccessAuthenticate")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void saveSuccessAuthenticate() throws AppBaseException {
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance()
-                .getExternalContext()
-                .getRequest();
-        String xForwardedForHeader = request.getHeader("X-Forwarded-For");
+    public void saveSuccessAuthenticate() throws AppBaseException, EJBTransactionRolledbackException {
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance()
+                    .getExternalContext()
+                    .getRequest();
+            String xForwardedForHeader = request.getHeader("X-Forwarded-For");
 
-        User userToEdit = userFacade.findByLogin();
-        String clientIpAddress;
-        if (xForwardedForHeader == null) {
-            clientIpAddress = request.getRemoteAddr();
-        } else {
-           clientIpAddress = new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
-        }
-        userToEdit.setLastLoginIp(clientIpAddress);
-        userToEdit.setLastValidLogin(new Date());
-        userToEdit.setInvalidLoginAttempts(0);
-        userFacade.edit(userToEdit);
+            User userToEdit = userFacade.findByLogin();
+            String clientIpAddress;
+            if (xForwardedForHeader == null) {
+                clientIpAddress = request.getRemoteAddr();
+            } else {
+                clientIpAddress = new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
+            }
+            userToEdit.setLastLoginIp(clientIpAddress);
+            userToEdit.setLastValidLogin(new Date());
+            userToEdit.setInvalidLoginAttempts(0);
+            userFacade.edit(userToEdit);
 
-        if (userToEdit.getUserAccessLevels().stream().anyMatch(n -> n.getAccessLevel().getName().equals(ADMIN_ACCESS_LEVEL))) {
-            sendEmail.sendEmailNotificationAboutNewAdminAuthentication(userToEdit.getEmail(), clientIpAddress);
+            if (userToEdit.getUserAccessLevels().stream().anyMatch(n -> n.getAccessLevel().getName().equals(ADMIN_ACCESS_LEVEL))) {
+                sendEmail.sendEmailNotificationAboutNewAdminAuthentication(userToEdit.getEmail(), clientIpAddress);
+            }
+        } catch (EJBTransactionRolledbackException e) {
+            throw new AppEJBTransactionRolledbackException("exception.repeated.rollback");
         }
     }
 
@@ -296,25 +336,30 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void saveFailureAuthenticate() throws AppBaseException {
-        User userToEdit = userFacade.findByLogin();
-        boolean sendBlockEmail = false;
-        if (userToEdit.isActivated() && !userToEdit.isLocked()) {
-            userToEdit.setLastInvalidLogin(new Date());
-            int attempts = userToEdit.getInvalidLoginAttempts() + 1;
-            if (attempts == 3) {
-                userToEdit.setInvalidLoginAttempts(0);
-                userToEdit.setLocked(true);
-                sendBlockEmail = true;
+    public void saveFailureAuthenticate() throws AppBaseException, EJBTransactionRolledbackException {
+        try {
+            User userToEdit = userFacade.findByLogin();
+            boolean sendBlockEmail = false;
+            if (userToEdit.isActivated() && !userToEdit.isLocked()) {
+                userToEdit.setLastInvalidLogin(new Date());
+                int attempts = userToEdit.getInvalidLoginAttempts() + 1;
+                if (attempts == 3) {
+                    userToEdit.setInvalidLoginAttempts(0);
+                    userToEdit.setLocked(true);
+                    sendBlockEmail = true;
 
-            } else {
-                userToEdit.setInvalidLoginAttempts(attempts);
-            }
-            userFacade.edit(userToEdit);
+                } else {
+                    userToEdit.setInvalidLoginAttempts(attempts);
+                }
+                userFacade.edit(userToEdit);
 
-            if (sendBlockEmail) {
-                sendEmail.lockInfoEmail(userToEdit.getEmail());
+                if (sendBlockEmail) {
+                    sendEmail.lockInfoEmail(userToEdit.getEmail());
+                }
             }
+
+        } catch (EJBTransactionRolledbackException e) {
+            throw new AppEJBTransactionRolledbackException("exception.repeated.rollback");
         }
     }
 
@@ -352,22 +397,26 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void sendResetPasswordEmail(String email) throws AppBaseException {
-        if (!userFacade.existByEmail(email)) {
-            throw AppNotFoundException.createEmailNotFoundException();
+    public void sendResetPasswordEmail(String email) throws AppBaseException, EJBTransactionRolledbackException {
+        try {
+            if (!userFacade.existByEmail(email)) {
+                throw AppNotFoundException.createEmailNotFoundException();
+            }
+            User userToEdit = userFacade.findByEmail(email);
+            String resetPasswordCode = UUID.randomUUID().toString().replace("-", "");
+            userToEdit.setResetPasswordCode(resetPasswordCode);
+            userToEdit.setResetPasswordCodeAddDate(new Date());
+            userFacade.edit(userToEdit);
+            // TODO tutaj hashowanie resetPasswordCode?
+
+            PropertyReader propertyReader = new PropertyReader();
+            String url = propertyReader.getProperty("config", "link_to_reset_password");
+            String link = "<a href=" + "\"" + url + resetPasswordCode + "\">Link</a>";
+
+            sendEmail.sendResetPasswordEmail(email, link);
+        } catch (EJBTransactionRolledbackException e) {
+            throw new AppEJBTransactionRolledbackException("exception.repeated.rollback");
         }
-        User userToEdit = userFacade.findByEmail(email);
-        String resetPasswordCode = UUID.randomUUID().toString().replace("-", "");
-        userToEdit.setResetPasswordCode(resetPasswordCode);
-        userToEdit.setResetPasswordCodeAddDate(new Date());
-        userFacade.edit(userToEdit);
-        // TODO tutaj hashowanie resetPasswordCode?
-
-        PropertyReader propertyReader = new PropertyReader();
-        String url = propertyReader.getProperty("config", "link_to_reset_password");
-        String link = "<a href=" + "\"" + url + resetPasswordCode + "\">Link</a>";
-
-        sendEmail.sendResetPasswordEmail(email, link);
     }
 
     /**
@@ -378,22 +427,26 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void resetPassword(ResetPasswordDto resetPasswordDto) throws AppBaseException {
-        User userToEdit = userFacade.findByResetPasswordCode(resetPasswordDto.getResetPasswordCode());
-        Date resetPasswordCodeAddDate = userToEdit.getResetPasswordCodeAddDate();
-        Date now = new Date();
-        PropertyReader propertyReader = new PropertyReader();
-        Long time = Long.parseLong(propertyReader.getProperty("config", "reset_password_key_valid_time"));
-        long MAX_DURATION = MILLISECONDS.convert(time, MINUTES);
-        long duration = now.getTime() - resetPasswordCodeAddDate.getTime();
-        if (duration >= MAX_DURATION) {
-            throw ResetPasswordCodeExpiredException.createPasswordExceptionWithCodeExpiredConstraint(userToEdit);
+    public void resetPassword(ResetPasswordDto resetPasswordDto) throws AppBaseException, EJBTransactionRolledbackException {
+        try {
+            User userToEdit = userFacade.findByResetPasswordCode(resetPasswordDto.getResetPasswordCode());
+            Date resetPasswordCodeAddDate = userToEdit.getResetPasswordCodeAddDate();
+            Date now = new Date();
+            PropertyReader propertyReader = new PropertyReader();
+            Long time = Long.parseLong(propertyReader.getProperty("config", "reset_password_key_valid_time"));
+            long MAX_DURATION = MILLISECONDS.convert(time, MINUTES);
+            long duration = now.getTime() - resetPasswordCodeAddDate.getTime();
+            if (duration >= MAX_DURATION) {
+                throw ResetPasswordCodeExpiredException.createPasswordExceptionWithCodeExpiredConstraint(userToEdit);
+            }
+            if (bCryptPasswordHash.verify(resetPasswordDto.getPassword().toCharArray(), userToEdit.getPassword())) {
+                throw PasswordIdenticalException.createPasswordIdenticalException(userToEdit);
+            }
+            String passwordHash = bCryptPasswordHash.generate(resetPasswordDto.getPassword().toCharArray());
+            userToEdit.setPassword(passwordHash);
+            userFacade.edit(userToEdit);
+        } catch (EJBTransactionRolledbackException e) {
+            throw new AppEJBTransactionRolledbackException("exception.repeated.rollback");
         }
-        if (bCryptPasswordHash.verify(resetPasswordDto.getPassword().toCharArray(), userToEdit.getPassword())){
-            throw PasswordIdenticalException.createPasswordIdenticalException(userToEdit);
-        }
-        String passwordHash = bCryptPasswordHash.generate(resetPasswordDto.getPassword().toCharArray());
-        userToEdit.setPassword(passwordHash);
-        userFacade.edit(userToEdit);
     }
 }
