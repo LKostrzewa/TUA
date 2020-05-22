@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 import org.eclipse.persistence.annotations.ReadOnly;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.ValueNotUniqueException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtModelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -61,13 +62,26 @@ public class YachtModelManager {
         return yachtModelFacade.find(yachtModelId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
     }
 
-    public void editYachtModel(Long yachtModelId, YachtModel yachtModelToEdit) throws AppBaseException {
-      //  yachtModelToEdit.setId(yachtModelId);
+    /**
+     * Metoda, która zapisuje wprowadzone przez managera zmiany w modelu jachtu
+     * @param yachtModelToEdit edytowany model jachtu
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("editYachtModel")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void editYachtModel(YachtModel yachtModelToEdit) throws AppBaseException {
         yachtModelFacade.edit(yachtModelToEdit);
     }
 
+    /**
+     * Metoda, która deaktywuje model jachtu o podanym id.
+     * @param yachtModelId id modelu jachtu
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("deactivateYachtModel")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void deactivateYachtModel(Long yachtModelId) throws AppBaseException{
-        YachtModel yachtModelToDeactivate = getYachtModelById(yachtModelId);
+        YachtModel yachtModelToDeactivate = yachtModelFacade.find(yachtModelId).orElseThrow(AppNotFoundException::createYachtNotFoundException);
         yachtModelToDeactivate.setActive(false);
         yachtModelFacade.edit(yachtModelToDeactivate);
     }

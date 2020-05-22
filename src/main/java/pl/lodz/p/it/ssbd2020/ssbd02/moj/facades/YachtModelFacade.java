@@ -46,6 +46,7 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
     }
 
     @Override
+    @RolesAllowed({"editYachtModel", "deactivateYachtModel"})
     public void edit(YachtModel entity) throws AppBaseException {
         super.edit(entity);
     }
@@ -62,7 +63,7 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
      * @return Optional<YachtModel>
      */
     @Override
-    @RolesAllowed({"addYacht", "getYachtModelById"})
+    @RolesAllowed({"addYacht", "getYachtModelById", "addImage"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<YachtModel> find(Object id) {
         return super.find(id);

@@ -1,12 +1,14 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel;
 
 
+import java.math.BigDecimal;
+
 public class EditYachtModelDto {
     private Integer capacity;
     private String manufacturer;
     private String model;
     private String generalDescription;
-    private Float basicPrice;
+    private BigDecimal basicPrice;
 
     public Integer getCapacity() {
         return capacity;
@@ -24,11 +26,11 @@ public class EditYachtModelDto {
         this.generalDescription = generalDescription;
     }
 
-    public Float getBasicPrice() {
+    public BigDecimal getBasicPrice() {
         return basicPrice;
     }
 
-    public void setBasicPrice(Float basicPrice) {
+    public void setBasicPrice(BigDecimal basicPrice) {
         this.basicPrice = basicPrice;
     }
 

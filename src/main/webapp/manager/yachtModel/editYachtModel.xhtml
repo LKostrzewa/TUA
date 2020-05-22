@@ -2,11 +2,75 @@
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
 <head>
     <title>Title</title>
 </head>
 <body>
-
+<ui:composition template="/templates/commonTemplate.xhtml">
+    <ui:define name="title">#{msg['manager.title.yachtDetails']}</ui:define>
+    <ui:define name="breadCrumbs">
+        <p:breadCrumb>
+            <p:menuitem value="Categories" url="#"/>
+            <p:menuitem value="#{msg['bread.main']}" url="/manager/index.xhtml"/>
+            <p:menuitem value="#{msg['bread.yachtModels']}" url="/manager/yachtModel/listYachtModels.xhtml"/>
+            <p:menuitem value="#{msg['bread.yachtModel']}" url="/manager/yachtModel/yachtModelDetails.xhtml"
+                        includeViewParams="true">
+                <f:param name="yachtModelId" value="#{editYachtPageBean.yachtId}"/>
+            </p:menuitem>
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="yachtModelId" value="#{editYachtModelPageBean.yachtModelId}"/>
+            <f:event type="preRenderView" listener="#{editYachtModelPageBean.init}"/>
+        </f:metadata>
+        <h:form id="form">
+            <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
+            <div>
+            <span class="ui-float-label" style="margin: 20px">
+               <p:inputText id="model" value="#{editYachtModelPageBean.editYachtModelDto.model}"/>
+               <p:outputLabel for="@previous" value="#{msg['yachtModel.model']}"/>
+                <p:message for="model"/>
+           </span>
+                <span class="ui-float-label" style="margin: 20px">
+               <p:inputText id="manufacturer" value="#{editYachtModelPageBean.editYachtModelDto.manufacturer}"/>
+               <p:outputLabel for="@previous" value="#{msg['yachtModel.manufacturer']}"/>
+                <p:message for="manufacturer"/>
+           </span>
+                <span class="ui-float-label" style="margin: 20px">
+               <p:inputText id="capacity" value="#{editYachtModelPageBean.editYachtModelDto.capacity}"/>
+               <p:outputLabel for="@previous" value="#{msg['yachtModel.capacity']}"/>
+                <p:message for="capacity"/>
+           </span>
+            <span class="ui-float-label" style="margin: 20px">
+               <p:inputText id="basicPrice" value="#{editYachtModelPageBean.editYachtModelDto.basicPrice}"/>
+               <p:outputLabel for="@previous" value="#{msg['yachtModel.basicPrice']}"/>
+                <p:message for="basicPrice"/>
+           </span>
+                <span class="ui-float-label" style="margin: 20px">
+               <p:inputText id="generalDescription" value="#{editYachtModelPageBean.editYachtModelDto.generalDescription}"/>
+               <p:outputLabel for="@previous" value="#{msg['yachtModel.description']}"/>
+                <p:message for="generalDescription"/>
+           </span>
+            </div>
+            <p:button value="#{msg['cancel']}"
+                      outcome="yachtModelDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
+            <p:commandButton value="#{msg['edit']}" action="#{editYachtModelPageBean.editYachtModel}"
+                             update="message @form">
+                <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
+                           icon="pi pi-exclamation-triangle"/>
+            </p:commandButton>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                                 icon="pi pi-check"/>
+                <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                                 icon="pi pi-times"/>
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+</ui:composition>
 </body>
 </html>
