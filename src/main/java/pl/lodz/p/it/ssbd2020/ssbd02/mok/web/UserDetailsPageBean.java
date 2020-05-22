@@ -77,7 +77,7 @@ public class UserDetailsPageBean implements Serializable {
         return string;
     }
 
-    public void lockAccount() throws AppBaseException{
+    public void lockAccount() {
         try {
             userDetailsDto.setLocked(true);
             userEndpoint.lockAccount(userId);
