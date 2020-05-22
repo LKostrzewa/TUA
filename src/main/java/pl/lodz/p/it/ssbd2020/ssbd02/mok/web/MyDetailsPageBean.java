@@ -29,7 +29,7 @@ public class MyDetailsPageBean implements Serializable {
     private FacesContext facesContext;
     private UserDetailsDto userDetailsDto;
     private UserAccessLevelDto userAccessLevelDto;
-   // private String userLogin;
+    private String userLogin;
 
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;
@@ -62,8 +62,8 @@ public class MyDetailsPageBean implements Serializable {
     /**
      * Metoda inicjalizująca komponent
      */
-    @PostConstruct
-    public void init() throws IOException {
+    @PostConstruct //bez PostConstruct jest nulllllll a z postConstruct nie moze byc IOException
+    public void init() /*throws IOException*/ {
         PropertyReader propertyReader = new PropertyReader();
         ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
         MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config", "MANAGER_ACCESS_LEVEL");
@@ -76,8 +76,8 @@ public class MyDetailsPageBean implements Serializable {
         } catch (AppBaseException e) {
             //do przetestowania / poprawienia
             displayError(e.getLocalizedMessage());
-            FacesContext.getCurrentInstance().getExternalContext()
-                    .redirect("listUsers.xhtml");
+            /*FacesContext.getCurrentInstance().getExternalContext()
+                    .redirect("listUsers.xhtml");*/
         }
     }
 
