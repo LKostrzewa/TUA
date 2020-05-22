@@ -51,4 +51,8 @@ public class YachtModelDetailsDto {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }

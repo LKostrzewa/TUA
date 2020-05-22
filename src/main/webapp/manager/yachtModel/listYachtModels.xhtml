@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
+<head>
+    <title>Title</title>
+</head>
+<body>
+<ui:composition template="/templates/commonTemplate.xhtml">
+    <ui:define name="title">#{msg['manager.title.yachtModels']}</ui:define>
+    <ui:define name="breadCrumbs">
+        <p:breadCrumb>
+            <p:menuitem value="Categories" url="#"/>
+            <p:menuitem value="#{msg['bread.main']}" url="/manager/index.xhtml"/>
+            <p:menuitem value="#{msg['bread.yachtModels']}" url="/manager/yachtModel/listYachtModels.xhtml"/>
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="growl" showDetail="true" sticky="true"/>
+            <p:dataTable var="model" value="#{listYachtModelPageBean.yachtModels}" rows="10"
+                         border="2"
+                         paginator="true"
+                         first="0"
+                         paginatorPosition="bottom"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['bread.yachtModels']}">
+
+                <p:column headerText="${msg['yachtModel.model']}">
+                    <h:outputText value="#{model.model}"/>
+                </p:column>
+                <p:column headerText="${msg['yachtModel.manufacturer']}">
+                    <h:outputText value="#{model.manufacturer}"/>
+                </p:column>
+                <p:column headerText="${msg['yachtModel.capacity']}">
+                    <h:outputText value="#{model.capacity}"/>
+                </p:column>
+                <p:column headerText="${msg['yachtModel.basicPrice']}">
+                    <h:outputText value="#{model.basicPrice}"/>
+                </p:column>
+                <p:column headerText="${msg['yachtMode.active']}">
+                    <h:outputText value="#{model.active}"/>
+                </p:column>
+                <p:column headerText="${msg['actions']}">
+                    <p:button value="${msg['details']}" outcome="yachtModelDetails.xhtml?faces-redirect=true">
+                        <f:param name="yachtModelId" value="#{model.id}"/>
+                    </p:button>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</body>
+</html>

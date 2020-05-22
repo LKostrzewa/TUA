@@ -10,6 +10,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
@@ -17,51 +18,33 @@ import java.io.Serializable;
 import java.util.List;
 
 @Named
-@ConversationScoped
+@ViewScoped
 public class YachtModelDetailsPageBean implements Serializable {
-    @Inject
-    private Conversation conversation;
-    @Inject
-    private ImageEndpoint imageEndpoint;
+
+
     @Inject
     private YachtModelEndpoint yachtModelEndpoint;
     private Long yachtModelId;
     private YachtModelDetailsDto yachtModelDetailsDto;
-    private List<Image> images;
 
-    public List<Image> getImages() {
-        return images;
+
+    public void init() throws AppBaseException {
+        this.yachtModelDetailsDto = yachtModelEndpoint.getYachtModelById(yachtModelId);
     }
 
-    public void setImages(List<Image> images) {
-        this.images = images;
+    public Long getYachtModelId() {
+        return yachtModelId;
     }
 
-    @PostConstruct
-    private void init(String modelName) {
-
-        this.images = imageEndpoint.getAllImagesByYachtMode(modelName);
-    }
-
-    public String openYachtModelDetailsPage(Long yachtModelId) throws AppBaseException {
-        conversation.begin();
+    public void setYachtModelId(Long yachtModelId) {
         this.yachtModelId = yachtModelId;
-        this.yachtModelDetailsDto = ObjectMapperUtils.map(yachtModelEndpoint.getYachtModelById(yachtModelId), YachtModelDetailsDto.class);
-        return "/manager/editYachtModel.xhtml?faces-redirect=true";
     }
 
-    public String closeYachtModelDetailsPage() {
-        conversation.end();
-        return "/manager/listYachtModels.xhtml?faces-redirect=true";
+    public YachtModelDetailsDto getYachtModelDetailsDto() {
+        return yachtModelDetailsDto;
     }
 
-    public String addImage(String path) throws IOException, AppBaseException {
-        imageEndpoint.addImage(path);
-        return "/manager/yachtModelDetails.xhtml?faces-redirect=true";
-    }
-
-    public String deleteImage(Long id) throws AppBaseException{
-        imageEndpoint.deleteImage(id);
-        return "/manager/yachtModelDetails.xhtml?faces-redirect=true";
+    public void setYachtModelDetailsDto(YachtModelDetailsDto yachtModelDetailsDto) {
+        this.yachtModelDetailsDto = yachtModelDetailsDto;
     }
 }
