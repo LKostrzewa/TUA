@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.ValueNotUniqueException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.PortFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -22,10 +23,52 @@ public class PortManager {
     @Inject
     private PortFacade portFacade;
 
+    /**
+     * Metoda, służy do dodawania nowych portów do bazy danych.
+     *
+     * @param port encja portu.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("addPort")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addPort(Port port) throws AppBaseException {
-        portFacade.create(port);
+        Port portToAdd = new Port(port.getName(),port.getLake(),port.getNearestCity(),port.getLong1(),port.getLat());
+
+        if(portFacade.existByName(portToAdd.getName())){
+            throw ValueNotUniqueException.createPortNameNotUniqueException(portToAdd);
+        }
+        portToAdd.setActive(true);
+        portFacade.create(portToAdd);
     }
 
+    /**
+     * Metoda, która edytuje zmiany wprowadzone w encji portu.
+     *
+     * @param portToEdit edytowany port.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("editPort")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void editPort(Port portToEdit) throws AppBaseException {
+        /*if(portFacade.existByName(portToEdit.getName())){
+            throw ValueNotUniqueException.createPortNameNotUniqueException(portToEdit);
+        }*/
+        //TODO: zdecydowac czy można zmieniać nazwę
+        portFacade.edit(portToEdit);
+    }
+
+    /**
+     * Metoda, która deaktywuje dany port.
+     *
+     * @param portToDeactivate encja portu.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("deactivatePort")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void deactivatePort(Port portToDeactivate) throws AppBaseException{
+        portToDeactivate.setActive(false);
+        portFacade.edit(portToDeactivate);
+    }
 
     /**
      * Metoda, która zwraca wszystkie porty.
@@ -49,16 +92,5 @@ public class PortManager {
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Port getPortById(Long portId) throws AppBaseException {
         return portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
-    }
-
-    public void editPort(Long portId, Port portToEdit) throws AppBaseException {
-        //portToEdit.setId(portId);
-        portFacade.edit(portToEdit);
-    }
-
-    public void deactivatePort(Long portId) throws AppBaseException{
-        Port portToDeactivate = getPortById(portId);
-        portToDeactivate.setActive(false);
-        portFacade.edit(portToDeactivate);
     }
 }
