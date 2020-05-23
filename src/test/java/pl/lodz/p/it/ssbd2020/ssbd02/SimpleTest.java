@@ -25,7 +25,6 @@ public class SimpleTest {
         ChangeOwnPasswordDto changeOwnPasswordDto = new ChangeOwnPasswordDto();
         changeOwnPasswordDto.setOldPassword("oldPassword1@");
         changeOwnPasswordDto.setPassword("newPassword1@");
-        changeOwnPasswordDto.setConfirmPassword("newPassword1@");
 
         User user1 = ObjectMapperUtils.map(changeOwnPasswordDto, User.class);
 

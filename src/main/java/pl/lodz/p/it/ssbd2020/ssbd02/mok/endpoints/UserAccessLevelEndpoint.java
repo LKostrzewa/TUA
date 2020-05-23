@@ -3,7 +3,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 
-
+/**
+ * Interfejs Endpoint do operacji łączenia użytkownikó z poziomami dostępu
+ */
 public interface UserAccessLevelEndpoint {
     /**
      * Metoda, która zwraca obiekt UserAccessLevelDto zawierający informacje o poziomach dostępu danego użytkownika

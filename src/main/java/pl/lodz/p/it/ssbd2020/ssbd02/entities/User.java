@@ -25,18 +25,10 @@ import java.util.UUID;
 @NamedQueries({
         @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
         @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-        @NamedQuery(name = "User.findByVersion", query = "SELECT u FROM User u WHERE u.version = :version"),
         @NamedQuery(name = "User.findByLogin", query = "SELECT u FROM User u WHERE u.login = :login"),
-        @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
         @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
-        @NamedQuery(name = "User.findByLocked", query = "SELECT u FROM User u WHERE u.locked = :locked"),
-        @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.activated = :active"),
-        @NamedQuery(name = "User.findByCreated", query = "SELECT u FROM User u WHERE u.created = :created"),
-        @NamedQuery(name = "User.findByLastValidLogin", query = "SELECT u FROM User u WHERE u.lastValidLogin = :lastValidLogin"),
-        @NamedQuery(name = "User.findByLastInvalidLogin", query = "SELECT u FROM User u WHERE u.lastInvalidLogin = :lastInvalidLogin"),
         @NamedQuery(name = "User.findByActivationCode", query = "SELECT u FROM User u WHERE u.activationCode = :activationCode"),
         @NamedQuery(name = "User.findByResetPasswordCode", query = "SELECT u FROM User u WHERE u.resetPasswordCode = :resetPasswordCode"),
-        @NamedQuery(name = "User.findByInvalidLoginAttempts", query = "SELECT u FROM User u WHERE u.invalidLoginAttempts = :invalidLoginAttemps"),
         @NamedQuery(name = "User.countByLogin", query = "SELECT COUNT(u) FROM User u WHERE u.login = :login"),
         @NamedQuery(name = "User.countByEmail", query = "SELECT COUNT(u) FROM User u WHERE u.email = :email")})
 public class User implements Serializable {

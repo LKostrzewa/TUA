@@ -10,9 +10,13 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
+/**
+ * Klasa do obsługi widoku edycji własnych danych
+ */
 @Named
 @ViewScoped
 public class MyEditPageBean implements Serializable {
@@ -40,16 +44,25 @@ public class MyEditPageBean implements Serializable {
         this.bundle = bundle;
     }
 
-    public void init() {
-        String userLogin = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+    /**
+     * Metoda inicjalizująca komponent
+     */
+    public void init() throws IOException {
         try{
             this.editUserDto = userEndpoint.getEditUserDtoByLogin();
         } catch (AppBaseException e) {
+            //do przetestowania / poprawienia
             displayError(e.getLocalizedMessage());
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .redirect("account.xhtml?faces-redirect=true?includeViewParams=true");
         }
-        bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
     }
 
+    /**
+     * Metoda obsługująca wciśnięcie guzika do edycji
+     *
+     * @return strona na którą zostanie przekierowany użytkownik
+     */
     public String editUser() {
         try {
             userEndpoint.editOwnData(editUserDto);
@@ -60,26 +73,33 @@ public class MyEditPageBean implements Serializable {
         return "account.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
-    public void displayMessage() {
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości
+     */
+    private void displayInit(){
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
-        //ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+        bundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     */
+    private void displayMessage() {
+        displayInit();
         String msg = bundle.getString("users.editInfo");
         String head = bundle.getString("success");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     *
+     * @param message wiadomość do wyświetlenia
+     */
     private void displayError(String message) {
-        facesContext.getExternalContext().getFlash().setKeepMessages(true);
-        //ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+        displayInit();
         String msg = bundle.getString(message);
         String head = bundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
-
-    }
-
-    private HttpServletRequest getHttpRequestFromFacesContext() {
-        return (HttpServletRequest) facesContext
-                .getExternalContext()
-                .getRequest();
     }
 }

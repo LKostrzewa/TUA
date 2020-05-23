@@ -37,7 +37,7 @@
 
         <div class="text-box">
             <p:password id="password1" a:placeholder="#{msg['registration.password']}" match="password2"
-                        validatorMessage="Passwords do not match"/>
+                        validatorMessage="#{msg['validation.password.match']}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
             <h:message id="password1_err" styleClass="message" for="password2"
@@ -94,7 +94,7 @@
         </div>
         <div>
             <p:captcha id="Captcha" label="Captcha" required="true"
-                       requiredMessage="#{msg['registration.field.required']}"
+                       requiredMessage="#{msg['field.required']}"
                        language="#{userRegistrationBean.bundle}"/>
             <p:messages for="Captcha" closable="false"/>
         </div>

@@ -5,7 +5,7 @@ import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppEJBTransactionRolledbackException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollbackLimitException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -14,17 +14,18 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Implementacja UserEndpoint
+ */
 @Stateful
 @Interceptors(LoggerInterceptor.class)
 public class UserEndpointImpl implements Serializable, UserEndpoint {
@@ -44,7 +45,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
-    public void registerNewUser(AddUserDto userDTO) throws AppBaseException, EJBTransactionRolledbackException {
+    public void registerNewUser(AddUserDto userDTO) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
         do {
@@ -65,7 +66,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
 
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
-            throw new RepeatedRollbackLimitException("exception.repeated.rollback");
+            throw RepeatedRollBackException.createRepeatedRollBackException();
         }
 
 
@@ -79,11 +80,12 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      */
     @RolesAllowed("addNewUser")
     public void addNewUser(AddUserDto userDTO) throws AppBaseException {
+        User user;
         int methodInvocationCounter = 0;
         boolean rollback;
         do {
             try {
-                User user = new User(userDTO.getLogin(), userDTO.getPassword(), userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getPhoneNumber());
+                user = new User(userDTO.getLogin(), userDTO.getPassword(), userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getPhoneNumber());
                 userManager.addNewUser(user);
                 rollback = userManager.isLastTransactionRollback();
             } catch (AppEJBTransactionRolledbackException ex) {
@@ -97,14 +99,14 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
 
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
-            throw new RepeatedRollbackLimitException("exception.repeated.rollback");
+            throw RepeatedRollBackException.createRepeatedRollBackException();
         }
     }
 
     /**
      * Metoda, która pobiera z bazy listę obiektów.
      *
-     * @return lista obiektów
+     * @return lista obiektów UserReportDto
      */
     @RolesAllowed("getUserReport")
     public List<UserReportDto> getUserReport() {
@@ -134,15 +136,10 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
     }
 
-    //TODO wyrzucić jeżeli okaże się niepotrzebna na pewno
-    public UserDetailsDto getUserDetailsDtoById(Long userId) throws AppBaseException {
-        return ObjectMapperUtils.map(userManager.getUserById(userId), UserDetailsDto.class);
-    }
-
     /**
      * Metoda, która zwraca login dto o aktualnie zalogowanego użytkownika
      *
-     * @return user login dot
+     * @return user login dto
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getLoginDtoByLogin")
@@ -179,7 +176,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
 
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
-            throw new RepeatedRollbackLimitException("exception.repeated.rollback");
+            throw RepeatedRollBackException.createRepeatedRollBackException();
         }
     }
 
@@ -211,7 +208,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
 
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
-            throw new RepeatedRollbackLimitException("exception.repeated.rollback");
+            throw RepeatedRollBackException.createRepeatedRollBackException();
         }
     }
 
@@ -242,7 +239,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
 
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
-            throw new RepeatedRollbackLimitException("exception.repeated.rollback");
+            throw RepeatedRollBackException.createRepeatedRollBackException();
         }
     }
 
@@ -258,7 +255,6 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         boolean rollback;
         do {
             try {
-
                 User user = ObjectMapperUtils.map(changeOwnPasswordDto, User.class);
                 userManager.changeOwnPassword(user, changeOwnPasswordDto.getOldPassword());
                 rollback = userManager.isLastTransactionRollback();
@@ -273,7 +269,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
 
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
-            throw new RepeatedRollbackLimitException("exception.repeated.rollback");
+            throw RepeatedRollBackException.createRepeatedRollBackException();
         }
     }
 
@@ -302,7 +298,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
 
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
-            throw new RepeatedRollbackLimitException("exception.repeated.rollback");
+            throw RepeatedRollBackException.createRepeatedRollBackException();
         }
     }
 
@@ -331,13 +327,8 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
 
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
-            throw new RepeatedRollbackLimitException("exception.repeated.rollback");
+            throw RepeatedRollBackException.createRepeatedRollBackException();
         }
-    }
-
-    //TODO wyrzucić jeżeli okaże się niepotrzebna na pewno
-    public UserDetailsDto getOwnDetailsDtoByLogin() throws AppBaseException {
-        return ObjectMapperUtils.map(userManager.getUserByLogin(), UserDetailsDto.class);
     }
 
     /**
@@ -365,7 +356,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
 
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
-            throw new RepeatedRollbackLimitException("exception.repeated.rollback");
+            throw RepeatedRollBackException.createRepeatedRollBackException();
         }
     }
 
@@ -393,7 +384,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
 
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
-            throw new RepeatedRollbackLimitException("exception.repeated.rollback");
+            throw RepeatedRollBackException.createRepeatedRollBackException();
         }
     }
 
@@ -421,7 +412,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
 
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
-            throw new RepeatedRollbackLimitException("exception.repeated.rollback");
+            throw RepeatedRollBackException.createRepeatedRollBackException();
         }
     }
 
@@ -475,7 +466,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
 
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
-            throw new RepeatedRollbackLimitException("exception.repeated.rollback");
+            throw RepeatedRollBackException.createRepeatedRollBackException();
         }
     }
 
@@ -504,7 +495,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
 
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
-            throw new RepeatedRollbackLimitException("exception.repeated.rollback");
+            throw RepeatedRollBackException.createRepeatedRollBackException();
         }
     }
 }

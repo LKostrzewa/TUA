@@ -84,7 +84,7 @@ public abstract class AbstractFacade<T> {
     /**
      * Bazowa metoda, która znajduje wszystkie encje.
      *
-     * @@return lista encji
+     * @return lista encji
      */
     public List<T> findAll() {
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();

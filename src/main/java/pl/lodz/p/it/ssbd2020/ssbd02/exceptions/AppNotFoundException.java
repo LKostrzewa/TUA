@@ -2,10 +2,12 @@ package pl.lodz.p.it.ssbd2020.ssbd02.exceptions;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.*;
 
+/**
+ * Wyjątek aplikacyjny występujący w przypadku nieznalezienia encji
+ */
 public class AppNotFoundException extends AppBaseException{
 
     public static final String ACCESS_LEVEL_MESSAGE_KEY = "exception.accessLevelDeleted";
-    //public static String USER_ACCESS_LEVEL_MESSAGE_KEY = "exception.userNotFound";
     public static final String USER_MESSAGE_KEY = "exception.userNotFound";
     public static final String RENTAL_MESSAGE_KEY = "exception.rentalNotFound";
     public static final String EMAIL_MESSAGE_KEY = "exception.emailNotFound";
@@ -29,18 +31,35 @@ public class AppNotFoundException extends AppBaseException{
         this.objectClass = objectClass;
     }
 
+    /**
+     * Statyczna metoda do tworzenia wyjątku w przypadku nieznalezienia encji AccessLevel
+     *
+     * @param cause przyczyna wajątku
+     * @return obiekt wyjątku z odpowiednimi danymi
+     */
     public static AppNotFoundException createAccessLevelNotFoundException(Throwable cause) {
         AppNotFoundException nfe = new AppNotFoundException(ACCESS_LEVEL_MESSAGE_KEY, cause);
         nfe.setObjectClass(AccessLevel.class);
         return nfe;
     }
 
+    /**
+     * Statyczna metoda do tworzenia wyjątku w przypadku nieznalezienia encji User
+     *
+     * @param cause przyczyna wajątku
+     * @return obiekt wyjątku z odpowiednimi danymi
+     */
     public static AppNotFoundException createUserNotFoundException(Throwable cause) {
         AppNotFoundException nfe = new AppNotFoundException(USER_MESSAGE_KEY, cause);
         nfe.setObjectClass(User.class);
         return nfe;
     }
 
+    /**
+     * Statyczna metoda do tworzenia wyjątku w przypadku nieznalezienia encji User
+     *
+     * @return obiekt wyjątku z odpowiednimi danymi
+     */
     public static AppNotFoundException createUserNotFoundException() {
         AppNotFoundException nfe = new AppNotFoundException(USER_MESSAGE_KEY);
         nfe.setObjectClass(User.class);
@@ -76,13 +95,6 @@ public class AppNotFoundException extends AppBaseException{
         nfe.setObjectClass(Yacht.class);
         return nfe;
     }
-
-    /*
-    public static AppNotFoundException createUserAccessLevelNotFoundException(UserAccessLevel userAccessLevel, Throwable cause) {
-        AppNotFoundException nfe = new AppNotFoundException(USER_ACCESS_LEVEL_MESSAGE_KEY, cause);
-        nfe.setObject(userAccessLevel);
-        return nfe;
-    }*/
 
     public static AppNotFoundException createEmailNotFoundException() {
         AppNotFoundException nfe = new AppNotFoundException(EMAIL_MESSAGE_KEY);

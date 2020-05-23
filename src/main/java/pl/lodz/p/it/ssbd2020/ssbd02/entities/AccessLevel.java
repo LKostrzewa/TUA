@@ -18,7 +18,6 @@ import java.util.UUID;
 @NamedQueries({
         @NamedQuery(name = "AccessLevel.findAll", query = "SELECT a FROM AccessLevel a"),
         @NamedQuery(name = "AccessLevel.findById", query = "SELECT a FROM AccessLevel a WHERE a.id = :id"),
-        @NamedQuery(name = "AccessLevel.findByVersion", query = "SELECT a FROM AccessLevel a WHERE a.version = :version"),
         @NamedQuery(name = "AccessLevel.findByName", query = "SELECT a FROM AccessLevel a WHERE a.name = :name")})
 public class AccessLevel implements Serializable {
 

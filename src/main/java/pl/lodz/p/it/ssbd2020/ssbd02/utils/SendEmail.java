@@ -16,7 +16,6 @@ import java.util.Properties;
  * Klasa przeznaczona do wysyłania emaili
  */
 public class SendEmail {
-    private final Integer port = 465;
 
     /**
      * Metoda która wysyła maila do użytkownika z linkiem aktywacyjnym
@@ -105,6 +104,7 @@ public class SendEmail {
         String host = propertyReader.getProperty("config", "host");
         String username = propertyReader.getProperty("config", "username");
         String password = propertyReader.getProperty("config", "password");
+        Integer port = Integer.parseInt(propertyReader.getProperty("config", "port"));
         properties.put("mail.smtp.auth", true);
         properties.put("mail.smtp.ssl.enable", true);
         properties.put("mail.smtp.host", host);

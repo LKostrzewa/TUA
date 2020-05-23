@@ -43,6 +43,11 @@ public class UserFacade extends AbstractFacade<User> {
         return entityManager;
     }
 
+    /**
+     * Metoda do pobrania wszystkich encji User.
+     *
+     * @return Lista User
+     */
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     @RolesAllowed("getUserReport")
     @Override
@@ -92,8 +97,7 @@ public class UserFacade extends AbstractFacade<User> {
     /**
      * Metoda, która zwraca aktualnie zalogowanego użytkownika
      *
-     *
-     * @return encje User
+     * @return encja User
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @PermitAll
@@ -135,6 +139,14 @@ public class UserFacade extends AbstractFacade<User> {
                 .setParameter("email", email).getSingleResult() > 0;
     }
 
+    /**
+     * Metoda, która zwraca użytkownika o podanym emailu
+     *
+     * @param email szukany email
+     * @return encja User
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User findByEmail(String email) throws AppBaseException {
         TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByEmail", User.class);
@@ -146,6 +158,14 @@ public class UserFacade extends AbstractFacade<User> {
         }
     }
 
+    /**
+     * Metoda, która zwraca użytkownika o podanym kodzie do resetowania hasła
+     *
+     * @param resetPasswordCode szukany kod do resetowania hasła
+     * @return encja User
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User findByResetPasswordCode(String resetPasswordCode) throws AppBaseException {
         TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByResetPasswordCode", User.class);
@@ -157,7 +177,15 @@ public class UserFacade extends AbstractFacade<User> {
         }
     }
 
+    /**
+     * Metoda, która zwraca użytkownika o podanym kodzie do aktywacyjnym
+     *
+     * @param activationCode szukany kod aktywacyjny
+     * @return encja User
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @PermitAll
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User findByActivationCode(String activationCode) throws AppBaseException {
         TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByActivationCode", User.class);
         typedQuery.setParameter("activationCode", activationCode);

@@ -63,6 +63,7 @@ public class UserAccessLevelFacade extends AbstractFacade<UserAccessLevel> {
 
     /**
      * Metoda do pobrania wszystkich encji UserAccessLevel. W aplikacji niewykorzystywana (DenyAll)
+     *
      * @return Lista UserAccessLevel
      */
     @Override
@@ -73,6 +74,7 @@ public class UserAccessLevelFacade extends AbstractFacade<UserAccessLevel> {
 
     /**
      * Metoda do edycji encji UserAccessLevel. W aplikacji niewykorzystywana (DenyAll)
+     *
      * @param entity encja UserAccessLevel do edycji
      */
     @Override
@@ -83,6 +85,7 @@ public class UserAccessLevelFacade extends AbstractFacade<UserAccessLevel> {
 
     /**
      * Metoda do pobrania encji UserAccessLevel po identyfikatorze. W aplikacji niewykorzystywana (DenyAll)
+     *
      * @param id id encji UserAccessLevel do pobrania
      */
     @Override

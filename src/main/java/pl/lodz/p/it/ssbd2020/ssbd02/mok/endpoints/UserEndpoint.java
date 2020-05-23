@@ -8,6 +8,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Interfejs Endpoint do operacji związanych z użytkownikami
+ */
 public interface UserEndpoint {
     /**
      * Metoda służąca do rejestracji użytkownika

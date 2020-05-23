@@ -15,6 +15,9 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
 
+/**
+ * Klasa menadżera do obsługi operacji związanych z poziomami dostępu
+ */
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)

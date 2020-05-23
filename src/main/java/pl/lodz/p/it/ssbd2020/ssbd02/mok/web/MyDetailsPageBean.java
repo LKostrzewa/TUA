@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -12,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
@@ -22,15 +24,16 @@ import java.util.ResourceBundle;
 @ViewScoped
 public class MyDetailsPageBean implements Serializable {
     @Inject
-    private UserEndpoint userEndpoint;
-    @Inject
     private UserAccessLevelEndpoint userAccessLevelEndpoint;
     @Inject
     private FacesContext facesContext;
     private UserDetailsDto userDetailsDto;
     private UserAccessLevelDto userAccessLevelDto;
-    private Long userId;
     private String userLogin;
+
+    private String ADMIN_ACCESS_LEVEL;
+    private String MANAGER_ACCESS_LEVEL;
+    private String CLIENT_ACCESS_LEVEL;
 
     public UserDetailsDto getUserDetailsDto() {
         return userDetailsDto;
@@ -48,35 +51,34 @@ public class MyDetailsPageBean implements Serializable {
         this.userAccessLevelDto = userAccessLevelDto;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUserLogin() {
+    /*public String getUserLogin() {
         return userLogin;
     }
 
     public void setUserLogin(String userLogin) {
         this.userLogin = userLogin;
-    }
+    }*/
 
-    @PostConstruct
-    public void init()  {
-        userLogin = facesContext.getExternalContext().getRemoteUser();
+    /**
+     * Metoda inicjalizująca komponent
+     */
+    @PostConstruct //bez PostConstruct jest nulllllll a z postConstruct nie moze byc IOException
+    public void init() /*throws IOException*/ {
+        PropertyReader propertyReader = new PropertyReader();
+        ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
+        MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config", "MANAGER_ACCESS_LEVEL");
+        CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
+
+        //userLogin = facesContext.getExternalContext().getRemoteUser();
         try {
-            // dlaczego nie pobiera też poziomów dostępu?
-            //this.userDetailsDto = userEndpoint.getOwnDetailsDtoByLogin(userLogin);
             this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelByLogin();
             this.userDetailsDto = userAccessLevelDto.getUserDetailsDto();
         } catch (AppBaseException e) {
+            //do przetestowania / poprawienia
             displayError(e.getLocalizedMessage());
+            /*FacesContext.getCurrentInstance().getExternalContext()
+                    .redirect("listUsers.xhtml");*/
         }
-
-        userId = userDetailsDto.getId();
     }
 
     /**
@@ -94,18 +96,18 @@ public class MyDetailsPageBean implements Serializable {
     }
 
     /**
-     * Metoda zwracająca łańcuch wszystkich poziomó dostępu konta
+     * Metoda zwracająca łańcuch wszystkich poziomów dostępu konta
      *
      * @return połączony łańcuch poziomów dostępu konta
      */
     public String getAccessLevels() {
         String string = "";
         if (userAccessLevelDto.getAdmin().getLeft())
-            string += "ADMINISTRATOR ";
+            string += ADMIN_ACCESS_LEVEL + " ";
         if (userAccessLevelDto.getManager().getLeft())
-            string += "MANAGER ";
+            string += MANAGER_ACCESS_LEVEL + " ";
         if (userAccessLevelDto.getClient().getLeft())
-            string += "CLIENT";
+            string += CLIENT_ACCESS_LEVEL;
         return string;
     }
 }

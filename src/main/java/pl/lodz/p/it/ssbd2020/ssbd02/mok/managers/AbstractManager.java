@@ -11,15 +11,13 @@ import java.util.logging.Logger;
 abstract public class AbstractManager {
 
     @Resource
-    SessionContext sessionContext;
+    private SessionContext sessionContext;
 
     protected final static Logger LOGGER = Logger.getGlobal();
 
     private String transactionId;
 
     private boolean lastTransactionRollback;
-
-    protected final int METHOD_INVOCATION_LIMIT=3;
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public boolean isLastTransactionRollback() {

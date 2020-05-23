@@ -14,7 +14,9 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ResourceBundle;
-
+/**
+ * Klasa do obsługi widoku rejestracji użytkownika
+ */
 @Named
 @RequestScoped
 public class UserRegistrationBean implements Serializable {
@@ -36,28 +38,59 @@ public class UserRegistrationBean implements Serializable {
         this.userDto = userDto;
     }
 
+    /**
+     * Metoda inicjalizująca komponent
+     */
     @PostConstruct
     public void init() {
         userDto = new AddUserDto();
-        bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
+        bundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
 
+    /**
+     * Metoda obsługująca wciśnięcie guzika do rejestracji
+     *
+     * @return strona na którą zostanie przekierowany użytkownik
+     */
     public String registerAccountAction() {
         try {
             userEndpoint.registerNewUser(userDto);
         }
         catch (AppBaseException e) {
-            String msg = bundle.getString(e.getLocalizedMessage());
-            String head = bundle.getString("error");
-            facesContext.getExternalContext().getFlash().setKeepMessages(true);
-            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
+            displayError(e.getLocalizedMessage());
             return "register.xhtml";
         }
+        displayMessage();
+        return "login.xhtml?faces-redirect=true";
+    }
+
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości
+     */
+    private void displayInit(){
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     */
+    private void displayMessage() {
+        displayInit();
         String msg = bundle.getString("users.registerInfo");
         String head = bundle.getString("success");
-        facesContext.getExternalContext().getFlash().setKeepMessages(true);
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
-        return "login.xhtml?faces-redirect=true";
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     *
+     * @param message wiadomość do wyświetlenia
+     */
+    private void displayError(String message) {
+        displayInit();
+        String msg = bundle.getString(message);
+        String head = bundle.getString("error");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
     }
 
 
@@ -67,11 +100,5 @@ public class UserRegistrationBean implements Serializable {
 
     public void setBundle(ResourceBundle bundle) {
         this.bundle = bundle;
-    }
-
-    private HttpServletRequest getHttpRequestFromFacesContext() {
-        return (HttpServletRequest) facesContext
-                .getExternalContext()
-                .getRequest();
     }
 }
