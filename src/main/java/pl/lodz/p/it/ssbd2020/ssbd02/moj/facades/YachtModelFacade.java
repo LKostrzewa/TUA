@@ -81,7 +81,7 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
     }
 
     /**
-     * Metoda, sprawdza czy istnieje model jachtu w bazie o danym ? poprzez sprawdzenie czy rezultat wykonania
+     * Metoda, sprawdza czy istnieje model jachtu w bazie o danej marce modelu poprzez sprawdzenie czy rezultat wykonania
      * zapytania COUNT jest większy od 0.
      *
      * @param model nazwa jachtu.

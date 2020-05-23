@@ -58,8 +58,7 @@ public class YachtModelManager {
     @RolesAllowed("getYachtModelById")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public YachtModel getYachtModelById(Long yachtModelId) throws AppBaseException {
-        //TODO poprawic na odpowiedni wyjątek
-        return yachtModelFacade.find(yachtModelId).orElseThrow(() -> new AppBaseException("nie ma tego modelu"));
+        return yachtModelFacade.find(yachtModelId).orElseThrow((AppNotFoundException::yachtModelNotFoundException));
     }
 
     /**
@@ -70,6 +69,9 @@ public class YachtModelManager {
     @RolesAllowed("editYachtModel")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editYachtModel(YachtModel yachtModelToEdit) throws AppBaseException {
+        if(yachtModelFacade.existByModel(yachtModelToEdit.getModel())) {
+            throw ValueNotUniqueException.createYachtModelNotUniqueException(yachtModelToEdit);
+        }
         yachtModelFacade.edit(yachtModelToEdit);
     }
 
@@ -81,7 +83,7 @@ public class YachtModelManager {
     @RolesAllowed("deactivateYachtModel")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void deactivateYachtModel(Long yachtModelId) throws AppBaseException{
-        YachtModel yachtModelToDeactivate = yachtModelFacade.find(yachtModelId).orElseThrow(AppNotFoundException::createYachtNotFoundException);
+        YachtModel yachtModelToDeactivate = yachtModelFacade.find(yachtModelId).orElseThrow(AppNotFoundException::yachtModelNotFoundException);
         yachtModelToDeactivate.setActive(false);
         yachtModelFacade.edit(yachtModelToDeactivate);
     }

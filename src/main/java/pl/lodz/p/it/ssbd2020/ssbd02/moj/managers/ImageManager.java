@@ -35,8 +35,7 @@ public class ImageManager {
     @RolesAllowed("deleteImage")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void deleteImage(Long imageId) throws AppBaseException {
-        //TODO poprawic na odpowiedni wyjątek
-        imageFacade.remove(imageFacade.find(imageId).orElseThrow(() -> new AppBaseException("nie ma tego jachtu")));
+        imageFacade.remove(imageFacade.find(imageId).orElseThrow((AppNotFoundException::yachtModelNotFoundException)));
     }
 
     /**
@@ -48,9 +47,8 @@ public class ImageManager {
     @RolesAllowed("addImage")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addImage(byte[] image, Long id) throws AppBaseException {
-        YachtModel yachtModel = yachtModelFacade.find(id).orElseThrow(AppNotFoundException::createUserNotFoundException);
+        YachtModel yachtModel = yachtModelFacade.find(id).orElseThrow(AppNotFoundException::yachtModelNotFoundException);
         Image newImage = new Image(image,yachtModel);
-
         imageFacade.create(newImage);
     }
 }
