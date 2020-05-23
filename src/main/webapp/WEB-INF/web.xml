@@ -300,10 +300,6 @@
         <exception-type>javax.ejb.EJBTransactionRequiredException</exception-type>
         <location>/errors/ejbTranReqExp.xhtml</location>
     </error-page>
-    <!--<error-page>
-        <exception-type>javax.ejb.EJBTransactionRolledbackException</exception-type>
-        <location>/errors/ejbTranRollExp.xhtml</location>
-    </error-page>-->
     <error-page>
         <exception-type>java.io.IOException</exception-type>
         <location>/errors/IOExp.xhtml</location>

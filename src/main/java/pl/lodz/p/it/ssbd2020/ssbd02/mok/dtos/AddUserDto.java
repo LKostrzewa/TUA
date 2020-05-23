@@ -4,6 +4,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+/**
+ * DTO do dodawania użytkowników do bazy
+ */
 public class AddUserDto {
     @Size(min = 4, message = "{validation.login}")
     private String login;
