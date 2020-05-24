@@ -61,7 +61,7 @@ public class ResetPasswordPageBean implements Serializable {
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
-        return "login.xhtml?faces-redirect=true";
+        return "login";
     }
 
     /**
@@ -93,6 +93,4 @@ public class ResetPasswordPageBean implements Serializable {
         String head = resourceBundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
     }
-
-
 }

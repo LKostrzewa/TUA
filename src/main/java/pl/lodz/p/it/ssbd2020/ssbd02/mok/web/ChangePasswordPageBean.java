@@ -60,10 +60,10 @@ public class ChangePasswordPageBean implements Serializable {
             userEndpoint.changeUserPassword(changePasswordDto, userId);
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
-            return "changePassword.xhtml";
+            return "changePassword";
         }
         displayMessage();
-        return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
+        return "userDetails";
     }
 
     /**
