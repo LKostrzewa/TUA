@@ -69,7 +69,6 @@ public class EditUserPageBean implements Serializable {
             displayMessage();
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
-            return "editUser.xhtml";
         }
         return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }

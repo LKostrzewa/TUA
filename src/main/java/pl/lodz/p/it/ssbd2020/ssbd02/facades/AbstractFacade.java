@@ -1,9 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.facades;
 
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppConstraintViolationException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppOptimisticLockException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppPersistenceException;
+import org.eclipse.persistence.exceptions.DatabaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
 
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.EntityManager;
@@ -39,7 +37,9 @@ public abstract class AbstractFacade<T> {
         } catch (PersistenceException e) {
             throw AppPersistenceException.createAppPersistenceException(entity, e);
         } catch (ConstraintViolationException e) {
-            throw AppConstraintViolationException.createAppConstraintViolationException(entity,e);
+            throw AppConstraintViolationException.createAppConstraintViolationException(entity, e);
+        } catch (DatabaseException e) {
+            throw AppDatabaseException.createAppDatabaseException(e);
         }
     }
 
@@ -58,7 +58,9 @@ public abstract class AbstractFacade<T> {
         } catch (PersistenceException e) {
             throw AppPersistenceException.createAppPersistenceException(entity, e);
         } catch (ConstraintViolationException e) {
-            throw AppConstraintViolationException.createAppConstraintViolationException(entity,e);
+            throw AppConstraintViolationException.createAppConstraintViolationException(entity, e);
+        } catch (DatabaseException e) {
+            throw AppDatabaseException.createAppDatabaseException(e);
         }
     }
 

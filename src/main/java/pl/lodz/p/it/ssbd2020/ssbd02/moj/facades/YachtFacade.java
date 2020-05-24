@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppDatabaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -107,7 +108,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @param name nazwa jachtu.
      * @return true/false zależnie czy użytkownik z danym loginem istnieje lub nie
      */
-    @RolesAllowed("addYacht")
+    @RolesAllowed({"addYacht","editYacht"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public boolean existByName(String name) {
         return entityManager.createNamedQuery("Yacht.countByName", Long.class)
