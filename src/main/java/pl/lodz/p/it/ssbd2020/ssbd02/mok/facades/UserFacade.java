@@ -277,8 +277,8 @@ public class UserFacade extends AbstractFacade<User> {
      * Metoda do usuwania encji user. W aplikacji niewykorzystywana (DenyAll)
      * @param entity encja użytkownika do usunięcia
      */
-    @DenyAll
-    @Override
+    @RolesAllowed("SYSTEM")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void remove(User entity) {
         super.remove(entity);
     }

@@ -22,6 +22,9 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -464,4 +467,16 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
             throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
     }
+
+    @RolesAllowed("SYSTEM")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void deleteInactiveUsers(){
+        List<User> users = userFacade.findAll();
+        for (User user : users) {
+            if((!user.isActivated())&&(user.getCreated().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().isBefore(LocalDateTime.now().minusDays(1)))){
+                userFacade.remove(user);
+            }
+        }
+    }
+
 }

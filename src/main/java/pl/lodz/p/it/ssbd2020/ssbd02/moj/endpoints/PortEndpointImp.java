@@ -60,7 +60,7 @@ public class PortEndpointImp implements Serializable,PortEndpoint {
      */
     @RolesAllowed("deactivatePort")
     public void deactivatePort(long portId) throws AppBaseException {
-        portManager.deactivatePort(portEditEntity);
+        portManager.deactivatePort(portId);
     }
 
     /**
