@@ -4,6 +4,7 @@ import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
+import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ResetPasswordDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
@@ -13,7 +14,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
@@ -21,7 +21,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
