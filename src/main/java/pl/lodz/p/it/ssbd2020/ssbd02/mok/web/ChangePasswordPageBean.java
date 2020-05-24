@@ -63,7 +63,7 @@ public class ChangePasswordPageBean implements Serializable {
             return "changePassword";
         }
         displayMessage();
-        return "userDetails";
+        return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
     /**

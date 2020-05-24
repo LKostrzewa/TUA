@@ -86,12 +86,12 @@
             <to-view-id>/admin/changeAccessLevel.xhtml</to-view-id>
         </navigation-case>
 
-        <navigation-case>
-            <from-action>#{changeAccessLevelPageBean.changeAccessLevel}</from-action>
-            <from-outcome>userDetails</from-outcome>
-            <to-view-id>/admin/userDetails.xhtml</to-view-id>
-            <redirect include-view-params="true"/>
-        </navigation-case>
+<!--        <navigation-case>-->
+<!--            <from-action>#{changeAccessLevelPageBean.changeAccessLevel}</from-action>-->
+<!--            <from-outcome>userDetails</from-outcome>-->
+<!--            <to-view-id>/admin/userDetails.xhtml</to-view-id>-->
+<!--            <redirect include-view-params="true"/>-->
+<!--        </navigation-case>-->
 
         <navigation-case>
             <from-action>#{changePasswordPageBean.changePassword}</from-action>
@@ -99,18 +99,12 @@
             <to-view-id>/admin/changePassword.xhtml</to-view-id>
         </navigation-case>
 
-        <navigation-case>
-            <from-action>#{changePasswordPageBean.changePassword}</from-action>
-            <from-outcome>userDetails</from-outcome>
-            <to-view-id>/admin/userDetails.xhtml</to-view-id>
-            <redirect include-view-params="true">
-                <redirect-param>
-                    <name></name>
-                    <value></value>
-                </redirect-param>
-            </redirect>
-
-        </navigation-case>
+<!--        <navigation-case>-->
+<!--            <from-action>#{changePasswordPageBean.changePassword}</from-action>-->
+<!--            <from-outcome>userDetails</from-outcome>-->
+<!--            <to-view-id>/admin/userDetails.xhtml</to-view-id>-->
+<!--            <redirect include-view-params="true"/>-->
+<!--        </navigation-case>-->
 
         <navigation-case>
             <from-action>#{editUserPageBean.editUser}</from-action>
@@ -118,12 +112,12 @@
             <to-view-id>/admin/editUser.xhtml</to-view-id>
         </navigation-case>
 
-        <navigation-case>
-            <from-action>#{editUserPageBean.editUser}</from-action>
-            <from-outcome>userDetails</from-outcome>
-            <to-view-id>/admin/userDetails.xhtml</to-view-id>
-            <redirect include-view-params="true"/>
-        </navigation-case>
+<!--        <navigation-case>-->
+<!--            <from-action>#{editUserPageBean.editUser}</from-action>-->
+<!--            <from-outcome>userDetails</from-outcome>-->
+<!--            <to-view-id>/admin/userDetails.xhtml</to-view-id>-->
+<!--            <redirect include-view-params="true"/>-->
+<!--        </navigation-case>-->
 
         <navigation-case>
             <from-action>#{userRegistrationBean.registerAccountAction}</from-action>

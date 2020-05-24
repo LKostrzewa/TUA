@@ -71,7 +71,7 @@ public class ChangeAccessLevelPageBean implements Serializable {
             return "changeAccessLevel";
         }
         displayMessage();
-        return "userDetails";
+        return "userDetails?faces-redirect=true?includeViewParams=true";
     }
 
     /**
