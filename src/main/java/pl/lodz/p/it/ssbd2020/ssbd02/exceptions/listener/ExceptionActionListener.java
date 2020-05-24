@@ -39,6 +39,9 @@ public class ExceptionActionListener extends ActionListenerImpl {
                     externalContext.redirect(request.getContextPath() + "/errors/noSuchEJBExp.xhtml");
                 else if(cause instanceof EJBException)
                     externalContext.redirect(request.getContextPath() + "/errors/ejbExp.xhtml");
+                else {
+                    externalContext.redirect(request.getContextPath() + "/errors/other.xhtml");
+                }
             }
             catch (IOException exception) {
                 StringWriter sw = new StringWriter();
@@ -48,7 +51,7 @@ public class ExceptionActionListener extends ActionListenerImpl {
                         + sw.toString();
 
                 LOGGER.log(Level.WARNING,
-                        "IOException during ejb exception handling" + exceptionInfo
+                        "IOException during ejb exception handling : " + exceptionInfo
                         );
             }
         }
