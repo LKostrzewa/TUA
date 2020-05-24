@@ -34,6 +34,9 @@
     </navigation-rule>
 
     <application>
+        <action-listener>
+            pl.lodz.p.it.ssbd2020.ssbd02.exceptions.listener.ExceptionActionListener
+        </action-listener>
         <locale-config>
             <default-locale>en</default-locale>
             <supported-locale>pl</supported-locale>
