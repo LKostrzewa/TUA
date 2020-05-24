@@ -2,7 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.exceptions;
 
 public class AppDatabaseException extends AppBaseException {
 
-    public static final String ADE_MESSAGE_KEY = "exception.optimisticLock";
+    public static final String ADE_MESSAGE_KEY = "exception.databaseException";
     private Object object;
     public AppDatabaseException(String message) {
         super(message);
