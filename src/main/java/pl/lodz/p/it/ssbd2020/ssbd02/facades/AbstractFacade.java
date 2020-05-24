@@ -39,7 +39,7 @@ public abstract class AbstractFacade<T> {
         } catch (ConstraintViolationException e) {
             throw AppConstraintViolationException.createAppConstraintViolationException(entity, e);
         } catch (DatabaseException e) {
-            throw AppDatabaseException.createAppDatabaseException(e);
+            throw AppDatabaseException.createAppDatabaseException(entity,e);
         }
     }
 
@@ -60,7 +60,7 @@ public abstract class AbstractFacade<T> {
         } catch (ConstraintViolationException e) {
             throw AppConstraintViolationException.createAppConstraintViolationException(entity, e);
         } catch (DatabaseException e) {
-            throw AppDatabaseException.createAppDatabaseException(e);
+            throw AppDatabaseException.createAppDatabaseException(entity,e);
         }
     }
 
