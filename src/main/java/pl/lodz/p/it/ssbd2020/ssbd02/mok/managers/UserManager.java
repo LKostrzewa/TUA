@@ -23,6 +23,8 @@ import javax.interceptor.Interceptors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -130,6 +132,16 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         return userFacade.findAll();
     }
 
+    /**
+     * Metoda która sprawdza czy w bazie istnieje juz aktywne konto o podanym kodzie aktywacyjnym
+     * @param activationCode kod aktywacyjny
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public Boolean activationUserCheck(String activationCode) throws AppBaseException {
+        return userFacade.findByActivationCode(activationCode).getActivated();
+    }
 
     /**
      * Metoda, która pobiera z użytkownika na podstawie jego identyfikatora w bazie
@@ -289,9 +301,11 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     public void confirmActivationCode(String code) throws AppBaseException {
         try {
             User user = userFacade.findByActivationCode(code);
-            user.setActivated(true);
-            userFacade.edit(user);
-            sendEmail.activationInfoEmail(user.getEmail());
+            if (!user.getActivated()) {
+                user.setActivated(true);
+                userFacade.edit(user);
+                sendEmail.activationInfoEmail(user.getEmail());
+            }
         } catch (EJBTransactionRolledbackException e) {
             throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
@@ -419,6 +433,9 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         try {
             if (!userFacade.existByEmail(email)) {
                 throw AppNotFoundException.createEmailNotFoundException();
+            }
+            if (userFacade.findByEmail(email).getLocked() || !userFacade.findByEmail(email).getActivated()) {
+                throw EntityNotActiveException.accountNotActiveorLockedException();
             }
             User userToEdit = userFacade.findByEmail(email);
             String resetPasswordCode = UUID.randomUUID().toString().replace("-", "");

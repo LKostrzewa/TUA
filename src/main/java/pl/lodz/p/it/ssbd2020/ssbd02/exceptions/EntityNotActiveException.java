@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.exceptions;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel;
 
@@ -8,6 +9,8 @@ public class EntityNotActiveException  extends AppBaseException{
     public static final String YACHT_MODEL_NOT_ACTIVE_KEY = "exception.yachtModelNotActive";
     public static final String YACHT_NOT_ACTIVE_KEY = "exception.yachtNotActive";
     public static final String PORT_NOT_ACTIVE_KEY = "exception.portNotActive";
+    public static final String ACCOUNT_NOT_ACTIVE_OR_LOCKED_KEY = "exception.accountNotActiveOrLocked";
+
 
     private Object object;
     public EntityNotActiveException(String message) {
@@ -40,6 +43,12 @@ public class EntityNotActiveException  extends AppBaseException{
     public static EntityNotActiveException createPortNotActiveException(Port port) {
         EntityNotActiveException ente = new EntityNotActiveException(PORT_NOT_ACTIVE_KEY);
         ente.setObject(port);
+        return ente;
+    }
+
+    public static EntityNotActiveException accountNotActiveorLockedException() {
+        EntityNotActiveException ente = new EntityNotActiveException(ACCOUNT_NOT_ACTIVE_OR_LOCKED_KEY);
+        ente.setObject(User.class);
         return ente;
     }
 }

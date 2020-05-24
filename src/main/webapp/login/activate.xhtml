@@ -10,9 +10,8 @@
     </ui:fragment>
 </h:head>
 <h:body>
-    <h:panelGroup layout="block" >
-        <p>#{msg['activateMessage']}</p>
-        <p>#{msg['prop']} #{emailPageBean.valid} #{msg['redirectMessage']}</p>
-    </h:panelGroup>
+    <h:outputText value="#{msg['activateMessage']}" rendered="#{!emailPageBean.active}"/>
+    <h:outputText value="#{msg['nonactivateMessage']}" rendered="#{emailPageBean.active}"/>
+    <h:outputText value="#{msg['prop']} #{emailPageBean.valid} #{msg['redirectMessage']}" />
 </h:body>
 </html>

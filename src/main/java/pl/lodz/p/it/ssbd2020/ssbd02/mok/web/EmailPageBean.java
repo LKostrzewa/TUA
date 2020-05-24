@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
 
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
@@ -30,6 +31,9 @@ public class EmailPageBean {
     private FacesContext facesContext;
     private ResourceBundle resourceBundle;
 
+
+    private Boolean active;
+
     /**
      * Metoda inicjalizująca komponent
      */
@@ -39,10 +43,10 @@ public class EmailPageBean {
         key = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key");
         valid = Integer.parseInt(propertyReader.getProperty("config", "email_valid_time"));;
         try {
+            active = userEndpoint.activationUserCheck(key);
             userEndpoint.activateAccount(key);
             displayMessage();
         } catch (AppBaseException e){
-            //jak tutaj ten wyjątek będzie skoro strona jest aktywan 5 sekund?
             displayError(e.getLocalizedMessage());
         }
     }
@@ -62,6 +66,14 @@ public class EmailPageBean {
 
     public void setValid(int valid) {
         this.valid = valid;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     /**

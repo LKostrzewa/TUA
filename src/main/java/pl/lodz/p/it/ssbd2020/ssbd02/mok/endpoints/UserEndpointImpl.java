@@ -114,6 +114,16 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     }
 
     /**
+     * Metoda która sprawdza czy konto o podanym kodzie aktywacyjnym jest już aktywne
+     * @param activationCode kod aktywacyjny
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
+    public Boolean activationUserCheck(String activationCode) throws AppBaseException {
+        return userManager.activationUserCheck(activationCode);
+    }
+
+    /**
      * Metoda, która pobiera użytkownika do edycji przez administratora po identyfikatorze użytkownika
      *
      * @param userId identyfikator użytkownika.

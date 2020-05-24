@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 import org.primefaces.model.FilterMeta;
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
 
@@ -160,5 +161,13 @@ public interface UserEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     void resetPassword(ResetPasswordDto resetPasswordDto) throws AppBaseException;
+
+
+    /**
+     * Metoda która sprawdza czy konto o podanym kodzie aktywacyjnym jest już aktywne
+     * @param activationCode kod aktywacyjny
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    Boolean activationUserCheck(String activationCode) throws AppBaseException;
 
 }
