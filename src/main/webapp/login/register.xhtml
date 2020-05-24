@@ -64,17 +64,17 @@
         </div>
 
         <div class="text-box">
-            <p:inputText id="name" a:placeholder="#{msg['registration.name']}"
+            <p:inputText id="firstName" a:placeholder="#{msg['registration.firstName']}"
                          value="#{userRegistrationBean.userDto.firstName}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
-            <h:message id="name_err" styleClass="message" for="name"
+            <h:message id="name_err" styleClass="message" for="firstName"
                        style="box-sizing: border-box; position: absolute;display: block;
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
 
         <div class="text-box">
-            <p:inputText id="surname" a:placeholder="#{msg['registration.surname']}"
+            <p:inputText id="surname" a:placeholder="#{msg['registration.lastName']}"
                          value="#{userRegistrationBean.userDto.lastName}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>

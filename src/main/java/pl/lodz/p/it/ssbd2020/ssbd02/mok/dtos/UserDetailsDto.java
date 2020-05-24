@@ -1,7 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import java.util.Date;
 
 public class UserDetailsDto {

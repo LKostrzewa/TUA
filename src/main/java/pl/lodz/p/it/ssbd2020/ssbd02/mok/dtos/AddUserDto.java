@@ -1,20 +1,20 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class AddUserDto {
     @Size(min = 4, message = "{validation.login}")
+    @Pattern(regexp = "[^=]", message = "{validation.invalidCharacter}")
     private String login;
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$", message = "{validation.password}")
     private String password;
     @Pattern(regexp = "^[^\\s\\\\@]+@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.){1,11}[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$",
             message = "{validation.email}")
     private String email;
-    @Size(min = 2, message = "{validation.first_name}")
+    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,61}", message = "{validation.firstName}")
     private String firstName;
-    @Size(min = 2, message = "{validation.last_name}")
+    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,61}", message = "{validation.lastName}")
     private String lastName;
     @Pattern(regexp = "\\d{9}", message = "{validation.number}")
     private String phoneNumber;

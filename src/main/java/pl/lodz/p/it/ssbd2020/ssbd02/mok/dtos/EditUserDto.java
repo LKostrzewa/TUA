@@ -1,12 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 public class EditUserDto {
-    @Size(min = 2, message = "{validation.first_name}")
+    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,61}", message = "{validation.firstName}")
     private String firstName;
-    @Size(min = 2, message = "{validation.last_name}")
+    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,61}", message = "{validation.lastName}")
     private String lastName;
     @Pattern(regexp = "\\d{9}", message = "{validation.number}")
     private String phoneNumber;
