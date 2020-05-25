@@ -49,8 +49,7 @@ public class UserFacade extends AbstractFacade<User> {
      * @return Lista User
      */
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    //@RolesAllowed({"getUserReport","SYSTEM"})
-    @PermitAll
+    @RolesAllowed({"getUserReport","TIME"})
     @Override
     public List<User> findAll() {
         return super.findAll();
@@ -278,7 +277,7 @@ public class UserFacade extends AbstractFacade<User> {
      * Metoda do usuwania encji user.
      * @param entity encja użytkownika do usunięcia
      */
-    @PermitAll
+    @RolesAllowed("TIME")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void remove(User entity) {
         super.remove(entity);

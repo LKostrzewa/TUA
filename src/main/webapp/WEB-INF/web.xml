@@ -44,6 +44,9 @@
     <security-role>
         <role-name>ADMINISTRATOR</role-name>
     </security-role>
+    <security-role>
+        <role-name>TIME</role-name>
+    </security-role>
 
     <!--UserEndpoint-->
     <security-role>

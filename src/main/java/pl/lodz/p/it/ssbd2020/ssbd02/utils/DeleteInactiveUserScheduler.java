@@ -3,6 +3,8 @@ package pl.lodz.p.it.ssbd2020.ssbd02.utils;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
 
+import javax.annotation.security.RolesAllowed;
+import javax.annotation.security.RunAs;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Singleton
 @Startup
+@RunAs("TIME")
 @Interceptors(LoggerInterceptor.class)
 public class DeleteInactiveUserScheduler {
 
@@ -26,8 +29,9 @@ public class DeleteInactiveUserScheduler {
      * ponad dobę licząc od daty utworzenia. Metoda jest wywoływana codziennie o godzinie 3.00.
      *
      */
+    @RolesAllowed("TIME")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    @Schedule(hour = "3")
+    @Schedule(hour = "*", minute = "*")
     public void performTask(){
         List<User> users = userFacade.findAll();
         for (User user : users) {
