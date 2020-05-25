@@ -36,7 +36,7 @@ public class ImageManager {
     @RolesAllowed("deleteImage")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void deleteImage(Long imageId) throws AppBaseException {
-        imageFacade.remove(imageFacade.find(imageId).orElseThrow((AppNotFoundException::yachtModelNotFoundException)));
+        imageFacade.remove(imageFacade.find(imageId).orElseThrow((AppNotFoundException::imageNotFoundException)));
     }
 
     /**
