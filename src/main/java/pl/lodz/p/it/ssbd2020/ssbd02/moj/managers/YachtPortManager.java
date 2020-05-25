@@ -2,10 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.EntityNotActiveException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.YachtReservedException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.PortFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -57,6 +54,9 @@ public class YachtPortManager {
         if(!yacht.isActive()){
             throw EntityNotActiveException.createYachtNotActiveException(yacht);
         }
+        if(yacht.getCurrentPort() != null){
+            throw YachtPortChangedException.createYachtAssignedException(yacht);
+        }
         Port port = portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
         if(!port.isActive()){
             throw EntityNotActiveException.createPortNotActiveException(port);
@@ -82,6 +82,9 @@ public class YachtPortManager {
         //TODO pobierać statusy rezerwacji z properties
         if(yacht.getRentals().stream().anyMatch(r -> r.getRentalStatus().getName().equals("STARTED"))){
             throw YachtReservedException.createYachtReservedException(yacht);
+        }
+        if(yacht.getCurrentPort() == null) {
+            throw YachtPortChangedException.createYachtNotAssignedException(yacht);
         }
         Port port = portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
         yacht.setCurrentPort(null);

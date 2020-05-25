@@ -11,7 +11,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
@@ -51,7 +50,7 @@ public class RentalManager {
         Yacht yachtToRent = yachtFacade.findByName(rental.getYacht().getName());
 
         if (yachtToRent.getCurrentPort() == null)
-            throw YachtNotAssignedException.createYachtNotAssignedException(yachtToRent);
+            throw YachtPortChangedException.createYachtNotAssignedException(yachtToRent);
 
         if (!yachtToRent.getCurrentPort().isActive())
             throw EntityNotActiveException.createPortNotActiveException(yachtToRent.getCurrentPort());
