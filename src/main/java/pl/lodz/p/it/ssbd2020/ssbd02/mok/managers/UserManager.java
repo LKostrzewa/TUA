@@ -467,16 +467,4 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
             throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
     }
-
-    @PermitAll
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void deleteInactiveUsers(){
-        List<User> users = userFacade.findAll();
-        for (User user : users) {
-            if((!user.isActivated())&&(user.getCreated().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().isBefore(LocalDateTime.now().minusDays(1)))){
-                userFacade.remove(user);
-            }
-        }
-    }
-
 }

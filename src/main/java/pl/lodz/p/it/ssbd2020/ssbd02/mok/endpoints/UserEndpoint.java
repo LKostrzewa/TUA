@@ -167,7 +167,4 @@ public interface UserEndpoint {
      */
     void resetPassword(ResetPasswordDto resetPasswordDto) throws AppBaseException;
 
-
-    void deleteInactiveUsers();
-
 }

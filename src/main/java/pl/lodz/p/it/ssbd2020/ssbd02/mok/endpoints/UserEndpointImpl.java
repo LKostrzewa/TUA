@@ -506,9 +506,4 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
             throw RepeatedRollBackException.createRepeatedRollBackException();
         }
     }
-
-    @PermitAll
-    public void deleteInactiveUsers(){
-        userManager.deleteInactiveUsers();
-    }
 }
