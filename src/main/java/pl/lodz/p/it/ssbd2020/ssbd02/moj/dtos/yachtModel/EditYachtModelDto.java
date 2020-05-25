@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 public class EditYachtModelDto {
     private Integer capacity;
     private String manufacturer;
-    private String model;
     private String generalDescription;
     private BigDecimal basicPrice;
 
@@ -42,11 +41,4 @@ public class EditYachtModelDto {
         this.manufacturer = manufacturer;
     }
 
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
 }

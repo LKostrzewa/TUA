@@ -1,28 +1,28 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yachtModel;
 
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.Image;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.image.ImageDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.YachtModelDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.ImageEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
-
-import javax.ejb.ApplicationException;
-import javax.ejb.EJB;
-import javax.enterprise.context.ApplicationScoped;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 @Named
-@ApplicationScoped
+@SessionScoped
 public class YachtModelDetailsPageBean implements Serializable {
 
 
@@ -34,15 +34,39 @@ public class YachtModelDetailsPageBean implements Serializable {
     private Long imageId;
     private YachtModelDetailsDto yachtModelDetailsDto;
 
-    private List<byte[]> uploadedImages;
-    private UploadedFile uploadedFile;
-    private byte[] fileContents;
+    private ImageDto imageDto;
 
     private List<Long> imageIds;
 
+    private UploadedFile file;
+    private byte[] contents;
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+
+    public byte[] getContents() {
+        return contents;
+    }
+
+    public void setContents(byte[] contents) {
+        this.contents = contents;
+    }
+
+    public void handleFileUpload(FileUploadEvent event) throws AppBaseException, IOException {
+        file = event.getFile();
+        contents = file.getContent();
+        addImage(contents);
+        FacesMessage msg = new FacesMessage("Successful", event.getFile().getFileName() + " is uploaded.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
     public void init() throws AppBaseException {
         this.yachtModelDetailsDto = yachtModelEndpoint.getYachtModelById(yachtModelId);
-        //uploadedImages = new ArrayList<byte[]>();
         imageIds = imageEndpoint.getImagesbyYachtModel(yachtModelId);
     }
 
@@ -62,29 +86,6 @@ public class YachtModelDetailsPageBean implements Serializable {
     public void setYachtModelDetailsDto(YachtModelDetailsDto yachtModelDetailsDto) {
         this.yachtModelDetailsDto = yachtModelDetailsDto;
     }
-    public UploadedFile getUploadedFile() {
-        return uploadedFile;
-    }
-
-    public void setUploadedFile(UploadedFile uploadedFile) {
-        this.uploadedFile = uploadedFile;
-    }
-
-    public byte[] getFileContents() {
-        return fileContents;
-    }
-
-    public void setFileContents(byte[] fileContents) {
-        this.fileContents = fileContents;
-    }
-
-    public List<byte[]> getUploadedImages() {
-        return uploadedImages;
-    }
-
-    public void setUploadedImages(List<byte[]> uploadedImages) {
-        this.uploadedImages = uploadedImages;
-    }
 
     public Long getImageId() {
         return imageId;
@@ -99,26 +100,22 @@ public class YachtModelDetailsPageBean implements Serializable {
         return imageIds;
     }
 
-    public void addImage() throws AppBaseException, IOException {
-        fileContents = uploadedFile.getContent();
-        uploadedImages.add(fileContents);
-        imageEndpoint.addImage(fileContents, yachtModelId);
+    public void addImage(byte[] contents) throws AppBaseException, IOException {
+        imageEndpoint.addImage(contents, yachtModelId);
     }
 
     public void deleteImage() throws AppBaseException {
         imageEndpoint.deleteImage(imageId);
     }
+public StreamedContent getImage() throws IOException, AppBaseException {
+    FacesContext context = FacesContext.getCurrentInstance();
 
-    public StreamedContent getImage() {
-        if (uploadedFile == null) {
-            return new DefaultStreamedContent();
-        } else {
-            return new DefaultStreamedContent(new ByteArrayInputStream(uploadedFile.getContent()), "image/png");
-        }
+    if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+        return new DefaultStreamedContent();
+    } else {
+        String id = context.getExternalContext().getRequestParameterMap().get("id");
+        ImageDto imageDto = imageEndpoint.getImageById(Long.valueOf(id));
+        return new DefaultStreamedContent(new ByteArrayInputStream(imageDto.getLob()));
     }
-    public String getImageContentsAsBase64() {
-        return Base64.getEncoder().encodeToString(fileContents);
-    }
-
-
+}
 }

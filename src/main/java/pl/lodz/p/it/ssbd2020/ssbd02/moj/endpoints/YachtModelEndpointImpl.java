@@ -68,7 +68,6 @@ public class YachtModelEndpointImpl implements Serializable, YachtModelEndpoint 
      */
     @RolesAllowed("editYachtModel")
     public void editYachtModel(EditYachtModelDto editYachtModelDto) throws AppBaseException {
-        yachtModelEditEntity.setModel(editYachtModelDto.getModel());
         yachtModelEditEntity.setManufacturer(editYachtModelDto.getManufacturer());
         yachtModelEditEntity.setBasicPrice(editYachtModelDto.getBasicPrice());
         yachtModelEditEntity.setCapacity(editYachtModelDto.getCapacity());

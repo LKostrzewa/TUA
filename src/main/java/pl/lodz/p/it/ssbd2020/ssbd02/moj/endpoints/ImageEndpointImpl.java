@@ -1,8 +1,13 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.Image;
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.image.ImageDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.ImageManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
@@ -40,7 +45,26 @@ public class ImageEndpointImpl implements Serializable, ImageEndpoint {
         imageManager.deleteImage(imageId);
     }
 
-    public List<Long> getImagesbyYachtModel(Long yachtModelId) {
+    /**
+     * Metoda zwracająca id wszystkich zdjęć danego modelu jachtu
+     * @param yachtModelId id modelu jachtu
+     * @return lista wszystkich id modelu jachtu o podanym id
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getImagesbyYachtModel")
+    public List<Long> getImagesbyYachtModel(Long yachtModelId) throws AppBaseException {
         return imageManager.getImagesbyYachtModel(yachtModelId);
+    }
+
+    /**
+     * Metoda zwracająca zdjęcie o podanym id
+     * @param id id zdjęcia
+     * @return obiekt dto reprezentujacy zdjęcie
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getImageById")
+    public ImageDto getImageById(Long id) throws AppBaseException {
+        Image image = imageManager.getImageById(id);
+        return ObjectMapperUtils.map(image, ImageDto.class);
     }
 }

@@ -69,9 +69,6 @@ public class YachtModelManager {
     @RolesAllowed("editYachtModel")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editYachtModel(YachtModel yachtModelToEdit) throws AppBaseException {
-        if(yachtModelFacade.existByModel(yachtModelToEdit.getModel())) {
-            throw ValueNotUniqueException.createYachtModelNotUniqueException(yachtModelToEdit);
-        }
         yachtModelFacade.edit(yachtModelToEdit);
     }
 

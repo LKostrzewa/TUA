@@ -153,6 +153,12 @@
     <security-role>
         <role-name>deleteImage</role-name>
     </security-role>
+    <security-role>
+        <role-name>getImagesbyYachtModel</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getImageById</role-name>
+    </security-role>
 
 
     <!--YachtPortEndpoint-->

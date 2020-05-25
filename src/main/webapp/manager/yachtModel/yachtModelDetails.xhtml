@@ -45,25 +45,21 @@
                 <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.description}"/>
                
             </p:panelGrid>
-            <p:fileUpload value="#{yachtModelDetailsPageBean.uploadedFile}" mode="simple" />
-            <p:commandButton action="#{yachtModelDetailsPageBean.addImage}" ajax="false" value="Dodaj" />
-            <p:commandButton action="#{yachtModelDetailsPageBean.deleteImage}" ajax="false" value="Usun" />
+            <p:fileUpload listener="#{yachtModelDetailsPageBean.handleFileUpload}" mode="advanced" dragDropSupport="true"
+                          update="messages" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+
+            <p:growl id="messages" showDetail="true" />
             <p:button value="#{msg['goBack']}" outcome="listYachtModels.xhtml?faces-redirect=true"/>
             <p:button value="${msg['edit']}" outcome="editYachtModel.xhtml?faces-redirect=true">
                 <f:param name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
             </p:button>
-<!--            <ui:fragment rendered="#{not empty yachtModelDetailsPageBean.uploadedFile}">-->
-<!--                <h:outputStylesheet library="css" name="yachtModelDetails.css"/>-->
-<!--                <div>-->
-<!--                    <img src="data:image/png;base64,#{yachtModelDetailsPageBean.imageContentsAsBase64}"  alt="Uploaded image"/>-->
-<!--                </div>-->
-<!--            </ui:fragment>-->
-            <ui:repeat value="#{data.imageIds}" var="imageId">
-                <p:graphicImage value="#{imageStreamer.image}">
+            <div>
+            <ui:repeat value="#{yachtModelDetailsPageBean.imageIds}" var="imageId">
+                <p:graphicImage value="#{yachtModelDetailsPageBean.image}" height="200" width="200" style="align-content: center">
                     <f:param name="id" value="#{imageId}" />
                 </p:graphicImage>
             </ui:repeat>
-
+            </div>
         </h:form>
     </ui:define>
 </ui:composition>

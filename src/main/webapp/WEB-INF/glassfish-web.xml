@@ -192,6 +192,14 @@
         <role-name>deleteImage</role-name>
         <group-name>MANAGER</group-name>
     </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getImagesbyYachtModel</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getImageById</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
 
     <!--Rentals-->
     <security-role-mapping>

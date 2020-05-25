@@ -15,6 +15,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,7 +53,32 @@ public class ImageManager {
         imageFacade.create(newImage);
     }
 
-    public List<Long> getImagesbyYachtModel(Long yachtModelId) {
-       return null;
+    /**
+     * Metoda służy do wyszukania w bazie wszystkich id zdjęć związanych z danym modelem jachtu
+     * @param yachtModelId id modelu jachtu
+     * @return lista wszystkich id zdjęć powiązanych z danym modelem jachtu
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getImagesbyYachtModel")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public List<Long> getImagesbyYachtModel(Long yachtModelId) throws AppBaseException {
+       List<Image> images = imageFacade.getAllImagesbyYachtModel(yachtModelId);
+       List<Long> imageIds = new ArrayList<>();
+       for( Image i: images) {
+           imageIds.add(i.getId());
+       }
+       return imageIds;
+    }
+
+    /**
+     * Metoda służy do wyszukania zdjęcia w bazie o odpowiednim id
+     * @param id id zdjęcia
+     * @return obiekt encji reprezentujacy zdjecie
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @RolesAllowed("getImageById")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public Image getImageById(Long id) throws AppBaseException {
+        return imageFacade.find(id).orElseThrow(AppNotFoundException::imageNotFoundException);
     }
 }

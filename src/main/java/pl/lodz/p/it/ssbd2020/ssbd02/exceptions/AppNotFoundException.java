@@ -13,6 +13,7 @@ public class AppNotFoundException extends AppBaseException{
     public static final String YACHT_MESSAGE_KEY = "exception.yachtNotFound";
     public static final String YACHT_MODEL_MESSAGE_KEY = "exception.yachtModelNotFound";
     public static final String OPINION_MESSAGE_KEY = "exception.opinionNotFound";
+    public static final String IMAGE_MESSAGE_KEY = "exception.imageNotFound";
 
     private Class objectClass;
     public AppNotFoundException(String message) {
@@ -50,6 +51,12 @@ public class AppNotFoundException extends AppBaseException{
 
     public static AppNotFoundException yachtModelNotFoundException() {
         AppNotFoundException nfe = new AppNotFoundException(YACHT_MODEL_MESSAGE_KEY);
+        nfe.setObjectClass(User.class);
+        return nfe;
+    }
+
+    public static AppNotFoundException imageNotFoundException() {
+        AppNotFoundException nfe = new AppNotFoundException(IMAGE_MESSAGE_KEY);
         nfe.setObjectClass(User.class);
         return nfe;
     }
