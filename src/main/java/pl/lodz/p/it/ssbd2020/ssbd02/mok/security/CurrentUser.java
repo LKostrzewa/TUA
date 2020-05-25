@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -112,7 +113,8 @@ public class CurrentUser implements Serializable {
      */
     public void redirectToMain() throws IOException {
         if(currentRole == null) {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/login/login.xhtml");
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect(externalContext.getRequestContextPath()+"/login/login.xhtml");
         }
         else changeAccessLevel();
     }
@@ -125,19 +127,17 @@ public class CurrentUser implements Serializable {
      */
     private void changeAccessLevel() throws IOException {
         if (currentRole.equals(ADMIN_ACCESS_LEVEL)) {
-                FacesContext.getCurrentInstance()
-                        .getExternalContext()
-                        .redirect(redirectAdmin());
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect(externalContext.getRequestContextPath()+redirectAdmin());
         }
         else if (currentRole.equals(MANAGER_ACCESS_LEVEL)) {
-                FacesContext.getCurrentInstance()
-                        .getExternalContext()
-                        .redirect(redirectManager());
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect(externalContext.getRequestContextPath()+redirectManager());
         }
         else if (currentRole.equals(CLIENT_ACCESS_LEVEL)) {
-                FacesContext.getCurrentInstance()
-                        .getExternalContext()
-                        .redirect(redirectClient());
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect(externalContext.getRequestContextPath()+redirectClient());
+
         }
     }
 }
