@@ -1,4 +1,4 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.mok.managers;
+package pl.lodz.p.it.ssbd2020.ssbd02.managers;
 
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
