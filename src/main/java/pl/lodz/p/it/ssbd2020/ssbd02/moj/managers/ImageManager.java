@@ -17,7 +17,6 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Stateful
 @LocalBean
@@ -59,10 +58,10 @@ public class ImageManager {
      * @return lista wszystkich id zdjęć powiązanych z danym modelem jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getImagesbyYachtModel")
+    @RolesAllowed("getAllImagesByYachtModel")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public List<Long> getImagesbyYachtModel(Long yachtModelId) throws AppBaseException {
-       List<Image> images = imageFacade.getAllImagesbyYachtModel(yachtModelId);
+    public List<Long> getAllImagesByYachtModel(Long yachtModelId) throws AppBaseException {
+       List<Image> images = imageFacade.getAllImagesByYachtModel(yachtModelId);
        List<Long> imageIds = new ArrayList<>();
        for( Image i: images) {
            imageIds.add(i.getId());

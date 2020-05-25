@@ -30,7 +30,7 @@ public interface ImageEndpoint {
      * @return lista wszystkich id modelu jachtu o podanym id
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    List<Long> getImagesbyYachtModel(Long yachtModelId) throws AppBaseException;
+    List<Long> getAllImagesByYachtModel(Long yachtModelId) throws AppBaseException;
 
     /**
      * Metoda zwracająca zdjęcie o podanym id

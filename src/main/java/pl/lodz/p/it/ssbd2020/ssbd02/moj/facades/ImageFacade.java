@@ -80,9 +80,9 @@ public class ImageFacade extends AbstractFacade<Image> {
      * @return lista zdjęć
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getImagesbyYachtModel")
+    @RolesAllowed("getAllImagesByYachtModel")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public List<Image> getAllImagesbyYachtModel(Long yachtModelId) throws AppBaseException {
+    public List<Image> getAllImagesByYachtModel(Long yachtModelId) throws AppBaseException {
         TypedQuery<Image> typedQuery = entityManager.createNamedQuery("Image.findAllByYachtModel", Image.class);
         typedQuery.setParameter("id", yachtModelId);
         try {

@@ -154,7 +154,7 @@
         <role-name>deleteImage</role-name>
     </security-role>
     <security-role>
-        <role-name>getImagesbyYachtModel</role-name>
+        <role-name>getAllImagesByYachtModel</role-name>
     </security-role>
     <security-role>
         <role-name>getImageById</role-name>

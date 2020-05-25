@@ -193,7 +193,7 @@
         <group-name>MANAGER</group-name>
     </security-role-mapping>
     <security-role-mapping>
-        <role-name>getImagesbyYachtModel</role-name>
+        <role-name>getAllImagesByYachtModel</role-name>
         <group-name>MANAGER</group-name>
     </security-role-mapping>
     <security-role-mapping>

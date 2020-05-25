@@ -1,16 +1,13 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Image;
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.image.ImageDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.ImageManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
@@ -51,9 +48,9 @@ public class ImageEndpointImpl implements Serializable, ImageEndpoint {
      * @return lista wszystkich id modelu jachtu o podanym id
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getImagesbyYachtModel")
-    public List<Long> getImagesbyYachtModel(Long yachtModelId) throws AppBaseException {
-        return imageManager.getImagesbyYachtModel(yachtModelId);
+    @RolesAllowed("getAllImagesByYachtModel")
+    public List<Long> getAllImagesByYachtModel(Long yachtModelId) throws AppBaseException {
+        return imageManager.getAllImagesByYachtModel(yachtModelId);
     }
 
     /**

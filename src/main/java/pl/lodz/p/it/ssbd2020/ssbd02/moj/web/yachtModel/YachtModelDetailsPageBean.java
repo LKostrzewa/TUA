@@ -4,7 +4,6 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.Image;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.image.ImageDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.YachtModelDetailsDto;
@@ -67,7 +66,7 @@ public class YachtModelDetailsPageBean implements Serializable {
 
     public void init() throws AppBaseException {
         this.yachtModelDetailsDto = yachtModelEndpoint.getYachtModelById(yachtModelId);
-        imageIds = imageEndpoint.getImagesbyYachtModel(yachtModelId);
+        imageIds = imageEndpoint.getAllImagesByYachtModel(yachtModelId);
     }
 
 
