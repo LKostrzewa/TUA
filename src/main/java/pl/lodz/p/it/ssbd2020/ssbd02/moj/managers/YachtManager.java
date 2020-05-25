@@ -6,16 +6,14 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.EntityNotActiveException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.ValueNotUniqueException;
+import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.NewYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtModelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateful;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
@@ -23,7 +21,7 @@ import java.util.List;
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
-public class YachtManager {
+public class YachtManager extends AbstractManager implements SessionSynchronization {
     @Inject
     private YachtFacade yachtFacade;
     @Inject

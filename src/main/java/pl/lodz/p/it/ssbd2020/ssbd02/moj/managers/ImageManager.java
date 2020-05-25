@@ -2,11 +2,13 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Image;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.ImageFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtModelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.ejb.LocalBean;
+import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
-public class ImageManager {
+public class ImageManager extends AbstractManager implements SessionSynchronization {
     @Inject
     private ImageFacade imageFacade;
     @Inject
