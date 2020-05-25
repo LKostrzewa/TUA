@@ -94,7 +94,7 @@ public class LoginPageBean implements Serializable {
                 loggerIP.login();
 
                 try {
-                    userEndpoint.saveSuccessAuthenticate();
+                    userEndpoint.saveSuccessAuthenticate(userLoginDto.getUsername());
                 } catch (AppBaseException e) {
                     displayError(e.getLocalizedMessage());
                 }
