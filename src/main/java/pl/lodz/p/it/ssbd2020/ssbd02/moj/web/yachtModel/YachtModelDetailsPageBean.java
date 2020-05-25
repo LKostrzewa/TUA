@@ -8,7 +8,9 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.YachtModelDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.ImageEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
 
+import javax.ejb.ApplicationException;
 import javax.ejb.EJB;
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,7 +22,7 @@ import java.util.Base64;
 import java.util.List;
 
 @Named
-@ViewScoped
+@ApplicationScoped
 public class YachtModelDetailsPageBean implements Serializable {
 
 
@@ -36,10 +38,14 @@ public class YachtModelDetailsPageBean implements Serializable {
     private UploadedFile uploadedFile;
     private byte[] fileContents;
 
+    private List<Long> imageIds;
+
     public void init() throws AppBaseException {
         this.yachtModelDetailsDto = yachtModelEndpoint.getYachtModelById(yachtModelId);
-        uploadedImages = new ArrayList<byte[]>();
+        //uploadedImages = new ArrayList<byte[]>();
+        imageIds = imageEndpoint.getImagesbyYachtModel(yachtModelId);
     }
+
 
     public Long getYachtModelId() {
         return yachtModelId;
@@ -86,6 +92,11 @@ public class YachtModelDetailsPageBean implements Serializable {
 
     public void setImageId(Long imageId) {
         this.imageId = imageId;
+    }
+
+
+    public List<Long> getImageIds() {
+        return imageIds;
     }
 
     public void addImage() throws AppBaseException, IOException {

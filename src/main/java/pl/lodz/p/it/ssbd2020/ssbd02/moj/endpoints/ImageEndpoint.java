@@ -2,6 +2,8 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 
+import java.util.List;
+
 
 public interface ImageEndpoint {
 
@@ -19,4 +21,6 @@ public interface ImageEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     void deleteImage(Long imageId) throws AppBaseException;
+
+    List<Long> getImagesbyYachtModel(Long yachtModelId) throws AppBaseException;
 }

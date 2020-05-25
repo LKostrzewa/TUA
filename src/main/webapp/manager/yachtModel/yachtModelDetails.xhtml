@@ -52,12 +52,17 @@
             <p:button value="${msg['edit']}" outcome="editYachtModel.xhtml?faces-redirect=true">
                 <f:param name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
             </p:button>
-            <ui:fragment rendered="#{not empty yachtModelDetailsPageBean.uploadedFile}">
-                <h:outputStylesheet library="css" name="yachtModelDetails.css"/>
-                <div>
-                    <img src="data:image/png;base64,#{yachtModelDetailsPageBean.imageContentsAsBase64}"  alt="Uploaded image"/>
-                </div>
-            </ui:fragment>
+<!--            <ui:fragment rendered="#{not empty yachtModelDetailsPageBean.uploadedFile}">-->
+<!--                <h:outputStylesheet library="css" name="yachtModelDetails.css"/>-->
+<!--                <div>-->
+<!--                    <img src="data:image/png;base64,#{yachtModelDetailsPageBean.imageContentsAsBase64}"  alt="Uploaded image"/>-->
+<!--                </div>-->
+<!--            </ui:fragment>-->
+            <ui:repeat value="#{data.imageIds}" var="imageId">
+                <p:graphicImage value="#{imageStreamer.image}">
+                    <f:param name="id" value="#{imageId}" />
+                </p:graphicImage>
+            </ui:repeat>
 
         </h:form>
     </ui:define>

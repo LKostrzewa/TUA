@@ -51,4 +51,8 @@ public class ImageManager {
         Image newImage = new Image(image,yachtModel);
         imageFacade.create(newImage);
     }
+
+    public List<Long> getImagesbyYachtModel(Long yachtModelId) {
+       return null;
+    }
 }

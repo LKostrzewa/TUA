@@ -10,6 +10,7 @@ import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.*;
+import java.util.List;
 
 @Stateful
 @Interceptors(LoggerInterceptor.class)
@@ -39,5 +40,7 @@ public class ImageEndpointImpl implements Serializable, ImageEndpoint {
         imageManager.deleteImage(imageId);
     }
 
-
+    public List<Long> getImagesbyYachtModel(Long yachtModelId) {
+        return imageManager.getImagesbyYachtModel(yachtModelId);
+    }
 }
