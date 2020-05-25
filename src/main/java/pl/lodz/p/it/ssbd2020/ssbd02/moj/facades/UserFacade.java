@@ -2,10 +2,12 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppDatabaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -37,16 +39,25 @@ public class UserFacade extends AbstractFacade<User> {
         return entityManager;
     }
 
+    @DenyAll
+    @Override
+    public void create(User entity) throws AppBaseException {
+        super.create(entity);
+    }
+
+    @DenyAll
     @Override
     public List<User> findAll() {
         return super.findAll();
     }
 
+    @DenyAll
     @Override
     public Optional<User> find(Object id) {
         return super.find(id);
     }
 
+    @DenyAll
     @Override
     public void edit(User user) throws AppBaseException {
         super.edit(user);
@@ -67,5 +78,11 @@ public class UserFacade extends AbstractFacade<User> {
         } catch (NoResultException e) {
             throw AppNotFoundException.createUserNotFoundException(e);
         }
+    }
+
+    @DenyAll
+    @Override
+    public void remove(User entity) {
+        super.remove(entity);
     }
 }
