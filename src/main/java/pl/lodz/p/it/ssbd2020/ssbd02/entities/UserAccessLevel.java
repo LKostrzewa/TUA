@@ -19,7 +19,6 @@ import java.util.UUID;
         @NamedQuery(name = "UserAccessLevel.findAll", query = "SELECT u FROM UserAccessLevel u"),
         @NamedQuery(name = "UserAccessLevel.findById", query = "SELECT u FROM UserAccessLevel u WHERE u.id = :id")})
 public class UserAccessLevel implements Serializable {
-
     @Id
     @SequenceGenerator(name="UserAccessLevelSeqGen",sequenceName="user_access_level_id_seq",allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="UserAccessLevelSeqGen")
@@ -41,6 +40,7 @@ public class UserAccessLevel implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @ManyToOne(optional = false)
     @NotNull
+
     private User user;
 
     public UserAccessLevel() {

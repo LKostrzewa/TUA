@@ -468,7 +468,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         }
     }
 
-    @RolesAllowed("SYSTEM")
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void deleteInactiveUsers(){
         List<User> users = userFacade.findAll();

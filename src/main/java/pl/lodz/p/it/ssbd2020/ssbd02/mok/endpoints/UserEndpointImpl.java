@@ -12,12 +12,17 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -34,10 +39,13 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     private User userEditEntity;
 
     PropertyReader propertyReader = new PropertyReader();
-    Integer METHOD_INVOCATION_LIMIT = Integer.parseInt(propertyReader.getProperty("config", "rollback.invocation.limit"));
+    Integer METHOD_INVOCATION_LIMIT;
     Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-
+    @PostConstruct
+    public void init(){
+        METHOD_INVOCATION_LIMIT = Integer.parseInt(propertyReader.getProperty("config", "rollback.invocation.limit"));
+    }
     /**
      * Metoda służąca do rejestracji użytkownika
      *
@@ -497,5 +505,10 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
             throw RepeatedRollBackException.createRepeatedRollBackException();
         }
+    }
+
+    @PermitAll
+    public void deleteInactiveUsers(){
+        userManager.deleteInactiveUsers();
     }
 }
