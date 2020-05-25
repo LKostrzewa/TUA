@@ -77,9 +77,11 @@ public class YachtPortManager {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("retractYachtToPort")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void retractYachtFromPort(Long portId, Long yachtId) throws AppBaseException {
         Yacht yacht = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createPortNotFoundException);
         //TODO pobierać statusy rezerwacji z properties
+        //TODO czy też pending ?
         if(yacht.getRentals().stream().anyMatch(r -> r.getRentalStatus().getName().equals("STARTED"))){
             throw YachtReservedException.createYachtReservedException(yacht);
         }
