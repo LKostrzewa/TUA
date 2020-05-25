@@ -115,6 +115,7 @@ public class CurrentUser implements Serializable {
         if(currentRole == null) {
             ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
             externalContext.redirect(externalContext.getRequestContextPath()+"/login/login.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         }
         else changeAccessLevel();
     }

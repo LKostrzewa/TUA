@@ -14,21 +14,21 @@
         <h:form rendered="#{currentUser.nowManager}">
             <p:menubar>
                 <p:submenu label="#{msg['manager.menu.ports']}">
-                    <p:menuitem value="#{msg['manager.menu.ports.add']}" url="/manager/port/addPort.xhtml"/>
+                    <p:menuitem value="#{msg['manager.menu.ports.add']}" outcome="/manager/port/addPort.xhtml"/>
                     <p:separator/>
-                    <p:menuitem value="#{msg['manager.menu.ports.list']}" url="/manager/port/listPorts.xhtml"/>
+                    <p:menuitem value="#{msg['manager.menu.ports.list']}" outcome="/manager/port/listPorts.xhtml"/>
                 </p:submenu>
                 <p:submenu label="#{msg['manager.menu.models']}">
-                    <p:menuitem value="#{msg['manager.menu.models.add']}" url="#"/>
+                    <p:menuitem value="#{msg['manager.menu.models.add']}" outcome="/manager/index.xhtml"/>
                     <p:separator/>
-                    <p:menuitem value="#{msg['manager.menu.models.list']}" url="/manager/yachtModel/listYachtModels.xhtml"/>
+                    <p:menuitem value="#{msg['manager.menu.models.list']}" outcome="/manager/yachtModel/listYachtModels.xhtml"/>
                 </p:submenu>
                 <p:submenu label="#{msg['manager.menu.yachts']}">
-                    <p:menuitem value="#{msg['manager.menu.yachts.add']}" url="/manager/yacht/addYacht.xhtml"/>
+                    <p:menuitem value="#{msg['manager.menu.yachts.add']}" outcome="/manager/yacht/addYacht.xhtml"/>
                     <p:separator/>
-                    <p:menuitem value="#{msg['manager.menu.yachts.list']}" url="/manager/yacht/listYachts.xhtml"/>
+                    <p:menuitem value="#{msg['manager.menu.yachts.list']}" outcome="/manager/yacht/listYachts.xhtml"/>
                 </p:submenu>
-                <p:menuitem value="#{msg['menu.rentals']}" url="/manager/rental/listAllRentals.xhtml"/>
+                <p:menuitem value="#{msg['menu.rentals']}" outcome="/manager/rental/listAllRentals.xhtml"/>
                 <f:facet name="options">
                     <h:panelGroup>
                         <p:selectOneMenu value="#{currentUser.currentRole}">
@@ -42,7 +42,7 @@
                                     process="@this" partialSubmit="true"/>
                         </p:selectOneMenu>
                         <p:menuButton id="options2" value="#{msg['options']}">
-                            <p:menuitem value="#{msg['menu.account']}" url="/manager/account.xhtml"/>
+                            <p:menuitem value="#{msg['menu.account']}" outcome="/manager/account.xhtml"/>
                             <p:separator/>
                             <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
                         </p:menuButton>
@@ -52,8 +52,8 @@
         </h:form>
         <h:form rendered="#{currentUser.nowClient}">
             <p:menubar>
-                <p:menuitem value="#{msg['client.menu.ports']}" url="/client/port/listPorts.xhtml"/>
-                <p:menuitem value="#{msg['menu.rentals']}" url="/client/listRentals.xhtml"/>
+                <p:menuitem value="#{msg['client.menu.ports']}" outcome="/client/port/listPorts.xhtml"/>
+                <p:menuitem value="#{msg['menu.rentals']}" outcome="/client/listRentals.xhtml"/>
                 <f:facet name="options">
                     <h:panelGroup>
                         <p:selectOneMenu value="#{currentUser.currentRole}">
@@ -67,7 +67,7 @@
                                     process="@this" partialSubmit="true"/>
                         </p:selectOneMenu>
                         <p:menuButton id="options3" value="#{msg['options']}">
-                            <p:menuitem value="#{msg['menu.account']}" url="/client/account.xhtml"/>
+                            <p:menuitem value="#{msg['menu.account']}" outcome="/client/account.xhtml"/>
                             <p:separator/>
                             <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
                         </p:menuButton>
@@ -77,11 +77,11 @@
         </h:form>
         <h:form rendered="#{currentUser.nowAdministrator}">
             <p:menubar>
-                <p:menuitem id="addUserButton" value="#{msg['admin.menu.accounts.add']}" url="/admin/addUser.xhtml"/>
+                <p:menuitem id="addUserButton" value="#{msg['admin.menu.accounts.add']}" outcome="/admin/addUser.xhtml"/>
                 <p:menuitem id="listUsersButton" value="#{msg['admin.menu.accounts.list']}"
-                            url="/admin/listUsers.xhtml?"/>
+                            outcome="/admin/listUsers.xhtml?"/>
                 <p:menuitem id="userReportButton" value="#{msg['admin.menu.accounts.report']}"
-                            url="/admin/userReport.xhtml"/>
+                            outcome="/admin/userReport.xhtml"/>
                 <f:facet name="options">
                     <h:panelGroup>
                         <p:selectOneMenu value="#{currentUser.currentRole}">
@@ -95,7 +95,7 @@
                                     process="@this" partialSubmit="true"/>
                         </p:selectOneMenu>
                         <p:menuButton id="options1" value="#{msg['options']}">
-                            <p:menuitem value="#{msg['menu.account']}" url="/admin/account.xhtml"/>
+                            <p:menuitem value="#{msg['menu.account']}" outcome="/admin/account.xhtml"/>
                             <p:separator/>
                             <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
                         </p:menuButton>
