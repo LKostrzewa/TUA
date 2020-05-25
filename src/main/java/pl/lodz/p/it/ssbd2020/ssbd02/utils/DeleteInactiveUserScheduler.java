@@ -25,13 +25,13 @@ public class DeleteInactiveUserScheduler {
     //Uruchomienie schedulera co 1 minutę @Schedule(hour = "*", minute = "*")
 
     /**
-     * Metoda do usuwania usuwania z bazy danych kont użytkowników. Konto jest usuwane jeżeli nie jest aktywne przez
+     * Metoda do usuwania z bazy danych kont użytkowników. Konto jest usuwane jeżeli nie jest aktywne przez
      * ponad dobę licząc od daty utworzenia. Metoda jest wywoływana codziennie o godzinie 3.00.
      *
      */
     @RolesAllowed("TIME")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    @Schedule(hour = "*", minute = "*")
+    @Schedule(hour = "3")
     public void performTask(){
         List<User> users = userFacade.findAll();
         for (User user : users) {
