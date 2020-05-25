@@ -51,7 +51,6 @@ public class MyEditPageBean implements Serializable {
         try{
             this.editUserDto = userEndpoint.getEditUserDtoByLogin();
         } catch (AppBaseException e) {
-            //do przetestowania / poprawienia
             displayError(e.getLocalizedMessage());
             FacesContext.getCurrentInstance().getExternalContext()
                     .redirect("account.xhtml?faces-redirect=true?includeViewParams=true");
