@@ -66,6 +66,85 @@
             <to-view-id>/client/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+
+        <navigation-case>
+            <from-action>#{addUserPageBean.addUser}</from-action>
+            <from-outcome>addUser</from-outcome>
+            <to-view-id>/admin/addUser.xhtml</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-action>#{addUserPageBean.addUser}</from-action>
+            <from-outcome>userList</from-outcome>
+            <to-view-id>/admin/listUsers.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+        <navigation-case>
+            <from-action>#{changeAccessLevelPageBean.changeAccessLevel}</from-action>
+            <from-outcome>changeAccessLevel</from-outcome>
+            <to-view-id>/admin/changeAccessLevel.xhtml</to-view-id>
+        </navigation-case>
+
+<!--        <navigation-case>-->
+<!--            <from-action>#{changeAccessLevelPageBean.changeAccessLevel}</from-action>-->
+<!--            <from-outcome>userDetails</from-outcome>-->
+<!--            <to-view-id>/admin/userDetails.xhtml</to-view-id>-->
+<!--            <redirect include-view-params="true"/>-->
+<!--        </navigation-case>-->
+
+        <navigation-case>
+            <from-action>#{changePasswordPageBean.changePassword}</from-action>
+            <from-outcome>changePassword</from-outcome>
+            <to-view-id>/admin/changePassword.xhtml</to-view-id>
+        </navigation-case>
+
+<!--        <navigation-case>-->
+<!--            <from-action>#{changePasswordPageBean.changePassword}</from-action>-->
+<!--            <from-outcome>userDetails</from-outcome>-->
+<!--            <to-view-id>/admin/userDetails.xhtml</to-view-id>-->
+<!--            <redirect include-view-params="true"/>-->
+<!--        </navigation-case>-->
+
+        <navigation-case>
+            <from-action>#{editUserPageBean.editUser}</from-action>
+            <from-outcome>editUser</from-outcome>
+            <to-view-id>/admin/editUser.xhtml</to-view-id>
+        </navigation-case>
+
+<!--        <navigation-case>-->
+<!--            <from-action>#{editUserPageBean.editUser}</from-action>-->
+<!--            <from-outcome>userDetails</from-outcome>-->
+<!--            <to-view-id>/admin/userDetails.xhtml</to-view-id>-->
+<!--            <redirect include-view-params="true"/>-->
+<!--        </navigation-case>-->
+
+        <navigation-case>
+            <from-action>#{userRegistrationBean.registerAccountAction}</from-action>
+            <from-outcome>register</from-outcome>
+            <to-view-id>/login/register.xhtml</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-action>#{userRegistrationBean.registerAccountAction}</from-action>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login/login.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+        <navigation-case>
+            <from-action>#{sendEmailWithResetPasswordPageBean.resetPassword}</from-action>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login/login.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+        <navigation-case>
+            <from-action>#{resetPasswordPageBean.resetPassword}</from-action>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login/login.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
     </navigation-rule>
 
 </faces-config>

@@ -50,19 +50,18 @@ public class AddUserPageBean implements Serializable {
     public String addUser() {
         try {
             userEndpoint.addNewUser(addUserDto);
-        }
-        catch (AppBaseException e){
+        } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
-            return "addUser.xhtml";
+            return "addUser";
         }
         displayMessage();
-        return "listUsers.xhtml?faces-redirect=true";
+        return "userList";
     }
 
     /**
      * Metoda inicjalizująca wyświetlanie wiadomości
      */
-    private void displayInit(){
+    private void displayInit() {
         context.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
     }
