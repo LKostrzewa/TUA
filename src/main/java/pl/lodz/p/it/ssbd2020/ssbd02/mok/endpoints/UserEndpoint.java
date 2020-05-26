@@ -1,16 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 import org.primefaces.model.FilterMeta;
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
 
-import javax.annotation.security.PermitAll;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +54,7 @@ public interface UserEndpoint {
      * @return user login dot
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    UserLoginDto getLoginDtoByLogin() throws AppBaseException;
+    UserLoginDto getLoginDtoByLogin(String login) throws AppBaseException;
 
     /**
      * Metoda, która zapisuje wprowadzone przez administratora zmiany w danych konta użytkownika
@@ -131,7 +124,7 @@ public interface UserEndpoint {
      *
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-     void saveFailureAuthenticate() throws AppBaseException;
+     void saveFailureAuthenticate(String username) throws AppBaseException;
 
     /**
      * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.

@@ -4,22 +4,21 @@ import org.junit.Assert;
 import org.junit.Test;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ChangeOwnPasswordDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.BCryptPasswordHash;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
-
-import java.util.Date;
 
 public class SimpleTest {
     @Test
     public void mapperTest(){
-        UserDto userDto = new UserDto("test", "password", "email@google.com", false,
-                true, new Date(),null,null,0,
-                "Jacek","Placek","999888777");
+        UserDetailsDto userDetailsDto = new UserDetailsDto();
 
-        User user = ObjectMapperUtils.map(userDto, User.class);
+        userDetailsDto.setFirstName("Jan");
+        userDetailsDto.setLastName("Kowalski");
 
-        Assert.assertEquals(userDto.getFirstName(), user.getFirstName());
+        User user = ObjectMapperUtils.map(userDetailsDto, User.class);
+
+        Assert.assertEquals(userDetailsDto.getFirstName(), user.getFirstName());
         Assert.assertEquals(user.getInvalidLoginAttempts(), 0);
 
         ChangeOwnPasswordDto changeOwnPasswordDto = new ChangeOwnPasswordDto();
