@@ -234,6 +234,14 @@
         <role-name>addRental</role-name>
         <group-name>CLIENT</group-name>
     </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getFilteredRowCountRental</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getResultListRental</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
     <!--Ports-->
     <security-role-mapping>
         <role-name>getAllPorts</role-name>
