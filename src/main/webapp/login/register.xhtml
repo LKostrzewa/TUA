@@ -100,23 +100,19 @@
         </div>
         <div class="text-box">
             <p:commandButton class="register-button" value="#{msg['registration.register']}"
-                             style="background-color: #ffdd99"
-                             action="#{userRegistrationBean.registerAccountAction}" ajax="false" update="@form"/>
+                             style="background-color: #ffdd99" type="button" onclick="PF('registerConfirm').show()"/>
         </div>
+        <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}" showEffect="explode"
+                         hideEffect="explode" widgetVar="registerConfirm">
+            <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes" style="background-color: green"
+                             action="#{userRegistrationBean.registerAccountAction}"
+                             oncomplete="PF('registerConfirm').hide()" icon="pi pi-check" ajax="false"/>
+            <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no" style="background-color: red"
+                             oncomplete="PF('registerConfirm').hide()" icon="pi pi-times"/>
+        </p:confirmDialog>
         <div class="bottom-text">
             <a href="${pageContext.request.contextPath}/login/login.xhtml">#{msg['registration.cancel']}</a>
         </div>
     </h:form>
-
-    <script type="text/javascript">
-        $(".text-box input").on("focus", function () {
-            $(this).addClass("focus");
-        });
-
-        $(".text-box input").on("blur", function () {
-            if ($(this).val() === "") $(this).removeClass("focus");
-        });
-    </script>
-
 </h:body>
 </html>
