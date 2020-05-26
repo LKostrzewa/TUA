@@ -49,14 +49,14 @@ public class ChangeAccessLevelPageBean implements Serializable {
     public void init() throws IOException {
         try {
             this.userDto = userAccessLevelEndpoint.findUserAccessLevelById(userId);
-        }
-        catch (AppBaseException e) {
+        } catch (AppBaseException e) {
             //do sprawdzenia/poprawy
             displayError(e.getLocalizedMessage());
             FacesContext.getCurrentInstance().getExternalContext()
                     .redirect("userDetails.xhtml?faces-redirect=true?includeViewParams=true");
         }
     }
+
     /**
      * Metoda obsługująca wciśnięcie guzika do zmiany poziomu dostępu
      *
@@ -65,19 +65,19 @@ public class ChangeAccessLevelPageBean implements Serializable {
     public String changeAccessLevel() {
         try {
             userAccessLevelEndpoint.editUserAccessLevels(userDto);
-            displayMessage();
-        }
-        catch (AppBaseException e){
+        } catch (AppBaseException e) {
             //tutaj do potestowania bo cos nie halo chyba przy współbieżności
             displayError(e.getLocalizedMessage());
+            return "changeAccessLevel";
         }
-        return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
+        displayMessage();
+        return "userDetails?faces-redirect=true?includeViewParams=true";
     }
 
     /**
      * Metoda inicjalizująca wyświetlanie wiadomości
      */
-    private void displayInit(){
+    private void displayInit() {
         context.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
     }

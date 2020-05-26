@@ -4,7 +4,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 
 /**
- * Interfejs Endpoint do operacji łączenia użytkownikó z poziomami dostępu
+ * Interfejs Endpoint do operacji łączenia użytkowników z poziomami dostępu
  */
 public interface UserAccessLevelEndpoint {
     /**

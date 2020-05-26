@@ -18,6 +18,7 @@ import java.util.UUID;
         @NamedQuery(name = "Image.findAll", query = "SELECT i FROM Image i"),
         @NamedQuery(name = "Image.findById", query = "SELECT i FROM Image i WHERE i.id = :id"),
         @NamedQuery(name = "Image.findByVersion", query = "SELECT i FROM Image i WHERE i.version = :version"),
+        @NamedQuery(name = "Image.findAllByYachtModel", query = "SELECT i FROM Image i WHERE i.yachtModel.id = :id"),
         @NamedQuery(name = "Image.findByLob", query = "SELECT i FROM Image i WHERE i.lob = :lob")})
 public class Image implements Serializable {
 

@@ -51,7 +51,7 @@ public class SendEmailWithResetPasswordPageBean implements Serializable {
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
-        return "login.xhtml?faces-redirect=true";
+        return "login";
     }
 
     /**

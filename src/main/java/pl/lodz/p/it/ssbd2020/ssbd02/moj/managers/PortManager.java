@@ -4,14 +4,12 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.ValueNotUniqueException;
+import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.PortFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateful;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
@@ -19,7 +17,7 @@ import java.util.List;
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
-public class PortManager {
+public class PortManager extends AbstractManager implements SessionSynchronization {
     @Inject
     private PortFacade portFacade;
 
@@ -60,12 +58,13 @@ public class PortManager {
     /**
      * Metoda, która deaktywuje dany port.
      *
-     * @param portToDeactivate encja portu.
+     * @param portId identyfikator portu.
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("deactivatePort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void deactivatePort(Port portToDeactivate) throws AppBaseException{
+    public void deactivatePort(long portId) throws AppBaseException{
+        Port portToDeactivate = portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
         portToDeactivate.setActive(false);
         portFacade.edit(portToDeactivate);
     }

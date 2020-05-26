@@ -31,9 +31,31 @@ public interface YachtModelEndpoint {
      * @return dto szczegółów danego modelu jachtu
      * @throws AppBaseException wyjątek aplikacyjny jeśli operacja zakończy się niepowodzeniem
      */
+
     YachtModelDetailsDto getYachtModelById(Long yachtModelId) throws AppBaseException;
-    void editYachtModel(Long yachtModelId, EditYachtModelDto editYachtModelDto) throws AppBaseException;
+
+
+    /**
+     * Metoda która zapisuje wprowadzone przez managera zmiany w modelu jachtu
+     * @param editYachtModelDto obiekt DTO przeznaczony do edycji modelu jachtu
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    void editYachtModel(EditYachtModelDto editYachtModelDto) throws AppBaseException;
+
+    /**
+     * Metoda która deaktywuje model jachtu o podanym ID
+     * @param yachtModelId id modelu jachtu
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     void deactivateYachtModel(Long yachtModelId) throws AppBaseException;
+
+    /**
+     * Metoda która zwraca model jachtu do edycji o podanym id
+     * @param yachtModelId id modelu jachtu
+     * @return EditYachtModelDto
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    EditYachtModelDto getEditYachtModelDtoById(Long yachtModelId) throws AppBaseException;
 
 
 }
