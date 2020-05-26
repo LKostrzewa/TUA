@@ -52,7 +52,7 @@ public class User implements Serializable {
     @NotNull
     @Size(max = 32)
     @Size(min = 4, message = "{validation.login}")
-    @Pattern(regexp = "[^=]", message = "{validation.invalidCharacter}")
+    @Pattern(regexp = "^[^=]+$", message = "{validation.invalidCharacter}")
     private String login;
     @Column(name = "password", nullable = false, length = 64)
     @NotNull
@@ -100,12 +100,10 @@ public class User implements Serializable {
 
     @Column(name = "first_name", table = "user_details", nullable = false, length = 32)
     @NotNull
-    @Size(max = 32)
     @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,31}", message = "{validation.firstName}")
     private String firstName;
     @Column(name = "last_name", table = "user_details", nullable = false, length = 32)
     @NotNull
-    @Size(max = 32)
     @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,31}", message = "{validation.firstName}")
     private String lastName;
     @Column(name = "phone_number", table = "user_details", nullable = false, length = 10)
