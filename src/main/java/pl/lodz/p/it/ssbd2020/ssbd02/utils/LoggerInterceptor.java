@@ -72,13 +72,14 @@ public class LoggerInterceptor implements Serializable, HttpSessionListener {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             exception.printStackTrace(pw);
-            String exceptionInfo = exception.getClass().getName() + ": \"" + exception.getMessage() + "\""
-                    + sw.toString();
-            //Throwable cause = exception.getCause();
+            String exceptionInfo = exception.getClass().getName() + ": \"" + exception.getMessage() + "\"";
+            Throwable cause = exception.getCause();
 
-            /*if(cause != null) {
+            if(cause != null) {
                 exceptionInfo += " caused by " + cause.getClass().getName() + ": \"" + cause.getMessage() + "\"";
-            }*/
+            }
+
+            exceptionInfo += sw.toString();
 
             LOGGER.log(Level.WARNING,
                     "{0} - {1}({2}) called by: {3} has thrown\n{4}",

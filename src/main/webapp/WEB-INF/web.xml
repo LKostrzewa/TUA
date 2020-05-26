@@ -44,6 +44,9 @@
     <security-role>
         <role-name>ADMINISTRATOR</role-name>
     </security-role>
+    <security-role>
+        <role-name>TIME</role-name>
+    </security-role>
 
     <!--UserEndpoint-->
     <security-role>
@@ -136,6 +139,31 @@
     <security-role>
         <role-name>getYachtModelById</role-name>
     </security-role>
+    <security-role>
+        <role-name>editYachtModel</role-name>
+    </security-role>
+    <security-role>
+        <role-name>deactivateYachtModel</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getEditYachtModelDtoById</role-name>
+    </security-role>
+
+    <!--ImageEndpoint-->
+    <security-role>
+        <role-name>addImage</role-name>
+    </security-role>
+    <security-role>
+        <role-name>deleteImage</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getAllImagesByYachtModel</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getImageById</role-name>
+    </security-role>
+
+
     <!--YachtPortEndpoint-->
     <security-role>
         <role-name>getAllYachtsByPort</role-name>
@@ -284,26 +312,10 @@
         <error-code>500</error-code>
         <location>/errors/500.xhtml</location>
     </error-page>
-    <!--<error-page>
-        <exception-type>javax.ejb.EJBAccessException</exception-type>
-        <location>/errors/ejbAccessExp.xhtml</location>
-    </error-page>
     <error-page>
-        <exception-type>javax.ejb.NoSuchEJBException</exception-type>
-        <location>/errors/noSuchEJBExp.xhtml</location>
+        <exception-type>java.io.IOException</exception-type>
+        <location>/errors/IOExp.xhtml</location>
     </error-page>
-    <error-page>
-        <exception-type>javax.ejb.EJBException</exception-type>
-        <location>/errors/ejbExp.xhtml</location>
-    </error-page>
-    <error-page>
-        <exception-type>javax.ejb.EJBTransactionRequiredException</exception-type>
-        <location>/errors/ejbTranReqExp.xhtml</location>
-    </error-page>
-    <error-page>
-        <exception-type>javax.ejb.EJBTransactionRolledbackException</exception-type>
-        <location>/errors/ejbTranRollExp.xhtml</location>
-    </error-page>-->
     <error-page>
         <location>/errors/other.xhtml</location>
     </error-page>

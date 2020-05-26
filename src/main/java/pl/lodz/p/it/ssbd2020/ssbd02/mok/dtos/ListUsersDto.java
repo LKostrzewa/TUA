@@ -2,6 +2,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
 import java.util.Objects;
 
+/**
+ * DTO do użytkowników znajdujących się na liście wszystkich użytkowników
+ */
 public class ListUsersDto {
     private Long id;
     private String login;

@@ -37,8 +37,7 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
     @RolesAllowed("addYacht")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addYacht(Yacht yacht, Long yachtModelId) throws AppBaseException {
-        // TODO zmienic wyjatek na yacht model not find
-        YachtModel yachtModel = yachtModelFacade.find(yachtModelId).orElseThrow(AppNotFoundException::createUserNotFoundException);
+        YachtModel yachtModel = yachtModelFacade.find(yachtModelId).orElseThrow(AppNotFoundException::yachtModelNotFoundException);
         Yacht newYacht = new Yacht(yacht.getName(),yacht.getProductionYear(),yacht.getPriceMultiplier(),yacht.getEquipment(), yachtModel);
 
         if(!yachtModel.isActive()){

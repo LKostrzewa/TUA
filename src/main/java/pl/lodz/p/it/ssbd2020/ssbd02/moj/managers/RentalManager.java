@@ -12,7 +12,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
@@ -49,7 +48,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
         Yacht yachtToRent = yachtFacade.findByName(rental.getYacht().getName());
 
         if (yachtToRent.getCurrentPort() == null)
-            throw YachtNotAssignedException.createYachtNotAssignedException(yachtToRent);
+            throw YachtPortChangedException.createYachtNotAssignedException(yachtToRent);
 
         if (!yachtToRent.getCurrentPort().isActive())
             throw EntityNotActiveException.createPortNotActiveException(yachtToRent.getCurrentPort());
@@ -157,13 +156,14 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void updateRentalStatus() throws AppBaseException {
         List<Rental> allRentals = rentalFacade.findAll();
+        List<RentalStatus> rentalStatuses = rentalStatusFacade.findAll();
         for (Rental rental : allRentals) {
-            if(rental.getRentalStatus().equals(rentalStatusFacade.findByName("STARTED"))&&rental.getEndDate().before(new Date())){
-                rental.setRentalStatus(rentalStatusFacade.findByName("FINISHED"));
+            if(rental.getRentalStatus().equals(rentalStatuses.stream().filter(rentalStatus -> rentalStatus.getName().equals("STARTED")).findAny().orElseThrow(null))&&rental.getEndDate().before(new Date())){
+                rental.setRentalStatus(rentalStatuses.stream().filter(rentalStatus -> rentalStatus.getName().equals("FINISHED")).findAny().orElseThrow(null));
                 rentalFacade.edit(rental);
             }
-            if(rental.getRentalStatus().equals(rentalStatusFacade.findByName("PENDING"))&&rental.getBeginDate().after(new Date())){
-                rental.setRentalStatus(rentalStatusFacade.findByName("STARTED"));
+            if(rental.getRentalStatus().equals(rentalStatuses.stream().filter(rentalStatus -> rentalStatus.getName().equals("PENDING")).findAny().orElseThrow(null))&&rental.getBeginDate().after(new Date())){
+                rental.setRentalStatus(rentalStatuses.stream().filter(rentalStatus -> rentalStatus.getName().equals("STARTED")).findAny().orElseThrow(null));
                 rentalFacade.edit(rental);
             }
         }

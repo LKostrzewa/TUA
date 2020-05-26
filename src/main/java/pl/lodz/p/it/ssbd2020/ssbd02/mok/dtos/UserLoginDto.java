@@ -3,6 +3,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
+/**
+ * DTO do logowania
+ */
 public class UserLoginDto {
     private Long id;
     @NotBlank(message = "{username.message}")

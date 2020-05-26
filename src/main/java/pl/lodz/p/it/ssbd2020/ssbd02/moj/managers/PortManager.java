@@ -58,12 +58,13 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
     /**
      * Metoda, która deaktywuje dany port.
      *
-     * @param portToDeactivate encja portu.
+     * @param portId identyfikator portu.
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("deactivatePort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void deactivatePort(Port portToDeactivate) throws AppBaseException{
+    public void deactivatePort(long portId) throws AppBaseException{
+        Port portToDeactivate = portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
         portToDeactivate.setActive(false);
         portFacade.edit(portToDeactivate);
     }
