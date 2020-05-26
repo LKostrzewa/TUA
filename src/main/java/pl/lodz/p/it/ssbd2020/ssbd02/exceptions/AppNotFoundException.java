@@ -45,6 +45,12 @@ public class AppNotFoundException extends AppBaseException{
         return nfe;
     }
 
+    public static AppNotFoundException createAccessLevelNotFoundException() {
+        AppNotFoundException nfe = new AppNotFoundException(ACCESS_LEVEL_MESSAGE_KEY);
+        nfe.setObjectClass(AccessLevel.class);
+        return nfe;
+    }
+
     /**
      * Statyczna metoda do tworzenia wyjątku w przypadku nieznalezienia encji User
      *
@@ -121,4 +127,5 @@ public class AppNotFoundException extends AppBaseException{
         nfe.setObjectClass(Opinion.class);
         return nfe;
     }
+
 }

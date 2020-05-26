@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
@@ -20,6 +22,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -34,8 +37,6 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
     private String CLIENT_ACCESS_LEVEL;
     @Inject
     private UserAccessLevelManager userAccessLevelManager;
-    @Inject
-    private AccessLevelManager accessLevelManager;
     @Inject
     private UserManager userManager;
 
@@ -108,33 +109,10 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
      */
     @RolesAllowed("editUserAccessLevels")
     public void editUserAccessLevels(UserAccessLevelDto userAccessLevelDto) throws AppBaseException {
-        List<AccessLevel> accessLevels = accessLevelManager.getAllAccessLevels();
-        if (userAccessLevelDto.getAdmin().getLeft() ^ userAccessLevelDto.getAdmin().getRight()) {
-            if (userAccessLevelDto.getAdmin().getRight()) {
-                UserAccessLevel userAccessLevel = new UserAccessLevel(this.user, accessLevels.stream().filter(accessLevel -> accessLevel.getName().equals(ADMIN_ACCESS_LEVEL)).findAny().orElse(null));
-                userAccessLevelManager.addUserAccessLevel(userAccessLevel);
-            } else {
-                userAccessLevelManager.removeUserAccessLevel(this.user.getUserAccessLevels().
-                        stream().filter(userAccessLevel -> userAccessLevel.getAccessLevel().getName().equals(ADMIN_ACCESS_LEVEL)).findAny().orElse(null));
-            }
-        }
-        if (userAccessLevelDto.getManager().getLeft() ^ userAccessLevelDto.getManager().getRight()) {
-            if (userAccessLevelDto.getManager().getRight()) {
-                UserAccessLevel userAccessLevel = new UserAccessLevel(this.user, accessLevels.stream().filter(accessLevel -> accessLevel.getName().equals(MANAGER_ACCESS_LEVEL)).findAny().orElse(null));
-                userAccessLevelManager.addUserAccessLevel(userAccessLevel);
-            } else {
-                userAccessLevelManager.removeUserAccessLevel(this.user.getUserAccessLevels().
-                        stream().filter(userAccessLevel -> userAccessLevel.getAccessLevel().getName().equals(MANAGER_ACCESS_LEVEL)).findAny().orElse(null));
-            }
-        }
-        if (userAccessLevelDto.getClient().getLeft() ^ userAccessLevelDto.getClient().getRight()) {
-            if (userAccessLevelDto.getClient().getRight()) {
-                UserAccessLevel userAccessLevel = new UserAccessLevel(this.user, accessLevels.stream().filter(accessLevel -> accessLevel.getName().equals(CLIENT_ACCESS_LEVEL)).findAny().orElse(null));
-                userAccessLevelManager.addUserAccessLevel(userAccessLevel);
-            } else {
-                userAccessLevelManager.removeUserAccessLevel(this.user.getUserAccessLevels().
-                        stream().filter(userAccessLevel -> userAccessLevel.getAccessLevel().getName().equals(CLIENT_ACCESS_LEVEL)).findAny().orElse(null));
-            }
-        }
+        List<MutablePair<Boolean,Boolean>> userAccessLevelList = new ArrayList<>();
+        userAccessLevelList.add(userAccessLevelDto.getAdmin());
+        userAccessLevelList.add(userAccessLevelDto.getManager());
+        userAccessLevelList.add(userAccessLevelDto.getClient());
+        userAccessLevelManager.editUserAccessLevel(this.user, userAccessLevelList);
     }
 }
