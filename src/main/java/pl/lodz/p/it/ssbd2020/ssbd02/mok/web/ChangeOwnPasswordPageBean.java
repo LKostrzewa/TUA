@@ -10,10 +10,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
+/**
+ * Klasa do obsługi widoku zmiany własnego hasła
+ */
 @Named
 @ViewScoped
 public class ChangeOwnPasswordPageBean implements Serializable {
@@ -21,12 +23,12 @@ public class ChangeOwnPasswordPageBean implements Serializable {
     private UserEndpoint userEndpoint;
 
     @Inject
-    private FacesContext facesContext;
+    private FacesContext context;
 
     private ChangeOwnPasswordDto changeOwnPasswordDto;
-    private String userLogin;
+    //private String userLogin;
 
-    private ResourceBundle bundle;
+    private ResourceBundle resourceBundle;
 
     public ChangeOwnPasswordDto getChangeOwnPasswordDto() {
         return changeOwnPasswordDto;
@@ -36,38 +38,61 @@ public class ChangeOwnPasswordPageBean implements Serializable {
         this.changeOwnPasswordDto = changeOwnPasswordDto;
     }
 
+    /**
+     * Metoda inicjalizująca komponent
+     */
     @PostConstruct
     public void init() {
-        userLogin = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        //userLogin = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         this.changeOwnPasswordDto = new ChangeOwnPasswordDto();
-        bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
     }
 
-    public String changePassword() throws AppBaseException {
+    /**
+     * Metoda obsługująca wciśnięcie guzika do zmiany swojego hasła
+     *
+     * @return strona na którą zostanie przekierowany użytkownik
+     */
+    public String changePassword() {
         try {
             userEndpoint.changeOwnPassword(changeOwnPasswordDto);
+            displayMessage();
         } catch (AppBaseException e) {
-            String msg = bundle.getString(e.getLocalizedMessage());
-            String head = bundle.getString("error");
-            facesContext.getExternalContext().getFlash().setKeepMessages(true);
-            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
-            return "changeOwnPassword.xhtml";
+            displayError(e.getLocalizedMessage());
         }
-        String msg = bundle.getString("shared.password.changeSuccess");
-        String head = bundle.getString("success");
-        facesContext.getExternalContext().getFlash().setKeepMessages(true);
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
-
         return "account.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
-    private HttpServletRequest getHttpRequestFromFacesContext() {
-        return (HttpServletRequest) facesContext
-                .getExternalContext()
-                .getRequest();
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości
+     */
+    private void displayInit(){
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     */
+    private void displayMessage() {
+        displayInit();
+        String msg = resourceBundle.getString("shared.password.changeSuccess");
+        String head = resourceBundle.getString("success");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     *
+     * @param message wiadomość do wyświetlenia
+     */
+    private void displayError(String message) {
+        displayInit();
+        String msg = resourceBundle.getString(message);
+        String head = resourceBundle.getString("error");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
     }
 
     public ResourceBundle getBundle() {
-        return bundle;
+        return resourceBundle;
     }
 }

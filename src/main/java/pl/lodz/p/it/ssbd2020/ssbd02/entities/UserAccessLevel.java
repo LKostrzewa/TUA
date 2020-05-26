@@ -8,6 +8,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 import org.eclipse.persistence.annotations.Convert;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -16,26 +17,30 @@ import java.util.UUID;
 @Table(name = "user_access_level", uniqueConstraints = @UniqueConstraint(columnNames = {"access_level_id", "user_id"}))
 @NamedQueries({
         @NamedQuery(name = "UserAccessLevel.findAll", query = "SELECT u FROM UserAccessLevel u"),
-        @NamedQuery(name = "UserAccessLevel.findById", query = "SELECT u FROM UserAccessLevel u WHERE u.id = :id"),
-        @NamedQuery(name = "UserAccessLevel.findByVersion", query = "SELECT u FROM UserAccessLevel u WHERE u.version = :version")})
+        @NamedQuery(name = "UserAccessLevel.findById", query = "SELECT u FROM UserAccessLevel u WHERE u.id = :id")})
 public class UserAccessLevel implements Serializable {
 
     @Id
     @SequenceGenerator(name="UserAccessLevelSeqGen",sequenceName="user_access_level_id_seq",allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="UserAccessLevelSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
+    @NotNull
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
+    @NotNull
     private long version;
     @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @Convert("uuidConverter")
+    @NotNull
     private UUID businessKey;
     @JoinColumn(name = "access_level_id", referencedColumnName = "id", updatable = false)
     @ManyToOne(optional = false)
+    @NotNull
     private AccessLevel accessLevel;
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @ManyToOne(optional = false)
+    @NotNull
     private User user;
 
     public UserAccessLevel() {

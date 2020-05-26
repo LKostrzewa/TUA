@@ -11,10 +11,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
+/**
+ * Klasa do obsługi widoku rejestracji użytkownika
+ */
 @Named
 @RequestScoped
 public class UserRegistrationBean implements Serializable {
@@ -36,30 +38,59 @@ public class UserRegistrationBean implements Serializable {
         this.userDto = userDto;
     }
 
+    /**
+     * Metoda inicjalizująca komponent
+     */
     @PostConstruct
     public void init() {
         userDto = new AddUserDto();
-        bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
+        bundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
 
+    /**
+     * Metoda obsługująca wciśnięcie guzika do rejestracji
+     *
+     * @return strona na którą zostanie przekierowany użytkownik
+     */
     public String registerAccountAction() {
         try {
             userEndpoint.registerNewUser(userDto);
+        } catch (AppBaseException e) {
+            displayError(e.getLocalizedMessage());
+            return "register";
         }
-        catch (AppBaseException e) {
-            String msg = bundle.getString(e.getLocalizedMessage());
-            String head = bundle.getString("error");
-            facesContext.getExternalContext().getFlash().setKeepMessages(true);
-            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
-            return "register.xhtml";
-        }
-        String msg = bundle.getString("users.registerInfo");
-        String head = bundle.getString("success");
-        facesContext.getExternalContext().getFlash().setKeepMessages(true);
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
-        return "login.xhtml?faces-redirect=true";
+        displayMessage();
+        return "login";
     }
 
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości
+     */
+    private void displayInit() {
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     */
+    private void displayMessage() {
+        displayInit();
+        String msg = bundle.getString("users.registerInfo");
+        String head = bundle.getString("success");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     *
+     * @param message wiadomość do wyświetlenia
+     */
+    private void displayError(String message) {
+        displayInit();
+        String msg = bundle.getString(message);
+        String head = bundle.getString("error");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
+    }
 
     public ResourceBundle getBundle() {
         return bundle;
@@ -67,11 +98,5 @@ public class UserRegistrationBean implements Serializable {
 
     public void setBundle(ResourceBundle bundle) {
         this.bundle = bundle;
-    }
-
-    private HttpServletRequest getHttpRequestFromFacesContext() {
-        return (HttpServletRequest) facesContext
-                .getExternalContext()
-                .getRequest();
     }
 }

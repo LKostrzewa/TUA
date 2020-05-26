@@ -10,7 +10,11 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ResourceBundle;
 
+/**
+ * Klasa do obsługi widoku zmiany hasła użytkownika
+ */
 @Named
 @ViewScoped
 public class ChangePasswordPageBean implements Serializable {
@@ -18,6 +22,10 @@ public class ChangePasswordPageBean implements Serializable {
     private UserEndpoint userEndpoint;
     private ChangePasswordDto changePasswordDto;
     private Long userId;
+
+    @Inject
+    private FacesContext context;
+    private ResourceBundle resourceBundle;
 
     public ChangePasswordDto getChangePasswordDto() {
         return changePasswordDto;
@@ -35,19 +43,56 @@ public class ChangePasswordPageBean implements Serializable {
         this.userId = userId;
     }
 
+    /**
+     * Metoda inicjalizująca komponent
+     */
     public void init() {
         this.changePasswordDto = new ChangePasswordDto();
     }
 
-    public void displayMessage() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getFlash().setKeepMessages(true);
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successful", "Message"));
+    /**
+     * Metoda obsługująca wciśnięcie guzika do zmiany swojego hasła
+     *
+     * @return strona na którą zostanie przekierowany użytkownik
+     */
+    public String changePassword() {
+        try {
+            userEndpoint.changeUserPassword(changePasswordDto, userId);
+            displayMessage();
+        } catch (AppBaseException e) {
+            displayError(e.getLocalizedMessage());
+            return "changePassword";
+        }
+        return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
-    public String changePassword() throws AppBaseException {
-        userEndpoint.changeUserPassword(changePasswordDto, userId);
-        displayMessage();
-        return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości
+     */
+    private void displayInit(){
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     */
+    private void displayMessage() {
+        displayInit();
+        String msg = resourceBundle.getString("shared.password.changeSuccess");
+        String head = resourceBundle.getString("success");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     *
+     * @param message wiadomość do wyświetlenia
+     */
+    private void displayError(String message) {
+        displayInit();
+        String msg = resourceBundle.getString(message);
+        String head = resourceBundle.getString("error");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
     }
 }

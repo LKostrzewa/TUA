@@ -3,12 +3,12 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+/**
+ * DTO do zmiany hasłą innego użytkownika
+ */
 public class ChangePasswordDto {
-    @NotBlank(message = "{newPassword.message}")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$", message = "{validation.password}")
     private String password;
-    @NotBlank(message = "{confirmPassword.message}")
-    private String confirmPassword;
 
     public String getPassword() {
         return password;
@@ -18,11 +18,4 @@ public class ChangePasswordDto {
         this.password = password;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
 }

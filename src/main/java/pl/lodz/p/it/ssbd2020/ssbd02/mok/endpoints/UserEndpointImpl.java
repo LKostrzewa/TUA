@@ -4,22 +4,29 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppEJBTransactionRolledbackException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Stateful;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+/**
+ * Implementacja UserEndpoint
+ */
 @Stateful
 @Interceptors(LoggerInterceptor.class)
 public class UserEndpointImpl implements Serializable, UserEndpoint {
@@ -27,23 +34,43 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     private UserManager userManager;
     private User userEditEntity;
 
+    PropertyReader propertyReader = new PropertyReader();
+    Integer METHOD_INVOCATION_LIMIT = Integer.parseInt(propertyReader.getProperty("config", "rollback.invocation.limit"));
+    Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
+
     /**
      * Metoda służąca do rejestracji użytkownika
+     *
      * @param userDTO obiekt DTO z danymi rejestrowanego użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     public void registerNewUser(AddUserDto userDTO) throws AppBaseException {
-        try {
-            do {
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
                 User user = new User(userDTO.getLogin(), userDTO.getPassword(),
                         userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(),
                         userDTO.getPhoneNumber());
                 userManager.registerNewUser(user);
-            } while (userManager.isLastTransactionRollback());
-        } catch (EJBTransactionRolledbackException ex) {
-            registerNewUser(userDTO);
+                rollback = userManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
         }
+
+
     }
 
     /**
@@ -54,14 +81,33 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      */
     @RolesAllowed("addNewUser")
     public void addNewUser(AddUserDto userDTO) throws AppBaseException {
-        User user = new User(userDTO.getLogin(), userDTO.getPassword(), userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getPhoneNumber());
-        userManager.addNewUser(user);
+        User user;
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                user = new User(userDTO.getLogin(), userDTO.getPassword(), userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getPhoneNumber());
+                userManager.addNewUser(user);
+                rollback = userManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 
     /**
      * Metoda, która pobiera z bazy listę obiektów.
      *
-     * @return lista obiektów
+     * @return lista obiektów UserReportDto
      */
     @RolesAllowed("getUserReport")
     public List<UserReportDto> getUserReport() {
@@ -75,7 +121,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getEditUserDtoById")
-    public EditUserDto getEditUserDtoById(Long userId) throws AppBaseException{
+    public EditUserDto getEditUserDtoById(Long userId) throws AppBaseException {
         this.userEditEntity = userManager.getUserById(userId);
         return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
     }
@@ -87,52 +133,85 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      */
     @RolesAllowed("getEditUserDtoByLogin")
     public EditUserDto getEditUserDtoByLogin() throws AppBaseException {
-        this.userEditEntity = userManager.getUserByLogin();
+        String username = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
+        this.userEditEntity = userManager.getUserByLogin(username);
         return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
-    }
-
-    //TODO wyrzucić jeżeli okaże się niepotrzebna na pewno
-    public UserDetailsDto getUserDetailsDtoById(Long userId) throws AppBaseException{
-        return ObjectMapperUtils.map(userManager.getUserById(userId), UserDetailsDto.class);
     }
 
     /**
      * Metoda, która zwraca login dto o aktualnie zalogowanego użytkownika
      *
-     * @return user login dot
+     * @return user login dto
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getLoginDtoByLogin")
-    public UserLoginDto getLoginDtoByLogin() throws AppBaseException {
-        return ObjectMapperUtils.map(userManager.getUserByLogin(), UserLoginDto.class);
+    public UserLoginDto getLoginDtoByLogin(String login) throws AppBaseException {
+        return ObjectMapperUtils.map(userManager.getUserByLogin(login), UserLoginDto.class);
     }
 
     /**
      * Metoda, która zapisuje wprowadzone przez administratora zmiany w danych konta użytkownika
      *
-     * @param editUserDto  obiekt przechowujący dane wprowadzone w formularzu
+     * @param editUserDto obiekt przechowujący dane wprowadzone w formularzu
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("editUser")
     public void editUser(EditUserDto editUserDto) throws AppBaseException {
-        userEditEntity.setFirstName(editUserDto.getFirstName());
-        userEditEntity.setLastName(editUserDto.getLastName());
-        userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
-        userManager.editUser(this.userEditEntity);
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                userEditEntity.setFirstName(editUserDto.getFirstName());
+                userEditEntity.setLastName(editUserDto.getLastName());
+                userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
+                userManager.editUser(this.userEditEntity);
+
+                rollback = userManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 
     /**
      * Metoda, która zapisuje wprowadzone zmiany w danych swojego konta
      *
-     * @param editUserDto  obiekt przechowujący dane wprowadzone w formularzu
+     * @param editUserDto obiekt przechowujący dane wprowadzone w formularzu
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("editOwnData")
     public void editOwnData(EditUserDto editUserDto) throws AppBaseException {
-        userEditEntity.setFirstName(editUserDto.getFirstName());
-        userEditEntity.setLastName(editUserDto.getLastName());
-        userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
-        userManager.editUser(this.userEditEntity);
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                userEditEntity.setFirstName(editUserDto.getFirstName());
+                userEditEntity.setLastName(editUserDto.getLastName());
+                userEditEntity.setPhoneNumber(editUserDto.getPhoneNumber());
+                userManager.editUser(this.userEditEntity);
+                rollback = userManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 
     /**
@@ -144,8 +223,26 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      */
     @RolesAllowed("changeUserPassword")
     public void changeUserPassword(ChangePasswordDto changePasswordDto, Long userId) throws AppBaseException {
-        User user = ObjectMapperUtils.map(changePasswordDto, User.class);
-        userManager.changeUserPassword(user, userId);
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                User user = ObjectMapperUtils.map(changePasswordDto, User.class);
+                userManager.changeUserPassword(user, userId);
+                rollback = userManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 
     /**
@@ -156,8 +253,26 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      */
     @RolesAllowed("changeOwnPassword")
     public void changeOwnPassword(ChangeOwnPasswordDto changeOwnPasswordDto) throws AppBaseException {
-        User user = ObjectMapperUtils.map(changeOwnPasswordDto, User.class);
-        userManager.changeOwnPassword(user, changeOwnPasswordDto.getOldPassword());
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                User user = ObjectMapperUtils.map(changeOwnPasswordDto, User.class);
+                userManager.changeOwnPassword(user, changeOwnPasswordDto.getOldPassword());
+                rollback = userManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 
     /**
@@ -168,7 +283,25 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      */
     @RolesAllowed("lockAccount")
     public void lockAccount(Long userId) throws AppBaseException {
-        userManager.lockAccount(userId);
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                userManager.lockAccount(userId);
+                rollback = userManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 
     /**
@@ -179,22 +312,54 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      */
     @RolesAllowed("unlockAccount")
     public void unlockAccount(Long userId) throws AppBaseException {
-        userManager.unlockAccount(userId);
-    }
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                userManager.unlockAccount(userId);
+                rollback = userManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
 
-    //TODO wyrzucić jeżeli okaże się niepotrzebna na pewno
-    public UserDetailsDto getOwnDetailsDtoByLogin() throws AppBaseException {
-        return ObjectMapperUtils.map(userManager.getUserByLogin(), UserDetailsDto.class);
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 
     /**
      * Metoda która aktywuje dane konto po kliknięciu w link aktywacyjny
+     *
      * @param code kod aktywacyjny użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     public void activateAccount(String code) throws AppBaseException {
-        userManager.confirmActivationCode(code);
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                userManager.confirmActivationCode(code);
+                rollback = userManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 
     /**
@@ -204,7 +369,25 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      */
     @RolesAllowed("saveSuccessAuthenticate")
     public void saveSuccessAuthenticate() throws AppBaseException {
-        userManager.saveSuccessAuthenticate();
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                userManager.saveSuccessAuthenticate();
+                rollback = userManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 
     /**
@@ -213,8 +396,26 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @PermitAll
-    public void saveFailureAuthenticate() throws AppBaseException {
-        userManager.saveFailureAuthenticate();
+    public void saveFailureAuthenticate(String username) throws AppBaseException {
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                userManager.saveFailureAuthenticate(username);
+                rollback = userManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 
 
@@ -250,17 +451,53 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      */
     @PermitAll
     public void sendResetPasswordEmail(String email) throws AppBaseException {
-        userManager.sendResetPasswordEmail(email);
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                userManager.sendResetPasswordEmail(email);
+                rollback = userManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 
     /**
      * Metoda, która zmienia zapomniane hasło
      *
-     * @param resetPasswordDto  obiekt przechowujący dane wprowadzone w formularzu
+     * @param resetPasswordDto obiekt przechowujący dane wprowadzone w formularzu
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     public void resetPassword(ResetPasswordDto resetPasswordDto) throws AppBaseException {
-        userManager.resetPassword(resetPasswordDto);
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                userManager.resetPassword(resetPasswordDto);
+                rollback = userManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 }

@@ -24,7 +24,11 @@ public class AddUserPageBean implements Serializable {
     private AddUserDto addUserDto;
     @Inject
     private FacesContext context;
+    private ResourceBundle resourceBundle;
 
+    /**
+     * Metoda inicjalizująca komponent
+     */
     @PostConstruct
     public void init() {
         addUserDto = new AddUserDto();
@@ -44,21 +48,43 @@ public class AddUserPageBean implements Serializable {
      * @return strona na którą zostanie przekierowany użytkownik
      */
     public String addUser() {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
         try {
             userEndpoint.addNewUser(addUserDto);
+        } catch (AppBaseException e) {
+            displayError(e.getLocalizedMessage());
+            return "addUser";
         }
-        catch (AppBaseException e){
-            String msg = resourceBundle.getString(e.getLocalizedMessage());
-            String head = resourceBundle.getString("error");
-            context.getExternalContext().getFlash().setKeepMessages(true);
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
-            return "addUser.xhtml";
-        }
+        displayMessage();
+        return "userList";
+    }
+
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości
+     */
+    private void displayInit() {
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     */
+    private void displayMessage() {
+        displayInit();
         String msg = resourceBundle.getString("users.addInfo");
         String head = resourceBundle.getString("success");
-        context.getExternalContext().getFlash().setKeepMessages(true);
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
-        return "listUsers.xhtml?faces-redirect=true";
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     *
+     * @param message wiadomość do wyświetlenia
+     */
+    private void displayError(String message) {
+        displayInit();
+        String msg = resourceBundle.getString(message);
+        String head = resourceBundle.getString("error");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
     }
 }

@@ -200,6 +200,15 @@
     <security-role>
         <role-name>getPortById</role-name>
     </security-role>
+    <security-role>
+        <role-name>addPort</role-name>
+    </security-role>
+    <security-role>
+        <role-name>editPort</role-name>
+    </security-role>
+    <security-role>
+        <role-name>deactivatePort</role-name>
+    </security-role>
     <!--Opinions-->
     <security-role>
         <role-name>addOpinion</role-name>
@@ -300,26 +309,10 @@
         <error-code>500</error-code>
         <location>/errors/500.xhtml</location>
     </error-page>
-    <!--<error-page>
-        <exception-type>javax.ejb.EJBAccessException</exception-type>
-        <location>/errors/ejbAccessExp.xhtml</location>
-    </error-page>
     <error-page>
-        <exception-type>javax.ejb.NoSuchEJBException</exception-type>
-        <location>/errors/noSuchEJBExp.xhtml</location>
+        <exception-type>java.io.IOException</exception-type>
+        <location>/errors/IOExp.xhtml</location>
     </error-page>
-    <error-page>
-        <exception-type>javax.ejb.EJBException</exception-type>
-        <location>/errors/ejbExp.xhtml</location>
-    </error-page>
-    <error-page>
-        <exception-type>javax.ejb.EJBTransactionRequiredException</exception-type>
-        <location>/errors/ejbTranReqExp.xhtml</location>
-    </error-page>
-    <error-page>
-        <exception-type>javax.ejb.EJBTransactionRolledbackException</exception-type>
-        <location>/errors/ejbTranRollExp.xhtml</location>
-    </error-page>-->
     <error-page>
         <location>/errors/other.xhtml</location>
     </error-page>

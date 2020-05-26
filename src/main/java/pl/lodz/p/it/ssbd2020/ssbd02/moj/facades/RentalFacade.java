@@ -7,6 +7,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -103,7 +104,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed("cancelRental")
+    @RolesAllowed({"cancelRental","SYSTEM"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(Rental rental) throws AppBaseException {
         super.edit(rental);

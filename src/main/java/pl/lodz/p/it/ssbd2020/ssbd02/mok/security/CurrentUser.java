@@ -16,7 +16,7 @@ import java.io.Serializable;
 
 @SessionScoped
 @Named
-@Interceptors(LoggerInterceptor.class)
+//@Interceptors(LoggerInterceptor.class)
 public class CurrentUser implements Serializable {
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;
@@ -66,29 +66,14 @@ public class CurrentUser implements Serializable {
         return FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
     }
 
-    public String allUserAccessLevel() {
-        String string = "";
-        if (isAdministrator())
-            string += ADMIN_ACCESS_LEVEL + " ";
-        if (isManager())
-            string += MANAGER_ACCESS_LEVEL + " ";
-        if (isClient())
-            string += CLIENT_ACCESS_LEVEL;
-
-        return string;
-    }
-
-    //@ExcludeClassInterceptors
     public boolean isNowAdministrator() {
         return currentRole.equals(ADMIN_ACCESS_LEVEL);
     }
 
-    //@ExcludeClassInterceptors
     public boolean isNowManager() {
         return currentRole.equals(MANAGER_ACCESS_LEVEL);
     }
 
-    //@ExcludeClassInterceptors
     public boolean isNowClient() {
         return currentRole.equals(CLIENT_ACCESS_LEVEL);
     }
@@ -108,42 +93,52 @@ public class CurrentUser implements Serializable {
         return "/client/index.xhtml";
     }
 
-    public void redirectToCurrentRole() {
+    /**
+     * Metoda do zmiany aktualnego poziomu dostępu użytkownika
+     *
+     * @throws IOException wyjątek jeżeli przekierowanie zakończy się niepowodzeniem
+     * (nie powinien wystąpić)
+     */
+    public void redirectToCurrentRole() throws IOException {
+        changeAccessLevel();
+        loggerIP.accessLevelChange();
+    }
+
+    /**
+     * Metoda do przekierowania użytkownika na swoją główną stronę
+     *
+     * @throws IOException wyjątek jeżeli przekierowanie zakończy się niepowodzeniem
+     * (nie powinien wystąpić)
+     */
+    public void redirectToMain() throws IOException {
         if(currentRole == null) {
-            try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/login/login.xhtml");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-        else if (currentRole.equals(ADMIN_ACCESS_LEVEL)) {
-            try {
+        else changeAccessLevel();
+    }
+
+    /**
+     * Metoda prywatna do przekierowania użytkownika na odpowiednią stronę w zależności od poziomu dostępu
+     *
+     * @throws IOException wyjątek jeżeli przekierowanie zakończy się niepowodzeniem
+     * (nie powinien wystąpić)
+     */
+    private void changeAccessLevel() throws IOException {
+        if (currentRole.equals(ADMIN_ACCESS_LEVEL)) {
                 FacesContext.getCurrentInstance()
                         .getExternalContext()
                         .redirect(redirectAdmin());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
         else if (currentRole.equals(MANAGER_ACCESS_LEVEL)) {
-            try {
                 FacesContext.getCurrentInstance()
                         .getExternalContext()
                         .redirect(redirectManager());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
         else if (currentRole.equals(CLIENT_ACCESS_LEVEL)) {
-            try {
                 FacesContext.getCurrentInstance()
                         .getExternalContext()
                         .redirect(redirectClient());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-        loggerIP.accessLevelChange();
     }
 }
 

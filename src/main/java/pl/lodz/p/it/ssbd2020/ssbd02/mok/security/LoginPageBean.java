@@ -26,9 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ResourceBundle;
-import java.util.StringTokenizer;
 
-import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
 
 @FacesConfig
@@ -86,7 +84,7 @@ public class LoginPageBean implements Serializable {
                 break;
             case SUCCESS:
                 try {
-                    userLoginDto = userEndpoint.getLoginDtoByLogin();
+                    userLoginDto = userEndpoint.getLoginDtoByLogin(userLoginDto.getUsername());
                 } catch (AppBaseException e) {
                     displayError(e.getLocalizedMessage());
                 }
@@ -116,11 +114,11 @@ public class LoginPageBean implements Serializable {
                 break;
             case SEND_FAILURE:
                 try {
-                    userEndpoint.saveFailureAuthenticate();
+                    userEndpoint.saveFailureAuthenticate(userLoginDto.getUsername());
                 } catch (AppBaseException e) {
-                    facesContext.addMessage(null,
-                            new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authenticationFailed")));
-
+                    //facesContext.addMessage(null,
+                    //        new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authenticationFailed")));
+                    displayError(e.getLocalizedMessage());
                 }
                 externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
                 break;
@@ -147,14 +145,5 @@ public class LoginPageBean implements Serializable {
         return (HttpServletResponse) facesContext
                 .getExternalContext()
                 .getResponse();
-    }
-
-    public String getClientIpAddress() {
-        String xForwardedForHeader = getHttpRequestFromFacesContext().getHeader("X-Forwarded-For");
-        if (xForwardedForHeader == null) {
-            return getHttpRequestFromFacesContext().getRemoteAddr();
-        } else {
-            return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
-        }
     }
 }

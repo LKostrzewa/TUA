@@ -4,7 +4,6 @@ import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppPersistenceException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -15,9 +14,11 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import javax.faces.context.FacesContext;
 import javax.interceptor.Interceptors;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,11 @@ public class UserFacade extends AbstractFacade<User> {
         return entityManager;
     }
 
+    /**
+     * Metoda do pobrania wszystkich encji User.
+     *
+     * @return Lista User
+     */
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     @RolesAllowed("getUserReport")
     @Override
@@ -92,14 +98,12 @@ public class UserFacade extends AbstractFacade<User> {
     /**
      * Metoda, która zwraca aktualnie zalogowanego użytkownika
      *
-     *
-     * @return encje User
+     * @return encja User
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public User findByLogin() throws AppBaseException {
-        String userLogin = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
+    public User findByLogin(String userLogin) throws AppBaseException {
         try {
             return getEntityManager().createNamedQuery("User.findByLogin", User.class)
                     .setParameter("login",userLogin).getSingleResult();
@@ -135,6 +139,14 @@ public class UserFacade extends AbstractFacade<User> {
                 .setParameter("email", email).getSingleResult() > 0;
     }
 
+    /**
+     * Metoda, która zwraca użytkownika o podanym emailu
+     *
+     * @param email szukany email
+     * @return encja User
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User findByEmail(String email) throws AppBaseException {
         TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByEmail", User.class);
@@ -146,6 +158,14 @@ public class UserFacade extends AbstractFacade<User> {
         }
     }
 
+    /**
+     * Metoda, która zwraca użytkownika o podanym kodzie do resetowania hasła
+     *
+     * @param resetPasswordCode szukany kod do resetowania hasła
+     * @return encja User
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User findByResetPasswordCode(String resetPasswordCode) throws AppBaseException {
         TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByResetPasswordCode", User.class);
@@ -157,7 +177,15 @@ public class UserFacade extends AbstractFacade<User> {
         }
     }
 
+    /**
+     * Metoda, która zwraca użytkownika o podanym kodzie do aktywacyjnym
+     *
+     * @param activationCode szukany kod aktywacyjny
+     * @return encja User
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     */
     @PermitAll
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User findByActivationCode(String activationCode) throws AppBaseException {
         TypedQuery<User> typedQuery = entityManager.createNamedQuery("User.findByActivationCode", User.class);
         typedQuery.setParameter("activationCode", activationCode);

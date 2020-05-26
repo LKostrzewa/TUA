@@ -9,7 +9,9 @@ import org.eclipse.persistence.annotations.Convert;
 import org.eclipse.persistence.annotations.TypeConverter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,18 +25,10 @@ import java.util.UUID;
 @NamedQueries({
         @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
         @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-        @NamedQuery(name = "User.findByVersion", query = "SELECT u FROM User u WHERE u.version = :version"),
         @NamedQuery(name = "User.findByLogin", query = "SELECT u FROM User u WHERE u.login = :login"),
-        @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
         @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
-        @NamedQuery(name = "User.findByLocked", query = "SELECT u FROM User u WHERE u.locked = :locked"),
-        @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.activated = :active"),
-        @NamedQuery(name = "User.findByCreated", query = "SELECT u FROM User u WHERE u.created = :created"),
-        @NamedQuery(name = "User.findByLastValidLogin", query = "SELECT u FROM User u WHERE u.lastValidLogin = :lastValidLogin"),
-        @NamedQuery(name = "User.findByLastInvalidLogin", query = "SELECT u FROM User u WHERE u.lastInvalidLogin = :lastInvalidLogin"),
         @NamedQuery(name = "User.findByActivationCode", query = "SELECT u FROM User u WHERE u.activationCode = :activationCode"),
         @NamedQuery(name = "User.findByResetPasswordCode", query = "SELECT u FROM User u WHERE u.resetPasswordCode = :resetPasswordCode"),
-        @NamedQuery(name = "User.findByInvalidLoginAttempts", query = "SELECT u FROM User u WHERE u.invalidLoginAttempts = :invalidLoginAttemps"),
         @NamedQuery(name = "User.countByLogin", query = "SELECT COUNT(u) FROM User u WHERE u.login = :login"),
         @NamedQuery(name = "User.countByEmail", query = "SELECT COUNT(u) FROM User u WHERE u.email = :email")})
 public class User implements Serializable {
@@ -43,26 +37,38 @@ public class User implements Serializable {
     @SequenceGenerator(name="UserSeqGen",sequenceName="user_id_seq",allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="UserSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
+    @NotNull
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
+    @NotNull
     private long version;
     @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @Convert("uuidConverter")
     @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
+    @NotNull
     private UUID businessKey;
     @Column(name = "login", nullable = false, unique = true, updatable = false, length = 32)
+    @NotNull
+    @Size(max = 32)
     private String login;
     @Column(name = "password", nullable = false, length = 64)
+    @NotNull
+    @Size(max = 64)
     private String password;
     @Pattern(regexp = "^[^\\s\\\\@]+@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.){1,11}[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$", message = "Invalid email")
     @Column(name = "email", nullable = false, unique = true, updatable = false, length = 64)
+    @NotNull
+    @Size(max = 64)
     private String email;
     @Column(name = "locked", nullable = false)
+    @NotNull
     private boolean locked;
     @Column(name = "activated", nullable = false)
+    @NotNull
     private boolean activated;
     @Column(name = "created", nullable = false, updatable = false)
+    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     @Column(name = "last_valid_login")
@@ -72,12 +78,17 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastInvalidLogin;
     @Column(name = "invalid_login_attempts", nullable = false)
+    @NotNull
     private int invalidLoginAttempts;
     @Column(name = "last_login_ip", length = 64)
+    @Size(max = 64)
     private String lastLoginIp;
-    @Column(name = "activation_code", nullable = false, unique = true, length = 64)
+    @Column(name = "activation_code", nullable = false, unique = true, length = 128)
+    @NotNull
+    @Size(max = 128)
     private String activationCode;
     @Column(name = "reset_password_code", unique = true, length = 64)
+    @Size(max = 64)
     private String resetPasswordCode;
     @Column(name = "reset_password_code_add_date")
     private Date resetPasswordCodeAddDate;
@@ -86,10 +97,16 @@ public class User implements Serializable {
 
 
     @Column(name = "first_name", table = "user_details", nullable = false, length = 32)
+    @NotNull
+    @Size(max = 32)
     private String firstName;
     @Column(name = "last_name", table = "user_details", nullable = false, length = 32)
+    @NotNull
+    @Size(max = 32)
     private String lastName;
     @Column(name = "phone_number", table = "user_details", nullable = false, length = 10)
+    @NotNull
+    @Size(max = 10)
     private String phoneNumber;
 
     public User() {

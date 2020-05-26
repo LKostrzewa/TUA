@@ -14,6 +14,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Klasa do obsługi widoku listy użytkowników i sortowania użytkowników
+ */
 @Named
 @ViewScoped
 public class ListUsersPageBean implements Serializable {
@@ -21,6 +24,9 @@ public class ListUsersPageBean implements Serializable {
     private UserEndpoint userEndpoint;
     private LazyDataModel<ListUsersDto> model;
 
+    /**
+     * Metoda inicjalizująca komponent
+     */
     @PostConstruct
     public void init() {
         model = new LazyDataModel<>() {

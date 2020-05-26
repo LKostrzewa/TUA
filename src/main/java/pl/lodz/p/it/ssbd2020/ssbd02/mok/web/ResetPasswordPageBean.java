@@ -11,24 +11,24 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
-
+/**
+ * Klasa do obsługi widoku resetowania hasła
+ */
 @Named
 @ViewScoped
 public class ResetPasswordPageBean implements Serializable {
 
     @Inject
-    UserEndpoint userEndpoint;
+    private UserEndpoint userEndpoint;
     @Inject
     private FacesContext facesContext;
 
     private ResetPasswordDto resetPasswordDto;
 
     private ResourceBundle resourceBundle;
-    //private static final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 
     public ResetPasswordDto getResetPasswordDto() {
@@ -39,13 +39,20 @@ public class ResetPasswordPageBean implements Serializable {
         this.resetPasswordDto = resetPasswordDto;
     }
 
+    /**
+     * Metoda inicjalizująca komponent
+     */
     @PostConstruct
     public void init() {
         resetPasswordDto = new ResetPasswordDto();
         resetPasswordDto.setResetPasswordCode(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key"));
-        //logger.info("Klucz:" + resetPasswordCode);
     }
 
+    /**
+     * Metoda obsługująca wciśnięcie guzika do resetowania hasła
+     *
+     * @return strona na którą zostanie przekierowany użytkownik
+     */
     public String resetPassword() {
         try {
             userEndpoint.resetPassword(resetPasswordDto);
@@ -53,27 +60,36 @@ public class ResetPasswordPageBean implements Serializable {
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
-        return "login.xhtml?faces-redirect=true";
+        return "login";
     }
 
-    public void displayInit(){
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości
+     */
+    private void displayInit(){
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
 
-    public void displayMessage() {
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     */
+    private void displayMessage() {
         displayInit();
         String msg = resourceBundle.getString("resetPassword.resetPasswordSuccess");
         String head = resourceBundle.getString("success");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     *
+     * @param message wiadomość do wyświetlenia
+     */
     private void displayError(String message) {
         displayInit();
         String msg = resourceBundle.getString(message);
         String head = resourceBundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
     }
-
-
 }

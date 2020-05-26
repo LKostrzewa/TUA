@@ -8,6 +8,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.AccessLevelManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserAccessLevelManager;
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
@@ -15,12 +16,16 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Implementacja interfejsu UserAccessLevelEndpoint
+ */
 @Stateful
 @Interceptors(LoggerInterceptor.class)
 public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLevelEndpoint {
@@ -31,6 +36,8 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
     private UserAccessLevelManager userAccessLevelManager;
     @Inject
     private AccessLevelManager accessLevelManager;
+    @Inject
+    private UserManager userManager;
 
     private User user;
 
@@ -50,7 +57,7 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
      */
     @RolesAllowed("findUserAccessLevelById")
     public UserAccessLevelDto findUserAccessLevelById(Long userId) throws AppBaseException{
-        user = userAccessLevelManager.findUserById(userId);
+        user = userManager.getUserById(userId);
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
         userAccessLevelDto.setUserDetailsDto(ObjectMapperUtils.map(user, UserDetailsDto.class));
         for (UserAccessLevel level : user.getUserAccessLevels()) {
@@ -78,7 +85,7 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
      */
     @RolesAllowed("findUserAccessLevelByLogin")
     public UserAccessLevelDto findUserAccessLevelByLogin() throws AppBaseException {
-        user = userAccessLevelManager.findUserByLogin();
+        user = userManager.getUserByLogin(FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName());
         Collection<UserAccessLevel> userAccessLevels = user.getUserAccessLevels();
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
         userAccessLevelDto.setUserDetailsDto(ObjectMapperUtils.map(user, UserDetailsDto.class));

@@ -23,49 +23,56 @@
                 <div class="edit-user" style="text-align: center;">
                     <span class="ui-float-label" style="margin: 20px;">
                         <p:inputText id="login" style="border: 2px solid black"
-                                     value="#{addUserPageBean.addUserDto.login}" required="true"/>
+                                     value="#{addUserPageBean.addUserDto.login}" required="true"
+                                     requiredMessage="#{msg['field.required']}"/>
                         <p:outputLabel style="display: block; width: 100%; text-align: center" for="@previous"
                                        value="#{msg['login']}"/>
                         <p:message for="login"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:password id="password" style="border: 2px solid black" match="password2"
-                                    validatorMessage="#{msg['validation.password.match']}" required="true"/>
+                                    validatorMessage="#{msg['validation.password.match']}" required="true"
+                                    requiredMessage="#{msg['field.required']}"/>
                         <p:outputLabel for="@previous" style="display: block; width: 100%; text-align: center"
                                        value="#{msg['password']}"/>
                         <p:message for="password2"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:password id="password2" style="border: 2px solid black"
-                                    value="#{addUserPageBean.addUserDto.password}" required="true"/>
+                                    value="#{addUserPageBean.addUserDto.password}" required="true"
+                                    requiredMessage="#{msg['field.required']}"/>
                         <p:outputLabel for="@previous" style="display: block; width: 100%; text-align: center"
                                        value="#{msg['registration.repeat.password']}"/>
                         <p:message for="password"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="firstName" style="border: 2px solid black"
-                                     value="#{addUserPageBean.addUserDto.firstName}" required="true"/>
+                                     value="#{addUserPageBean.addUserDto.firstName}" required="true"
+                                     requiredMessage="#{msg['field.required']}"/>
                         <p:outputLabel style="display: block; width: 100%; text-align: center" for="@previous"
                                        value="#{msg['firstName']}"/>
                         <p:message for="firstName"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="lastName" style="border: 2px solid black"
-                                     value="#{addUserPageBean.addUserDto.lastName}" required="true"/>
+                                     value="#{addUserPageBean.addUserDto.lastName}" required="true"
+                                     requiredMessage="#{msg['field.required']}"/>
                         <p:outputLabel style="display: block; width: 100%; text-align: center" for="@previous"
                                        value="#{msg['lastName']}"/>
                         <p:message for="lastName"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="phoneNumber" style="border: 2px solid black"
-                                     value="#{addUserPageBean.addUserDto.phoneNumber}" required="true"/>
+                                     value="#{addUserPageBean.addUserDto.phoneNumber}" required="true"
+                                     requiredMessage="#{msg['field.required']}"/>
                         <p:outputLabel style="display: block; width: 100%; text-align: center" for="@previous"
                                        value="#{msg['phoneNumber']}"/>
                         <p:message for="phoneNumber"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputText id="email" style="border: 2px solid black"
-                                     value="#{addUserPageBean.addUserDto.email}" required="true"/>
+                                     value="#{addUserPageBean.addUserDto.email}" required="true"
+                                     requiredMessage="#{msg['field.required']}"/>
                         <p:outputLabel style="display: block; width: 100%; text-align: center" for="@previous"
                                        value="#{msg['email']}"/>
                         <p:message for="email"/>

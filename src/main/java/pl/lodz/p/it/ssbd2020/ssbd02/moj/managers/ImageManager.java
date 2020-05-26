@@ -10,6 +10,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
+import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -21,7 +22,7 @@ import java.util.List;
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
-public class ImageManager {
+public class ImageManager extends AbstractManager implements SessionSynchronization {
     @Inject
     private ImageFacade imageFacade;
     @Inject
