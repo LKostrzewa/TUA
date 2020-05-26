@@ -4,6 +4,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
+/**
+ * DTO reprezentujące wszystkie poziomy dostępu użytkownika
+ */
 public class UserAccessLevelDto {
 
     private MutablePair<Boolean,Boolean> admin = new MutablePair<Boolean,Boolean>(false,false);
