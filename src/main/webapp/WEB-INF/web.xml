@@ -136,6 +136,31 @@
     <security-role>
         <role-name>getYachtModelById</role-name>
     </security-role>
+    <security-role>
+        <role-name>editYachtModel</role-name>
+    </security-role>
+    <security-role>
+        <role-name>deactivateYachtModel</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getEditYachtModelDtoById</role-name>
+    </security-role>
+
+    <!--ImageEndpoint-->
+    <security-role>
+        <role-name>addImage</role-name>
+    </security-role>
+    <security-role>
+        <role-name>deleteImage</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getAllImagesByYachtModel</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getImageById</role-name>
+    </security-role>
+
+
     <!--YachtPortEndpoint-->
     <security-role>
         <role-name>getAllYachtsByPort</role-name>
