@@ -11,7 +11,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
@@ -19,8 +18,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import java.util.Date;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,7 +58,7 @@ public class RentalManager {
         if (!yachtToRent.isActive())
             throw EntityNotActiveException.createYachtNotActiveException(yachtToRent);
 
-        if(rentalFacade.interfere(rental))
+        if (rentalFacade.interfere(rental))
             throw RentalPeriodInterferenceException.createRentalPeriodInterferenceException(rental);
 
         RentalStatus startedStatus = rentalStatusFacade.findByName("STARTED");
@@ -92,8 +91,7 @@ public class RentalManager {
     @RolesAllowed({"getRentalById", "getUserRentalDetails", "cancelRental"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Rental getRentalById(Long rentalId) throws AppBaseException {
-        //TODO poprawic na odpowiedni wyjątek
-        return rentalFacade.find(rentalId).orElseThrow(() -> new AppBaseException("nie ma tego wypozyczenia"));
+        return rentalFacade.find(rentalId).orElseThrow(AppNotFoundException::createRentalNotFoundException);
     }
 
     /**
@@ -128,10 +126,8 @@ public class RentalManager {
     }
 
     public void editRental(Rental rental) throws AppBaseException {
-        //TODO poprawic na odpowiedni wyjątek
-        Rental rentalToEdit = rentalFacade.find(rental.getId()).orElseThrow(() -> new AppBaseException("nie ma tego wypozyczenia"));
-        //USTAWIANIE PÓL
-        rentalFacade.edit(rental);
+        Rental rentalToEdit = rentalFacade.find(rental.getId()).orElseThrow(AppNotFoundException::createRentalNotFoundException);
+        rentalFacade.edit(rentalToEdit);
     }
 
     /**
@@ -153,18 +149,17 @@ public class RentalManager {
 
     /**
      * Metoda, aktualizująca statusy rezerwacji.
-     *
      */
     @RolesAllowed("SYSTEM")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void updateRentalStatus() throws AppBaseException {
         List<Rental> allRentals = rentalFacade.findAll();
         for (Rental rental : allRentals) {
-            if(rental.getRentalStatus().equals(rentalStatusFacade.findByName("STARTED"))&&rental.getEndDate().before(new Date())){
+            if (rental.getRentalStatus().equals(rentalStatusFacade.findByName("STARTED")) && rental.getEndDate().before(new Date())) {
                 rental.setRentalStatus(rentalStatusFacade.findByName("FINISHED"));
                 rentalFacade.edit(rental);
             }
-            if(rental.getRentalStatus().equals(rentalStatusFacade.findByName("PENDING"))&&rental.getBeginDate().after(new Date())){
+            if (rental.getRentalStatus().equals(rentalStatusFacade.findByName("PENDING")) && rental.getBeginDate().after(new Date())) {
                 rental.setRentalStatus(rentalStatusFacade.findByName("STARTED"));
                 rentalFacade.edit(rental);
             }

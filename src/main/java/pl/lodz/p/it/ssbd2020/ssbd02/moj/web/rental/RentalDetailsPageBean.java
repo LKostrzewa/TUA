@@ -1,7 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.rental;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.MyRentalDetailsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.RentalDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.RentalEndpoint;
 
 import javax.faces.view.ViewScoped;
@@ -11,17 +11,17 @@ import java.io.Serializable;
 
 @Named
 @ViewScoped
-public class MyRentalDetailsPageBean implements Serializable {
+public class RentalDetailsPageBean implements Serializable {
     @Inject
     private RentalEndpoint rentalEndpoint;
-    private MyRentalDetailsDto rentalDetails;
+    private RentalDetailsDto rentalDetails;
     private Long rentalId;
 
-    public MyRentalDetailsDto getRentalDetails() {
+    public RentalDetailsDto getRentalDetails() {
         return rentalDetails;
     }
 
-    public void setRentalDetails(MyRentalDetailsDto rentalDetails) {
+    public void setRentalDetails(RentalDetailsDto rentalDetails) {
         this.rentalDetails = rentalDetails;
     }
 

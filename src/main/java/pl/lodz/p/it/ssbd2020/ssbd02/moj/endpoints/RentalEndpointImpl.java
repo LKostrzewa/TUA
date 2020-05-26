@@ -8,7 +8,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
@@ -93,8 +92,8 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getUserRentalDetails")
-    public MyRentalDetailsDto getUserRentalDetails(Long rentalId) throws AppBaseException {
+    public RentalDetailsDto getUserRentalDetails(Long rentalId) throws AppBaseException {
         Rental rental = rentalManager.getRentalById(rentalId);
-        return ObjectMapperUtils.map(rental, MyRentalDetailsDto.class);
+        return ObjectMapperUtils.map(rental, RentalDetailsDto.class);
     }
 }
