@@ -17,7 +17,7 @@
     <div class="message">
     <h:outputText value="#{msg['activateMessage']}" rendered="#{!emailPageBean.active}"/>
     <h:outputText value="#{msg['nonactivateMessage']}" rendered="#{emailPageBean.active}"/>
-    <h:outputText value="#{msg['prop']} #{emailPageBean.valid} #{msg['redirectMessage']}" />
+    <h:outputText value="#{msg['prop']} #{emailPageBean.valid} #{msg['redirectMessage']}" rendered="#{!emailPageBean.active}" />
     </div>
 </h:body>
 </html>

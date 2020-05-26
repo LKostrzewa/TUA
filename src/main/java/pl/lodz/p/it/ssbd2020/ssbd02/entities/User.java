@@ -30,6 +30,7 @@ import java.util.UUID;
         @NamedQuery(name = "User.findByActivationCode", query = "SELECT u FROM User u WHERE u.activationCode = :activationCode"),
         @NamedQuery(name = "User.findByResetPasswordCode", query = "SELECT u FROM User u WHERE u.resetPasswordCode = :resetPasswordCode"),
         @NamedQuery(name = "User.countByLogin", query = "SELECT COUNT(u) FROM User u WHERE u.login = :login"),
+        @NamedQuery(name = "User.countByActivationCode", query = "SELECT COUNT(u) FROM User u WHERE u.activationCode = :activationCode"),
         @NamedQuery(name = "User.countByEmail", query = "SELECT COUNT(u) FROM User u WHERE u.email = :email")})
 public class User implements Serializable {
 

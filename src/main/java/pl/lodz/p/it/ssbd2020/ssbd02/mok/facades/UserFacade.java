@@ -284,5 +284,18 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
 
+    /**
+     * Metoda, sprawdza czy istnieje użytkownik w bazie o danym kodzie aktywacyjnym poprzez sprawdzenie czy rezultat wykonania
+     *  zapytania COUNT jest większy od 0
+     * @param activationCode kod aktywacyjny
+     * @return true/false w zaleznosci czy taki uzytkownik istnieje
+     */
+    @PermitAll
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public boolean existByActivationCode(String activationCode) {
+        return entityManager.createNamedQuery("User.countByActivationCode", Long.class)
+                .setParameter("activationCode", activationCode).getSingleResult() > 0;
+    }
+
 }
 

@@ -289,6 +289,9 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Boolean confirmActivationCode(String code) throws AppBaseException {
+        if(!userFacade.existByActivationCode(code)) {
+            return true;
+        }
         Boolean active = userFacade.findByActivationCode(code).getActivated();
         try {
             User user = userFacade.findByActivationCode(code);
