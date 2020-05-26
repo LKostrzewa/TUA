@@ -1,8 +1,8 @@
 .ui-breadcrumb {
-    background-color: green;
+    background-color: #ffcc80;
 }
 
 
 .ui-menubar,.ui-menu-child,.ui-menu {
-    background: orange !important;
+    background: #ffcc80 !important;
 }
