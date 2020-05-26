@@ -113,15 +113,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         return ObjectMapperUtils.mapAll(userManager.getAll(), UserReportDto.class);
     }
 
-    /**
-     * Metoda która sprawdza czy konto o podanym kodzie aktywacyjnym jest już aktywne
-     * @param activationCode kod aktywacyjny
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
-     */
-    @PermitAll
-    public Boolean activationUserCheck(String activationCode) throws AppBaseException {
-        return userManager.activationUserCheck(activationCode);
-    }
+
 
     /**
      * Metoda, która pobiera użytkownika do edycji przez administratora po identyfikatorze użytkownika
@@ -348,12 +340,13 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @PermitAll
-    public void activateAccount(String code) throws AppBaseException {
+    public Boolean activateAccount(String code) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
+        Boolean active = false;
         do {
             try {
-                userManager.confirmActivationCode(code);
+                active = userManager.confirmActivationCode(code);
                 rollback = userManager.isLastTransactionRollback();
             } catch (AppEJBTransactionRolledbackException ex) {
                 logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
@@ -368,6 +361,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
             throw RepeatedRollBackException.createRepeatedRollBackException();
         }
+        return active;
     }
 
     /**

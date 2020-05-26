@@ -43,8 +43,7 @@ public class EmailPageBean {
         key = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key");
         valid = Integer.parseInt(propertyReader.getProperty("config", "email_valid_time"));;
         try {
-            active = userEndpoint.activationUserCheck(key);
-            userEndpoint.activateAccount(key);
+            active = userEndpoint.activateAccount(key);
             displayMessage();
         } catch (AppBaseException e){
             displayError(e.getLocalizedMessage());

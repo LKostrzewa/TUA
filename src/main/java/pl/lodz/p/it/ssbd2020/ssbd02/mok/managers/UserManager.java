@@ -132,16 +132,6 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         return userFacade.findAll();
     }
 
-    /**
-     * Metoda która sprawdza czy w bazie istnieje juz aktywne konto o podanym kodzie aktywacyjnym
-     * @param activationCode kod aktywacyjny
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
-     */
-    @PermitAll
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public Boolean activationUserCheck(String activationCode) throws AppBaseException {
-        return userFacade.findByActivationCode(activationCode).getActivated();
-    }
 
     /**
      * Metoda, która pobiera z użytkownika na podstawie jego identyfikatora w bazie
@@ -298,10 +288,11 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void confirmActivationCode(String code) throws AppBaseException {
+    public Boolean confirmActivationCode(String code) throws AppBaseException {
+        Boolean active = userFacade.findByActivationCode(code).getActivated();
         try {
             User user = userFacade.findByActivationCode(code);
-            if (!user.getActivated()) {
+            if (!active) {
                 user.setActivated(true);
                 userFacade.edit(user);
                 sendEmail.activationInfoEmail(user.getEmail());
@@ -309,6 +300,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         } catch (EJBTransactionRolledbackException e) {
             throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
+        return active;
     }
 
     /**

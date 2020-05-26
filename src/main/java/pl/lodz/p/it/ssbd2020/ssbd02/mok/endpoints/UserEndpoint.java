@@ -112,7 +112,7 @@ public interface UserEndpoint {
      * @param code kod aktywacyjny użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    void activateAccount(String code) throws AppBaseException;
+    Boolean activateAccount(String code) throws AppBaseException;
 
     /**
      * Metoda, która zapisuje informacje o poprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
@@ -162,12 +162,5 @@ public interface UserEndpoint {
      */
     void resetPassword(ResetPasswordDto resetPasswordDto) throws AppBaseException;
 
-
-    /**
-     * Metoda która sprawdza czy konto o podanym kodzie aktywacyjnym jest już aktywne
-     * @param activationCode kod aktywacyjny
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
-     */
-    Boolean activationUserCheck(String activationCode) throws AppBaseException;
 
 }
