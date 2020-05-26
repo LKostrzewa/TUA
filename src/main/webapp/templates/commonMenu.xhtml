@@ -12,6 +12,7 @@
             <p:graphicImage library="images" name="shipWait.gif" width="300" height="200"/>
         </p:dialog>
         <h:form rendered="#{currentUser.nowManager}">
+            <h:outputStylesheet library="css" name="mainPage.css"/>
             <p:menubar>
                 <p:submenu label="#{msg['manager.menu.ports']}">
                     <p:menuitem value="#{msg['manager.menu.ports.add']}" url="/manager/port/addPort.xhtml"/>
