@@ -49,7 +49,13 @@ public class UserAccessLevelManager implements Serializable {
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
     }
 
-
+    /**
+     * Metoda, która modyfikuje przypisane do użytkownika poziomy dostępu.
+     *
+     * @param user encja user.
+     * @param userAccessLevelList lista zawierająca informacje o obencych oraz nowych poziomach dostępu.
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem.
+     */
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     @RolesAllowed("editUserAccessLevels")
     public void editUserAccessLevel(User user, List<MutablePair<Boolean, Boolean>> userAccessLevelList) throws AppBaseException {
