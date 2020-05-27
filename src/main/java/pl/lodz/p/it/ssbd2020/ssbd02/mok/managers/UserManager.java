@@ -292,9 +292,10 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         if(!userFacade.existByActivationCode(code)) {
             return true;
         }
-        Boolean active = userFacade.findByActivationCode(code).getActivated();
+        User user = userFacade.findByActivationCode(code);
+        Boolean active = user.getActivated();
         try {
-            User user = userFacade.findByActivationCode(code);
+
             if (!active) {
                 user.setActivated(true);
                 userFacade.edit(user);
