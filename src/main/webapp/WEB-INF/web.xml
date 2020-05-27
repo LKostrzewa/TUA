@@ -231,6 +231,13 @@
     <security-role>
         <role-name>editOpinion</role-name>
     </security-role>
+    <!--Schedulers-->
+    <security-role>
+        <role-name>updateRentalStatus</role-name>
+    </security-role>
+    <security-role>
+        <role-name>deleteInactiveUsers</role-name>
+    </security-role>
 
     <security-constraint>
         <web-resource-collection>

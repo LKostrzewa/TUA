@@ -284,7 +284,15 @@
         <role-name>editOpinion</role-name>
         <group-name>CLIENT</group-name>
     </security-role-mapping>
-
+    <!--Schedulers-->
+    <security-role-mapping>
+        <role-name>updateRentalStatus</role-name>
+        <group-name>TIME</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>deleteInactiveUsers</role-name>
+        <group-name>TIME</group-name>
+    </security-role-mapping>
 
     <class-loader delegate="true"/>
 </glassfish-web-app>

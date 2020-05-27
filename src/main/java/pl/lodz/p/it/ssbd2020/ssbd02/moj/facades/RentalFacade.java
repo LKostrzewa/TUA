@@ -46,7 +46,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * @return lista wypożyczeń
      */
     @Override
-    @RolesAllowed("getRentals")
+    @RolesAllowed({"getRentals","updateRentalStatus"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<Rental> findAll() {
         return super.findAll();
@@ -107,7 +107,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"cancelRental","TIME"})
+    @RolesAllowed({"cancelRental","updateRentalStatus"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(Rental rental) throws AppBaseException {
         super.edit(rental);

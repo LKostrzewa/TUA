@@ -18,7 +18,7 @@ import java.util.List;
 
 @Singleton
 @Startup
-@RunAs("TIME")
+@RunAs("updateRentalStatus")
 @Interceptors(LoggerInterceptor.class)
 public class UpdateRentalStatusScheduler {
 
@@ -31,7 +31,7 @@ public class UpdateRentalStatusScheduler {
      * Metoda aktualizująca stany rezerwacji. Metoda jest wywoływana codziennie o godzinie 10.00.
      */
     @Schedule(hour = "10")
-    @RolesAllowed("TIME")
+    @RolesAllowed("updateRentalStatus")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void performTask() throws AppBaseException {
         List<Rental> allRentals = rentalFacade.findAll();
