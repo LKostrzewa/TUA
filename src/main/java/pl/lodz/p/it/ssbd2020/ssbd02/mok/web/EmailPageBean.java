@@ -44,7 +44,6 @@ public class EmailPageBean {
         valid = Integer.parseInt(propertyReader.getProperty("config", "email_valid_time"));;
         try {
             active = userEndpoint.activateAccount(key);
-            displayMessage();
         } catch (AppBaseException e){
             displayError(e.getLocalizedMessage());
         }
@@ -81,16 +80,6 @@ public class EmailPageBean {
     public void displayInit(){
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
-    }
-
-    /**
-     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
-     */
-    public void displayMessage() {
-        displayInit();
-        String msg = resourceBundle.getString("activateUser");
-        String head = resourceBundle.getString("success");
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
     /**
