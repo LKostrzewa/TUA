@@ -18,7 +18,6 @@ import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -114,29 +113,6 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
             rentalFacade.edit(rentalToCancel);
         } else throw RentalNotCancelableException.createRentalNotCancelableException(rentalToCancel);
     }
-
-    /**
-     * Metoda, aktualizująca statusy rezerwacji.
-     *
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
-     */
-    @RolesAllowed("SYSTEM")
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void updateRentalStatus() throws AppBaseException {
-        List<Rental> allRentals = rentalFacade.findAll();
-        List<RentalStatus> rentalStatuses = rentalStatusFacade.findAll();
-        for (Rental rental : allRentals) {
-            if(rental.getRentalStatus().equals(rentalStatuses.stream().filter(rentalStatus -> rentalStatus.getName().equals("STARTED")).findAny().orElseThrow(null))&&rental.getEndDate().before(new Date())){
-                rental.setRentalStatus(rentalStatuses.stream().filter(rentalStatus -> rentalStatus.getName().equals("FINISHED")).findAny().orElseThrow(null));
-                rentalFacade.edit(rental);
-            }
-            if(rental.getRentalStatus().equals(rentalStatuses.stream().filter(rentalStatus -> rentalStatus.getName().equals("PENDING")).findAny().orElseThrow(null))&&rental.getBeginDate().after(new Date())){
-                rental.setRentalStatus(rentalStatuses.stream().filter(rentalStatus -> rentalStatus.getName().equals("STARTED")).findAny().orElseThrow(null));
-                rentalFacade.edit(rental);
-            }
-        }
-    }
-
 
     /**
      * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
