@@ -7,6 +7,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
@@ -90,5 +91,17 @@ public class ImageFacade extends AbstractFacade<Image> {
         } catch (NoResultException e){
             throw AppNotFoundException.yachtModelNotFoundException();
         }
+    }
+
+    @Override
+    @DenyAll
+    public void edit(Image entity) throws AppBaseException {
+        super.edit(entity);
+    }
+
+    @Override
+    @DenyAll
+    public List<Image> findAll() {
+        return super.findAll();
     }
 }

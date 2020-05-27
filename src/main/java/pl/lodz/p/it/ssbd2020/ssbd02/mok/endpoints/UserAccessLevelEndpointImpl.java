@@ -1,14 +1,13 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppEJBTransactionRolledbackException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.AccessLevelManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserAccessLevelManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -25,6 +24,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementacja interfejsu UserAccessLevelEndpoint
@@ -42,12 +43,16 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
 
     private User user;
 
+    Integer METHOD_INVOCATION_LIMIT;
+    Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
     @PostConstruct
     private void init() {
         PropertyReader propertyReader = new PropertyReader();
         ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
         MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config", "MANAGER_ACCESS_LEVEL");
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
+        METHOD_INVOCATION_LIMIT = Integer.parseInt(propertyReader.getProperty("config", "rollback.invocation.limit"));
     }
     /**
      * Metoda, która zwraca obiekt UserAccessLevelDto zawierający informacje o poziomach dostępu danego użytkownika
@@ -109,10 +114,30 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
      */
     @RolesAllowed("editUserAccessLevels")
     public void editUserAccessLevels(UserAccessLevelDto userAccessLevelDto) throws AppBaseException {
-        List<MutablePair<Boolean,Boolean>> userAccessLevelList = new ArrayList<>();
-        userAccessLevelList.add(userAccessLevelDto.getAdmin());
-        userAccessLevelList.add(userAccessLevelDto.getManager());
-        userAccessLevelList.add(userAccessLevelDto.getClient());
-        userAccessLevelManager.editUserAccessLevel(this.user, userAccessLevelList);
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                List<MutablePair<Boolean, Boolean>> userAccessLevelList = new ArrayList<>();
+                userAccessLevelList.add(userAccessLevelDto.getAdmin());
+                userAccessLevelList.add(userAccessLevelDto.getManager());
+                userAccessLevelList.add(userAccessLevelDto.getClient());
+                userAccessLevelManager.editUserAccessLevel(this.user, userAccessLevelList);
+
+                rollback = userAccessLevelManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
+
     }
 }
