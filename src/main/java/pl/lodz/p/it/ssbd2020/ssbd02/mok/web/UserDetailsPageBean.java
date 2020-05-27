@@ -8,6 +8,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -76,9 +77,8 @@ public class UserDetailsPageBean implements Serializable {
             this.userDetailsDto = userAccessLevelDto.getUserDetailsDto();
         }
         catch (AppBaseException e) {
-            //do przetestowania / poprawnienia
-            FacesContext.getCurrentInstance().getExternalContext()
-                    .redirect("listUsers.xhtml");
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect(externalContext.getRequestContextPath()+"listUsers.xhtml");
         }
     }
     /**
@@ -108,7 +108,6 @@ public class UserDetailsPageBean implements Serializable {
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
-
     }
 
     /**
@@ -152,6 +151,5 @@ public class UserDetailsPageBean implements Serializable {
         String msg = resourceBundle.getString(message);
         String head = resourceBundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
-
     }
 }

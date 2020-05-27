@@ -11,10 +11,10 @@
         <ui:define name="title">#{msg['manager.title.yachtDetails']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
-                <p:menuitem value="Categories" url="#"/>
-                <p:menuitem value="#{msg['bread.main']}" url="/client/index.xhtml"/>
-                <p:menuitem value="#{msg['bread.yachts']}" url="/client/yacht/listYachts.xhtml"/>
-                <p:menuitem value="#{msg['bread.yacht']}" url="/client/yacht/yachtDetails.xhtml"
+                <p:menuitem value="Categories" outcome="/client/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.main']}" outcome="/client/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.yachts']}" outcome="/client/yacht/listYachts.xhtml"/>
+                <p:menuitem value="#{msg['bread.yacht']}" outcome="/client/yacht/yachtDetails.xhtml"
                             includeViewParams="true">
                     <f:param name="yachtId" value="#{yachtDetailsPageBean.yachtId}"/>
                 </p:menuitem>

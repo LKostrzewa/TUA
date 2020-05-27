@@ -55,7 +55,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"editYacht", "deactivateYacht"})
+    @RolesAllowed({"editYacht", "deactivateYacht","editOpinion","addOpinion"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(Yacht yacht) throws AppBaseException {
         super.edit(yacht);
@@ -69,7 +69,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"getYachtById", "getEditYachtDtoById", "assignYachtToPort", "retractYachtToPort"})
+    @RolesAllowed({"getYachtById", "getEditYachtDtoById", "assignYachtToPort", "retractYachtToPort","editOpinion","addOpinion"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Yacht> find(Object id) {
         return super.find(id);
@@ -107,7 +107,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @param name nazwa jachtu.
      * @return true/false zależnie czy użytkownik z danym loginem istnieje lub nie
      */
-    @RolesAllowed("addYacht")
+    @RolesAllowed({"addYacht","editYacht"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public boolean existByName(String name) {
         return entityManager.createNamedQuery("Yacht.countByName", Long.class)

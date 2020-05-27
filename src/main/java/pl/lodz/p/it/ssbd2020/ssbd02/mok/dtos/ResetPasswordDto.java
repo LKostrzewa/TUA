@@ -2,6 +2,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
 import javax.validation.constraints.Pattern;
 
+/**
+ * DTO do resetowania hasła
+ */
 public class ResetPasswordDto {
 
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$", message = "{validation.password}")

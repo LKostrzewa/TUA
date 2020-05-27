@@ -11,7 +11,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
@@ -61,7 +60,7 @@ public class ResetPasswordPageBean implements Serializable {
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
-        return "login.xhtml?faces-redirect=true";
+        return "login";
     }
 
     /**
@@ -93,6 +92,4 @@ public class ResetPasswordPageBean implements Serializable {
         String head = resourceBundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
     }
-
-
 }

@@ -4,6 +4,7 @@ import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
+import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.ResetPasswordDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.AccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
@@ -13,7 +14,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.SendEmail;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
@@ -22,6 +22,9 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -192,7 +195,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void changeOwnPassword(User user, String givenOldPassword) throws AppBaseException {
         try {
-            User userToEdit = userFacade.findByLogin();
+            User userToEdit = userFacade.findByLogin(FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName());
             BCryptPasswordHash bCryptPasswordHash = new BCryptPasswordHash();
             if (!bCryptPasswordHash.verify(givenOldPassword.toCharArray(), userToEdit.getPassword())) {
                 throw IncorrectPasswordException.createIncorrectPasswordException(user);
@@ -261,8 +264,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      */
     @RolesAllowed({"getLoginDtoByLogin", "getEditUserDtoByLogin", "findUserAccessLevelByLogin"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public User getUserByLogin() throws AppBaseException {
-        return userFacade.findByLogin();
+    public User getUserByLogin(String login) throws AppBaseException {
+        return userFacade.findByLogin(login);
     }
 
     /**
@@ -328,17 +331,18 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * Ustawia ilość niepoprawnych logować na 0. Wysyła mail do użytkownika jeśli zalogował się administrator.
      *
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param login
      */
     @RolesAllowed("saveSuccessAuthenticate")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void saveSuccessAuthenticate() throws AppBaseException {
+    public void saveSuccessAuthenticate(String login) throws AppBaseException {
         try {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance()
                     .getExternalContext()
                     .getRequest();
             String xForwardedForHeader = request.getHeader("X-Forwarded-For");
 
-            User userToEdit = userFacade.findByLogin();
+            User userToEdit = userFacade.findByLogin(login);
             String clientIpAddress;
             if (xForwardedForHeader == null) {
                 clientIpAddress = request.getRemoteAddr();
@@ -366,24 +370,26 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void saveFailureAuthenticate() throws AppBaseException {
+    public void saveFailureAuthenticate(String username) throws AppBaseException {
         try {
-            User userToEdit = userFacade.findByLogin();
-            boolean sendBlockEmail = false;
-            if (userToEdit.isActivated() && !userToEdit.isLocked()) {
-                userToEdit.setLastInvalidLogin(new Date());
-                int attempts = userToEdit.getInvalidLoginAttempts() + 1;
-                if (attempts == 3) {
-                    userToEdit.setInvalidLoginAttempts(0);
-                    userToEdit.setLocked(true);
-                    sendBlockEmail = true;
-                } else {
-                    userToEdit.setInvalidLoginAttempts(attempts);
-                }
-                userFacade.edit(userToEdit);
+            if(userFacade.existByLogin(username)) {
+                User userToEdit = userFacade.findByLogin(username);
+                boolean sendBlockEmail = false;
+                if (userToEdit.isActivated() && !userToEdit.isLocked()) {
+                    userToEdit.setLastInvalidLogin(new Date());
+                    int attempts = userToEdit.getInvalidLoginAttempts() + 1;
+                    if (attempts == 3) {
+                        userToEdit.setInvalidLoginAttempts(0);
+                        userToEdit.setLocked(true);
+                        sendBlockEmail = true;
+                    } else {
+                        userToEdit.setInvalidLoginAttempts(attempts);
+                    }
+                    userFacade.edit(userToEdit);
 
-                if (sendBlockEmail) {
-                    sendEmail.lockInfoEmail(userToEdit.getEmail());
+                    if (sendBlockEmail) {
+                        sendEmail.lockInfoEmail(userToEdit.getEmail());
+                    }
                 }
             }
         } catch (EJBTransactionRolledbackException e) {

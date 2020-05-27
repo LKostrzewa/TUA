@@ -62,22 +62,18 @@ public class MyDetailsPageBean implements Serializable {
     /**
      * Metoda inicjalizująca komponent
      */
-    @PostConstruct //bez PostConstruct jest nulllllll a z postConstruct nie moze byc IOException
-    public void init() /*throws IOException*/ {
+    @PostConstruct
+    public void init() {
         PropertyReader propertyReader = new PropertyReader();
         ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
         MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config", "MANAGER_ACCESS_LEVEL");
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
 
-        //userLogin = facesContext.getExternalContext().getRemoteUser();
         try {
             this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelByLogin();
             this.userDetailsDto = userAccessLevelDto.getUserDetailsDto();
         } catch (AppBaseException e) {
-            //do przetestowania / poprawienia
             displayError(e.getLocalizedMessage());
-            /*FacesContext.getCurrentInstance().getExternalContext()
-                    .redirect("listUsers.xhtml");*/
         }
     }
 
@@ -92,7 +88,6 @@ public class MyDetailsPageBean implements Serializable {
         String msg = resourceBundle.getString(message);
         String head = resourceBundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
-
     }
 
     /**

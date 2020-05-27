@@ -35,8 +35,8 @@ import java.util.UUID;
 public class User implements Serializable {
 
     @Id
-    @SequenceGenerator(name="UserSeqGen",sequenceName="user_id_seq",allocationSize = 1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="UserSeqGen")
+    @SequenceGenerator(name = "UserSeqGen", sequenceName = "user_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "UserSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
     @NotNull
     private Long id;
@@ -52,6 +52,8 @@ public class User implements Serializable {
     @Column(name = "login", nullable = false, unique = true, updatable = false, length = 32)
     @NotNull
     @Size(max = 32)
+    @Size(min = 4, message = "{validation.login}")
+    @Pattern(regexp = "^[^=]+$", message = "{validation.invalidCharacter}")
     private String login;
     @Column(name = "password", nullable = false, length = 64)
     @NotNull
@@ -93,21 +95,21 @@ public class User implements Serializable {
     private String resetPasswordCode;
     @Column(name = "reset_password_code_add_date")
     private Date resetPasswordCodeAddDate;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "user")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "user")
     private Collection<UserAccessLevel> userAccessLevels = new ArrayList<>();
 
 
     @Column(name = "first_name", table = "user_details", nullable = false, length = 32)
     @NotNull
-    @Size(max = 32)
+    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,31}", message = "{validation.firstName}")
     private String firstName;
     @Column(name = "last_name", table = "user_details", nullable = false, length = 32)
     @NotNull
-    @Size(max = 32)
+    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,31}", message = "{validation.firstName}")
     private String lastName;
     @Column(name = "phone_number", table = "user_details", nullable = false, length = 10)
     @NotNull
-    @Size(max = 10)
+    @Pattern(regexp = "\\d{9}", message = "{validation.number}")
     private String phoneNumber;
 
     public User() {
@@ -157,16 +159,8 @@ public class User implements Serializable {
         return locked;
     }
 
-    public void setLocked(boolean locked) {
-        this.locked = locked;
-    }
-
     public boolean getActivated() {
         return activated;
-    }
-
-    public void setActivated(boolean activated) {
-        this.activated = activated;
     }
 
     public Date getCreated() {
@@ -241,8 +235,16 @@ public class User implements Serializable {
         return locked;
     }
 
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
     public boolean isActivated() {
         return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
     public String getFirstName() {

@@ -49,7 +49,6 @@ public class EmailPageBean {
         }
     }
 
-
     public String getKey() {
         return key;
     }
@@ -92,6 +91,5 @@ public class EmailPageBean {
         String msg = resourceBundle.getString(message);
         String head = resourceBundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
-
     }
 }

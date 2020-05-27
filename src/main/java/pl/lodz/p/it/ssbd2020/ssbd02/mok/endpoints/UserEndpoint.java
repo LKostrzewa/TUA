@@ -5,7 +5,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +55,7 @@ public interface UserEndpoint {
      * @return user login dot
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    UserLoginDto getLoginDtoByLogin() throws AppBaseException;
+    UserLoginDto getLoginDtoByLogin(String login) throws AppBaseException;
 
     /**
      * Metoda, która zapisuje wprowadzone przez administratora zmiany w danych konta użytkownika
@@ -118,15 +117,17 @@ public interface UserEndpoint {
      * Metoda, która zapisuje informacje o poprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      *
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param login login uzytkownika
      */
-     void saveSuccessAuthenticate() throws AppBaseException;
+     void saveSuccessAuthenticate(String login) throws AppBaseException;
 
     /**
      * Metoda, która zapisuje informacje o niepoprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      *
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param login login uzytkownika
      */
-     void saveFailureAuthenticate() throws AppBaseException;
+     void saveFailureAuthenticate(String login) throws AppBaseException;
 
     /**
      * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.

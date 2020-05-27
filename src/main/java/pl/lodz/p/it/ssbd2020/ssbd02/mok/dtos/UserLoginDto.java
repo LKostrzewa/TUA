@@ -3,10 +3,13 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
+/**
+ * DTO do logowania
+ */
 public class UserLoginDto {
     private Long id;
     @NotBlank(message = "{username.message}")
-    private String username;
+    private String login;
     @NotBlank(message = "{password.message}")
     private String password;
     private String email;
@@ -24,12 +27,12 @@ public class UserLoginDto {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getLogin() {
+        return login;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {

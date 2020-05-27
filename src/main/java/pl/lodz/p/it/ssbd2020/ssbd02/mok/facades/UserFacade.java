@@ -4,7 +4,6 @@ import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppPersistenceException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -15,7 +14,6 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import javax.faces.context.FacesContext;
 import javax.interceptor.Interceptors;
 import javax.persistence.*;
 import javax.persistence.criteria.*;
@@ -49,7 +47,7 @@ public class UserFacade extends AbstractFacade<User> {
      * @return Lista User
      */
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    @RolesAllowed("getUserReport")
+    @RolesAllowed({"getUserReport","TIME"})
     @Override
     public List<User> findAll() {
         return super.findAll();
@@ -102,8 +100,7 @@ public class UserFacade extends AbstractFacade<User> {
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public User findByLogin() throws AppBaseException {
-        String userLogin = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
+    public User findByLogin(String userLogin) throws AppBaseException {
         try {
             return getEntityManager().createNamedQuery("User.findByLogin", User.class)
                     .setParameter("login",userLogin).getSingleResult();
@@ -274,11 +271,11 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     /**
-     * Metoda do usuwania encji user. W aplikacji niewykorzystywana (DenyAll)
+     * Metoda do usuwania encji user.
      * @param entity encja użytkownika do usunięcia
      */
-    @DenyAll
-    @Override
+    @RolesAllowed("TIME")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void remove(User entity) {
         super.remove(entity);
     }
