@@ -1,4 +1,4 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.utils;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.schedulers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.RentalStatus;
@@ -7,6 +7,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalStatusFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.RentalManager;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.RolesAllowed;
 import javax.annotation.security.RunAs;

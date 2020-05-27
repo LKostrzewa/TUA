@@ -1,7 +1,8 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.utils;
+package pl.lodz.p.it.ssbd2020.ssbd02.mok.schedulers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserFacade;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.RolesAllowed;
 import javax.annotation.security.RunAs;
