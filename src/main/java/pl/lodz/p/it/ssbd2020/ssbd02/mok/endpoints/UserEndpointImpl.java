@@ -12,6 +12,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
@@ -35,10 +36,13 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     private User userEditEntity;
 
     PropertyReader propertyReader = new PropertyReader();
-    Integer METHOD_INVOCATION_LIMIT = Integer.parseInt(propertyReader.getProperty("config", "rollback.invocation.limit"));
+    Integer METHOD_INVOCATION_LIMIT;
     Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-
+    @PostConstruct
+    public void init(){
+        METHOD_INVOCATION_LIMIT = Integer.parseInt(propertyReader.getProperty("config", "rollback.invocation.limit"));
+    }
     /**
      * Metoda służąca do rejestracji użytkownika
      *

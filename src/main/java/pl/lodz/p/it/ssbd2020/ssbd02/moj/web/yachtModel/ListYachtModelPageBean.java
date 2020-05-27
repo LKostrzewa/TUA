@@ -33,6 +33,6 @@ public class ListYachtModelPageBean implements Serializable {
 
     public String deactivateYachtModel(Long yachtModelID) throws AppBaseException {
         yachtModelEndpoint.deactivateYachtModel(yachtModelID);
-        return "/manager/listYachtModels.xhtml?faces-redirect=true";
+        return "listYachtModels";
     }
 }

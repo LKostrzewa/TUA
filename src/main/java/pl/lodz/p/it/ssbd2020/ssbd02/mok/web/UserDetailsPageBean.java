@@ -108,7 +108,6 @@ public class UserDetailsPageBean implements Serializable {
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
-
     }
 
     /**
@@ -152,6 +151,5 @@ public class UserDetailsPageBean implements Serializable {
         String msg = resourceBundle.getString(message);
         String head = resourceBundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
-
     }
 }

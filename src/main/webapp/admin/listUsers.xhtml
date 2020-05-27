@@ -29,8 +29,7 @@
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.users']}"
                              emptyMessage="${msg['admin.accounts.noUsersFoundMessage']}"
-                             filteredValue="#{listUsersPageBean.filteredUsers}" style="background-color: #4caf50;"
-                             globalFilterFunction="#{listUsersPageBean.globalFilterFunction}">
+                             style="background-color: #4caf50;">
                     <h:outputStylesheet library="css" name="tableClass.css"/>
 
                     <f:facet name="header">

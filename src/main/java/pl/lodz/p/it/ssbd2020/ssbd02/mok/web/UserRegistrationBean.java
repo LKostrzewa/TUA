@@ -11,9 +11,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ResourceBundle;
+
 /**
  * Klasa do obsługi widoku rejestracji użytkownika
  */
@@ -55,19 +55,18 @@ public class UserRegistrationBean implements Serializable {
     public String registerAccountAction() {
         try {
             userEndpoint.registerNewUser(userDto);
-        }
-        catch (AppBaseException e) {
+        } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
-            return "register.xhtml";
+            return "register";
         }
         displayMessage();
-        return "login.xhtml?faces-redirect=true";
+        return "login";
     }
 
     /**
      * Metoda inicjalizująca wyświetlanie wiadomości
      */
-    private void displayInit(){
+    private void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
     }
 
@@ -92,7 +91,6 @@ public class UserRegistrationBean implements Serializable {
         String head = bundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
     }
-
 
     public ResourceBundle getBundle() {
         return bundle;
