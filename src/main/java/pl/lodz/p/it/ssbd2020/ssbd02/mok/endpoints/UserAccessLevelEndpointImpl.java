@@ -1,8 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.AccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
@@ -10,7 +8,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppEJBTransactionRolledbackExcept
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.AccessLevelManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserAccessLevelManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.managers.UserManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -46,7 +43,6 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
 
     private User user;
 
-    PropertyReader propertyReader = new PropertyReader();
     Integer METHOD_INVOCATION_LIMIT;
     Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
