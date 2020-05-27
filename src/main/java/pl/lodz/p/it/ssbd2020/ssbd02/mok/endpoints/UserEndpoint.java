@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints;
 
 import org.primefaces.model.FilterMeta;
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.*;
 
@@ -110,21 +111,23 @@ public interface UserEndpoint {
      * @param code kod aktywacyjny użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    void activateAccount(String code) throws AppBaseException;
+    Boolean activateAccount(String code) throws AppBaseException;
 
     /**
      * Metoda, która zapisuje informacje o poprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      *
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param login login uzytkownika
      */
-     void saveSuccessAuthenticate() throws AppBaseException;
+     void saveSuccessAuthenticate(String login) throws AppBaseException;
 
     /**
      * Metoda, która zapisuje informacje o niepoprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      *
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param login login uzytkownika
      */
-     void saveFailureAuthenticate(String username) throws AppBaseException;
+     void saveFailureAuthenticate(String login) throws AppBaseException;
 
     /**
      * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
@@ -159,5 +162,6 @@ public interface UserEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     void resetPassword(ResetPasswordDto resetPasswordDto) throws AppBaseException;
+
 
 }

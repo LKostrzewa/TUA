@@ -118,6 +118,8 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         return ObjectMapperUtils.mapAll(userManager.getAll(), UserReportDto.class);
     }
 
+
+
     /**
      * Metoda, która pobiera użytkownika do edycji przez administratora po identyfikatorze użytkownika
      *
@@ -344,12 +346,13 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @PermitAll
-    public void activateAccount(String code) throws AppBaseException {
+    public Boolean activateAccount(String code) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
+        Boolean active = false;
         do {
             try {
-                userManager.confirmActivationCode(code);
+                active = userManager.confirmActivationCode(code);
                 rollback = userManager.isLastTransactionRollback();
             } catch (AppEJBTransactionRolledbackException ex) {
                 logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
@@ -364,20 +367,22 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
             throw RepeatedRollBackException.createRepeatedRollBackException();
         }
+        return active;
     }
 
     /**
      * Metoda, która zapisuje informacje o poprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      *
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param login  login uzytkownika
      */
     @RolesAllowed("saveSuccessAuthenticate")
-    public void saveSuccessAuthenticate() throws AppBaseException {
+    public void saveSuccessAuthenticate(String login) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
         do {
             try {
-                userManager.saveSuccessAuthenticate();
+                userManager.saveSuccessAuthenticate(login);
                 rollback = userManager.isLastTransactionRollback();
             } catch (AppEJBTransactionRolledbackException ex) {
                 logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
@@ -398,14 +403,15 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * Metoda, która zapisuje informacje o niepoprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      *
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param login  login uzytkownika
      */
     @PermitAll
-    public void saveFailureAuthenticate(String username) throws AppBaseException {
+    public void saveFailureAuthenticate(String login) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
         do {
             try {
-                userManager.saveFailureAuthenticate(username);
+                userManager.saveFailureAuthenticate(login);
                 rollback = userManager.isLastTransactionRollback();
             } catch (AppEJBTransactionRolledbackException ex) {
                 logger.log(Level.WARNING, "Exception EJBTransactionRolledback");

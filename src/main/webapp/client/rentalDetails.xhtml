@@ -11,56 +11,56 @@
         <ui:define name="title">#{msg['shared.title.rentalDetails']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
-                <p:menuitem value="Categories" url="#"/>
-                <p:menuitem value="#{msg['bread.main']}" url="/client/index.xhtml"/>
-                <p:menuitem value="#{msg['bread.rentals']}" url="/client/listRentals.xhtml"/>
-                <p:menuitem value="#{msg['bread.rental']}" url="/client/rentalDetails.xhtml"
+                <p:menuitem value="Categories" outcome="/client/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.main']}" outcome="/client/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.rentals']}" outcome="/client/listRentals.xhtml"/>
+                <p:menuitem value="#{msg['bread.rental']}" outcome="/client/rentalDetails.xhtml"
                             includeViewParams="true">
-                    <f:param name="rentalId" value="#{myRentalDetailsPageBean.rentalId}"/>
+                    <f:param name="rentalId" value="#{rentalDetailsPageBean.rentalId}"/>
                 </p:menuitem>
             </p:breadCrumb>
         </ui:define>
         <ui:define name="content">
             <f:metadata>
-                <f:viewParam name="rentalId" value="#{myRentalDetailsPageBean.rentalId}"/>
-                <f:event type="preRenderView" listener="#{myRentalDetailsPageBean.init}"/>
+                <f:viewParam name="rentalId" value="#{rentalDetailsPageBean.rentalId}"/>
+                <f:event type="preRenderView" listener="#{rentalDetailsPageBean.init}"/>
             </f:metadata>
             <h:form id="form">
                 <p:growl id="message" showDetail="true"/>
                 <p:panelGrid columns="2">
                     <h:outputLabel value="#{msg['yacht.name']}:"/>
-                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.yachtName}"/>
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtName}"/>
                     <h:outputLabel value="#{msg['yachtModel.model']}:"/>
-                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.yachtYachtModelModel}"/>
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtYachtModelModel}"/>
                     <h:outputLabel value="#{msg['port.name']}:"/>
-                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.yachtCurrentPortName}"/>
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtCurrentPortName}"/>
                     <h:outputLabel value="#{msg['yacht.productionYear']}:"/>
-                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.yachtProductionYear}"/>
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtProductionYear}"/>
                     <h:outputLabel value="#{msg['yacht.equipment']}:"/>
-                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.yachtEquipment}"/>
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtEquipment}"/>
                     <h:outputLabel value="#{msg['rental.beginDate']}:"/>
-                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.beginDate}">
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.beginDate}">
                         <f:convertDateTime pattern="dd.MM.yyyy"/>
                     </h:outputText>
                     <h:outputLabel value="#{msg['rental.endDate']}:"/>
-                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.endDate}">
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.endDate}">
                         <f:convertDateTime pattern="dd.MM.yyyy"/>
                     </h:outputText>
                     <h:outputLabel value="#{msg['rental.status']}:"/>
-                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.statusName}"/>
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.statusName}"/>
                     <h:outputLabel value="#{msg['rental.price']}:"/>
-                    <h:outputText value="#{myRentalDetailsPageBean.rentalDetails.price}"/>
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.price}"/>
                 </p:panelGrid>
                 <p:button value="#{msg['goBack']}" outcome="listRentals.xhtml?faces-redirect=true"/>
-                <p:commandButton value="${msg['cancel']}" action="#{myRentalDetailsPageBean.cancelRental}"
+                <p:commandButton value="${msg['cancel']}" action="#{rentalDetailsPageBean.cancelRental}"
                                  update="message form"
-                                 rendered="#{myRentalDetailsPageBean.rentalDetails.statusName.equals('PENDING')}">
+                                 rendered="#{rentalDetailsPageBean.rentalDetails.statusName.equals('PENDING')}">
                     <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>
                 <p:button value="${msg['opinion.addOpinion']}"
                                  outcome="opinion/addOpinion.xhtml?faces-redirect=true"
-                                 rendered="#{myRentalDetailsPageBean.rentalDetails.statusName.equals('FINISHED')}"/>
+                                 rendered="#{rentalDetailsPageBean.rentalDetails.statusName.equals('FINISHED')}"/>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
                                      icon="pi pi-check"/>

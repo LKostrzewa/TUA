@@ -3,7 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class MyRentalDetailsDto {
+public class RentalDetailsDto {
     private String yachtName;
     private String yachtYachtModelModel;
     private String yachtCurrentPortName;

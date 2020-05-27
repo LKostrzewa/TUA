@@ -11,10 +11,10 @@
         <ui:define name="title">#{msg['client.title.portDetails']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
-                <p:menuitem value="Categories" url="#"/>
-                <p:menuitem value="#{msg['bread.main']}" url="/client/index.xhtml"/>
-                <p:menuitem value="#{msg['bread.ports']}" url="/client/port/listPorts.xhtml"/>
-                <p:menuitem value="#{msg['bread.port']}" url="/client/port/portDetails.xhtml"
+                <p:menuitem value="Categories" outcome="/client/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.main']}" outcome="/client/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.ports']}" outcome="/client/port/listPorts.xhtml"/>
+                <p:menuitem value="#{msg['bread.port']}" outcome="/client/port/portDetails.xhtml"
                             includeViewParams="true">
                     <f:param name="portId" value="#{portDetailsPageBean.portId}"/>
                 </p:menuitem>

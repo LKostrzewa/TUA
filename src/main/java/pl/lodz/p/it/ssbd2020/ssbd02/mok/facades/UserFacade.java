@@ -15,10 +15,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -281,6 +278,20 @@ public class UserFacade extends AbstractFacade<User> {
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void remove(User entity) {
         super.remove(entity);
+    }
+
+
+    /**
+     * Metoda, sprawdza czy istnieje użytkownik w bazie o danym kodzie aktywacyjnym poprzez sprawdzenie czy rezultat wykonania
+     *  zapytania COUNT jest większy od 0
+     * @param activationCode kod aktywacyjny
+     * @return true/false w zaleznosci czy taki uzytkownik istnieje
+     */
+    @PermitAll
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public boolean existByActivationCode(String activationCode) {
+        return entityManager.createNamedQuery("User.countByActivationCode", Long.class)
+                .setParameter("activationCode", activationCode).getSingleResult() > 0;
     }
 
 }

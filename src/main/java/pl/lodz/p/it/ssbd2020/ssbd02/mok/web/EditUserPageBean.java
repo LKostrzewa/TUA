@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.EditUserDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -53,8 +54,8 @@ public class EditUserPageBean implements Serializable {
         catch (AppBaseException e) {
             //tutaj do potestowania i zastanowienia
             displayError(e.getLocalizedMessage());
-            FacesContext.getCurrentInstance().getExternalContext()
-                    .redirect("userDetails.xhtml?faces-redirect=true?includeViewParams=true");
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect(externalContext.getRequestContextPath()+"userDetails.xhtml?faces-redirect=true?includeViewParams=true");
         }
     }
 
@@ -69,7 +70,6 @@ public class EditUserPageBean implements Serializable {
             displayMessage();
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
-            return "editUser";
         }
         return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }

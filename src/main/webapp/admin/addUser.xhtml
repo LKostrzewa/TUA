@@ -11,9 +11,9 @@
         <ui:define name="title">#{msg['admin.title.addUser']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
-                <p:menuitem value="Categories" url="#"/>
-                <p:menuitem value="#{msg['bread.main']}" url="/admin/index.xhtml"/>
-                <p:menuitem value="#{msg['bread.add']}" url="/admin/addUser.xhtml"/>
+                <p:menuitem value="Categories" outcome="/admin/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.main']}" outcome="/admin/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.add']}" outcome="/admin/addUser.xhtml"/>
             </p:breadCrumb>
         </ui:define>
         <ui:define name="content">
@@ -81,10 +81,20 @@
                 <div style="text-align: center;">
                     <p:button value="#{msg['cancel']}" outcome="index.xhtml?faces-redirect=true"
                               style="background-color: red"/>
-                    <p:commandButton value="#{msg['save']}" action="#{addUserPageBean.addUser()}" update="@form"
-                                     style="background-color: green" ajax="false"
-                                     onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+                    <p:commandButton value="#{msg['save']}"
+                                     type="button"
+                                     style="background-color: green"
+                                     onclick="PF('addUserConfirm').show()"/>
                 </div>
+                <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}" showEffect="explode"
+                                 hideEffect="explode" widgetVar="addUserConfirm">
+                    <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
+                                     style="background-color: green"
+                                     action="#{addUserPageBean.addUser()}" ajax="false"
+                                     oncomplete="PF('addUserConfirm').hide()" icon="pi pi-check"/>
+                    <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no" style="background-color: red"
+                                     oncomplete="PF('addUserConfirm').hide()" icon="pi pi-times"/>
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>

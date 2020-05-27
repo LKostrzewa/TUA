@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
+import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
@@ -7,7 +8,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.DenyAll;
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -18,7 +18,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Stateless
@@ -127,5 +130,81 @@ public class RentalFacade extends AbstractFacade<Rental> {
     @DenyAll
     public void remove(Rental entity) {
         super.remove(entity);
+    }
+
+    /**
+     * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
+     *
+     * @param filters para filtrowanych pól i ich wartości
+     * @return liczba obiektów poddanych filtrowaniu
+     */
+    @RolesAllowed("getFilteredRowCountRental")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public int getFilteredRowCount(Map<String, FilterMeta> filters) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<Rental> root = criteriaQuery.from(Rental.class);
+        CriteriaQuery<Long> select = criteriaQuery.select(criteriaBuilder.count(root));
+
+        if (filters != null && filters.size() > 0) {
+            List<Predicate> predicates = new ArrayList<>();
+            for (Map.Entry<String, FilterMeta> entry : filters.entrySet()) {
+                String field = entry.getKey();
+                Object value = entry.getValue().getFilterValue();
+                if (value == null) {
+                    continue;
+                }
+
+                Expression<String> expression = root.get(field).as(String.class);
+                Predicate predicate = criteriaBuilder.like(criteriaBuilder.lower(expression),
+                        "%" + value.toString().toLowerCase() + "%");
+                predicates.add(predicate);
+            }
+            if (predicates.size() > 0) {
+                criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
+            }
+        }
+        Long count = entityManager.createQuery(select).getSingleResult();
+        return count.intValue();
+    }
+
+    /**
+     * Metoda, która pobiera z bazy listę filtrowanych obiektów.
+     *
+     * @param first    numer pierwszego obiektu
+     * @param pageSize rozmiar strony
+     * @param filters  para filtrowanych pól i ich wartości
+     * @return lista filtrowanych obiektów
+     */
+    @RolesAllowed("getResultListRental")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public List<Rental> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Rental> criteriaQuery = criteriaBuilder.createQuery(Rental.class);
+        Root<Rental> root = criteriaQuery.from(Rental.class);
+        CriteriaQuery<Rental> select = criteriaQuery.select(root);
+
+        if (filters != null && filters.size() > 0) {
+            List<Predicate> predicates = new ArrayList<>();
+            for (Map.Entry<String, FilterMeta> entry : filters.entrySet()) {
+                String field = entry.getKey();
+                Object value = entry.getValue().getFilterValue();
+                if (value == null) {
+                    continue;
+                }
+
+                Expression<String> expression = root.get(field).as(String.class);
+                Predicate predicate = criteriaBuilder.like(criteriaBuilder.lower(expression),
+                        "%" + value.toString().toLowerCase() + "%");
+                predicates.add(predicate);
+            }
+            if (predicates.size() > 0) {
+                criteriaQuery.where(criteriaBuilder.and(predicates.toArray
+                        (new Predicate[0])));
+            }
+        }
+        criteriaQuery.orderBy(criteriaBuilder.asc(root.get("price")));
+
+        return entityManager.createQuery(select).setFirstResult(first).setMaxResults(pageSize).getResultList();
     }
 }

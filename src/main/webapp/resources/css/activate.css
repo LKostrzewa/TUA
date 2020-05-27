@@ -1,0 +1,23 @@
+body{
+    background-color: #ffcc99;
+}
+
+.message {
+    color: black;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #ace5ee;
+}
+
+.logo {
+    position: absolute;
+    left:33%;
+    top:-5%
+
+
+}

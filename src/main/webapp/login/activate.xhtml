@@ -6,13 +6,18 @@
       xmlns:ui="http://java.sun.com/jsf/facelets" xml:lang="en" lang="en">
 <h:head>
     <ui:fragment>
-        <meta http-equiv="refresh" content="5;url=login.xhtml" />
+        <meta http-equiv="refresh" content="5;url=${request.contextPath}login.xhtml" />
     </ui:fragment>
 </h:head>
 <h:body>
-    <h:panelGroup layout="block" >
-        <p>#{msg['activateMessage']}</p>
-        <p>#{msg['prop']} #{emailPageBean.valid} #{msg['redirectMessage']}</p>
-    </h:panelGroup>
+    <h:outputStylesheet library="css" name="activate.css"/>
+    <div class="logo">
+    <img src="../resources/images/yacht_logo.png" alt="Yacht logo"/>
+    </div>
+    <div class="message">
+    <h:outputText value="#{msg['activateMessage']}" rendered="#{!emailPageBean.active}"/>
+    <h:outputText value="#{msg['nonactivateMessage']}" rendered="#{emailPageBean.active}"/>
+    <h:outputText value="#{msg['prop']} #{emailPageBean.valid} #{msg['redirectMessage']}" rendered="#{!emailPageBean.active}" />
+    </div>
 </h:body>
 </html>

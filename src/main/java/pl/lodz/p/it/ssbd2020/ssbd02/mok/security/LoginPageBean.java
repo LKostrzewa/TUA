@@ -50,6 +50,7 @@ public class LoginPageBean implements Serializable {
     private LoggerIP loggerIP;
 
     private UserLoginDto userLoginDto;
+
     public UserLoginDto getUserLoginDto() {
         return userLoginDto;
     }
@@ -69,7 +70,7 @@ public class LoginPageBean implements Serializable {
 
     public void login() throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
-        Credential credential = new UsernamePasswordCredential(userLoginDto.getUsername(), new Password(userLoginDto.getPassword()));
+        Credential credential = new UsernamePasswordCredential(userLoginDto.getLogin(), new Password(userLoginDto.getPassword()));
         AuthenticationStatus status = securityContext.authenticate(
                 getHttpRequestFromFacesContext(),
                 getHttpResponseFromFacesContext(),
@@ -84,17 +85,22 @@ public class LoginPageBean implements Serializable {
                 break;
             case SUCCESS:
                 try {
-                    userLoginDto = userEndpoint.getLoginDtoByLogin(userLoginDto.getUsername());
+                    userLoginDto = userEndpoint.getLoginDtoByLogin(userLoginDto.getLogin());
                 } catch (AppBaseException e) {
                     displayError(e.getLocalizedMessage());
                 }
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastValidLogin"), String.valueOf(userLoginDto.getLastValidLogin())));
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastInvalidLogin"), String.valueOf(userLoginDto.getLastInvalidLogin())));
+
+                if (userLoginDto.getLastValidLogin() != null)
+                    facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastValidLogin"), String.valueOf(userLoginDto.getLastValidLogin())));
+
+
+                if (userLoginDto.getLastInvalidLogin() != null)
+                    facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastInvalidLogin"), String.valueOf(userLoginDto.getLastInvalidLogin())));
 
                 loggerIP.login();
 
                 try {
-                    userEndpoint.saveSuccessAuthenticate();
+                    userEndpoint.saveSuccessAuthenticate(userLoginDto.getLogin());
                 } catch (AppBaseException e) {
                     displayError(e.getLocalizedMessage());
                 }
@@ -114,7 +120,7 @@ public class LoginPageBean implements Serializable {
                 break;
             case SEND_FAILURE:
                 try {
-                    userEndpoint.saveFailureAuthenticate(userLoginDto.getUsername());
+                    userEndpoint.saveFailureAuthenticate(userLoginDto.getLogin());
                 } catch (AppBaseException e) {
                     //facesContext.addMessage(null,
                     //        new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authenticationFailed")));

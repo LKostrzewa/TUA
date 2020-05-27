@@ -5,7 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.*;
 /**
  * Wyjątek aplikacyjny występujący w przypadku nieznalezienia encji
  */
-public class AppNotFoundException extends AppBaseException{
+public class AppNotFoundException extends AppBaseException {
 
     public static final String ACCESS_LEVEL_MESSAGE_KEY = "exception.accessLevelDeleted";
     public static final String USER_MESSAGE_KEY = "exception.userNotFound";
@@ -18,10 +18,12 @@ public class AppNotFoundException extends AppBaseException{
     public static final String IMAGE_MESSAGE_KEY = "exception.imageNotFound";
 
     private Class objectClass;
+
     public AppNotFoundException(String message) {
         super(message);
     }
-    public AppNotFoundException(String message, Throwable cause){
+
+    public AppNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -92,6 +94,12 @@ public class AppNotFoundException extends AppBaseException{
         return nfe;
     }
 
+    public static AppNotFoundException createRentalNotFoundException() {
+        AppNotFoundException nfe = new AppNotFoundException(RENTAL_MESSAGE_KEY);
+        nfe.setObjectClass(Rental.class);
+        return nfe;
+    }
+
     public static AppNotFoundException createRentalStatusNotFoundException(Throwable cause) {
         AppNotFoundException nfe = new AppNotFoundException(RENTAL_MESSAGE_KEY, cause);
         nfe.setObjectClass(RentalStatus.class);
@@ -133,5 +141,4 @@ public class AppNotFoundException extends AppBaseException{
         nfe.setObjectClass(Opinion.class);
         return nfe;
     }
-
 }
