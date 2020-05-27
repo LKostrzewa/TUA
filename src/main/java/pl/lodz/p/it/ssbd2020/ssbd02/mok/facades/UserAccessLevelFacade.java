@@ -56,8 +56,7 @@ public class UserAccessLevelFacade extends AbstractFacade<UserAccessLevel> {
      * @param entity encja UserAccessLevel.
      */
     @Override
-    @PermitAll
-    //@RolesAllowed("editUserAccessLevels")
+    @RolesAllowed("editUserAccessLevels")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void remove(UserAccessLevel entity) {
         super.remove(entity);

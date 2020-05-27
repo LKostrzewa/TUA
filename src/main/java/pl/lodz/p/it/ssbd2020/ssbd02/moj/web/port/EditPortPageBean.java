@@ -33,7 +33,7 @@ public class EditPortPageBean implements Serializable {
         this.editPortDto = portEndpoint.getEditPortById(portId);
     }
 
-    public String editPort() throws AppBaseException {
+    public String editPort(){
         try {
             portEndpoint.editPort(editPortDto);
             displayMessage();

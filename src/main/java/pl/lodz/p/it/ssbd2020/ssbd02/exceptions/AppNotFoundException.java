@@ -27,6 +27,14 @@ public class AppNotFoundException extends AppBaseException {
         super(message, cause);
     }
 
+    public Class getObjectClass() {
+        return objectClass;
+    }
+
+    public void setObjectClass(Class objectClass) {
+        this.objectClass = objectClass;
+    }
+
     /**
      * Statyczna metoda do tworzenia wyjątku w przypadku nieznalezienia encji AccessLevel
      *
@@ -35,6 +43,12 @@ public class AppNotFoundException extends AppBaseException {
      */
     public static AppNotFoundException createAccessLevelNotFoundException(Throwable cause) {
         AppNotFoundException nfe = new AppNotFoundException(ACCESS_LEVEL_MESSAGE_KEY, cause);
+        nfe.setObjectClass(AccessLevel.class);
+        return nfe;
+    }
+
+    public static AppNotFoundException createAccessLevelNotFoundException() {
+        AppNotFoundException nfe = new AppNotFoundException(ACCESS_LEVEL_MESSAGE_KEY);
         nfe.setObjectClass(AccessLevel.class);
         return nfe;
     }
@@ -126,13 +140,5 @@ public class AppNotFoundException extends AppBaseException {
         AppNotFoundException nfe = new AppNotFoundException(OPINION_MESSAGE_KEY);
         nfe.setObjectClass(Opinion.class);
         return nfe;
-    }
-
-    public Class getObjectClass() {
-        return objectClass;
-    }
-
-    public void setObjectClass(Class objectClass) {
-        this.objectClass = objectClass;
     }
 }
