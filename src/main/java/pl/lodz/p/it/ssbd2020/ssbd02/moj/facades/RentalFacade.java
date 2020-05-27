@@ -56,7 +56,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * @return optional z wyszukanym obiektem encji lub pusty, jeśli poszukiwany obiekt encji nie istnieje
      */
     @Override
-    @RolesAllowed({"getRentalById", "getUserRentalDetails", "cancelRental"})
+    @RolesAllowed({"getUserRentalDetails", "cancelRental"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Rental> find(Object id) {
         return super.find(id);

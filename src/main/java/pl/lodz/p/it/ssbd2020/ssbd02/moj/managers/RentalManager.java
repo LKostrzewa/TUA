@@ -76,7 +76,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
      * @return Wypożyczenie o podanym Id
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"getRentalById", "getUserRentalDetails", "cancelRental"})
+    @RolesAllowed({"getUserRentalDetails", "cancelRental"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Rental getRentalById(Long rentalId) throws AppBaseException {
         return rentalFacade.find(rentalId).orElseThrow(AppNotFoundException::createRentalNotFoundException);

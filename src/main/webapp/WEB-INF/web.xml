@@ -179,9 +179,6 @@
         <role-name>getRentals</role-name>
     </security-role>
     <security-role>
-        <role-name>getRentalById</role-name>
-    </security-role>
-    <security-role>
         <role-name>cancelRental</role-name>
     </security-role>
     <security-role>
