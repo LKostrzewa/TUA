@@ -118,8 +118,6 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         return ObjectMapperUtils.mapAll(userManager.getAll(), UserReportDto.class);
     }
 
-
-
     /**
      * Metoda, która pobiera użytkownika do edycji przez administratora po identyfikatorze użytkownika
      *
