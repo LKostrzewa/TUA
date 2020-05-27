@@ -116,15 +116,17 @@ public interface UserEndpoint {
      * Metoda, która zapisuje informacje o poprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      *
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param login login uzytkownika
      */
-     void saveSuccessAuthenticate() throws AppBaseException;
+     void saveSuccessAuthenticate(String login) throws AppBaseException;
 
     /**
      * Metoda, która zapisuje informacje o niepoprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      *
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param login login uzytkownika
      */
-     void saveFailureAuthenticate(String username) throws AppBaseException;
+     void saveFailureAuthenticate(String login) throws AppBaseException;
 
     /**
      * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.

@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -52,8 +53,9 @@ public class ChangeAccessLevelPageBean implements Serializable {
         } catch (AppBaseException e) {
             //do sprawdzenia/poprawy
             displayError(e.getLocalizedMessage());
-            FacesContext.getCurrentInstance().getExternalContext()
-                    .redirect("userDetails.xhtml?faces-redirect=true?includeViewParams=true");
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect(externalContext.getRequestContextPath()+"userDetails.xhtml?faces-redirect=true?includeViewParams=true");
+
         }
     }
 
@@ -68,7 +70,6 @@ public class ChangeAccessLevelPageBean implements Serializable {
         } catch (AppBaseException e) {
             //tutaj do potestowania bo cos nie halo chyba przy współbieżności
             displayError(e.getLocalizedMessage());
-            return "changeAccessLevel";
         }
         displayMessage();
         return "userDetails?faces-redirect=true?includeViewParams=true";
