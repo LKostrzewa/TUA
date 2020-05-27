@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
+import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.*;
@@ -13,6 +14,7 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 @Stateful
 @Interceptors(LoggerInterceptor.class)
@@ -95,5 +97,30 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
     public RentalDetailsDto getUserRentalDetails(Long rentalId) throws AppBaseException {
         Rental rental = rentalManager.getRentalById(rentalId);
         return ObjectMapperUtils.map(rental, RentalDetailsDto.class);
+    }
+
+
+    /**
+     * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
+     *
+     * @param filters para filtrowanych pól i ich wartości
+     * @return liczba obiektów poddanych filtrowaniu
+     */
+    @RolesAllowed("getFilteredRowCountRental")
+    public int getFilteredRowCount(Map<String, FilterMeta> filters) {
+        return rentalManager.getFilteredRowCount(filters);
+    }
+
+    /**
+     * Metoda, która pobiera z bazy listę filtrowanych obiektów.
+     *
+     * @param first    numer pierwszego obiektu
+     * @param pageSize rozmiar strony
+     * @param filters  para filtrowanych pól i ich wartości
+     * @return lista filtrowanych obiektów
+     */
+    @RolesAllowed("getResultListRental")
+    public List<ListAllRentalsDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
+        return ObjectMapperUtils.mapAll(rentalManager.getResultList(first,pageSize,filters), ListAllRentalsDto.class);
     }
 }

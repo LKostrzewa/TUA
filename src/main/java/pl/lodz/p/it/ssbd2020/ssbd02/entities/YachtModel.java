@@ -100,6 +100,7 @@ public class YachtModel implements Serializable {
         return manufacturer;
     }
 
+
     public void setManufacturer(String manufacturer) {
         this.manufacturer = manufacturer;
     }
@@ -143,6 +144,8 @@ public class YachtModel implements Serializable {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+
 
     public Collection<Image> getImages() {
         return images;

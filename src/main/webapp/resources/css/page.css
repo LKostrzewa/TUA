@@ -16,7 +16,7 @@
     height: 50px;
     border-top: 2px solid black;
     width: 100%;
-    background-color: #ffcdd7;
+    background-color: #ffcc80;
     text-align: center;
 }
 
@@ -24,7 +24,7 @@
     height: 50px;
     border-top: 2px solid black;
     width: 100%;
-    background-color: #76ff87;
+    background-color: orange;
     text-align: center;
 }
 
@@ -32,7 +32,7 @@
     height: 50px;
     border-top: 2px solid black;
     width: 100%;
-    background-color: #7581ff;
+    background-color: gold;
     text-align: center;
 }
 
@@ -49,4 +49,8 @@
 .ui-growl {
     top: auto;
     bottom: 0;
+}
+
+.ui-breadcrumb {
+    background-color: #ffcc80;
 }

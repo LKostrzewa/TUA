@@ -16,6 +16,10 @@
         <role-name>ADMINISTRATOR</role-name>
         <group-name>ADMINISTRATOR</group-name>
     </security-role-mapping>
+    <security-role-mapping>
+        <role-name>TIME</role-name>
+        <group-name>TIME</group-name>
+    </security-role-mapping>
 
 
     <security-role-mapping>
@@ -155,6 +159,18 @@
         <role-name>getYachtModelById</role-name>
         <group-name>MANAGER</group-name>
     </security-role-mapping>
+    <security-role-mapping>
+        <role-name>editYachtModel</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>deactivateYachtModel</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getEditYachtModelDtoById</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
 
     <!--YachtPortEndpoint-->
     <security-role-mapping>
@@ -168,6 +184,24 @@
     </security-role-mapping>
     <security-role-mapping>
         <role-name>retractYachtFromPort</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+
+    <!--ImageEndpoint-->
+    <security-role-mapping>
+        <role-name>addImage</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>deleteImage</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getAllImagesByYachtModel</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getImageById</role-name>
         <group-name>MANAGER</group-name>
     </security-role-mapping>
 
@@ -199,6 +233,14 @@
     <security-role-mapping>
         <role-name>addRental</role-name>
         <group-name>CLIENT</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getFilteredRowCountRental</role-name>
+        <group-name>MANAGER</group-name>
+    </security-role-mapping>
+    <security-role-mapping>
+        <role-name>getResultListRental</role-name>
+        <group-name>MANAGER</group-name>
     </security-role-mapping>
     <!--Ports-->
     <security-role-mapping>

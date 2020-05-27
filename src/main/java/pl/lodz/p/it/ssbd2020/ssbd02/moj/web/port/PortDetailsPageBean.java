@@ -39,9 +39,4 @@ public class PortDetailsPageBean implements Serializable {
         this.portDetails = portEndpoint.getPortDetailsById(this.portId);
     }
 
-    public String deactivatePort() throws AppBaseException {
-        portEndpoint.deactivatePort(this.portId);
-        return "listPorts";
-    }
-
 }

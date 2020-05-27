@@ -2,6 +2,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
 import java.util.Date;
 
+/**
+ * DTO ze szczegółowymi danymi użytkownika
+ */
 public class UserDetailsDto {
     private Long id;
     private String login;

@@ -94,7 +94,7 @@ public class User implements Serializable {
     private String resetPasswordCode;
     @Column(name = "reset_password_code_add_date")
     private Date resetPasswordCodeAddDate;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "user")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "user")
     private Collection<UserAccessLevel> userAccessLevels = new ArrayList<>();
 
 

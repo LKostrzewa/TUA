@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -55,11 +56,13 @@ public class UserAccessLevelFacade extends AbstractFacade<UserAccessLevel> {
      * @param entity encja UserAccessLevel.
      */
     @Override
-    @RolesAllowed("editUserAccessLevels")
+    @PermitAll
+    //@RolesAllowed("editUserAccessLevels")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void remove(UserAccessLevel entity) {
         super.remove(entity);
     }
+
 
     /**
      * Metoda do pobrania wszystkich encji UserAccessLevel. W aplikacji niewykorzystywana (DenyAll)

@@ -12,9 +12,11 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
@@ -34,10 +36,13 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     private User userEditEntity;
 
     PropertyReader propertyReader = new PropertyReader();
-    Integer METHOD_INVOCATION_LIMIT = Integer.parseInt(propertyReader.getProperty("config", "rollback.invocation.limit"));
+    Integer METHOD_INVOCATION_LIMIT;
     Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-
+    @PostConstruct
+    public void init(){
+        METHOD_INVOCATION_LIMIT = Integer.parseInt(propertyReader.getProperty("config", "rollback.invocation.limit"));
+    }
     /**
      * Metoda służąca do rejestracji użytkownika
      *
@@ -132,7 +137,8 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      */
     @RolesAllowed("getEditUserDtoByLogin")
     public EditUserDto getEditUserDtoByLogin() throws AppBaseException {
-        this.userEditEntity = userManager.getUserByLogin();
+        String username = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
+        this.userEditEntity = userManager.getUserByLogin(username);
         return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
     }
 
@@ -143,8 +149,8 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getLoginDtoByLogin")
-    public UserLoginDto getLoginDtoByLogin() throws AppBaseException {
-        return ObjectMapperUtils.map(userManager.getUserByLogin(), UserLoginDto.class);
+    public UserLoginDto getLoginDtoByLogin(String login) throws AppBaseException {
+        return ObjectMapperUtils.map(userManager.getUserByLogin(login), UserLoginDto.class);
     }
 
     /**
@@ -364,14 +370,15 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * Metoda, która zapisuje informacje o poprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      *
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param login  login uzytkownika
      */
     @RolesAllowed("saveSuccessAuthenticate")
-    public void saveSuccessAuthenticate() throws AppBaseException {
+    public void saveSuccessAuthenticate(String login) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
         do {
             try {
-                userManager.saveSuccessAuthenticate();
+                userManager.saveSuccessAuthenticate(login);
                 rollback = userManager.isLastTransactionRollback();
             } catch (AppEJBTransactionRolledbackException ex) {
                 logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
@@ -392,14 +399,15 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * Metoda, która zapisuje informacje o niepoprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      *
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param login  login uzytkownika
      */
     @PermitAll
-    public void saveFailureAuthenticate() throws AppBaseException {
+    public void saveFailureAuthenticate(String login) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
         do {
             try {
-                userManager.saveFailureAuthenticate();
+                userManager.saveFailureAuthenticate(login);
                 rollback = userManager.isLastTransactionRollback();
             } catch (AppEJBTransactionRolledbackException ex) {
                 logger.log(Level.WARNING, "Exception EJBTransactionRolledback");

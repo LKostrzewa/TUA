@@ -1,9 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
+import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RentalEndpoint {
 
@@ -61,4 +63,23 @@ public interface RentalEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     RentalDetailsDto getUserRentalDetails(Long rentalId) throws AppBaseException;
+
+
+    /**
+     * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
+     *
+     * @param filters para filtrowanych pól i ich wartości
+     * @return liczba obiektów poddanych filtrowaniu
+     */
+    int getFilteredRowCount(Map<String, FilterMeta> filters);
+
+    /**
+     * Metoda, która pobiera z bazy listę filtrowanych obiektów.
+     *
+     * @param first    numer pierwszego obiektu
+     * @param pageSize rozmiar strony
+     * @param filters  para filtrowanych pól i ich wartości
+     * @return lista filtrowanych obiektów
+     */
+    List<ListAllRentalsDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters);
 }

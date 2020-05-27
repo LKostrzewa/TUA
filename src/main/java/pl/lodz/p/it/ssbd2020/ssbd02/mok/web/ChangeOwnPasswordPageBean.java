@@ -43,7 +43,6 @@ public class ChangeOwnPasswordPageBean implements Serializable {
      */
     @PostConstruct
     public void init() {
-        //userLogin = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         this.changeOwnPasswordDto = new ChangeOwnPasswordDto();
     }
 
@@ -55,11 +54,10 @@ public class ChangeOwnPasswordPageBean implements Serializable {
     public String changePassword() {
         try {
             userEndpoint.changeOwnPassword(changeOwnPasswordDto);
+            displayMessage();
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
-            return "changeOwnPassword.xhtml";
         }
-        displayMessage();
         return "account.xhtml?faces-redirect=true?includeViewParams=true";
     }
 

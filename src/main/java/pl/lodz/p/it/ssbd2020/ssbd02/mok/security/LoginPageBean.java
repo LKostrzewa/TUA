@@ -26,9 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ResourceBundle;
-import java.util.StringTokenizer;
 
-import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
 
 @FacesConfig
@@ -71,7 +69,7 @@ public class LoginPageBean implements Serializable {
 
     public void login() throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
-        Credential credential = new UsernamePasswordCredential(userLoginDto.getUsername(), new Password(userLoginDto.getPassword()));
+        Credential credential = new UsernamePasswordCredential(userLoginDto.getLogin(), new Password(userLoginDto.getPassword()));
         AuthenticationStatus status = securityContext.authenticate(
                 getHttpRequestFromFacesContext(),
                 getHttpResponseFromFacesContext(),
@@ -86,7 +84,7 @@ public class LoginPageBean implements Serializable {
                 break;
             case SUCCESS:
                 try {
-                    userLoginDto = userEndpoint.getLoginDtoByLogin();
+                    userLoginDto = userEndpoint.getLoginDtoByLogin(userLoginDto.getLogin());
                 } catch (AppBaseException e) {
                     displayError(e.getLocalizedMessage());
                 }
@@ -96,7 +94,7 @@ public class LoginPageBean implements Serializable {
                 loggerIP.login();
 
                 try {
-                    userEndpoint.saveSuccessAuthenticate();
+                    userEndpoint.saveSuccessAuthenticate(userLoginDto.getLogin());
                 } catch (AppBaseException e) {
                     displayError(e.getLocalizedMessage());
                 }
@@ -116,11 +114,11 @@ public class LoginPageBean implements Serializable {
                 break;
             case SEND_FAILURE:
                 try {
-                    userEndpoint.saveFailureAuthenticate();
+                    userEndpoint.saveFailureAuthenticate(userLoginDto.getLogin());
                 } catch (AppBaseException e) {
-                    facesContext.addMessage(null,
-                            new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authenticationFailed")));
-
+                    //facesContext.addMessage(null,
+                    //        new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authenticationFailed")));
+                    displayError(e.getLocalizedMessage());
                 }
                 externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
                 break;

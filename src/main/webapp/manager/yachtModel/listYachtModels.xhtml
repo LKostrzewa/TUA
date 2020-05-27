@@ -13,9 +13,9 @@
     <ui:define name="title">#{msg['manager.title.yachtModels']}</ui:define>
     <ui:define name="breadCrumbs">
         <p:breadCrumb>
-            <p:menuitem value="Categories" url="#"/>
-            <p:menuitem value="#{msg['bread.main']}" url="/manager/index.xhtml"/>
-            <p:menuitem value="#{msg['bread.yachtModels']}" url="/manager/yachtModel/listYachtModels.xhtml"/>
+            <p:menuitem value="Categories" outcome="/manager/index.xhtml"/>
+            <p:menuitem value="#{msg['bread.main']}" outcome="/manager/index.xhtml"/>
+            <p:menuitem value="#{msg['bread.yachtModels']}" outcome="/manager/yachtModel/listYachtModels.xhtml"/>
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
@@ -48,6 +48,9 @@
                     <p:button value="${msg['details']}" outcome="yachtModelDetails.xhtml?faces-redirect=true">
                         <f:param name="yachtModelId" value="#{model.id}"/>
                     </p:button>
+                    <p:commandButton value="#{msg['deactivate']}" action="#{listYachtModelPageBean.deactivateYachtModel(model.id)}"
+                                     update="@form">
+                    </p:commandButton>
                 </p:column>
             </p:dataTable>
         </h:form>

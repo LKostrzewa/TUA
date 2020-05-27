@@ -2,19 +2,14 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.EntityNotActiveException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.YachtReservedException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
+import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.PortFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateful;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.Collection;
@@ -23,7 +18,7 @@ import java.util.List;
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
-public class YachtPortManager {
+public class YachtPortManager extends AbstractManager implements SessionSynchronization {
     @Inject
     private PortFacade portFacade;
     @Inject
@@ -57,6 +52,9 @@ public class YachtPortManager {
         if(!yacht.isActive()){
             throw EntityNotActiveException.createYachtNotActiveException(yacht);
         }
+        if(yacht.getCurrentPort() != null){
+            throw YachtPortChangedException.createYachtAssignedException(yacht);
+        }
         Port port = portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
         if(!port.isActive()){
             throw EntityNotActiveException.createPortNotActiveException(port);
@@ -77,11 +75,16 @@ public class YachtPortManager {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("retractYachtToPort")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void retractYachtFromPort(Long portId, Long yachtId) throws AppBaseException {
         Yacht yacht = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createPortNotFoundException);
         //TODO pobierać statusy rezerwacji z properties
+        //TODO czy też pending ?
         if(yacht.getRentals().stream().anyMatch(r -> r.getRentalStatus().getName().equals("STARTED"))){
             throw YachtReservedException.createYachtReservedException(yacht);
+        }
+        if(yacht.getCurrentPort() == null) {
+            throw YachtPortChangedException.createYachtNotAssignedException(yacht);
         }
         Port port = portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
         yacht.setCurrentPort(null);

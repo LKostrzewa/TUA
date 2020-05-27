@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.EditUserDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -51,10 +52,9 @@ public class MyEditPageBean implements Serializable {
         try{
             this.editUserDto = userEndpoint.getEditUserDtoByLogin();
         } catch (AppBaseException e) {
-            //do przetestowania / poprawienia
             displayError(e.getLocalizedMessage());
-            FacesContext.getCurrentInstance().getExternalContext()
-                    .redirect("account.xhtml?faces-redirect=true?includeViewParams=true");
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect(externalContext.getRequestContextPath()+"account.xhtml?faces-redirect=true?includeViewParams=true");
         }
     }
 
