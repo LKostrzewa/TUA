@@ -16,7 +16,7 @@
                 <p:menuitem value="#{msg['bread.rentals']}" outcome="/client/listRentals.xhtml"/>
                 <p:menuitem value="#{msg['bread.rental']}" outcome="/client/rentalDetails.xhtml"
                             includeViewParams="true">
-                    <f:param name="rentalId" value="#{myRentalDetailsPageBean.rentalId}"/>
+                    <f:param name="rentalId" value="#{rentalDetailsPageBean.rentalId}"/>
                 </p:menuitem>
                 <p:menuitem value="#{msg['bread.editOpinion']}" outcome="/client/opinion/editOpinion.xhtml"/>
             </p:breadCrumb>

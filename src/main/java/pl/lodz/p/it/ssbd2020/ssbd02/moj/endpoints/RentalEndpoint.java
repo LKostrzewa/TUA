@@ -62,7 +62,7 @@ public interface RentalEndpoint {
      * @return obiekt Dto ze szczegółami wypożyczenia
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    MyRentalDetailsDto getUserRentalDetails(Long rentalId) throws AppBaseException;
+    RentalDetailsDto getUserRentalDetails(Long rentalId) throws AppBaseException;
 
 
     /**

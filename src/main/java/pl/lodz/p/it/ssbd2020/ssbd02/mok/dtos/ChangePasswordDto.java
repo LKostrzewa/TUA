@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -17,5 +16,4 @@ public class ChangePasswordDto {
     public void setPassword(String password) {
         this.password = password;
     }
-
 }

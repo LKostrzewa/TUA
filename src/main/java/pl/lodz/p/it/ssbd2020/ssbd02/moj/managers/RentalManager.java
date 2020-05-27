@@ -58,7 +58,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
         if (!yachtToRent.isActive())
             throw EntityNotActiveException.createYachtNotActiveException(yachtToRent);
 
-        if(rentalFacade.interfere(rental))
+        if (rentalFacade.interfere(rental))
             throw RentalPeriodInterferenceException.createRentalPeriodInterferenceException(rental);
 
         RentalStatus startedStatus = rentalStatusFacade.findByName("STARTED");
@@ -91,8 +91,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     @RolesAllowed({"getRentalById", "getUserRentalDetails", "cancelRental"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Rental getRentalById(Long rentalId) throws AppBaseException {
-        //TODO poprawic na odpowiedni wyjątek
-        return rentalFacade.find(rentalId).orElseThrow(() -> new AppBaseException("nie ma tego wypozyczenia"));
+        return rentalFacade.find(rentalId).orElseThrow(AppNotFoundException::createRentalNotFoundException);
     }
 
     /**
@@ -127,10 +126,8 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     }
 
     public void editRental(Rental rental) throws AppBaseException {
-        //TODO poprawic na odpowiedni wyjątek
-        Rental rentalToEdit = rentalFacade.find(rental.getId()).orElseThrow(() -> new AppBaseException("nie ma tego wypozyczenia"));
-        //USTAWIANIE PÓL
-        rentalFacade.edit(rental);
+        Rental rentalToEdit = rentalFacade.find(rental.getId()).orElseThrow(AppNotFoundException::createRentalNotFoundException);
+        rentalFacade.edit(rentalToEdit);
     }
 
     /**
@@ -153,6 +150,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     /**
      * Metoda, aktualizująca statusy rezerwacji.
      *
+     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("SYSTEM")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
