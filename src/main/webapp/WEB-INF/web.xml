@@ -196,6 +196,12 @@
     <security-role>
         <role-name>addRental</role-name>
     </security-role>
+    <security-role>
+        <role-name>getFilteredRowCountRental</role-name>
+    </security-role>
+    <security-role>
+        <role-name>getResultListRental</role-name>
+    </security-role>
     <!--Ports-->
     <security-role>
         <role-name>getAllPorts</role-name>

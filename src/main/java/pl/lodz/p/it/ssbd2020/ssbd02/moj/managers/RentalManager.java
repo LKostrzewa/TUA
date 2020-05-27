@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
+import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.RentalStatus;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
@@ -16,9 +17,10 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import java.util.Date;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Stateful
@@ -167,5 +169,32 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
                 rentalFacade.edit(rental);
             }
         }
+    }
+
+
+    /**
+     * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
+     *
+     * @param filters para filtrowanych pól i ich wartości
+     * @return liczba obiektów poddanych filtrowaniu
+     */
+    @RolesAllowed("getFilteredRowCountRental")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public int getFilteredRowCount(Map<String, FilterMeta> filters) {
+        return rentalFacade.getFilteredRowCount(filters);
+    }
+
+    /**
+     * Metoda, która pobiera z bazy listę filtrowanych obiektów.
+     *
+     * @param first    numer pierwszego obiektu
+     * @param pageSize rozmiar strony
+     * @param filters  para filtrowanych pól i ich wartości
+     * @return lista filtrowanych obiektów
+     */
+    @RolesAllowed("getResultListRental")
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public List<Rental> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
+        return rentalFacade.getResultList(first,pageSize,filters);
     }
 }
