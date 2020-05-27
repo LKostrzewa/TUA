@@ -321,17 +321,18 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * Ustawia ilość niepoprawnych logować na 0. Wysyła mail do użytkownika jeśli zalogował się administrator.
      *
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param login
      */
     @RolesAllowed("saveSuccessAuthenticate")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void saveSuccessAuthenticate() throws AppBaseException {
+    public void saveSuccessAuthenticate(String login) throws AppBaseException {
         try {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance()
                     .getExternalContext()
                     .getRequest();
             String xForwardedForHeader = request.getHeader("X-Forwarded-For");
 
-            User userToEdit = userFacade.findByLogin(FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName());
+            User userToEdit = userFacade.findByLogin(login);
             String clientIpAddress;
             if (xForwardedForHeader == null) {
                 clientIpAddress = request.getRemoteAddr();

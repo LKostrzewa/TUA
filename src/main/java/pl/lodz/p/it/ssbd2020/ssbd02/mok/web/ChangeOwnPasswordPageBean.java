@@ -43,7 +43,6 @@ public class ChangeOwnPasswordPageBean implements Serializable {
      */
     @PostConstruct
     public void init() {
-        //userLogin = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         this.changeOwnPasswordDto = new ChangeOwnPasswordDto();
     }
 

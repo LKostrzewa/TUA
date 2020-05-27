@@ -7,10 +7,10 @@
         <ui:define name="title">#{msg['shared.title.editOwnData']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
-                <p:menuitem value="Categories" url="#"/>
-                <p:menuitem value="#{msg['bread.main']}" url="/admin/index.xhtml"/>
-                <p:menuitem value="#{msg['bread.account']}" url="/admin/account.xhtml"/>
-                <p:menuitem value="#{msg['bread.edit.user']}" url="/admin/editOwnData.xhtml"/>
+                <p:menuitem value="Categories" outcome="/admin/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.main']}" outcome="/admin/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.account']}" outcome="/admin/account.xhtml"/>
+                <p:menuitem value="#{msg['bread.edit.user']}" outcome="/admin/editOwnData.xhtml"/>
             </p:breadCrumb>
         </ui:define>
         <ui:define name="content">

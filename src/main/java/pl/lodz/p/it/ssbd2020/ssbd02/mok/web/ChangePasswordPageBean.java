@@ -61,7 +61,6 @@ public class ChangePasswordPageBean implements Serializable {
             displayMessage();
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
-            return "changePassword";
         }
         return "userDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }

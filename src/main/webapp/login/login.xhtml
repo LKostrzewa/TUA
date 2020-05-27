@@ -9,10 +9,10 @@
     <h:outputStylesheet library="css" name="login.css"/>
     <h:form class="login-form">
         <p:growl id="growl" showDetail="true" sticky="true" severity="info, fatal"/>
-        <img src="../resources/images/yacht_logo.png" alt="Yacht logo"/>
+        <img src="#{resource['images:yachtLogo.png']}" alt="Yacht logo"/>
 
         <div class="text-box">
-            <h:inputText id="username" value="#{loginPageBean.userLoginDto.username}"
+            <h:inputText id="username" value="#{loginPageBean.userLoginDto.login}"
                          a:placeholder="#{msg['username']}"/>
             <span class="gradient"/>
             <span class="asterisk_input"/>
@@ -34,11 +34,11 @@
         <h:commandButton action="#{loginPageBean.login}" class="log-button" value="#{msg['signIn']}"/>
         <div class="bottom-text">
             #{msg['noAccount']} <a
-                href="${pageContext.request.contextPath}/login/register.xhtml">#{msg['register']}</a>
+                href="${request.contextPath}/login/register.xhtml">#{msg['register']}</a>
         </div>
         <div class="bottom-reset-password">
             #{msg['forgetPassword']} <a
-                href="${pageContext.request.contextPath}/login/forgotPassword.xhtml">#{msg['resetPassword']}</a>
+                href="${request.contextPath}/login/forgotPassword.xhtml">#{msg['resetPassword']}</a>
         </div>
     </h:form>
     <div class="animation-wrapper">
