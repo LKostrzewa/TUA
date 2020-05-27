@@ -22,20 +22,32 @@
                 <h:outputStylesheet library="css" name="editUser.css"/>
                 <div style="text-align: center;">
             <span class="ui-float-label" style="margin: 20px">
-                <p:inputText id="firstName" style="border: 2px solid black" value="#{myEditPageBean.editUserDto.firstName}"/>
+                <p:inputText id="firstName" style="border: 2px solid black" value="#{myEditPageBean.editUserDto.firstName}"
+                             required="true"
+                             requiredMessage="#{msg['field.required']}"/>
                 <p:outputLabel for="@previous"  style="display: block; width: 100%;" value="#{msg['firstName']}"/>
                 <p:message for="firstName"/>
             </span>
                     <span class="ui-float-label" style="margin: 20px">
-                <p:inputText id="lastName" style="border: 2px solid black" value="#{myEditPageBean.editUserDto.lastName}"/>
+                <p:inputText id="lastName" style="border: 2px solid black" value="#{myEditPageBean.editUserDto.lastName}"
+                             required="true"
+                             requiredMessage="#{msg['field.required']}"/>
                 <p:outputLabel for="@previous"  style="display: block; width: 100%;" value="#{msg['lastName']}"/>
                 <p:message for="lastName"/>
             </span>
                     <span class="ui-float-label" style="margin: 20px">
-                <p:inputText id="phoneNumber" style="border: 2px solid black" value="#{myEditPageBean.editUserDto.phoneNumber}"/>
+                <p:inputText id="phoneNumber" style="border: 2px solid black" value="#{myEditPageBean.editUserDto.phoneNumber}"
+                             required="true"
+                             requiredMessage="#{msg['field.required']}"/>
                 <p:outputLabel for="@previous"  style="display: block; width: 100%;" value="#{msg['phoneNumber']}"/>
                 <p:message for="phoneNumber"/>
             </span>
+                </div>
+                <div style="text-align: center;">
+                    <p:captcha id="Captcha" label="Captcha" required="true"
+                               requiredMessage="#{msg['field.required']}"
+                               language="#{myEditPageBean.bundle}"/>
+                    <p:messages for="Captcha" closable="false"/>
                 </div>
                 <div style="text-align: center;">
                 <p:button value="#{msg['cancel']}" style="background-color: orange"
