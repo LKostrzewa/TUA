@@ -39,8 +39,4 @@ public class ListAllRentalsPageBean implements Serializable {
             }
         };
     }
-
-    /*public List<ListAllRentalsDto> getAllRentalsByYacht(String yachtName){
-        return rentalEndpoint.getRentalsByYacht(yachtName);
-    }*/
 }

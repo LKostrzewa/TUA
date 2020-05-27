@@ -15,7 +15,7 @@ public interface PortEndpoint {
      * @param newPortDto obiekt DTO z danymi nowego portu.
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    public void addPort(NewPortDto newPortDto) throws AppBaseException;
+    void addPort(NewPortDto newPortDto) throws AppBaseException;
 
     /**
      * Metoda, która zapisuje wprowadzone zmiany w porcie.
@@ -23,7 +23,7 @@ public interface PortEndpoint {
      * @param editPortDto obiekt DTO z danymi portu do edycji.
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    public void editPort(EditPortDto editPortDto) throws AppBaseException;
+    void editPort(EditPortDto editPortDto) throws AppBaseException;
 
     /**
      * Metoda, która deaktywuje port.
@@ -31,14 +31,14 @@ public interface PortEndpoint {
      * @param portId id jachtu.
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    public void deactivatePort(long portId) throws AppBaseException;
+    void deactivatePort(long portId) throws AppBaseException;
 
     /**
      * Metoda, która zwraca wszystkie porty.
      *
      * @return lista portów
      */
-    public List<PortDetailsDto> getAllPorts();
+    List<PortDetailsDto> getAllPorts();
 
     /**
      * Metoda, która zwraca port o podanym id.
@@ -47,7 +47,7 @@ public interface PortEndpoint {
      * @return EditPortDto
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    public EditPortDto getEditPortById(Long portId) throws AppBaseException;
+    EditPortDto getEditPortById(Long portId) throws AppBaseException;
 
     /**
      * Metoda, która zwraca port o podanym id.
@@ -56,7 +56,7 @@ public interface PortEndpoint {
      * @return PortDetailsDto
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    public PortDetailsDto getPortById(Long portId) throws AppBaseException;
+    PortDetailsDto getPortById(Long portId) throws AppBaseException;
 
     /**
      * Metoda, która zwraca port o podanym id.
@@ -65,5 +65,5 @@ public interface PortEndpoint {
      * @return PortDetailsDto
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    public PortDetailsDto getPortDetailsById(Long portId) throws AppBaseException;
+    PortDetailsDto getPortDetailsById(Long portId) throws AppBaseException;
 }

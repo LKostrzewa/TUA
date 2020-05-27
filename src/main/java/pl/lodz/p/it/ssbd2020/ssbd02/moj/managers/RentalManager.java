@@ -71,17 +71,6 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     }
 
     /**
-     * Metoda, która zwraca listę wszystkich wypożyczeń
-     *
-     * @return lista wypożyczeń użytkownika o podanym loginie
-     */
-    @RolesAllowed("getAllRentals")
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public List<Rental> getAllRentals() {
-        return rentalFacade.findAll();
-    }
-
-    /**
      * Metoda, która zwraca wypożyczenie o danym id.
      *
      * @param rentalId id wypożyczenia
@@ -107,27 +96,6 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
                 .stream()
                 .filter(rental -> rental.getUser().getLogin().equals(userLogin))
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * Metoda, która zwraca wszystkie wypożyczenia na dany jacht.
-     *
-     * @param yachtName nazwa yachtu
-     * @return lista wypożyczeń użytkownika o podanym loginie
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
-     */
-    @RolesAllowed("getRentalsByYacht")
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public List<Rental> getAllRentalsByYacht(String yachtName) throws AppBaseException {
-        return rentalFacade.findAllByYacht(yachtName);
-        //.stream()
-        //.filter(rental -> rental.getYacht().getName().equals(yachtName))
-        //.collect(Collectors.toList());
-    }
-
-    public void editRental(Rental rental) throws AppBaseException {
-        Rental rentalToEdit = rentalFacade.find(rental.getId()).orElseThrow(AppNotFoundException::createRentalNotFoundException);
-        rentalFacade.edit(rentalToEdit);
     }
 
     /**

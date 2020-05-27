@@ -4,7 +4,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.PostConstruct;
@@ -13,7 +12,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
@@ -29,7 +27,6 @@ public class MyDetailsPageBean implements Serializable {
     private FacesContext facesContext;
     private UserDetailsDto userDetailsDto;
     private UserAccessLevelDto userAccessLevelDto;
-    private String userLogin;
 
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;
@@ -50,14 +47,6 @@ public class MyDetailsPageBean implements Serializable {
     public void setUserAccessLevelDto(UserAccessLevelDto userAccessLevelDto) {
         this.userAccessLevelDto = userAccessLevelDto;
     }
-
-    /*public String getUserLogin() {
-        return userLogin;
-    }
-
-    public void setUserLogin(String userLogin) {
-        this.userLogin = userLogin;
-    }*/
 
     /**
      * Metoda inicjalizująca komponent

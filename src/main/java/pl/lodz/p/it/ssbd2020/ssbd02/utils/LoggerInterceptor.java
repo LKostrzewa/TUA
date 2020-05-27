@@ -4,14 +4,12 @@ import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.security.enterprise.SecurityContext;
-import javax.servlet.http.HttpSessionActivationListener;
 import javax.servlet.http.HttpSessionListener;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 /**
  * Klasa loggera, będąca obiektem przechwytującym (interceptor),
