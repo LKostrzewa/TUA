@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 /**
@@ -8,7 +9,9 @@ import java.util.Objects;
 public class ListUsersDto {
     private Long id;
     private String login;
+    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,31}", message = "{validation.firstName}")
     private String firstName;
+    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,31}", message = "{validation.lastName}")
     private String lastName;
     private String email;
     private boolean locked;
