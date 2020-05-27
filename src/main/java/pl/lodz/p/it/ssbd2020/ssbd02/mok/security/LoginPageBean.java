@@ -50,6 +50,7 @@ public class LoginPageBean implements Serializable {
     private LoggerIP loggerIP;
 
     private UserLoginDto userLoginDto;
+
     public UserLoginDto getUserLoginDto() {
         return userLoginDto;
     }
@@ -88,8 +89,13 @@ public class LoginPageBean implements Serializable {
                 } catch (AppBaseException e) {
                     displayError(e.getLocalizedMessage());
                 }
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastValidLogin"), String.valueOf(userLoginDto.getLastValidLogin())));
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastInvalidLogin"), String.valueOf(userLoginDto.getLastInvalidLogin())));
+
+                if (userLoginDto.getLastValidLogin() != null)
+                    facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastValidLogin"), String.valueOf(userLoginDto.getLastValidLogin())));
+
+
+                if (userLoginDto.getLastInvalidLogin() != null)
+                    facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastInvalidLogin"), String.valueOf(userLoginDto.getLastInvalidLogin())));
 
                 loggerIP.login();
 
