@@ -98,6 +98,12 @@ public class AppNotFoundException extends AppBaseException{
         return nfe;
     }
 
+    public static AppNotFoundException createRentalStatusNotFoundException() {
+        AppNotFoundException nfe = new AppNotFoundException(RENTAL_MESSAGE_KEY);
+        nfe.setObjectClass(RentalStatus.class);
+        return nfe;
+    }
+
     public static AppNotFoundException createPortNotFoundException() {
         AppNotFoundException nfe = new AppNotFoundException(PORT_MESSAGE_KEY);
         nfe.setObjectClass(Port.class);

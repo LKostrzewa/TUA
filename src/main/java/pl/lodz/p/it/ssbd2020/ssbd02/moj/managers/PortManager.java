@@ -51,9 +51,8 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
         if(portFacade.existByName(portToEdit.getName())){
             throw ValueNotUniqueException.createPortNameNotUniqueException(portToEdit);
         }
-        else {
-            portFacade.edit(portToEdit);
-        }
+        portFacade.edit(portToEdit);
+
     }
 
     /**
