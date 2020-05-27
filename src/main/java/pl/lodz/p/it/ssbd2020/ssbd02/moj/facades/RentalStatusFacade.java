@@ -77,7 +77,8 @@ public class RentalStatusFacade extends AbstractFacade<RentalStatus> {
     }
 
     @Override
-    @DenyAll
+    @RolesAllowed("updateRentalStatus")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<RentalStatus> findAll() {
         return super.findAll();
     }

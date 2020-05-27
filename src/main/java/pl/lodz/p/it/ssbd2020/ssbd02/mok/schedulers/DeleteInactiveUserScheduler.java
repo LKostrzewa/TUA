@@ -15,7 +15,7 @@ import java.util.List;
 
 @Singleton
 @Startup
-@RunAs("TIME")
+@RunAs("deleteInactiveUsers")
 @Interceptors(LoggerInterceptor.class)
 public class DeleteInactiveUserScheduler {
 
@@ -30,7 +30,7 @@ public class DeleteInactiveUserScheduler {
      * ponad dobę licząc od daty utworzenia. Metoda jest wywoływana codziennie o godzinie 3.00.
      *
      */
-    @RolesAllowed("TIME")
+    @RolesAllowed("deleteInactiveUsers")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     @Schedule(hour = "3")
     public void performTask(){

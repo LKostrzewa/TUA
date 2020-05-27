@@ -104,7 +104,7 @@ public class PortFacade extends AbstractFacade<Port> {
      * @param name nazwa portu.
      * @return true/false zależnie czy port o danej nazwie istnieje lub nie
      */
-    @RolesAllowed("addPort")
+    @RolesAllowed({"addPort","editPort"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public boolean existByName(String name) {
         return entityManager.createNamedQuery("Port.countByName", Long.class)
