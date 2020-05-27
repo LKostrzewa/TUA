@@ -26,6 +26,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -289,15 +291,23 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void confirmActivationCode(String code) throws AppBaseException {
+    public Boolean confirmActivationCode(String code) throws AppBaseException {
+        if(!userFacade.existByActivationCode(code)) {
+            return true;
+        }
+        User user = userFacade.findByActivationCode(code);
+        Boolean active = user.getActivated();
         try {
-            User user = userFacade.findByActivationCode(code);
-            user.setActivated(true);
-            userFacade.edit(user);
-            sendEmail.activationInfoEmail(user.getEmail());
+
+            if (!active) {
+                user.setActivated(true);
+                userFacade.edit(user);
+                sendEmail.activationInfoEmail(user.getEmail());
+            }
         } catch (EJBTransactionRolledbackException e) {
             throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
+        return active;
     }
 
     /**
@@ -425,6 +435,9 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         try {
             if (!userFacade.existByEmail(email)) {
                 throw AppNotFoundException.createEmailNotFoundException();
+            }
+            if (userFacade.findByEmail(email).getLocked() || !userFacade.findByEmail(email).getActivated()) {
+                throw EntityNotActiveException.accountNotActiveorLockedException();
             }
             User userToEdit = userFacade.findByEmail(email);
             String resetPasswordCode = UUID.randomUUID().toString().replace("-", "");
