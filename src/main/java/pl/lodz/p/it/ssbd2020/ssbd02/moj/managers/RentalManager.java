@@ -18,7 +18,6 @@ import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -71,24 +70,13 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     }
 
     /**
-     * Metoda, która zwraca listę wszystkich wypożyczeń
-     *
-     * @return lista wypożyczeń użytkownika o podanym loginie
-     */
-    @RolesAllowed("getAllRentals")
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public List<Rental> getAllRentals() {
-        return rentalFacade.findAll();
-    }
-
-    /**
      * Metoda, która zwraca wypożyczenie o danym id.
      *
      * @param rentalId id wypożyczenia
      * @return Wypożyczenie o podanym Id
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"getRentalById", "getUserRentalDetails", "cancelRental"})
+    @RolesAllowed({"getUserRentalDetails", "cancelRental"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Rental getRentalById(Long rentalId) throws AppBaseException {
         return rentalFacade.find(rentalId).orElseThrow(AppNotFoundException::createRentalNotFoundException);
@@ -110,27 +98,6 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     }
 
     /**
-     * Metoda, która zwraca wszystkie wypożyczenia na dany jacht.
-     *
-     * @param yachtName nazwa yachtu
-     * @return lista wypożyczeń użytkownika o podanym loginie
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
-     */
-    @RolesAllowed("getRentalsByYacht")
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public List<Rental> getAllRentalsByYacht(String yachtName) throws AppBaseException {
-        return rentalFacade.findAllByYacht(yachtName);
-        //.stream()
-        //.filter(rental -> rental.getYacht().getName().equals(yachtName))
-        //.collect(Collectors.toList());
-    }
-
-    public void editRental(Rental rental) throws AppBaseException {
-        Rental rentalToEdit = rentalFacade.find(rental.getId()).orElseThrow(AppNotFoundException::createRentalNotFoundException);
-        rentalFacade.edit(rentalToEdit);
-    }
-
-    /**
      * Metoda, która anuluje wypożyczenie.
      *
      * @param rentalId Id wypożyczenia, które użytkownik chce anulować
@@ -146,29 +113,6 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
             rentalFacade.edit(rentalToCancel);
         } else throw RentalNotCancelableException.createRentalNotCancelableException(rentalToCancel);
     }
-
-    /**
-     * Metoda, aktualizująca statusy rezerwacji.
-     *
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
-     */
-    @RolesAllowed("SYSTEM")
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void updateRentalStatus() throws AppBaseException {
-        List<Rental> allRentals = rentalFacade.findAll();
-        List<RentalStatus> rentalStatuses = rentalStatusFacade.findAll();
-        for (Rental rental : allRentals) {
-            if(rental.getRentalStatus().equals(rentalStatuses.stream().filter(rentalStatus -> rentalStatus.getName().equals("STARTED")).findAny().orElseThrow(null))&&rental.getEndDate().before(new Date())){
-                rental.setRentalStatus(rentalStatuses.stream().filter(rentalStatus -> rentalStatus.getName().equals("FINISHED")).findAny().orElseThrow(null));
-                rentalFacade.edit(rental);
-            }
-            if(rental.getRentalStatus().equals(rentalStatuses.stream().filter(rentalStatus -> rentalStatus.getName().equals("PENDING")).findAny().orElseThrow(null))&&rental.getBeginDate().after(new Date())){
-                rental.setRentalStatus(rentalStatuses.stream().filter(rentalStatus -> rentalStatus.getName().equals("STARTED")).findAny().orElseThrow(null));
-                rentalFacade.edit(rental);
-            }
-        }
-    }
-
 
     /**
      * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.

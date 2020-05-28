@@ -211,18 +211,6 @@
         <group-name>CLIENT</group-name>
     </security-role-mapping>
     <security-role-mapping>
-        <role-name>getAllRentals</role-name>
-        <group-name>MANAGER</group-name>
-    </security-role-mapping>
-    <security-role-mapping>
-        <role-name>getRentalsByYacht</role-name>
-        <group-name>MANAGER</group-name>
-    </security-role-mapping>
-    <security-role-mapping>
-        <role-name>getRentalById</role-name>
-        <group-name>CLIENT</group-name>
-    </security-role-mapping>
-    <security-role-mapping>
         <role-name>cancelRental</role-name>
         <group-name>CLIENT</group-name>
     </security-role-mapping>

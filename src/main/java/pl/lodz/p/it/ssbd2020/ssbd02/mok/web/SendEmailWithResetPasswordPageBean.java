@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.web;
 
-
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
 
@@ -12,6 +11,7 @@ import javax.inject.Named;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.ResourceBundle;
+
 /**
  * Klasa do obsługi widoku wpisania maila do użytkownika
  * do resetu hasła

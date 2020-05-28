@@ -2,7 +2,10 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.*;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.AddRentalDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListAllRentalsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListRentalsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.RentalDetailsDto;
 
 import java.util.List;
 import java.util.Map;
@@ -18,34 +21,12 @@ public interface RentalEndpoint {
     void addRental(AddRentalDto addRentalDto) throws AppBaseException;
 
     /**
-     * Metoda, która zwraca wszystkie wypożyczenia
-     *
-     * @return lista wypożyczeń użytkownika o podanym loginie
-     */
-    List<ListAllRentalsDto> getAllRentals();
-
-    /**
      * Metoda, która zwraca listę wypożyczeń danego klienta.
      *
      * @param userLogin login użytkownika
      * @return lista wypożyczeń użytkownika o podanym loginie
      */
     List<ListRentalsDto> getRentals(String userLogin);
-
-    /**
-     * Metoda, która zwraca wszystkie wypożyczenia na dany jacht.
-     *
-     * @param yachtName nazwa yachtu
-     * @return lista wypożyczeń jachtu o podanej nazwie
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
-     */
-    List<ListAllRentalsDto> getRentalsByYacht(String yachtName) throws AppBaseException;
-
-    //TODO to chyba do usunięcia
-    EditRentalDto getRentalById(Long rentalId) throws AppBaseException;
-
-    //TODO to też
-    void editRental(EditRentalDto editRentalDto) throws AppBaseException;
 
     /**
      * Metoda, która anuluje wypożyczenie.

@@ -26,7 +26,6 @@ public class ChangeOwnPasswordPageBean implements Serializable {
     private FacesContext context;
 
     private ChangeOwnPasswordDto changeOwnPasswordDto;
-    //private String userLogin;
 
     private ResourceBundle resourceBundle;
 

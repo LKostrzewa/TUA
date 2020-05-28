@@ -13,6 +13,7 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ResourceBundle;
+
 /**
  * Klasa do obsługi widoku edycji danych innego użytkownika
  */
