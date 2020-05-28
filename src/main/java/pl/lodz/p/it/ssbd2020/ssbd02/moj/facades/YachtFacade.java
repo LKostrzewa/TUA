@@ -69,7 +69,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"getYachtById", "getEditYachtDtoById", "assignYachtToPort", "retractYachtToPort","editOpinion","addOpinion"})
+    @RolesAllowed({"getYachtById", "getEditYachtDtoById", "assignYachtToPort", "retractYachtToPort","editOpinion","addOpinion","deactivateYacht"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Yacht> find(Object id) {
         return super.find(id);
