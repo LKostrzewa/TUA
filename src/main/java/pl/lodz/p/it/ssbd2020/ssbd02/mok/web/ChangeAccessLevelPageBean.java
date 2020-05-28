@@ -67,11 +67,11 @@ public class ChangeAccessLevelPageBean implements Serializable {
     public String changeAccessLevel() {
         try {
             userAccessLevelEndpoint.editUserAccessLevels(userDto);
+            displayMessage();
         } catch (AppBaseException e) {
             //tutaj do potestowania bo cos nie halo chyba przy współbieżności
             displayError(e.getLocalizedMessage());
         }
-        displayMessage();
         return "userDetails?faces-redirect=true?includeViewParams=true";
     }
 
