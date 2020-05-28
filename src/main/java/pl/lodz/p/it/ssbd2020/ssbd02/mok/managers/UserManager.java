@@ -310,7 +310,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param user użytkownik do którego zostanie wysłany email
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    public void sendEmailWithCode(User user) throws AppBaseException {
+    private void sendEmailWithCode(User user) throws AppBaseException {
         try {
             String email = user.getEmail();
             String userName = user.getFirstName();
@@ -372,7 +372,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
                 if (userToEdit.isActivated() && !userToEdit.isLocked()) {
                     userToEdit.setLastInvalidLogin(new Date());
                     int attempts = userToEdit.getInvalidLoginAttempts() + 1;
-                    if (attempts == 3) {
+                    if (attempts == Integer.parseInt(propertyReader.getProperty("config", "failure.authenticate.limit"))) {
                         userToEdit.setInvalidLoginAttempts(0);
                         userToEdit.setLocked(true);
                         sendBlockEmail = true;
