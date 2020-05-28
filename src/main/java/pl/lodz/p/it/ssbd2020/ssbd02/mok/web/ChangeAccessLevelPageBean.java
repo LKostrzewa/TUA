@@ -51,7 +51,6 @@ public class ChangeAccessLevelPageBean implements Serializable {
         try {
             this.userDto = userAccessLevelEndpoint.findUserAccessLevelById(userId);
         } catch (AppBaseException e) {
-            //do sprawdzenia/poprawy
             displayError(e.getLocalizedMessage());
             ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
             externalContext.redirect(externalContext.getRequestContextPath()+"userDetails.xhtml?faces-redirect=true?includeViewParams=true");
@@ -69,7 +68,6 @@ public class ChangeAccessLevelPageBean implements Serializable {
             userAccessLevelEndpoint.editUserAccessLevels(userDto);
             displayMessage();
         } catch (AppBaseException e) {
-            //tutaj do potestowania bo cos nie halo chyba przy współbieżności
             displayError(e.getLocalizedMessage());
         }
         return "userDetails?faces-redirect=true?includeViewParams=true";

@@ -63,7 +63,7 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
      * @return Optional<YachtModel>
      */
     @Override
-    @RolesAllowed({"addYacht", "getYachtModelById", "addImage"})
+    @RolesAllowed({"addYacht", "getYachtModelById", "addImage", "deactivateYachtModel"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<YachtModel> find(Object id) {
         return super.find(id);
