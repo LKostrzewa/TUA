@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.utils;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.security.CurrentUser;
+
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -17,6 +19,8 @@ import java.util.logging.Logger;
 public class LoggerIP implements Serializable {
     @Inject
     private FacesContext facesContext;
+    @Inject
+    private CurrentUser currentUser;
 
     private final Logger LOGGER = Logger.getGlobal();
 
@@ -26,7 +30,9 @@ public class LoggerIP implements Serializable {
     public void login(){
         LOGGER.log(Level.INFO,"User: \""
                 + facesContext.getExternalContext().getUserPrincipal().getName()
-                + "\" starts the session with the IP address: "
+                + "\" starts the session with access level: \""
+                + currentUser.getCurrentRole()
+                + "\" and the IP address: "
                 + getClientIpAddress());
     }
 
@@ -36,7 +42,9 @@ public class LoggerIP implements Serializable {
     public void accessLevelChange(){
         LOGGER.log(Level.INFO, "User: \""
                 + facesContext.getExternalContext().getUserPrincipal().getName()
-                + "\" has changed the access level with IP address: "
+                + "\" has changed the access level to: \""
+                + currentUser.getCurrentRole()
+                + "\", with IP address: "
                 + getClientIpAddress());
     }
 
