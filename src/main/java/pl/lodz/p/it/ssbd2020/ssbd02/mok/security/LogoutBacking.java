@@ -22,7 +22,7 @@ public class LogoutBacking implements Serializable {
     @Inject
     private ExternalContext externalContext;
     public void submit() throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/login/login.xhtml");
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        externalContext.redirect(externalContext.getRequestContextPath() + "/login/login.xhtml");
+        externalContext.invalidateSession();
     }
 }
