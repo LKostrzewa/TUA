@@ -273,8 +273,6 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
 
         String url = propertyReader.getProperty("config", "link_to_activate_account");
         return  "<a href=" + "\"" + url + activationCode + "\">Link</a>";
-        //return "<a href=" + "\"http://studapp.it.p.lodz.pl:8002/login/activate.xhtml?key=" + activationCode + "\">Link</a>";
-        //http://studapp.it.p.lodz.pl:8002
     }
 
     /**

@@ -51,15 +51,14 @@ public class User implements Serializable {
     private UUID businessKey;
     @Column(name = "login", nullable = false, unique = true, updatable = false, length = 32)
     @NotNull
-    @Size(max = 32)
-    @Size(min = 4, message = "{validation.login}")
-    @Pattern(regexp = "^[^=]+$", message = "{validation.invalidCharacter}")
+    @Size(min = 4, max = 32)
+    @Pattern(regexp = "^[^=;%&'\"/\\s\\\\]+$")
     private String login;
     @Column(name = "password", nullable = false, length = 64)
     @NotNull
     @Size(max = 64)
     private String password;
-    @Pattern(regexp = "^[^\\s\\\\@]+@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.){1,11}[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$", message = "Invalid email")
+    @Pattern(regexp = "^[^\\s\\\\@]+@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.){1,11}[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$")
     @Column(name = "email", nullable = false, unique = true, updatable = false, length = 64)
     @NotNull
     @Size(max = 64)
@@ -101,15 +100,15 @@ public class User implements Serializable {
 
     @Column(name = "first_name", table = "user_details", nullable = false, length = 32)
     @NotNull
-    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,31}", message = "{validation.firstName}")
+    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,31}")
     private String firstName;
     @Column(name = "last_name", table = "user_details", nullable = false, length = 32)
     @NotNull
-    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,31}", message = "{validation.firstName}")
+    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,31}")
     private String lastName;
     @Column(name = "phone_number", table = "user_details", nullable = false, length = 10)
     @NotNull
-    @Pattern(regexp = "\\d{9}", message = "{validation.number}")
+    @Pattern(regexp = "\\d{9}")
     private String phoneNumber;
 
     public User() {

@@ -40,9 +40,13 @@
                     <h:outputLabel value="#{msg['phoneNumber']}:"/>
                     <h:outputText value="#{userDetailsPageBean.userDetailsDto.phoneNumber}"/>
                     <h:outputLabel value="#{msg['created']}:"/>
-                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.created}"/>
+                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.created}">
+                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss"/>
+                    </h:outputText>
                     <h:outputLabel value="#{msg['lastValidLogin']}:"/>
-                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.lastValidLogin}"/>
+                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.lastValidLogin}">
+                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss"/>
+                    </h:outputText>
                     <h:outputLabel value="#{msg['activated']}:"/>
                     <h:outputText value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDto.activated}"/>
                     <h:outputText value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDto.activated}"/>

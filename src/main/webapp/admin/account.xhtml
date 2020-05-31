@@ -4,6 +4,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xml:lang="en" lang="en">
 <h:head/>
 <h:body>
@@ -33,9 +34,13 @@
                     <h:outputLabel value="#{msg['phoneNumber']}:"/>
                     <h:outputText value="#{myDetailsPageBean.userDetailsDto.phoneNumber}"/>
                     <h:outputLabel value="#{msg['created']}:"/>
-                    <h:outputText value="#{myDetailsPageBean.userDetailsDto.created}"/>
+                    <h:outputText value="#{myDetailsPageBean.userDetailsDto.created}">
+                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss"/>
+                    </h:outputText>
                     <h:outputLabel value="#{msg['lastValidLogin']}:"/>
-                    <h:outputText value="#{myDetailsPageBean.userDetailsDto.lastValidLogin}"/>
+                    <h:outputText value="#{myDetailsPageBean.userDetailsDto.lastValidLogin}">
+                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss"/>
+                    </h:outputText>
                     <h:outputLabel value="#{msg['activated']}:"/>
                     <h:outputText value="${msg['yes']}" rendered="#{myDetailsPageBean.userDetailsDto.activated}"/>
                     <h:outputText value="${msg['no']}" rendered="#{!myDetailsPageBean.userDetailsDto.activated}"/>
