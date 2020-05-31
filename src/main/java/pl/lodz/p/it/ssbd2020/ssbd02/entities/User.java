@@ -52,7 +52,7 @@ public class User implements Serializable {
     @Column(name = "login", nullable = false, unique = true, updatable = false, length = 32)
     @NotNull
     @Size(min = 4, max = 32)
-    @Pattern(regexp = "^[^=;%&'\"/\\s\\\\]+$")
+    @Pattern(regexp = "^[^=;%&'\"/\\\\]+$")
     private String login;
     @Column(name = "password", nullable = false, length = 64)
     @NotNull
