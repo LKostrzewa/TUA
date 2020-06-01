@@ -3,10 +3,15 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port;
 import java.math.BigDecimal;
 
 public class NewPortDto {
+
     private String name;
+
     private String lake;
+
     private String nearestCity;
+
     private BigDecimal long1;
+
     private BigDecimal lat;
 
     public String getName() {

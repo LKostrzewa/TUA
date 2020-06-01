@@ -52,7 +52,6 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
             throw ValueNotUniqueException.createPortNameNotUniqueException(portToEdit);
         }
         portFacade.edit(portToEdit);
-
     }
 
     /**

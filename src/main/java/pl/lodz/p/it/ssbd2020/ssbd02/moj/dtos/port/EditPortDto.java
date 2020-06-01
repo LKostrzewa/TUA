@@ -4,10 +4,15 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class EditPortDto implements Serializable {
+
     private String name;
+
     private String lake;
+
     private String nearestCity;
+
     private BigDecimal long1;
+
     private BigDecimal lat;
 
     public String getName() {
