@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.ResourceBundle;
 
 /**
- * Klasa od obsługi widoku szczegółowych informacji własnego konta
+ * Klasa od obsługi widoku szczegółowych informacji własnego konta.
  */
 @Named
 @ViewScoped
@@ -27,7 +27,6 @@ public class MyDetailsPageBean implements Serializable {
     private FacesContext facesContext;
     private UserDetailsDto userDetailsDto;
     private UserAccessLevelDto userAccessLevelDto;
-
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
@@ -49,7 +48,7 @@ public class MyDetailsPageBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca komponent
+     * Metoda inicjalizująca komponent.
      */
     @PostConstruct
     public void init() {
@@ -67,7 +66,7 @@ public class MyDetailsPageBean implements Serializable {
     }
 
     /**
-     * Prywatna metoda służąca do wyświetlania błędu użytkownikowi
+     * Prywatna metoda służąca do wyświetlania błędu użytkownikowi.
      *
      * @param message wiadomość która ma zostać wyświetlona użytkownikowi
      */
@@ -80,7 +79,7 @@ public class MyDetailsPageBean implements Serializable {
     }
 
     /**
-     * Metoda zwracająca łańcuch wszystkich poziomów dostępu konta
+     * Metoda zwracająca łańcuch wszystkich poziomów dostępu konta.
      *
      * @return połączony łańcuch poziomów dostępu konta
      */

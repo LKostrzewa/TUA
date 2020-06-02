@@ -18,6 +18,9 @@ import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Implementacja interfejsu YachtEndpoint.
+ */
 @Stateful
 @Interceptors(LoggerInterceptor.class)
 public class YachtEndpointImpl implements Serializable, YachtEndpoint {
@@ -27,23 +30,22 @@ public class YachtEndpointImpl implements Serializable, YachtEndpoint {
     private Yacht yachtEditEntity;
 
     /**
-     * Metoda, służy do dodawania nowych jachtów do bazy danych przez menadżera
+     * Metoda, służy do dodawania nowych jachtów do bazy danych przez menadżera.
      *
-     * @param newYachtDto obiekt DTO z danymi nowego jachtu.
+     * @param newYachtDto obiekt DTO z danymi nowego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("addYacht")
     public void addYacht(NewYachtDto newYachtDto) throws AppBaseException {
         // TODO nie moge objectMapperem zmapować, bo production year nie ma metody set
-        Yacht yacht = new Yacht(newYachtDto.getName(),newYachtDto.getProductionYear(),newYachtDto.getPriceMultiplier(),newYachtDto.getEquipment(), null);
+        Yacht yacht = new Yacht(newYachtDto.getName(), newYachtDto.getProductionYear(), newYachtDto.getPriceMultiplier(), newYachtDto.getEquipment(), null);
         yachtManager.addYacht(yacht, newYachtDto.getYachtModelId());
     }
 
     /**
-     * Metoda, która zwraca wszystkie jachty
+     * Metoda, która zwraca wszystkie jachty.
      *
      * @return lista jachtów
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getAllYachts")
     public List<YachtListDto> getAllYachts() {
@@ -55,7 +57,7 @@ public class YachtEndpointImpl implements Serializable, YachtEndpoint {
      *
      * @param yachtId id jachtu.
      * @return YachtDto
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getYachtById")
     public YachtDto getYachtById(Long yachtId) throws AppBaseException {
@@ -68,7 +70,7 @@ public class YachtEndpointImpl implements Serializable, YachtEndpoint {
      *
      * @param yachtId id jachtu.
      * @return EditYachtDto
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getEditYachtDtoById")
     public EditYachtDto getEditYachtDtoById(Long yachtId) throws AppBaseException {
@@ -77,10 +79,10 @@ public class YachtEndpointImpl implements Serializable, YachtEndpoint {
     }
 
     /**
-     * Metoda, która zapisuje wprowadzone przez managera zmiany w jachcie
+     * Metoda, która zapisuje wprowadzone przez managera zmiany w jachcie.
      *
-     * @param editYachtDto id jachtu.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param editYachtDto id jachtu
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("editYacht")
     public void editYacht(EditYachtDto editYachtDto) throws AppBaseException {
@@ -93,8 +95,8 @@ public class YachtEndpointImpl implements Serializable, YachtEndpoint {
     /**
      * Metoda, która deaktywuje jacht o podanym id.
      *
-     * @param yachtId id jachtu.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param yachtId id jachtu
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("deactivateYacht")
     public void deactivateYacht(Long yachtId) throws AppBaseException {

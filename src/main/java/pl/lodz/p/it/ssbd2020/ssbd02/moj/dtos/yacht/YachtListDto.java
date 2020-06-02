@@ -1,5 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
+/**
+ * DTO do wyświetlenia listy jachtów.
+ */
 public class YachtListDto {
     private Long id;
     private String name;

@@ -2,6 +2,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel;
 
 import java.math.BigDecimal;
 
+/**
+ * DTO do wyświetlenia szczegółów modelu jachtu.
+ */
 public class YachtModelDetailsDto {
     private String manufacturer;
     private String model;
@@ -46,15 +49,15 @@ public class YachtModelDetailsDto {
         return active;
     }
 
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
     }
 }

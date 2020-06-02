@@ -14,19 +14,16 @@ import java.io.Serializable;
 import java.util.ResourceBundle;
 
 /**
- * Klasa do obsługi widoku zmiany własnego hasła
+ * Klasa do obsługi widoku zmiany własnego hasła.
  */
 @Named
 @ViewScoped
 public class ChangeOwnPasswordPageBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
-
     @Inject
     private FacesContext context;
-
     private ChangeOwnPasswordDto changeOwnPasswordDto;
-
     private ResourceBundle resourceBundle;
 
     public ChangeOwnPasswordDto getChangeOwnPasswordDto() {
@@ -38,7 +35,7 @@ public class ChangeOwnPasswordPageBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca komponent
+     * Metoda inicjalizująca komponent.
      */
     @PostConstruct
     public void init() {
@@ -46,7 +43,7 @@ public class ChangeOwnPasswordPageBean implements Serializable {
     }
 
     /**
-     * Metoda obsługująca wciśnięcie guzika do zmiany swojego hasła
+     * Metoda obsługująca wciśnięcie guzika do zmiany swojego hasła.
      *
      * @return strona na którą zostanie przekierowany użytkownik
      */
@@ -61,15 +58,15 @@ public class ChangeOwnPasswordPageBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca wyświetlanie wiadomości
+     * Metoda inicjalizująca wyświetlanie wiadomości.
      */
-    private void displayInit(){
+    private void displayInit() {
         context.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
      */
     private void displayMessage() {
         displayInit();
@@ -79,7 +76,7 @@ public class ChangeOwnPasswordPageBean implements Serializable {
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie.
      *
      * @param message wiadomość do wyświetlenia
      */

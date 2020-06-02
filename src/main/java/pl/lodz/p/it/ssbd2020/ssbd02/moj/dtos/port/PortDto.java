@@ -1,7 +1,8 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port;
 
-import java.math.BigDecimal;
-
+/**
+ * DTO portu.
+ */
 public class PortDto {
     private Long id;
     private String name;

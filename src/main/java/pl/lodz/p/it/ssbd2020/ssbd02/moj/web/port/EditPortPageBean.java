@@ -2,13 +2,8 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.port;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.EditPortDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.EditYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpointImp;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
 
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -17,6 +12,9 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
+/**
+ * Klasa do obsługi widoku edycji opinii.
+ */
 @Named
 @ViewScoped
 public class EditPortPageBean implements Serializable {
@@ -24,16 +22,23 @@ public class EditPortPageBean implements Serializable {
     private PortEndpoint portEndpoint;
     @Inject
     private FacesContext facesContext;
-
     private ResourceBundle resourceBundle;
     private Long portId;
     private EditPortDto editPortDto;
 
+    /**
+     * Metoda inicjalizująca komponent.
+     */
     public void init() throws AppBaseException {
         this.editPortDto = portEndpoint.getEditPortById(portId);
     }
 
-    public String editPort(){
+    /**
+     * Metoda obsługująca wciśnięcie guzika do edycji portu.
+     *
+     * @return strona na którą zostanie przekierowany użytkownik
+     */
+    public String editPort() {
         try {
             portEndpoint.editPort(editPortDto);
             displayMessage();
@@ -43,11 +48,18 @@ public class EditPortPageBean implements Serializable {
         return "portDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
-    public void displayInit(){
+
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości.
+     */
+    public void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
+     */
     public void displayMessage() {
         displayInit();
         String msg = resourceBundle.getString("port.editInfo");
@@ -55,6 +67,11 @@ public class EditPortPageBean implements Serializable {
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie.
+     *
+     * @param message wiadomość do wyświetlenia
+     */
     private void displayError(String message) {
         displayInit();
         String msg = resourceBundle.getString(message);

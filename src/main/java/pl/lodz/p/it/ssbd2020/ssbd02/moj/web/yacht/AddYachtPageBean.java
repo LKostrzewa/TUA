@@ -12,6 +12,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.ResourceBundle;
 
+/**
+ * Klasa do obsługi widoku dodawania jachtu.
+ */
 @Named
 @RequestScoped
 public class AddYachtPageBean {
@@ -31,11 +34,19 @@ public class AddYachtPageBean {
         this.newYachtDto = newYachtDto;
     }
 
+    /**
+     * Metoda inicjalizująca komponent.
+     */
     @PostConstruct
     public void init() {
         newYachtDto = new NewYachtDto();
     }
 
+    /**
+     * Metoda obsługująca wciśnięcie guzika do dodania nowego jachtu.
+     *
+     * @return strona na którą zostanie przekierowany użytkownik
+     */
     public String addNewYacht() throws AppBaseException {
         try {
             yachtEndpoint.addYacht(newYachtDto);
@@ -46,11 +57,17 @@ public class AddYachtPageBean {
         return "listYachts.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości.
+     */
     public void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
+     */
     public void displayMessage() {
         displayInit();
         String msg = resourceBundle.getString("users.addInfo");
@@ -58,6 +75,11 @@ public class AddYachtPageBean {
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie.
+     *
+     * @param message wiadomość do wyświetlenia
+     */
     private void displayError(String message) {
         displayInit();
         String msg = resourceBundle.getString(message);

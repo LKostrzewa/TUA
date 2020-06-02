@@ -17,6 +17,9 @@ import javax.interceptor.Interceptors;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Klasa menadżera do obsługi operacji związanych z opiniami.
+ */
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
@@ -29,10 +32,10 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
     private YachtFacade yachtFacade;
 
     /**
-     * Metoda, która dodaje nową opinię
+     * Metoda, która dodaje nową opinię.
      *
      * @param opinion encja z nową opinią do dodania
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("addOpinion")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -42,15 +45,15 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
     }
 
     /**
-     * Metoda pobierająca wszystkie opinie przypisane do danego jachtu
+     * Metoda pobierająca wszystkie opinie przypisane do danego jachtu.
      *
      * @param yachtId identyfikator jachtu
      * @return lista opini dla danego jachtu
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getAllOpinionsByYacht")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public List<Opinion> getAllOpinionsByYacht(Long yachtId) throws AppBaseException{
+    public List<Opinion> getAllOpinionsByYacht(Long yachtId) throws AppBaseException {
         return opinionFacade.getAllOpinionsByYacht(yachtId);
         /*return rentalFacade.findAll().stream()
                 .filter(rental -> rental.getYacht().getId().equals(yachtId))
@@ -59,11 +62,11 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
     }
 
     /**
-     * Metoda zwracająca opinię na podstawie przekazanego identyfikatora
+     * Metoda zwracająca opinię na podstawie przekazanego identyfikatora.
      *
      * @param opinionId identyfikator opinii
      * @return encja opinii
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getOpinionById")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -72,10 +75,10 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
     }
 
     /**
-     * Metoda służąca do zapisu nowej wersji opinii
+     * Metoda służąca do zapisu nowej wersji opinii.
      *
-     * @param opinionToEdit encja z danymi edytowanej opinii.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param opinionToEdit encja z danymi edytowanej opinii
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("editOpinion")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -86,11 +89,12 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
     }
 
     /**
-     * Metoda do wyliczenia nowej średniej ceny dla yachtu o podanym identyfikatorze
+     * Metoda do wyliczenia nowej średniej ceny dla yachtu o podanym identyfikatorze.
+     *
      * @param yachtId identyfikator jachtu
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    private void calculateAvgRating(Long yachtId) throws AppBaseException{
+    private void calculateAvgRating(Long yachtId) throws AppBaseException {
         Yacht yacht = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createYachtNotFoundException);
         BigDecimal tmp = BigDecimal.valueOf(yacht.getRentals().stream()
                 .map(Rental::getOpinion)

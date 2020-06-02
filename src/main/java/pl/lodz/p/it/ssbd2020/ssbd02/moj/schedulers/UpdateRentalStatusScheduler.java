@@ -6,7 +6,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalStatusFacade;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.RentalManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.RolesAllowed;
@@ -17,6 +16,9 @@ import javax.interceptor.Interceptors;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Klasa reprezentująca Scheduler.
+ */
 @Singleton
 @Startup
 @RunAs("updateRentalStatus")
@@ -55,6 +57,5 @@ public class UpdateRentalStatusScheduler {
                 rentalFacade.edit(rental);
             }
         }
-
     }
 }

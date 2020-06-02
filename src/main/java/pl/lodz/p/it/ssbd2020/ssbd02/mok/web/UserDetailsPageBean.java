@@ -18,7 +18,7 @@ import java.io.Serializable;
 import java.util.ResourceBundle;
 
 /**
- * Klasa od obsługi widoku szczegółowych informacji konta innego użytkownika
+ * Klasa od obsługi widoku szczegółowych informacji konta innego użytkownika.
  */
 @Named
 @ViewScoped
@@ -27,14 +27,12 @@ public class UserDetailsPageBean implements Serializable {
     private UserEndpoint userEndpoint;
     @Inject
     private UserAccessLevelEndpoint userAccessLevelEndpoint;
-
     @Inject
     private FacesContext facesContext;
     private ResourceBundle resourceBundle;
     private UserDetailsDto userDetailsDto;
     private UserAccessLevelDto userAccessLevelDto;
     private Long userId;
-
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
@@ -64,7 +62,7 @@ public class UserDetailsPageBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca komponent
+     * Metoda inicjalizująca komponent.
      */
     public void init() throws IOException {
         PropertyReader propertyReader = new PropertyReader();
@@ -75,12 +73,12 @@ public class UserDetailsPageBean implements Serializable {
         try {
             this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelById(userId);
             this.userDetailsDto = userAccessLevelDto.getUserDetailsDto();
-        }
-        catch (AppBaseException e) {
+        } catch (AppBaseException e) {
             ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-            externalContext.redirect(externalContext.getRequestContextPath()+"listUsers.xhtml");
+            externalContext.redirect(externalContext.getRequestContextPath() + "listUsers.xhtml");
         }
     }
+
     /**
      * Metoda zwracająca łańcuch wszystkich poziomów dostępu konta
      *
@@ -111,10 +109,10 @@ public class UserDetailsPageBean implements Serializable {
     }
 
     /**
-     * Metoda obsługująca wciśnięcie guzika do odblokowania użytkownika
+     * Metoda obsługująca wciśnięcie guzika do odblokowania użytkownika.
      */
     public void unlockAccount() {
-        try{
+        try {
             userDetailsDto.setLocked(false);
             userEndpoint.unlockAccount(userId);
             displayMessage("unlockAccount");
@@ -124,15 +122,15 @@ public class UserDetailsPageBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca wyświetlanie wiadomości
+     * Metoda inicjalizująca wyświetlanie wiadomości.
      */
-    public void displayInit(){
+    public void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
      */
     public void displayMessage(String message) {
         displayInit();
@@ -142,7 +140,7 @@ public class UserDetailsPageBean implements Serializable {
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie.
      *
      * @param message wiadomość do wyświetlenia
      */

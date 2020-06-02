@@ -13,36 +13,32 @@ import javax.inject.Named;
 import java.util.ResourceBundle;
 
 /**
- * Klasa do obsługi strony pojawiającej się po kliknięciu w link aktywacyjiny
+ * Klasa do obsługi strony pojawiającej się po kliknięciu w link aktywacyjny.
  */
 @Named
 @RequestScoped
 public class EmailPageBean {
-
     @Inject
     private UserEndpoint userEndpoint;
-
     private String key;
     private int valid;
-
     @Inject
     private FacesContext facesContext;
     private ResourceBundle resourceBundle;
-
-
     private Boolean active;
 
     /**
-     * Metoda inicjalizująca komponent
+     * Metoda inicjalizująca komponent.
      */
     @PostConstruct
     public void init() {
         PropertyReader propertyReader = new PropertyReader();
         key = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key");
-        valid = Integer.parseInt(propertyReader.getProperty("config", "email_valid_time"));;
+        valid = Integer.parseInt(propertyReader.getProperty("config", "email_valid_time"));
+        ;
         try {
             active = userEndpoint.activateAccount(key);
-        } catch (AppBaseException e){
+        } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
     }
@@ -72,15 +68,15 @@ public class EmailPageBean {
     }
 
     /**
-     * Metoda inicjalizująca wyświetlanie wiadomości
+     * Metoda inicjalizująca wyświetlanie wiadomości.
      */
-    public void displayInit(){
+    public void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie.
      *
      * @param message wiadomość do wyświetlenia
      */

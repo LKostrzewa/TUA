@@ -25,7 +25,7 @@ public class ListUsersPageBean implements Serializable {
     private LazyDataModel<ListUsersDto> model;
 
     /**
-     * Metoda inicjalizująca komponent
+     * Metoda inicjalizująca komponent.
      */
     @PostConstruct
     public void init() {

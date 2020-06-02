@@ -15,6 +15,9 @@ import javax.interceptor.Interceptors;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Klasa menadżera do obsługi operacji związanych z jachtami i portami.
+ */
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
@@ -25,11 +28,11 @@ public class YachtPortManager extends AbstractManager implements SessionSynchron
     private YachtFacade yachtFacade;
 
     /**
-     * Metoda pobierająca wszystkie jachty przypisane do danego portu
+     * Metoda pobierająca wszystkie jachty przypisane do danego portu.
      *
      * @param portId identyfikator danego portu
      * @return lista Yacht
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getAllYachtsByPort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -39,11 +42,11 @@ public class YachtPortManager extends AbstractManager implements SessionSynchron
     }
 
     /**
-     * Metoda przypisująca jacht do portu
+     * Metoda przypisująca jacht do portu.
      *
      * @param portId identyfikator danego portu
      * @param yachtId identyfikator danego jachtu
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("assignYachtToPort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -68,11 +71,11 @@ public class YachtPortManager extends AbstractManager implements SessionSynchron
     }
 
     /**
-     * Metoda odpisująca jacht z portu
+     * Metoda odpisująca jacht z portu.
      *
      * @param portId identyfikator danego portu
      * @param yachtId identyfikator danego jachtu
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("retractYachtToPort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)

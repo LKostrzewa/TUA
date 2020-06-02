@@ -6,7 +6,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.DenyAll;
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -64,7 +63,7 @@ public class UserAccessLevelFacade extends AbstractFacade<UserAccessLevel> {
 
 
     /**
-     * Metoda do pobrania wszystkich encji UserAccessLevel. W aplikacji niewykorzystywana (DenyAll)
+     * Metoda do pobrania wszystkich encji UserAccessLevel. W aplikacji niewykorzystywana (DenyAll).
      *
      * @return Lista UserAccessLevel
      */
@@ -75,7 +74,7 @@ public class UserAccessLevelFacade extends AbstractFacade<UserAccessLevel> {
     }
 
     /**
-     * Metoda do edycji encji UserAccessLevel. W aplikacji niewykorzystywana (DenyAll)
+     * Metoda do edycji encji UserAccessLevel. W aplikacji niewykorzystywana (DenyAll).
      *
      * @param entity encja UserAccessLevel do edycji
      */
@@ -86,7 +85,7 @@ public class UserAccessLevelFacade extends AbstractFacade<UserAccessLevel> {
     }
 
     /**
-     * Metoda do pobrania encji UserAccessLevel po identyfikatorze. W aplikacji niewykorzystywana (DenyAll)
+     * Metoda do pobrania encji UserAccessLevel po identyfikatorze. W aplikacji niewykorzystywana (DenyAll).
      *
      * @param id id encji UserAccessLevel do pobrania
      */

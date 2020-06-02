@@ -26,25 +26,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Implementacja UserEndpoint
+ * Implementacja UserEndpoint.
  */
 @Stateful
 @Interceptors(LoggerInterceptor.class)
 public class UserEndpointImpl implements Serializable, UserEndpoint {
+    PropertyReader propertyReader = new PropertyReader();
+    Integer METHOD_INVOCATION_LIMIT;
+    Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     @Inject
     private UserManager userManager;
     private User userEditEntity;
 
-    PropertyReader propertyReader = new PropertyReader();
-    Integer METHOD_INVOCATION_LIMIT;
-    Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
     @PostConstruct
-    public void init(){
+    public void init() {
         METHOD_INVOCATION_LIMIT = Integer.parseInt(propertyReader.getProperty("config", "rollback.invocation.limit"));
     }
+
     /**
-     * Metoda służąca do rejestracji użytkownika
+     * Metoda służąca do rejestracji użytkownika.
      *
      * @param userDTO obiekt DTO z danymi rejestrowanego użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
@@ -78,10 +78,10 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     }
 
     /**
-     * Metoda, służy do dodawania nowych użytkowników do bazy danych przez administratora
+     * Metoda, służy do dodawania nowych użytkowników do bazy danych przez administratora.
      *
-     * @param userDTO obiekt DTO z danymi nowego użytkownika.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param userDTO obiekt DTO z danymi nowego użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("addNewUser")
     public void addNewUser(AddUserDto userDTO) throws AppBaseException {
@@ -119,10 +119,10 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     }
 
     /**
-     * Metoda, która pobiera użytkownika do edycji przez administratora po identyfikatorze użytkownika
+     * Metoda, która pobiera użytkownika do edycji przez administratora po identyfikatorze użytkownika.
      *
-     * @param userId identyfikator użytkownika.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param userId identyfikator użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getEditUserDtoById")
     public EditUserDto getEditUserDtoById(Long userId) throws AppBaseException {
@@ -131,9 +131,9 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     }
 
     /**
-     * Metoda, która pobiera użytkownika do edycji własnych danych osobowych
+     * Metoda, która pobiera użytkownika do edycji własnych danych osobowych.
      *
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getEditUserDtoByLogin")
     public EditUserDto getEditUserDtoByLogin() throws AppBaseException {
@@ -143,10 +143,10 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     }
 
     /**
-     * Metoda, która zwraca login dto o aktualnie zalogowanego użytkownika
+     * Metoda, która zwraca login dto o aktualnie zalogowanego użytkownika.
      *
      * @return user login dto
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getLoginDtoByLogin")
     public UserLoginDto getLoginDtoByLogin(String login) throws AppBaseException {
@@ -154,10 +154,10 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     }
 
     /**
-     * Metoda, która zapisuje wprowadzone przez administratora zmiany w danych konta użytkownika
+     * Metoda, która zapisuje wprowadzone przez administratora zmiany w danych konta użytkownika.
      *
      * @param editUserDto obiekt przechowujący dane wprowadzone w formularzu
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("editUser")
     public void editUser(EditUserDto editUserDto) throws AppBaseException {
@@ -187,10 +187,10 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     }
 
     /**
-     * Metoda, która zapisuje wprowadzone zmiany w danych swojego konta
+     * Metoda, która zapisuje wprowadzone zmiany w danych swojego konta.
      *
      * @param editUserDto obiekt przechowujący dane wprowadzone w formularzu
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("editOwnData")
     public void editOwnData(EditUserDto editUserDto) throws AppBaseException {
@@ -223,7 +223,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      *
      * @param changePasswordDto obiekt przechowujący dane wprowadzone w formularzu
      * @param userId            id użytkownika, którego hasło ulegnie modyfikacji
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("changeUserPassword")
     public void changeUserPassword(ChangePasswordDto changePasswordDto, Long userId) throws AppBaseException {
@@ -253,7 +253,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * Metoda wykorzystywana do zmiany własnego hasła zgodnie z przekazanymi parametrami.
      *
      * @param changeOwnPasswordDto obiekt przechowujący dane wprowadzone w formularzu
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("changeOwnPassword")
     public void changeOwnPassword(ChangeOwnPasswordDto changeOwnPasswordDto) throws AppBaseException {
@@ -283,7 +283,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * Metoda, która blokuje konto o podanym id.
      *
      * @param userId id użytkownika.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("lockAccount")
     public void lockAccount(Long userId) throws AppBaseException {
@@ -311,8 +311,8 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     /**
      * Metoda, która odblokowywuje konto o podanym id.
      *
-     * @param userId id użytkownika.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param userId id użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("unlockAccount")
     public void unlockAccount(Long userId) throws AppBaseException {
@@ -338,10 +338,10 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     }
 
     /**
-     * Metoda która aktywuje dane konto po kliknięciu w link aktywacyjny
+     * Metoda która aktywuje dane konto po kliknięciu w link aktywacyjny.
      *
      * @param code kod aktywacyjny użytkownika
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     public Boolean activateAccount(String code) throws AppBaseException {
@@ -369,10 +369,10 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     }
 
     /**
-     * Metoda, która zapisuje informacje o poprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
+     * Metoda, która zapisuje informacje o poprawnym uwierzytelnianiu (adres ip użytkownika, data logowania).
      *
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
-     * @param login  login uzytkownika
+     * @param login login uzytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("saveSuccessAuthenticate")
     public void saveSuccessAuthenticate(String login) throws AppBaseException {
@@ -400,8 +400,8 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     /**
      * Metoda, która zapisuje informacje o niepoprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      *
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
-     * @param login  login uzytkownika
+     * @param login login uzytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     public void saveFailureAuthenticate(String login) throws AppBaseException {
@@ -452,10 +452,10 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     }
 
     /**
-     * Metoda, która na podany email wysyła wiadomość z linkiem, pod którym można zresetować zapomniane hasło
+     * Metoda, która na podany email wysyła wiadomość z linkiem, pod którym można zresetować zapomniane hasło.
      *
      * @param email adres email
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     public void sendResetPasswordEmail(String email) throws AppBaseException {
@@ -481,10 +481,10 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     }
 
     /**
-     * Metoda, która zmienia zapomniane hasło
+     * Metoda, która zmienia zapomniane hasło.
      *
      * @param resetPasswordDto obiekt przechowujący dane wprowadzone w formularzu
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     public void resetPassword(ResetPasswordDto resetPasswordDto) throws AppBaseException {

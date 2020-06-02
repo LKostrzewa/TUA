@@ -28,11 +28,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Implementacja interfejsu UserAccessLevelEndpoint
+ * Implementacja interfejsu UserAccessLevelEndpoint.
  */
 @Stateful
 @Interceptors(LoggerInterceptor.class)
 public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLevelEndpoint {
+    Integer METHOD_INVOCATION_LIMIT;
+    Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
@@ -40,12 +42,11 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
     private UserAccessLevelManager userAccessLevelManager;
     @Inject
     private UserManager userManager;
-
     private User user;
 
-    Integer METHOD_INVOCATION_LIMIT;
-    Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
+    /**
+     * Metoda inicjalizująca komponent.
+     */
     @PostConstruct
     private void init() {
         PropertyReader propertyReader = new PropertyReader();
@@ -54,15 +55,16 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
         METHOD_INVOCATION_LIMIT = Integer.parseInt(propertyReader.getProperty("config", "rollback.invocation.limit"));
     }
+
     /**
-     * Metoda, która zwraca obiekt UserAccessLevelDto zawierający informacje o poziomach dostępu danego użytkownika
+     * Metoda, która zwraca obiekt UserAccessLevelDto zawierający informacje o poziomach dostępu danego użytkownika.
      *
-     * @param userId identyfikator użytkownika.
+     * @param userId identyfikator użytkownika
      * @return obiekt klasy UserAccessLevelDto
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem.
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("findUserAccessLevelById")
-    public UserAccessLevelDto findUserAccessLevelById(Long userId) throws AppBaseException{
+    public UserAccessLevelDto findUserAccessLevelById(Long userId) throws AppBaseException {
         user = userManager.getUserById(userId);
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
         userAccessLevelDto.setUserDetailsDto(ObjectMapperUtils.map(user, UserDetailsDto.class));
@@ -84,10 +86,10 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
     }
 
     /**
-     * Metoda, która zwraca obiekt UserAccessLevelDto zawierający informacje o poziomach dostępu danego użytkownika
+     * Metoda, która zwraca obiekt UserAccessLevelDto zawierający informacje o poziomach dostępu danego użytkownika.
      *
      * @return obiekt klasy UserAccessLevelDto
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem.
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("findUserAccessLevelByLogin")
     public UserAccessLevelDto findUserAccessLevelByLogin() throws AppBaseException {
@@ -109,8 +111,8 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
     /**
      * Metoda, która modyfikuje przypisane do użytkownika poziomy dostępu.
      *
-     * @param userAccessLevelDto obiekt zawierająy informacje o obecnych i pożądanych poziomach dotępu.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem.
+     * @param userAccessLevelDto obiekt zawierająy informacje o obecnych i pożądanych poziomach dotępu
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("editUserAccessLevels")
     public void editUserAccessLevels(UserAccessLevelDto userAccessLevelDto) throws AppBaseException {
@@ -138,6 +140,5 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
             throw RepeatedRollBackException.createRepeatedRollBackException();
         }
-
     }
 }

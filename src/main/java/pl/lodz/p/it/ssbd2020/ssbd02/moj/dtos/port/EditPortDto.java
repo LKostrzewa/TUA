@@ -3,6 +3,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * DTO do edycji portu.
+ */
 public class EditPortDto implements Serializable {
     private String name;
     private String lake;

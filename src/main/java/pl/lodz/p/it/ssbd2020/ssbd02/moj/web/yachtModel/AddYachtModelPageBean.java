@@ -9,6 +9,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+/**
+ * Klasa do obsługi widoku dodawania modelu jachtu.
+ */
 @Named
 @RequestScoped
 public class AddYachtModelPageBean {
@@ -24,11 +27,19 @@ public class AddYachtModelPageBean {
         this.newYachtModelDto = newYachtModelDto;
     }
 
+    /**
+     * Metoda inicjalizująca komponent.
+     */
     @PostConstruct
     public void init() {
         newYachtModelDto = new NewYachtModelDto();
     }
 
+    /**
+     * Metoda obsługująca wciśnięcie guzika do dodania nowego modelu jachtu.
+     *
+     * @return strona na którą zostanie przekierowany użytkownik
+     */
     public String addNewYachtModel() throws AppBaseException {
         yachtModelEndpoint.addYachtModel(newYachtModelDto);
         return "/manager/listYachtModels.xhtml?faces-redirect=true";

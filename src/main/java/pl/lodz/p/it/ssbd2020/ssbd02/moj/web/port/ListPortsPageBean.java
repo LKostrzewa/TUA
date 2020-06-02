@@ -10,6 +10,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
 
+/**
+ * Klasa do obsługi widoku listy portów.
+ */
 @Named
 @RequestScoped
 public class ListPortsPageBean {
@@ -25,11 +28,20 @@ public class ListPortsPageBean {
         this.ports = ports;
     }
 
+    /**
+     * Metoda inicjalizująca komponent.
+     */
     @PostConstruct
     private void init() {
         this.ports = portEndpoint.getAllPorts();
     }
 
+    /**
+     * Metoda do deaktywacji portu.
+     *
+     * @param portId id portu, który ma zostać deaktywowany
+     * @return strona, na którą użytkownik ma zostać przekierowany
+     */
     public String deactivatePort(long portId) throws AppBaseException {
         portEndpoint.deactivatePort(portId);
         return "listPorts";

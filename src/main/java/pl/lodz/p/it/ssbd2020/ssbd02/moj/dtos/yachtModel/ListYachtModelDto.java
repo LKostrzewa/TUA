@@ -2,6 +2,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel;
 
 import java.math.BigDecimal;
 
+/**
+ * DTO do wyświetlenia listy wszystkich modeli jachtów.
+ */
 public class ListYachtModelDto {
     private Long id;
     private String manufacturer;

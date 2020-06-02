@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Opinion;
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
@@ -21,6 +20,9 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Klasa fasadowa powiązana z encją Opinion.
+ */
 @Stateless
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
@@ -28,17 +30,17 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
     @PersistenceContext(unitName = "ssbd02mojPU")
     private EntityManager entityManager;
 
+    public OpinionFacade() {
+        super(Opinion.class);
+    }
+
     @Override
     protected EntityManager getEntityManager() {
         return entityManager;
     }
 
-    public OpinionFacade() {
-        super(Opinion.class);
-    }
-
     /**
-     * Metoda, która dodaje nową opinię
+     * Metoda, która dodaje nową opinię.
      *
      * @param entity encja z nową opinią do dodania
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
@@ -51,7 +53,7 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
     }
 
     /**
-     * Metoda służąca do zapisu nowej wersji opinii
+     * Metoda służąca do zapisu nowej wersji opinii.
      *
      * @param entity encja z danymi edytowanej opinii.
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
@@ -63,6 +65,11 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
         super.edit(entity);
     }
 
+    /**
+     * Metoda, która usuwa encje.
+     *
+     * @param entity usuwana encja
+     */
     @Override
     @DenyAll
     public void remove(Opinion entity) {
@@ -70,7 +77,7 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
     }
 
     /**
-     * Metoda zwracająca opinię na podstawie przekazanego identyfikatora
+     * Metoda zwracająca opinię na podstawie przekazanego identyfikatora.
      *
      * @param id identyfikator opinii
      * @return Optional typu Opinion
@@ -78,10 +85,16 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
     @Override
     @RolesAllowed("getOpinionById")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public Optional<Opinion> find(Object id){
+    public Optional<Opinion> find(Object id) {
         return super.find(id);
     }
 
+
+    /**
+     * Metoda, która znajduje wszystkie encje.
+     *
+     * @return lista encji
+     */
     @Override
     @DenyAll
     public List<Opinion> findAll() {
@@ -89,7 +102,7 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
     }
 
     /**
-     * Metoda pobierająca wszystkie opinie przypisane do danego jachtu
+     * Metoda pobierająca wszystkie opinie przypisane do danego jachtu.
      *
      * @param yachtId identyfikator jachtu
      * @return lista opini dla danego jachtu
@@ -102,7 +115,7 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
         typedQuery.setParameter("id", yachtId);
         try {
             return typedQuery.getResultList();
-        } catch (NoResultException e){
+        } catch (NoResultException e) {
             throw AppNotFoundException.createYachtNotFoundException(e);
         }
     }

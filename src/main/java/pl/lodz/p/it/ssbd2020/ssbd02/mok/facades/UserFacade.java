@@ -7,7 +7,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
-import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
@@ -15,7 +14,10 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,7 @@ public class UserFacade extends AbstractFacade<User> {
      * @return Lista User
      */
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    @RolesAllowed({"getUserReport","deleteInactiveUsers"})
+    @RolesAllowed({"getUserReport", "deleteInactiveUsers"})
     @Override
     public List<User> findAll() {
         return super.findAll();
@@ -63,14 +65,14 @@ public class UserFacade extends AbstractFacade<User> {
     @RolesAllowed({"lockAccount", "findUserAccessLevelById", "getEditUserDtoById", "unlockAccount", "changeUserPassword"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<User> find(Object id) {
-            return super.find(id);
+        return super.find(id);
     }
 
     /**
      * Metoda, która edytuje encje user.
      *
      * @param user encja użytkownika.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @Override
     @PermitAll
@@ -83,28 +85,28 @@ public class UserFacade extends AbstractFacade<User> {
      * Metoda, dodaje podanego użytkownika do bazy danych.
      *
      * @param user encja użytkownika do dodania do bazy.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @Override
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void create(User user) throws AppBaseException {
-            super.create(user);
+        super.create(user);
     }
 
     /**
-     * Metoda, która zwraca aktualnie zalogowanego użytkownika
+     * Metoda, która zwraca aktualnie zalogowanego użytkownika.
      *
      * @return encja User
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User findByLogin(String userLogin) throws AppBaseException {
         try {
             return getEntityManager().createNamedQuery("User.findByLogin", User.class)
-                    .setParameter("login",userLogin).getSingleResult();
-        } catch (NoResultException e){
+                    .setParameter("login", userLogin).getSingleResult();
+        } catch (NoResultException e) {
             throw AppNotFoundException.createUserNotFoundException(e);
         }
     }
@@ -122,6 +124,7 @@ public class UserFacade extends AbstractFacade<User> {
         return entityManager.createNamedQuery("User.countByLogin", Long.class)
                 .setParameter("login", login).getSingleResult() > 0;
     }
+
     /**
      * Metoda, sprawdza czy istnieje użytkownik w bazie o danym emailu poprzez sprawdzenie czy rezultat wykonania
      * zapytania COUNT jest większy od 0.
@@ -141,7 +144,7 @@ public class UserFacade extends AbstractFacade<User> {
      *
      * @param email szukany email
      * @return encja User
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -150,7 +153,7 @@ public class UserFacade extends AbstractFacade<User> {
         typedQuery.setParameter("email", email);
         try {
             return typedQuery.getSingleResult();
-        } catch (NoResultException e){
+        } catch (NoResultException e) {
             throw AppNotFoundException.createUserNotFoundException(e);
         }
     }
@@ -158,9 +161,9 @@ public class UserFacade extends AbstractFacade<User> {
     /**
      * Metoda, która zwraca użytkownika o podanym kodzie do resetowania hasła
      *
-     * @param resetPasswordCode szukany kod do resetowania hasła
+     * @param resetPasswordCode szukany kod do resetowania hasła.
      * @return encja User
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -169,17 +172,17 @@ public class UserFacade extends AbstractFacade<User> {
         typedQuery.setParameter("resetPasswordCode", resetPasswordCode);
         try {
             return typedQuery.getSingleResult();
-        } catch (NoResultException e){
+        } catch (NoResultException e) {
             throw AppNotFoundException.createUserNotFoundException(e);
         }
     }
 
     /**
-     * Metoda, która zwraca użytkownika o podanym kodzie do aktywacyjnym
+     * Metoda, która zwraca użytkownika o podanym kodzie do aktywacyjnym.
      *
      * @param activationCode szukany kod aktywacyjny
      * @return encja User
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -272,6 +275,7 @@ public class UserFacade extends AbstractFacade<User> {
 
     /**
      * Metoda do usuwania encji user.
+     *
      * @param entity encja użytkownika do usunięcia
      */
     @RolesAllowed("deleteInactiveUsers")
@@ -283,7 +287,8 @@ public class UserFacade extends AbstractFacade<User> {
 
     /**
      * Metoda, sprawdza czy istnieje użytkownik w bazie o danym kodzie aktywacyjnym poprzez sprawdzenie czy rezultat wykonania
-     *  zapytania COUNT jest większy od 0
+     * zapytania COUNT jest większy od 0.
+     *
      * @param activationCode kod aktywacyjny
      * @return true/false w zaleznosci czy taki uzytkownik istnieje
      */
@@ -293,6 +298,5 @@ public class UserFacade extends AbstractFacade<User> {
         return entityManager.createNamedQuery("User.countByActivationCode", Long.class)
                 .setParameter("activationCode", activationCode).getSingleResult() > 0;
     }
-
 }
 

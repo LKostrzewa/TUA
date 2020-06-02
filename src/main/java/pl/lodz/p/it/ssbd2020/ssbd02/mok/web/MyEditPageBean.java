@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.ResourceBundle;
 
 /**
- * Klasa do obsługi widoku edycji własnych danych
+ * Klasa do obsługi widoku edycji własnych danych.
  */
 @Named
 @ViewScoped
@@ -24,7 +24,6 @@ public class MyEditPageBean implements Serializable {
     private UserEndpoint userEndpoint;
     @Inject
     private FacesContext facesContext;
-
     private EditUserDto editUserDto;
     private ResourceBundle bundle;
 
@@ -45,20 +44,20 @@ public class MyEditPageBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca komponent
+     * Metoda inicjalizująca komponent.
      */
     public void init() throws IOException {
-        try{
+        try {
             this.editUserDto = userEndpoint.getEditUserDtoByLogin();
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
             ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-            externalContext.redirect(externalContext.getRequestContextPath()+"account.xhtml?faces-redirect=true?includeViewParams=true");
+            externalContext.redirect(externalContext.getRequestContextPath() + "account.xhtml?faces-redirect=true?includeViewParams=true");
         }
     }
 
     /**
-     * Metoda obsługująca wciśnięcie guzika do edycji
+     * Metoda obsługująca wciśnięcie guzika do edycji.
      *
      * @return strona na którą zostanie przekierowany użytkownik
      */
@@ -73,9 +72,9 @@ public class MyEditPageBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca wyświetlanie wiadomości
+     * Metoda inicjalizująca wyświetlanie wiadomości.
      */
-    private void displayInit(){
+    private void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         bundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
@@ -91,7 +90,7 @@ public class MyEditPageBean implements Serializable {
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie.
      *
      * @param message wiadomość do wyświetlenia
      */
