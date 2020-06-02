@@ -1,17 +1,25 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 
 public class NewPortDto {
-
+    @NotNull
+    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{1,63}", message = "{validation.port.name}")
     private String name;
-
+    @NotNull
+    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{1,31}", message = "{validation.port.lake}")
     private String lake;
-
+    @NotNull
+    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{1,31}", message = "{validation.port.nearestCity}")
     private String nearestCity;
-
+    @NotNull
+    @Digits(integer = 3, fraction = 6, message = "{validation.port.long}")
     private BigDecimal long1;
-
+    @NotNull
+    @Digits(integer = 3, fraction = 6, message = "{validation.port.lat}")
     private BigDecimal lat;
 
     public String getName() {
