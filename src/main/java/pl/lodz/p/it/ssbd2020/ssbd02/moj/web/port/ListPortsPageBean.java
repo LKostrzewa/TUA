@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Named
 @RequestScoped
-public class ListPortsMangerPageBean {
+public class ListPortsPageBean {
     @Inject
     private PortEndpoint portEndpoint;
     @Inject
@@ -31,12 +31,14 @@ public class ListPortsMangerPageBean {
         this.activePorts = ports.stream().filter(portDetailsDto -> portDetailsDto.getActive().equals(true)).collect(Collectors.toList());
     }
 
-    public void deactivatePort(long portId){
+    public String deactivatePort(long portId){
         try{
             portEndpoint.deactivatePort(portId);
             displayMessage("deactivate.success");
+            return "listPorts.xhtml?faces-redirect=true";
         }catch (AppBaseException e){
             displayError(e.getLocalizedMessage());
+            return "listPorts.xhtml?faces-redirect=true";
         }
     }
 

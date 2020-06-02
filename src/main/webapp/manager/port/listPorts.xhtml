@@ -19,7 +19,7 @@
         <ui:define name="content">
             <h:form id="form">
                 <p:growl id="message" showDetail="true"/>
-                <p:dataTable var="port" value="#{listPortsMangerPageBean.ports}" rows="10"
+                <p:dataTable var="port" value="#{listPortsPageBean.ports}" rows="10"
                              border="2"
                              paginator="true"
                              first="0"
@@ -40,7 +40,7 @@
                         <p:button value="${msg['details']}" outcome="portDetails.xhtml?faces-redirect=true">
                             <f:param name="portId" value="#{port.id}"/>
                         </p:button>
-                        <p:commandButton rendered="#{port.active}" value="#{msg['deactivate']}" action="#{listPortsMangerPageBean.deactivatePort(port.id)}" update="message form"
+                        <p:commandButton rendered="#{port.active}" value="#{msg['deactivate']}" action="#{listPortsPageBean.deactivatePort(port.id)}" update="message form"
                                          ajax="false" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
                     </p:column>
                 </p:dataTable>
