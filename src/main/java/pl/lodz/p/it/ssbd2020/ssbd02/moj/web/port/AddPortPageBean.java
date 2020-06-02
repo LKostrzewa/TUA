@@ -37,8 +37,7 @@ public class AddPortPageBean {
         newPortDto = new NewPortDto();
     }
 
-    //throws tymczasowe bedzie obslugiwane na widoku
-    public String addPort() throws AppBaseException {
+    public String addPort(){
         try {
             portEndpoint.addPort(newPortDto);
             displayMessage();

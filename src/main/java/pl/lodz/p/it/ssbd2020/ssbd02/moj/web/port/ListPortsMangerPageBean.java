@@ -12,20 +12,23 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Named
 @RequestScoped
-public class ListPortsPageBean {
+public class ListPortsMangerPageBean {
     @Inject
     private PortEndpoint portEndpoint;
     @Inject
     private FacesContext facesContext;
     private ResourceBundle resourceBundle;
     private List<PortDetailsDto> ports;
+    private List<PortDetailsDto> activePorts;
 
     @PostConstruct
     private void init() {
         this.ports = portEndpoint.getAllPorts();
+        this.activePorts = ports.stream().filter(portDetailsDto -> portDetailsDto.getActive().equals(true)).collect(Collectors.toList());
     }
 
     public void deactivatePort(long portId){
@@ -77,4 +80,11 @@ public class ListPortsPageBean {
         this.ports = ports;
     }
 
+    public List<PortDetailsDto> getActivePorts() {
+        return activePorts;
+    }
+
+    public void setActivePorts(List<PortDetailsDto> activePorts) {
+        this.activePorts = activePorts;
+    }
 }

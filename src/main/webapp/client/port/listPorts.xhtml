@@ -19,7 +19,7 @@
         <ui:define name="content">
             <h:form>
                 <p:growl id="growl" showDetail="true" sticky="true"/>
-                <p:dataTable var="port" value="#{listPortsPageBean.ports}" rows="10"
+                <p:dataTable var="port" value="#{listPortsMangerPageBean.activePorts}" rows="10"
                              border="2"
                              paginator="true"
                              first="0"
@@ -40,11 +40,7 @@
                         <p:button value="${msg['details']}" outcome="portDetails.xhtml?faces-redirect=true">
                             <f:param name="portId" value="#{port.id}"/>
                         </p:button>
-                        <p:button value="${msg['manager.menu.yachts.list']}" outcome="/client/yacht/listYachts.xhtml?faces-redirect=true">
-                            <f:param name="portId" value="#{port.id}"/>
-                        </p:button>
                     </p:column>
-
                 </p:dataTable>
             </h:form>
         </ui:define>
