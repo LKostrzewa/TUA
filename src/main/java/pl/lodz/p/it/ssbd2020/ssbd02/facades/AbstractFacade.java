@@ -3,17 +3,16 @@ package pl.lodz.p.it.ssbd2020.ssbd02.facades;
 import org.eclipse.persistence.exceptions.DatabaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
 
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
-import javax.validation.*;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
- * Fasadowa klasa abstrakcyjna po której dziedziczą wszystkie inne klasy fasadowe
+ * Fasadowa klasa abstrakcyjna po której dziedziczą wszystkie inne klasy fasadowe.
  */
 public abstract class AbstractFacade<T> {
     private final Class<T> entityClass;
@@ -28,7 +27,7 @@ public abstract class AbstractFacade<T> {
      * Bazowa metoda, która tworzy encje.
      *
      * @param entity tworzona encja
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     public void create(T entity) throws AppBaseException {
         try {
@@ -39,7 +38,7 @@ public abstract class AbstractFacade<T> {
         } catch (ConstraintViolationException e) {
             throw AppConstraintViolationException.createAppConstraintViolationException(entity, e);
         } catch (DatabaseException e) {
-            throw AppDatabaseException.createAppDatabaseException(entity,e);
+            throw AppDatabaseException.createAppDatabaseException(entity, e);
         }
     }
 
@@ -47,7 +46,7 @@ public abstract class AbstractFacade<T> {
      * Bazowa metoda, która edytuje encje.
      *
      * @param entity modyfikowana encja
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     public void edit(T entity) throws AppBaseException {
         try {
@@ -60,7 +59,7 @@ public abstract class AbstractFacade<T> {
         } catch (ConstraintViolationException e) {
             throw AppConstraintViolationException.createAppConstraintViolationException(entity, e);
         } catch (DatabaseException e) {
-            throw AppDatabaseException.createAppDatabaseException(entity,e);
+            throw AppDatabaseException.createAppDatabaseException(entity, e);
         }
     }
 
@@ -93,6 +92,4 @@ public abstract class AbstractFacade<T> {
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();
     }
-
-
 }

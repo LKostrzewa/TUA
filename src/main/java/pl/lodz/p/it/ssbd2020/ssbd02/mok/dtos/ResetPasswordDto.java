@@ -3,7 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 import javax.validation.constraints.Pattern;
 
 /**
- * DTO do resetowania hasła
+ * DTO do resetowania hasła.
  */
 public class ResetPasswordDto {
 

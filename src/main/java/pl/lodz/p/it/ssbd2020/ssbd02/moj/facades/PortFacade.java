@@ -17,6 +17,9 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Klasa fasadowa powiązana z encją Port.
+ */
 @Stateless
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
@@ -41,7 +44,7 @@ public class PortFacade extends AbstractFacade<Port> {
      * @return optional z wyszukanym obiektem encji lub pusty, jeśli poszukiwany obiekt encji nie istnieje
      */
     @Override
-    @RolesAllowed({"getPortById","getAllYachtsByPort","assignYachtToPort", "retractYachtToPort","deactivatePort"})
+    @RolesAllowed({"getPortById", "getAllYachtsByPort", "assignYachtToPort", "retractYachtToPort", "deactivatePort"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Port> find(Object id) {
         return super.find(id);
@@ -50,7 +53,7 @@ public class PortFacade extends AbstractFacade<Port> {
     /**
      * Metoda, która zwraca listę portów.
      *
-     * @return lista portów.
+     * @return lista portów
      */
     @Override
     @RolesAllowed("getAllPorts")
@@ -62,7 +65,7 @@ public class PortFacade extends AbstractFacade<Port> {
     /**
      * Metoda, dodaje podany port do bazy danych.
      *
-     * @param port encja portu do dodania do bazy.
+     * @param port encja portu do dodania do bazy
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
@@ -75,11 +78,11 @@ public class PortFacade extends AbstractFacade<Port> {
     /**
      * Metoda, która edytuje encje portu.
      *
-     * @param port encja portu.
+     * @param port encja portu
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"editPort","deactivatePort","assignYachtToPort", "retractYachtToPort"})
+    @RolesAllowed({"editPort", "deactivatePort", "assignYachtToPort", "retractYachtToPort"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(Port port) throws AppBaseException {
         super.edit(port);
@@ -88,8 +91,7 @@ public class PortFacade extends AbstractFacade<Port> {
     /**
      * Metoda, która usuwa encje portu z bazy.
      *
-     * @param port encja jacht.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param port encja jacht
      */
     @Override
     @DenyAll
@@ -101,10 +103,10 @@ public class PortFacade extends AbstractFacade<Port> {
      * Metoda, sprawdza czy istnieje port w bazie o danej nazwie poprzez sprawdzenie czy rezultat wykonania
      * zapytania COUNT jest większy od 0.
      *
-     * @param name nazwa portu.
+     * @param name nazwa portu
      * @return true/false zależnie czy port o danej nazwie istnieje lub nie
      */
-    @RolesAllowed({"addPort","editPort"})
+    @RolesAllowed({"addPort", "editPort"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public boolean existByName(String name) {
         return entityManager.createNamedQuery("Port.countByName", Long.class)

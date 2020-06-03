@@ -12,6 +12,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.ResourceBundle;
 
+/**
+ * Klasa do obsługi widoku dodawania opinii.
+ */
 @Named
 @RequestScoped
 public class AddOpinionPageBean {
@@ -30,25 +33,40 @@ public class AddOpinionPageBean {
         this.newOpinionDTO = newOpinionDTO;
     }
 
+    /**
+     * Metoda inicjalizująca komponent.
+     */
     @PostConstruct
     public void init() {
         this.newOpinionDTO = new NewOpinionDto();
     }
 
+    /**
+     * Metoda obsługująca wciśnięcie guzika do dodania nowej opinii.
+     *
+     * @return strona na którą zostanie przekierowany użytkownik
+     */
     public String addOpinion() {
         try {
             opinionEndpoint.addOpinion(newOpinionDTO);
             displayMessage();
-        } catch (AppBaseException e){
+        } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
         return "client/rentalDetails.xhtml?faces-redirect=true";
     }
-    public void displayInit(){
+
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości.
+     */
+    public void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
+     */
     public void displayMessage() {
         displayInit();
         String msg = resourceBundle.getString("opinion.addInfo");
@@ -56,11 +74,15 @@ public class AddOpinionPageBean {
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie.
+     *
+     * @param message wiadomość do wyświetlenia
+     */
     private void displayError(String message) {
         displayInit();
         String msg = resourceBundle.getString(message);
         String head = resourceBundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
     }
-
 }

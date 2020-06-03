@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.ResourceBundle;
 
 /**
- * Klasa do obsługi widoku zmiany poziomu dostępu
+ * Klasa do obsługi widoku zmiany poziomu dostępu.
  */
 @Named
 @ViewScoped
@@ -45,7 +45,7 @@ public class ChangeAccessLevelPageBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca komponent
+     * Metoda inicjalizująca komponent.
      */
     public void init() throws IOException {
         try {
@@ -59,7 +59,7 @@ public class ChangeAccessLevelPageBean implements Serializable {
     }
 
     /**
-     * Metoda obsługująca wciśnięcie guzika do zmiany poziomu dostępu
+     * Metoda obsługująca wciśnięcie guzika do zmiany poziomu dostępu.
      *
      * @return strona na którą zostanie przekierowany użytkownik
      */
@@ -74,7 +74,7 @@ public class ChangeAccessLevelPageBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca wyświetlanie wiadomości
+     * Metoda inicjalizująca wyświetlanie wiadomości.
      */
     private void displayInit() {
         context.getExternalContext().getFlash().setKeepMessages(true);
@@ -82,7 +82,7 @@ public class ChangeAccessLevelPageBean implements Serializable {
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
      */
     private void displayMessage() {
         displayInit();
@@ -92,7 +92,7 @@ public class ChangeAccessLevelPageBean implements Serializable {
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie.
      *
      * @param message wiadomość do wyświetlenia
      */

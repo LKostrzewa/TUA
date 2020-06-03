@@ -19,6 +19,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Implementacja interfejsu RentalEndpoint.
+ */
 @Stateful
 @Interceptors(LoggerInterceptor.class)
 public class RentalEndpointImpl implements Serializable, RentalEndpoint {
@@ -72,7 +75,6 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
         return ObjectMapperUtils.map(rental, RentalDetailsDto.class);
     }
 
-
     /**
      * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
      *
@@ -94,6 +96,6 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
      */
     @RolesAllowed("getResultListRental")
     public List<ListAllRentalsDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
-        return ObjectMapperUtils.mapAll(rentalManager.getResultList(first,pageSize,filters), ListAllRentalsDto.class);
+        return ObjectMapperUtils.mapAll(rentalManager.getResultList(first, pageSize, filters), ListAllRentalsDto.class);
     }
 }

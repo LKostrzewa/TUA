@@ -3,6 +3,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * DTO do wyświetlenia szczegółów danego wypożyczenia.
+ */
 public class RentalDetailsDto {
     private String yachtName;
     private String yachtYachtModelModel;

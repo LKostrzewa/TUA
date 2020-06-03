@@ -3,7 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 import javax.validation.constraints.Pattern;
 
 /**
- * DTO do edycji danych innego użytkownika
+ * DTO do edycji danych innego użytkownika.
  */
 public class EditUserDto {
     @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,31}", message = "{validation.firstName}")

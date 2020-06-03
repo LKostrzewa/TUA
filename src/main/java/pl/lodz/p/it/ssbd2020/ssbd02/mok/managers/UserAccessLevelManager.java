@@ -13,7 +13,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.facades.UserAccessLevelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
-
 import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
@@ -51,9 +50,9 @@ public class UserAccessLevelManager extends AbstractManager implements SessionSy
     /**
      * Metoda, która modyfikuje przypisane do użytkownika poziomy dostępu.
      *
-     * @param user encja user.
+     * @param user                encja user.
      * @param userAccessLevelList lista zawierająca informacje o obencych oraz nowych poziomach dostępu.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem.
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem.
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     @RolesAllowed("editUserAccessLevels")
@@ -101,5 +100,4 @@ public class UserAccessLevelManager extends AbstractManager implements SessionSy
             throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
     }
-
 }

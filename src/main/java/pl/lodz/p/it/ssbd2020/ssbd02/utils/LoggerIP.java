@@ -13,22 +13,21 @@ import java.util.logging.Logger;
 
 /**
  * Klasa loggera, która zapisuje do dziennika zdarzeń moment logowania (login + adress IP)
- * oraz zmianę poziomu dostępu (login + adress IP)
+ * oraz zmianę poziomu dostępu (login + adress IP).
  */
 @SessionScoped
 public class LoggerIP implements Serializable {
+    private final Logger LOGGER = Logger.getGlobal();
     @Inject
     private FacesContext facesContext;
     @Inject
     private CurrentUser currentUser;
 
-    private final Logger LOGGER = Logger.getGlobal();
-
     /**
-     * Metoda która zapisuje do dziennika zdarzeń informację o uwierzytelnieniu użytkownika
+     * Metoda która zapisuje do dziennika zdarzeń informację o uwierzytelnieniu użytkownika.
      */
-    public void login(){
-        LOGGER.log(Level.INFO,"User: \""
+    public void login() {
+        LOGGER.log(Level.INFO, "User: \""
                 + facesContext.getExternalContext().getUserPrincipal().getName()
                 + "\" starts the session with access level: \""
                 + currentUser.getCurrentRole()
@@ -37,9 +36,9 @@ public class LoggerIP implements Serializable {
     }
 
     /**
-     * Metoda która zapisuje do dziennika zdarzeń informację o zmianie poziomu dostępu przez użytkownika
+     * Metoda która zapisuje do dziennika zdarzeń informację o zmianie poziomu dostępu przez użytkownika.
      */
-    public void accessLevelChange(){
+    public void accessLevelChange() {
         LOGGER.log(Level.INFO, "User: \""
                 + facesContext.getExternalContext().getUserPrincipal().getName()
                 + "\" has changed the access level to: \""
@@ -49,7 +48,7 @@ public class LoggerIP implements Serializable {
     }
 
     /**
-     * Metoda wyciągająca z FacesContext żądanie http
+     * Metoda wyciągająca z FacesContext żądanie http.
      *
      * @return obiekt HttpServletRequest przechowujący informację o żądaniu http
      */
@@ -60,7 +59,7 @@ public class LoggerIP implements Serializable {
     }
 
     /**
-     * Metoda pobiera adress IP z żądania http
+     * Metoda pobiera adress IP z żądania http.
      *
      * @return String z adresem IP, z którego nastąpiło żądanie
      */

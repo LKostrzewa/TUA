@@ -10,6 +10,9 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.RentalDetailsDto;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Interfejs Endpoint do operacji związanych z wypożyczeniem.
+ */
 public interface RentalEndpoint {
 
     /**

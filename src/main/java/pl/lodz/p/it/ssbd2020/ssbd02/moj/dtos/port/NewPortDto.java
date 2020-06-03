@@ -2,6 +2,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port;
 
 import java.math.BigDecimal;
 
+/**
+ * DTO do dodawania nowego portu.
+ */
 public class NewPortDto {
     private String name;
     private String lake;

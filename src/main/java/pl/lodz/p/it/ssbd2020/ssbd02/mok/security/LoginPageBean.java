@@ -30,6 +30,9 @@ import java.util.ResourceBundle;
 
 import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
 
+/**
+ * Klasa do obsługi widoku logowania.
+ */
 @FacesConfig
 @Named
 @SessionScoped
@@ -60,6 +63,9 @@ public class LoginPageBean implements Serializable {
         this.userLoginDto = userLoginDto;
     }
 
+    /**
+     * Metoda inicjalizująca komponent.
+     */
     @PostConstruct
     private void init() {
         userLoginDto = new UserLoginDto();
@@ -69,6 +75,11 @@ public class LoginPageBean implements Serializable {
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
     }
 
+    /**
+     * Metoda do obsługi logowania.
+     *
+     * @throws IOException wyjątek jeśli logowanie zakończy się niepowodzeniem
+     */
     public void login() throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
         Credential credential = new UsernamePasswordCredential(userLoginDto.getLogin(), new Password(userLoginDto.getPassword()));
@@ -133,12 +144,16 @@ public class LoginPageBean implements Serializable {
         }
     }
 
+    /**
+     * Metoda wyświetla odpowiednie powiadomienie o błędnej próbie logowania.
+     *
+     * @param message wiadomość do wyświetlenia
+     */
     private void displayError(String message) {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
         String msg = resourceBundle.getString(message);
         String head = resourceBundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
-
     }
 
     private HttpServletRequest getHttpRequestFromFacesContext() {

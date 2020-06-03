@@ -2,6 +2,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
 import java.math.BigDecimal;
 
+/**
+ * DTO do dodawnia nowego jachtu.
+ */
 public class NewYachtDto {
     private String name;
     private Integer productionYear;

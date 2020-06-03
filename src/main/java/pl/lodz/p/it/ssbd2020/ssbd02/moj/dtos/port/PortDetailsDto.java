@@ -3,6 +3,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port;
 
 import java.math.BigDecimal;
 
+/**
+ * DTO do wyświetlania szczegółów portu.
+ */
 public class PortDetailsDto {
     private Long id;
     private String name;

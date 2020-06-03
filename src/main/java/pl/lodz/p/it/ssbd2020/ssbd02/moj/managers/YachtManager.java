@@ -18,6 +18,9 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
 
+/**
+ * Klasa menadżera do obsługi operacji związanych z jachtami.
+ */
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
@@ -28,11 +31,11 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
     private YachtModelFacade yachtModelFacade;
 
     /**
-     * Metoda, służy do dodawania nowych jachtów do bazy danych przez menadżera
+     * Metoda, służy do dodawania nowych jachtów do bazy danych przez menadżera.
      *
-     * @param yacht obiekt jacht z danymi nowego jachtu.
+     * @param yacht obiekt jacht z danymi nowego jachtu
      * @param yachtModelId id modelu jachtu
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("addYacht")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -55,7 +58,6 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
      * Metoda, która zwraca wszystkie jachty
      *
      * @return lista jachtów
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getAllYachts")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -66,9 +68,9 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
     /**
      * Metoda, która zwraca yacht o podanym id.
      *
-     * @param yachtId id jachtu.
+     * @param yachtId id jachtu
      * @return yacht dto
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed({"getYachtById","getEditYachtDtoById"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -77,10 +79,10 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
     }
 
     /**
-     * Metoda, która zapisuje wprowadzone przez managera zmiany w jachcie
+     * Metoda, która zapisuje wprowadzone przez managera zmiany w jachcie.
      *
-     * @param yachtToEdit edytowany jacht.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param yachtToEdit edytowany jacht
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("editYacht")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -94,8 +96,8 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
     /**
      * Metoda, która deaktywuje jacht o podanym id.
      *
-     * @param yachtId id jachtu.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param yachtId id jachtu
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("deactivateYacht")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)

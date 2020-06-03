@@ -4,24 +4,22 @@ package pl.lodz.p.it.ssbd2020.ssbd02.utils;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.EmailNotSentException;
 
-import javax.annotation.security.PermitAll;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 /**
- * Klasa przeznaczona do wysyłania emaili
+ * Klasa przeznaczona do wysyłania emaili.
  */
 public class SendEmail {
 
     /**
-     * Metoda która wysyła maila do użytkownika z linkiem aktywacyjnym
+     * Metoda która wysyła maila do użytkownika z linkiem aktywacyjnym.
+     *
      * @param activationlink link aktywacyjny użytkownika
-     * @param userName nazwa użytkownika
-     * @param userEmail email użytkownika
+     * @param userName       nazwa użytkownika
+     * @param userEmail      email użytkownika
      * @throws AppBaseException bazowy wyjątek aplikacyjny
      */
 
@@ -33,7 +31,8 @@ public class SendEmail {
     }
 
     /**
-     * Metoda która wysyła maila do użytkownika i powiadamia go o aktywacji konta
+     * Metoda która wysyła maila do użytkownika i powiadamia go o aktywacji konta.
+     *
      * @param userEmail email użytkownika
      * @throws AppBaseException bazowy wyjątek aplikacyjny
      */
@@ -43,6 +42,7 @@ public class SendEmail {
         String emailText = propertyReader.getProperty("emailMessages", "afterActivationText");
         emailBody(userEmail, emailSubject, emailText);
     }
+
     /**
      * Metoda, która wysyła maila do użytkownika, powiadamiająca go o zablokowaniu konta.
      *
@@ -68,22 +68,22 @@ public class SendEmail {
     }
 
     /**
-     * Metoda, która wysyła maila do użytkownika z poziomem dostępu administrator, powiadamiająca go o zalogowaniu
+     * Metoda, która wysyła maila do użytkownika z poziomem dostępu administrator, powiadamiająca go o zalogowaniu.
      *
-     * @param userEmail email użytkownika
+     * @param userEmail       email użytkownika
      * @param clientIpAddress adres ip użytkownika
      */
-    public void sendEmailNotificationAboutNewAdminAuthentication(String userEmail, String clientIpAddress) throws AppBaseException{
-        PropertyReader propertyReader= new PropertyReader();
-        String emailSubject= propertyReader.getProperty("emailMessages","adminAuthenticationSubject");
-        String emailText= propertyReader.getProperty("emailMessages","adminAuthenticationText",clientIpAddress);
+    public void sendEmailNotificationAboutNewAdminAuthentication(String userEmail, String clientIpAddress) throws AppBaseException {
+        PropertyReader propertyReader = new PropertyReader();
+        String emailSubject = propertyReader.getProperty("emailMessages", "adminAuthenticationSubject");
+        String emailText = propertyReader.getProperty("emailMessages", "adminAuthenticationText", clientIpAddress);
         emailBody(userEmail, emailSubject, emailText);
     }
 
     /**
-     * Metoda, która wysyła maila do użytkownika z linkiem do resetowania hasła
+     * Metoda, która wysyła maila do użytkownika z linkiem do resetowania hasła.
      *
-     * @param userEmail email użytkownika
+     * @param userEmail         email użytkownika
      * @param resetPasswordCode kod do resetowania hasła
      */
     public void sendResetPasswordEmail(String userEmail, String resetPasswordCode) throws AppBaseException {
@@ -94,7 +94,7 @@ public class SendEmail {
     }
 
     /**
-     * Metoda sluzaca do zainicjalizowania ustawien niezbędnych do łączenia sie serwerem smtp w danej sesji
+     * Metoda sluzaca do zainicjalizowania ustawien niezbędnych do łączenia sie serwerem smtp w danej sesji.
      *
      * @return obiekt sesji
      */
@@ -110,7 +110,6 @@ public class SendEmail {
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtp.port", port);
 
-
         return Session.getInstance(properties, new javax.mail.Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -121,11 +120,11 @@ public class SendEmail {
     }
 
     /**
-     * Metoda, która wysyła przygotowane emaile
+     * Metoda, która wysyła przygotowane emaile.
      *
-     * @param userEmail email użytkownika
+     * @param userEmail    email użytkownika
      * @param emailSubject temat wiadomości
-     * @param emailText treść wiadomości
+     * @param emailText    treść wiadomości
      */
     private void emailBody(String userEmail, String emailSubject, String emailText) throws AppBaseException {
         PropertyReader propertyReader = new PropertyReader();

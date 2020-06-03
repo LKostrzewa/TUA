@@ -5,7 +5,7 @@ import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 /**
- * DTO do logowania
+ * DTO do logowania.
  */
 public class UserLoginDto {
     private Long id;

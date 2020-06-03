@@ -14,6 +14,9 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
 
+/**
+ * Klasa menadżera do obsługi operacji związanych z portami.
+ */
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
@@ -24,8 +27,8 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
     /**
      * Metoda, służy do dodawania nowych portów do bazy danych.
      *
-     * @param port encja portu.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param port encja portu
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("addPort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -40,10 +43,10 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
     }
 
     /**
-     * Metoda, która edytuje zmiany wprowadzone w encji portu.
+     * Metoda, która edytuje zmiany wprowadzone w encji portu
      *
      * @param portToEdit edytowany port.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("editPort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -58,8 +61,8 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
     /**
      * Metoda, która deaktywuje dany port.
      *
-     * @param portId identyfikator portu.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param portId identyfikator portu
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("deactivatePort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -85,7 +88,7 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
      *
      * @param portId id portu.
      * @return port
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getPortById")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)

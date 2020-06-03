@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.ResourceBundle;
 
 /**
- * Klasa do obsługi widoku zmiany hasła użytkownika
+ * Klasa do obsługi widoku zmiany hasła użytkownika.
  */
 @Named
 @ViewScoped
@@ -22,7 +22,6 @@ public class ChangePasswordPageBean implements Serializable {
     private UserEndpoint userEndpoint;
     private ChangePasswordDto changePasswordDto;
     private Long userId;
-
     @Inject
     private FacesContext context;
     private ResourceBundle resourceBundle;
@@ -44,16 +43,16 @@ public class ChangePasswordPageBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca komponent
+     * Metoda inicjalizująca komponent.
      */
     public void init() {
         this.changePasswordDto = new ChangePasswordDto();
     }
 
     /**
-     * Metoda obsługująca wciśnięcie guzika do zmiany swojego hasła
+     * Metoda obsługująca wciśnięcie guzika do zmiany swojego hasła.
      *
-     * @return strona na którą zostanie przekierowany użytkownik
+     * @return strona, na którą zostanie przekierowany użytkownik
      */
     public String changePassword() {
         try {
@@ -66,15 +65,15 @@ public class ChangePasswordPageBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca wyświetlanie wiadomości
+     * Metoda inicjalizująca wyświetlanie wiadomości.
      */
-    private void displayInit(){
+    private void displayInit() {
         context.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", context.getViewRoot().getLocale());
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
      */
     private void displayMessage() {
         displayInit();
@@ -84,7 +83,7 @@ public class ChangePasswordPageBean implements Serializable {
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie.
      *
      * @param message wiadomość do wyświetlenia
      */

@@ -2,7 +2,6 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppDatabaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -21,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Klasa fasadowa powiązana z encją User
+ * Klasa fasadowa powiązana z encją User.
  */
 @Stateless
 @LocalBean
@@ -39,24 +38,47 @@ public class UserFacade extends AbstractFacade<User> {
         return entityManager;
     }
 
+    /**
+     * Metoda, która tworzy encję.
+     *
+     * @param entity tworzona encja
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     */
     @DenyAll
     @Override
     public void create(User entity) throws AppBaseException {
         super.create(entity);
     }
 
+    /**
+     * Metoda, która znajduje wszystkie encje.
+     *
+     * @return lista encji
+     */
     @DenyAll
     @Override
     public List<User> findAll() {
         return super.findAll();
     }
 
+    /**
+     * Metoda, która zwraca encję o podanym identyfikatorze.
+     *
+     * @param id identyfikator encji
+     * @return encja T
+     */
     @DenyAll
     @Override
     public Optional<User> find(Object id) {
         return super.find(id);
     }
 
+    /**
+     * Metoda, która edytuje encję.
+     *
+     * @param user modyfikowana encja
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     */
     @DenyAll
     @Override
     public void edit(User user) throws AppBaseException {
@@ -80,6 +102,11 @@ public class UserFacade extends AbstractFacade<User> {
         }
     }
 
+    /**
+     * Metoda, która usuwa encję.
+     *
+     * @param entity usuwana encja
+     */
     @DenyAll
     @Override
     public void remove(User entity) {

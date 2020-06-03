@@ -1,10 +1,12 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.image;
 
+/**
+ * DTO zdjęcia jachtu.
+ */
 public class ImageDto {
     private Long id;
     private byte[] lob;
     private Long yachtModelId;
-
 
     public Long getId() {
         return id;

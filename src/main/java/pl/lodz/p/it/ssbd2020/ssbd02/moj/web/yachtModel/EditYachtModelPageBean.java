@@ -44,10 +44,18 @@ public class EditYachtModelPageBean implements Serializable {
         this.editYachtModelDto = editYachtModelDto;
     }
 
+    /**
+     * Metoda inicjalizująca komponent.
+     */
     public void init() throws AppBaseException{
         this.editYachtModelDto = yachtModelEndpoint.getEditYachtModelDtoById(yachtModelId);
     }
 
+    /**
+     * Metoda obsługująca wciśnięcie guzika do edycji modelu jachtu.
+     *
+     * @return strona na którą zostanie przekierowany użytkownik
+     */
     public String editYachtModel() throws AppBaseException {
         try {
             yachtModelEndpoint.editYachtModel(editYachtModelDto);
@@ -58,13 +66,17 @@ public class EditYachtModelPageBean implements Serializable {
         return "yachtDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
-
-
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości.
+     */
     public void displayInit(){
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
+     */
     public void displayMessage() {
         displayInit();
         String msg = resourceBundle.getString("users.editInfo");
@@ -72,6 +84,11 @@ public class EditYachtModelPageBean implements Serializable {
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie.
+     *
+     * @param message wiadomość do wyświetlenia
+     */
     private void displayError(String message) {
         displayInit();
         String msg = resourceBundle.getString(message);

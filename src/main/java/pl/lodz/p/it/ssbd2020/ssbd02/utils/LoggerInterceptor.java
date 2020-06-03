@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  * Klasa loggera, będąca obiektem przechwytującym (interceptor),
- * wykonuje zapisy do dziennika zdarzeń
+ * wykonuje zapisy do dziennika zdarzeń.
  */
 
 public class LoggerInterceptor implements Serializable, HttpSessionListener {
@@ -47,11 +47,9 @@ public class LoggerInterceptor implements Serializable, HttpSessionListener {
 
         StringBuilder param = new StringBuilder();
 
-
-
         if (invocationContext.getParameters() != null) {
             for (Object p : invocationContext.getParameters()) {
-                if(p.getClass().getSimpleName().equals("String")){
+                if (p.getClass().getSimpleName().equals("String")) {
                     param.append(p.getClass().getSimpleName()).append("=").append("***").append(",");
                 } else {
                     param.append(p.getClass().getSimpleName()).append("=").append(p.toString()).append(",");
@@ -64,16 +62,16 @@ public class LoggerInterceptor implements Serializable, HttpSessionListener {
                 new Object[]{className, methodName, param.toString(), callerName});
 
         Object result;
-        try{
+        try {
             result = invocationContext.proceed();
-        } catch (Exception exception){
+        } catch (Exception exception) {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             exception.printStackTrace(pw);
             String exceptionInfo = exception.getClass().getName() + ": \"" + exception.getMessage() + "\"";
             Throwable cause = exception.getCause();
 
-            if(cause != null) {
+            if (cause != null) {
                 exceptionInfo += " caused by " + cause.getClass().getName() + ": \"" + cause.getMessage() + "\"";
             }
 

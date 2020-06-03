@@ -4,7 +4,7 @@ import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 /**
- * DTO do użytkowników znajdujących się na liście wszystkich użytkowników
+ * DTO do użytkowników znajdujących się na liście wszystkich użytkowników.
  */
 public class ListUsersDto {
     private Long id;

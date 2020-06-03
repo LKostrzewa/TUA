@@ -13,9 +13,6 @@ import java.util.stream.Collectors;
 public class ObjectMapperUtils {
     private static final ModelMapper modelMapper;
 
-    /**
-     * Ustawianie domyślnej strategii dopasowywania właściwości klas na Strict
-     */
     static {
         modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);

@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Klasa do obsługi widoku raportu użytkowników
+ * Klasa do obsługi widoku raportu użytkowników.
  */
 @Named
 @ViewScoped
@@ -30,7 +30,7 @@ public class UserReportPageBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca komponent
+     * Metoda inicjalizująca komponent.
      */
     @PostConstruct
     private void init() {

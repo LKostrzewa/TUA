@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Klasa menadżera do obsługi operacji związanych z wypożyczeniami.
+ */
 @Stateful
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
@@ -39,7 +42,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
      * Metoda, która służy do dodania nowego wypożyczenia.
      *
      * @param rental obiekt encji nowego wypożyczenia
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("addRental")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -74,7 +77,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
      *
      * @param rentalId id wypożyczenia
      * @return Wypożyczenie o podanym Id
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed({"getUserRentalDetails", "cancelRental"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -101,7 +104,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
      * Metoda, która anuluje wypożyczenie.
      *
      * @param rentalId Id wypożyczenia, które użytkownik chce anulować
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("cancelRental")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -137,6 +140,6 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     @RolesAllowed("getResultListRental")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<Rental> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
-        return rentalFacade.getResultList(first,pageSize,filters);
+        return rentalFacade.getResultList(first, pageSize, filters);
     }
 }

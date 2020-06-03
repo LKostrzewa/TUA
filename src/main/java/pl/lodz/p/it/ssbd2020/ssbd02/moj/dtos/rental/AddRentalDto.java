@@ -2,6 +2,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental;
 
 import java.util.Date;
 
+/**
+ * DTO do dodawania wypożyczenia.
+ */
 public class AddRentalDto {
     private String userLogin;
     private String yachtName;

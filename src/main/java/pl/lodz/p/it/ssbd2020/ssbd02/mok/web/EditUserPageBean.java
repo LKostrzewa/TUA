@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.ResourceBundle;
 
 /**
- * Klasa do obsługi widoku edycji danych innego użytkownika
+ * Klasa do obsługi widoku edycji danych innego użytkownika.
  */
 @Named
 @ViewScoped
@@ -24,7 +24,6 @@ public class EditUserPageBean implements Serializable {
     private UserEndpoint userEndpoint;
     @Inject
     private FacesContext facesContext;
-
     private EditUserDto editUserDto;
     private Long userId;
     private ResourceBundle resourceBundle;
@@ -46,21 +45,20 @@ public class EditUserPageBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca komponent
+     * Metoda inicjalizująca komponent.
      */
     public void init() throws IOException {
         try {
             this.editUserDto = userEndpoint.getEditUserDtoById(userId);
-        }
-        catch (AppBaseException e) {
+        } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
             ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-            externalContext.redirect(externalContext.getRequestContextPath()+"userDetails.xhtml?faces-redirect=true?includeViewParams=true");
+            externalContext.redirect(externalContext.getRequestContextPath() + "userDetails.xhtml?faces-redirect=true?includeViewParams=true");
         }
     }
 
     /**
-     * Metoda obsługująca wciśnięcie guzika do edycji
+     * Metoda obsługująca wciśnięcie guzika do edycji.
      *
      * @return strona na którą zostanie przekierowany użytkownik
      */
@@ -75,15 +73,15 @@ public class EditUserPageBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca wyświetlanie wiadomości
+     * Metoda inicjalizująca wyświetlanie wiadomości.
      */
-    private void displayInit(){
+    private void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
      */
     private void displayMessage() {
         displayInit();
@@ -93,7 +91,7 @@ public class EditUserPageBean implements Serializable {
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie.
      *
      * @param message wiadomość do wyświetlenia
      */

@@ -3,6 +3,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel;
 
 import java.math.BigDecimal;
 
+/**
+ * DTO do edycji modelu jachtu.
+ */
 public class EditYachtModelDto {
     private Integer capacity;
     private String manufacturer;

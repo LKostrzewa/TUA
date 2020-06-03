@@ -25,6 +25,7 @@ import java.util.*;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
+
 /**
  * Klasa menadżera do obsługi operacji związanych z użytkownikami
  */
@@ -33,6 +34,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 @Interceptors(LoggerInterceptor.class)
 public class UserManager extends AbstractManager implements SessionSynchronization {
     private final SendEmail sendEmail = new SendEmail();
+    private final PropertyReader propertyReader = new PropertyReader();
     private String ADMIN_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
     @Inject
@@ -41,9 +43,6 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     private UserFacade userFacade;
     @Inject
     private BCryptPasswordHash bCryptPasswordHash;
-
-    private PropertyReader propertyReader = new PropertyReader();
-
 
     @PostConstruct
     private void init() {
@@ -55,7 +54,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * Metoda, która dodaje nowego użytkownika do bazy danych poprzez userFacade.
      *
      * @param user Encja użytkownika do dodania.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("addNewUser")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -87,7 +86,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * Metoda rejestrujaca nowego uzytkownika poprzez dodanie go do bazy danych za pomocą userFacade
      *
      * @param user Encja użytkownika do zarejestrowania.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -143,10 +142,10 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     /**
-     * Metoda wykorzystywana do zmiany danych konta użytkownika
+     * Metoda wykorzystywana do zmiany danych konta użytkownika.
      *
      * @param user obiekt przechowujący dane wprowadzone w formularzu
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed({"editUser", "editOwnData"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -163,7 +162,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      *
      * @param user   obiekt przechowujący dane wprowadzone w formularzu
      * @param userId id użytkownika, którego hasło ulegnie modyfikacji
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("changeUserPassword")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -183,7 +182,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      *
      * @param user             obiekt przechowujący dane wprowadzone w formularzu
      * @param givenOldPassword hasło podane w formularzu wykorzystywane przy weryfikacji użytkownika
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("changeOwnPassword")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -209,7 +208,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * Metoda, która blokuje konto o podanym id.
      *
      * @param userId id użytkownika.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("lockAccount")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -231,7 +230,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * Metoda, która odblokowywuje konto o podanym id.
      *
      * @param userId id użytkownika.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("unlockAccount")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -251,10 +250,10 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     /**
-     * Metoda, która zwraca aktualnie zalogowanego użytkownika
+     * Metoda, która zwraca aktualnie zalogowanego użytkownika.
      *
      * @return encje User
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed({"getLoginDtoByLogin", "getEditUserDtoByLogin", "findUserAccessLevelByLogin"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -263,7 +262,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     /**
-     * Metoda prywatna do tworzenia linku weryfikującego konto
+     * Metoda prywatna do tworzenia linku weryfikującego konto.
      *
      * @param user użytkownik dla którego link należy utworzyć
      * @return utworzony link
@@ -272,19 +271,19 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
         String activationCode = user.getActivationCode();
 
         String url = propertyReader.getProperty("config", "link_to_activate_account");
-        return  "<a href=" + "\"" + url + activationCode + "\">Link</a>";
+        return "<a href=" + "\"" + url + activationCode + "\">Link</a>";
     }
 
     /**
-     * Metoda aktywująca użytkownika o danym kodzie aktywacyjnym
+     * Metoda aktywująca użytkownika o danym kodzie aktywacyjnym.
      *
      * @param code kod aktywacyjny
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Boolean confirmActivationCode(String code) throws AppBaseException {
-        if(!userFacade.existByActivationCode(code)) {
+        if (!userFacade.existByActivationCode(code)) {
             return true;
         }
         User user = userFacade.findByActivationCode(code);
@@ -303,10 +302,10 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     /**
-     * Metoda wysyłająca email aktywacyjny
+     * Metoda wysyłająca email aktywacyjny.
      *
      * @param user użytkownik do którego zostanie wysłany email
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     private void sendEmailWithCode(User user) throws AppBaseException {
         try {
@@ -322,8 +321,8 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * Metoda, która zapisuje informacje o poprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      * Ustawia ilość niepoprawnych logować na 0. Wysyła mail do użytkownika jeśli zalogował się administrator.
      *
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
-     * @param login
+     * @param login login użytkownika
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("saveSuccessAuthenticate")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -358,13 +357,13 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * Metoda, która zapisuje informacje o niepoprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      * Zwiększa ilość niepoprawnych logować o 1. Jeśli wartość niepoprawnych logowań osiągnie 3, blokuje konto i wysyła maila.
      *
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void saveFailureAuthenticate(String username) throws AppBaseException {
         try {
-            if(userFacade.existByLogin(username)) {
+            if (userFacade.existByLogin(username)) {
                 User userToEdit = userFacade.findByLogin(username);
                 boolean sendBlockEmail = false;
                 if (userToEdit.isActivated() && !userToEdit.isLocked()) {
@@ -416,10 +415,10 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     /**
-     * Metoda, która na podany email wysyła wiadomość z linkiem, pod którym można zresetować zapomniane hasło
+     * Metoda, która na podany email wysyła wiadomość z linkiem, pod którym można zresetować zapomniane hasło.
      *
      * @param email adres email
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -447,10 +446,10 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     }
 
     /**
-     * Metoda, która zmienia zapomniane hasło
+     * Metoda, która zmienia zapomniane hasło.
      *
      * @param resetPasswordDto dto z danymi użytkownika potrzebnymi do zresetowania hasła
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
