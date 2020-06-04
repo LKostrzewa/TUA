@@ -1,6 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
 
+/**
+ * DTO jachtu.
+ */
 public class YachtDto {
     private Long id;
     private String name;

@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
+/**
+ * Klasa reprezentująca Scheduler.
+ */
 @Singleton
 @Startup
 @RunAs("deleteInactiveUsers")
@@ -28,15 +31,14 @@ public class DeleteInactiveUserScheduler {
     /**
      * Metoda do usuwania z bazy danych kont użytkowników. Konto jest usuwane jeżeli nie jest aktywne przez
      * ponad dobę licząc od daty utworzenia. Metoda jest wywoływana codziennie o godzinie 3.00.
-     *
      */
     @RolesAllowed("deleteInactiveUsers")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     @Schedule(hour = "3")
-    public void performTask(){
+    public void performTask() {
         List<User> users = userFacade.findAll();
         for (User user : users) {
-            if((!user.isActivated())&&(user.getCreated().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().isBefore(LocalDateTime.now().minusDays(1)))){
+            if ((!user.isActivated()) && (user.getCreated().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().isBefore(LocalDateTime.now().minusDays(1)))) {
                 userFacade.remove(user);
             }
         }

@@ -19,6 +19,9 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Klasa fasadowa powiązana z encją Yacht.
+ */
 @Stateless
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
@@ -38,8 +41,8 @@ public class YachtFacade extends AbstractFacade<Yacht> {
     /**
      * Metoda, dodaje podany jacht do bazy danych.
      *
-     * @param yacht encja jachtu do dodania do bazy.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param yacht encja jachtu do dodania do bazy
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @Override
     @RolesAllowed("addYacht")
@@ -51,11 +54,11 @@ public class YachtFacade extends AbstractFacade<Yacht> {
     /**
      * Metoda, która edytuje encje jacht.
      *
-     * @param yacht encja jachtu.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param yacht encja jachtu
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"editYacht", "deactivateYacht","editOpinion","addOpinion"})
+    @RolesAllowed({"editYacht", "deactivateYacht", "editOpinion", "addOpinion"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(Yacht yacht) throws AppBaseException {
         super.edit(yacht);
@@ -66,10 +69,9 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      *
      * @param id id jachtu.
      * @return optional <yacht>
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"getYachtById", "getEditYachtDtoById", "assignYachtToPort", "retractYachtToPort","editOpinion","addOpinion","deactivateYacht"})
+    @RolesAllowed({"getYachtById", "getEditYachtDtoById", "assignYachtToPort", "retractYachtToPort", "editOpinion", "addOpinion", "deactivateYacht"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Yacht> find(Object id) {
         return super.find(id);
@@ -79,7 +81,6 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * Metoda, która zwraca wszystkie jachty
      *
      * @return lista jachtów
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
     @RolesAllowed("getAllYachts")
@@ -92,7 +93,6 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * Metoda, która usuwa encje jacht z bazy.
      *
      * @param yacht encja jacht.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
     @DenyAll
@@ -107,7 +107,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @param name nazwa jachtu.
      * @return true/false zależnie czy użytkownik z danym loginem istnieje lub nie
      */
-    @RolesAllowed({"addYacht","editYacht"})
+    @RolesAllowed({"addYacht", "editYacht"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public boolean existByName(String name) {
         return entityManager.createNamedQuery("Yacht.countByName", Long.class)

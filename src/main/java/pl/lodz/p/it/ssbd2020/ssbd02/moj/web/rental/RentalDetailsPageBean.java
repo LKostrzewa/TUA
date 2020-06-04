@@ -9,6 +9,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
+/**
+ * Klasa od obsługi widoku szczegółowych informacji portu.
+ */
 @Named
 @ViewScoped
 public class RentalDetailsPageBean implements Serializable {
@@ -33,10 +36,16 @@ public class RentalDetailsPageBean implements Serializable {
         this.rentalId = rentalId;
     }
 
+    /**
+     * Metoda inicjalizująca komponent.
+     */
     public void init() throws AppBaseException {
         this.rentalDetails = rentalEndpoint.getUserRentalDetails(rentalId);
     }
 
+    /**
+     * Metoda anulująca wypożyczenie.
+     */
     public void cancelRental() throws AppBaseException {
         rentalEndpoint.cancelRental(rentalId);
     }

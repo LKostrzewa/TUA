@@ -13,6 +13,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Klasa do obsługi widoku listy swoich wypożyczeń.
+ */
 @Named
 @ViewScoped
 public class ListRentalsPageBean implements Serializable {
@@ -30,6 +33,9 @@ public class ListRentalsPageBean implements Serializable {
         this.rentals = rentals;
     }
 
+    /**
+     * Metoda inicjalizująca komponent.
+     */
     @PostConstruct
     private void init() {
         List<ListRentalsDto> rentals = rentalEndpoint.getRentals(currentUser.getCurrentUserLogin());

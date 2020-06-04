@@ -5,6 +5,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 
+/**
+ * DTO do dodawania nowego portu.
+ */
 public class NewPortDto {
     @NotNull
     @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{1,63}", message = "{validation.port.name}")

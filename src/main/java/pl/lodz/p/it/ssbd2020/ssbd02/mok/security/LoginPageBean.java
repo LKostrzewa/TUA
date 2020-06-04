@@ -25,10 +25,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
 import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
 
+/**
+ * Klasa do obsługi widoku logowania.
+ */
 @FacesConfig
 @Named
 @SessionScoped
@@ -59,6 +63,9 @@ public class LoginPageBean implements Serializable {
         this.userLoginDto = userLoginDto;
     }
 
+    /**
+     * Metoda inicjalizująca komponent.
+     */
     @PostConstruct
     private void init() {
         userLoginDto = new UserLoginDto();
@@ -68,6 +75,11 @@ public class LoginPageBean implements Serializable {
         CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
     }
 
+    /**
+     * Metoda do obsługi logowania.
+     *
+     * @throws IOException wyjątek jeśli logowanie zakończy się niepowodzeniem
+     */
     public void login() throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
         Credential credential = new UsernamePasswordCredential(userLoginDto.getLogin(), new Password(userLoginDto.getPassword()));
@@ -84,6 +96,7 @@ public class LoginPageBean implements Serializable {
                 facesContext.responseComplete();
                 break;
             case SUCCESS:
+                SimpleDateFormat dt = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                 try {
                     userLoginDto = userEndpoint.getLoginDtoByLogin(userLoginDto.getLogin());
                 } catch (AppBaseException e) {
@@ -91,11 +104,11 @@ public class LoginPageBean implements Serializable {
                 }
 
                 if (userLoginDto.getLastValidLogin() != null)
-                    facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastValidLogin"), String.valueOf(userLoginDto.getLastValidLogin())));
+                    facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastValidLogin"), dt.format(userLoginDto.getLastValidLogin())));
 
 
                 if (userLoginDto.getLastInvalidLogin() != null)
-                    facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastInvalidLogin"), String.valueOf(userLoginDto.getLastInvalidLogin())));
+                    facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("lastInvalidLogin"), dt.format(userLoginDto.getLastInvalidLogin())));
 
                 loggerIP.login();
 
@@ -105,16 +118,16 @@ public class LoginPageBean implements Serializable {
                     displayError(e.getLocalizedMessage());
                 }
 
-                if (FacesContext.getCurrentInstance().getExternalContext().isUserInRole(CLIENT_ACCESS_LEVEL)) {
-                    FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/client/index.xhtml");
+                if (externalContext.isUserInRole(CLIENT_ACCESS_LEVEL)) {
+                    externalContext.redirect(externalContext.getRequestContextPath() + "/client/index.xhtml");
                     break;
                 }
-                if (FacesContext.getCurrentInstance().getExternalContext().isUserInRole(MANAGER_ACCESS_LEVEL)) {
-                    FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/manager/index.xhtml");
+                if (externalContext.isUserInRole(MANAGER_ACCESS_LEVEL)) {
+                    externalContext.redirect(externalContext.getRequestContextPath() + "/manager/index.xhtml");
                     break;
                 }
-                if (FacesContext.getCurrentInstance().getExternalContext().isUserInRole(ADMIN_ACCESS_LEVEL)) {
-                    FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/admin/index.xhtml");
+                if (externalContext.isUserInRole(ADMIN_ACCESS_LEVEL)) {
+                    externalContext.redirect(externalContext.getRequestContextPath() + "/admin/index.xhtml");
                     break;
                 }
                 break;
@@ -122,8 +135,6 @@ public class LoginPageBean implements Serializable {
                 try {
                     userEndpoint.saveFailureAuthenticate(userLoginDto.getLogin());
                 } catch (AppBaseException e) {
-                    //facesContext.addMessage(null,
-                    //        new FacesMessage(SEVERITY_ERROR, bundle.getString("error"), bundle.getString("authenticationFailed")));
                     displayError(e.getLocalizedMessage());
                 }
                 externalContext.redirect(externalContext.getRequestContextPath() + "/login/errorLogin.xhtml");
@@ -133,12 +144,16 @@ public class LoginPageBean implements Serializable {
         }
     }
 
+    /**
+     * Metoda wyświetla odpowiednie powiadomienie o błędnej próbie logowania.
+     *
+     * @param message wiadomość do wyświetlenia
+     */
     private void displayError(String message) {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
         String msg = resourceBundle.getString(message);
         String head = resourceBundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
-
     }
 
     private HttpServletRequest getHttpRequestFromFacesContext() {

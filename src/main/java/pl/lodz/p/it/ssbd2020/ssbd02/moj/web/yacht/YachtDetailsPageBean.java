@@ -9,6 +9,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
+/**
+ * Klasa od obsługi widoku szczegółowych informacji jachtu.
+ */
 @Named
 @ViewScoped
 public class YachtDetailsPageBean implements Serializable {
@@ -34,6 +37,9 @@ public class YachtDetailsPageBean implements Serializable {
         this.yachtDto = yachtDto;
     }
 
+    /**
+     * Metoda inicjalizująca komponent.
+     */
     public void init() throws AppBaseException {
         this.yachtDto = yachtEndpoint.getYachtById(yachtId);
     }

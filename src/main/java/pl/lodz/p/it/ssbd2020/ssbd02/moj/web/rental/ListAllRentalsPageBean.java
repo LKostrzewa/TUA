@@ -14,6 +14,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Klasa do obsługi widoku listy wszystkich wypożyczeń.
+ */
 @Named
 @ViewScoped
 public class ListAllRentalsPageBean implements Serializable {
@@ -29,6 +32,9 @@ public class ListAllRentalsPageBean implements Serializable {
         this.rentals = rentals;
     }
 
+    /**
+     * Metoda inicjalizująca komponent.
+     */
     @PostConstruct
     private void init() {
         rentals = new LazyDataModel<>() {

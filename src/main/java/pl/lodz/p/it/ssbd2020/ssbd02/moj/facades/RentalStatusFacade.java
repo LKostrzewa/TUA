@@ -19,6 +19,9 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Klasa fasadowa powiązana z encją RentalStatus.
+ */
 @Stateless
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
@@ -52,24 +55,47 @@ public class RentalStatusFacade extends AbstractFacade<RentalStatus> {
         }
     }
 
+    /**
+     * Metoda, która edytuje encje.
+     *
+     * @param rentalStatus modyfikowana encja
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     */
     @Override
     @DenyAll
     public void edit(RentalStatus rentalStatus) throws AppBaseException {
         super.edit(rentalStatus);
     }
 
+    /**
+     * Metoda, która tworzy encje.
+     *
+     * @param entity tworzona encja
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     */
     @Override
     @DenyAll
     public void create(RentalStatus entity) throws AppBaseException {
         super.create(entity);
     }
 
+    /**
+     * Metoda, która usuwa encje.
+     *
+     * @param entity usuwana encja
+     */
     @Override
     @DenyAll
     public void remove(RentalStatus entity) {
         super.remove(entity);
     }
 
+    /**
+     * Metoda, która zwraca encje o podanym identyfikatorze.
+     *
+     * @param id identyfikator encji
+     * @return encja RentalStatus
+     */
     @Override
     @DenyAll
     public Optional<RentalStatus> find(Object id) {

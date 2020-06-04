@@ -45,7 +45,7 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
      *
      * @param name nazwa poziomu dostępu.
      * @return encje AccessLevel
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -54,8 +54,7 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
         typedQuery.setParameter("name", name);
         try {
             return typedQuery.getSingleResult();
-        }
-        catch (NoResultException e) {
+        } catch (NoResultException e) {
             throw AppNotFoundException.createAccessLevelNotFoundException(e);
         }
     }
@@ -73,7 +72,7 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
     }
 
     /**
-     * Metoda do dodania encji AccessLevel do bazy danych. W aplikacji niewykorzystywana (DenyAll)
+     * Metoda do dodania encji AccessLevel do bazy danych. W aplikacji niewykorzystywana (DenyAll).
      *
      * @param entity encja UserAccessLevel do dodania
      */
@@ -95,7 +94,7 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
     }
 
     /**
-     * Metoda do usunięcia encji AccessLevel. W aplikacji niewykorzystywana (DenyAll)
+     * Metoda do usunięcia encji AccessLevel. W aplikacji niewykorzystywana (DenyAll).
      *
      * @param entity encja UserAccessLevel do usunięcia
      */
@@ -106,7 +105,7 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
     }
 
     /**
-     * Metoda do pobrania encji AccessLevel po identyfikatorze. W aplikacji niewykorzystywana (DenyAll)
+     * Metoda do pobrania encji AccessLevel po identyfikatorze. W aplikacji niewykorzystywana (DenyAll).
      *
      * @param id id encji AccessLevel do pobrania
      */

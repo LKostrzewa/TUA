@@ -1,14 +1,16 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 /**
- * DTO do logowania
+ * DTO do logowania.
  */
 public class UserLoginDto {
     private Long id;
     @NotBlank(message = "{username.message}")
+    @Pattern(regexp = "^[^=;%&'\"/\\s\\\\]+$", message = "{validation.invalidCharacter}")
     private String login;
     @NotBlank(message = "{password.message}")
     private String password;

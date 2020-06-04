@@ -11,6 +11,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
+/**
+ * Klasa do obsługi widoku dodawania wypożyczenia.
+ */
 @Named
 @ConversationScoped
 public class AddRentalPageBean implements Serializable {
@@ -30,6 +33,12 @@ public class AddRentalPageBean implements Serializable {
         this.addRentalDto = addRentalDto;
     }
 
+    /**
+     * Metoda obsługująca kliknięcie przycisku do wypożyczenia danego jachtu.
+     *
+     * @param yachtName nazwa jachtu, który ma zostać wypożyczony
+     * @return strona, na którą ma zostać przekierowany użytkownik
+     */
     public String onClick(String yachtName) {
         conversation.begin();
         this.addRentalDto.setYachtName(yachtName);
@@ -37,6 +46,11 @@ public class AddRentalPageBean implements Serializable {
         return "addRental.xhtml?faces-redirect=true";
     }
 
+    /**
+     * Metoda obsługująca kliknięcie przycisku potwierdzającego wypożyczenie danego jachtu.
+     *
+     * @return strona, na którą ma zostać przekierowany użytkownik
+     */
     public String onFinish() throws AppBaseException {
         rentalEndpoint.addRental(addRentalDto);
         conversation.end();

@@ -16,6 +16,9 @@ import javax.interceptor.Interceptors;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Klasa reprezentująca Scheduler.
+ */
 @Singleton
 @Startup
 @RunAs("updateRentalStatus")

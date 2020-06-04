@@ -6,16 +6,19 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
+/**
+ * Klasa od obsługi widoku szczegółowych informacji portu.
+ */
 @Named
 @ViewScoped
 public class PortDetailsPageBean implements Serializable {
-
     @Inject
     private PortEndpoint portEndpoint;
     @Inject
@@ -40,6 +43,9 @@ public class PortDetailsPageBean implements Serializable {
         this.portId = portId;
     }
 
+    /**
+     * Metoda inicjalizująca komponent.
+     */
     public void init(){
         try {
             this.portDetails = portEndpoint.getPortDetailsById(this.portId);

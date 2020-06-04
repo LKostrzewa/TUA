@@ -15,19 +15,16 @@ import java.io.Serializable;
 import java.util.ResourceBundle;
 
 /**
- * Klasa do obsługi widoku rejestracji użytkownika
+ * Klasa do obsługi widoku rejestracji użytkownika.
  */
 @Named
 @RequestScoped
 public class UserRegistrationBean implements Serializable {
     @Inject
     private UserEndpoint userEndpoint;
-
     @Inject
     private FacesContext facesContext;
-
     private AddUserDto userDto;
-
     private ResourceBundle bundle;
 
     public AddUserDto getUserDto() {
@@ -39,7 +36,7 @@ public class UserRegistrationBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca komponent
+     * Metoda inicjalizująca komponent.
      */
     @PostConstruct
     public void init() {
@@ -48,7 +45,7 @@ public class UserRegistrationBean implements Serializable {
     }
 
     /**
-     * Metoda obsługująca wciśnięcie guzika do rejestracji
+     * Metoda obsługująca wciśnięcie guzika do rejestracji.
      *
      * @return strona na którą zostanie przekierowany użytkownik
      */
@@ -64,14 +61,14 @@ public class UserRegistrationBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca wyświetlanie wiadomości
+     * Metoda inicjalizująca wyświetlanie wiadomości.
      */
     private void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
      */
     private void displayMessage() {
         displayInit();
@@ -81,7 +78,7 @@ public class UserRegistrationBean implements Serializable {
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie.
      *
      * @param message wiadomość do wyświetlenia
      */

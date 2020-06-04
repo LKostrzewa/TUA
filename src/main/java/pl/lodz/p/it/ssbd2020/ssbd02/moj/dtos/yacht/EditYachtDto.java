@@ -1,8 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
+/**
+ * DTO do edycji jachtu.
+ */
 public class EditYachtDto {
     private String name;
     private BigDecimal priceMultiplier;

@@ -26,7 +26,7 @@
                 <f:event type="preRenderView" listener="#{userDetailsPageBean.init}"/>
             </f:metadata>
             <h:form id="form">
-                <p:growl id="message" showDetail="true"/>
+                <p:growl id="message" showDetail="true" sticky="true"/>
                 <h:outputStylesheet library="css" name="userDetails.css"/>
                 <p:panelGrid columns="2" styleClass="userDetails" style="align-content: center">
                     <h:outputLabel value="#{msg['firstName']}:"/>
@@ -40,9 +40,13 @@
                     <h:outputLabel value="#{msg['phoneNumber']}:"/>
                     <h:outputText value="#{userDetailsPageBean.userDetailsDto.phoneNumber}"/>
                     <h:outputLabel value="#{msg['created']}:"/>
-                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.created}"/>
+                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.created}">
+                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss"/>
+                    </h:outputText>
                     <h:outputLabel value="#{msg['lastValidLogin']}:"/>
-                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.lastValidLogin}"/>
+                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.lastValidLogin}">
+                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss"/>
+                    </h:outputText>
                     <h:outputLabel value="#{msg['activated']}:"/>
                     <h:outputText value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDto.activated}"/>
                     <h:outputText value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDto.activated}"/>

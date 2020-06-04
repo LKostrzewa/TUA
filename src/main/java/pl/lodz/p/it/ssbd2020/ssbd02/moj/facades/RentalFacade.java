@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Klasa fasadowa powiązana z encją Rental.
+ */
 @Stateless
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
@@ -66,7 +69,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * Metoda, która sprawdza czy wypożyczenie danego jachtu koliduje z innymi wypożyczeniami w bazie,
      * poprzez sprawdzenie czy rezultat wykonania zapytania COUNT jest większy od 0.
      *
-     * @param rental encja wypożyczenia.
+     * @param rental encja wypożyczenia
      * @return true/false zależnie czy okres trwania danego wypożyczenia koliduje z innymi wypożyczeniami
      */
     @RolesAllowed("addRental")
@@ -104,6 +107,11 @@ public class RentalFacade extends AbstractFacade<Rental> {
         super.create(rental);
     }
 
+    /**
+     * Metoda, która usuwa encje.
+     *
+     * @param entity usuwana encja
+     */
     @Override
     @DenyAll
     public void remove(Rental entity) {

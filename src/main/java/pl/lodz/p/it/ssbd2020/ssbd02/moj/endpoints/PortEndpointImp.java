@@ -16,9 +16,12 @@ import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Implementacja interfejsu PortEndpoint.
+ */
 @Stateful
 @Interceptors(LoggerInterceptor.class)
-public class PortEndpointImp implements Serializable,PortEndpoint {
+public class PortEndpointImp implements Serializable, PortEndpoint {
     @Inject
     private PortManager portManager;
 
@@ -28,7 +31,7 @@ public class PortEndpointImp implements Serializable,PortEndpoint {
      * Metoda, służy do dodawania nowych portów do bazy danych.
      *
      * @param newPortDto obiekt DTO z danymi nowego portu.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("addPort")
     public void addPort(NewPortDto newPortDto) throws AppBaseException {
@@ -40,7 +43,7 @@ public class PortEndpointImp implements Serializable,PortEndpoint {
      * Metoda, która zapisuje wprowadzone zmiany w porcie.
      *
      * @param editPortDto obiekt DTO z danymi portu do edycji.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("editPort")
     public void editPort(EditPortDto editPortDto) throws AppBaseException {
@@ -57,7 +60,7 @@ public class PortEndpointImp implements Serializable,PortEndpoint {
      * Metoda, która deaktywuje port.
      *
      * @param portId id jachtu.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("deactivatePort")
     public void deactivatePort(long portId) throws AppBaseException {
@@ -79,7 +82,7 @@ public class PortEndpointImp implements Serializable,PortEndpoint {
      *
      * @param portId id portu.
      * @return EditPortDto
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getPortById")
     public EditPortDto getEditPortById(Long portId) throws AppBaseException {
@@ -92,23 +95,24 @@ public class PortEndpointImp implements Serializable,PortEndpoint {
      *
      * @param portId id portu.
      * @return PortDetailsDto
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getPortById")
-    public PortDetailsDto getPortById(Long portId) throws AppBaseException{
+    public PortDetailsDto getPortById(Long portId) throws AppBaseException {
         Port port = portManager.getPortById(portId);
         return ObjectMapperUtils.map(port, PortDetailsDto.class);
     }
+
     /**
      * Metoda, która zwraca port o podanym id.
      *
      * @param portId id portu.
      * @return PortDetailsDto
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getPortById")
     public PortDetailsDto getPortDetailsById(Long portId) throws AppBaseException {
         this.portEditEntity = portManager.getPortById(portId);
-        return ObjectMapperUtils.map(this.portEditEntity,PortDetailsDto.class);
+        return ObjectMapperUtils.map(this.portEditEntity, PortDetailsDto.class);
     }
 }

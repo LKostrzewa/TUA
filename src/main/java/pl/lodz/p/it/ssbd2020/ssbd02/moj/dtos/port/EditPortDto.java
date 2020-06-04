@@ -6,6 +6,9 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * DTO do edycji portu.
+ */
 public class EditPortDto implements Serializable {
     @NotNull
     @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{1,63}", message = "{validation.port.name}")

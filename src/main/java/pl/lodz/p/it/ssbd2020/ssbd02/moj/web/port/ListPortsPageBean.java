@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+/**
+ * Klasa do obsługi widoku listy portów.
+ */
 @Named
 @RequestScoped
 public class ListPortsPageBean {
@@ -25,12 +28,21 @@ public class ListPortsPageBean {
     private List<PortDetailsDto> ports;
     private List<PortDetailsDto> activePorts;
 
+    /**
+     * Metoda inicjalizująca komponent.
+     */
     @PostConstruct
     private void init() {
         this.ports = portEndpoint.getAllPorts();
         this.activePorts = ports.stream().filter(portDetailsDto -> portDetailsDto.getActive().equals(true)).collect(Collectors.toList());
     }
 
+    /**
+     * Metoda do deaktywacji portu.
+     *
+     * @param portId id portu, który ma zostać deaktywowany
+     * @return strona, na którą użytkownik ma zostać przekierowany
+     */
     public String deactivatePort(long portId){
         try{
             portEndpoint.deactivatePort(portId);

@@ -16,6 +16,9 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Klasa fasadowa powiązana z encją YachtModel.
+ */
 @Stateless
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
@@ -35,8 +38,8 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
     /**
      * Metoda, dodaje podany model jachtu do bazy danych.
      *
-     * @param entity encja modelu jachtu do dodania do bazy.
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param entity encja modelu jachtu do dodania do bazy
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @Override
     @RolesAllowed("addYachtModel")
@@ -45,12 +48,24 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
         super.create(entity);
     }
 
+
+    /**
+     * Metoda, która edytuje encję.
+     *
+     * @param entity modyfikowana encja
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     */
     @Override
     @RolesAllowed({"editYachtModel", "deactivateYachtModel"})
     public void edit(YachtModel entity) throws AppBaseException {
         super.edit(entity);
     }
 
+    /**
+     * Metoda, która usuwa encję.
+     *
+     * @param entity usuwana encja
+     */
     @Override
     public void remove(YachtModel entity) {
         super.remove(entity);
@@ -58,7 +73,8 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
 
 
     /**
-     * Metoda która zwraca model jachtu o podanym id
+     * Metoda która zwraca model jachtu o podanym id.
+     *
      * @param id id modelu jachtu
      * @return Optional<YachtModel>
      */
@@ -70,7 +86,8 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
     }
 
     /**
-     * Metoda która zwraca wszystkie modele jachtów
+     * Metoda która zwraca wszystkie modele jachtów.
+     *
      * @return lista modeli jachtów
      */
     @Override
@@ -84,7 +101,7 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
      * Metoda, sprawdza czy istnieje model jachtu w bazie o danej marce modelu poprzez sprawdzenie czy rezultat wykonania
      * zapytania COUNT jest większy od 0.
      *
-     * @param model nazwa jachtu.
+     * @param model nazwa jachtu
      * @return true/false zależnie czy użytkownik z danym loginem istnieje lub nie
      */
     @RolesAllowed("addYachtModel")

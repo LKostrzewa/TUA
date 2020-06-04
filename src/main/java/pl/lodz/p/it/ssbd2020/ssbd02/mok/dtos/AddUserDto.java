@@ -4,11 +4,11 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
- * DTO do dodawania użytkowników do bazy
+ * DTO do dodawania użytkowników do bazy.
  */
 public class AddUserDto {
     @Size(min = 4, message = "{validation.login}")
-    @Pattern(regexp = "^[^=]+$", message = "{validation.invalidCharacter}")
+    @Pattern(regexp = "^[^=;%&'\"/\\s\\\\]+$", message = "{validation.invalidCharacter}")
     private String login;
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(){}:\";'<>?,./+=])(?=\\S+$).{8,}$", message = "{validation.password}")
     private String password;

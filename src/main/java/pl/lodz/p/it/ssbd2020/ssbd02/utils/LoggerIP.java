@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.utils;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.mok.security.CurrentUser;
+
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -11,37 +13,42 @@ import java.util.logging.Logger;
 
 /**
  * Klasa loggera, która zapisuje do dziennika zdarzeń moment logowania (login + adress IP)
- * oraz zmianę poziomu dostępu (login + adress IP)
+ * oraz zmianę poziomu dostępu (login + adress IP).
  */
 @SessionScoped
 public class LoggerIP implements Serializable {
+    private final Logger LOGGER = Logger.getGlobal();
     @Inject
     private FacesContext facesContext;
-
-    private final Logger LOGGER = Logger.getGlobal();
-
-    /**
-     * Metoda która zapisuje do dziennika zdarzeń informację o uwierzytelnieniu użytkownika
-     */
-    public void login(){
-        LOGGER.log(Level.INFO,"User: \""
-                + facesContext.getExternalContext().getUserPrincipal().getName()
-                + "\" starts the session with the IP address: "
-                + getClientIpAddress());
-    }
+    @Inject
+    private CurrentUser currentUser;
 
     /**
-     * Metoda która zapisuje do dziennika zdarzeń informację o zmianie poziomu dostępu przez użytkownika
+     * Metoda która zapisuje do dziennika zdarzeń informację o uwierzytelnieniu użytkownika.
      */
-    public void accessLevelChange(){
+    public void login() {
         LOGGER.log(Level.INFO, "User: \""
                 + facesContext.getExternalContext().getUserPrincipal().getName()
-                + "\" has changed the access level with IP address: "
+                + "\" starts the session with access level: \""
+                + currentUser.getCurrentRole()
+                + "\" and the IP address: "
                 + getClientIpAddress());
     }
 
     /**
-     * Metoda wyciągająca z FacesContext żądanie http
+     * Metoda która zapisuje do dziennika zdarzeń informację o zmianie poziomu dostępu przez użytkownika.
+     */
+    public void accessLevelChange() {
+        LOGGER.log(Level.INFO, "User: \""
+                + facesContext.getExternalContext().getUserPrincipal().getName()
+                + "\" has changed the access level to: \""
+                + currentUser.getCurrentRole()
+                + "\", with IP address: "
+                + getClientIpAddress());
+    }
+
+    /**
+     * Metoda wyciągająca z FacesContext żądanie http.
      *
      * @return obiekt HttpServletRequest przechowujący informację o żądaniu http
      */
@@ -52,7 +59,7 @@ public class LoggerIP implements Serializable {
     }
 
     /**
-     * Metoda pobiera adress IP z żądania http
+     * Metoda pobiera adress IP z żądania http.
      *
      * @return String z adresem IP, z którego nastąpiło żądanie
      */

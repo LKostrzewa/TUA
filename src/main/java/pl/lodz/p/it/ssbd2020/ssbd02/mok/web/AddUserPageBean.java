@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.util.ResourceBundle;
 
 /**
- * Klasa do obsługi widoku dodawania użytkownika
+ * Klasa do obsługi widoku dodawania użytkownika.
  */
 @Named
 @RequestScoped
@@ -27,7 +27,7 @@ public class AddUserPageBean implements Serializable {
     private ResourceBundle resourceBundle;
 
     /**
-     * Metoda inicjalizująca komponent
+     * Metoda inicjalizująca komponent.
      */
     @PostConstruct
     public void init() {
@@ -43,7 +43,7 @@ public class AddUserPageBean implements Serializable {
     }
 
     /**
-     * Metoda obsługująca wciśnięcie guzika do dodania nowego użytkownika
+     * Metoda obsługująca wciśnięcie guzika do dodania nowego użytkownika.
      *
      * @return strona na którą zostanie przekierowany użytkownik
      */
@@ -59,7 +59,7 @@ public class AddUserPageBean implements Serializable {
     }
 
     /**
-     * Metoda inicjalizująca wyświetlanie wiadomości
+     * Metoda inicjalizująca wyświetlanie wiadomości.
      */
     private void displayInit() {
         context.getExternalContext().getFlash().setKeepMessages(true);
@@ -67,7 +67,7 @@ public class AddUserPageBean implements Serializable {
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
      */
     private void displayMessage() {
         displayInit();
@@ -77,7 +77,7 @@ public class AddUserPageBean implements Serializable {
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie.
      *
      * @param message wiadomość do wyświetlenia
      */

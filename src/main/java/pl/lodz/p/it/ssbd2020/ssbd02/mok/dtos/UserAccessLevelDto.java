@@ -5,7 +5,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
- * DTO reprezentujące wszystkie poziomy dostępu użytkownika
+ * DTO reprezentujące wszystkie poziomy dostępu użytkownika.
  */
 public class UserAccessLevelDto {
 

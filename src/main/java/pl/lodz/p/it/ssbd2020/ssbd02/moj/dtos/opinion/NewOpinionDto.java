@@ -2,6 +2,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion;
 
 import java.util.Date;
 
+/**
+ * DTO do dodawania nowej opinii.
+ */
 public class NewOpinionDto {
     private Long rentalId;
     private int rating;
