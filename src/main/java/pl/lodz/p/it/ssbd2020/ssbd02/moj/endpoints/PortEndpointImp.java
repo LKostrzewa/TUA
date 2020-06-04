@@ -47,12 +47,13 @@ public class PortEndpointImp implements Serializable, PortEndpoint {
      */
     @RolesAllowed("editPort")
     public void editPort(EditPortDto editPortDto) throws AppBaseException {
-        this.portEditEntity.setName(editPortDto.getName());
-        this.portEditEntity.setLake(editPortDto.getLake());
-        this.portEditEntity.setNearestCity(editPortDto.getNearestCity());
-        this.portEditEntity.setLong1(editPortDto.getLong1());
-        this.portEditEntity.setLat(editPortDto.getLat());
-        portManager.editPort(this.portEditEntity);
+        Port portToEdit = new Port();
+        portToEdit.setName(editPortDto.getName());
+        portToEdit.setLake(editPortDto.getLake());
+        portToEdit.setNearestCity(editPortDto.getNearestCity());
+        portToEdit.setLong1(editPortDto.getLong1());
+        portToEdit.setLat(editPortDto.getLat());
+        portManager.editPort(this.portEditEntity,portToEdit);
     }
 
     /**

@@ -33,9 +33,9 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
     @RolesAllowed("addPort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addPort(Port port) throws AppBaseException {
-        Port portToAdd = new Port(port.getName(),port.getLake(),port.getNearestCity(),port.getLong1(),port.getLat());
+        Port portToAdd = new Port(port.getName(), port.getLake(), port.getNearestCity(), port.getLong1(), port.getLat());
 
-        if(portFacade.existByName(portToAdd.getName())){
+        if (portFacade.existByName(portToAdd.getName())) {
             throw ValueNotUniqueException.createPortNameNotUniqueException(portToAdd);
         }
         portToAdd.setActive(true);
@@ -50,12 +50,18 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
      */
     @RolesAllowed("editPort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editPort(Port portToEdit) throws AppBaseException {
-        if(portFacade.existByName(portToEdit.getName())){
-            throw ValueNotUniqueException.createPortNameNotUniqueException(portToEdit);
+    public void editPort(Port portEntity, Port portToEdit) throws AppBaseException {
+        if (!portEntity.getName().equals(portToEdit.getName())) {
+            if (portFacade.existByName(portToEdit.getName())) {
+                throw ValueNotUniqueException.createPortNameNotUniqueException(portToEdit);
+            }
         }
-        portFacade.edit(portToEdit);
-
+        portEntity.setName(portToEdit.getName());
+        portEntity.setLake(portToEdit.getLake());
+        portEntity.setNearestCity(portToEdit.getNearestCity());
+        portEntity.setLong1(portToEdit.getLong1());
+        portEntity.setLat(portToEdit.getLat());
+        portFacade.edit(portEntity);
     }
 
     /**
@@ -66,7 +72,7 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
      */
     @RolesAllowed("deactivatePort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void deactivatePort(long portId) throws AppBaseException{
+    public void deactivatePort(long portId) throws AppBaseException {
         Port portToDeactivate = portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
         portToDeactivate.setActive(false);
         portFacade.edit(portToDeactivate);

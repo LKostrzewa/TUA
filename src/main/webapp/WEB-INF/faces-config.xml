@@ -148,6 +148,9 @@
             <to-view-id>/login/login.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+
     </navigation-rule>
+
+
 
 </faces-config>

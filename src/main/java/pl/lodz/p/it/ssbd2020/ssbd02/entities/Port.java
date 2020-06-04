@@ -29,7 +29,9 @@ import java.util.UUID;
         @NamedQuery(name = "Port.findByNearestCity", query = "SELECT p FROM Port p WHERE p.nearestCity = :nearestCity"),
         @NamedQuery(name = "Port.findByLong1", query = "SELECT p FROM Port p WHERE p.long1 = :long1"),
         @NamedQuery(name = "Port.findByLat", query = "SELECT p FROM Port p WHERE p.lat = :lat"),
-        @NamedQuery(name = "Port.countByName", query = "SELECT COUNT(p) FROM Port p WHERE p.name = :name")})
+        @NamedQuery(name = "Port.countByName", query = "SELECT COUNT(p) FROM Port p WHERE p.name = :name"),
+        @NamedQuery(name = "Port.findByActive", query = "SELECT p FROM Port p WHERE p.active = TRUE ")})
+
 public class Port implements Serializable {
     @Id
     @SequenceGenerator(name="PortSeqGen",sequenceName="port_id_seq",allocationSize = 1)

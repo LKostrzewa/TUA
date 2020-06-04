@@ -47,7 +47,6 @@ public class AddPortPageBean {
      *
      * @return strona na którą zostanie przekierowany użytkownik
      */
-    //throws tymczasowe bedzie obslugiwane na widoku
     public String addPort() throws AppBaseException {
         try {
             portEndpoint.addPort(newPortDto);
