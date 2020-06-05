@@ -81,6 +81,7 @@ public class YachtModel implements Serializable {
         this.generalDescription = generalDescription;
         this.basicPrice = basicPrice;
 
+        this.active = true;
         this.businessKey = UUID.randomUUID();
     }
 

@@ -36,7 +36,9 @@ public class YachtModelManager extends AbstractManager implements SessionSynchro
         if (yachtModelFacade.existByModel(yachtModel.getModel())) {
             throw ValueNotUniqueException.createYachtModelNotUniqueException(yachtModel);
         }
-        yachtModelFacade.create(yachtModel);
+        YachtModel yachtModelToAdd = new YachtModel(yachtModel.getManufacturer(), yachtModel.getModel(), yachtModel.getCapacity(),
+                yachtModel.getGeneralDescription(), yachtModel.getBasicPrice());
+        yachtModelFacade.create(yachtModelToAdd);
     }
 
     /**
