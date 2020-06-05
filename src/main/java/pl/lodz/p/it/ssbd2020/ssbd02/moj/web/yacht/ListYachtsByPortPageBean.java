@@ -5,19 +5,30 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtPortEndpoint;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
- * Klasa do obsługi sortowania jachtów.
+ * Klasa do obsługi wyświetlania jachtów przypisanych do portu.
  */
 @Named
-@RequestScoped
-public class ListYachtsByPortPageBean {
+@ViewScoped
+public class ListYachtsByPortPageBean implements Serializable {
     @Inject
     private YachtPortEndpoint yachtPortEndpoint;
     private List<YachtDto> yachts;
+
+    @Inject
+    private FacesContext facesContext;
+    private ResourceBundle resourceBundle;
 
     private Long portId;
 
@@ -40,7 +51,34 @@ public class ListYachtsByPortPageBean {
     /**
      * Metoda inicjalizująca komponent.
      */
-    public void init() throws AppBaseException {
-        this.yachts = yachtPortEndpoint.getAllYachtsByPort(portId);
+    public void init() throws IOException {
+        try {
+            this.yachts = yachtPortEndpoint.getAllYachtsByPort(portId);
+        }
+        catch (AppBaseException e) {
+            displayError(e.getLocalizedMessage());
+            ExternalContext externalContext = facesContext.getExternalContext();
+            externalContext.redirect(externalContext.getRequestContextPath() + "listPorts.xhtml");
+        }
+    }
+
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości.
+     */
+    private void displayInit() {
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+        resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie.
+     *
+     * @param message wiadomość do wyświetlenia
+     */
+    private void displayError(String message) {
+        displayInit();
+        String msg = resourceBundle.getString(message);
+        String head = resourceBundle.getString("error");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
     }
 }

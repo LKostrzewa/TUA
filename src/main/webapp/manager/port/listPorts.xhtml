@@ -42,6 +42,9 @@
                         </p:button>
                         <p:commandButton rendered="#{port.active}" value="#{msg['deactivate']}" action="#{listPortsPageBean.deactivatePort(port.id)}" update="message form"
                                          ajax="false" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+                        <p:button value="${msg['bread.yachtsAssignedToPort']}" outcome="listYachtsByPort.xhtml?faces-redirect=true">
+                            <f:param name="portId" value="#{port.id}"/>
+                        </p:button>
                     </p:column>
                 </p:dataTable>
             </h:form>
