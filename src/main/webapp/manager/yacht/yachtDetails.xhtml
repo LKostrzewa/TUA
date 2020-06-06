@@ -46,9 +46,8 @@
                 <p:commandButton value="${msg['yachts.retractYachtFromPort']}" action="#{yachtDetailsPageBean.retractYachtFromPort}" update="message form" style="background-color: red"
                                  rendered="#{yachtDetailsPageBean.yachtDto.currentPortId != null}" ajax="false"
                                  onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
-                <p:commandButton value="${msg['yachts.assignYachtToPort']}" update="message form" style="background-color: green"
-                                 rendered="#{yachtDetailsPageBean.yachtDto.currentPortId == null}" ajax="false"
-                                 onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+                <p:button value="${msg['yachts.assignYachtToPort']}" outcome="assignYachtToPort.xhtml?faces-redirect=true?includeViewParams=true" style="background-color: green"
+                                 rendered="#{yachtDetailsPageBean.yachtDto.currentPortId == null}"/>
             </h:form>
         </ui:define>
     </ui:composition>
