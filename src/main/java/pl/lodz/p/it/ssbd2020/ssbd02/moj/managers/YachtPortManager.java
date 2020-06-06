@@ -7,7 +7,9 @@ import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.PortFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
@@ -26,6 +28,17 @@ public class YachtPortManager extends AbstractManager implements SessionSynchron
     private PortFacade portFacade;
     @Inject
     private YachtFacade yachtFacade;
+
+    private final PropertyReader propertyReader = new PropertyReader();
+
+    private String RENTAL_PENDING_STATUS;
+    private String RENTAL_STARTED_STATUS;
+
+    @PostConstruct
+    public void init() {
+        RENTAL_PENDING_STATUS = propertyReader.getProperty("config", "PENDING_STATUS");
+        RENTAL_STARTED_STATUS = propertyReader.getProperty("config", "STARTED_STATUS");
+    }
 
     /**
      * Metoda pobierająca wszystkie jachty przypisane do danego portu.
@@ -81,9 +94,8 @@ public class YachtPortManager extends AbstractManager implements SessionSynchron
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void retractYachtFromPort(Long portId, Long yachtId) throws AppBaseException {
         Yacht yacht = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createPortNotFoundException);
-        //TODO pobierać statusy rezerwacji z properties
-        //TODO czy też pending ?
-        if(yacht.getRentals().stream().anyMatch(r -> r.getRentalStatus().getName().equals("STARTED"))){
+        if(yacht.getRentals().stream().anyMatch(r -> r.getRentalStatus().getName().equals(RENTAL_PENDING_STATUS)
+                || r.getRentalStatus().getName().equals(RENTAL_STARTED_STATUS))){
             throw YachtReservedException.createYachtReservedException(yacht);
         }
         if(yacht.getCurrentPort() == null) {
