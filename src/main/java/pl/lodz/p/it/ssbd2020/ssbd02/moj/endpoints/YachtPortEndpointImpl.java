@@ -49,12 +49,11 @@ public class YachtPortEndpointImpl implements Serializable, YachtPortEndpoint {
     /**
      * Metoda odpisująca jacht z portu.
      *
-     * @param portId  identyfikator danego portu
      * @param yachtId identyfikator danego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("retractYachtFromPort")
-    public void retractYachtFromPort(Long portId, Long yachtId) throws AppBaseException {
-        yachtPortManager.retractYachtFromPort(portId, yachtId);
+    public void retractYachtFromPort(Long yachtId) throws AppBaseException {
+        yachtPortManager.retractYachtFromPort(yachtId);
     }
 }

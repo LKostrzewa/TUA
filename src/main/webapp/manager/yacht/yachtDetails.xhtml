@@ -48,10 +48,10 @@
                     <f:param name="yachtId" value="#{yachtDetailsPageBean.yachtId}"/>
                 </p:button>
                 <p:commandButton value="${msg['yachts.retractYachtFromPort']}" action="#{yachtDetailsPageBean.retractYachtFromPort}" update="message form" style="background-color: red"
-                                 rendered="#{yachtDetailsPageBean.yachtDto.currentPortId != null}" ajax="false"
+                                 rendered="#{yachtDetailsPageBean.yachtDto.currentPort != null}" ajax="false"
                                  onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
                 <p:button value="${msg['yachts.assignYachtToPort']}" outcome="assignYachtToPort.xhtml?faces-redirect=true?includeViewParams=true" style="background-color: green"
-                                 rendered="#{yachtDetailsPageBean.yachtDto.currentPortId == null}"/>
+                                 rendered="#{yachtDetailsPageBean.yachtDto.currentPort == null}"/>
             </h:form>
         </ui:define>
     </ui:composition>

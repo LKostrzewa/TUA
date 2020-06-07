@@ -1,11 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.YachtModelDetailsDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtPortEndpoint;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -24,10 +22,6 @@ public class YachtDetailsPageBean implements Serializable {
     @Inject
     private YachtEndpoint yachtEndpoint;
     @Inject
-    private YachtModelEndpoint yachtModelEndpoint;
-    @Inject
-    private PortEndpoint portEndpoint;
-    @Inject
     private YachtPortEndpoint yachtPortEndpoint;
 
     @Inject
@@ -36,8 +30,6 @@ public class YachtDetailsPageBean implements Serializable {
 
     private Long yachtId;
     private YachtDto yachtDto;
-    private String yachtModelName;
-    private String yachtPortName;
 
 
     public Long getYachtId() {
@@ -56,22 +48,6 @@ public class YachtDetailsPageBean implements Serializable {
         this.yachtDto = yachtDto;
     }
 
-    public String getYachtModelName() {
-        return yachtModelName;
-    }
-
-    public void setYachtModelName(String yachtModelName) {
-        this.yachtModelName = yachtModelName;
-    }
-
-    public String getYachtPortName() {
-        return yachtPortName;
-    }
-
-    public void setYachtPortName(String yachtPortName) {
-        this.yachtPortName = yachtPortName;
-    }
-
     /**
      * Metoda inicjalizująca komponent.
      */
@@ -81,7 +57,8 @@ public class YachtDetailsPageBean implements Serializable {
 
     public void retractYachtFromPort() {
         try {
-            yachtPortEndpoint.retractYachtFromPort(yachtDto.getCurrentPortId(), yachtId);
+            yachtPortEndpoint.retractYachtFromPort(yachtId);
+            displayMessage("yacht.retractInfo");
         }
         catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
