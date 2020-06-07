@@ -61,7 +61,6 @@ public class Yacht implements Serializable {
     @Size(max = 2048)
     private String equipment;
     @Column(name = "avg_rating")
-    @NotNull
     @Digits(integer = 1,fraction = 2)
     private BigDecimal avgRating;
     @Column(name = "active", nullable = false)

@@ -5,11 +5,14 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtListDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Klasa do obsługi widoku listy jachtów.
@@ -19,6 +22,9 @@ import java.util.List;
 public class ListYachtPageBean implements Serializable {
     @Inject
     private YachtEndpoint yachtEndpoint;
+    @Inject
+    private FacesContext facesContext;
+    private ResourceBundle resourceBundle;
     private List<YachtListDto> yachts;
 
     public List<YachtListDto> getYachts() {
@@ -44,7 +50,41 @@ public class ListYachtPageBean implements Serializable {
      * @return strona, na którą użytkownik ma zostać przekierowany
      */
     public String deactivateYacht(Long yachtID) throws AppBaseException {
-        yachtEndpoint.deactivateYacht(yachtID);
+        try {
+            yachtEndpoint.deactivateYacht(yachtID);
+            displayMessage();
+        } catch (AppBaseException e) {
+            displayError(e.getLocalizedMessage());
+        }
         return "listYachts";
+    }
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości.
+     */
+    public void displayInit(){
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+        resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
+     */
+    public void displayMessage() {
+        displayInit();
+        String msg = resourceBundle.getString("yacht.deactivateInfo");
+        String head = resourceBundle.getString("success");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie.
+     *
+     * @param message wiadomość do wyświetlenia
+     */
+    private void displayError(String message) {
+        displayInit();
+        String msg = resourceBundle.getString(message);
+        String head = resourceBundle.getString("error");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
     }
 }

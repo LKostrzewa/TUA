@@ -1,15 +1,26 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
+import java.math.BigDecimal;
+
 /**
  * DTO do wyświetlenia listy jachtów.
  */
 public class YachtListDto {
     private Long id;
     private String name;
-    private Long yachtModelId;
-    private Long currentPortId;
+    private String yachtModelName;
+    private String currentPortName;
     private Float avgRating;
     private boolean active;
+
+    public YachtListDto(Long id, String name, String yachtModelName, String currentPortName, Float avgRating, boolean active) {
+        this.id = id;
+        this.name = name;
+        this.yachtModelName = yachtModelName;
+        this.currentPortName = currentPortName;
+        this.avgRating = avgRating;
+        this.active = active;
+    }
 
     public Long getId() {
         return id;
@@ -27,20 +38,20 @@ public class YachtListDto {
         this.name = name;
     }
 
-    public Long getYachtModelId() {
-        return yachtModelId;
+    public String getYachtModelName() {
+        return yachtModelName;
     }
 
-    public void setYachtModelId(Long yachtModelId) {
-        this.yachtModelId = yachtModelId;
+    public void setYachtModelName(String yachtModelName) {
+        this.yachtModelName = yachtModelName;
     }
 
-    public Long getCurrentPortId() {
-        return currentPortId;
+    public String getCurrentPortName() {
+        return currentPortName;
     }
 
-    public void setCurrentPortId(Long currentPortId) {
-        this.currentPortId = currentPortId;
+    public void setCurrentPortName(String currentPortName) {
+        this.currentPortName = currentPortName;
     }
 
     public Float getAvgRating() {

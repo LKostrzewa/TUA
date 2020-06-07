@@ -38,12 +38,18 @@
                     <p:column headerText="${msg['yacht.active']}" >
                         <h:outputText value="#{yacht.active}"/>
                     </p:column>
+                    <p:column headerText="${msg['bread.yachtModel']}" >
+                        <h:outputText value="#{yacht.yachtModelName}"/>
+                    </p:column>
+                    <p:column headerText="${msg['bread.port']}" >
+                        <h:outputText value="#{yacht.currentPortName}"/>
+                    </p:column>
                     <p:column headerText="${msg['actions']}">
                         <p:button value="${msg['details']}" outcome="yachtDetails.xhtml?faces-redirect=true">
                             <f:param name="yachtId" value="#{yacht.id}"/>
                         </p:button>
                         <p:commandButton value="#{msg['deactivate']}" action="#{listYachtPageBean.deactivateYacht(yacht.id)}"
-                                         update="@form">
+                                         disabled="#{not yacht.active}" update="@form">
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>
