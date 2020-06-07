@@ -1,6 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
 
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.YachtModelDetailsDto;
+
 /**
  * DTO jachtu.
  */
@@ -12,8 +15,8 @@ public class YachtDto {
     private String equipment;
     private Float avgRating;
     private boolean active;
-    private Long yachtModelId;
-    private Long currentPortId;
+    private YachtModelDetailsDto yachtModel;
+    private PortDetailsDto currentPort;
 
     public Long getId() {
         return id;
@@ -39,14 +42,6 @@ public class YachtDto {
         this.productionYear = productionYear;
     }
 
-    public Long getYachtModelId() {
-        return yachtModelId;
-    }
-
-    public void setYachtModelId(Long yachtModelId) {
-        this.yachtModelId = yachtModelId;
-    }
-
     public Float getPriceMultiplier() {
         return priceMultiplier;
     }
@@ -55,12 +50,20 @@ public class YachtDto {
         this.priceMultiplier = priceMultiplier;
     }
 
-    public Long getCurrentPortId() {
-        return currentPortId;
+    public YachtModelDetailsDto getYachtModel() {
+        return yachtModel;
     }
 
-    public void setCurrentPortId(Long currentPortId) {
-        this.currentPortId = currentPortId;
+    public void setYachtModel(YachtModelDetailsDto yachtModel) {
+        this.yachtModel = yachtModel;
+    }
+
+    public PortDetailsDto getCurrentPort() {
+        return currentPort;
+    }
+
+    public void setCurrentPort(PortDetailsDto currentPort) {
+        this.currentPort = currentPort;
     }
 
     public String getEquipment() {

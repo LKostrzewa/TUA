@@ -69,9 +69,5 @@ public class YachtDetailsPageBean implements Serializable {
      */
     public void init() throws AppBaseException {
         this.yachtDto = yachtEndpoint.getYachtById(yachtId);
-        this.yachtModelName = yachtModelEndpoint.getYachtModelById(yachtDto.getYachtModelId()).getModel();
-        this.yachtPortName = (yachtDto.getCurrentPortId() != null) ?
-                portEndpoint.getPortDetailsById(yachtDto.getCurrentPortId()).getName()
-                : null;
     }
 }

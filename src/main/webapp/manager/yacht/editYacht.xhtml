@@ -18,6 +18,10 @@
                             includeViewParams="true">
                     <f:param name="yachtId" value="#{editYachtPageBean.yachtId}"/>
                 </p:menuitem>
+                <p:menuitem value="#{msg['bread.edit.user']}" outcome="/manager/yacht/editYacht.xhtml"
+                            includeViewParams="true">
+                    <f:param name="yachtId" value="#{editYachtPageBean.yachtId}"/>
+                </p:menuitem>
             </p:breadCrumb>
         </ui:define>
         <ui:define name="content">

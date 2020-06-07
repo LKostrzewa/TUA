@@ -33,9 +33,9 @@
                     <h:outputLabel value="#{msg['yacht.productionYear']}:"/>
                     <h:outputText value="#{yachtDetailsPageBean.yachtDto.productionYear}"/>
                     <h:outputLabel value="#{msg['bread.yachtModel']}:"/>
-                    <h:outputText value="#{yachtDetailsPageBean.yachtModelName}"/>
+                    <h:outputText value="#{yachtDetailsPageBean.yachtDto.yachtModel.model}"/>
                     <h:outputLabel value="#{msg['bread.port']}:"/>
-                    <h:outputText value="#{yachtDetailsPageBean.yachtPortName}"/>
+                    <h:outputText value="#{yachtDetailsPageBean.yachtDto.currentPort.name}"/>
                     <h:outputLabel value="#{msg['yacht.active']}:"/>
                     <h:outputText value="#{yachtDetailsPageBean.yachtDto.active}"/>
                     <h:outputLabel value="#{msg['yacht.equipment']}:"/>
