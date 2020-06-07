@@ -2,7 +2,9 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.NewYachtDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.ListYachtModelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -10,6 +12,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -22,8 +25,11 @@ public class AddYachtPageBean {
     private YachtEndpoint yachtEndpoint;
     @Inject
     private FacesContext facesContext;
+    @Inject
+    private YachtModelEndpoint yachtModelEndpoint;
 
     private NewYachtDto newYachtDto;
+    private List<ListYachtModelDto> yachtModels;
     private ResourceBundle resourceBundle;
 
     public NewYachtDto getNewYachtDto() {
@@ -34,12 +40,21 @@ public class AddYachtPageBean {
         this.newYachtDto = newYachtDto;
     }
 
+    public List<ListYachtModelDto> getYachtModels() {
+        return yachtModels;
+    }
+
+    public void setYachtModels(List<ListYachtModelDto> yachtModels) {
+        this.yachtModels = yachtModels;
+    }
+
     /**
      * Metoda inicjalizująca komponent.
      */
     @PostConstruct
     public void init() {
         newYachtDto = new NewYachtDto();
+        this.yachtModels = yachtModelEndpoint.getAllYachtModels();
     }
 
     /**

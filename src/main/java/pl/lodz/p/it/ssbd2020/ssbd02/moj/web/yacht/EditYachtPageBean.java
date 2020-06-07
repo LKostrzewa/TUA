@@ -80,7 +80,7 @@ public class EditYachtPageBean implements Serializable {
      */
     public void displayMessage() {
         displayInit();
-        String msg = resourceBundle.getString("users.editInfo");
+        String msg = resourceBundle.getString("yacht.editInfo");
         String head = resourceBundle.getString("success");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }

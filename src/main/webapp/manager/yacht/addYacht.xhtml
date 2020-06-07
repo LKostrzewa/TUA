@@ -35,7 +35,11 @@
                         <p:message for="productionYear"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="yachtModelId" value="#{addYachtPageBean.newYachtDto.yachtModelId}"/>
+                        <p:selectOneMenu id="yachtModelId" value="#{addYachtPageBean.newYachtDto.yachtModelId}">
+                            <f:selectItem itemLabel="" itemValue="" />
+                            <f:selectItems value="#{addYachtPageBean.yachtModels}" var="model"
+                                           itemValue="#{model.id}" itemLabel="#{model.model}"/>
+                        </p:selectOneMenu>
                         <p:outputLabel for="@previous" value="#{msg['yachtModel.model']}"/>
                         <p:message for="yachtModelId"/>
                     </span>
@@ -45,7 +49,7 @@
                         <p:message for="priceMultiplier"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="equipment" value="#{addYachtPageBean.newYachtDto.equipment}"/>
+                        <p:inputTextarea id="equipment" value="#{addYachtPageBean.newYachtDto.equipment}"/>
                         <p:outputLabel for="@previous" value="#{msg['yacht.equipment']}"/>
                         <p:message for="equipment"/>
                     </span>

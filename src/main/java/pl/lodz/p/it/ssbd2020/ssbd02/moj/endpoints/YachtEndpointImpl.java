@@ -16,6 +16,7 @@ import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,7 +50,15 @@ public class YachtEndpointImpl implements Serializable, YachtEndpoint {
      */
     @RolesAllowed("getAllYachts")
     public List<YachtListDto> getAllYachts() {
-        return ObjectMapperUtils.mapAll(yachtManager.getAllYachts(), YachtListDto.class);
+        List<Yacht> yachtList = yachtManager.getAllYachts();
+        List<YachtListDto> yachtListDtoList = new ArrayList<>();
+        for (Yacht yacht: yachtList) {
+            yachtListDtoList.add(new YachtListDto(yacht.getId(),yacht.getName(),yacht.getYachtModel().getModel(),
+                    (yacht.getCurrentPort() != null) ? yacht.getCurrentPort().getName() : null,
+                    (yacht.getAvgRating() != null) ? yacht.getAvgRating().floatValue() : null
+                    ,yacht.isActive()));
+        }
+       return yachtListDtoList;
     }
 
     /**
