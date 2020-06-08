@@ -31,9 +31,8 @@ public interface YachtPortEndpoint {
     /**
      * Metoda odpisująca jacht z portu.
      *
-     * @param portId identyfikator danego portu
      * @param yachtId identyfikator danego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    void retractYachtFromPort(Long portId, Long yachtId) throws AppBaseException;
+    void retractYachtFromPort(Long yachtId) throws AppBaseException;
 }

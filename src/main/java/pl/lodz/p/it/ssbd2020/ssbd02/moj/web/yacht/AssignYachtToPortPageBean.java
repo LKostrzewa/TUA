@@ -1,61 +1,71 @@
-package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yachtModel;
+package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.NewYachtModelDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtPortEndpoint;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
+import java.util.List;
 import java.util.ResourceBundle;
 
-/**
- * Klasa do obsługi widoku dodawania modelu jachtu.
- */
 @Named
-@RequestScoped
-public class AddYachtModelPageBean {
+@ViewScoped
+public class AssignYachtToPortPageBean implements Serializable {
     @Inject
-    private YachtModelEndpoint yachtModelEndpoint;
-    private NewYachtModelDto newYachtModelDto;
-
+    private PortEndpoint portEndpoint;
+    @Inject
+    private YachtPortEndpoint yachtPortEndpoint;
     @Inject
     private FacesContext facesContext;
     private ResourceBundle resourceBundle;
 
-    public NewYachtModelDto getNewYachtModelDto() {
-        return newYachtModelDto;
-    }
+    private List<PortDetailsDto> ports;
+    private Long portId;
+    private Long yachtId;
 
-    public void setNewYachtModelDto(NewYachtModelDto newYachtModelDto) {
-        this.newYachtModelDto = newYachtModelDto;
-    }
-
-    /**
-     * Metoda inicjalizująca komponent.
-     */
-    @PostConstruct
     public void init() {
-        newYachtModelDto = new NewYachtModelDto();
+        this.ports = portEndpoint.getAllPorts();
     }
 
-    /**
-     * Metoda obsługująca wciśnięcie guzika do dodania nowego modelu jachtu.
-     *
-     * @return strona na którą zostanie przekierowany użytkownik
-     */
-    public String addNewYachtModel() {
+    public String assignYachtToPort() {
         try {
-            yachtModelEndpoint.addYachtModel(newYachtModelDto);
+            yachtPortEndpoint.assignYachtToPort(portId, yachtId);
             displayMessage();
         }
         catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
-        return "listYachtModels.xhtml?faces-redirect=true";
+        return "yachtDetails.xhtml?faces-redirect=true?includeViewParams=true";
+    }
+
+    public List<PortDetailsDto> getPorts() {
+        return ports;
+    }
+
+    public void setPorts(List<PortDetailsDto> ports) {
+        this.ports = ports;
+    }
+
+    public Long getPortId() {
+        return portId;
+    }
+
+    public void setPortId(Long portId) {
+        this.portId = portId;
+    }
+
+    public Long getYachtId() {
+        return yachtId;
+    }
+
+    public void setYachtId(Long yachtId) {
+        this.yachtId = yachtId;
     }
 
     /**
@@ -69,9 +79,9 @@ public class AddYachtModelPageBean {
     /**
      * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
      */
-    public void displayMessage() {
+    private void displayMessage() {
         displayInit();
-        String msg = resourceBundle.getString("yachtModel.addInfo");
+        String msg = resourceBundle.getString("yacht.assignInfo");
         String head = resourceBundle.getString("success");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }

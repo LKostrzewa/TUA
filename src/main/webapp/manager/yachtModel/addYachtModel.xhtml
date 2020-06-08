@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
+<h:head/>
+<h:body>
+    <ui:composition template="/templates/commonTemplate.xhtml">
+        <ui:define name="title">#{msg['manager.title.addYachtModel']}</ui:define>
+        <ui:define name="breadCrumbs">
+            <p:breadCrumb>
+                <p:menuitem value="Categories" outcome="/manager/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.main']}" outcome="/manager/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.addYachtModel']}" outcome="/manager/yachtModel/addYachtModel.xhtml"/>
+            </p:breadCrumb>
+        </ui:define>
+        <ui:define name="content">
+            <h:form id="form">
+                <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
+                <div>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:inputText id="model" value="#{addYachtModelPageBean.newYachtModelDto.model}" required="true"
+                                     requiredMessage="#{msg['field.required']}"/>
+                        <p:outputLabel for="@previous" value="#{msg['yachtModel.model']}"/>
+                        <p:message for="model"/>
+                    </span>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:inputText id="price" value="#{addYachtModelPageBean.newYachtModelDto.basicPrice}" required="true"
+                                     requiredMessage="#{msg['field.required']}"
+                                     converterMessage="#{msg['validation.yachtModel.price']}"/>
+                        <p:outputLabel for="@previous" value="#{msg['yachtModel.basicPrice']}"/>
+                        <p:message for="price"/>
+                    </span>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:inputText id="capacity" value="#{addYachtModelPageBean.newYachtModelDto.capacity}" required="true"
+                                     requiredMessage="#{msg['field.required']}"
+                                     converterMessage="#{msg['validation.yachtModel.capacity']}"/>
+                        <p:outputLabel for="@previous" value="#{msg['yachtModel.capacity']}"/>
+                        <p:message for="capacity"/>
+                    </span>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:inputTextarea id="description" value="#{addYachtModelPageBean.newYachtModelDto.generalDescription}" required="true"
+                                         requiredMessage="#{msg['field.required']}"/>
+                        <p:outputLabel for="@previous" value="#{msg['yachtModel.description']}"/>
+                        <p:message for="description"/>
+                    </span>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:inputText id="manufacturer" value="#{addYachtModelPageBean.newYachtModelDto.manufacturer}" required="true"
+                                     requiredMessage="#{msg['field.required']}"/>
+                        <p:outputLabel for="@previous" value="#{msg['yachtModel.manufacturer']}"/>
+                        <p:message for="manufacturer"/>
+                    </span>
+                </div>
+                <p:button value="#{msg['goBack']}" outcome="listYachtModels.xhtml?faces-redirect=true"/>
+                <p:commandButton value="#{msg['save']}" action="#{addYachtModelPageBean.addNewYachtModel()}" update="@form" ajax="false"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

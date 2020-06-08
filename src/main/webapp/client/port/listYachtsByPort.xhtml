@@ -8,40 +8,47 @@
 <h:head/>
 <h:body>
     <ui:composition template="/templates/commonTemplate.xhtml">
-        <ui:define name="title">#{msg['client.title.ports']}</ui:define>
+        <ui:define name="title">#{msg['title.listYachtsByPort']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
                 <p:menuitem value="Categories" outcome="/client/index.xhtml"/>
                 <p:menuitem value="#{msg['bread.main']}" outcome="/client/index.xhtml"/>
                 <p:menuitem value="#{msg['bread.ports']}" outcome="/client/port/listPorts.xhtml"/>
+                <p:menuitem value="#{msg['bread.yachtsAssignedToPort']}" outcome="/client/port/listYachtsByPort.xhtml"
+                    includeViewParams="true">
+                <f:param name="portId" value="#{listYachtsByPortPageBean.portId}"/>
+                </p:menuitem>
             </p:breadCrumb>
         </ui:define>
         <ui:define name="content">
+            <f:metadata>
+                <f:viewParam name="portId" value="#{listYachtsByPortPageBean.portId}"/>
+                <f:event type="preRenderView" listener="#{listYachtsByPortPageBean.init}"/>
+            </f:metadata>
             <h:form>
                 <p:growl id="growl" showDetail="true" sticky="true"/>
-                <p:dataTable var="port" value="#{listPortsPageBean.activePorts}" rows="10"
+                <p:dataTable var="yacht" value="#{listYachtsByPortPageBean.yachts}" rows="10"
                              border="2"
                              paginator="true"
+                             lazy="true"
                              first="0"
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.ports']}">
+                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.yachts']}"
+                             emptyMessage="${msg['yachts.noYachtsFoundMessage']}">
 
-                    <p:column headerText="${msg['port.name']}">
-                        <h:outputText value="#{port.name}"/>
+                    <p:column headerText="${msg['yacht.name']}">
+                        <h:outputText value="#{yacht.name}"/>
                     </p:column>
-                    <p:column headerText="${msg['port.lake']}">
-                        <h:outputText value="#{port.lake}"/>
+                    <p:column headerText="${msg['yacht.avgRating']}" >
+                        <h:outputText value="#{yacht.avgRating}"/>
                     </p:column>
-                    <p:column headerText="${msg['port.city']}">
-                        <h:outputText value="#{port.nearestCity}"/>
+                    <p:column headerText="${msg['yacht.active']}" >
+                        <h:outputText value="#{yacht.active}"/>
                     </p:column>
                     <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}" outcome="portDetails.xhtml?faces-redirect=true">
-                            <f:param name="portId" value="#{port.id}"/>
-                        </p:button>
-                        <p:button value="${msg['bread.yachtsAssignedToPort']}" outcome="listYachtsByPort.xhtml?faces-redirect=true">
-                            <f:param name="portId" value="#{port.id}"/>
+                        <p:button value="${msg['details']}" outcome="/client/yacht/yachtDetails.xhtml?faces-redirect=true">
+                            <f:param name="yachtId" value="#{yacht.id}"/>
                         </p:button>
                     </p:column>
                 </p:dataTable>
