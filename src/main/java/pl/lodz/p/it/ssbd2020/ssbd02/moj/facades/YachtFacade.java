@@ -58,7 +58,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"editYacht", "deactivateYacht", "editOpinion", "addOpinion"})
+    @RolesAllowed({"editYacht", "deactivateYacht", "editOpinion", "addOpinion", "retractYachtFromPort", "assignYachtToPort"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(Yacht yacht) throws AppBaseException {
         super.edit(yacht);
