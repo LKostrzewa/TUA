@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
@@ -14,12 +15,11 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Klasa fasadowa powiązana z encją Rental.
@@ -141,6 +141,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
                     continue;
                 }
 
+
                 Expression<String> expression = root.get(field).as(String.class);
                 Predicate predicate = criteriaBuilder.like(criteriaBuilder.lower(expression),
                         "%" + value.toString().toLowerCase() + "%");
@@ -165,7 +166,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
     @RolesAllowed("getResultListRental")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<Rental> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        /*CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Rental> criteriaQuery = criteriaBuilder.createQuery(Rental.class);
         Root<Rental> root = criteriaQuery.from(Rental.class);
         CriteriaQuery<Rental> select = criteriaQuery.select(root);
@@ -191,6 +192,32 @@ public class RentalFacade extends AbstractFacade<Rental> {
         }
         criteriaQuery.orderBy(criteriaBuilder.asc(root.get("price")));
 
-        return entityManager.createQuery(select).setFirstResult(first).setMaxResults(pageSize).getResultList();
+
+
+        return entityManager.createQuery(select).setFirstResult(first).setMaxResults(pageSize).getResultList();*/
+        if(filters.size() == 0){
+            return super.findAll();
+        }
+        List<Rental> rentals = entityManager.createNamedQuery("Rental.findByYachtName", Rental.class)
+                .setParameter("name", filters.get("yachtName").getFilterValue().toString().toLowerCase()).getResultList();
+        if(rentals.size() == 0){
+            return super.findAll();
+        }
+        return rentals;
+    }
+
+    public List<Rental> getFilteredRentals(String filter) {
+        return entityManager.createNamedQuery("Rental.findByYachtName", Rental.class)
+                .setParameter("name", '%' + filter.toLowerCase() + '%').getResultList();
+    }
+
+    public Rental getRentalByBusinessKey(String businessKey) throws AppBaseException{
+        TypedQuery<Rental> typedQuery = entityManager.createNamedQuery("Rental.findByBusinessKey", Rental.class)
+                .setParameter("businessKey", UUID.fromString(businessKey));
+        try {
+            return typedQuery.getSingleResult();
+        } catch (NoResultException e) {
+            throw AppNotFoundException.createRentalNotFoundException(e);
+        }
     }
 }

@@ -142,4 +142,12 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     public List<Rental> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
         return rentalFacade.getResultList(first, pageSize, filters);
     }
+
+    public List<Rental> getAllRentals() {
+        return rentalFacade.findAll();
+    }
+
+    public List<Rental> getFilteredRentals(String filter) {
+        return rentalFacade.getFilteredRentals(filter);
+    }
 }

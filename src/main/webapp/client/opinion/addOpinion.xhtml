@@ -16,10 +16,33 @@
                 <p:menuitem value="#{msg['bread.rentals']}" outcome="/client/listRentals.xhtml"/>
                 <p:menuitem value="#{msg['bread.rental']}" outcome="/client/rentalDetails.xhtml"
                             includeViewParams="true">
-                    <f:param name="rentalId" value="#{rentalDetailsPageBean.rentalId}"/>
+                    <!--<f:param name="rentalId" value="#{rentalDetailsPageBean.rentalId}"/>-->
                 </p:menuitem>
                 <p:menuitem value="#{msg['bread.addOpinion']}" outcome="/client/opinion/addOpinion.xhtml"/>
             </p:breadCrumb>
+        </ui:define>
+        <ui:define name="content">
+            <h:form id="form">
+                <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
+                <f:metadata>
+                    <f:viewParam name="rentalBusinessKey" value="#{addOpinionPageBean.rentalBusinessKey}"/>
+                    <f:event type="preRenderView" listener="#{addOpinionPageBean.init}"/>
+                </f:metadata>
+                <div>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:rating id="rating" value="#{addOpinionPageBean.newOpinionDto.rating}" cancel="false"/>
+                        <p:outputLabel for="@previous" value="#{msg['opinion.addOpinion']}"/>
+                        <p:message for="rating"/>
+                    </span>
+                    <span class="ui-float-label" style="margin: 20px">
+                        <p:inputText id="comment" value="#{addOpinionPageBean.newOpinionDto.comment}"/>
+                        <p:outputLabel for="@previous" value="#{msg['opinion.addComment']}"/>
+                        <p:message for="comment"/>
+                    </span>
+                </div>
+                <p:button value="#{msg['goBack']}" outcome="/client/rentalDetails.xhtml?faces-redirect=true"/>
+                <p:commandButton value="#{msg['save']}" action="#{addOpinionPageBean.addOpinion}" update="@form" ajax="false"/>
+            </h:form>
         </ui:define>
     </ui:composition>
 </h:body>

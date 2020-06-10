@@ -66,4 +66,8 @@ public interface RentalEndpoint {
      * @return lista filtrowanych obiektów
      */
     List<ListAllRentalsDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters);
+
+    List<ListAllRentalsDto> getAllRentals();
+
+    List<ListAllRentalsDto> getFilteredRentals(String filter);
 }

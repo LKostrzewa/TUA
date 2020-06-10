@@ -98,4 +98,14 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
     public List<ListAllRentalsDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
         return ObjectMapperUtils.mapAll(rentalManager.getResultList(first, pageSize, filters), ListAllRentalsDto.class);
     }
+
+    @Override
+    public List<ListAllRentalsDto> getAllRentals() {
+        return ObjectMapperUtils.mapAll(rentalManager.getAllRentals(), ListAllRentalsDto.class);
+    }
+
+    @Override
+    public List<ListAllRentalsDto> getFilteredRentals(String filter) {
+        return ObjectMapperUtils.mapAll(rentalManager.getFilteredRentals(filter), ListAllRentalsDto.class);
+    }
 }

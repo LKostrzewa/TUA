@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Date;
 
 /**
@@ -7,6 +9,8 @@ import java.util.Date;
  */
 public class NewOpinionDto {
     private Long rentalId;
+    @Max(5)
+    @Min(1)
     private int rating;
     private String comment;
     private Date date;

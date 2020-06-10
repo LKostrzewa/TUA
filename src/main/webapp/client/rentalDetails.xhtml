@@ -60,7 +60,14 @@
                 </p:commandButton>
                 <p:button value="${msg['opinion.addOpinion']}"
                                  outcome="opinion/addOpinion.xhtml?faces-redirect=true"
-                                 rendered="#{rentalDetailsPageBean.rentalDetails.statusName.equals('FINISHED')}"/>
+                                 rendered="#{rentalDetailsPageBean.rentalDetails.statusName.equals('FINISHED')}">
+                    <f:param name="rentalBusinessKey" value="#{rentalDetailsPageBean.rentalDetails.businessKey}"/>
+                </p:button>
+                <p:button value="${msg['opinion.editOpinion']}"
+                                 outcome="opinion/editOpinion.xhtml?faces-redirect=true"
+                                 rendered="#{rentalDetailsPageBean.rentalDetails.statusName.equals('FINISHED')}">
+                   <f:param name="rentalBusinessKey" value="#{rentalDetailsPageBean.rentalDetails.businessKey}"/>
+                </p:button>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
                                      icon="pi pi-check"/>

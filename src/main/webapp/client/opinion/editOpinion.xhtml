@@ -21,6 +21,42 @@
                 <p:menuitem value="#{msg['bread.editOpinion']}" outcome="/client/opinion/editOpinion.xhtml"/>
             </p:breadCrumb>
         </ui:define>
+        <ui:define name="content">
+            <f:metadata>
+                <f:viewParam name="rentalBusinessKey" value="#{editOpinionPageBean.rentalBusinessKey}"/>
+                <f:event type="preRenderView" listener="#{editOpinionPageBean.init}"/>
+            </f:metadata>
+            <h:form id="form">
+                <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
+                <div>
+                <span class="ui-float-label" style="margin: 20px">
+                    <p:rating id="rating" value="#{editOpinionPageBean.editOpinionDTO.rating}"/>
+                    <p:outputLabel for="@previous" value="#{msg['opinion.addOpinion']}"/>
+                    <p:message for="rating"/>
+                </span>
+                <span class="ui-float-label" style="margin: 20px">
+                    <p:inputText id="comment" value="#{editOpinionPageBean.editOpinionDTO.comment}"/>
+                    <p:outputLabel for="@previous" value="#{msg['opinion.addComment']}"/>
+                    <p:message for="comment"/>
+                </span>
+                </div>
+                <p:button value="#{msg['cancel']}"
+                          outcome="/client/rentalDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
+                <p:commandButton value="#{msg['edit']}" action="#{editOpinionPageBean.editOpinion}"
+                                 update="message @form">
+
+                    <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
+                               icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                                     icon="pi pi-check"/>
+                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                                     icon="pi pi-times"/>
+
+                </p:confirmDialog>
+            </h:form>
+        </ui:define>
     </ui:composition>
 </h:body>
 </html>

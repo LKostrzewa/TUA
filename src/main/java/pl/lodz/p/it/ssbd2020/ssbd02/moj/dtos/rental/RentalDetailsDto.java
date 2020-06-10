@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * DTO do wyświetlenia szczegółów danego wypożyczenia.
@@ -16,6 +17,7 @@ public class RentalDetailsDto {
     private Date endDate;
     private String statusName;
     private BigDecimal price;
+    private UUID businessKey;
 
     public String getYachtName() {
         return yachtName;
@@ -87,5 +89,13 @@ public class RentalDetailsDto {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public UUID getBusinessKey() {
+        return businessKey;
+    }
+
+    public void setBusinessKey(UUID businessKey) {
+        this.businessKey = businessKey;
     }
 }

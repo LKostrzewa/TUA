@@ -4,11 +4,13 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.EditOpinionDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.OpinionEndpoint;
 
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
@@ -16,7 +18,7 @@ import java.util.ResourceBundle;
  * Klasa do obsługi widoku edycji opinii.
  */
 @Named
-@ConversationScoped
+@ViewScoped
 public class EditOpinionPageBean implements Serializable {
     @Inject
     private OpinionEndpoint opinionEndpoint;
@@ -24,7 +26,7 @@ public class EditOpinionPageBean implements Serializable {
     private FacesContext facesContext;
     private ResourceBundle resourceBundle;
 
-    private Long opinionId;
+    private String rentalBusinessKey;
     private EditOpinionDto editOpinionDTO;
 
     public EditOpinionDto getEditOpinionDTO() {
@@ -35,11 +37,25 @@ public class EditOpinionPageBean implements Serializable {
         this.editOpinionDTO = editOpinionDTO;
     }
 
+    public String getRentalBusinessKey() {
+        return rentalBusinessKey;
+    }
+
+    public void setRentalBusinessKey(String rentalBusinessKey) {
+        this.rentalBusinessKey = rentalBusinessKey;
+    }
+
     /**
      * Metoda inicjalizująca komponent.
      */
-    public void init() throws AppBaseException {
-        this.editOpinionDTO = opinionEndpoint.getOpinionById(opinionId);
+    public void init() throws IOException {
+        try {
+            this.editOpinionDTO = opinionEndpoint.getOpinionByRentalBusinessKey(rentalBusinessKey);
+        } catch (AppBaseException e){
+            displayError(e.getLocalizedMessage());
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect(externalContext.getRequestContextPath() + "client/rentalDetails.xhtml?faces-redirect=true");
+        }
     }
 
     /**

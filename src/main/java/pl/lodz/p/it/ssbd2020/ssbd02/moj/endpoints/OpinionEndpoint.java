@@ -18,7 +18,7 @@ public interface OpinionEndpoint {
      * @param newOpinionDto obiekt DTO z danymi nowej opinii.
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    void addOpinion(NewOpinionDto newOpinionDto) throws AppBaseException;
+    void addOpinion(NewOpinionDto newOpinionDto, String rentalBusinessKey) throws AppBaseException;
 
     /**
      * Metoda pobierająca wszystkie opinie przypisane do danego jachtu.
@@ -45,4 +45,6 @@ public interface OpinionEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     void editOpinion(EditOpinionDto editOpinionDto) throws AppBaseException;
+
+    EditOpinionDto getOpinionByRentalBusinessKey(String editOpinionBusinessKey) throws AppBaseException;
 }

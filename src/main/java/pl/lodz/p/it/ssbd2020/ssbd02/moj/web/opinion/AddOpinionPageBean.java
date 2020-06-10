@@ -22,15 +22,26 @@ public class AddOpinionPageBean {
     private OpinionEndpoint opinionEndpoint;
     @Inject
     private FacesContext facesContext;
-    private NewOpinionDto newOpinionDTO;
+    private NewOpinionDto newOpinionDto; //= new NewOpinionDto();
     private ResourceBundle resourceBundle;
+    //@Convert("uuidConverter")
+    //@TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
+    private String rentalBusinessKey;
 
-    public NewOpinionDto getNewOpinionDTO() {
-        return newOpinionDTO;
+    public NewOpinionDto getNewOpinionDto() {
+        return newOpinionDto;
     }
 
-    public void setNewOpinionDTO(NewOpinionDto newOpinionDTO) {
-        this.newOpinionDTO = newOpinionDTO;
+    public void setNewOpinionDto(NewOpinionDto newOpinionDto) {
+        this.newOpinionDto = newOpinionDto;
+    }
+
+    public String  getRentalBusinessKey() {
+        return rentalBusinessKey;
+    }
+
+    public void setRentalBusinessKey(String rentalBusinessKey) {
+        this.rentalBusinessKey = rentalBusinessKey;
     }
 
     /**
@@ -38,7 +49,7 @@ public class AddOpinionPageBean {
      */
     @PostConstruct
     public void init() {
-        this.newOpinionDTO = new NewOpinionDto();
+        this.newOpinionDto = new NewOpinionDto();
     }
 
     /**
@@ -48,7 +59,7 @@ public class AddOpinionPageBean {
      */
     public String addOpinion() {
         try {
-            opinionEndpoint.addOpinion(newOpinionDTO);
+            opinionEndpoint.addOpinion(newOpinionDto, rentalBusinessKey);
             displayMessage();
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());

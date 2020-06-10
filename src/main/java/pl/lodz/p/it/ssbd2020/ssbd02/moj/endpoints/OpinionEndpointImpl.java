@@ -9,6 +9,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.OpinionManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
@@ -25,6 +26,8 @@ public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
     @Inject
     private OpinionManager opinionManager;
 
+    private Opinion opinionEditEntity;
+
     /**
      * Metoda, która dodaje nową opinię.
      *
@@ -32,9 +35,9 @@ public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("addOpinion")
-    public void addOpinion(NewOpinionDto newOpinionDto) throws AppBaseException {
-        Opinion opinion = ObjectMapperUtils.map(newOpinionDto, Opinion.class);
-        opinionManager.addOpinion(opinion);
+    public void addOpinion(NewOpinionDto newOpinionDto, String rentalBusinessKey) throws AppBaseException {
+        Opinion opinion = new Opinion(newOpinionDto.getRating(),newOpinionDto.getComment(),null,null);
+        opinionManager.addOpinion(opinion, rentalBusinessKey);
     }
 
     /**
@@ -71,6 +74,12 @@ public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
     @RolesAllowed("editOpinion")
     public void editOpinion(EditOpinionDto editOpinionDto) throws AppBaseException {
         Opinion opinionToEdit = ObjectMapperUtils.map(editOpinionDto, Opinion.class);
-        opinionManager.editOpinion(opinionToEdit);
+        opinionManager.editOpinion(opinionToEdit, opinionEditEntity);
+    }
+
+    @PermitAll
+    public EditOpinionDto getOpinionByRentalBusinessKey(String rentalBusinessKey) throws AppBaseException {
+        opinionEditEntity = opinionManager.getOpinionByRentalBusinessKey(rentalBusinessKey);
+        return ObjectMapperUtils.map(opinionEditEntity, EditOpinionDto.class);
     }
 }

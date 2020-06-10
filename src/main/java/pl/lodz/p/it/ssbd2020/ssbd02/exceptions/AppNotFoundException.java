@@ -141,4 +141,10 @@ public class AppNotFoundException extends AppBaseException {
         nfe.setObjectClass(Opinion.class);
         return nfe;
     }
+
+    public static AppNotFoundException createOpinionNotFoundException(Throwable cause) {
+        AppNotFoundException nfe = new AppNotFoundException(OPINION_MESSAGE_KEY, cause);
+        nfe.setObjectClass(Opinion.class);
+        return nfe;
+    }
 }
