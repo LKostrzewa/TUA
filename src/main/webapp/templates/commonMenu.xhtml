@@ -14,24 +14,31 @@
         <h:form rendered="#{currentUser.nowManager}">
 
             <p:menubar style="background-color: orange">
-                <p:submenu label="#{msg['manager.menu.ports']}">
-                    <p:menuitem value="#{msg['manager.menu.ports.add']}" outcome="/manager/port/addPort.xhtml"/>
+                <p:submenu style="margin-right: 10px" label="#{msg['manager.menu.ports']}">
+                    <p:menuitem  value="#{msg['manager.menu.ports.add']}" outcome="/manager/port/addPort.xhtml"/>
                     <p:separator/>
                     <p:menuitem value="#{msg['manager.menu.ports.list']}" outcome="/manager/port/listPorts.xhtml"/>
                 </p:submenu>
-                <p:submenu label="#{msg['manager.menu.models']}">
+                <p:submenu style="margin-right: 10px" label="#{msg['manager.menu.models']}">
                     <p:menuitem value="#{msg['manager.menu.models.add']}" outcome="/manager/yachtModel/addYachtModel.xhtml"/>
                     <p:separator/>
                     <p:menuitem value="#{msg['manager.menu.models.list']}" outcome="/manager/yachtModel/listYachtModels.xhtml"/>
                 </p:submenu>
-                <p:submenu label="#{msg['manager.menu.yachts']}">
+                <p:submenu style="margin-right: 10px" label="#{msg['manager.menu.yachts']}">
                     <p:menuitem value="#{msg['manager.menu.yachts.add']}" outcome="/manager/yacht/addYacht.xhtml"/>
                     <p:separator/>
                     <p:menuitem value="#{msg['manager.menu.yachts.list']}" outcome="/manager/yacht/listYachts.xhtml"/>
                 </p:submenu>
-                <p:menuitem value="#{msg['menu.rentals']}" outcome="/manager/rental/listAllRentals.xhtml"/>
+                <p:menuitem style="margin-right: 10px" value="#{msg['menu.rentals']}" outcome="/manager/rental/listAllRentals.xhtml">
+                </p:menuitem>
+
+
                 <f:facet name="options">
-                    <h:panelGroup>
+                    <p:menuitem style="margin-right: 20px; margin-left: 20px">
+                        <i class="pi pi-user" style="font-size: 25px; color: red"></i>
+                        #{currentUser.getCurrentUserLogin()}
+                    </p:menuitem>
+                    <h:panelGroup style="margin: 20px">
                         <p:selectOneMenu value="#{currentUser.currentRole}">
                             <f:selectItem itemLabel="#{msg['admin']}" itemValue="ADMINISTRATOR"
                                           itemDisabled="#{!currentUser.administrator}"/>
@@ -53,10 +60,14 @@
         </h:form>
         <h:form rendered="#{currentUser.nowClient}">
             <p:menubar style="background-color: gold">
-                <p:menuitem value="#{msg['client.menu.ports']}" outcome="/client/port/listPorts.xhtml"/>
-                <p:menuitem value="#{msg['menu.rentals']}" outcome="/client/listRentals.xhtml"/>
+                <p:menuitem style="margin-right: 10px" value="#{msg['client.menu.ports']}" outcome="/client/port/listPorts.xhtml"/>
+                <p:menuitem style="margin-right: 10px" value="#{msg['menu.rentals']}" outcome="/client/listRentals.xhtml"/>
                 <f:facet name="options">
-                    <h:panelGroup>
+                    <p:menuitem style="margin-right: 20px; margin-left: 20px">
+                        <i class="pi pi-user" style="font-size: 20px; color: red"></i>
+                        #{currentUser.getCurrentUserLogin()}
+                    </p:menuitem>
+                    <h:panelGroup style="margin: 20px">
                         <p:selectOneMenu value="#{currentUser.currentRole}">
                             <f:selectItem itemLabel="#{msg['admin']}" itemValue="ADMINISTRATOR"
                                           itemDisabled="#{!currentUser.administrator}"/>
@@ -78,13 +89,21 @@
         </h:form>
         <h:form rendered="#{currentUser.nowAdministrator}">
             <p:menubar style="background-color: #ffcc80">
-                <p:menuitem id="addUserButton" value="#{msg['admin.menu.accounts.add']}" outcome="/admin/addUser.xhtml"/>
-                <p:menuitem id="listUsersButton" value="#{msg['admin.menu.accounts.list']}"
-                            outcome="/admin/listUsers.xhtml?"/>
-                <p:menuitem id="userReportButton" value="#{msg['admin.menu.accounts.report']}"
-                            outcome="/admin/userReport.xhtml"/>
+                <p:menuitem style="margin-right: 10px" id="addUserButton"  outcome="/admin/addUser.xhtml">
+                    #{msg['admin.menu.accounts.add']} <i class="pi pi-user-plus" style="font-size: 20px;"></i>
+                </p:menuitem>
+                <p:menuitem style="margin-right: 10px" id="listUsersButton" outcome="/admin/listUsers.xhtml?">
+                    #{msg['admin.menu.accounts.list']} <i class="pi pi-users"  style="font-size: 20px;"></i>
+                </p:menuitem>
+                <p:menuitem style="margin-right: 10px" id="userReportButton" outcome="/admin/userReport.xhtml">
+                    #{msg['admin.menu.accounts.report']} <i class="pi pi-bars" style="font-size: 20px;"></i>
+                </p:menuitem>
                 <f:facet name="options">
-                    <h:panelGroup>
+                    <p:menuitem style="margin-right: 20px; margin-left: 20px">
+                        <i class="pi pi-user" style="font-size: 20px; color: red"></i>
+                        #{currentUser.getCurrentUserLogin()}
+                    </p:menuitem>
+                    <h:panelGroup style="margin-left: 20px">
                         <p:selectOneMenu value="#{currentUser.currentRole}">
                             <f:selectItem itemLabel="#{msg['admin']}" itemValue="ADMINISTRATOR"
                                           itemDisabled="#{!currentUser.administrator}"/>
