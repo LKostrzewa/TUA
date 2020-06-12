@@ -28,9 +28,17 @@
 
                     <p:gmapInfoWindow id="infoWindow">
                         <p:outputPanel style="text-align: center; display: block; margin: auto">
-
-                        <h:outputText value="#{mapPortsPageBean.marker.title}" />
-
+                            <p:panelGrid columns="2">
+                            <h:outputLabel value="#{msg['port.name']}:"/>
+                            <h:outputText value="#{mapPortsPageBean.selectedPort.name}"/>
+                            <h:outputLabel value="#{msg['port.lake']}:"/>
+                            <h:outputText value="#{mapPortsPageBean.selectedPort.lake}"/>
+                            <h:outputLabel value="#{msg['port.city']}:"/>
+                             <h:outputText value="#{mapPortsPageBean.selectedPort.nearestCity}"/>
+                            </p:panelGrid>
+                            <p:button value="${msg['bread.yachtsAssignedToPort']}" outcome="listYachtsByPort.xhtml?faces-redirect=true">
+                                <f:param name="portId" value="#{mapPortsPageBean.selectedPort.id}"/>
+                            </p:button>
                          </p:outputPanel>
                      </p:gmapInfoWindow>
                 </p:gmap>

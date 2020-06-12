@@ -11,15 +11,18 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 @Named
-@RequestScoped
-public class MapPortsPageBean {
+@ViewScoped
+public class MapPortsPageBean implements Serializable {
     private MapModel simpleModel;
     @Inject
     private PortEndpoint portEndpoint;
@@ -29,6 +32,7 @@ public class MapPortsPageBean {
     private List<PortDetailsDto> activePorts;
 
     private Marker marker;
+    private PortDetailsDto selectedPort;
     @PostConstruct
     public void init() {
         simpleModel = new DefaultMapModel();
@@ -39,8 +43,13 @@ public class MapPortsPageBean {
         }
 
     }
-    public void onMarkerSelect(OverlaySelectEvent event) {
+    public void onMarkerSelect(OverlaySelectEvent event) throws Exception {
         marker = (Marker) event.getOverlay();
+        selectedPort = (PortDetailsDto) activePorts.stream().filter(n -> n.getName().equals(marker.getTitle())).findFirst().orElseThrow(Exception::new);
+    }
+
+    public PortDetailsDto getSelectedPort() {
+        return selectedPort;
     }
 
     public Marker getMarker() {
