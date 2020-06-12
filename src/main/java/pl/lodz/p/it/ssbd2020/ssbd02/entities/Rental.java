@@ -54,7 +54,7 @@ public class Rental implements Serializable {
     private Date endDate;
     @Column(name = "price", nullable = false, updatable = false)
     @NotNull
-    @Digits(integer = 18,fraction = 2)
+    @Digits(integer = 18, fraction = 2)
     private BigDecimal price;
     @OneToOne(cascade = CascadeType.REFRESH, mappedBy = "rental")
     private Opinion opinion;
@@ -80,7 +80,6 @@ public class Rental implements Serializable {
         this.price = price;
         this.user = user;
         this.yacht = yacht;
-
         this.businessKey = UUID.randomUUID();
     }
 
@@ -100,8 +99,16 @@ public class Rental implements Serializable {
         return beginDate;
     }
 
+    public void setBeginDate(Date beginDate) {
+        this.beginDate = beginDate;
+    }
+
     public Date getEndDate() {
         return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public BigDecimal getPrice() {
@@ -128,8 +135,16 @@ public class Rental implements Serializable {
         return user;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Yacht getYacht() {
         return yacht;
+    }
+
+    public void setYacht(Yacht yacht) {
+        this.yacht = yacht;
     }
 
     @Override

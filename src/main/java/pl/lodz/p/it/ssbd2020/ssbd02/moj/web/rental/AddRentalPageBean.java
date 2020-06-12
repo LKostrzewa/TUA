@@ -3,27 +3,34 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.AddRentalDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.RentalEndpoint;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.security.CurrentUser;
 
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ResourceBundle;
 
 /**
  * Klasa do obsługi widoku dodawania wypożyczenia.
  */
 @Named
-@ConversationScoped
+@ViewScoped
 public class AddRentalPageBean implements Serializable {
-    @Inject
-    private Conversation conversation;
     @Inject
     private RentalEndpoint rentalEndpoint;
     @Inject
+    private YachtEndpoint yachtEndpoint;
+    @Inject
+    private FacesContext facesContext;
+    private ResourceBundle resourceBundle;
+    @Inject
     private CurrentUser currentUser;
     private AddRentalDto addRentalDto;
+    private long yachtId;
 
     public AddRentalDto getAddRentalDto() {
         return addRentalDto;
@@ -33,17 +40,25 @@ public class AddRentalPageBean implements Serializable {
         this.addRentalDto = addRentalDto;
     }
 
+    public long getYachtId() {
+        return yachtId;
+    }
+
+    public void setYachtId(long yachtId) {
+        this.yachtId = yachtId;
+    }
+
     /**
-     * Metoda obsługująca kliknięcie przycisku do wypożyczenia danego jachtu.
-     *
-     * @param yachtName nazwa jachtu, który ma zostać wypożyczony
-     * @return strona, na którą ma zostać przekierowany użytkownik
+     * Metoda inicjalizująca komponent.
      */
-    public String onClick(String yachtName) {
-        conversation.begin();
-        this.addRentalDto.setYachtName(yachtName);
-        this.addRentalDto.setUserLogin(currentUser.getCurrentUserLogin());
-        return "addRental.xhtml?faces-redirect=true";
+    public void init() {
+        addRentalDto = new AddRentalDto();
+        try {
+            addRentalDto.setYachtName(yachtEndpoint.getYachtById(yachtId).getName());
+            addRentalDto.setUserLogin(currentUser.getCurrentUserLogin());
+        } catch (AppBaseException e) {
+            displayError(e.getLocalizedMessage());
+        }
     }
 
     /**
@@ -51,9 +66,33 @@ public class AddRentalPageBean implements Serializable {
      *
      * @return strona, na którą ma zostać przekierowany użytkownik
      */
-    public String onFinish() throws AppBaseException {
-        rentalEndpoint.addRental(addRentalDto);
-        conversation.end();
-        return "listRentals.xhtml?faces-redirect=true";
+    public String addRental() {
+        try {
+            rentalEndpoint.addRental(addRentalDto);
+        } catch (AppBaseException e) {
+            displayError(e.getLocalizedMessage());
+        }
+
+        return "/client/rental/listRentals.xhtml?faces-redirect=true";
+    }
+
+    /**
+     * Metoda inicjalizująca wyświetlanie wiadomości
+     */
+    public void displayInit() {
+        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+        resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o zaistniałym błędzie
+     *
+     * @param message wiadomość do wyświetlenia
+     */
+    private void displayError(String message) {
+        displayInit();
+        String msg = resourceBundle.getString(message);
+        String head = resourceBundle.getString("error");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
     }
 }

@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * Klasa mapująca korzystająca z biblioteki zewnętrznej ModelMapper.
  */
 public class ObjectMapperUtils {
-    private static final ModelMapper modelMapper;
+    private static ModelMapper modelMapper;
 
     static {
         modelMapper = new ModelMapper();
@@ -22,6 +22,10 @@ public class ObjectMapperUtils {
      * Prywatny konstruktor do uniemożliwienia publicznego dostępu.
      */
     private ObjectMapperUtils() {
+    }
+
+    public static ModelMapper getModelMapper() {
+        return modelMapper;
     }
 
     /**
