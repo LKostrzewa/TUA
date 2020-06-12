@@ -31,19 +31,33 @@
             </f:metadata>
             <h:form id="form">
                 <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
-                <p:panelGrid columns="2">
-                    <h:outputLabel value="#{msg['yacht.name']}:"/>
-                    <h:outputText value="#{addRentalPageBean.addRentalDto.yachtName}"/>
-                    <p:outputLabel for="beginDate" value="beginDate:" />
-                    <p:datePicker pattern="dd.MM.yyyy" id="beginDate" value="#{addRentalPageBean.addRentalDto.beginDate}" />
-                    <p:outputLabel for="endDate" value="endDate:" />
-                    <p:datePicker pattern="dd.MM.yyyy" id="endDate" value="#{addRentalPageBean.addRentalDto.endDate}" />
-                </p:panelGrid>
+                <div>
+                    <p:panelGrid columns="2">
+                        <h:outputLabel value="#{msg['yacht.name']}:"/>
+                        <h:outputText value="#{addRentalPageBean.addRentalDto.yachtName}"/>
+                        <p:outputLabel for="beginDate" value="#{msg['rental.beginDate']}:"/>
+                        <p:datePicker pattern="dd.MM.yyyy" id="beginDate"
+                                      value="#{addRentalPageBean.addRentalDto.beginDate}"/>
+                        <p:outputLabel for="endDate" value="#{msg['rental.endDate']}:"/>
+                        <p:datePicker pattern="dd.MM.yyyy" id="endDate"
+                                      value="#{addRentalPageBean.addRentalDto.endDate}"/>
+                    </p:panelGrid>
+                </div>
                 <div>
                     <p:button value="#{msg['cancel']}" style="background-color: orange"
                               outcome="/client/yacht/yachtDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
-                    <p:commandButton id="rent" value="#{msg['rent']}"  action="#{addRentalPageBean.addRental()}"/>
+                    <p:commandButton id="rent" value="#{msg['rent']}" type="button" onclick="PF('rentConfirm').show()"
+                                     style="background-color: green"/>
                 </div>
+                <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}" showEffect="explode"
+                                 hideEffect="explode" widgetVar="rentConfirm">
+                    <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
+                                     style="background-color: green"
+                                     action="#{addRentalPageBean.addRental()}" ajax="false"
+                                     oncomplete="PF('rentConfirm').hide()" icon="pi pi-check"/>
+                    <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no" style="background-color: red"
+                                     oncomplete="PF('rentConfirm').hide()" icon="pi pi-times"/>
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>
