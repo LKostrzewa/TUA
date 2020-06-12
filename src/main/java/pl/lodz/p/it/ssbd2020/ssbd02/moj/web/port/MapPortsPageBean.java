@@ -14,6 +14,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.swing.*;
+import java.awt.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +40,14 @@ public class MapPortsPageBean implements Serializable {
         simpleModel = new DefaultMapModel();
         this.activePorts = portEndpoint.getAllPorts().stream().filter(portDetailsDto -> portDetailsDto.getActive().equals(true)).collect(Collectors.toList());
 
+        StringBuilder ruta = new StringBuilder();
+        ruta.append(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath());
+        ruta.append("/resources/images/markerPort.png");
+
         for (PortDetailsDto portDetailsDto: activePorts){
-            simpleModel.addOverlay(new Marker(new LatLng(portDetailsDto.getLat().floatValue(),portDetailsDto.getLong1().floatValue()), portDetailsDto.getName()));
+            Marker marker = new Marker(new LatLng(portDetailsDto.getLat().floatValue(),portDetailsDto.getLong1().floatValue()), portDetailsDto.getName());
+            marker.setIcon(String.valueOf(ruta));
+            simpleModel.addOverlay(marker);
         }
 
     }
