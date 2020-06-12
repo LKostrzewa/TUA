@@ -5,13 +5,18 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.AddRentalDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.RentalEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.security.CurrentUser;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -20,6 +25,7 @@ import java.util.ResourceBundle;
 @Named
 @ViewScoped
 public class AddRentalPageBean implements Serializable {
+    private final PropertyReader propertyReader = new PropertyReader();
     @Inject
     private RentalEndpoint rentalEndpoint;
     @Inject
@@ -31,6 +37,7 @@ public class AddRentalPageBean implements Serializable {
     private CurrentUser currentUser;
     private AddRentalDto addRentalDto;
     private long yachtId;
+    private Locale locale;
 
     public AddRentalDto getAddRentalDto() {
         return addRentalDto;
@@ -48,17 +55,27 @@ public class AddRentalPageBean implements Serializable {
         this.yachtId = yachtId;
     }
 
+    public Locale getLocale() {
+        return locale;
+    }
+    @PostConstruct
+    public void loadLocale() {
+        this.locale = propertyReader.getCurrentLocale();
+    }
+
     /**
      * Metoda inicjalizująca komponent.
      */
     public void init() {
-        addRentalDto = new AddRentalDto();
+        this.addRentalDto = new AddRentalDto();
+        this.locale = propertyReader.getCurrentLocale();
+        System.out.println(locale);
         try {
-            addRentalDto.setYachtName(yachtEndpoint.getYachtById(yachtId).getName());
-            addRentalDto.setUserLogin(currentUser.getCurrentUserLogin());
+            this.addRentalDto.setYachtName(this.yachtEndpoint.getYachtById(this.yachtId).getName());
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
+        this.addRentalDto.setUserLogin(this.currentUser.getCurrentUserLogin());
     }
 
     /**
@@ -67,13 +84,26 @@ public class AddRentalPageBean implements Serializable {
      * @return strona, na którą ma zostać przekierowany użytkownik
      */
     public String addRental() {
-        try {
-            rentalEndpoint.addRental(addRentalDto);
-        } catch (AppBaseException e) {
-            displayError(e.getLocalizedMessage());
-        }
+        addRentalDto.setBeginDate(setHour(addRentalDto.getBeginDate()));
+        addRentalDto.setEndDate(setHour(addRentalDto.getEndDate()));
 
-        return "/client/rental/listRentals.xhtml?faces-redirect=true";
+        if (addRentalDto.getBeginDate().after(addRentalDto.getEndDate())) {
+            displayInit();
+            String msg = resourceBundle.getString("rentals.invalidDates");
+            String head = resourceBundle.getString("error");
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
+            return "/client/rental/addRental.xhtml?faces-redirect=true?includeViewParams=true";
+        } else {
+            try {
+                rentalEndpoint.addRental(addRentalDto);
+                displayMessage();
+            } catch (AppBaseException e) {
+                displayError(e.getLocalizedMessage());
+                return "/client/rental/addRental.xhtml?faces-redirect=true?includeViewParams=true";
+            }
+
+            return "/client/rental/listRentals.xhtml?faces-redirect=true";
+        }
     }
 
     /**
@@ -82,6 +112,16 @@ public class AddRentalPageBean implements Serializable {
     public void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
+     */
+    private void displayMessage() {
+        displayInit();
+        String msg = resourceBundle.getString("rentals.addInfo");
+        String head = resourceBundle.getString("success");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
     /**
@@ -94,5 +134,45 @@ public class AddRentalPageBean implements Serializable {
         String msg = resourceBundle.getString(message);
         String head = resourceBundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
+    }
+
+    /**
+     * Metoda ustawia godzinę obiektu typu Date na 10.
+     *
+     * @param date obiekt, który chcemy zmodyfikować
+     * @return zmodyfikowany obiekt, którego godzina to 10
+     */
+    private Date setHour(Date date) {
+        int hour = Integer.parseInt(this.propertyReader.getProperty("config", "START_HOUR"));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        return calendar.getTime();
+    }
+
+    /**
+     * Metoda zwraca obiekt typu Date reprezentujący jutrzejszy dzień.
+     *
+     * @return jutrzejszy dzień
+     */
+    public Date getTommorow() {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, 1);
+        return calendar.getTime();
+    }
+
+    /**
+     * Metoda zwraca obiekt typu Date reprezentujący pojutrze.
+     *
+     * @return pojutrze
+     */
+    public Date getNextDayAfterTommorow() {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, 2);
+        return calendar.getTime();
     }
 }
