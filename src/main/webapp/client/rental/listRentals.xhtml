@@ -47,7 +47,7 @@
                         <h:outputText value="#{rental.statusName}"/>
                     </p:column>
                     <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}" outcome="rentalDetails.xhtml?faces-redirect=true">
+                        <p:button value="${msg['details']}" outcome="/client/rental/rentalDetails.xhtml?faces-redirect=true">
                             <f:param name="rentalId" value="#{rental.id}"/>
                         </p:button>
                     </p:column>

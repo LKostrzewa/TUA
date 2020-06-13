@@ -59,7 +59,7 @@
                                icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>
                 <p:button value="${msg['opinion.addOpinion']}"
-                                 outcome="opinion/addOpinion.xhtml?faces-redirect=true"
+                                 outcome="/client/opinion/addOpinion.xhtml?faces-redirect=true"
                                  rendered="#{rentalDetailsPageBean.rentalDetails.statusName.equals('FINISHED')}"/>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
