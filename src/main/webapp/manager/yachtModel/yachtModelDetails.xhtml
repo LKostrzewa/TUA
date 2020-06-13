@@ -7,8 +7,10 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
 <head>
     <title>Title</title>
+
 </head>
 <body>
+
 <h:outputStylesheet library="css" name="yachtModelDetails.css"/>
 <ui:composition template="/templates/commonTemplate.xhtml">
     <ui:define name="title">#{msg['manager.title.yachtModelDetails']}</ui:define>
@@ -29,6 +31,7 @@
             <f:event type="preRenderView" listener="#{yachtModelDetailsPageBean.init}"/>
         </f:metadata>
         <h:form id="form" enctype="multipart/form-data">
+
             <p:growl id="message" showDetail="true"/>
 
             <p:panelGrid columns="2">
@@ -46,21 +49,24 @@
                 <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.description}"/>
                
             </p:panelGrid>
-            <p:fileUpload listener="#{yachtModelDetailsPageBean.handleFileUpload}" mode="advanced" dragDropSupport="true"
-                          update="@form" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 
-            <p:growl id="messages" showDetail="true" />
             <p:button value="#{msg['goBack']}" outcome="listYachtModels.xhtml?faces-redirect=true"/>
             <p:button value="${msg['edit']}" outcome="editYachtModel.xhtml?faces-redirect=true">
                 <f:param name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
             </p:button>
             <div id="galleria">
-                <p:galleria value="#{yachtModelDetailsPageBean.imageIds}" var="imageId">
+                <p:galleria value="#{yachtModelDetailsPageBean.imageIds}" var="imageId" panelWidth="590" panelHeight="310">
                 <p:graphicImage value="#{yachtModelDetailsPageBean.image}" width="100%" height="100%" style="align-content: center">
                     <f:param name="id" value="#{imageId}" />
                 </p:graphicImage>
             </p:galleria>
             </div>
+            <p:fileUpload listener="#{yachtModelDetailsPageBean.handleFileUpload}" mode="advanced" dragDropSupport="true"
+                          update="@form" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" >
+                Prosze upuscic tutaj
+            </p:fileUpload>
+
+            <p:growl id="messages" showDetail="true" />
         </h:form>
     </ui:define>
 </ui:composition>
