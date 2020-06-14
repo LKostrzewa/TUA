@@ -69,7 +69,6 @@ public class AddRentalPageBean implements Serializable {
     public void init() {
         this.addRentalDto = new AddRentalDto();
         this.locale = propertyReader.getCurrentLocale();
-        System.out.println(locale);
         try {
             this.addRentalDto.setYachtName(this.yachtEndpoint.getYachtById(this.yachtId).getName());
         } catch (AppBaseException e) {
