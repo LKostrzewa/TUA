@@ -17,12 +17,9 @@ import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * Klasa menadżera do obsługi operacji związanych z opiniami.
@@ -65,10 +62,6 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<Opinion> getAllOpinionsByYacht(Long yachtId) throws AppBaseException {
         return opinionFacade.getAllOpinionsByYacht(yachtId);
-        /*return rentalFacade.findAll().stream()
-                .filter(rental -> rental.getYacht().getId().equals(yachtId))
-                .map(Rental::getOpinion)
-                .collect(Collectors.toList());*/
     }
 
     /**
@@ -106,28 +99,19 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
      * @param yachtId identyfikator jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     private void calculateAvgRating(Long yachtId) throws AppBaseException {
         Yacht yacht = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createYachtNotFoundException);
-        /*BigDecimal tmp = BigDecimal.valueOf(yacht.getRentals().stream()
-                .map(Rental::getOpinion)
-                .mapToDouble(Opinion::getRating)
-                .average().orElse(Double.NaN));*/
-        Collection<Rental> rentals = yacht.getRentals();
-        List<Integer> opinions = new ArrayList<>();
-        double tmpr = 0.0;
-        double sum= 0.0;
+        List<Opinion> opinionList = opinionFacade.getAllOpinionsByYacht(yachtId);
+        double tmpr = 0.00;
+        double sum = 0.00;
         double result;
-        for (Rental r : rentals) {
-            Opinion opinion = r.getOpinion();
-            if (opinion != null){
-                sum += opinion.getRating();
-                tmpr++;
-            }
+        for (Opinion o: opinionList) {
+            sum += o.getRating();
+            tmpr++;
         }
         result = sum / tmpr;
-        result = 0;
-        LOGGER.log(Level.INFO, "srednia ->" + result + " " + sum + " " + tmpr);
-        yacht.setAvgRating(new BigDecimal(result, MathContext.DECIMAL64));
+        yacht.setAvgRating(BigDecimal.valueOf(result).setScale(2, RoundingMode.HALF_UP));
         yachtFacade.edit(yacht);
     }
 

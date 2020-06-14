@@ -16,6 +16,7 @@
                 <p:menuitem value="#{msg['bread.rentals']}" outcome="/client/listRentals.xhtml"/>
                 <p:menuitem value="#{msg['bread.rental']}" outcome="/client/rentalDetails.xhtml"
                             includeViewParams="true">
+                    <!--<f:param name="rentalBusinessKey" value="#{addOpinionPageBean.rentalBusinessKey}"/>-->
                     <!--<f:param name="rentalId" value="#{rentalDetailsPageBean.rentalId}"/>-->
                 </p:menuitem>
                 <p:menuitem value="#{msg['bread.addOpinion']}" outcome="/client/opinion/addOpinion.xhtml"/>
@@ -41,7 +42,18 @@
                     </span>
                 </div>
                 <p:button value="#{msg['goBack']}" outcome="/client/rentalDetails.xhtml?faces-redirect=true"/>
-                <p:commandButton value="#{msg['save']}" action="#{addOpinionPageBean.addOpinion}" update="@form" ajax="false"/>
+                <p:commandButton value="#{msg['save']}" action="#{addOpinionPageBean.addOpinion}"
+                                 update="@form" ajax="false">
+                    <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
+                               icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                                     icon="pi pi-check"/>
+                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                                     icon="pi pi-times"/>
+
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>

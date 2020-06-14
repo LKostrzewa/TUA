@@ -22,10 +22,8 @@ public class AddOpinionPageBean {
     private OpinionEndpoint opinionEndpoint;
     @Inject
     private FacesContext facesContext;
-    private NewOpinionDto newOpinionDto; //= new NewOpinionDto();
+    private NewOpinionDto newOpinionDto;
     private ResourceBundle resourceBundle;
-    //@Convert("uuidConverter")
-    //@TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
     private String rentalBusinessKey;
 
     public NewOpinionDto getNewOpinionDto() {
@@ -64,7 +62,7 @@ public class AddOpinionPageBean {
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
-        return "client/rentalDetails.xhtml?faces-redirect=true";
+        return "client/rentalDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
     /**

@@ -70,7 +70,7 @@ public class EditOpinionPageBean implements Serializable {
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
-        return "client/rentalDetails.xhtml?faces-redirect=true";
+        return "client/rentalDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
     /**
