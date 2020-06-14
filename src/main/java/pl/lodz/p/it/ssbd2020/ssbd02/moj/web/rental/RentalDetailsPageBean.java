@@ -8,6 +8,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Klasa do obsługi widoku szczegółowych informacji wypożyczenia.
@@ -18,7 +19,7 @@ public class RentalDetailsPageBean implements Serializable {
     @Inject
     private RentalEndpoint rentalEndpoint;
     private RentalDetailsDto rentalDetails;
-    private Long rentalId;
+    private String rentalBusinessKey;
 
     public RentalDetailsDto getRentalDetails() {
         return rentalDetails;
@@ -28,25 +29,25 @@ public class RentalDetailsPageBean implements Serializable {
         this.rentalDetails = rentalDetails;
     }
 
-    public Long getRentalId() {
-        return rentalId;
+    public String getRentalBusinessKey() {
+        return rentalBusinessKey;
     }
 
-    public void setRentalId(Long rentalId) {
-        this.rentalId = rentalId;
+    public void setRentalBusinessKey(String rentalBusinessKey) {
+        this.rentalBusinessKey = rentalBusinessKey;
     }
 
     /**
      * Metoda inicjalizująca komponent.
      */
     public void init() throws AppBaseException {
-        this.rentalDetails = rentalEndpoint.getUserRentalDetails(rentalId);
+        this.rentalDetails = rentalEndpoint.getUserRentalDetails(UUID.fromString(this.rentalBusinessKey));
     }
 
     /**
      * Metoda anulująca wypożyczenie.
      */
     public void cancelRental() throws AppBaseException {
-        rentalEndpoint.cancelRental(rentalId);
+        rentalEndpoint.cancelRental(UUID.fromString(this.rentalBusinessKey));
     }
 }

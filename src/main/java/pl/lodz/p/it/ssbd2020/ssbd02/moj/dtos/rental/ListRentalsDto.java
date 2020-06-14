@@ -2,24 +2,25 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * DTO do wyświetlenia listy własnych wypożyczeń.
  */
 public class ListRentalsDto {
-    private Long id;
+    private UUID businessKey;
     private String yachtName;
     private Date beginDate;
     private Date endDate;
     private String statusName;
     private BigDecimal price;
 
-    public Long getId() {
-        return id;
+    public UUID getBusinessKey() {
+        return businessKey;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setBusinessKey(UUID businessKey) {
+        this.businessKey = businessKey;
     }
 
     public String getYachtName() {

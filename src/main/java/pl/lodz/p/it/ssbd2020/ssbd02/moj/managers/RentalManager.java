@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -90,14 +91,14 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     /**
      * Metoda, która zwraca wypożyczenie o danym id.
      *
-     * @param rentalId id wypożyczenia
-     * @return Wypożyczenie o podanym Id
+     * @param rentalBusinessKey klucz biznesowy wypożyczenia
+     * @return wypożyczenie o podanym kluczu biznesowym
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed({"getUserRentalDetails", "cancelRental"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public Rental getRentalById(Long rentalId) throws AppBaseException {
-        return rentalFacade.find(rentalId).orElseThrow(AppNotFoundException::createRentalNotFoundException);
+    public Rental getRentalByBusinessKey(UUID rentalBusinessKey) throws AppBaseException {
+        return rentalFacade.findByBusinessKey(rentalBusinessKey).orElseThrow(AppNotFoundException::createRentalNotFoundException);
     }
 
     /**
@@ -118,13 +119,14 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     /**
      * Metoda, która anuluje wypożyczenie.
      *
-     * @param rentalId Id wypożyczenia, które użytkownik chce anulować
+     * @param rentalBusinessKey klucz główny wypożyczenia, które użytkownik chce anulować
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("cancelRental")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void cancelRental(Long rentalId) throws AppBaseException {
-        Rental rentalToCancel = getRentalById(rentalId);
+    public void cancelRental(UUID rentalBusinessKey) throws AppBaseException {
+        Rental rentalToCancel = getRentalByBusinessKey(rentalBusinessKey);
+
         if (rentalToCancel.getRentalStatus().getName().equals(RENTAL_PENDING_STATUS)) {
             RentalStatus rentalStatus = rentalStatusFacade.findByName(RENTAL_CANCELED_STATUS);
             rentalToCancel.setRentalStatus(rentalStatus);

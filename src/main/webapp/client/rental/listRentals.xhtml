@@ -46,9 +46,12 @@
                     <p:column headerText="${msg['rental.status']}">
                         <h:outputText value="#{rental.statusName}"/>
                     </p:column>
+                    <p:column headerText="businessKey">
+                        <h:outputText value="#{rental.businessKey}"/>
+                    </p:column>
                     <p:column headerText="${msg['actions']}">
                         <p:button value="${msg['details']}" outcome="/client/rental/rentalDetails.xhtml?faces-redirect=true">
-                            <f:param name="rentalId" value="#{rental.id}"/>
+                            <f:param name="bk" value="#{rental.businessKey}"/>
                         </p:button>
                     </p:column>
                 </p:dataTable>

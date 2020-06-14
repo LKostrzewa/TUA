@@ -9,6 +9,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.RentalDetailsDto;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Interfejs Endpoint do operacji związanych z wypożyczeniem.
@@ -34,20 +35,19 @@ public interface RentalEndpoint {
     /**
      * Metoda, która anuluje wypożyczenie.
      *
-     * @param rentalId Id wypożyczenia, które użytkownik chce anulować
+     * @param rentalBusinessKey klucz biznesowy wypożyczenia, które użytkownik chce anulować
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    void cancelRental(Long rentalId) throws AppBaseException;
+    void cancelRental(UUID rentalBusinessKey) throws AppBaseException;
 
     /**
      * Metoda, która pobiera szczegóły wypożyczenia klienta.
      *
-     * @param rentalId Id wypożyczenia, którego szczegóły klient chce zobaczyć
+     * @param rentalBusinessKey klucz biznesowy wypożyczenia, którego szczegóły klient chce zobaczyć
      * @return obiekt Dto ze szczegółami wypożyczenia
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    RentalDetailsDto getUserRentalDetails(Long rentalId) throws AppBaseException;
-
+    RentalDetailsDto getUserRentalDetails(UUID rentalBusinessKey) throws AppBaseException;
 
     /**
      * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.

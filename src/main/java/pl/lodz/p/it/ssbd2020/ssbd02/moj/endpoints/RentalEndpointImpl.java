@@ -20,6 +20,7 @@ import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Implementacja interfejsu RentalEndpoint.
@@ -57,24 +58,24 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
     /**
      * Metoda, która anuluje wypożyczenie.
      *
-     * @param rentalId Id wypożyczenia, które użytkownik chce anulować
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param rentalBusinessKey klucz biznesowy wypożyczenia, które użytkownik chce anulować
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("cancelRental")
-    public void cancelRental(Long rentalId) throws AppBaseException {
-        rentalManager.cancelRental(rentalId);
+    public void cancelRental(UUID rentalBusinessKey) throws AppBaseException {
+        rentalManager.cancelRental(rentalBusinessKey);
     }
 
     /**
      * Metoda, która pobiera szczegóły wypożyczenia klienta.
      *
-     * @param rentalId Id wypożyczenia, którego szczegóły klient chce zobaczyć
+     * @param rentalBusinessKey klucz biznesowy wypożyczenia, którego szczegóły klient chce zobaczyć
      * @return obiekt Dto ze szczegółami wypożyczenia
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getUserRentalDetails")
-    public RentalDetailsDto getUserRentalDetails(Long rentalId) throws AppBaseException {
-        Rental rental = rentalManager.getRentalById(rentalId);
+    public RentalDetailsDto getUserRentalDetails(UUID rentalBusinessKey) throws AppBaseException {
+        Rental rental = rentalManager.getRentalByBusinessKey(rentalBusinessKey);
         return ObjectMapperUtils.map(rental, RentalDetailsDto.class);
     }
 

@@ -18,10 +18,7 @@ import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Klasa fasadowa powiązana z encją Rental.
@@ -62,16 +59,16 @@ public class RentalFacade extends AbstractFacade<Rental> {
     }
 
     /**
-     * Metoda, która służy do wyszukania obiektu po kluczu głównym.
+     * Metoda, która służy do wyszukania obiektu po kluczu biznesowym.
      *
-     * @param id wartość klucza głównego
+     * @param businessKey wartość klucza biznesowego
      * @return optional z wyszukanym obiektem encji lub pusty, jeśli poszukiwany obiekt encji nie istnieje
      */
-    @Override
     @RolesAllowed({"getUserRentalDetails", "cancelRental"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public Optional<Rental> find(Object id) {
-        return super.find(id);
+    public Optional<Rental> findByBusinessKey(UUID businessKey) {
+        return Optional.ofNullable(entityManager.createNamedQuery("Rental.findByBusinessKey", Rental.class)
+                .setParameter("businessKey", businessKey).getSingleResult());
     }
 
     /**
@@ -126,6 +123,18 @@ public class RentalFacade extends AbstractFacade<Rental> {
     @DenyAll
     public void remove(Rental entity) {
         super.remove(entity);
+    }
+
+    /**
+     * Metoda, która usuwa encje.
+     *
+     * @param id klucz główny
+     * @return optional z wyszukanym obiektem encji lub pusty, jeśli poszukiwany obiekt encji nie istnieje
+     */
+    @Override
+    @DenyAll
+    public Optional<Rental> find(Object id) {
+        return super.find(id);
     }
 
     /**
