@@ -99,16 +99,8 @@ public class Rental implements Serializable {
         return beginDate;
     }
 
-    public void setBeginDate(Date beginDate) {
-        this.beginDate = beginDate;
-    }
-
     public Date getEndDate() {
         return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
     }
 
     public BigDecimal getPrice() {
@@ -135,13 +127,8 @@ public class Rental implements Serializable {
         return user;
     }
 
-
     public Yacht getYacht() {
         return yacht;
-    }
-
-    public void setYacht(Yacht yacht) {
-        this.yacht = yacht;
     }
 
     @Override
