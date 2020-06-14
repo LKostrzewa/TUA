@@ -50,7 +50,7 @@ public class PropertyReader {
      *
      * @return aktualne Locale
      */
-    private Locale getCurrentLocale() {
+    public Locale getCurrentLocale() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         UIViewRoot viewRoot = facesContext.getViewRoot();
         return viewRoot.getLocale();
