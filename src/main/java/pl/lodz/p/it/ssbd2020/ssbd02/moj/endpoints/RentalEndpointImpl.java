@@ -2,6 +2,8 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.AddRentalDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListAllRentalsDto;
@@ -36,7 +38,8 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
      */
     @RolesAllowed("addRental")
     public void addRental(AddRentalDto addRentalDto) throws AppBaseException {
-        Rental rental = ObjectMapperUtils.map(addRentalDto, Rental.class);
+        Rental rental = new Rental(addRentalDto.getBeginDate(), addRentalDto.getEndDate()
+                , null, new User(addRentalDto.getUserLogin()), new Yacht(addRentalDto.getYachtName()));
         rentalManager.addRental(rental);
     }
 

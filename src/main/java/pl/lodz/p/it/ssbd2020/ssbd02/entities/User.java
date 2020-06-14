@@ -49,7 +49,7 @@ public class User implements Serializable {
     @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
     @NotNull
     private UUID businessKey;
-    @Column(name = "login", nullable = false, unique = true, length = 32)
+    @Column(name = "login", nullable = false, unique = true, updatable = false, length = 32)
     @NotNull
     @Size(min = 4, max = 32)
     @Pattern(regexp = "^[^=;%&'\"/\\\\]+$")
@@ -144,10 +144,6 @@ public class User implements Serializable {
 
     public String getLogin() {
         return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String getPassword() {

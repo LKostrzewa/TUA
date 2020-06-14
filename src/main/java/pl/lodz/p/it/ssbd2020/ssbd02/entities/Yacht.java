@@ -32,8 +32,8 @@ import java.util.UUID;
 public class Yacht implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "YachtSeqGen", sequenceName = "yacht_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "YachtSeqGen")
+    @SequenceGenerator(name="YachtSeqGen",sequenceName="yacht_id_seq",allocationSize = 1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="YachtSeqGen")
     @Column(name = "id", nullable = false, unique = true, updatable = false)
     @NotNull
     private Long id;
@@ -54,14 +54,14 @@ public class Yacht implements Serializable {
     private Integer productionYear;
     @Column(name = "price_multiplier", nullable = false)
     @NotNull
-    @Digits(integer = 1, fraction = 2)
+    @Digits(integer = 1,fraction = 2)
     private BigDecimal priceMultiplier;
     @Column(name = "equipment", nullable = false, length = 2048)
     @NotNull
     @Size(max = 2048)
     private String equipment;
     @Column(name = "avg_rating")
-    @Digits(integer = 1, fraction = 2)
+    @Digits(integer = 1,fraction = 2)
     private BigDecimal avgRating;
     @Column(name = "active", nullable = false)
     @NotNull
