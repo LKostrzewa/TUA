@@ -20,6 +20,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 @Named
 @SessionScoped
@@ -35,6 +37,8 @@ public class YachtModelDetailsPageBean implements Serializable {
     private List<Long> imageIds;
     private UploadedFile file;
     private byte[] contents;
+
+    Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public UploadedFile getFile() {
         return file;
@@ -104,7 +108,12 @@ public class YachtModelDetailsPageBean implements Serializable {
     }
 
     public void deleteImage() throws AppBaseException {
-        imageEndpoint.deleteImage(imageId);
+
+
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        Long imaId = Long.parseLong(params.get("id"));
+        logger.info("Idd:" + imaId);
+        imageEndpoint.deleteImage(imaId);
     }
 
     public StreamedContent getImage() throws IOException, AppBaseException {

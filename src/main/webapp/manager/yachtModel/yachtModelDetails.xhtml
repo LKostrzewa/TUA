@@ -31,10 +31,16 @@
             <f:event type="preRenderView" listener="#{yachtModelDetailsPageBean.init}"/>
         </f:metadata>
         <h:form id="form" enctype="multipart/form-data">
+            <style type="text/css">
+
+                .ui-widget {
+                    text-align: center;
+                }
+            </style>
 
             <p:growl id="message" showDetail="true"/>
 
-            <p:panelGrid columns="2">
+            <p:panelGrid columns="2" columnClasses="centered">
                 <h:outputLabel value="#{msg['yachtModel.model']}:"/>
                 <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.model}"/>
                 <h:outputLabel value="#{msg['yachtModel.manufacturer']}:"/>
@@ -55,16 +61,23 @@
                 <f:param name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
             </p:button>
             <div id="galleria">
-                <p:galleria value="#{yachtModelDetailsPageBean.imageIds}" var="imageId" panelWidth="590" panelHeight="310">
+                <p:galleria value="#{yachtModelDetailsPageBean.imageIds}" var="imageId" panelWidth="590" panelHeight="310" style="display: block; text-align: center">
                 <p:graphicImage value="#{yachtModelDetailsPageBean.image}" width="100%" height="100%" style="align-content: center">
                     <f:param name="id" value="#{imageId}" />
                 </p:graphicImage>
+                    <span style="position:absolute;right:0;top:0;">
+            <p:commandButton styleClass="ui-icon ui-icon-trash" action="#{yachtModelDetailsPageBean.deleteImage}"  update="@form" >
+                 <f:param name="id" value="#{imageId}" />
+            </p:commandButton>
+                    </span>
             </p:galleria>
+                
             </div>
-            <p:fileUpload listener="#{yachtModelDetailsPageBean.handleFileUpload}" mode="advanced" dragDropSupport="true"
+            <p:fileUpload listener="#{yachtModelDetailsPageBean.handleFileUpload}" mode="advanced" dragDropSupport="true" style="width: 590px;display: block;text-align: center" cancelLabel="Anuluj" uploadLabel="Dodaj zdjęcie" label="Wybierz zdjęcie"
                           update="@form" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" >
-                Prosze upuscic tutaj
+                <b>Upuść zdjęcie tutaj</b>
             </p:fileUpload>
+
 
             <p:growl id="messages" showDetail="true" />
         </h:form>
