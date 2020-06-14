@@ -12,15 +12,12 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalStatusFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -32,7 +29,6 @@ import java.util.stream.Collectors;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class RentalManager extends AbstractManager implements SessionSynchronization {
-    private final PropertyReader propertyReader = new PropertyReader();
     @Inject
     private RentalFacade rentalFacade;
     @Inject
@@ -41,14 +37,6 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     private UserFacade userFacade;
     @Inject
     private YachtFacade yachtFacade;
-    private String RENTAL_PENDING_STATUS;
-    private String RENTAL_CANCELED_STATUS;
-
-    @PostConstruct
-    public void init() {
-        RENTAL_PENDING_STATUS = propertyReader.getProperty("config", "PENDING_STATUS");
-        RENTAL_CANCELED_STATUS = propertyReader.getProperty("config", "CANCELED_STATUS");
-    }
 
     /**
      * Metoda, która służy do dodania nowego wypożyczenia.
@@ -75,13 +63,9 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
         if (rentalFacade.interfere(rental))
             throw RentalPeriodInterferenceException.createRentalPeriodInterferenceException(rental);
 
-        RentalStatus startedStatus = rentalStatusFacade.findByName(RENTAL_PENDING_STATUS);
-
-        long days = (rental.getEndDate().getTime() - rental.getBeginDate().getTime()) / (1000 * 60 * 60 * 24);
-        BigDecimal rentalPrice = yachtToRent.getYachtModel().getBasicPrice().multiply(yachtToRent.getPriceMultiplier()).multiply(BigDecimal.valueOf(days));
-        rentalPrice = rentalPrice.setScale(2, RoundingMode.DOWN);
-
-        Rental newRental = new Rental(rental.getBeginDate(), rental.getEndDate(), rentalPrice, rentingUser, yachtToRent);
+        RentalStatus startedStatus = rentalStatusFacade.findByName("STARTED");
+        BigDecimal bigDecimal = new BigDecimal(0);
+        Rental newRental = new Rental(rental.getBeginDate(), rental.getEndDate(), bigDecimal, rentingUser, yachtToRent);
 
         newRental.setRentalStatus(startedStatus);
 
@@ -126,8 +110,8 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void cancelRental(Long rentalId) throws AppBaseException {
         Rental rentalToCancel = getRentalById(rentalId);
-        if (rentalToCancel.getRentalStatus().getName().equals(RENTAL_PENDING_STATUS)) {
-            RentalStatus rentalStatus = rentalStatusFacade.findByName(RENTAL_CANCELED_STATUS);
+        if (rentalToCancel.getRentalStatus().getName().equals("PENDING")) {
+            RentalStatus rentalStatus = rentalStatusFacade.findByName("CANCELED");
             rentalToCancel.setRentalStatus(rentalStatus);
             rentalFacade.edit(rentalToCancel);
         } else throw RentalNotCancelableException.createRentalNotCancelableException(rentalToCancel);
