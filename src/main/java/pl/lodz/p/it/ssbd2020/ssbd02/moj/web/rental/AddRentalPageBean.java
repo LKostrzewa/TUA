@@ -58,6 +58,7 @@ public class AddRentalPageBean implements Serializable {
     public Locale getLocale() {
         return locale;
     }
+
     @PostConstruct
     public void loadLocale() {
         this.locale = propertyReader.getCurrentLocale();
@@ -86,7 +87,8 @@ public class AddRentalPageBean implements Serializable {
         addRentalDto.setBeginDate(setHour(addRentalDto.getBeginDate()));
         addRentalDto.setEndDate(setHour(addRentalDto.getEndDate()));
 
-        if (addRentalDto.getBeginDate().after(addRentalDto.getEndDate())) {
+        if (addRentalDto.getBeginDate().after(addRentalDto.getEndDate()) ||
+                addRentalDto.getBeginDate().equals(addRentalDto.getEndDate())) {
             displayInit();
             String msg = resourceBundle.getString("rentals.invalidDates");
             String head = resourceBundle.getString("error");

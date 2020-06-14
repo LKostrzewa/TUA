@@ -27,7 +27,8 @@ import java.util.UUID;
         @NamedQuery(name = "Rental.findByPrice", query = "SELECT r FROM Rental r WHERE r.price = :price"),
         @NamedQuery(name = "Rental.findBetweenDatesWithYacht", query = "SELECT COUNT(r) FROM Rental r WHERE r.yacht.name = :name " +
                 "and r.beginDate<= :endDate " +
-                "and r.endDate>= :beginDate")})
+                "and r.endDate>= :beginDate " +
+                "and r.rentalStatus.name != :rentalStatusName")})
 public class Rental implements Serializable {
 
     @Id
@@ -54,7 +55,7 @@ public class Rental implements Serializable {
     private Date endDate;
     @Column(name = "price", nullable = false, updatable = false)
     @NotNull
-    @Digits(integer = 18, fraction = 2)
+    @Digits(integer = 18,fraction = 2)
     private BigDecimal price;
     @OneToOne(cascade = CascadeType.REFRESH, mappedBy = "rental")
     private Opinion opinion;
