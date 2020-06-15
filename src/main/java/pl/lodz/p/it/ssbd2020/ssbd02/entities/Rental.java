@@ -27,7 +27,8 @@ import java.util.UUID;
         @NamedQuery(name = "Rental.findByPrice", query = "SELECT r FROM Rental r WHERE r.price = :price"),
         @NamedQuery(name = "Rental.findBetweenDatesWithYacht", query = "SELECT COUNT(r) FROM Rental r WHERE r.yacht.name = :name " +
                 "and r.beginDate<= :endDate " +
-                "and r.endDate>= :beginDate")})
+                "and r.endDate>= :beginDate " +
+                "and r.rentalStatus.name != :rentalStatusName")})
 public class Rental implements Serializable {
 
     @Id
@@ -80,7 +81,6 @@ public class Rental implements Serializable {
         this.price = price;
         this.user = user;
         this.yacht = yacht;
-
         this.businessKey = UUID.randomUUID();
     }
 

@@ -5,7 +5,9 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
@@ -28,11 +30,18 @@ import java.util.Optional;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class RentalFacade extends AbstractFacade<Rental> {
+    private final PropertyReader propertyReader = new PropertyReader();
     @PersistenceContext(unitName = "ssbd02mojPU")
     private EntityManager entityManager;
+    private String RENTAL_CANCELED_STATUS;
 
     public RentalFacade() {
         super(Rental.class);
+    }
+
+    @PostConstruct
+    public void init() {
+        RENTAL_CANCELED_STATUS = propertyReader.getProperty("config", "CANCELED_STATUS");
     }
 
     @Override
@@ -46,7 +55,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * @return lista wypożyczeń
      */
     @Override
-    @RolesAllowed({"getRentals","updateRentalStatus"})
+    @RolesAllowed({"getRentals", "updateRentalStatus"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<Rental> findAll() {
         return super.findAll();
@@ -78,7 +87,8 @@ public class RentalFacade extends AbstractFacade<Rental> {
         return entityManager.createNamedQuery("Rental.findBetweenDatesWithYacht", Long.class)
                 .setParameter("name", rental.getYacht().getName())
                 .setParameter("endDate", rental.getEndDate())
-                .setParameter("beginDate", rental.getBeginDate()).getSingleResult() > 0;
+                .setParameter("beginDate", rental.getBeginDate())
+                .setParameter("rentalStatusName", RENTAL_CANCELED_STATUS).getSingleResult() > 0;
     }
 
     /**
@@ -88,7 +98,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"cancelRental","updateRentalStatus"})
+    @RolesAllowed({"cancelRental", "updateRentalStatus"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(Rental rental) throws AppBaseException {
         super.edit(rental);

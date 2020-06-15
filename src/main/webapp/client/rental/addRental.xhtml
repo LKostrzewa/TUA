@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
+<h:head/>
+<h:body>
+    <ui:composition template="/templates/commonTemplate.xhtml">
+        <ui:define name="title">#{msg['addRental']}</ui:define>
+        <ui:define name="breadCrumbs">
+            <p:breadCrumb>
+                <p:menuitem value="Categories" outcome="/client/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.main']}" outcome="/client/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.yachts']}" outcome="/client/yacht/listYachts.xhtml"/>
+                <p:menuitem value="#{msg['bread.yacht']}" outcome="/client/yacht/yachtDetails.xhtml"
+                            includeViewParams="true">
+                    <f:param name="yachtId" value="#{addRentalPageBean.yachtId}"/>
+                </p:menuitem>
+                <p:menuitem value="#{msg['addRental']}" outcome="/client/rental/addRental.xhtml"
+                            includeViewParams="true">
+                    <f:param name="yachtId" value="#{addRentalPageBean.yachtId}"/>
+                </p:menuitem>
+            </p:breadCrumb>
+        </ui:define>
+        <ui:define name="content">
+            <h:outputScript library="scripts" name="pl_locale.js"/>
+            <f:metadata>
+                <f:viewParam name="yachtId" value="#{addRentalPageBean.yachtId}"/>
+                <f:event type="preRenderView" listener="#{addRentalPageBean.init}"/>
+            </f:metadata>
+            <h:form id="form">
+                <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
+                <div>
+                    <p:outputLabel value="#{msg['yacht.name']}: "/>
+                    <p:outputLabel value="#{addRentalPageBean.addRentalDto.yachtName}"/>
+                    <p/>
+                    <p:outputLabel for="beginDate" value="#{msg['rental.beginDate']}: "/>
+                    <p:datePicker id="beginDate" pattern="dd.MM.yyyy"
+                                  value="#{addRentalPageBean.addRentalDto.beginDate}"
+                                  locale="#{addRentalPageBean.locale}"
+                                  mindate="#{addRentalPageBean.tommorow}"/>
+                    <p:message for="beginDate"/>
+                    <p:outputLabel for="endDate" value="#{msg['rental.endDate']}: "/>
+                    <p:datePicker id="endDate" pattern="dd.MM.yyyy"
+                                  value="#{addRentalPageBean.addRentalDto.endDate}"
+                                  locale="#{addRentalPageBean.locale}"
+                                  mindate="#{addRentalPageBean.nextDayAfterTommorow}"/>
+                    <p:message for="endDate"/>
+                </div>
+                <div>
+                    <p:button value="#{msg['cancel']}" style="background-color: orange"
+                              outcome="/client/yacht/yachtDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
+                    <p:commandButton id="rent" value="#{msg['rent']}" type="button" onclick="PF('rentConfirm').show()"
+                                     style="background-color: green"/>
+                </div>
+                <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}" showEffect="explode"
+                                 hideEffect="explode" widgetVar="rentConfirm">
+                    <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
+                                     style="background-color: green"
+                                     action="#{addRentalPageBean.addRental()}" ajax="false"
+                                     oncomplete="PF('rentConfirm').hide()" icon="pi pi-check"/>
+                    <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no" style="background-color: red"
+                                     oncomplete="PF('rentConfirm').hide()" icon="pi pi-times"/>
+                </p:confirmDialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

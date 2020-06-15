@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -8,7 +10,11 @@ import java.util.Date;
 public class AddRentalDto {
     private String userLogin;
     private String yachtName;
+    @Future
+    @NotNull(message = "{validation.beginDate}")
     private Date beginDate;
+    @Future
+    @NotNull(message = "{validation.endDate}")
     private Date endDate;
 
     public String getUserLogin() {
