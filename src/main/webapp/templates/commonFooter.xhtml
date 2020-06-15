@@ -3,28 +3,26 @@
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets" xml:lang="en" lang="en">
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xml:lang="en" lang="en" >
 <h:head/>
 <h:body>
     <ui:composition>
         <ui:fragment >
             <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+            <h:outputStylesheet name="/css/page.css"/>
+            <h:form rendered="#{currentUser.nowManager}" style="background-color: orange" styleClass="Footer">
+                <h:outputLabel id="managerFooter" value="sssbd2020 Czarter Jachtów"  />
 
-            <h:form rendered="#{currentUser.nowManager}">
-                <h1 id="managerFooter">
-                    sssbd2020 Czarter Jachtów
-                </h1>
             </h:form>
 
-            <h:form rendered="#{currentUser.nowAdministrator}">
-                <h1 id="adminFooter">
-                    sssbd2020 Czarter Jachtów
-                </h1>
+            <h:form rendered="#{currentUser.nowAdministrator}" style="background-color: #ffcc80" styleClass="Footer">
+                <h:outputLabel id="adminFooter" value="sssbd2020 Czarter Jachtów" />
+
             </h:form>
-            <h:form rendered="#{currentUser.nowClient}">
-                <h1 id="clientFooter">
-                    sssbd2020 Czarter Jachtów
-                </h1>
+            <h:form rendered="#{currentUser.nowClient}" style="background-color: gold" styleClass="Footer">
+                <h:outputLabel id="clientFooter" value="sssbd2020 Czarter Jachtów" />
+
+
             </h:form>
         </ui:fragment>
     </ui:composition>
