@@ -5,10 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.AddRentalDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListAllRentalsDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListRentalsDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.RentalDetailsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.RentalManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
@@ -20,6 +17,7 @@ import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Implementacja interfejsu RentalEndpoint.
@@ -57,24 +55,24 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
     /**
      * Metoda, która anuluje wypożyczenie.
      *
-     * @param rentalId Id wypożyczenia, które użytkownik chce anulować
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @param rentalBusinessKey klucz biznesowy wypożyczenia, które użytkownik chce anulować
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("cancelRental")
-    public void cancelRental(Long rentalId) throws AppBaseException {
-        rentalManager.cancelRental(rentalId);
+    public void cancelRental(UUID rentalBusinessKey) throws AppBaseException {
+        rentalManager.cancelRental(rentalBusinessKey);
     }
 
     /**
      * Metoda, która pobiera szczegóły wypożyczenia klienta.
      *
-     * @param rentalId Id wypożyczenia, którego szczegóły klient chce zobaczyć
+     * @param rentalBusinessKey klucz biznesowy wypożyczenia, którego szczegóły klient chce zobaczyć
      * @return obiekt Dto ze szczegółami wypożyczenia
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getUserRentalDetails")
-    public RentalDetailsDto getUserRentalDetails(Long rentalId) throws AppBaseException {
-        Rental rental = rentalManager.getRentalById(rentalId);
+    public RentalDetailsDto getRentalDetails(UUID rentalBusinessKey) throws AppBaseException {
+        Rental rental = rentalManager.getRentalByBusinessKey(rentalBusinessKey);
         return ObjectMapperUtils.map(rental, RentalDetailsDto.class);
     }
 
