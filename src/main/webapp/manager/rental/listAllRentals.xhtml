@@ -19,7 +19,7 @@
     <ui:define name="content">
         <h:form>
             <p:inputText id="filter" value="#{listAllRentalsPageBean.filter}" placeholder="${msg['rental.filterByYacht']}"/>
-            <p:commandButton value="${msg['rental.filter']}" action="#{listAllRentalsPageBean.filterRentals()}" update="dataTable"/>
+            <p:commandButton value="${msg['rental.filter']}" action="#{listAllRentalsPageBean.filterRentals}" update="dataTable"/>
             <p:dataTable var="rental" value="#{listAllRentalsPageBean.rentals}" widgetVar="rentalsTable" rows="10"
                          id="dataTable"
                          styleClass="tableClass"

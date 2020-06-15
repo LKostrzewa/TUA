@@ -45,8 +45,10 @@ public class ListAllRentalsPageBean implements Serializable {
         rentals = rentalEndpoint.getAllRentals();
     }
 
+    /**
+     * Metoda filtrująca wypożyczenia po nazwie yachtu
+     */
     public void filterRentals(){
-        //rentalEndpoint.getResultList(0,10, new HashMap<String, FilterMeta>().put("yachtName", new FilterMeta(filter)))
         rentals = rentalEndpoint.getFilteredRentals(filter);
     }
 }

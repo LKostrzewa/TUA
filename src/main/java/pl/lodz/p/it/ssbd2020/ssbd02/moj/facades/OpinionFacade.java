@@ -7,7 +7,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.DenyAll;
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -85,8 +84,7 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
      * @return Optional typu Opinion
      */
     @Override
-    @RolesAllowed("getOpinionById")
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    @DenyAll
     public Optional<Opinion> find(Object id) {
         return super.find(id);
     }
@@ -122,7 +120,14 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
         }
     }
 
-    @PermitAll
+    /**
+     * Metoda zwracająca opinię na podstawie przekazanego klucza biznesowego.
+     *
+     * @param rentalBusinessKey klucz biznesowy opinii
+     * @return Znaleziona opinia
+     * @throws AppBaseException wyjątek aplikacyjny, jesli opinia nie zostanie znaleziona
+     */
+    @RolesAllowed("getOpinionByBusinessKey")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Opinion getOpinionByRentalBusinessKey(String rentalBusinessKey) throws AppBaseException{
         TypedQuery<Opinion> typedQuery = entityManager.createNamedQuery("Opinion.findByRentalBusinessKey", Opinion.class);

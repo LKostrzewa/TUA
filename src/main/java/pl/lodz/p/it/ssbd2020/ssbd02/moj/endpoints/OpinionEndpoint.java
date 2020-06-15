@@ -30,13 +30,13 @@ public interface OpinionEndpoint {
     List<OpinionDto> getAllOpinionsByYacht(Long yachtId) throws AppBaseException;
 
     /**
-     * Metoda zwracająca opinię do edycji na podstawie przekazanego identyfikatora.
+     * Metoda zwracająca opinię do edycji na podstawie przekazanego klucza biznesowego.
      *
-     * @param opinionId identyfikator opinii
+     * @param businessKey klucz biznesowy opinii
      * @return opinia do edycji
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    EditOpinionDto getOpinionById(Long opinionId) throws AppBaseException;
+    EditOpinionDto getOpinionByRentalBusinessKey(String businessKey) throws AppBaseException;
 
     /**
      * Metoda służąca do zapisu nowej wersji opinii.
@@ -45,6 +45,4 @@ public interface OpinionEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     void editOpinion(EditOpinionDto editOpinionDto) throws AppBaseException;
-
-    EditOpinionDto getOpinionByRentalBusinessKey(String editOpinionBusinessKey) throws AppBaseException;
 }

@@ -9,7 +9,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.OpinionManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
@@ -53,16 +52,16 @@ public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
     }
 
     /**
-     * Metoda zwracająca opinię do edycji na podstawie przekazanego identyfikatora.
+     * Metoda zwracająca opinię do edycji na podstawie przekazanego klucza biznesowego.
      *
-     * @param opinionId identyfikator opinii
+     * @param rentalBusinessKey klucz biznesowy opinii
      * @return opinia do edycji
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getOpinionById")
-    public EditOpinionDto getOpinionById(Long opinionId) throws AppBaseException {
-        Opinion opinion = opinionManager.getOpinionById(opinionId);
-        return ObjectMapperUtils.map(opinion, EditOpinionDto.class);
+    @RolesAllowed("getOpinionByBusinessKey")
+    public EditOpinionDto getOpinionByRentalBusinessKey(String rentalBusinessKey) throws AppBaseException {
+        opinionEditEntity = opinionManager.getOpinionByRentalBusinessKey(rentalBusinessKey);
+        return ObjectMapperUtils.map(opinionEditEntity, EditOpinionDto.class);
     }
 
     /**
@@ -75,11 +74,5 @@ public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
     public void editOpinion(EditOpinionDto editOpinionDto) throws AppBaseException {
         Opinion opinionToEdit = ObjectMapperUtils.map(editOpinionDto, Opinion.class);
         opinionManager.editOpinion(opinionToEdit, opinionEditEntity);
-    }
-
-    @PermitAll
-    public EditOpinionDto getOpinionByRentalBusinessKey(String rentalBusinessKey) throws AppBaseException {
-        opinionEditEntity = opinionManager.getOpinionByRentalBusinessKey(rentalBusinessKey);
-        return ObjectMapperUtils.map(opinionEditEntity, EditOpinionDto.class);
     }
 }

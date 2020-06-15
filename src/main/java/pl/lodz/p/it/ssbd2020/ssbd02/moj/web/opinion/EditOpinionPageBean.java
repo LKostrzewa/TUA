@@ -54,7 +54,7 @@ public class EditOpinionPageBean implements Serializable {
         } catch (AppBaseException e){
             displayError(e.getLocalizedMessage());
             ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-            externalContext.redirect(externalContext.getRequestContextPath() + "client/rentalDetails.xhtml?faces-redirect=true");
+            externalContext.redirect("/client/rental/rentalDetails.xhtml?faces-redirect=true?includeViewParams=true");
         }
     }
 

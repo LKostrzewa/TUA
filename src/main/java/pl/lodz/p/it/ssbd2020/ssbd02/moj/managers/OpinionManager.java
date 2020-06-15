@@ -5,13 +5,14 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.OpinionAlreadyExistsException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RentalNotFinishedException;
 import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.OpinionFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Klasa menadżera do obsługi operacji związanych z opiniami.
@@ -44,8 +46,14 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
     @RolesAllowed("addOpinion")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addOpinion(Opinion opinion, String rentalBusinessKey) throws AppBaseException {
-        Rental rental = rentalFacade.getRentalByBusinessKey(rentalBusinessKey);
-        //TODO rzucaane wyjątku gdy dla danego rental istnieje już opinion
+        Rental rental = rentalFacade.findByBusinessKey(UUID.fromString(rentalBusinessKey))
+                .orElseThrow(AppNotFoundException::createRentalNotFoundException);
+        if(!rental.getRentalStatus().getName().equals("FINISHED")){
+            throw RentalNotFinishedException.createRentalNotFinishedException(rental);
+        }
+        if(rental.getOpinion() != null){
+            throw OpinionAlreadyExistsException.createOpinionAlreadyExistsException(rental);
+        }
         Opinion newOpinion = new Opinion(opinion.getRating(),opinion.getComment(),new Date(),rental);
         opinionFacade.create(newOpinion);
         calculateAvgRating(newOpinion.getRental().getYacht().getId());
@@ -65,16 +73,16 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
     }
 
     /**
-     * Metoda zwracająca opinię na podstawie przekazanego identyfikatora.
+     * Metoda zwracająca opinię na podstawie przekazanego klucza biznesowego.
      *
-     * @param opinionId identyfikator opinii
+     * @param rentalBusinessKey klucz biznesowy opinii
      * @return encja opinii
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getOpinionById")
+    @RolesAllowed("getOpinionByBusinessKey")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public Opinion getOpinionById(Long opinionId) throws AppBaseException {
-        return opinionFacade.find(opinionId).orElseThrow(AppNotFoundException::createOpinionNotFoundException);
+    public Opinion getOpinionByRentalBusinessKey(String rentalBusinessKey) throws AppBaseException {
+        return opinionFacade.getOpinionByRentalBusinessKey(rentalBusinessKey);
     }
 
     /**
@@ -99,25 +107,16 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
      * @param yachtId identyfikator jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     private void calculateAvgRating(Long yachtId) throws AppBaseException {
         Yacht yacht = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createYachtNotFoundException);
         List<Opinion> opinionList = opinionFacade.getAllOpinionsByYacht(yachtId);
-        double tmpr = 0.00;
-        double sum = 0.00;
-        double result;
-        for (Opinion o: opinionList) {
-            sum += o.getRating();
-            tmpr++;
-        }
-        result = sum / tmpr;
-        yacht.setAvgRating(BigDecimal.valueOf(result).setScale(2, RoundingMode.HALF_UP));
+        yacht.setAvgRating(BigDecimal
+                .valueOf(opinionList
+                        .stream()
+                        .mapToDouble(Opinion::getRating)
+                        .average()
+                        .orElse(Double.NaN))
+                .setScale(2, RoundingMode.HALF_UP));
         yachtFacade.edit(yacht);
-    }
-
-    @PermitAll
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public Opinion getOpinionByRentalBusinessKey(String rentalBusinessKey) throws AppBaseException {
-        return opinionFacade.getOpinionByRentalBusinessKey(rentalBusinessKey);
     }
 }

@@ -1,11 +1,12 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
-import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.*;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.AddRentalDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListAllRentalsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListRentalsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.RentalDetailsDto;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -47,24 +48,17 @@ public interface RentalEndpoint {
     RentalDetailsDto getRentalDetails(UUID rentalBusinessKey) throws AppBaseException;
 
     /**
-     * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
+     * Metoda, która pobiera z bazy wszystkie wypożyczenia
      *
-     * @param filters para filtrowanych pól i ich wartości
-     * @return liczba obiektów poddanych filtrowaniu
+     * @return lista wszystkich wypożyczeń
      */
-    int getFilteredRowCount(Map<String, FilterMeta> filters);
-
-    /**
-     * Metoda, która pobiera z bazy listę filtrowanych obiektów.
-     *
-     * @param first    numer pierwszego obiektu
-     * @param pageSize rozmiar strony
-     * @param filters  para filtrowanych pól i ich wartości
-     * @return lista filtrowanych obiektów
-     */
-    List<ListAllRentalsDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters);
-
     List<ListAllRentalsDto> getAllRentals();
 
+    /**
+     * Metoda, która pobiera z bazy wszystkie wypożyczenia, w których nazwa jachtu pasuje
+     * do przekazanego ciągu znaków
+     *
+     * @return lista wszystkich wypożyczeń, których nazwa jachtu pasuje do wzorca
+     */
     List<ListAllRentalsDto> getFilteredRentals(String filter);
 }

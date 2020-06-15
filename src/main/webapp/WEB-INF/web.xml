@@ -188,10 +188,10 @@
         <role-name>addRental</role-name>
     </security-role>
     <security-role>
-        <role-name>getFilteredRowCountRental</role-name>
+        <role-name>getFilteredRentals</role-name>
     </security-role>
     <security-role>
-        <role-name>getResultListRental</role-name>
+        <role-name>getAllRentals</role-name>
     </security-role>
     <!--Ports-->
     <security-role>
@@ -217,7 +217,7 @@
         <role-name>getAllOpinionsByYacht</role-name>
     </security-role>
     <security-role>
-        <role-name>getOpinionById</role-name>
+        <role-name>getOpinionByBusinessKey</role-name>
     </security-role>
     <security-role>
         <role-name>editOpinion</role-name>

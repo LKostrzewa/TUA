@@ -1,11 +1,13 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
-import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.*;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.AddRentalDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListAllRentalsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListRentalsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.RentalDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.RentalManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
@@ -16,7 +18,6 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -77,35 +78,22 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
     }
 
     /**
-     * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
+     * Metoda, która pobiera z bazy wszystkie wypożyczenia
      *
-     * @param filters para filtrowanych pól i ich wartości
-     * @return liczba obiektów poddanych filtrowaniu
+     * @return lista wszystkich wypożyczeń
      */
-    @RolesAllowed("getFilteredRowCountRental")
-    public int getFilteredRowCount(Map<String, FilterMeta> filters) {
-        return rentalManager.getFilteredRowCount(filters);
-    }
-
-    /**
-     * Metoda, która pobiera z bazy listę filtrowanych obiektów.
-     *
-     * @param first    numer pierwszego obiektu
-     * @param pageSize rozmiar strony
-     * @param filters  para filtrowanych pól i ich wartości
-     * @return lista filtrowanych obiektów
-     */
-    @RolesAllowed("getResultListRental")
-    public List<ListAllRentalsDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
-        return ObjectMapperUtils.mapAll(rentalManager.getResultList(first, pageSize, filters), ListAllRentalsDto.class);
-    }
-
-    @Override
+    @RolesAllowed("getAllRentals")
     public List<ListAllRentalsDto> getAllRentals() {
         return ObjectMapperUtils.mapAll(rentalManager.getAllRentals(), ListAllRentalsDto.class);
     }
 
-    @Override
+    /**
+     * Metoda, która pobiera z bazy wszystkie wypożyczenia, w których nazwa jachtu pasuje
+     * do przekazanego ciągu znaków
+     *
+     * @return lista wszystkich wypożyczeń, których nazwa jachtu pasuje do wzorca
+     */
+    @RolesAllowed("getFilteredRentals")
     public List<ListAllRentalsDto> getFilteredRentals(String filter) {
         return ObjectMapperUtils.mapAll(rentalManager.getFilteredRentals(filter), ListAllRentalsDto.class);
     }
