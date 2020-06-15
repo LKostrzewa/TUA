@@ -85,7 +85,7 @@ public class AddYachtPageBean {
      */
     public void displayMessage() {
         displayInit();
-        String msg = resourceBundle.getString("users.addInfo");
+        String msg = resourceBundle.getString("yacht.addInfo");
         String head = resourceBundle.getString("success");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }

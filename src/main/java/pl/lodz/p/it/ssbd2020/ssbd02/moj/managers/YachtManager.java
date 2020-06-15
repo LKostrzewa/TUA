@@ -82,12 +82,13 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
      * Metoda, która zapisuje wprowadzone przez managera zmiany w jachcie.
      *
      * @param yachtToEdit edytowany jacht
+     * @param nameChanged
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("editYacht")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editYacht(Yacht yachtToEdit) throws AppBaseException {
-        if (yachtFacade.existByName(yachtToEdit.getName())) {
+    public void editYacht(Yacht yachtToEdit, boolean nameChanged) throws AppBaseException {
+        if (nameChanged && yachtFacade.existByName(yachtToEdit.getName())) {
             throw ValueNotUniqueException.createYachtNameNotUniqueException(yachtToEdit);
         }
         yachtFacade.edit(yachtToEdit);
