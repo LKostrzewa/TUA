@@ -2,10 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.AddRentalDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListAllRentalsDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListRentalsDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.RentalDetailsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.*;
 
 import java.util.List;
 import java.util.Map;
@@ -47,7 +44,7 @@ public interface RentalEndpoint {
      * @return obiekt Dto ze szczegółami wypożyczenia
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    RentalDetailsDto getUserRentalDetails(UUID rentalBusinessKey) throws AppBaseException;
+    RentalDetailsDto getRentalDetails(UUID rentalBusinessKey) throws AppBaseException;
 
     /**
      * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.

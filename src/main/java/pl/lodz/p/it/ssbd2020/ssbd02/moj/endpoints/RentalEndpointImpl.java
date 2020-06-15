@@ -5,10 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.AddRentalDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListAllRentalsDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListRentalsDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.RentalDetailsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.RentalManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
@@ -74,7 +71,7 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getUserRentalDetails")
-    public RentalDetailsDto getUserRentalDetails(UUID rentalBusinessKey) throws AppBaseException {
+    public RentalDetailsDto getRentalDetails(UUID rentalBusinessKey) throws AppBaseException {
         Rental rental = rentalManager.getRentalByBusinessKey(rentalBusinessKey);
         return ObjectMapperUtils.map(rental, RentalDetailsDto.class);
     }

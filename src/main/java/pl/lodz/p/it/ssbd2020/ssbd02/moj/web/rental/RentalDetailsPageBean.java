@@ -41,7 +41,7 @@ public class RentalDetailsPageBean implements Serializable {
      * Metoda inicjalizująca komponent.
      */
     public void init() throws AppBaseException {
-        this.rentalDetails = rentalEndpoint.getUserRentalDetails(UUID.fromString(this.rentalBusinessKey));
+        this.rentalDetails = rentalEndpoint.getRentalDetails(UUID.fromString(this.rentalBusinessKey));
     }
 
     /**
