@@ -36,6 +36,21 @@
                 .ui-widget {
                     text-align: center;
                 }
+                .ui-fileupload-content {
+                    border: 10px;
+                }
+                .ui-fileupload-buttonbar .ui-button-text-icon-left .ui-button-text {
+                    background-color: orange;
+                }
+
+                .ui-fileupload-buttonbar  {
+                    background-color:  #ffcc80;
+                }
+                .ui-icon ui-icon-trash {
+                    height: 20px;
+                    width: 20px;
+                    background-color: orange;
+                }
             </style>
 
             <p:growl id="message" showDetail="true"/>
@@ -73,9 +88,10 @@
             </p:galleria>
                 
             </div>
-            <p:fileUpload listener="#{yachtModelDetailsPageBean.handleFileUpload}" mode="advanced" dragDropSupport="true" style="width: 590px;display: block;text-align: center" cancelLabel="Anuluj" uploadLabel="Dodaj zdjęcie" label="Wybierz zdjęcie"
-                          update="@form" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" >
-                <b>Upuść zdjęcie tutaj</b>
+            <p:fileUpload listener="#{yachtModelDetailsPageBean.handleFileUpload}" mode="advanced" dragDropSupport="true" style="width: 590px;display: block;text-align: center"
+                          cancelLabel="Anuluj" uploadLabel="Dodaj zdjęcie" label="Wybierz zdjęcie" fileLimit="1" sizeLimit="8000000"
+                          update="@form" allowTypes="/(\.|\/)(jpe?g|png)$/" >
+                    <b>Upuść zdjęcie tutaj</b>
             </p:fileUpload>
 
 
