@@ -51,7 +51,7 @@
                     </p:column>
                     <p:column headerText="${msg['actions']}">
                         <p:button value="${msg['details']}" outcome="/client/rental/rentalDetails.xhtml?faces-redirect=true">
-                            <f:param name="bk" value="#{rental.businessKey}"/>
+                            <f:param name="rentalBusinessKey" value="#{rental.businessKey}"/>
                         </p:button>
                     </p:column>
                 </p:dataTable>

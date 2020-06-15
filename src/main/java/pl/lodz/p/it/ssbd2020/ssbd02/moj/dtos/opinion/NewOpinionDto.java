@@ -2,26 +2,19 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 /**
  * DTO do dodawania nowej opinii.
  */
 public class NewOpinionDto {
-    private Long rentalId;
-    @Max(5)
-    @Min(1)
-    private int rating;
+    @Min(value = 1, message = "{validation.range}")
+    @Max(value = 5, message = "{validation.range}")
+    private int rating = 4;
+    @Pattern(regexp = "[a-zA-Z1-9ąĄćĆęĘłŁńŃóÓśŚźŹżŻ. ,@-]{0,4001}", message = "{validation.comment}")
     private String comment;
     private Date date;
-
-    public Long getRentalId() {
-        return rentalId;
-    }
-
-    public void setRentalId(Long rentalId) {
-        this.rentalId = rentalId;
-    }
 
     public int getRating() {
         return rating;

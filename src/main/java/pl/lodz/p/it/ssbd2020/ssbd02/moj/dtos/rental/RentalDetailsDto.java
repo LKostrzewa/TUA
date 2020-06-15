@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.opinion.OpinionDto;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
@@ -18,6 +20,7 @@ public class RentalDetailsDto {
     private String statusName;
     private BigDecimal price;
     private UUID businessKey;
+    private OpinionDto opinion;
 
     public String getYachtName() {
         return yachtName;
@@ -97,5 +100,13 @@ public class RentalDetailsDto {
 
     public void setBusinessKey(UUID businessKey) {
         this.businessKey = businessKey;
+    }
+
+    public OpinionDto getOpinion() {
+        return opinion;
+    }
+
+    public void setOpinion(OpinionDto opinion) {
+        this.opinion = opinion;
     }
 }

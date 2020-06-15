@@ -13,13 +13,15 @@
             <p:breadCrumb>
                 <p:menuitem value="Categories" outcome="/client/index.xhtml"/>
                 <p:menuitem value="#{msg['bread.main']}" outcome="/client/index.xhtml"/>
-                <p:menuitem value="#{msg['bread.rentals']}" outcome="/client/listRentals.xhtml"/>
-                <p:menuitem value="#{msg['bread.rental']}" outcome="/client/rentalDetails.xhtml"
+                <p:menuitem value="#{msg['bread.rentals']}" outcome="/client/rental/listRentals.xhtml"/>
+                <p:menuitem value="#{msg['bread.rental']}" outcome="/client/rental/rentalDetails.xhtml"
                             includeViewParams="true">
-                    <!--<f:param name="rentalBusinessKey" value="#{addOpinionPageBean.rentalBusinessKey}"/>-->
-                    <!--<f:param name="rentalId" value="#{rentalDetailsPageBean.rentalId}"/>-->
+                    <f:param name="rentalBusinessKey" value="#{addOpinionPageBean.rentalBusinessKey}"/>
                 </p:menuitem>
-                <p:menuitem value="#{msg['bread.addOpinion']}" outcome="/client/opinion/addOpinion.xhtml"/>
+                <p:menuitem value="#{msg['bread.addOpinion']}" outcome="/client/opinion/addOpinion.xhtml"
+                            includeViewParams="true">
+                    <f:param name="rentalBusinessKey" value="#{addOpinionPageBean.rentalBusinessKey}"/>
+                </p:menuitem>
             </p:breadCrumb>
         </ui:define>
         <ui:define name="content">
@@ -31,19 +33,27 @@
                 </f:metadata>
                 <div>
                     <span class="ui-float-label" style="margin: 20px">
-                        <p:rating id="rating" value="#{addOpinionPageBean.newOpinionDto.rating}" cancel="false"/>
-                        <p:outputLabel for="@previous" value="#{msg['opinion.addOpinion']}"/>
+                        <p:rating id="rating" value="#{addOpinionPageBean.newOpinionDto.rating}"
+                                  cancel="false" required="true"/>
                         <p:message for="rating"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="comment" value="#{addOpinionPageBean.newOpinionDto.comment}"/>
+                        <p:inputTextarea id="comment" value="#{addOpinionPageBean.newOpinionDto.comment}"
+                                         rows="5" cols="60" counter="display"
+                                         maxlength="4000"
+                                         counterTemplate="{0} characters remaining."/>
                         <p:outputLabel for="@previous" value="#{msg['opinion.addComment']}"/>
                         <p:message for="comment"/>
+                        <h:outputText id="display" />
                     </span>
                 </div>
-                <p:button value="#{msg['goBack']}" outcome="/client/rentalDetails.xhtml?faces-redirect=true"/>
-                <p:commandButton value="#{msg['save']}" action="#{addOpinionPageBean.addOpinion}"
-                                 update="@form" ajax="false">
+                <p:button value="#{msg['goBack']}" outcome="/client/rental/rentalDetails.xhtml?faces-redirect=true"
+                          includeViewParams="true">
+                    <f:param name="bk" value="#{addOpinionPageBean.rentalBusinessKey}"/>
+                </p:button>
+                <p:commandButton value="#{msg['save']}" action="#{addOpinionPageBean.addOpinion()}"
+                                 update="message @form">
+
                     <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>

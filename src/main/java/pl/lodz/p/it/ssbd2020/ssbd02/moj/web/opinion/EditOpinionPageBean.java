@@ -70,13 +70,13 @@ public class EditOpinionPageBean implements Serializable {
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
-        return "client/userRentalDetails.xhtml?faces-redirect=true";
+        return "/client/rental/rentalDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
     /**
      * Metoda inicjalizująca wyświetlanie wiadomości.
      */
-    public void displayInit() {
+    private void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
@@ -84,7 +84,7 @@ public class EditOpinionPageBean implements Serializable {
     /**
      * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
      */
-    public void displayMessage() {
+    private void displayMessage() {
         displayInit();
         String msg = resourceBundle.getString("opinion.addInfo");
         String head = resourceBundle.getString("success");
