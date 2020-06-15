@@ -4,7 +4,8 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 <h:head/>
 <h:body>
     <ui:composition template="/templates/commonTemplate.xhtml">
@@ -17,44 +18,55 @@
             </p:breadCrumb>
         </ui:define>
         <ui:define name="content">
-            <h:form id="form">
+            <h:form id="form" class="form">
                 <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
-                <div>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="model" value="#{addYachtModelPageBean.newYachtModelDto.model}" required="true"
-                                     requiredMessage="#{msg['field.required']}"/>
-                        <p:outputLabel for="@previous" value="#{msg['yachtModel.model']}"/>
-                        <p:message for="model"/>
-                    </span>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="price" value="#{addYachtModelPageBean.newYachtModelDto.basicPrice}" required="true"
-                                     requiredMessage="#{msg['field.required']}"
-                                     converterMessage="#{msg['validation.yachtModel.price']}"/>
-                        <p:outputLabel for="@previous" value="#{msg['yachtModel.basicPrice']}"/>
-                        <p:message for="price"/>
-                    </span>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="capacity" value="#{addYachtModelPageBean.newYachtModelDto.capacity}" required="true"
-                                     requiredMessage="#{msg['field.required']}"
-                                     converterMessage="#{msg['validation.yachtModel.capacity']}"/>
-                        <p:outputLabel for="@previous" value="#{msg['yachtModel.capacity']}"/>
-                        <p:message for="capacity"/>
-                    </span>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:inputTextarea id="description" value="#{addYachtModelPageBean.newYachtModelDto.generalDescription}" required="true"
-                                         requiredMessage="#{msg['field.required']}"/>
-                        <p:outputLabel for="@previous" value="#{msg['yachtModel.description']}"/>
-                        <p:message for="description"/>
-                    </span>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="manufacturer" value="#{addYachtModelPageBean.newYachtModelDto.manufacturer}" required="true"
-                                     requiredMessage="#{msg['field.required']}"/>
-                        <p:outputLabel for="@previous" value="#{msg['yachtModel.manufacturer']}"/>
-                        <p:message for="manufacturer"/>
-                    </span>
+
+                <h:outputStylesheet library="css" name="yachtModel/addYachtModel.css"/>
+
+                <h1 class="h1">#{msg['manager.menu.models.add']}</h1>
+
+                <div class="text-box">
+                    <p:inputText id="model" type="text" a:placeholder="#{msg['yachtModel.model']}"
+                                 value="#{addYachtModelPageBean.newYachtModelDto.model}">
+                    </p:inputText>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="model_err" styleClass="message" for="model"/>
                 </div>
-                <p:button value="#{msg['goBack']}" outcome="listYachtModels.xhtml?faces-redirect=true"/>
-                <p:commandButton value="#{msg['save']}" action="#{addYachtModelPageBean.addNewYachtModel()}" update="@form" ajax="false"/>
+
+                <div class="text-box">
+                    <p:inputText id="basicPrice" type="text" a:placeholder="#{msg['yachtModel.basicPrice']}"
+                                 value="#{addYachtModelPageBean.newYachtModelDto.basicPrice}">
+                    </p:inputText>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="basicPrice_err" styleClass="message" for="basicPrice"/>
+                </div>
+                <div class="text-box">
+                    <p:inputText id="capacity" type="text" a:placeholder="#{msg['yachtModel.capacity']}"
+                                 value="#{addYachtModelPageBean.newYachtModelDto.capacity}">
+                    </p:inputText>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="capacity_err" styleClass="message" for="capacity"/>
+                </div>
+                <div class="text-box">
+                    <p:inputText id="manufacturer" type="text" a:placeholder="#{msg['yachtModel.manufacturer']}"
+                                 value="#{addYachtModelPageBean.newYachtModelDto.manufacturer}">
+                    </p:inputText>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="manufacturer_err" styleClass="message" for="manufacturer"/>
+                </div>
+                <div class="text-box">
+                    <p:inputTextarea cols="40" id="generalDescription" type="text" a:placeholder="#{msg['yachtModel.description']}"
+                                     value="#{addYachtModelPageBean.newYachtModelDto.generalDescription}">
+                    </p:inputTextarea>
+                    <span class="asterisk_input"/>
+                    <h:message id="generalDescription_err" styleClass="message" for="generalDescription"/>
+                </div>
+                <p:button class="back" value="#{msg['goBack']}" outcome="listYachtModels.xhtml?faces-redirect=true"/>
+                <p:commandButton class="save" value="#{msg['save']}" action="#{addYachtModelPageBean.addNewYachtModel()}" update="@form" ajax="false"/>
             </h:form>
         </ui:define>
     </ui:composition>
