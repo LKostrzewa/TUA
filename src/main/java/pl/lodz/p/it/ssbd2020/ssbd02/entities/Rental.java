@@ -22,13 +22,14 @@ import java.util.UUID;
         @NamedQuery(name = "Rental.findAll", query = "SELECT r FROM Rental r"),
         @NamedQuery(name = "Rental.findById", query = "SELECT r FROM Rental r WHERE r.id = :id"),
         @NamedQuery(name = "Rental.findByVersion", query = "SELECT r FROM Rental r WHERE r.version = :version"),
-        @NamedQuery(name = "Rental.findByBusinessKey", query = "SELECT r FROM Rental r WHERE r.businessKey = :businessKey"),
         @NamedQuery(name = "Rental.findByBeginDate", query = "SELECT r FROM Rental r WHERE r.beginDate = :beginDate"),
         @NamedQuery(name = "Rental.findByEndDate", query = "SELECT r FROM Rental r WHERE r.endDate = :endDate"),
         @NamedQuery(name = "Rental.findByPrice", query = "SELECT r FROM Rental r WHERE r.price = :price"),
+        @NamedQuery(name = "Rental.findByBusinessKey", query = "SELECT r FROM Rental r WHERE r.businessKey = :businessKey"),
         @NamedQuery(name = "Rental.findBetweenDatesWithYacht", query = "SELECT COUNT(r) FROM Rental r WHERE r.yacht.name = :name " +
                 "and r.beginDate<= :endDate " +
-                "and r.endDate>= :beginDate"),
+                "and r.endDate>= :beginDate " +
+                "and r.rentalStatus.name != :rentalStatusName"),
         @NamedQuery(name = "Rental.findByYachtName", query = "SELECT r FROM Rental r WHERE lower(r.yacht.name) like :name")})
 public class Rental implements Serializable {
 

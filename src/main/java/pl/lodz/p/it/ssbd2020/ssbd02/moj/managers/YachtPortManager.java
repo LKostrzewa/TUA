@@ -76,8 +76,7 @@ public class YachtPortManager extends AbstractManager implements SessionSynchron
             throw EntityNotActiveException.createPortNotActiveException(port);
         }
         yacht.setCurrentPort(port);
-        port.getYachts().add(yacht);
-        portFacade.edit(port);
+        yachtFacade.edit(yacht);
     }
 
     /**

@@ -1,7 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port;
 
 
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
+
 import java.math.BigDecimal;
+import java.util.Collection;
 
 /**
  * DTO do wyświetlania szczegółów portu.
@@ -14,6 +17,7 @@ public class PortDetailsDto {
     private BigDecimal long1;
     private BigDecimal lat;
     private Boolean active;
+    private Collection<Yacht> yachts;
 
     public Long getId() {
         return id;
@@ -69,5 +73,13 @@ public class PortDetailsDto {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Collection<Yacht> getYachts() {
+        return yachts;
+    }
+
+    public void setYachts(Collection<Yacht> yachts) {
+        this.yachts = yachts;
     }
 }

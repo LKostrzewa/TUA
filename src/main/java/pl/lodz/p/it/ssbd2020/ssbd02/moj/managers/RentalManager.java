@@ -12,14 +12,18 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalStatusFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.UserFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -29,6 +33,7 @@ import java.util.stream.Collectors;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class RentalManager extends AbstractManager implements SessionSynchronization {
+    private final PropertyReader propertyReader = new PropertyReader();
     @Inject
     private RentalFacade rentalFacade;
     @Inject
@@ -37,6 +42,14 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     private UserFacade userFacade;
     @Inject
     private YachtFacade yachtFacade;
+    private String RENTAL_PENDING_STATUS;
+    private String RENTAL_CANCELED_STATUS;
+
+    @PostConstruct
+    public void init() {
+        RENTAL_PENDING_STATUS = propertyReader.getProperty("config", "PENDING_STATUS");
+        RENTAL_CANCELED_STATUS = propertyReader.getProperty("config", "CANCELED_STATUS");
+    }
 
     /**
      * Metoda, która służy do dodania nowego wypożyczenia.
@@ -63,11 +76,14 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
         if (rentalFacade.interfere(rental))
             throw RentalPeriodInterferenceException.createRentalPeriodInterferenceException(rental);
 
-        RentalStatus startedStatus = rentalStatusFacade.findByName("STARTED");
-        BigDecimal bigDecimal = new BigDecimal(0);
-        Rental newRental = new Rental(rental.getBeginDate(), rental.getEndDate(), bigDecimal, rentingUser, yachtToRent);
+        RentalStatus pendingStatus = rentalStatusFacade.findByName(RENTAL_PENDING_STATUS);
 
-        newRental.setRentalStatus(startedStatus);
+        long days = (rental.getEndDate().getTime() - rental.getBeginDate().getTime()) / (1000 * 60 * 60 * 24);
+        BigDecimal rentalPrice = yachtToRent.getYachtModel().getBasicPrice().multiply(yachtToRent.getPriceMultiplier()).multiply(BigDecimal.valueOf(days));
+        rentalPrice = rentalPrice.setScale(2, RoundingMode.DOWN);
+
+        Rental newRental = new Rental(rental.getBeginDate(), rental.getEndDate(), rentalPrice, rentingUser, yachtToRent);
+        newRental.setRentalStatus(pendingStatus);
 
         rentalFacade.create(newRental);
     }
@@ -75,14 +91,14 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     /**
      * Metoda, która zwraca wypożyczenie o danym id.
      *
-     * @param rentalId id wypożyczenia
-     * @return Wypożyczenie o podanym Id
+     * @param rentalBusinessKey klucz biznesowy wypożyczenia
+     * @return wypożyczenie o podanym kluczu biznesowym
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed({"getUserRentalDetails", "cancelRental"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public Rental getRentalById(Long rentalId) throws AppBaseException {
-        return rentalFacade.find(rentalId).orElseThrow(AppNotFoundException::createRentalNotFoundException);
+    public Rental getRentalByBusinessKey(UUID rentalBusinessKey) throws AppBaseException {
+        return rentalFacade.findByBusinessKey(rentalBusinessKey).orElseThrow(AppNotFoundException::createRentalNotFoundException);
     }
 
     /**
@@ -103,15 +119,16 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     /**
      * Metoda, która anuluje wypożyczenie.
      *
-     * @param rentalId Id wypożyczenia, które użytkownik chce anulować
+     * @param rentalBusinessKey klucz główny wypożyczenia, które użytkownik chce anulować
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("cancelRental")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void cancelRental(Long rentalId) throws AppBaseException {
-        Rental rentalToCancel = getRentalById(rentalId);
-        if (rentalToCancel.getRentalStatus().getName().equals("PENDING")) {
-            RentalStatus rentalStatus = rentalStatusFacade.findByName("CANCELED");
+    public void cancelRental(UUID rentalBusinessKey) throws AppBaseException {
+        Rental rentalToCancel = getRentalByBusinessKey(rentalBusinessKey);
+
+        if (rentalToCancel.getRentalStatus().getName().equals(RENTAL_PENDING_STATUS)) {
+            RentalStatus rentalStatus = rentalStatusFacade.findByName(RENTAL_CANCELED_STATUS);
             rentalToCancel.setRentalStatus(rentalStatus);
             rentalFacade.edit(rentalToCancel);
         } else throw RentalNotCancelableException.createRentalNotCancelableException(rentalToCancel);

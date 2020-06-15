@@ -62,7 +62,7 @@ public class AddOpinionPageBean {
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
-        return "client/rentalDetails.xhtml?faces-redirect=true?includeViewParams=true";
+        return "client/userRentalDetails.xhtml?faces-redirect=true";
     }
 
     /**

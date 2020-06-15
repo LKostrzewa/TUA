@@ -5,7 +5,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
-<h:head/>
+<h:head>
+
+</h:head>
 <h:body>
     <ui:composition template="/templates/commonTemplate.xhtml">
         <ui:define name="title">#{msg['client.title.ports']}</ui:define>
@@ -17,34 +19,34 @@
             </p:breadCrumb>
         </ui:define>
         <ui:define name="content">
+            <h:outputStylesheet name="/css/map.css"/>
             <h:form>
                 <p:growl id="growl" showDetail="true" sticky="true"/>
-                <p:dataTable var="port" value="#{listPortsPageBean.activePorts}" rows="10"
-                             border="2"
-                             paginator="true"
-                             first="0"
-                             paginatorPosition="bottom"
-                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.ports']}">
+                <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true"></script>
 
-                    <p:column headerText="${msg['port.name']}">
-                        <h:outputText value="#{port.name}"/>
-                    </p:column>
-                    <p:column headerText="${msg['port.lake']}">
-                        <h:outputText value="#{port.lake}"/>
-                    </p:column>
-                    <p:column headerText="${msg['port.city']}">
-                        <h:outputText value="#{port.nearestCity}"/>
-                    </p:column>
-                    <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}" outcome="portDetails.xhtml?faces-redirect=true">
-                            <f:param name="portId" value="#{port.id}"/>
-                        </p:button>
-                        <p:button value="${msg['bread.yachtsAssignedToPort']}" outcome="listYachtsByPort.xhtml?faces-redirect=true">
-                            <f:param name="portId" value="#{port.id}"/>
-                        </p:button>
-                    </p:column>
-                </p:dataTable>
+
+                <p:gmap center="52.167673, 18.913107" zoom="6" type="HYBRID" styleClass="gmap" model="#{mapPortsPageBean.simpleModel}" >
+
+                    <p:ajax event="overlaySelect" listener="#{mapPortsPageBean.onMarkerSelect}" />
+
+                    <p:gmapInfoWindow id="infoWindow">
+                        <p:outputPanel style="text-align: center; display: block; margin: auto">
+                            <p:panelGrid columns="2">
+                            <h:outputLabel value="#{msg['port.name']}:"/>
+                            <h:outputText value="#{mapPortsPageBean.selectedPort.name}"/>
+                            <h:outputLabel value="#{msg['port.lake']}:"/>
+                            <h:outputText value="#{mapPortsPageBean.selectedPort.lake}"/>
+                            <h:outputLabel value="#{msg['port.city']}:"/>
+                            <h:outputText value="#{mapPortsPageBean.selectedPort.nearestCity}"/>
+                            <h:outputLabel value="#{msg['port.yachts.size']}:"/>
+                            <h:outputText value="#{mapPortsPageBean.selectedPort.yachts.size()}"/>
+                            </p:panelGrid>
+                            <p:button value="${msg['bread.yachtsAssignedToPort']}" outcome="listYachtsByPort.xhtml?faces-redirect=true">
+                                <f:param name="portId" value="#{mapPortsPageBean.selectedPort.id}"/>
+                            </p:button>
+                         </p:outputPanel>
+                     </p:gmapInfoWindow>
+                </p:gmap>
             </h:form>
         </ui:define>
     </ui:composition>
