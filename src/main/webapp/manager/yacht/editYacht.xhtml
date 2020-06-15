@@ -37,15 +37,18 @@
                <p:outputLabel for="@previous" value="#{msg['yacht.name']}"/>
                 <p:message for="firstName"/>
            </span>
-                    <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="lastName" value="#{editYachtPageBean.editYachtDto.priceMultiplier}"/>
-               <p:outputLabel for="@previous" value="#{msg['yacht.priceMultiplier']}"/>
-                <p:message for="lastName"/>
+           <span class="ui-float-label" style="margin: 20px">
+             <h:panelGrid>
+                 <p:inputText id="priceMultiplier" value="#{addYachtPageBean.newYachtDto.priceMultiplier}"/>
+                 <p:slider for="priceMultiplier" minValue="0.0" maxValue="9.9" step="0.05"/>
+             </h:panelGrid>
+             <p:outputLabel for="@previous" value="#{msg['yacht.priceMultiplier']}"/>
+             <p:message for="priceMultiplier"/>
            </span>
                     <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="phoneNumber" value="#{editYachtPageBean.editYachtDto.equipment}"/>
+               <p:inputText id="equipment" value="#{editYachtPageBean.editYachtDto.equipment}"/>
                <p:outputLabel for="@previous" value="#{msg['yacht.equipment']}"/>
-                <p:message for="phoneNumber"/>
+                <p:message for="equipment"/>
            </span>
                 </div>
                 <p:button value="#{msg['cancel']}"
