@@ -17,31 +17,38 @@
             <f:metadata>
                 <f:event type="preRenderView" listener="#{myEditPageBean.init}"/>
             </f:metadata>
-            <h:form>
-                <p:growl id="message" showDetail="true" severity="info, fatal"/>
-                <h:outputStylesheet library="css" name="editUser.css"/>
-                <div style="text-align: center;">
-            <span class="ui-float-label" style="margin: 20px">
-                <p:inputText id="firstName" style="border: 2px solid black" value="#{myEditPageBean.editUserDto.firstName}"
-                             required="true"
-                             requiredMessage="#{msg['field.required']}"/>
-                <p:outputLabel for="@previous"  style="display: block; width: 100%;" value="#{msg['firstName']}"/>
-                <p:message for="firstName"/>
-            </span>
-                    <span class="ui-float-label" style="margin: 20px">
-                <p:inputText id="lastName" style="border: 2px solid black" value="#{myEditPageBean.editUserDto.lastName}"
-                             required="true"
-                             requiredMessage="#{msg['field.required']}"/>
-                <p:outputLabel for="@previous"  style="display: block; width: 100%;" value="#{msg['lastName']}"/>
-                <p:message for="lastName"/>
-            </span>
-                    <span class="ui-float-label" style="margin: 20px">
-                <p:inputText id="phoneNumber" style="border: 2px solid black" value="#{myEditPageBean.editUserDto.phoneNumber}"
-                             required="true"
-                             requiredMessage="#{msg['field.required']}"/>
-                <p:outputLabel for="@previous"  style="display: block; width: 100%;" value="#{msg['phoneNumber']}"/>
-                <p:message for="phoneNumber"/>
-            </span>
+            <h:form class="form">
+                <h:outputStylesheet library="css" name="editOwnData.css"/>
+                <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
+                <h1 class="h1">#{msg["shared.title.editOwnData"]}</h1>
+
+                <div class="text-box">
+                    <p:outputLabel class="label">#{msg["registration.firstName"]}</p:outputLabel>
+                    <p:inputText id="name" type="text"
+                                 value="#{myEditPageBean.editUserDto.firstName}">
+                    </p:inputText>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="name_err" styleClass="message" for="name"/>
+                </div>
+
+                <div class="text-box">
+                    <p:outputLabel class="label">#{msg["registration.lastName"]}</p:outputLabel>
+                    <p:inputText id="surname" type="text"
+                                 value="#{myEditPageBean.editUserDto.lastName}">
+                    </p:inputText>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="surname_err" styleClass="message" for="surname"/>
+                </div>
+                <div class="text-box">
+                    <p:outputLabel class="label">#{msg["registration.phone.number"]}</p:outputLabel>
+                    <p:inputText id="phoneNumber" type="text"
+                                 value="#{myEditPageBean.editUserDto.phoneNumber}">
+                    </p:inputText>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="phoneNumber_err" styleClass="message" for="phoneNumber"/>
                 </div>
                 <div style="text-align: center;">
                     <p:captcha id="Captcha" label="Captcha" required="true"
@@ -50,13 +57,15 @@
                     <p:messages for="Captcha" closable="false"/>
                 </div>
                 <div style="text-align: center;">
-                <p:button value="#{msg['cancel']}" style="background-color: orange"
-                          outcome="/manager/account.xhtml?faces-redirect=true?includeViewParams=true"/>
-                    <p:commandButton value="#{msg['save']}" type="button" onclick="PF('editConfirm').show()"
-                                     style="background-color: green"/>
+                    <p:button class="back" value="#{msg['cancel']}"
+                              outcome="/admin/account.xhtml?faces-redirect=true?includeViewParams=true"/>
+                    <p:commandButton class="save" id="save" value="#{msg['save']}" type="button"
+                                     onclick="PF('editConfirm').show()"/>
                 </div>
-                <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}" showEffect="explode" hideEffect="explode" widgetVar="editConfirm">
-                    <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes" style="background-color: green"
+                <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}" showEffect="explode"
+                                 hideEffect="explode" widgetVar="editConfirm">
+                    <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
+                                     style="background-color: green"
                                      action="#{myEditPageBean.editUser()}" ajax="false" update="message"
                                      oncomplete="PF('editConfirm').hide()" icon="pi pi-check"/>
                     <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no" style="background-color: red"

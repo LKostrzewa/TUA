@@ -29,28 +29,39 @@
                 <f:viewParam name="yachtId" value="#{editYachtPageBean.yachtId}"/>
                 <f:event type="preRenderView" listener="#{editYachtPageBean.init}"/>
             </f:metadata>
-            <h:form id="form">
+            <h:form id="form" class="form">
+                <h:outputStylesheet library="css" name="yacht/editYacht.css"/>
                 <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
-                <div>
-            <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="firstName" value="#{editYachtPageBean.editYachtDto.name}"/>
-               <p:outputLabel for="@previous" value="#{msg['yacht.name']}"/>
-                <p:message for="firstName"/>
-           </span>
-                    <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="lastName" value="#{editYachtPageBean.editYachtDto.priceMultiplier}"/>
-               <p:outputLabel for="@previous" value="#{msg['yacht.priceMultiplier']}"/>
-                <p:message for="lastName"/>
-           </span>
-                    <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="phoneNumber" value="#{editYachtPageBean.editYachtDto.equipment}"/>
-               <p:outputLabel for="@previous" value="#{msg['yacht.equipment']}"/>
-                <p:message for="phoneNumber"/>
-           </span>
+                <h1 class="h1">#{msg["manager.menu.yachts.edit"]}</h1>
+
+                <div class="text-box">
+                    <p:outputLabel class="label">#{msg["yacht.name"]}</p:outputLabel>
+                    <p:inputText id="name" type="text"
+                                 value="#{editYachtPageBean.editYachtDto.name}">
+                    </p:inputText>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="name_err" styleClass="message" for="name"/>
                 </div>
-                <p:button value="#{msg['cancel']}"
+
+                <div class="text-box">
+                    <p:outputLabel class="label">#{msg["yacht.priceMultiplier"]}</p:outputLabel>
+                    <p:inputText id="price" type="text"
+                                 value="#{editYachtPageBean.editYachtDto.priceMultiplier}">
+                    </p:inputText>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="price_err" styleClass="message" for="price"/>
+                </div>
+                <div class="text-box">
+                    <p:outputLabel class="label" style="display: block">#{msg["yacht.equipment"]}</p:outputLabel>
+                    <p:inputTextarea cols="40" id="equipment" value="#{editYachtPageBean.editYachtDto.equipment}"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="equipment_err" styleClass="message" for="equipment"/>
+                </div>
+                <p:button class="back" value="#{msg['cancel']}"
                           outcome="yachtDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
-                <p:commandButton value="#{msg['edit']}" action="#{editYachtPageBean.editYacht()}"
+                <p:commandButton class="save" value="#{msg['edit']}" action="#{editYachtPageBean.editYacht()}"
                                  update="message @form">
                     <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                icon="pi pi-exclamation-triangle"/>
