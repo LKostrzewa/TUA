@@ -41,6 +41,8 @@
                     <h:outputLabel value="#{msg['port.active']}:"/>
                     <h:outputText value="${msg['yes']}" rendered="#{portDetailsPageBean.portDetails.active}"/>
                     <h:outputText value="${msg['no']}" rendered="#{!portDetailsPageBean.portDetails.active}"/>
+                    <h:outputLabel value="#{msg['port.yachts.size']}:"/>
+                    <h:outputText value="#{portDetailsPageBean.portDetails.yachts.size()}"/>
                 </p:panelGrid>
                 <p:button value="#{msg['goBack']}" outcome="listPorts.xhtml?faces-redirect=true"/>
             </h:form>
