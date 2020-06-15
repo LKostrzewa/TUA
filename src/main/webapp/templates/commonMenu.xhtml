@@ -54,7 +54,7 @@
         <h:form rendered="#{currentUser.nowClient}">
             <p:menubar style="background-color: gold">
                 <p:menuitem value="#{msg['client.menu.ports']}" outcome="/client/port/listPorts.xhtml"/>
-                <p:menuitem value="#{msg['menu.rentals']}" outcome="/client/listRentals.xhtml"/>
+                <p:menuitem value="#{msg['menu.rentals']}" outcome="/client/rental/listRentals.xhtml"/>
                 <f:facet name="options">
                     <h:panelGroup>
                         <p:selectOneMenu value="#{currentUser.currentRole}">

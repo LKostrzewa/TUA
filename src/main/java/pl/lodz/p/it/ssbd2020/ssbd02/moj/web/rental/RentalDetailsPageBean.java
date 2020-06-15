@@ -10,7 +10,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 
 /**
- * Klasa od obsługi widoku szczegółowych informacji portu.
+ * Klasa do obsługi widoku szczegółowych informacji wypożyczenia.
  */
 @Named
 @ViewScoped

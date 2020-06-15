@@ -13,7 +13,7 @@
             <p:breadCrumb>
                 <p:menuitem value="Categories" outcome="/client/index.xhtml"/>
                 <p:menuitem value="#{msg['bread.main']}" outcome="/client/index.xhtml"/>
-                <p:menuitem value="#{msg['bread.rentals']}" outcome="/client/listRentals.xhtml"/>
+                <p:menuitem value="#{msg['bread.rentals']}" outcome="/client/rental/listRentals.xhtml"/>
             </p:breadCrumb>
         </ui:define>
         <ui:define name="content">
@@ -47,7 +47,7 @@
                         <h:outputText value="#{rental.statusName}"/>
                     </p:column>
                     <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}" outcome="rentalDetails.xhtml?faces-redirect=true">
+                        <p:button value="${msg['details']}" outcome="/client/rental/rentalDetails.xhtml?faces-redirect=true">
                             <f:param name="rentalId" value="#{rental.id}"/>
                         </p:button>
                     </p:column>
