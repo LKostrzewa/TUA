@@ -9,7 +9,7 @@
 <h:head/>
 <h:body>
     <ui:composition template="/templates/commonTemplate.xhtml">
-        <ui:define name="title">#{msg['manager.title.yachtDetails']}</ui:define>
+        <ui:define name="title">#{msg['manager.title.yacht.addYacht']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
                 <p:menuitem value="Categories" outcome="/manager/index.xhtml"/>
@@ -40,16 +40,15 @@
 
                 <div class="text-box">
                     <p:inputText id="productionYear" type="text" a:placeholder="#{msg['yacht.productionYear']}"
-                                 value="#{addYachtPageBean.newYachtDto.productionYear}">
-                    </p:inputText>
+                                 value="#{addYachtPageBean.newYachtDto.productionYear}"/>
                     <span class="gradient"/>
                     <span class="asterisk_input"/>
                     <h:message id="productionYear_err" styleClass="message" for="productionYear"/>
                 </div>
                 <div class="text-box">
                     <p:inputText id="priceMultiplier" type="text" a:placeholder="#{msg['yacht.priceMultiplier']}"
-                                 value="#{addYachtPageBean.newYachtDto.priceMultiplier}">
-                    </p:inputText>
+                                 value="#{addYachtPageBean.newYachtDto.priceMultiplier}"/>
+
                     <span class="gradient"/>
                     <span class="asterisk_input"/>
                     <h:message id="priceMultiplier_err" styleClass="message" for="priceMultiplier"/>

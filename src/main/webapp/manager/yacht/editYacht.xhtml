@@ -8,7 +8,7 @@
 <h:head/>
 <h:body>
     <ui:composition template="/templates/commonTemplate.xhtml">
-        <ui:define name="title">#{msg['manager.title.yachtDetails']}</ui:define>
+        <ui:define name="title">#{msg['manager.title.yacht.edit']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
                 <p:menuitem value="Categories" outcome="/manager/index.xhtml"/>
@@ -46,9 +46,12 @@
 
                 <div class="text-box">
                     <p:outputLabel class="label">#{msg["yacht.priceMultiplier"]}</p:outputLabel>
+
                     <p:inputText id="price" type="text"
-                                 value="#{editYachtPageBean.editYachtDto.priceMultiplier}">
-                    </p:inputText>
+                                 value="#{editYachtPageBean.editYachtDto.priceMultiplier}"/>
+
+
+
                     <span class="gradient"/>
                     <span class="asterisk_input"/>
                     <h:message id="price_err" styleClass="message" for="price"/>
