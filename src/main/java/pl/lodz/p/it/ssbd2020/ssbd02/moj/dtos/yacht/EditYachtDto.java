@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  */
 public class EditYachtDto {
     @NotNull
-    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{1,31}", message = "{validation.yacht.name}")
+    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.]{1,31}", message = "{validation.yacht.name}")
     private String name;
     @NotNull
     @Min(value = 0, message = "{validation.yacht.productionYear}")
@@ -16,7 +16,7 @@ public class EditYachtDto {
     @Digits(integer = 1,fraction = 2, message = "{validation.yacht.priceMultiplier}")
     private BigDecimal priceMultiplier;
     @NotNull
-    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{1,2048}", message = "{validation.yacht.equipment}")
+    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.\n]{1,2048}", message = "{validation.yacht.equipment}")
     private String equipment;
 
     public String getName() {
