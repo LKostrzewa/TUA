@@ -89,6 +89,10 @@ public class Yacht implements Serializable {
         this.businessKey = UUID.randomUUID();
     }
 
+    public Yacht(String yachtName) {
+        this.name = yachtName;
+    }
+
     public Long getId() {
         return id;
     }

@@ -13,16 +13,16 @@
             <p:breadCrumb>
                 <p:menuitem value="Categories" outcome="/client/index.xhtml"/>
                 <p:menuitem value="#{msg['bread.main']}" outcome="/client/index.xhtml"/>
-                <p:menuitem value="#{msg['bread.rentals']}" outcome="/client/listRentals.xhtml"/>
-                <p:menuitem value="#{msg['bread.rental']}" outcome="/client/rentalDetails.xhtml"
+                <p:menuitem value="#{msg['bread.rentals']}" outcome="/client/rental/listRentals.xhtml"/>
+                <p:menuitem value="#{msg['bread.rental']}" outcome="/client/rental/rentalDetails.xhtml"
                             includeViewParams="true">
-                    <f:param name="rentalId" value="#{rentalDetailsPageBean.rentalId}"/>
+                    <f:param name="bk" value="#{rentalDetailsPageBean.rentalBusinessKey}"/>
                 </p:menuitem>
             </p:breadCrumb>
         </ui:define>
         <ui:define name="content">
             <f:metadata>
-                <f:viewParam name="rentalId" value="#{rentalDetailsPageBean.rentalId}"/>
+                <f:viewParam name="bk" value="#{rentalDetailsPageBean.rentalBusinessKey}"/>
                 <f:event type="preRenderView" listener="#{rentalDetailsPageBean.init}"/>
             </f:metadata>
             <h:form id="form">
@@ -59,7 +59,7 @@
                                icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>
                 <p:button value="${msg['opinion.addOpinion']}"
-                                 outcome="opinion/addOpinion.xhtml?faces-redirect=true"
+                                 outcome="/client/opinion/addOpinion.xhtml?faces-redirect=true"
                                  rendered="#{rentalDetailsPageBean.rentalDetails.statusName.equals('FINISHED')}"/>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"

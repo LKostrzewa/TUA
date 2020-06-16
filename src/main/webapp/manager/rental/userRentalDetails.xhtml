@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xml:lang="en" lang="en">
+<h:head/>
+<h:body>
+    <ui:composition template="/templates/commonTemplate.xhtml">
+        <ui:define name="title">#{msg['shared.title.rentalDetails']}</ui:define>
+        <ui:define name="breadCrumbs">
+            <p:breadCrumb>
+                <p:menuitem value="Categories" outcome="/manager/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.main']}" outcome="/manager/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.rentals']}" outcome="/manager/rental/listAllRentals.xhtml"/>
+                <p:menuitem value="#{msg['bread.rental']}" outcome="/manager/rental/userRentalDetails.xhtml"
+                            includeViewParams="true">
+                    <f:param name="bk" value="#{rentalDetailsPageBean.rentalBusinessKey}"/>
+                </p:menuitem>
+            </p:breadCrumb>
+        </ui:define>
+        <ui:define name="content">
+            <f:metadata>
+                <f:viewParam name="bk" value="#{rentalDetailsPageBean.rentalBusinessKey}"/>
+                <f:event type="preRenderView" listener="#{rentalDetailsPageBean.init}"/>
+            </f:metadata>
+            <h:form id="form">
+                <p:growl id="message" showDetail="true"/>
+                <p:panelGrid columns="2">
+                    <h:outputLabel value="#{msg['yacht.name']}:"/>
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtName}"/>
+                    <h:outputLabel value="#{msg['yachtModel.model']}:"/>
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtYachtModelModel}"/>
+                    <h:outputLabel value="#{msg['port.name']}:"/>
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtCurrentPortName}"/>
+                    <h:outputLabel value="#{msg['yacht.productionYear']}:"/>
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtProductionYear}"/>
+                    <h:outputLabel value="#{msg['yacht.equipment']}:"/>
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtEquipment}"/>
+                    <h:outputLabel value="#{msg['rental.beginDate']}:"/>
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.beginDate}">
+                        <f:convertDateTime pattern="dd.MM.yyyy"/>
+                    </h:outputText>
+                    <h:outputLabel value="#{msg['rental.endDate']}:"/>
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.endDate}">
+                        <f:convertDateTime pattern="dd.MM.yyyy"/>
+                    </h:outputText>
+                    <h:outputLabel value="#{msg['rental.status']}:"/>
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.statusName}"/>
+                    <h:outputLabel value="#{msg['rental.price']}:"/>
+                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.price}"/>
+                </p:panelGrid>
+                <p:button value="#{msg['goBack']}" outcome="listAllRentals.xhtml?faces-redirect=true"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

@@ -57,7 +57,7 @@ public class EditYachtPageBean implements Serializable {
      *
      * @return strona na którą zostanie przekierowany użytkownik
      */
-    public String editYacht() throws AppBaseException {
+    public String editYacht() {
         try {
             yachtEndpoint.editYacht(editYachtDto);
             displayMessage();

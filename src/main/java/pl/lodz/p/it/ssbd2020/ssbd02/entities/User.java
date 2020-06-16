@@ -126,6 +126,10 @@ public class User implements Serializable {
         this.created = new Date();
     }
 
+    public User(String userLogin) {
+        this.login = userLogin;
+    }
+
     public Long getId() {
         return id;
     }

@@ -95,10 +95,14 @@ public class YachtEndpointImpl implements Serializable, YachtEndpoint {
      */
     @RolesAllowed("editYacht")
     public void editYacht(EditYachtDto editYachtDto) throws AppBaseException {
+        boolean nameChanged = true;
+        if(yachtEditEntity.getName().equals(editYachtDto.getName())){
+            nameChanged = false;
+        }
         yachtEditEntity.setName(editYachtDto.getName());
         yachtEditEntity.setPriceMultiplier(editYachtDto.getPriceMultiplier());
         yachtEditEntity.setEquipment(editYachtDto.getEquipment());
-        yachtManager.editYacht(this.yachtEditEntity);
+        yachtManager.editYacht(this.yachtEditEntity,nameChanged);
     }
 
     /**

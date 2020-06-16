@@ -27,33 +27,50 @@
             <f:viewParam name="yachtModelId" value="#{editYachtModelPageBean.yachtModelId}"/>
             <f:event type="preRenderView" listener="#{editYachtModelPageBean.init}"/>
         </f:metadata>
-        <h:form id="form">
+        <h:form id="form" class="form">
+            <h:outputStylesheet library="css" name="yachtModel/editYachtModel.css"/>
             <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
-            <div>
-                <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="manufacturer" value="#{editYachtModelPageBean.editYachtModelDto.manufacturer}"/>
-               <p:outputLabel for="@previous" value="#{msg['yachtModel.manufacturer']}"/>
-                <p:message for="manufacturer"/>
-           </span>
-                <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="capacity" value="#{editYachtModelPageBean.editYachtModelDto.capacity}"/>
-               <p:outputLabel for="@previous" value="#{msg['yachtModel.capacity']}"/>
-                <p:message for="capacity"/>
-           </span>
-            <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="basicPrice" value="#{editYachtModelPageBean.editYachtModelDto.basicPrice}"/>
-               <p:outputLabel for="@previous" value="#{msg['yachtModel.basicPrice']}"/>
-                <p:message for="basicPrice"/>
-           </span>
-                <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="generalDescription" value="#{editYachtModelPageBean.editYachtModelDto.generalDescription}"/>
-               <p:outputLabel for="@previous" value="#{msg['yachtModel.description']}"/>
-                <p:message for="generalDescription"/>
-           </span>
+            <h1 class="h1">#{msg["manager.menu.models.edit"]}</h1>
+
+            <div class="text-box">
+                <p:outputLabel class="label">#{msg["yachtModel.manufacturer"]}</p:outputLabel>
+                <p:inputText id="manufacturer" type="text"
+                             value="#{editYachtModelPageBean.editYachtModelDto.manufacturer}">
+                </p:inputText>
+                <span class="gradient"/>
+                <span class="asterisk_input"/>
+                <h:message id="manufacturer_err" styleClass="message" for="manufacturer"/>
             </div>
-            <p:button value="#{msg['cancel']}"
+
+            <div class="text-box">
+                <p:outputLabel class="label">#{msg["yachtModel.capacity"]}</p:outputLabel>
+                <p:inputText id="capacity" type="text"
+                             value="#{editYachtModelPageBean.editYachtModelDto.capacity}">
+                </p:inputText>
+                <span class="gradient"/>
+                <span class="asterisk_input"/>
+                <h:message id="capacity_err" styleClass="message" for="capacity"/>
+            </div>
+            <div class="text-box">
+                <p:outputLabel class="label">#{msg["yachtModel.basicPrice"]}</p:outputLabel>
+                <p:inputText id="basicPrice" type="text"
+                             value="#{editYachtModelPageBean.editYachtModelDto.basicPrice}">
+                </p:inputText>
+                <span class="gradient"/>
+                <span class="asterisk_input"/>
+                <h:message id="basicPrice_err" styleClass="message" for="basicPrice"/>
+            </div>
+            <div class="text-box">
+                <p:outputLabel style="display: block" class="label">#{msg["yachtModel.description"]}</p:outputLabel>
+                <p:inputTextarea cols="40" id="description" type="text"
+                             value="#{editYachtModelPageBean.editYachtModelDto.generalDescription}">
+                </p:inputTextarea>
+                <span class="asterisk_input"/>
+                <h:message id="description_err" styleClass="message" for="description"/>
+            </div>
+            <p:button class="back" value="#{msg['cancel']}"
                       outcome="yachtModelDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
-            <p:commandButton value="#{msg['edit']}" action="#{editYachtModelPageBean.editYachtModel}"
+            <p:commandButton class="save" value="#{msg['edit']}" action="#{editYachtModelPageBean.editYachtModel}"
                              update="message @form">
                 <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                            icon="pi pi-exclamation-triangle"/>

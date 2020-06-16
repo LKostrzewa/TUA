@@ -33,13 +33,17 @@
                     <h:outputLabel value="#{msg['yacht.productionYear']}:"/>
                     <h:outputText value="#{yachtDetailsPageBean.yachtDto.productionYear}"/>
                     <h:outputLabel value="#{msg['yacht.active']}:"/>
-                    <h:outputText value="#{yachtDetailsPageBean.yachtDto.active}"/>
+                    <h:outputText value="${msg['yes']}" rendered="#{yachtDetailsPageBean.yachtDto.active}"/>
+                    <h:outputText value="${msg['no']}" rendered="#{!yachtDetailsPageBean.yachtDto.active}"/>
                     <h:outputLabel value="#{msg['yacht.equipment']}:"/>
                     <h:outputText value="#{yachtDetailsPageBean.yachtDto.equipment}"/>
                     <h:outputLabel value="#{msg['yacht.avgRating']}:"/>
                     <h:outputText value="#{yachtDetailsPageBean.yachtDto.avgRating}"/>
                 </p:panelGrid>
                 <p:button value="#{msg['goBack']}" outcome="listYachts.xhtml?faces-redirect=true"/>
+                <p:button value="${msg['rent']}" outcome="/client/rental/addRental.xhtml?faces-redirect=true">
+                    <f:param name="yachtId" value="#{yachtDetailsPageBean.yachtId}"/>
+                </p:button>
             </h:form>
         </ui:define>
     </ui:composition>
