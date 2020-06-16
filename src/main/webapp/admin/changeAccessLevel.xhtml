@@ -29,10 +29,11 @@
                 <f:viewParam name="userId" value="#{changeAccessLevelPageBean.userId}"/>
                 <f:event type="preRenderView" listener="#{changeAccessLevelPageBean.init}"/>
             </f:metadata>
-            <h:form>
+            <h:form class="form">
                 <p:growl id="message" showDetail="true"/>
-                <h:outputStylesheet library="css" name="userDetails.css"/>
-                <h:panelGrid columns="2" styleClass="userDetails" style="margin-bottom:10px" cellpadding="5">
+                <h:outputStylesheet library="css" name="changeAccessLevel.css"/>
+                <h1 class="h1">#{msg["changeAccessLevel"]}</h1>
+                <h:panelGrid class="grid" columns="2" styleClass="userDetails" style="margin-bottom:10px" cellpadding="5">
                     <h:outputText value="#{msg['admin']}"/>
                     <p:inputSwitch value="#{changeAccessLevelPageBean.userDto.admin.right}"/>
                     <h:outputText value="#{msg['manager']}"/>
@@ -40,9 +41,9 @@
                     <h:outputText value="#{msg['client']}"/>
                     <p:inputSwitch value="#{changeAccessLevelPageBean.userDto.client.right}"/>
                 </h:panelGrid>
-                <p:button value="#{msg['cancel']}"
-                          outcome="userDetails.xhtml?faces-redirect=true?includeViewParams=true" style="background-color: red"/>
-                <p:commandButton value="#{msg['edit']}" action="#{changeAccessLevelPageBean.changeAccessLevel()}" style="background-color: orange"
+                <p:button class="back" value="#{msg['cancel']}"
+                          outcome="userDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
+                <p:commandButton class="save" value="#{msg['edit']}" action="#{changeAccessLevelPageBean.changeAccessLevel()}"
                                  update="message" ajax="false"
                                  onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
             </h:form>
