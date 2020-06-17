@@ -25,38 +25,60 @@
                 <f:viewParam name="portId" value="#{editPortPageBean.portId}"/>
                 <f:event type="preRenderView" listener="#{editPortPageBean.init}"/>
             </f:metadata>
-            <h:form id="form">
+            <h:form id="form" class="form">
+                <h:outputStylesheet library="css" name="port/editPort.css"/>
                 <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
-                <div>
-            <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="name" value="#{editPortPageBean.editPortDto.name}"/>
-               <p:outputLabel for="@previous" value="#{msg['port.name']}"/>
-                <p:message for="name"/>
-           </span>
-                    <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="lake" value="#{editPortPageBean.editPortDto.lake}"/>
-               <p:outputLabel for="@previous" value="#{msg['port.lake']}"/>
-                <p:message for="lake"/>
-           </span>
-                    <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="city" value="#{editPortPageBean.editPortDto.nearestCity}"/>
-               <p:outputLabel for="@previous" value="#{msg['port.city']}"/>
-                <p:message for="city"/>
-           </span>
-                    <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="long" value="#{editPortPageBean.editPortDto.long1}"/>
-               <p:outputLabel for="@previous" value="#{msg['port.long']}"/>
-                <p:message for="long"/>
-           </span>
-                    <span class="ui-float-label" style="margin: 20px">
-               <p:inputText id="lat" value="#{editPortPageBean.editPortDto.lat}"/>
-               <p:outputLabel for="@previous" value="#{msg['port.lat']}"/>
-                <p:message for="lat"/>
-           </span>
+                <h1 class="h1">#{msg["manager.menu.ports.edit"]}</h1>
+
+                <div class="text-box">
+                    <p:outputLabel class="label">#{msg["port.name"]}</p:outputLabel>
+                    <p:inputText id="name" type="text"
+                                 value="#{editPortPageBean.editPortDto.name}">
+                    </p:inputText>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="name_err" styleClass="message" for="name"/>
                 </div>
-                <p:button value="#{msg['cancel']}"
+
+                <div class="text-box">
+                    <p:outputLabel class="label">#{msg["port.lake"]}</p:outputLabel>
+                    <p:inputText id="lake" type="text"
+                                 value="#{editPortPageBean.editPortDto.lake}">
+                    </p:inputText>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="lake_err" styleClass="message" for="lake"/>
+                </div>
+                <div class="text-box">
+                    <p:outputLabel class="label">#{msg["port.city"]}</p:outputLabel>
+                    <p:inputText id="city" type="text"
+                                 value="#{editPortPageBean.editPortDto.nearestCity}">
+                    </p:inputText>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="city_err" styleClass="message" for="city"/>
+                </div>
+                <div class="text-box">
+                    <p:outputLabel class="label">#{msg["port.long"]}</p:outputLabel>
+                    <p:inputText id="long" type="text"
+                                 value="#{editPortPageBean.editPortDto.long1}">
+                    </p:inputText>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="long_err" styleClass="message" for="long"/>
+                </div>
+                <div class="text-box">
+                    <p:outputLabel class="label">#{msg["port.lat"]}</p:outputLabel>
+                    <p:inputText id="lat" type="text"
+                                 value="#{editPortPageBean.editPortDto.lat}">
+                    </p:inputText>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="lat_err" styleClass="message" for="lat"/>
+                </div>
+                <p:button class="back" value="#{msg['cancel']}"
                           outcome="portDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
-                <p:commandButton value="#{msg['edit']}" action="#{editPortPageBean.editPort}"
+                <p:commandButton class="save" value="#{msg['edit']}" action="#{editPortPageBean.editPort}"
                                  update="message @form">
 
                     <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
@@ -67,7 +89,6 @@
                                      icon="pi pi-check"/>
                     <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
                                      icon="pi pi-times"/>
-
                 </p:confirmDialog>
             </h:form>
         </ui:define>

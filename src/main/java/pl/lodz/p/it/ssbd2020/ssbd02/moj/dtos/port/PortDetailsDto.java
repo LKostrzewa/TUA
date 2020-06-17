@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port;
 
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -17,7 +18,7 @@ public class PortDetailsDto {
     private BigDecimal long1;
     private BigDecimal lat;
     private Boolean active;
-    private Collection<Yacht> yachts;
+    private Collection<YachtDto> yachts;
 
     public Long getId() {
         return id;
@@ -75,11 +76,11 @@ public class PortDetailsDto {
         this.active = active;
     }
 
-    public Collection<Yacht> getYachts() {
+    public Collection<YachtDto> getYachts() {
         return yachts;
     }
 
-    public void setYachts(Collection<Yacht> yachts) {
+    public void setYachts(Collection<YachtDto> yachts) {
         this.yachts = yachts;
     }
 }

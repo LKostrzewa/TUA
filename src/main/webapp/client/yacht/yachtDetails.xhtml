@@ -33,7 +33,8 @@
                     <h:outputLabel value="#{msg['yacht.productionYear']}:"/>
                     <h:outputText value="#{yachtDetailsPageBean.yachtDto.productionYear}"/>
                     <h:outputLabel value="#{msg['yacht.active']}:"/>
-                    <h:outputText value="#{yachtDetailsPageBean.yachtDto.active}"/>
+                    <h:outputText value="${msg['yes']}" rendered="#{yachtDetailsPageBean.yachtDto.active}"/>
+                    <h:outputText value="${msg['no']}" rendered="#{!yachtDetailsPageBean.yachtDto.active}"/>
                     <h:outputLabel value="#{msg['yacht.equipment']}:"/>
                     <h:outputText value="#{yachtDetailsPageBean.yachtDto.equipment}"/>
                     <h:outputLabel value="#{msg['yacht.avgRating']}:"/>

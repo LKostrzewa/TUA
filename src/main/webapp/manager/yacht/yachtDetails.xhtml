@@ -37,7 +37,8 @@
                     <h:outputLabel value="#{msg['bread.port']}:"/>
                     <h:outputText value="#{yachtDetailsPageBean.yachtDto.currentPort.name}"/>
                     <h:outputLabel value="#{msg['yacht.active']}:"/>
-                    <h:outputText value="#{yachtDetailsPageBean.yachtDto.active}"/>
+                    <h:outputText value="${msg['yes']}" rendered="#{yachtDetailsPageBean.yachtDto.active}"/>
+                    <h:outputText value="${msg['no']}" rendered="#{!yachtDetailsPageBean.yachtDto.active}"/>
                     <h:outputLabel value="#{msg['yacht.equipment']}:"/>
                     <h:outputText value="#{yachtDetailsPageBean.yachtDto.equipment}" style="white-space: pre-wrap;"/>
                     <h:outputLabel value="#{msg['yacht.avgRating']}:"/>

@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 <h:head/>
 <h:body>
     <ui:composition template="/templates/commonTemplate.xhtml">
@@ -17,71 +18,72 @@
             </p:breadCrumb>
         </ui:define>
         <ui:define name="content">
-            <h:form>
+            <h:form class="form">
                 <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
+
                 <h:outputStylesheet library="css" name="addUser.css"/>
-                <div class="edit-user" style="text-align: center;">
-                    <span class="ui-float-label" style="margin: 20px;">
-                        <p:inputText id="login" style="border: 2px solid black"
-                                     value="#{addUserPageBean.addUserDto.login}" required="true"
-                                     requiredMessage="#{msg['field.required']}"/>
-                        <p:outputLabel style="display: block; width: 100%; text-align: center" for="@previous"
-                                       value="#{msg['login']}"/>
-                        <p:message for="login"/>
-                    </span>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:password id="password" style="border: 2px solid black" match="password2"
-                                    validatorMessage="#{msg['validation.password.match']}" required="true"
-                                    requiredMessage="#{msg['field.required']}"/>
-                        <p:outputLabel for="@previous" style="display: block; width: 100%; text-align: center"
-                                       value="#{msg['password']}"/>
-                        <p:message for="password2"/>
-                    </span>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:password id="password2" style="border: 2px solid black"
-                                    value="#{addUserPageBean.addUserDto.password}" required="true"
-                                    requiredMessage="#{msg['field.required']}"/>
-                        <p:outputLabel for="@previous" style="display: block; width: 100%; text-align: center"
-                                       value="#{msg['registration.repeat.password']}"/>
-                        <p:message for="password"/>
-                    </span>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="firstName" style="border: 2px solid black"
-                                     value="#{addUserPageBean.addUserDto.firstName}" required="true"
-                                     requiredMessage="#{msg['field.required']}"/>
-                        <p:outputLabel style="display: block; width: 100%; text-align: center" for="@previous"
-                                       value="#{msg['firstName']}"/>
-                        <p:message for="firstName"/>
-                    </span>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="lastName" style="border: 2px solid black"
-                                     value="#{addUserPageBean.addUserDto.lastName}" required="true"
-                                     requiredMessage="#{msg['field.required']}"/>
-                        <p:outputLabel style="display: block; width: 100%; text-align: center" for="@previous"
-                                       value="#{msg['lastName']}"/>
-                        <p:message for="lastName"/>
-                    </span>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="phoneNumber" style="border: 2px solid black"
-                                     value="#{addUserPageBean.addUserDto.phoneNumber}" required="true"
-                                     requiredMessage="#{msg['field.required']}"/>
-                        <p:outputLabel style="display: block; width: 100%; text-align: center" for="@previous"
-                                       value="#{msg['phoneNumber']}"/>
-                        <p:message for="phoneNumber"/>
-                    </span>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="email" style="border: 2px solid black"
-                                     value="#{addUserPageBean.addUserDto.email}" required="true"
-                                     requiredMessage="#{msg['field.required']}"/>
-                        <p:outputLabel style="display: block; width: 100%; text-align: center" for="@previous"
-                                       value="#{msg['email']}"/>
-                        <p:message for="email"/>
-                    </span>
+
+                <h1 class="h1">#{msg['admin.menu.accounts.add']}</h1>
+
+                <div class="text-box">
+                    <p:inputText id="username" type="text" a:placeholder="#{msg['registration.username']}"
+                                 value="#{userRegistrationBean.userDto.login}">
+                    </p:inputText>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="username_err" styleClass="message" for="username"/>
                 </div>
+
+                <div class="text-box">
+                    <p:password id="password1" a:placeholder="#{msg['registration.password']}" match="password2"
+                                validatorMessage="#{msg['validation.password.match']}"/>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="password1_err" styleClass="message" for="password2"/>
+                </div>
+                <div class="text-box">
+                    <p:password id="password2" a:placeholder="#{msg['registration.repeat.password']}"
+                                value="#{userRegistrationBean.userDto.password}"/>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="password2_err" styleClass="message" for="password1"/>
+                </div>
+                <div class="text-box">
+                    <p:inputText id="email" a:placeholder="#{msg['registration.email']}"
+                                 value="#{userRegistrationBean.userDto.email}"/>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="email_err" styleClass="message" for="email"/>
+                </div>
+
+                <div class="text-box">
+                    <p:inputText id="firstName" a:placeholder="#{msg['registration.firstName']}"
+                                 value="#{userRegistrationBean.userDto.firstName}"/>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="name_err" styleClass="message" for="firstName"/>
+                </div>
+
+                <div class="text-box">
+                    <p:inputText id="surname" a:placeholder="#{msg['registration.lastName']}"
+                                 value="#{userRegistrationBean.userDto.lastName}"/>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="surname_err" styleClass="message" for="surname"/>
+                </div>
+
+                <div class="text-box">
+                    <p:inputText id="phoneNumber" a:placeholder="#{msg['registration.phone.number']}"
+                                 value="#{userRegistrationBean.userDto.phoneNumber}"/>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="phone_err" styleClass="message" for="phoneNumber"/>
+                </div>
+
                 <div style="text-align: center;">
-                    <p:button value="#{msg['cancel']}" outcome="index.xhtml?faces-redirect=true"
+                    <p:button class="back" value="#{msg['cancel']}" outcome="index.xhtml?faces-redirect=true"
                               style="background-color: red"/>
-                    <p:commandButton value="#{msg['save']}"
+                    <p:commandButton class="save" value="#{msg['save']}"
                                      type="button"
                                      style="background-color: green"
                                      onclick="PF('addUserConfirm').show()"/>

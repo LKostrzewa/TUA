@@ -4,11 +4,12 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 <h:head/>
 <h:body>
     <ui:composition template="/templates/commonTemplate.xhtml">
-        <ui:define name="title">#{msg['manager.title.yachtDetails']}</ui:define>
+        <ui:define name="title">#{msg['manager.title.yacht.addYacht']}</ui:define>
         <ui:define name="breadCrumbs">
             <p:breadCrumb>
                 <p:menuitem value="Categories" outcome="/manager/index.xhtml"/>
@@ -21,41 +22,56 @@
             </p:breadCrumb>
         </ui:define>
         <ui:define name="content">
-            <h:form id="form">
+            <h:form id="form" class="form">
                 <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
-                <div>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="name" value="#{addYachtPageBean.newYachtDto.name}"/>
-                        <p:outputLabel for="@previous" value="#{msg['yacht.name']}"/>
-                        <p:message for="name"/>
-                    </span>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="productionYear" value="#{addYachtPageBean.newYachtDto.productionYear}"/>
-                        <p:outputLabel for="@previous" value="#{msg['yacht.productionYear']}"/>
-                        <p:message for="productionYear"/>
-                    </span>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:selectOneMenu id="yachtModelId" value="#{addYachtPageBean.newYachtDto.yachtModelId}">
-                            <f:selectItem itemLabel="" itemValue="" />
-                            <f:selectItems value="#{addYachtPageBean.yachtModels}" var="model"
-                                           itemValue="#{model.id}" itemLabel="#{model.model}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel for="@previous" value="#{msg['yachtModel.model']}"/>
-                        <p:message for="yachtModelId"/>
-                    </span>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:inputText id="priceMultiplier" value="#{addYachtPageBean.newYachtDto.priceMultiplier}"/>
-                        <p:outputLabel for="@previous" value="#{msg['yacht.priceMultiplier']}"/>
-                        <p:message for="priceMultiplier"/>
-                    </span>
-                    <span class="ui-float-label" style="margin: 20px">
-                        <p:inputTextarea id="equipment" value="#{addYachtPageBean.newYachtDto.equipment}"/>
-                        <p:outputLabel for="@previous" value="#{msg['yacht.equipment']}"/>
-                        <p:message for="equipment"/>
-                    </span>
+
+                <h:outputStylesheet library="css" name="yacht/addYacht.css"/>
+
+                <h1 class="h1">#{msg['manager.menu.yachts.add']}</h1>
+
+                <div class="text-box">
+                    <p:inputText id="name" type="text" a:placeholder="#{msg['yacht.name']}"
+                                 value="#{addYachtPageBean.newYachtDto.name}">
+                    </p:inputText>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="name_err" styleClass="message" for="name"/>
                 </div>
-                <p:button value="#{msg['goBack']}" outcome="listYachts.xhtml?faces-redirect=true"/>
-                <p:commandButton value="#{msg['save']}" action="#{addYachtPageBean.addNewYacht}" update="@form" ajax="false"/>
+
+                <div class="text-box">
+                    <p:inputText id="productionYear" type="text" a:placeholder="#{msg['yacht.productionYear']}"
+                                 value="#{addYachtPageBean.newYachtDto.productionYear}"/>
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="productionYear_err" styleClass="message" for="productionYear"/>
+                </div>
+                <div class="text-box">
+                    <p:inputText id="priceMultiplier" type="text" a:placeholder="#{msg['yacht.priceMultiplier']}"
+                                 value="#{addYachtPageBean.newYachtDto.priceMultiplier}"/>
+
+                    <span class="gradient"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="priceMultiplier_err" styleClass="message" for="priceMultiplier"/>
+                </div>
+                <div class="text-box">
+                    <p:selectOneMenu id="yachtModelId" a:placeholder="#{msg['yachtModel.model']}"
+                                     value="#{addYachtPageBean.newYachtDto.yachtModelId}">
+                        <f:selectItem itemLabel="" itemValue=""/>
+                        <f:selectItems value="#{addYachtPageBean.yachtModels}" var="model"
+                                       itemValue="#{model.id}" itemLabel="#{model.model}"/>
+                    </p:selectOneMenu>
+                    <span class="asterisk_input"/>
+                    <h:message id="yachtModel_err" styleClass="message" for="yachtModelId"/>
+                </div>
+                <div class="text-box">
+                    <p:inputTextarea cols="40" id="equipment" a:placeholder="#{msg['yacht.equipment']}"
+                                     value="#{addYachtPageBean.newYachtDto.equipment}"/>
+                    <span class="asterisk_input"/>
+                    <h:message id="equipment_err" styleClass="message" for="equipment"/>
+                </div>
+                <p:button class="back" value="#{msg['goBack']}" outcome="listYachts.xhtml?faces-redirect=true"/>
+                <p:commandButton class="save" value="#{msg['save']}" action="#{addYachtPageBean.addNewYacht}"
+                                 update="@form" ajax="false"/>
             </h:form>
         </ui:define>
     </ui:composition>
