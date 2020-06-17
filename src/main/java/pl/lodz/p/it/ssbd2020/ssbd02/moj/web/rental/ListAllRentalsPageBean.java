@@ -1,8 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.rental;
 
-import org.primefaces.model.FilterMeta;
-import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.SortOrder;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.ListAllRentalsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.RentalEndpoint;
 
@@ -12,7 +9,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Klasa do obsługi widoku listy wszystkich wypożyczeń.
@@ -22,13 +18,22 @@ import java.util.Map;
 public class ListAllRentalsPageBean implements Serializable {
     @Inject
     private RentalEndpoint rentalEndpoint;
-    private LazyDataModel<ListAllRentalsDto> rentals;
+    private List<ListAllRentalsDto> rentals;
+    private String filter;
 
-    public LazyDataModel<ListAllRentalsDto> getRentals() {
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
+    }
+
+    public List<ListAllRentalsDto> getRentals() {
         return rentals;
     }
 
-    public void setRentals(LazyDataModel<ListAllRentalsDto> rentals) {
+    public void setRentals(List<ListAllRentalsDto> rentals) {
         this.rentals = rentals;
     }
 
@@ -37,12 +42,13 @@ public class ListAllRentalsPageBean implements Serializable {
      */
     @PostConstruct
     private void init() {
-        rentals = new LazyDataModel<>() {
-            @Override
-            public List<ListAllRentalsDto> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, FilterMeta> filters) {
-                rentals.setRowCount(rentalEndpoint.getFilteredRowCount(filters));
-                return rentalEndpoint.getResultList(first, pageSize, filters);
-            }
-        };
+        rentals = rentalEndpoint.getAllRentals();
+    }
+
+    /**
+     * Metoda filtrująca wypożyczenia po nazwie yachtu
+     */
+    public void filterRentals(){
+        rentals = rentalEndpoint.getFilteredRentals(filter);
     }
 }

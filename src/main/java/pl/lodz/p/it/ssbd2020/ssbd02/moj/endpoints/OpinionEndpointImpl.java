@@ -25,6 +25,8 @@ public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
     @Inject
     private OpinionManager opinionManager;
 
+    private Opinion opinionEditEntity;
+
     /**
      * Metoda, która dodaje nową opinię.
      *
@@ -32,9 +34,9 @@ public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("addOpinion")
-    public void addOpinion(NewOpinionDto newOpinionDto) throws AppBaseException {
-        Opinion opinion = ObjectMapperUtils.map(newOpinionDto, Opinion.class);
-        opinionManager.addOpinion(opinion);
+    public void addOpinion(NewOpinionDto newOpinionDto, String rentalBusinessKey) throws AppBaseException {
+        Opinion opinion = new Opinion(newOpinionDto.getRating(),newOpinionDto.getComment(),null,null);
+        opinionManager.addOpinion(opinion, rentalBusinessKey);
     }
 
     /**
@@ -50,16 +52,16 @@ public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
     }
 
     /**
-     * Metoda zwracająca opinię do edycji na podstawie przekazanego identyfikatora.
+     * Metoda zwracająca opinię do edycji na podstawie przekazanego klucza biznesowego.
      *
-     * @param opinionId identyfikator opinii
+     * @param rentalBusinessKey klucz biznesowy opinii
      * @return opinia do edycji
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getOpinionById")
-    public EditOpinionDto getOpinionById(Long opinionId) throws AppBaseException {
-        Opinion opinion = opinionManager.getOpinionById(opinionId);
-        return ObjectMapperUtils.map(opinion, EditOpinionDto.class);
+    @RolesAllowed("getOpinionByBusinessKey")
+    public EditOpinionDto getOpinionByRentalBusinessKey(String rentalBusinessKey) throws AppBaseException {
+        opinionEditEntity = opinionManager.getOpinionByRentalBusinessKey(rentalBusinessKey);
+        return ObjectMapperUtils.map(opinionEditEntity, EditOpinionDto.class);
     }
 
     /**
@@ -71,6 +73,6 @@ public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
     @RolesAllowed("editOpinion")
     public void editOpinion(EditOpinionDto editOpinionDto) throws AppBaseException {
         Opinion opinionToEdit = ObjectMapperUtils.map(editOpinionDto, Opinion.class);
-        opinionManager.editOpinion(opinionToEdit);
+        opinionManager.editOpinion(opinionToEdit, opinionEditEntity);
     }
 }

@@ -223,11 +223,11 @@
         <group-name>CLIENT</group-name>
     </security-role-mapping>
     <security-role-mapping>
-        <role-name>getFilteredRowCountRental</role-name>
+        <role-name>getFilteredRentals</role-name>
         <group-name>MANAGER</group-name>
     </security-role-mapping>
     <security-role-mapping>
-        <role-name>getResultListRental</role-name>
+        <role-name>getAllRentals</role-name>
         <group-name>MANAGER</group-name>
     </security-role-mapping>
     <!--Ports-->
@@ -265,7 +265,7 @@
         <group-name>MANAGER</group-name>
     </security-role-mapping>
     <security-role-mapping>
-        <role-name>getOpinionById</role-name>
+        <role-name>getOpinionByBusinessKey</role-name>
         <group-name>CLIENT</group-name>
     </security-role-mapping>
     <security-role-mapping>

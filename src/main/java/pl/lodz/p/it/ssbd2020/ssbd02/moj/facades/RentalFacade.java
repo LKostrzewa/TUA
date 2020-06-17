@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
-import org.primefaces.model.FilterMeta;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
@@ -17,8 +16,9 @@ import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.*;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Klasa fasadowa powiązana z encją Rental.
@@ -52,7 +52,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * @return lista wypożyczeń
      */
     @Override
-    @RolesAllowed({"getRentals", "updateRentalStatus"})
+    @RolesAllowed({"getRentals", "updateRentalStatus", "getAllRentals"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<Rental> findAll() {
         return super.findAll();
@@ -64,7 +64,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * @param businessKey wartość klucza biznesowego
      * @return optional z wyszukanym obiektem encji lub pusty, jeśli poszukiwany obiekt encji nie istnieje
      */
-    @RolesAllowed({"getUserRentalDetails", "cancelRental"})
+    @RolesAllowed({"getUserRentalDetails", "cancelRental", "addOpinion"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Rental> findByBusinessKey(UUID businessKey) {
         return Optional.ofNullable(entityManager.createNamedQuery("Rental.findByBusinessKey", Rental.class)
@@ -138,78 +138,15 @@ public class RentalFacade extends AbstractFacade<Rental> {
     }
 
     /**
-     * Metoda, która pobiera z bazy liczbę filtrowanych obiektów.
+     * Metoda, która pobiera z bazy wszystkie wypożyczenia, w których nazwa jachtu pasuje
+     * do przekazanego ciągu znaków
      *
-     * @param filters para filtrowanych pól i ich wartości
-     * @return liczba obiektów poddanych filtrowaniu
+     * @return lista wszystkich wypożyczeń, których nazwa jachtu pasuje do wzorca
      */
-    @RolesAllowed("getFilteredRowCountRental")
+    @RolesAllowed("getFilteredRentals")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public int getFilteredRowCount(Map<String, FilterMeta> filters) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
-        Root<Rental> root = criteriaQuery.from(Rental.class);
-        CriteriaQuery<Long> select = criteriaQuery.select(criteriaBuilder.count(root));
-
-        if (filters != null && filters.size() > 0) {
-            List<Predicate> predicates = new ArrayList<>();
-            for (Map.Entry<String, FilterMeta> entry : filters.entrySet()) {
-                String field = entry.getKey();
-                Object value = entry.getValue().getFilterValue();
-                if (value == null) {
-                    continue;
-                }
-
-                Expression<String> expression = root.get(field).as(String.class);
-                Predicate predicate = criteriaBuilder.like(criteriaBuilder.lower(expression),
-                        "%" + value.toString().toLowerCase() + "%");
-                predicates.add(predicate);
-            }
-            if (predicates.size() > 0) {
-                criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
-            }
-        }
-        Long count = entityManager.createQuery(select).getSingleResult();
-        return count.intValue();
-    }
-
-    /**
-     * Metoda, która pobiera z bazy listę filtrowanych obiektów.
-     *
-     * @param first    numer pierwszego obiektu
-     * @param pageSize rozmiar strony
-     * @param filters  para filtrowanych pól i ich wartości
-     * @return lista filtrowanych obiektów
-     */
-    @RolesAllowed("getResultListRental")
-    @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public List<Rental> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Rental> criteriaQuery = criteriaBuilder.createQuery(Rental.class);
-        Root<Rental> root = criteriaQuery.from(Rental.class);
-        CriteriaQuery<Rental> select = criteriaQuery.select(root);
-
-        if (filters != null && filters.size() > 0) {
-            List<Predicate> predicates = new ArrayList<>();
-            for (Map.Entry<String, FilterMeta> entry : filters.entrySet()) {
-                String field = entry.getKey();
-                Object value = entry.getValue().getFilterValue();
-                if (value == null) {
-                    continue;
-                }
-
-                Expression<String> expression = root.get(field).as(String.class);
-                Predicate predicate = criteriaBuilder.like(criteriaBuilder.lower(expression),
-                        "%" + value.toString().toLowerCase() + "%");
-                predicates.add(predicate);
-            }
-            if (predicates.size() > 0) {
-                criteriaQuery.where(criteriaBuilder.and(predicates.toArray
-                        (new Predicate[0])));
-            }
-        }
-        criteriaQuery.orderBy(criteriaBuilder.asc(root.get("price")));
-
-        return entityManager.createQuery(select).setFirstResult(first).setMaxResults(pageSize).getResultList();
+    public List<Rental> getFilteredRentals(String filter) {
+        return entityManager.createNamedQuery("Rental.findByYachtName", Rental.class)
+                .setParameter("name", '%' + filter.toLowerCase() + '%').getResultList();
     }
 }

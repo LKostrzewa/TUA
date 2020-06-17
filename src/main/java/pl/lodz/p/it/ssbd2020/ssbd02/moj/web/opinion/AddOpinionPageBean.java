@@ -22,15 +22,24 @@ public class AddOpinionPageBean {
     private OpinionEndpoint opinionEndpoint;
     @Inject
     private FacesContext facesContext;
-    private NewOpinionDto newOpinionDTO;
+    private NewOpinionDto newOpinionDto;
     private ResourceBundle resourceBundle;
+    private String rentalBusinessKey;
 
-    public NewOpinionDto getNewOpinionDTO() {
-        return newOpinionDTO;
+    public NewOpinionDto getNewOpinionDto() {
+        return newOpinionDto;
     }
 
-    public void setNewOpinionDTO(NewOpinionDto newOpinionDTO) {
-        this.newOpinionDTO = newOpinionDTO;
+    public void setNewOpinionDto(NewOpinionDto newOpinionDto) {
+        this.newOpinionDto = newOpinionDto;
+    }
+
+    public String  getRentalBusinessKey() {
+        return rentalBusinessKey;
+    }
+
+    public void setRentalBusinessKey(String rentalBusinessKey) {
+        this.rentalBusinessKey = rentalBusinessKey;
     }
 
     /**
@@ -38,7 +47,7 @@ public class AddOpinionPageBean {
      */
     @PostConstruct
     public void init() {
-        this.newOpinionDTO = new NewOpinionDto();
+        this.newOpinionDto = new NewOpinionDto();
     }
 
     /**
@@ -48,18 +57,18 @@ public class AddOpinionPageBean {
      */
     public String addOpinion() {
         try {
-            opinionEndpoint.addOpinion(newOpinionDTO);
+            opinionEndpoint.addOpinion(newOpinionDto, rentalBusinessKey);
             displayMessage();
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
-        return "client/userRentalDetails.xhtml?faces-redirect=true";
+        return "/client/rental/rentalDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
     /**
      * Metoda inicjalizująca wyświetlanie wiadomości.
      */
-    public void displayInit() {
+    private void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
@@ -67,7 +76,7 @@ public class AddOpinionPageBean {
     /**
      * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
      */
-    public void displayMessage() {
+    private void displayMessage() {
         displayInit();
         String msg = resourceBundle.getString("opinion.addInfo");
         String head = resourceBundle.getString("success");

@@ -18,26 +18,20 @@
         </ui:define>
     <ui:define name="content">
         <h:form>
+            <p:inputText id="filter" value="#{listAllRentalsPageBean.filter}" placeholder="${msg['rental.filterByYacht']}"/>
+            <p:commandButton value="${msg['rental.filter']}" action="#{listAllRentalsPageBean.filterRentals}" update="dataTable"/>
             <p:dataTable var="rental" value="#{listAllRentalsPageBean.rentals}" widgetVar="rentalsTable" rows="10"
+                         id="dataTable"
                          styleClass="tableClass"
                          border="2"
                          paginator="true"
-                         lazy="true"
                          first="0"
                          paginatorPosition="bottom"
-                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                          currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.rentals']}"
                          emptyMessage="${msg['rental.noRentalsFound']}">
 
-                <f:facet name="header">
-                    <p:outputPanel>
-                        <p:inputText id="globalFilter" onkeyup="PF('rentalsTable').filter()" style="width:150px"
-                                     placeholder="${msg['search']}"/>
-                    </p:outputPanel>
-                </f:facet>
-
-                <!-- tutaj filterBy nie działa jak powinno -->
-                <p:column headerText="${msg['rental.yacht']}" filterBy="#{rental.yacht}" filterMatchMode="contains">
+                <p:column headerText="${msg['rental.yacht']}">
                     <h:outputText value="#{rental.yachtName}"/>
                 </p:column>
                 <p:column headerText="${msg['rental.user']}" >

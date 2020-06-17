@@ -19,6 +19,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Klasa fasadowa powiązana z encją Opinion.
@@ -83,8 +84,7 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
      * @return Optional typu Opinion
      */
     @Override
-    @RolesAllowed("getOpinionById")
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    @DenyAll
     public Optional<Opinion> find(Object id) {
         return super.find(id);
     }
@@ -117,6 +117,25 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
             return typedQuery.getResultList();
         } catch (NoResultException e) {
             throw AppNotFoundException.createYachtNotFoundException(e);
+        }
+    }
+
+    /**
+     * Metoda zwracająca opinię na podstawie przekazanego klucza biznesowego.
+     *
+     * @param rentalBusinessKey klucz biznesowy opinii
+     * @return Znaleziona opinia
+     * @throws AppBaseException wyjątek aplikacyjny, jesli opinia nie zostanie znaleziona
+     */
+    @RolesAllowed("getOpinionByBusinessKey")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public Opinion getOpinionByRentalBusinessKey(String rentalBusinessKey) throws AppBaseException{
+        TypedQuery<Opinion> typedQuery = entityManager.createNamedQuery("Opinion.findByRentalBusinessKey", Opinion.class);
+        typedQuery.setParameter("businessKey", UUID.fromString(rentalBusinessKey));
+        try {
+            return typedQuery.getSingleResult();
+        } catch (NoResultException e) {
+            throw AppNotFoundException.createOpinionNotFoundException(e);
         }
     }
 }

@@ -18,7 +18,7 @@ public interface OpinionEndpoint {
      * @param newOpinionDto obiekt DTO z danymi nowej opinii.
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    void addOpinion(NewOpinionDto newOpinionDto) throws AppBaseException;
+    void addOpinion(NewOpinionDto newOpinionDto, String rentalBusinessKey) throws AppBaseException;
 
     /**
      * Metoda pobierająca wszystkie opinie przypisane do danego jachtu.
@@ -30,13 +30,13 @@ public interface OpinionEndpoint {
     List<OpinionDto> getAllOpinionsByYacht(Long yachtId) throws AppBaseException;
 
     /**
-     * Metoda zwracająca opinię do edycji na podstawie przekazanego identyfikatora.
+     * Metoda zwracająca opinię do edycji na podstawie przekazanego klucza biznesowego.
      *
-     * @param opinionId identyfikator opinii
+     * @param businessKey klucz biznesowy opinii
      * @return opinia do edycji
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    EditOpinionDto getOpinionById(Long opinionId) throws AppBaseException;
+    EditOpinionDto getOpinionByRentalBusinessKey(String businessKey) throws AppBaseException;
 
     /**
      * Metoda służąca do zapisu nowej wersji opinii.
