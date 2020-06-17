@@ -50,6 +50,15 @@
                     <h:outputText value="#{rentalDetailsPageBean.rentalDetails.statusName}"/>
                     <h:outputLabel value="#{msg['rental.price']}:"/>
                     <h:outputText value="#{rentalDetailsPageBean.rentalDetails.price}"/>
+                    <h:outputLabel value="#{msg['opinion.rating']}:"
+                                   rendered="#{rentalDetailsPageBean.rentalDetails.opinion != null}" />
+                    <p:rating value="#{rentalDetailsPageBean.rentalDetails.opinion.rating}"
+                              rendered="#{rentalDetailsPageBean.rentalDetails.opinion != null}" readonly="true"/>
+                    <h:outputLabel value="#{msg['opinion.comment']}:"
+                                   rendered="#{rentalDetailsPageBean.rentalDetails.opinion != null}" />
+                    <p:inputTextarea value="#{rentalDetailsPageBean.rentalDetails.opinion.comment}"
+                                     rendered="#{rentalDetailsPageBean.rentalDetails.opinion != null}"
+                                     readonly="true" cols="30"/>
                 </p:panelGrid>
                 <p:button value="#{msg['goBack']}" outcome="listRentals.xhtml?faces-redirect=true"/>
                 <p:commandButton value="${msg['cancel']}" action="#{rentalDetailsPageBean.cancelRental}"
