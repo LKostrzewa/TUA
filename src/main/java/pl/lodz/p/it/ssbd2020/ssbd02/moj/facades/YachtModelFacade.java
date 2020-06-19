@@ -12,6 +12,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
@@ -109,5 +110,19 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
     public boolean existByModel(String model) {
         return entityManager.createNamedQuery("YachtModel.countByModel", Long.class)
                 .setParameter("model", model).getSingleResult() > 0;
+    }
+
+    /**
+     * Metoda, która blokuje encje z podanym typem blokady .
+     *
+     * @param entity blokowana encja
+     * @param lockModeType typ blokady
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     */
+    @Override
+    @RolesAllowed("addYacht")
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void lock(YachtModel entity, LockModeType lockModeType) throws AppBaseException {
+        super.lock(entity, lockModeType);
     }
 }

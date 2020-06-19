@@ -18,6 +18,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.persistence.LockModeType;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
@@ -61,6 +62,8 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
         User rentingUser = userFacade.findByLogin(rental.getUser().getLogin());
 
         Yacht yachtToRent = yachtFacade.findByName(rental.getYacht().getName());
+
+        yachtFacade.lock(yachtToRent, LockModeType.PESSIMISTIC_READ);
 
         if (yachtToRent.getCurrentPort() == null)
             throw YachtPortChangedException.createYachtNotAssignedException(yachtToRent);

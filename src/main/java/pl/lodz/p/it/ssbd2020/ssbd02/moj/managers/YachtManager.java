@@ -16,6 +16,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.persistence.LockModeType;
 import java.util.List;
 
 /**
@@ -42,6 +43,8 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
     public void addYacht(Yacht yacht, Long yachtModelId) throws AppBaseException {
         YachtModel yachtModel = yachtModelFacade.find(yachtModelId).orElseThrow(AppNotFoundException::yachtModelNotFoundException);
         Yacht newYacht = new Yacht(yacht.getName(),yacht.getProductionYear(),yacht.getPriceMultiplier(),yacht.getEquipment(), yachtModel);
+
+        yachtModelFacade.lock(yachtModel, LockModeType.PESSIMISTIC_READ);
 
         if(!yachtModel.isActive()){
             throw EntityNotActiveException.createYachtModelNotActiveException(yachtModel);

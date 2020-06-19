@@ -14,6 +14,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -129,5 +130,19 @@ public class YachtFacade extends AbstractFacade<Yacht> {
         } catch (NoResultException e) {
             throw AppNotFoundException.createYachtNotFoundException(e);
         }
+    }
+
+    /**
+     * Metoda, która blokuje encje z podanym typem blokady .
+     *
+     * @param entity blokowana encja
+     * @param lockModeType typ blokady
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     */
+    @Override
+    @RolesAllowed({"addRental","assignYachtToPort"})
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void lock(Yacht entity, LockModeType lockModeType) throws AppBaseException {
+        super.lock(entity, lockModeType);
     }
 }
