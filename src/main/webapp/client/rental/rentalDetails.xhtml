@@ -27,29 +27,30 @@
             </f:metadata>
             <h:form id="form">
                 <p:growl id="message" showDetail="true"/>
+                <h:outputStylesheet library="css" name="rental/rentalDetails.css"/>
                 <p:panelGrid columns="2">
                     <h:outputLabel value="#{msg['yacht.name']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtName}"/>
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.yachtName}"/>
                     <h:outputLabel value="#{msg['yachtModel.model']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtYachtModelModel}"/>
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.yachtYachtModelModel}"/>
                     <h:outputLabel value="#{msg['port.name']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtCurrentPortName}"/>
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.yachtCurrentPortName}"/>
                     <h:outputLabel value="#{msg['yacht.productionYear']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtProductionYear}"/>
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.yachtProductionYear}"/>
                     <h:outputLabel value="#{msg['yacht.equipment']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtEquipment}"/>
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.yachtEquipment}"/>
                     <h:outputLabel value="#{msg['rental.beginDate']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.beginDate}">
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.beginDate}">
                         <f:convertDateTime pattern="dd.MM.yyyy"/>
                     </h:outputText>
                     <h:outputLabel value="#{msg['rental.endDate']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.endDate}">
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.endDate}">
                         <f:convertDateTime pattern="dd.MM.yyyy"/>
                     </h:outputText>
                     <h:outputLabel value="#{msg['rental.status']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.statusName}"/>
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.statusName}"/>
                     <h:outputLabel value="#{msg['rental.price']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.price}"/>
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.price}"/>
                     <h:outputLabel value="#{msg['opinion.rating']}:"
                                    rendered="#{rentalDetailsPageBean.rentalDetails.opinion != null}" />
                     <p:rating value="#{rentalDetailsPageBean.rentalDetails.opinion.rating}"
@@ -60,19 +61,19 @@
                                      rendered="#{rentalDetailsPageBean.rentalDetails.opinion != null}"
                                      readonly="true" cols="30"/>
                 </p:panelGrid>
-                <p:button value="#{msg['goBack']}" outcome="listRentals.xhtml?faces-redirect=true"/>
+                <p:button class="button" value="#{msg['goBack']}" outcome="listRentals.xhtml?faces-redirect=true"/>
                 <p:commandButton value="${msg['cancel']}" action="#{rentalDetailsPageBean.cancelRental}"
                                  update="message form"
                                  rendered="#{rentalDetailsPageBean.rentalDetails.statusName.equals('PENDING')}">
                     <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>
-                <p:button value="${msg['opinion.addOpinion']}"
+                <p:button class="button" value="${msg['opinion.addOpinion']}"
                                  outcome="/client/opinion/addOpinion.xhtml?faces-redirect=true"
                                  rendered="#{rentalDetailsPageBean.rentalDetails.statusName.equals('FINISHED') and rentalDetailsPageBean.rentalDetails.opinion == null}">
                     <f:param name="rentalBusinessKey" value="#{rentalDetailsPageBean.rentalBusinessKey}"/>
                 </p:button>
-                <p:button value="${msg['opinion.editOpinion']}"
+                <p:button class="button" value="${msg['opinion.editOpinion']}"
                                  outcome="/client/opinion/editOpinion.xhtml?faces-redirect=true"
                                  rendered="#{rentalDetailsPageBean.rentalDetails.statusName.equals('FINISHED') and rentalDetailsPageBean.rentalDetails.opinion != null}">
                    <f:param name="rentalBusinessKey" value="#{rentalDetailsPageBean.rentalBusinessKey}"/>

@@ -30,21 +30,20 @@
                 <p:growl id="message" showDetail="true"/>
                 <p:panelGrid columns="2">
                     <h:outputLabel value="#{msg['yacht.name']}:"/>
-                    <h:outputText value="#{yachtDetailsPageBean.yachtDto.name}"/>
+                    <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.name}"/>
                     <h:outputLabel value="#{msg['yacht.productionYear']}:"/>
-                    <h:outputText value="#{yachtDetailsPageBean.yachtDto.productionYear}"/>
+                    <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.productionYear}"/>
                     <h:outputLabel value="#{msg['bread.yachtModel']}:"/>
-                    <h:outputText value="#{yachtDetailsPageBean.yachtDto.yachtModel.model}"/>
+                    <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.yachtModel.model}"/>
                     <h:outputLabel value="#{msg['bread.port']}:"/>
-                    <h:outputText value="#{yachtDetailsPageBean.yachtDto.currentPort.name}"/>
+                    <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.currentPort.name}"/>
                     <h:outputLabel value="#{msg['yacht.active']}:"/>
-                    <h:outputText value="${msg['yes']}" rendered="#{yachtDetailsPageBean.yachtDto.active}"/>
-                    <h:outputText value="${msg['no']}" rendered="#{!yachtDetailsPageBean.yachtDto.active}"/>
+                    <h:outputText class="bold" value="${msg['yes']}" rendered="#{yachtDetailsPageBean.yachtDto.active}"/>
+                    <h:outputText class="bold" value="${msg['no']}" rendered="#{!yachtDetailsPageBean.yachtDto.active}"/>
                     <h:outputLabel value="#{msg['yacht.equipment']}:"/>
-                    <h:outputText value="#{yachtDetailsPageBean.yachtDto.equipment}" style="white-space: pre-wrap;"/>
+                    <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.equipment}" style="white-space: pre-wrap;"/>
                     <h:outputLabel value="#{msg['yacht.avgRating']}:"/>
-                    <h:outputText value="#{yachtDetailsPageBean.yachtDto.avgRating}"/>
-
+                    <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.avgRating}"/>
                 </p:panelGrid>
                 <p:dataView value="#{yachtDetailsPageBean.getOpinionFromRentals()}" var="rent" type="ordered">
                     <f:facet name="header">
@@ -60,18 +59,17 @@
                         </h:outputText>
                         <h:outputLabel value="#{msg['opinion.comment']}:"/>
                         <h:outputText value="#{rent.opinion.comment}"/>
-
                     </h:panelGrid>
                     </p:dataViewListItem>
                 </p:dataView>
-                <p:button value="#{msg['goBack']}" outcome="listYachts.xhtml?faces-redirect=true"/>
-                <p:button value="${msg['edit']}" outcome="editYacht.xhtml?faces-redirect=true">
+                <p:button class="button" value="#{msg['goBack']}" outcome="listYachts.xhtml?faces-redirect=true"/>
+                <p:button class="button" value="${msg['edit']}" outcome="editYacht.xhtml?faces-redirect=true">
                     <f:param name="yachtId" value="#{yachtDetailsPageBean.yachtId}"/>
                 </p:button>
-                <p:commandButton value="${msg['yachts.retractYachtFromPort']}" action="#{yachtDetailsPageBean.retractYachtFromPort}" update="message form" style="background-color: red"
+                <p:commandButton class="button" value="${msg['yachts.retractYachtFromPort']}" action="#{yachtDetailsPageBean.retractYachtFromPort}" update="message form" style="background-color: red"
                                  rendered="#{yachtDetailsPageBean.yachtDto.currentPort != null}" ajax="false"
                                  onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
-                <p:button value="${msg['yachts.assignYachtToPort']}" outcome="assignYachtToPort.xhtml?faces-redirect=true?includeViewParams=true" style="background-color: green"
+                <p:button class="button" value="${msg['yachts.assignYachtToPort']}" outcome="assignYachtToPort.xhtml?faces-redirect=true?includeViewParams=true" style="background-color: green"
                                  rendered="#{yachtDetailsPageBean.yachtDto.currentPort == null}"/>
             </h:form>
         </ui:define>

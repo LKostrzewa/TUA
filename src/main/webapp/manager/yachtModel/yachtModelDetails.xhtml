@@ -48,25 +48,26 @@
             </style>
 
             <p:growl id="message" showDetail="true"/>
+            <h:outputStylesheet library="css" name="yachtModel/yachtModelDetails.css"/>
 
             <p:panelGrid columns="2" columnClasses="centered">
                 <h:outputLabel value="#{msg['yachtModel.model']}:"/>
-                <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.model}" style="white-space: pre-wrap; "/>
+                <h:outputText class="bold" value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.model}" style="white-space: pre-wrap; "/>
                 <h:outputLabel value="#{msg['yachtModel.manufacturer']}:"/>
-                <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.manufacturer}" style="white-space: pre-wrap; "/>
+                <h:outputText class="bold" value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.manufacturer}" style="white-space: pre-wrap; "/>
                 <h:outputLabel value="#{msg['yachtModel.active']}:"/>
-                <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.active}" style="white-space: pre-wrap; "/>
+                <h:outputText class="bold" value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.active}" style="white-space: pre-wrap; "/>
                 <h:outputLabel value="#{msg['yachtModel.capacity']}:"/>
-                <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.capacity}" style="white-space: pre-wrap; "/>
+                <h:outputText class="bold" value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.capacity}" style="white-space: pre-wrap; "/>
                 <h:outputLabel value="#{msg['yachtModel.basicPrice']}:"/>
-                <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.basicPrice}" style="white-space: pre-wrap; "/>
+                <h:outputText class="bold" value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.basicPrice}" style="white-space: pre-wrap; "/>
                 <h:outputLabel value="#{msg['yachtModel.description']}:"/>
-                <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.description}" style="white-space: pre-wrap; "/>
+                <h:outputText class="bold" value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.description}" style="white-space: pre-wrap; "/>
 
             </p:panelGrid>
 
-            <p:button value="#{msg['goBack']}" outcome="listYachtModels.xhtml?faces-redirect=true"/>
-            <p:button value="${msg['edit']}" outcome="editYachtModel.xhtml?faces-redirect=true">
+            <p:button class="button" value="#{msg['goBack']}" outcome="listYachtModels.xhtml?faces-redirect=true"/>
+            <p:button class="button" value="${msg['edit']}" outcome="editYachtModel.xhtml?faces-redirect=true">
                 <f:param name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
             </p:button>
             <div id="galleria">
@@ -87,10 +88,7 @@
                           update="@form" allowTypes="/(\.|\/)(jpe?g|png)$/" invalidFileMessage="#{msg['image.invalidFileMessage']}" invalidSizeMessage="#{msg['image.invalidSizeMessage']}" fileLimitMessage="#{msg['image.fileLimitMessage']}">
                 <b>#{msg['image.dropMessage']}</b>
             </p:fileUpload>
-
-
             <p:growl id="messages" showDetail="true" />
-
         </h:form>
     </ui:define>
 </ui:composition>

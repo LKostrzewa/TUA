@@ -31,6 +31,8 @@
             </f:metadata>
             <h:form id="form">
                 <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
+                <h:outputStylesheet library="css" name="opinion/addOpinion.css"/>
+                <h1 class="h1">#{msg['opinion.editOpinion']}</h1>
                 <div>
                 <span class="ui-float-label" style="margin: 20px">
                     <p:rating id="rating" value="#{editOpinionPageBean.editOpinionDTO.rating}" cancel="false" required="true"/>
@@ -38,7 +40,7 @@
                 </span>
                 <span class="ui-float-label" style="margin: 20px">
                     <p:inputTextarea id="comment" value="#{editOpinionPageBean.editOpinionDTO.comment}"
-                                     rows="5" cols="60" counter="display"
+                                     rows="5" cols="40" counter="display"
                                      maxlength="4000"
                                      counterTemplate="{0} characters remaining."/>
                     <p:outputLabel for="@previous" value="#{msg['opinion.addComment']}"/>
@@ -46,12 +48,10 @@
                     <h:outputText id="display" />
                 </span>
                 </div>
-                <p:button value="#{msg['cancel']}"
+                <p:button class="button" value="#{msg['cancel']}"
                           outcome="/client/rental/rentalDetails.xhtml?faces-redirect=true?"
-                          includeViewParams="true">
-                    <f:param name="bk" value="#{editOpinionPageBean.rentalBusinessKey}"/>
-                </p:button>
-                <p:commandButton value="#{msg['edit']}" action="#{editOpinionPageBean.editOpinion()}"
+                          includeViewParams="true"/>
+                <p:commandButton class="button" value="#{msg['edit']}" action="#{editOpinionPageBean.editOpinion()}"
                                  update="message @form">
 
                     <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
