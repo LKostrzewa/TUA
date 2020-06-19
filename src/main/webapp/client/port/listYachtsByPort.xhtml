@@ -9,20 +9,18 @@
       xml:lang="en" lang="en">
 <h:head/>
 <style type="text/css">
-    /*demo*/
-    .ui-dataview-list .ui-dataview-row {
-        border-bottom: 1px solid #A8A8A8;
-        padding: 25px 10px;
-        /* with the exported variables from Nova and Luna Themes*/
-        border-bottom-color: var(--input-border-color, #A8A8A8);
+    .navbar hr {
+        border-color: #cc9900;
+        float: none;
+        clear: left;
     }
-
-    .logo {
-        width: 5%;
+    #content {
+        position: relative;
     }
-    .detail {
-        width: 85%;
-        padding-left: 25px;
+    #content .p-imageSwitch {
+        position: absolute;
+        top: 0px;
+        right: 0px;
     }
 </style>
 <h:body>
@@ -60,26 +58,28 @@
                                 <h:outputText value="${msg['yes']}" rendered="#{yacht.active}"/>
                                 <h:outputText value="${msg['no']}" rendered="#{!yacht.active}"/>
                             </h:panelGrid>
+                            <p:button value="${msg['details']}" outcome="/client/yacht/yachtDetails.xhtml?faces-redirect=true">
+                                <f:param name="yachtId" value="#{yacht.id}"/>
+                            </p:button>
                         </p:outputPanel>
-                        <p:button value="${msg['details']}" outcome="/client/yacht/yachtDetails.xhtml?faces-redirect=true">
-                            <f:param name="yachtId" value="#{yacht.id}"/>
-                        </p:button>
                     </h:panelGrid>
 
-                            <p:commandButton type="button" onclick="PF('switcher + #{myVarStatus.index}').previous();" ajax="false"
-                                             icon="pi pi-caret-left" id="prev" style="margin-bottom: 5px"/>
-                            <p:commandButton type="button" onclick="PF('switcher + #{myVarStatus.index}').next();" ajax="false"
-                                             icon="pi pi-caret-right" id="next" style="margin-bottom: 5px"/>
-                            <p:imageSwitch effect="wipe" widgetVar="switcher + #{myVarStatus.index}" id="manuelSwitcher"
-                                           slideshowAuto="false">
-                                <!--<ui:repeat value="#{yacht.yachtModel.images}" var="image" id="manuelSwitcherImages">
-                                    <p:graphicImage value="#{image.lob}" id="image" />
-                                </ui:repeat>-->
-                                <ui:repeat value="#{yacht.yachtModel.images}" var="image" id="manuelSwitcherImages">
-                                    <o:graphicImage value="#{images.get(image.id)}" height="200" width="200" style="align-content: center" id="image"/>
-                                </ui:repeat>
-                            </p:imageSwitch>
-
+                    <div>
+                        <p:imageSwitch effect="wipe" widgetVar="switcher + #{myVarStatus.index}" id="manuelSwitcher"
+                                       slideshowAuto="false" >
+                            <!--<ui:repeat value="#{yacht.yachtModel.images}" var="image" id="manuelSwitcherImages">
+                                <p:graphicImage value="#{image.lob}" id="image" />
+                            </ui:repeat>-->
+                            <ui:repeat value="#{yacht.yachtModel.images}" var="image" id="manuelSwitcherImages">
+                                <o:graphicImage value="#{images.get(image.id)}" height="200" width="200" id="image"/>
+                            </ui:repeat>
+                        </p:imageSwitch>
+                        <p:commandButton type="button" onclick="PF('switcher + #{myVarStatus.index}').previous();"
+                                         icon="pi pi-caret-left" id="prev" style="margin-bottom: 5px"/>
+                        <p:commandButton type="button" onclick="PF('switcher + #{myVarStatus.index}').next();"
+                                         icon="pi pi-caret-right" id="next" style="margin-bottom: 5px"/>
+                    </div>
+                    <hr/>
                 </p:repeat>
 
                 <!--<p:dataTable var="yacht" value="#{listYachtsByPortPageBean.yachts}" rows="10"

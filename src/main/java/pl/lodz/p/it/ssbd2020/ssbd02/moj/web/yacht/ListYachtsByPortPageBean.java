@@ -7,7 +7,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.image.ImageDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtPortEndpoint;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
