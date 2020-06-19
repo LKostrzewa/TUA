@@ -44,7 +44,7 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
         YachtModel yachtModel = yachtModelFacade.find(yachtModelId).orElseThrow(AppNotFoundException::yachtModelNotFoundException);
         Yacht newYacht = new Yacht(yacht.getName(),yacht.getProductionYear(),yacht.getPriceMultiplier(),yacht.getEquipment(), yachtModel);
 
-        yachtModelFacade.lock(yachtModel, LockModeType.PESSIMISTIC_READ);
+        yachtModelFacade.lock(yachtModel, LockModeType.PESSIMISTIC_WRITE);
 
         if(!yachtModel.isActive()){
             throw EntityNotActiveException.createYachtModelNotActiveException(yachtModel);

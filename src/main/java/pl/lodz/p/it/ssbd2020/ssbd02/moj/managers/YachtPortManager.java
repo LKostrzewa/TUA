@@ -67,7 +67,7 @@ public class YachtPortManager extends AbstractManager implements SessionSynchron
     public void assignYachtToPort(Long portId, Long yachtId) throws AppBaseException {
         Yacht yacht = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createPortNotFoundException);
 
-        yachtFacade.lock(yacht, LockModeType.PESSIMISTIC_READ);
+        yachtFacade.lock(yacht, LockModeType.PESSIMISTIC_WRITE);
 
         if(!yacht.isActive()){
             throw EntityNotActiveException.createYachtNotActiveException(yacht);

@@ -63,7 +63,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
 
         Yacht yachtToRent = yachtFacade.findByName(rental.getYacht().getName());
 
-        yachtFacade.lock(yachtToRent, LockModeType.PESSIMISTIC_READ);
+        yachtFacade.lock(yachtToRent, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
 
         if (yachtToRent.getCurrentPort() == null)
             throw YachtPortChangedException.createYachtNotAssignedException(yachtToRent);
