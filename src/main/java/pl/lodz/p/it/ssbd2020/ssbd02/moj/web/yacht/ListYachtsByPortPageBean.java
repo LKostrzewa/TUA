@@ -4,7 +4,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtPortEndpoint;
 
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -13,6 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -54,8 +54,8 @@ public class ListYachtsByPortPageBean implements Serializable {
     public void init() throws IOException {
         try {
             this.yachts = yachtPortEndpoint.getAllYachtsByPort(portId);
-        }
-        catch (AppBaseException e) {
+            yachts.sort(Comparator.comparing(YachtDto::getName, String::compareToIgnoreCase));
+        } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
             ExternalContext externalContext = facesContext.getExternalContext();
             externalContext.redirect(externalContext.getRequestContextPath() + "listPorts.xhtml");

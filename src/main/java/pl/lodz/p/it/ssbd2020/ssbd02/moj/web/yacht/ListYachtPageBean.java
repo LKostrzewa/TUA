@@ -11,6 +11,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -41,6 +42,7 @@ public class ListYachtPageBean implements Serializable {
     @PostConstruct
     private void init() {
         this.yachts = yachtEndpoint.getAllYachts();
+        yachts.sort(Comparator.comparing(YachtListDto::getName,String::compareToIgnoreCase));
     }
 
     /**
@@ -58,10 +60,11 @@ public class ListYachtPageBean implements Serializable {
         }
         return "listYachts";
     }
+
     /**
      * Metoda inicjalizująca wyświetlanie wiadomości.
      */
-    public void displayInit(){
+    public void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }

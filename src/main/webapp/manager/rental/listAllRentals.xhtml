@@ -16,45 +16,51 @@
                 <p:menuitem value="#{msg['bread.rentals']}" outcome="/manager/rental/listAllRentals.xhtml"/>
             </p:breadCrumb>
         </ui:define>
-    <ui:define name="content">
-        <h:form>
-            <p:inputText id="filter" value="#{listAllRentalsPageBean.filter}" placeholder="${msg['rental.filterByYacht']}"/>
-            <p:commandButton value="${msg['rental.filter']}" action="#{listAllRentalsPageBean.filterRentals}" update="dataTable"/>
-            <p:dataTable var="rental" value="#{listAllRentalsPageBean.rentals}" widgetVar="rentalsTable" rows="10"
-                         id="dataTable"
-                         styleClass="tableClass"
-                         border="2"
-                         paginator="true"
-                         first="0"
-                         paginatorPosition="bottom"
-                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                         currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.rentals']}"
-                         emptyMessage="${msg['rental.noRentalsFound']}">
+        <ui:define name="content">
+            <h:form>
+                <p:inputText id="filter" value="#{listAllRentalsPageBean.filter}"
+                             placeholder="${msg['rental.filterByYacht']}"/>
+                <p:commandButton value="${msg['rental.filter']}" action="#{listAllRentalsPageBean.filterRentals}"
+                                 update="dataTable"/>
+                <p:dataTable var="rental" value="#{listAllRentalsPageBean.rentals}" widgetVar="rentalsTable" rows="10"
+                             id="dataTable"
+                             styleClass="tableClass"
+                             border="2"
+                             paginator="true"
+                             first="0"
+                             paginatorPosition="bottom"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.rentals']}"
+                             emptyMessage="${msg['rental.noRentalsFound']}">
 
-                <p:column headerText="${msg['rental.yacht']}">
-                    <h:outputText value="#{rental.yachtName}"/>
-                </p:column>
-                <p:column headerText="${msg['rental.user']}" >
-                    <h:outputText value="#{rental.userLogin}"/>
-                </p:column>
-                <p:column headerText="${msg['rental.beginDate']}" >
-                    <h:outputText value="#{rental.beginDate}">
-                        <f:convertDateTime pattern="dd.MM.yyyy"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="${msg['rental.endDate']}" >
-                    <h:outputText value="#{rental.endDate}">
-                        <f:convertDateTime pattern="dd.MM.yyyy"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="${msg['actions']}">
-                    <p:button value="${msg['details']}" outcome="/manager/rental/userRentalDetails.xhtml?faces-redirect=true">
-                        <f:param name="bk" value="#{rental.businessKey}"/>
-                    </p:button>
-                </p:column>
-            </p:dataTable>
-        </h:form>
-    </ui:define>
+                    <p:column headerText="${msg['rental.yacht']}">
+                        <h:outputText value="#{rental.yachtName}"/>
+                    </p:column>
+                    <p:column headerText="${msg['rental.user']}">
+                        <h:outputText value="#{rental.userLogin}"/>
+                    </p:column>
+                    <p:column headerText="${msg['rental.beginDate']}">
+                        <h:outputText value="#{rental.beginDate}">
+                            <f:convertDateTime pattern="dd.MM.yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="${msg['rental.endDate']}">
+                        <h:outputText value="#{rental.endDate}">
+                            <f:convertDateTime pattern="dd.MM.yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="${msg['rental.status']}">
+                        <h:outputText value="#{rental.statusName}"/>
+                    </p:column>
+                    <p:column headerText="${msg['actions']}">
+                        <p:button value="${msg['details']}"
+                                  outcome="/manager/rental/userRentalDetails.xhtml?faces-redirect=true">
+                            <f:param name="bk" value="#{rental.businessKey}"/>
+                        </p:button>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
     </ui:composition>
 </h:body>
 </html>

@@ -9,6 +9,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -35,6 +36,7 @@ public class ListYachtModelPageBean implements Serializable {
     @PostConstruct
     private void init() {
         this.yachtModels = yachtModelEndpoint.getAllYachtModels();
+        yachtModels.sort(Comparator.comparing(ListYachtModelDto::getModel, String::compareToIgnoreCase));
     }
 
     /**

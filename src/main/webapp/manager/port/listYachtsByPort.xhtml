@@ -15,8 +15,8 @@
                 <p:menuitem value="#{msg['bread.main']}" outcome="/manager/index.xhtml"/>
                 <p:menuitem value="#{msg['bread.ports']}" outcome="/manager/port/listPorts.xhtml"/>
                 <p:menuitem value="#{msg['bread.yachtsAssignedToPort']}" outcome="/manager/port/listYachtsByPort.xhtml"
-                    includeViewParams="true">
-                <f:param name="portId" value="#{listYachtsByPortPageBean.portId}"/>
+                            includeViewParams="true">
+                    <f:param name="portId" value="#{listYachtsByPortPageBean.portId}"/>
                 </p:menuitem>
             </p:breadCrumb>
         </ui:define>
@@ -40,14 +40,16 @@
                     <p:column headerText="${msg['yacht.name']}">
                         <h:outputText value="#{yacht.name}"/>
                     </p:column>
-                    <p:column headerText="${msg['yacht.avgRating']}" >
+                    <p:column headerText="${msg['yacht.avgRating']}">
                         <h:outputText value="#{yacht.avgRating}"/>
                     </p:column>
-                    <p:column headerText="${msg['yacht.active']}" >
-                        <h:outputText value="#{yacht.active}"/>
+                    <p:column headerText="${msg['yacht.active']}">
+                        <h:outputText value="${msg['yes']}" rendered="#{yacht.active}"/>
+                        <h:outputText value="${msg['no']}" rendered="#{!yacht.active}"/>
                     </p:column>
                     <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}" outcome="/manager/yacht/yachtDetails.xhtml?faces-redirect=true">
+                        <p:button value="${msg['details']}"
+                                  outcome="/manager/yacht/yachtDetails.xhtml?faces-redirect=true">
                             <f:param name="yachtId" value="#{yacht.id}"/>
                         </p:button>
                     </p:column>

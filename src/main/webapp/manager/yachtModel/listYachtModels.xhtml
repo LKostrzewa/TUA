@@ -42,13 +42,15 @@
                     <h:outputText value="#{model.basicPrice}"/>
                 </p:column>
                 <p:column headerText="${msg['yachtModel.active']}">
-                    <h:outputText value="#{model.active}"/>
+                    <h:outputText value="${msg['yes']}" rendered="#{model.active}"/>
+                    <h:outputText value="${msg['no']}" rendered="#{!model.active}"/>
                 </p:column>
                 <p:column headerText="${msg['actions']}">
                     <p:button value="${msg['details']}" outcome="yachtModelDetails.xhtml?faces-redirect=true">
                         <f:param name="yachtModelId" value="#{model.id}"/>
                     </p:button>
-                    <p:commandButton value="#{msg['deactivate']}" action="#{listYachtModelPageBean.deactivateYachtModel(model.id)}"
+                    <p:commandButton value="#{msg['deactivate']}"
+                                     action="#{listYachtModelPageBean.deactivateYachtModel(model.id)}"
                                      update="@form">
                     </p:commandButton>
                 </p:column>
