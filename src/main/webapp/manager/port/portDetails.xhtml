@@ -45,7 +45,7 @@
                     <h:outputText value="#{portDetailsPageBean.portDetails.yachts.size()}"/>
                 </p:panelGrid>
                 <p:button value="#{msg['goBack']}" outcome="listPorts.xhtml?faces-redirect=true"/>
-                <p:button value="${msg['edit']}" outcome="editPort.xhtml?faces-redirect=true">
+                <p:button value="${msg['edit']}" outcome="editPort.xhtml?faces-redirect=true" disabled="#{not portDetailsPageBean.portDetails.active}">
                     <f:param name="portId" value="#{portDetailsPageBean.portId}"/>
                 </p:button>
             </h:form>

@@ -49,7 +49,7 @@
                         <f:param name="yachtModelId" value="#{model.id}"/>
                     </p:button>
                     <p:commandButton value="#{msg['deactivate']}" action="#{listYachtModelPageBean.deactivateYachtModel(model.id)}"
-                                     update="@form">
+                                     update="@form" disabled="#{not model.active}">
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
