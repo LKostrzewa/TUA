@@ -1,5 +1,22 @@
 .ui-breadcrumb {
     background-color: #ffcc80;
+    height: 20px;
 }
 
 
+#admin {
+    background-color: red;
+}
+
+#manager {
+    background-color: blue;
+}
+
+#client {
+    background-color: pink;
+}
+
+
+.ui-menubutton .ui-button {
+    background: red;
+}
