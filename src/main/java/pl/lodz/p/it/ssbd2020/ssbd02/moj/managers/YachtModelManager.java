@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.EntityNotActiveException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.ValueNotUniqueException;
 import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtModelFacade;
@@ -74,6 +75,9 @@ public class YachtModelManager extends AbstractManager implements SessionSynchro
     @RolesAllowed("editYachtModel")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editYachtModel(YachtModel yachtModelToEdit) throws AppBaseException {
+        if(!yachtModelToEdit.isActive()){
+            throw EntityNotActiveException.createYachtModelNotActiveException(yachtModelToEdit);
+        }
         yachtModelFacade.edit(yachtModelToEdit);
     }
 
