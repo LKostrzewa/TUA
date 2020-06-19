@@ -63,7 +63,7 @@ public class EditYachtModelPageBean implements Serializable {
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
-        return "yachtDetails.xhtml?faces-redirect=true?includeViewParams=true";
+        return "yachtModelDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
     /**
