@@ -7,16 +7,27 @@ import java.math.BigDecimal;
  * DTO do dodania nowego modelu jachtu.
  */
 public class NewYachtModelDto {
-    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,32}", message = "{validation.yachtModel.manufacturer}")
+
+    @NotNull
+    @Pattern(regexp = "[\\sa-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,32}", message = "{validation.yachtModel.manufacturer}")
     private String manufacturer;
+
+    @NotNull
     @Size(min = 2, message = "{validation.yachtModel.model}")
-    @Pattern(regexp = "^[^=;%&'\"/\\s\\\\]+$", message = "{validation.invalidCharacter}")
+    @Pattern(regexp = "^[^=;%&'\"/\\\\]+$", message = "{validation.invalidCharacter}")
     private String model;
+
+    @NotNull
     @Min(value = 1, message = "{validation.yachtModel.capacity}")
     private Integer capacity;
+
+    @NotNull
     @Size(min = 10, max = 4096, message = "{validation.yachtModel.description}")
     @Pattern(regexp = "^[^=;%&'\"]+$", message = "{validation.invalidCharacter}")
     private String generalDescription;
+
+
+    @NotNull
     @DecimalMin(value = "0.0", inclusive = false, message = "{validation.yachtModel.price.value}")
     @Digits(integer = 8, fraction = 2, message = "{validation.yachtModel.price.digits}")
     private BigDecimal basicPrice;

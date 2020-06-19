@@ -22,7 +22,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
+
 
 @Named
 @SessionScoped
@@ -42,8 +42,6 @@ public class YachtModelDetailsPageBean implements Serializable {
     private FacesContext facesContext;
 
     private ResourceBundle resourceBundle;
-
-    Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public UploadedFile getFile() {
         return file;

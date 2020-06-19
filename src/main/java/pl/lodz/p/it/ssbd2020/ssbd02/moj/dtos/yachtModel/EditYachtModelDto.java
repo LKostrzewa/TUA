@@ -14,7 +14,7 @@ public class EditYachtModelDto {
     private Integer capacity;
 
     @NotNull
-    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,32}", message = "{validation.yachtModel.manufacturer}")
+    @Pattern(regexp = "[\\sa-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,32}", message = "{validation.yachtModel.manufacturer}")
     private String manufacturer;
 
     @NotNull
