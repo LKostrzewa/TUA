@@ -7,6 +7,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.image.ImageDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtPortEndpoint;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -20,13 +21,15 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 
 /**
  * Klasa do obsługi wyświetlania jachtów przypisanych do portu.
  */
 @Named
-@ViewScoped
+@ApplicationScoped
 public class ListYachtsByPortPageBean implements Serializable {
     @Inject
     private YachtPortEndpoint yachtPortEndpoint;
@@ -52,6 +55,28 @@ public class ListYachtsByPortPageBean implements Serializable {
 
     public void setPortId(Long portId) {
         this.portId = portId;
+    }
+
+    public byte[] getImage(long imageId, long yachtId) {
+        /*return yachts.stream().filter(y -> y.getId().equals(yachtId))
+                .findFirst().orElseThrow(Exception::new)
+                .getYachtModel().getImages().stream()
+                .filter(i -> i.getId().equals(imageId))
+                .findFirst().orElseThrow(Exception::new)
+                .getLob();
+        return yachts.get(yachtIndex)
+                .getYachtModel().getImages()
+                .get(imageIndex);*/
+        YachtDto yachtDto = new YachtDto();
+        try {
+            yachtDto = yachts.stream().filter(y -> y.getId().equals(yachtId))
+                    .findFirst().orElseThrow(Exception::new);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Optional<ImageDto> first = yachtDto.getYachtModel().getImages().stream().filter(i -> i.getId().equals(imageId)).findFirst();
+        return first.map(ImageDto::getLob).orElse(null);
     }
 
     /**

@@ -20,7 +20,6 @@ public class YachtDto {
     private boolean active;
     private YachtModelDetailsDto yachtModel;
     private PortDetailsDto currentPort;
-    private List<StreamedContent> imagesForFront;
 
     public Long getId() {
         return id;
@@ -85,19 +84,12 @@ public class YachtDto {
     public void setAvgRating(Float avgRating) {
         this.avgRating = avgRating;
     }
+
     public boolean isActive() {
         return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public List<StreamedContent> getImagesForFront() {
-        return imagesForFront;
-    }
-
-    public void setImagesForFront(List<StreamedContent> imagesForFront) {
-        this.imagesForFront = imagesForFront;
     }
 }

@@ -5,7 +5,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.image.ImageDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.ImageEndpoint;
 
-import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 
 @GraphicImageBean

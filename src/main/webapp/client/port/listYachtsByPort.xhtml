@@ -8,21 +8,6 @@
       xmlns:o="http://omnifaces.org/ui"
       xml:lang="en" lang="en">
 <h:head/>
-<style type="text/css">
-    .navbar hr {
-        border-color: #cc9900;
-        float: none;
-        clear: left;
-    }
-    #content {
-        position: relative;
-    }
-    #content .p-imageSwitch {
-        position: absolute;
-        top: 0px;
-        right: 0px;
-    }
-</style>
 <h:body>
     <ui:composition template="/templates/commonTemplate.xhtml">
         <ui:define name="title">#{msg['title.listYachtsByPort']}</ui:define>
@@ -42,6 +27,8 @@
                 <f:viewParam name="portId" value="#{listYachtsByPortPageBean.portId}"/>
                 <f:event type="preRenderView" listener="#{listYachtsByPortPageBean.init}"/>
             </f:metadata>
+            <h:outputText value="${msg['yachts.noYachtsFoundMessage']}" rendered="#{empty listYachtsByPortPageBean.yachts}"
+                          style="text-align: center; font-size: 22px;"/>
             <h:form id="form">
                 <p:repeat var="yacht" value="#{listYachtsByPortPageBean.yachts}" varStatus="myVarStatus">
                     <h:panelGrid columns="3" style="width:100%">
@@ -57,6 +44,10 @@
                                 <h:outputText value="${msg['yacht.active']}" />
                                 <h:outputText value="${msg['yes']}" rendered="#{yacht.active}"/>
                                 <h:outputText value="${msg['no']}" rendered="#{!yacht.active}"/>
+
+                                <h:outputText value="${msg['yachtModel.model']}" />
+                                <h:outputText value="#{yacht.yachtModel.model}" style="font-weight: bold"/>
+
                             </h:panelGrid>
                             <p:button value="${msg['details']}" outcome="/client/yacht/yachtDetails.xhtml?faces-redirect=true">
                                 <f:param name="yachtId" value="#{yacht.id}"/>
@@ -67,11 +58,9 @@
                     <div>
                         <p:imageSwitch effect="wipe" widgetVar="switcher + #{myVarStatus.index}" id="manuelSwitcher"
                                        slideshowAuto="false" >
-                            <!--<ui:repeat value="#{yacht.yachtModel.images}" var="image" id="manuelSwitcherImages">
-                                <p:graphicImage value="#{image.lob}" id="image" />
-                            </ui:repeat>-->
-                            <ui:repeat value="#{yacht.yachtModel.images}" var="image" id="manuelSwitcherImages">
-                                <o:graphicImage value="#{images.get(image.id)}" height="200" width="200" id="image"/>
+                            <ui:repeat value="#{yacht.yachtModel.images}" var="image" id="manuelSwitcherImages" varStatus="myVarStatusImg">
+                                <!--<o:graphicImage value="#{images.get(image.id)}" height="200" width="200" id="image"/>-->
+                                <o:graphicImage value="#{listYachtsByPortPageBean.getImage(image.id, yacht.id)}" height="200" width="200" id="image"/>
                             </ui:repeat>
                         </p:imageSwitch>
                         <p:commandButton type="button" onclick="PF('switcher + #{myVarStatus.index}').previous();"
@@ -81,32 +70,6 @@
                     </div>
                     <hr/>
                 </p:repeat>
-
-                <!--<p:dataTable var="yacht" value="#{listYachtsByPortPageBean.yachts}" rows="10"
-                             border="2"
-                             paginator="true"
-                             lazy="true"
-                             first="0"
-                             paginatorPosition="bottom"
-                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.yachts']}"
-                             emptyMessage="${msg['yachts.noYachtsFoundMessage']}">
-
-                    <p:column headerText="${msg['yacht.name']}">
-                        <h:outputText value="#{yacht.name}"/>
-                    </p:column>
-                    <p:column headerText="${msg['yacht.avgRating']}" >
-                        <h:outputText value="#{yacht.avgRating}"/>
-                    </p:column>
-                    <p:column headerText="${msg['yacht.active']}" >
-                        <h:outputText value="#{yacht.active}"/>
-                    </p:column>
-                    <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}" outcome="/client/yacht/yachtDetails.xhtml?faces-redirect=true">
-                            <f:param name="yachtId" value="#{yacht.id}"/>
-                        </p:button>
-                    </p:column>
-                </p:dataTable>-->
             </h:form>
         </ui:define>
     </ui:composition>
