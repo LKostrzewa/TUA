@@ -1,13 +1,9 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yachtModel;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.EditYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.EditYachtModelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -47,7 +43,7 @@ public class EditYachtModelPageBean implements Serializable {
     /**
      * Metoda inicjalizująca komponent.
      */
-    public void init() throws AppBaseException{
+    public void init() throws AppBaseException {
         this.editYachtModelDto = yachtModelEndpoint.getEditYachtModelDtoById(yachtModelId);
     }
 
@@ -56,20 +52,20 @@ public class EditYachtModelPageBean implements Serializable {
      *
      * @return strona na którą zostanie przekierowany użytkownik
      */
-    public String editYachtModel() throws AppBaseException {
+    public String editYachtModel() {
         try {
             yachtModelEndpoint.editYachtModel(editYachtModelDto);
             displayMessage();
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
-        return "yachtDetails.xhtml?faces-redirect=true?includeViewParams=true";
+        return "yachtModelDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
     /**
      * Metoda inicjalizująca wyświetlanie wiadomości.
      */
-    public void displayInit(){
+    public void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
