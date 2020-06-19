@@ -21,12 +21,15 @@
             <h:form>
                 <p:growl id="growl" showDetail="true" sticky="true"/>
                 <p:dataTable var="user" value="#{userReportPageBean.users}" rows="10"
+                             styleClass="tableClass"
                              border="2"
                              paginator="true"
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.users']}"
-                             emptyMessage="${msg['admin.accounts.noUsersFoundMessage']}">
+                             emptyMessage="${msg['admin.accounts.noUsersFoundMessage']}"
+                             style="background-color: #381E0A;">
+                    <h:outputStylesheet library="css" name="tableClass.css"/>
                     <p:column headerText="${msg['login']}">
                         <h:outputText value="#{user.login}"/>
                     </p:column>

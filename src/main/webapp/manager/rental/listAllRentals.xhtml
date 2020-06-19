@@ -32,7 +32,7 @@
                              paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.rentals']}"
                              emptyMessage="${msg['rental.noRentalsFound']}">
-
+                    <h:outputStylesheet library="css" name="tableClassManager.css"/>
                     <p:column headerText="${msg['rental.yacht']}">
                         <h:outputText value="#{rental.yachtName}"/>
                     </p:column>

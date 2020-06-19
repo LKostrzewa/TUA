@@ -26,9 +26,8 @@
                              first="0"
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.yachts']}"
-                             emptyMessage="${msg['admin.accounts.noUsersFoundMessage']}">
-
+                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.yachts']}">
+                    <h:outputStylesheet library="css" name="tableClassManager.css"/>
                     <p:column headerText="${msg['yacht.name']}">
                         <h:outputText value="#{yacht.name}"/>
                     </p:column>
