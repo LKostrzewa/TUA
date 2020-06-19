@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.RentalDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtPortEndpoint;
@@ -11,7 +12,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * Klasa od obsługi widoku szczegółowych informacji jachtu.
@@ -46,6 +49,12 @@ public class YachtDetailsPageBean implements Serializable {
 
     public void setYachtDto(YachtDto yachtDto) {
         this.yachtDto = yachtDto;
+    }
+
+    public List<RentalDetailsDto> getOpinionFromRentals() {
+        return yachtDto.getRentals().stream()
+                .filter(r -> r.getOpinion()!=null)
+                .collect(Collectors.toList());
     }
 
     /**
