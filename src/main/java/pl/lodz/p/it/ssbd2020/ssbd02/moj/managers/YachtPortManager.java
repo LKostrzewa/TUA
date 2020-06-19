@@ -66,8 +66,9 @@ public class YachtPortManager extends AbstractManager implements SessionSynchron
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void assignYachtToPort(Long portId, Long yachtId) throws AppBaseException {
         Yacht yacht = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createPortNotFoundException);
-
-        yachtFacade.lock(yacht, LockModeType.PESSIMISTIC_WRITE);
+        Port port = portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
+        yachtFacade.lock(yacht, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+        portFacade.lock(port, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
 
         if(!yacht.isActive()){
             throw EntityNotActiveException.createYachtNotActiveException(yacht);
@@ -75,7 +76,7 @@ public class YachtPortManager extends AbstractManager implements SessionSynchron
         if(yacht.getCurrentPort() != null){
             throw YachtPortChangedException.createYachtAssignedException(yacht);
         }
-        Port port = portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
+
         if(!port.isActive()){
             throw EntityNotActiveException.createPortNotActiveException(port);
         }
