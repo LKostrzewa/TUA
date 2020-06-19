@@ -7,13 +7,12 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
 <h:head/>
 <h:body>
-    <h:outputStylesheet library="css" name="mainPage.css"/>
+
     <ui:composition>
         <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" >
             <p:graphicImage library="images" name="shipWait.gif" width="300" height="200"/>
         </p:dialog>
         <h:form rendered="#{currentUser.nowManager}">
-
             <p:menubar style="background-color: orange">
                 <p:submenu style="margin-right: 10px" label="#{msg['manager.menu.ports']}">
                     <p:menuitem  value="#{msg['manager.menu.ports.add']}" outcome="/manager/port/addPort.xhtml"/>
@@ -51,10 +50,10 @@
                             <p:ajax listener="#{currentUser.redirectToCurrentRole()}"
                                     process="@this" partialSubmit="true"/>
                         </p:selectOneMenu>
-                        <p:menuButton id="options2" value="#{msg['options']}" style="background-color: blue">
-                            <p:menuitem value="#{msg['menu.account']}" outcome="/manager/account.xhtml" style="background-color: #5c9c21"/>
+                        <p:menuButton id="options2" value="#{msg['options']}" style="background: blue">
+                            <p:menuitem value="#{msg['menu.account']}" outcome="/manager/account.xhtml" style="background-color: #99ff99"/>
                             <p:separator/>
-                            <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}" style="background-color: #00d2ff"/>
+                            <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}" style="background-color: #ff8080"/>
                         </p:menuButton>
                     </h:panelGroup>
                 </f:facet>
@@ -80,10 +79,10 @@
                             <p:ajax listener="#{currentUser.redirectToCurrentRole()}"
                                     process="@this" partialSubmit="true"/>
                         </p:selectOneMenu>
-                        <p:menuButton id="options3" value="#{msg['options']}" style="background-color: blue">
-                            <p:menuitem value="#{msg['menu.account']}" outcome="/client/account.xhtml"/>
+                        <p:menuButton id="options3" value="#{msg['options']}">
+                            <p:menuitem value="#{msg['menu.account']}" outcome="/client/account.xhtml" style="background-color: #99ff99"/>
                             <p:separator/>
-                            <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
+                            <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}" style="background-color: #ff8080"/>
                         </p:menuButton>
                     </h:panelGroup>
                 </f:facet>
@@ -116,10 +115,10 @@
                             <p:ajax listener="#{currentUser.redirectToCurrentRole()}"
                                     process="@this" partialSubmit="true"/>
                         </p:selectOneMenu>
-                        <p:menuButton id="options1" value="#{msg['options']}" style="background-color: blue">
-                            <p:menuitem value="#{msg['menu.account']}" outcome="/admin/account.xhtml"/>
+                        <p:menuButton id="options1" value="#{msg['options']}" >
+                            <p:menuitem value="#{msg['menu.account']}" outcome="/admin/account.xhtml" style="background-color: #99ff99"/>
                             <p:separator/>
-                            <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
+                            <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}" style="background-color: #ff8080"/>
                         </p:menuButton>
                     </h:panelGroup>
                 </f:facet>
