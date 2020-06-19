@@ -47,19 +47,17 @@
                                   outcome="listYachtsByPort.xhtml?faces-redirect=true">
                             <f:param name="portId" value="#{port.id}"/>
                         </p:button>
-                        <p:commandButton rendered="#{port.active}" value="#{msg['deactivate']}"
-                                         type="button" onclick="PF('deactivateConfirm').show()"/>
-
-                        <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}"
-                                         showEffect="explode"
-                                         hideEffect="explode" widgetVar="deactivateConfirm">
-                            <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
-                                             style="background-color: green"
-                                             action="#{listPortsPageBean.deactivatePort(port.id)}" ajax="false"
-                                             oncomplete="PF('deactivateConfirm').hide()" icon="pi pi-check"/>
-                            <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no"
-                                             style="background-color: red"
-                                             oncomplete="PF('deactivateConfirm').hide()" icon="pi pi-times"/>
+                        <p:commandButton value="#{msg['deactivate']}" rendered="#{port.active}"
+                                         action="#{listPortsPageBean.deactivatePort(port.id)}" update="@form">
+                            <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
+                                       icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="explode"
+                                         hideEffect="explode">
+                            <p:commandButton value="#{msg['yes']}" style="background-color: green"
+                                             styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                            <p:commandButton value="#{msg['no']}" style="background-color: red"
+                                             styleClass="ui-confirmdialog-no" icon="pi pi-times"/>
                         </p:confirmDialog>
                     </p:column>
                 </p:dataTable>

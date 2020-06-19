@@ -88,6 +88,9 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
     @RolesAllowed("editYacht")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editYacht(Yacht yachtToEdit, boolean nameChanged) throws AppBaseException {
+        if(!yachtToEdit.isActive()){
+            throw EntityNotActiveException.createYachtNotActiveException(yachtToEdit);
+        }
         if (nameChanged && yachtFacade.existByName(yachtToEdit.getName())) {
             throw ValueNotUniqueException.createYachtNameNotUniqueException(yachtToEdit);
         }
