@@ -48,9 +48,19 @@
                     <p:button value="${msg['details']}" outcome="yachtModelDetails.xhtml?faces-redirect=true">
                         <f:param name="yachtModelId" value="#{model.id}"/>
                     </p:button>
-                    <p:commandButton value="#{msg['deactivate']}" action="#{listYachtModelPageBean.deactivateYachtModel(model.id)}"
-                                     update="@form">
-                    </p:commandButton>
+                    <p:commandButton rendered="#{model.active}" value="#{msg['deactivate']}" type="button"
+                                     onclick="PF('deactivateConfirm').show()"/>
+                    <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}"
+                                     showEffect="explode"
+                                     hideEffect="explode" widgetVar="deactivateConfirm">
+                        <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
+                                         style="background-color: green"
+                                         action="#{listYachtModelPageBean.deactivateYachtModel(model.id)}" ajax="false"
+                                         oncomplete="PF('deactivateConfirm').hide()" icon="pi pi-check"/>
+                        <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no"
+                                         style="background-color: red"
+                                         oncomplete="PF('deactivateConfirm').hide()" icon="pi pi-times"/>
+                    </p:confirmDialog>
                 </p:column>
             </p:dataTable>
         </h:form>

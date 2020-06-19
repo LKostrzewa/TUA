@@ -76,19 +76,21 @@
                     <span class="asterisk_input"/>
                     <h:message id="lat_err" styleClass="message" for="lat"/>
                 </div>
-                <p:button class="back" value="#{msg['cancel']}"
-                          outcome="portDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
-                <p:commandButton class="save" value="#{msg['edit']}" action="#{editPortPageBean.editPort}"
-                                 update="message @form">
-
-                    <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
-                               icon="pi pi-exclamation-triangle"/>
-                </p:commandButton>
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
-                                     icon="pi pi-check"/>
-                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
-                                     icon="pi pi-times"/>
+                <div>
+                    <p:button class="cancel" value="#{msg['cancel']}" style="background-color: orange"
+                              outcome="portDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
+                    <p:commandButton id="edit" class="save" value="#{msg['edit']}" type="button"
+                                     onclick="PF('editConfirm').show()"
+                                     style="background-color: green"/>
+                </div>
+                <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}" showEffect="explode"
+                                 hideEffect="explode" widgetVar="editConfirm">
+                    <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
+                                     style="background-color: green"
+                                     action="#{editPortPageBean.editPort}" ajax="false"
+                                     oncomplete="PF('editConfirm').hide()" icon="pi pi-check"/>
+                    <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no" style="background-color: red"
+                                     oncomplete="PF('editConfirm').hide()" icon="pi pi-times"/>
                 </p:confirmDialog>
             </h:form>
         </ui:define>

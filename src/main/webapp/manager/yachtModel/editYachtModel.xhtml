@@ -63,23 +63,25 @@
             <div class="text-box">
                 <p:outputLabel style="display: block" class="label">#{msg["yachtModel.description"]}</p:outputLabel>
                 <p:inputTextarea cols="40" id="description" type="text"
-                             value="#{editYachtModelPageBean.editYachtModelDto.generalDescription}">
+                                 value="#{editYachtModelPageBean.editYachtModelDto.generalDescription}">
                 </p:inputTextarea>
                 <span class="asterisk_input"/>
                 <h:message id="description_err" styleClass="message" for="description"/>
             </div>
-            <p:button class="back" value="#{msg['cancel']}"
-                      outcome="yachtModelDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
-            <p:commandButton class="save" value="#{msg['edit']}" action="#{editYachtModelPageBean.editYachtModel}"
-                             update="message @form">
-                <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
-                           icon="pi pi-exclamation-triangle"/>
-            </p:commandButton>
-            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
-                                 icon="pi pi-check"/>
-                <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
-                                 icon="pi pi-times"/>
+            <div>
+                <p:button class="cancel" value="#{msg['cancel']}" style="background-color: orange"
+                          outcome="yachtModelDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
+                <p:commandButton class="save" value="#{msg['edit']}" onclick="PF('editConfirm').show()"
+                                 type="button" style="background-color: green"/>
+            </div>
+            <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}" showEffect="explode"
+                             hideEffect="explode" widgetVar="editConfirm">
+                <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
+                                 style="background-color: green"
+                                 action="#{editYachtModelPageBean.editYachtModel}" ajax="false"
+                                 oncomplete="PF('editConfirm').hide()" icon="pi pi-check"/>
+                <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no" style="background-color: red"
+                                 oncomplete="PF('editConfirm').hide()" icon="pi pi-times"/>
             </p:confirmDialog>
         </h:form>
     </ui:define>
