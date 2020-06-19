@@ -1,8 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
 
+import org.primefaces.model.StreamedContent;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.YachtModelDetailsDto;
+
+import java.util.List;
 
 /**
  * DTO jachtu.
@@ -17,6 +20,7 @@ public class YachtDto {
     private boolean active;
     private YachtModelDetailsDto yachtModel;
     private PortDetailsDto currentPort;
+    private List<StreamedContent> imagesForFront;
 
     public Long getId() {
         return id;
@@ -87,5 +91,13 @@ public class YachtDto {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public List<StreamedContent> getImagesForFront() {
+        return imagesForFront;
+    }
+
+    public void setImagesForFront(List<StreamedContent> imagesForFront) {
+        this.imagesForFront = imagesForFront;
     }
 }
