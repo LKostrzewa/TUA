@@ -14,6 +14,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.persistence.LockModeType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class ImageManager extends AbstractManager implements SessionSynchronizat
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void deleteImage(Long imageId) throws AppBaseException {
         Image image = imageFacade.find(imageId).orElseThrow(AppNotFoundException::imageNotFoundException);
+        yachtModelFacade.lock(image.getYachtModel(), LockModeType.PESSIMISTIC_FORCE_INCREMENT);
         if(!(image.getYachtModel().isActive())){
             throw EntityNotActiveException.createYachtModelNotActiveException(image.getYachtModel());
         }
@@ -56,6 +58,7 @@ public class ImageManager extends AbstractManager implements SessionSynchronizat
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addImage(byte[] image, Long id) throws AppBaseException {
         YachtModel yachtModel = yachtModelFacade.find(id).orElseThrow(AppNotFoundException::yachtModelNotFoundException);
+        yachtModelFacade.lock(yachtModel, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
         if(!yachtModel.isActive()){
             throw EntityNotActiveException.createYachtModelNotActiveException(yachtModel);
         }
