@@ -11,16 +11,16 @@
             <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
             <h:outputStylesheet name="/css/page.css"/>
             <h:form rendered="#{currentUser.nowManager}" style="background-color: orange" styleClass="Footer">
-                <h:outputLabel id="managerFooter" value="sssbd2020 Czarter Jachtów"  />
+                <h:outputLabel id="managerFooter" value="ssbd2020 #{msg['footer.name']}"  />
 
             </h:form>
 
             <h:form rendered="#{currentUser.nowAdministrator}" style="background-color: #ffcc80" styleClass="Footer">
-                <h:outputLabel id="adminFooter" value="sssbd2020 Czarter Jachtów" />
+                <h:outputLabel id="adminFooter" value="ssbd2020 #{msg['footer.name']}" />
 
             </h:form>
             <h:form rendered="#{currentUser.nowClient}" style="background-color: gold" styleClass="Footer">
-                <h:outputLabel id="clientFooter" value="sssbd2020 Czarter Jachtów" />
+                <h:outputLabel id="clientFooter" value="ssbd2020 #{msg['footer.name']}" />
 
 
             </h:form>

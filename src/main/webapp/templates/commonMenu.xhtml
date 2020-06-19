@@ -7,6 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
 <h:head/>
 <h:body>
+    <h:outputStylesheet library="css" name="mainPage.css"/>
     <ui:composition>
         <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" >
             <p:graphicImage library="images" name="shipWait.gif" width="300" height="200"/>
@@ -36,24 +37,24 @@
 
                 <f:facet name="options">
                     <p:menuitem style="margin-right: 20px; margin-left: 20px">
-                        <i class="pi pi-user" style="font-size: 25px; color: red"></i>
+                        <i class="pi pi-user" style="font-size: 20px; color: red"></i>
                         #{currentUser.getCurrentUserLogin()}
                     </p:menuitem>
                     <h:panelGroup style="margin: 20px">
                         <p:selectOneMenu value="#{currentUser.currentRole}">
-                            <f:selectItem itemLabel="#{msg['admin']}" itemValue="ADMINISTRATOR"
+                            <f:selectItem itemLabel="#{msg['admin']}" itemValue="ADMINISTRATOR" id="admin"
                                           itemDisabled="#{!currentUser.administrator}"/>
-                            <f:selectItem itemLabel="#{msg['manager']}" itemValue="MANAGER"
+                            <f:selectItem itemLabel="#{msg['manager']}" itemValue="MANAGER" id="manager"
                                           itemDisabled="#{!currentUser.manager}"/>
-                            <f:selectItem itemLabel="#{msg['client']}" itemValue="CLIENT"
+                            <f:selectItem itemLabel="#{msg['client']}" itemValue="CLIENT" id="client"
                                           itemDisabled="#{!currentUser.client}"/>
                             <p:ajax listener="#{currentUser.redirectToCurrentRole()}"
                                     process="@this" partialSubmit="true"/>
                         </p:selectOneMenu>
-                        <p:menuButton id="options2" value="#{msg['options']}">
-                            <p:menuitem value="#{msg['menu.account']}" outcome="/manager/account.xhtml"/>
+                        <p:menuButton id="options2" value="#{msg['options']}" style="background-color: blue">
+                            <p:menuitem value="#{msg['menu.account']}" outcome="/manager/account.xhtml" style="background-color: #5c9c21"/>
                             <p:separator/>
-                            <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
+                            <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}" style="background-color: #00d2ff"/>
                         </p:menuButton>
                     </h:panelGroup>
                 </f:facet>
@@ -79,7 +80,7 @@
                             <p:ajax listener="#{currentUser.redirectToCurrentRole()}"
                                     process="@this" partialSubmit="true"/>
                         </p:selectOneMenu>
-                        <p:menuButton id="options3" value="#{msg['options']}">
+                        <p:menuButton id="options3" value="#{msg['options']}" style="background-color: blue">
                             <p:menuitem value="#{msg['menu.account']}" outcome="/client/account.xhtml"/>
                             <p:separator/>
                             <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>
@@ -115,7 +116,7 @@
                             <p:ajax listener="#{currentUser.redirectToCurrentRole()}"
                                     process="@this" partialSubmit="true"/>
                         </p:selectOneMenu>
-                        <p:menuButton id="options1" value="#{msg['options']}">
+                        <p:menuButton id="options1" value="#{msg['options']}" style="background-color: blue">
                             <p:menuitem value="#{msg['menu.account']}" outcome="/admin/account.xhtml"/>
                             <p:separator/>
                             <p:menuitem value="#{msg['menu.logout']}" action="#{logoutBacking.submit}"/>

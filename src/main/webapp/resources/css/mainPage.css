@@ -4,3 +4,14 @@
 }
 
 
+#admin {
+    background-color: red;
+}
+
+#manager {
+    background-color: blue;
+}
+
+#client {
+    background-color: pink;
+}
