@@ -120,7 +120,7 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed("addYacht")
+    @RolesAllowed({"addYacht","addImage"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void lock(YachtModel entity, LockModeType lockModeType) throws AppBaseException {
         super.lock(entity, lockModeType);
