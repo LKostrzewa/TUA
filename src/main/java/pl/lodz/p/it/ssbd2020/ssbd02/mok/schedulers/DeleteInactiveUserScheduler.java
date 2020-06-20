@@ -25,7 +25,7 @@ public class DeleteInactiveUserScheduler {
 
     /**
      * Metoda do usuwania z bazy danych kont użytkowników. Konto jest usuwane jeżeli nie jest aktywne przez
-     * ponad dobę licząc od daty utworzenia. Metoda jest wywoływana codziennie o godzinie 3.00.
+     * ponad dobę licząc od daty utworzenia. Metoda jest wywoływana codziennie o godzinie 3.00
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     @PermitAll
