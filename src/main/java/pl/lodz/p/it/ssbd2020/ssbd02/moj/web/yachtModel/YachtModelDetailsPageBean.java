@@ -122,7 +122,7 @@ public class YachtModelDetailsPageBean implements Serializable {
         imageEndpoint.addImage(contents, yachtModelId);
     }
 
-    public void deleteImage() throws AppBaseException {
+    public void deleteImage(){
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         Long imaId = Long.parseLong(params.get("id"));
         try {
