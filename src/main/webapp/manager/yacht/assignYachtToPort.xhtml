@@ -31,17 +31,31 @@
             </f:metadata>
             <h:form id="form">
                 <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
-                    <div>
-                        <p:outputLabel for="portId" value="#{msg['manager.title.ports']}"/>
-                    </div>
-                    <div>
-                        <p:selectOneMenu id="portId" value="#{assignYachtToPortPageBean.portId}">
-                            <f:selectItems value="#{assignYachtToPortPageBean.ports}" var="port"
-                                           itemValue="#{port.id}" itemLabel="#{port.name}"/>
-                        </p:selectOneMenu>
-                    </div>
-                <p:button value="#{msg['goBack']}" outcome="yachtDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
-                <p:commandButton value="#{msg['save']}" action="#{assignYachtToPortPageBean.assignYachtToPort}" update="@form" ajax="false"/>
+                <div>
+                    <p:outputLabel for="portId" value="#{msg['manager.title.ports']}"/>
+                </div>
+                <div>
+                    <p:selectOneMenu id="portId" value="#{assignYachtToPortPageBean.portId}">
+                        <f:selectItems value="#{assignYachtToPortPageBean.ports}" var="port"
+                                       itemValue="#{port.id}" itemLabel="#{port.name}"/>
+                    </p:selectOneMenu>
+                </div>
+                <div>
+                    <p:button value="#{msg['cancel']}" style="background-color: orange"
+                              outcome="yachtDetails.xhtml?faces-redirect=true?includeViewParams=true"/>
+                    <p:commandButton id="assign" value="#{msg['save']}"
+                                     type="button" onclick="PF('assignConfirm').show()"
+                                     style="background-color: green"/>
+                </div>
+                <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}" showEffect="explode"
+                                 hideEffect="explode" widgetVar="assignConfirm">
+                    <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
+                                     style="background-color: green"
+                                     action="#{assignYachtToPortPageBean.assignYachtToPort}" ajax="false"
+                                     oncomplete="PF('assignConfirm').hide()" icon="pi pi-check"/>
+                    <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no" style="background-color: red"
+                                     oncomplete="PF('assignConfirm').hide()" icon="pi pi-times"/>
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>
