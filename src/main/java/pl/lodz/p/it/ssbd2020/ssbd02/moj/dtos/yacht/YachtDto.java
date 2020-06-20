@@ -1,9 +1,13 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
 
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import org.primefaces.model.StreamedContent;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.RentalDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.YachtModelDetailsDto;
+
+import java.util.Collection;
 
 import java.util.List;
 
@@ -20,6 +24,7 @@ public class YachtDto {
     private boolean active;
     private YachtModelDetailsDto yachtModel;
     private PortDetailsDto currentPort;
+    Collection<RentalDetailsDto> rentals;
 
     public Long getId() {
         return id;
@@ -91,5 +96,13 @@ public class YachtDto {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Collection<RentalDetailsDto> getRentals() {
+        return rentals;
+    }
+
+    public void setRentals(Collection<RentalDetailsDto> rentals) {
+        this.rentals = rentals;
     }
 }

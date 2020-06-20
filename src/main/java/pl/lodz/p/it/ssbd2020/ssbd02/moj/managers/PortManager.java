@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.EntityNotActiveException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.ValueNotUniqueException;
 import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.PortFacade;
@@ -51,6 +52,11 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
     @RolesAllowed("editPort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editPort(Port portEntity, Port portToEdit) throws AppBaseException {
+
+        if(!portEntity.isActive()){
+            throw EntityNotActiveException.createPortNotActiveException(portEntity);
+        }
+
         if (!portEntity.getName().equals(portToEdit.getName())) {
             if (portFacade.existByName(portToEdit.getName())) {
                 throw ValueNotUniqueException.createPortNameNotUniqueException(portToEdit);

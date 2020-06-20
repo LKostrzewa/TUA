@@ -41,7 +41,7 @@
                 <p:column headerText="${msg['yachtModel.basicPrice']}">
                     <h:outputText value="#{model.basicPrice}"/>
                 </p:column>
-                <p:column headerText="${msg['yachtMode.active']}">
+                <p:column headerText="${msg['yachtModel.active']}">
                     <h:outputText value="#{model.active}"/>
                 </p:column>
                 <p:column headerText="${msg['actions']}">
@@ -49,7 +49,7 @@
                         <f:param name="yachtModelId" value="#{model.id}"/>
                     </p:button>
                     <p:commandButton value="#{msg['deactivate']}" action="#{listYachtModelPageBean.deactivateYachtModel(model.id)}"
-                                     update="@form">
+                                     update="@form" disabled="#{not model.active}">
                     </p:commandButton>
                 </p:column>
             </p:dataTable>

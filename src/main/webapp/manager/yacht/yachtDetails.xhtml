@@ -26,6 +26,7 @@
                 <f:event type="preRenderView" listener="#{yachtDetailsPageBean.init}"/>
             </f:metadata>
             <h:form id="form">
+                <h:outputStylesheet library="css" name="yacht/yachtDetails.css"/>
                 <p:growl id="message" showDetail="true"/>
                 <p:panelGrid columns="2">
                     <h:outputLabel value="#{msg['yacht.name']}:"/>
@@ -43,9 +44,28 @@
                     <h:outputText value="#{yachtDetailsPageBean.yachtDto.equipment}" style="white-space: pre-wrap;"/>
                     <h:outputLabel value="#{msg['yacht.avgRating']}:"/>
                     <h:outputText value="#{yachtDetailsPageBean.yachtDto.avgRating}"/>
+
                 </p:panelGrid>
+                <p:dataView value="#{yachtDetailsPageBean.getOpinionFromRentals()}" var="rent" type="ordered">
+                    <f:facet name="header">
+                        #{msg['opinion.opinions']}
+                    </f:facet>
+                    <p:dataViewListItem>
+                    <h:panelGrid columns="2" rendered="#{rent.opinion != null}">
+                        <h:outputLabel value="#{msg['opinion.rating']}:"/>
+                        <p:rating value="#{rent.opinion.rating}" readonly="true" />
+                        <h:outputLabel value="#{msg['opinion.date']}:"/>
+                        <h:outputText value="#{rent.opinion.date}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss"/>
+                        </h:outputText>
+                        <h:outputLabel value="#{msg['opinion.comment']}:"/>
+                        <h:outputText value="#{rent.opinion.comment}"/>
+
+                    </h:panelGrid>
+                    </p:dataViewListItem>
+                </p:dataView>
                 <p:button value="#{msg['goBack']}" outcome="listYachts.xhtml?faces-redirect=true"/>
-                <p:button value="${msg['edit']}" outcome="editYacht.xhtml?faces-redirect=true">
+                <p:button value="${msg['edit']}" outcome="editYacht.xhtml?faces-redirect=true" disabled="#{not yachtDetailsPageBean.yachtDto.active}">
                     <f:param name="yachtId" value="#{yachtDetailsPageBean.yachtId}"/>
                 </p:button>
                 <p:commandButton value="${msg['yachts.retractYachtFromPort']}" action="#{yachtDetailsPageBean.retractYachtFromPort}" update="message form" style="background-color: red"
