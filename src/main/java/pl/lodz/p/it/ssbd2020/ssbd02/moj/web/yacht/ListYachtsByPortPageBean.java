@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -35,6 +36,7 @@ public class ListYachtsByPortPageBean implements Serializable {
     @Inject
     private YachtPortEndpoint yachtPortEndpoint;
     private List<YachtDto> yachts;
+    private List<YachtDto> activeYachts;
 
     @Inject
     private FacesContext facesContext;
@@ -58,11 +60,19 @@ public class ListYachtsByPortPageBean implements Serializable {
         this.portId = portId;
     }
 
+    public List<YachtDto> getActiveYachts() {
+        return activeYachts;
+    }
+
+    public void setActiveYachts(List<YachtDto> activeYachts) {
+        this.activeYachts = activeYachts;
+    }
+
     public byte[] getImage(long imageId, long yachtId) throws IOException {
         YachtDto yachtDto = new YachtDto();
         try {
-            yachtDto = yachts.stream().filter(y -> y.getId().equals(yachtId))
-                    .findFirst().orElseThrow(AppNotFoundException::imageNotFoundException);
+            yachtDto = activeYachts.stream().filter(y -> y.getId().equals(yachtId))
+                    .findFirst().orElseThrow(AppNotFoundException::createYachtNotFoundException);
         } catch (AppNotFoundException e) {
             displayError(e.getLocalizedMessage());
             ExternalContext externalContext = facesContext.getExternalContext();
@@ -78,6 +88,7 @@ public class ListYachtsByPortPageBean implements Serializable {
     public void init() throws IOException {
         try {
             this.yachts = yachtPortEndpoint.getAllYachtsByPort(portId);
+            this.activeYachts = yachts.stream().filter(YachtDto::isActive).collect(Collectors.toList());
         }
         catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());

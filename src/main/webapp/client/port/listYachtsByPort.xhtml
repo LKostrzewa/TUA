@@ -30,7 +30,7 @@
             <h:outputText value="${msg['yachts.noYachtsFoundMessage']}" rendered="#{empty listYachtsByPortPageBean.yachts}"
                           style="text-align: center; font-size: 22px;"/>
             <h:form id="form">
-                <p:repeat var="yacht" value="#{listYachtsByPortPageBean.yachts}" varStatus="myVarStatus">
+                <p:repeat var="yacht" value="#{listYachtsByPortPageBean.activeYachts}" varStatus="myVarStatus">
                     <h:panelGrid columns="2" style="width:80%">
                         <p:column>
                             <p:row>
@@ -60,12 +60,11 @@
                                     <h:outputText value="${msg['yacht.avgRating']}" />
                                     <h:outputText value="#{yacht.avgRating}" style="font-weight: bold"/>
 
-                                    <h:outputText value="${msg['yacht.active']}" />
-                                    <h:outputText value="${msg['yes']}" rendered="#{yacht.active}"/>
-                                    <h:outputText value="${msg['no']}" rendered="#{!yacht.active}"/>
-
                                     <h:outputText value="${msg['yachtModel.model']}" />
                                     <h:outputText value="#{yacht.yachtModel.model}" style="font-weight: bold"/>
+
+                                    <h:outputText value="${msg['yachtModel.description']}" />
+                                    <h:outputText value="#{yacht.yachtModel.description}" style="font-weight: bold"/>
 
                                 </h:panelGrid>
                                 <p:button value="${msg['details']}" outcome="/client/yacht/yachtDetails.xhtml?faces-redirect=true">
