@@ -85,13 +85,24 @@
                     </p:graphicImage>
                     <span style="position:absolute;right:0;top:0;">
             <p:commandButton icon="pi pi-trash" style="background-color:  #ffcc80"
-                             action="#{yachtModelDetailsPageBean.deleteImage}" update="@form"
+                             onclick="PF('deleteConfirm').show()"
                              disabled="#{not yachtModelDetailsPageBean.yachtModelDetailsDto.active}">
-                 <f:param name="id" value="#{imageId}"/>
             </p:commandButton>
+                          <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}"
+                                           showEffect="explode"
+                                           hideEffect="explode" widgetVar="deleteConfirm">
+                             <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
+                                              style="background-color: green" update="@form"
+                                              action="#{yachtModelDetailsPageBean.deleteImage}" ajax="false"
+                                              oncomplete="PF('deleteConfirm').hide()" icon="pi pi-check">
+                                 <f:param name="id" value="#{imageId}"/>
+                             </p:commandButton>
+                              <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no"
+                                               style="background-color: red"
+                                               oncomplete="PF('deleteConfirm').hide()" icon="pi pi-times"/>
+                          </p:confirmDialog>
                     </span>
                 </p:galleria>
-
             </div>
             <p:fileUpload listener="#{yachtModelDetailsPageBean.handleFileUpload}" mode="advanced"
                           dragDropSupport="true" style="width: 590px;display: block;text-align: center"
