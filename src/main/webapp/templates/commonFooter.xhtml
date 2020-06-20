@@ -10,16 +10,16 @@
         <ui:fragment >
             <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
             <h:outputStylesheet name="/css/page.css"/>
-            <h:form rendered="#{currentUser.nowManager}" style="background-color: orange" styleClass="Footer">
+            <h:form rendered="#{currentUser.nowManager}" style="background-color: orange" styleClass="managerFooter">
                 <h:outputLabel id="managerFooter" value="ssbd2020 #{msg['footer.name']}"  />
 
             </h:form>
 
-            <h:form rendered="#{currentUser.nowAdministrator}" style="background-color: #ffcc80" styleClass="Footer">
+            <h:form rendered="#{currentUser.nowAdministrator}" style="background-color: #ffcc80" styleClass="adminFooter">
                 <h:outputLabel id="adminFooter" value="ssbd2020 #{msg['footer.name']}" />
 
             </h:form>
-            <h:form rendered="#{currentUser.nowClient}" style="background-color: gold" styleClass="Footer">
+            <h:form rendered="#{currentUser.nowClient}" style="background-color: gold" styleClass="clientFooter">
                 <h:outputLabel id="clientFooter" value="ssbd2020 #{msg['footer.name']}" />
 
 
