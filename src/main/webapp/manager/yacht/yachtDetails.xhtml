@@ -59,6 +59,9 @@
                         </h:outputText>
                         <h:outputLabel value="#{msg['opinion.comment']}:"/>
                         <h:outputText value="#{rent.opinion.comment}"/>
+                        <h:outputLabel value="#{msg['opinion.edited']}:"/>
+                        <h:outputText value="${msg['yes']}" rendered="#{rent.opinion.edited}"/>
+                        <h:outputText value="${msg['no']}" rendered="#{!rent.opinion.edited}"/>
                     </h:panelGrid>
                     </p:dataViewListItem>
                 </p:dataView>
