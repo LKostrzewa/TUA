@@ -57,8 +57,10 @@
                 <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.manufacturer}"
                               style="white-space: pre-wrap; "/>
                 <h:outputLabel value="#{msg['yachtModel.active']}:"/>
-                <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.active}"
-                              style="white-space: pre-wrap; "/>
+                <h:outputText value="${msg['yes']}"
+                              rendered="#{yachtModelDetailsPageBean.yachtModelDetailsDto.active}"/>
+                <h:outputText value="${msg['no']}"
+                              rendered="#{!yachtModelDetailsPageBean.yachtModelDetailsDto.active}"/>
                 <h:outputLabel value="#{msg['yachtModel.capacity']}:"/>
                 <h:outputText value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.capacity}"
                               style="white-space: pre-wrap; "/>

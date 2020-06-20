@@ -26,7 +26,7 @@
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.ports']}">
-
+                    <h:outputStylesheet library="css" name="tableClassManager.css"/>
                     <p:column headerText="${msg['port.name']}">
                         <h:outputText value="#{port.name}"/>
                     </p:column>
@@ -47,7 +47,7 @@
                                   outcome="listYachtsByPort.xhtml?faces-redirect=true">
                             <f:param name="portId" value="#{port.id}"/>
                         </p:button>
-                        <p:commandButton value="#{msg['deactivate']}" rendered="#{port.active}"
+                        <p:commandButton value="#{msg['deactivate']}" disabled="#{port.active}"
                                          action="#{listPortsPageBean.deactivatePort(port.id)}" update="@form">
                             <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                        icon="pi pi-exclamation-triangle"/>

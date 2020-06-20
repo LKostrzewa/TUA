@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
 
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.RentalDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.YachtModelDetailsDto;
@@ -86,6 +85,7 @@ public class YachtDto {
     public void setAvgRating(Float avgRating) {
         this.avgRating = avgRating;
     }
+
     public boolean isActive() {
         return active;
     }

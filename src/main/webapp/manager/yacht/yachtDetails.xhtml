@@ -44,29 +44,45 @@
                     <h:outputLabel value="#{msg['yacht.avgRating']}:"/>
                     <h:outputText value="#{yachtDetailsPageBean.yachtDto.avgRating}"/>
                 </p:panelGrid>
-                <div>
-                    <p:button value="#{msg['goBack']}" outcome="listYachts.xhtml?faces-redirect=true"/>
-                    <p:button value="${msg['edit']}" outcome="editYacht.xhtml?faces-redirect=true">
-                        <f:param name="yachtId" value="#{yachtDetailsPageBean.yachtId}"/>
-                    </p:button>
-                    <p:button value="${msg['yachts.assignYachtToPort']}"
-                              outcome="assignYachtToPort.xhtml?faces-redirect=true?includeViewParams=true"
-                              style="background-color: green"
-                              rendered="#{yachtDetailsPageBean.yachtDto.currentPort == null}"/>
-                    <p:commandButton value="${msg['yachts.retractYachtFromPort']}" type="button"
-                                     style="background-color: red"
-                                     rendered="#{yachtDetailsPageBean.yachtDto.currentPort != null}"
-                                     onclick="PF('retractConfirm').show()"/>
-                </div>
-                <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}" showEffect="explode"
-                                 hideEffect="explode" widgetVar="retractConfirm">
-                    <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
-                                     style="background-color: green"
-                                     action="#{yachtDetailsPageBean.retractYachtFromPort}" ajax="false"
-                                     oncomplete="PF('retractConfirm').hide()" icon="pi pi-check"/>
-                    <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no" style="background-color: red"
-                                     oncomplete="PF('retractConfirm').hide()" icon="pi pi-times"/>
-                </p:confirmDialog>
+                <p:dataView value="#{yachtDetailsPageBean.getOpinionFromRentals()}" var="rent" type="ordered">
+                    <f:facet name="header">
+                        #{msg['opinion.opinions']}
+                    </f:facet>
+                    <p:dataViewListItem>
+                    <h:panelGrid columns="2" rendered="#{rent.opinion != null}">
+                        <h:outputLabel value="#{msg['opinion.rating']}:"/>
+                        <p:rating value="#{rent.opinion.rating}" readonly="true" />
+                        <h:outputLabel value="#{msg['opinion.date']}:"/>
+                        <h:outputText value="#{rent.opinion.date}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss"/>
+                        </h:outputText>
+                        <h:outputLabel value="#{msg['opinion.comment']}:"/>
+                        <h:outputText value="#{rent.opinion.comment}"/>
+
+                    </h:panelGrid>
+                    </p:dataViewListItem>
+                </p:dataView>
+                <p:button value="#{msg['goBack']}" outcome="listYachts.xhtml?faces-redirect=true"/>
+                <p:button value="${msg['edit']}" outcome="editYacht.xhtml?faces-redirect=true" disabled="#{not yachtDetailsPageBean.yachtDto.active}">
+                    <f:param name="yachtId" value="#{yachtDetailsPageBean.yachtId}"/>
+                </p:button>
+                <p:button value="${msg['yachts.assignYachtToPort']}" outcome="assignYachtToPort.xhtml?faces-redirect=true?includeViewParams=true" disabled="#{not yachtDetailsPageBean.yachtDto.active}"
+                          style="background-color: green" rendered="#{yachtDetailsPageBean.yachtDto.currentPort == null}"/>
+                <p:commandButton value="${msg['yachts.retractYachtFromPort']}" type="button"
+                                 style="background-color: red"
+                                 rendered="#{yachtDetailsPageBean.yachtDto.currentPort != null}"
+                                 onclick="PF('retractConfirm').show()"/>
+
+            <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}" showEffect="explode"
+                             hideEffect="explode" widgetVar="retractConfirm">
+                <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
+                                 style="background-color: green"
+                                 action="#{yachtDetailsPageBean.retractYachtFromPort}" ajax="false"
+                                 oncomplete="PF('retractConfirm').hide()" icon="pi pi-check"/>
+                <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no" style="background-color: red"
+                                 oncomplete="PF('retractConfirm').hide()" icon="pi pi-times"/>
+            </p:confirmDialog>
+
             </h:form>
         </ui:define>
     </ui:composition>

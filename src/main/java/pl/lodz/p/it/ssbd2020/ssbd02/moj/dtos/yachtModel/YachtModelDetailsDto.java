@@ -1,6 +1,10 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel;
 
+import org.primefaces.model.StreamedContent;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.image.ImageDto;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * DTO do wyświetlenia szczegółów modelu jachtu.
@@ -12,6 +16,7 @@ public class YachtModelDetailsDto {
     private BigDecimal basicPrice;
     private Boolean active;
     private String description;
+    private List<ImageDto> images;
 
     public String getManufacturer() {
         return manufacturer;
@@ -59,5 +64,13 @@ public class YachtModelDetailsDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<ImageDto> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ImageDto> images) {
+        this.images = images;
     }
 }

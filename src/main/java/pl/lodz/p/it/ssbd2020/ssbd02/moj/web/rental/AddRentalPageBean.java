@@ -37,6 +37,7 @@ public class AddRentalPageBean implements Serializable {
     private CurrentUser currentUser;
     private AddRentalDto addRentalDto;
     private long yachtId;
+    private long portId;
     private Locale locale;
 
     public AddRentalDto getAddRentalDto() {
@@ -57,6 +58,14 @@ public class AddRentalPageBean implements Serializable {
 
     public Locale getLocale() {
         return locale;
+    }
+
+    public long getPortId() {
+        return portId;
+    }
+
+    public void setPortId(long portId) {
+        this.portId = portId;
     }
 
     @PostConstruct

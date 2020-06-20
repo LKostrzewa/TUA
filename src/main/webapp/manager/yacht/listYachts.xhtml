@@ -26,9 +26,8 @@
                              first="0"
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.yachts']}"
-                             emptyMessage="${msg['admin.accounts.noUsersFoundMessage']}">
-
+                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.yachts']}">
+                    <h:outputStylesheet library="css" name="tableClassManager.css"/>
                     <p:column headerText="${msg['yacht.name']}">
                         <h:outputText value="#{yacht.name}"/>
                     </p:column>
@@ -36,7 +35,8 @@
                         <h:outputText value="#{yacht.avgRating}"/>
                     </p:column>
                     <p:column headerText="${msg['yacht.active']}">
-                        <h:outputText value="#{yacht.active}"/>
+                        <h:outputText value="${msg['yes']}" rendered="#{yacht.active}"/>
+                        <h:outputText value="${msg['no']}" rendered="#{!yacht.active}"/>
                     </p:column>
                     <p:column headerText="${msg['bread.yachtModel']}">
                         <h:outputText value="#{yacht.yachtModelName}"/>

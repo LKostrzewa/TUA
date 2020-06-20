@@ -26,7 +26,7 @@
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.rentals']}">
-
+                    <h:outputStylesheet library="css" name="tableClassManager.css"/>
                     <p:column headerText="${msg['yacht.name']}">
                         <h:outputText value="#{rental.yachtName}"/>
                     </p:column>
@@ -47,7 +47,8 @@
                         <h:outputText value="#{rental.statusName}"/>
                     </p:column>
                     <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}" outcome="/client/rental/rentalDetails.xhtml?faces-redirect=true">
+                        <p:button value="${msg['details']}"
+                                  outcome="/client/rental/rentalDetails.xhtml?faces-redirect=true">
                             <f:param name="rentalBusinessKey" value="#{rental.businessKey}"/>
                         </p:button>
                     </p:column>
