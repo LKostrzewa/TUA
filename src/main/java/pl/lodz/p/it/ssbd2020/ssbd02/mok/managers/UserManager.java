@@ -427,10 +427,10 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
             if (!userFacade.existByEmail(email)) {
                 throw AppNotFoundException.createEmailNotFoundException();
             }
-            if (userFacade.findByEmail(email).getLocked() || !userFacade.findByEmail(email).getActivated()) {
+            User userToEdit = userFacade.findByEmail(email);
+            if (userToEdit.getLocked() || !userToEdit.getActivated()) {
                 throw EntityNotActiveException.accountNotActiveorLockedException();
             }
-            User userToEdit = userFacade.findByEmail(email);
             String resetPasswordCode = UUID.randomUUID().toString().replace("-", "");
             userToEdit.setResetPasswordCode(resetPasswordCode);
             userToEdit.setResetPasswordCodeAddDate(new Date());

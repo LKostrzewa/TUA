@@ -1,0 +1,37 @@
+
+#form {
+    background-color: #ffffe6;
+    width: 50%;
+    height: 95%;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    margin: auto;
+}
+
+.ui-panelgrid .ui-panelgrid-cell {
+
+    background-color:  #ffffe6;
+    border-color: saddlebrown;
+}
+
+.ui-widget-content {
+
+    background-color:  #ffffe6;
+    border-color: saddlebrown;
+}
+
+.button {
+    background: #fd7c1a;
+}
+
+.bold {
+    font-weight: bold;
+}
