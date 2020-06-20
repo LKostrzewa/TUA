@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -68,6 +69,7 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
      * @param entity usuwana encja
      */
     @Override
+    @DenyAll
     public void remove(YachtModel entity) {
         super.remove(entity);
     }
