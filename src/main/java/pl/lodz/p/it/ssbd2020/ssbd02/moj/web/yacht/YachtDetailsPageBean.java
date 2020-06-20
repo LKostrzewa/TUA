@@ -64,10 +64,13 @@ public class YachtDetailsPageBean implements Serializable {
         this.yachtDto = yachtEndpoint.getYachtById(yachtId);
     }
 
+    /**
+     * Metoda obsługująca wciśnięcie guzika do odpisania jachtu z portu.
+     */
     public void retractYachtFromPort() {
         try {
             yachtPortEndpoint.retractYachtFromPort(yachtId);
-            displayMessage("yacht.retractInfo");
+            displayMessage();
         }
         catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
@@ -85,9 +88,9 @@ public class YachtDetailsPageBean implements Serializable {
     /**
      * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
      */
-    private void displayMessage(String message) {
+    private void displayMessage() {
         displayInit();
-        String msg = resourceBundle.getString(message);
+        String msg = resourceBundle.getString("yacht.retractInfo");
         String head = resourceBundle.getString("success");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
