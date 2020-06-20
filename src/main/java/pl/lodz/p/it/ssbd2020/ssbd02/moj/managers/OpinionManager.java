@@ -12,6 +12,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.OpinionFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
@@ -46,9 +47,10 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
     @RolesAllowed("addOpinion")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addOpinion(Opinion opinion, String rentalBusinessKey) throws AppBaseException {
+        PropertyReader propertyReader = new PropertyReader();
         Rental rental = rentalFacade.findByBusinessKey(UUID.fromString(rentalBusinessKey))
                 .orElseThrow(AppNotFoundException::createRentalNotFoundException);
-        if(!rental.getRentalStatus().getName().equals("FINISHED")){
+        if(!rental.getRentalStatus().getName().equals(propertyReader.getProperty("config","FINISHED_STATUS"))){
             throw RentalNotFinishedException.createRentalNotFinishedException(rental);
         }
         if(rental.getOpinion() != null){
