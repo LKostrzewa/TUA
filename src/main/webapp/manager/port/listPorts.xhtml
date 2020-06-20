@@ -47,7 +47,7 @@
                                   outcome="listYachtsByPort.xhtml?faces-redirect=true">
                             <f:param name="portId" value="#{port.id}"/>
                         </p:button>
-                        <p:commandButton value="#{msg['deactivate']}" disabled="#{port.active}"
+                        <p:commandButton value="#{msg['deactivate']}" disabled="#{not port.active}"
                                          action="#{listPortsPageBean.deactivatePort(port.id)}" update="@form">
                             <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                        icon="pi pi-exclamation-triangle"/>

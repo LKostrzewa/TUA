@@ -49,7 +49,7 @@
                     <p:button value="${msg['details']}" outcome="yachtModelDetails.xhtml?faces-redirect=true">
                         <f:param name="yachtModelId" value="#{model.id}"/>
                     </p:button>
-                    <p:commandButton disabled="#{model.active}" value="#{msg['deactivate']}"
+                    <p:commandButton disabled="#{not model.active}" value="#{msg['deactivate']}"
                                      action="#{listYachtModelPageBean.deactivateYachtModel(model.id)}" update="@form">
                         <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                    icon="pi pi-exclamation-triangle"/>
