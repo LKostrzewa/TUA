@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -13,6 +14,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
@@ -122,5 +124,19 @@ public class PortFacade extends AbstractFacade<Port> {
     public boolean existByName(String name) {
         return entityManager.createNamedQuery("Port.countByName", Long.class)
                 .setParameter("name", name).getSingleResult().intValue() > 0;
+    }
+
+    /**
+     * Metoda, która blokuje encje z podanym typem blokady .
+     *
+     * @param entity blokowana encja
+     * @param lockModeType typ blokady
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     */
+    @Override
+    @RolesAllowed({"addRental","assignYachtToPort"})
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void lock(Port entity, LockModeType lockModeType) throws AppBaseException {
+        super.lock(entity, lockModeType);
     }
 }

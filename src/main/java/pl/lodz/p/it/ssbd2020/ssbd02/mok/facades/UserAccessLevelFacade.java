@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.UserAccessLevel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
@@ -13,6 +14,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
@@ -93,5 +95,18 @@ public class UserAccessLevelFacade extends AbstractFacade<UserAccessLevel> {
     @DenyAll
     public Optional<UserAccessLevel> find(Object id) {
         return super.find(id);
+    }
+
+    /**
+     * Metoda, która blokuje encje z podanym typem blokady .
+     *
+     * @param entity blokowana encja
+     * @param lockModeType typ blokady
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     */
+    @Override
+    @DenyAll
+    public void lock(UserAccessLevel entity, LockModeType lockModeType) throws AppBaseException {
+        super.lock(entity, lockModeType);
     }
 }

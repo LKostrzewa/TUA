@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.RentalStatus;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -15,6 +16,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
@@ -148,5 +150,18 @@ public class RentalFacade extends AbstractFacade<Rental> {
     public List<Rental> getFilteredRentals(String filter) {
         return entityManager.createNamedQuery("Rental.findByYachtName", Rental.class)
                 .setParameter("name", '%' + filter.toLowerCase() + '%').getResultList();
+    }
+
+    /**
+     * Metoda, która blokuje encje z podanym typem blokady .
+     *
+     * @param entity blokowana encja
+     * @param lockModeType typ blokady
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     */
+    @Override
+    @DenyAll
+    public void lock(Rental entity, LockModeType lockModeType) throws AppBaseException {
+        super.lock(entity, lockModeType);
     }
 }

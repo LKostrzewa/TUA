@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.RentalStatus;
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
@@ -14,6 +15,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -107,5 +109,18 @@ public class RentalStatusFacade extends AbstractFacade<RentalStatus> {
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<RentalStatus> findAll() {
         return super.findAll();
+    }
+
+    /**
+     * Metoda, która blokuje encje z podanym typem blokady .
+     *
+     * @param entity blokowana encja
+     * @param lockModeType typ blokady
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     */
+    @Override
+    @DenyAll
+    public void lock(RentalStatus entity, LockModeType lockModeType) throws AppBaseException {
+        super.lock(entity, lockModeType);
     }
 }

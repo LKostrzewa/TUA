@@ -6,10 +6,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalFacade;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalStatusFacade;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.UserFacade;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
@@ -18,6 +15,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.persistence.LockModeType;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
@@ -40,6 +38,9 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     private UserFacade userFacade;
     @Inject
     private YachtFacade yachtFacade;
+    @Inject
+    private PortFacade portFacade;
+
     private String RENTAL_PENDING_STATUS;
     private String RENTAL_CANCELED_STATUS;
 
@@ -61,6 +62,9 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
         User rentingUser = userFacade.findByLogin(rental.getUser().getLogin());
 
         Yacht yachtToRent = yachtFacade.findByName(rental.getYacht().getName());
+
+        yachtFacade.lock(yachtToRent, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+        portFacade.lock(yachtToRent.getCurrentPort(), LockModeType.PESSIMISTIC_FORCE_INCREMENT);
 
         if (yachtToRent.getCurrentPort() == null)
             throw YachtPortChangedException.createYachtNotAssignedException(yachtToRent);

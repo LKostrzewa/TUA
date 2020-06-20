@@ -13,7 +13,11 @@
             <p:breadCrumb>
                 <p:menuitem value="Categories" outcome="/client/index.xhtml"/>
                 <p:menuitem value="#{msg['bread.main']}" outcome="/client/index.xhtml"/>
-                <p:menuitem value="#{msg['bread.yachts']}" outcome="/client/yacht/listYachts.xhtml"/>
+                <p:menuitem value="#{msg['bread.ports']}" outcome="/client/port/listPorts.xhtml"/>
+                <p:menuitem value="#{msg['bread.yachtsAssignedToPort']}" outcome="/client/port/listYachtsByPort.xhtml"
+                            includeViewParams="true">
+                    <f:param name="portId" value="#{yachtDetailsPageBean.yachtDto.currentPort.id}"/>
+                </p:menuitem>
                 <p:menuitem value="#{msg['bread.yacht']}" outcome="/client/yacht/yachtDetails.xhtml"
                             includeViewParams="true">
                     <f:param name="yachtId" value="#{yachtDetailsPageBean.yachtId}"/>
@@ -60,9 +64,12 @@
                     </p:dataViewListItem>
                 </p:dataView>
 
-                <p:button value="#{msg['goBack']}" outcome="listYachts.xhtml?faces-redirect=true"/>
+                <p:button value="#{msg['goBack']}" outcome="/client/port/listYachtsByPort.xhtml?faces-redirect=true">
+                    <f:param name="portId" value="#{yachtDetailsPageBean.yachtDto.currentPort.id}"/>
+                </p:button>
                 <p:button value="${msg['rent']}" outcome="/client/rental/addRental.xhtml?faces-redirect=true">
                     <f:param name="yachtId" value="#{yachtDetailsPageBean.yachtId}"/>
+                    <f:param name="portId" value="#{yachtDetailsPageBean.yachtDto.currentPort.id}"/>
                 </p:button>
             </h:form>
         </ui:define>

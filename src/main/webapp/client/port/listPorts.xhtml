@@ -39,7 +39,7 @@
                             <h:outputLabel value="#{msg['port.city']}:"/>
                             <h:outputText value="#{mapPortsPageBean.selectedPort.nearestCity}"/>
                             <h:outputLabel value="#{msg['port.yachts.size']}:"/>
-                            <h:outputText value="#{mapPortsPageBean.selectedPort.yachts.size()}"/>
+                            <h:outputText value="#{mapPortsPageBean.numberOfActiveYachts()}"/>
                             </p:panelGrid>
                             <p:button value="${msg['bread.yachtsAssignedToPort']}" outcome="listYachtsByPort.xhtml?faces-redirect=true">
                                 <f:param name="portId" value="#{mapPortsPageBean.selectedPort.id}"/>
