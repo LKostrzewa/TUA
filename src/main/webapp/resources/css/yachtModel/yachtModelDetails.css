@@ -1,9 +1,6 @@
-body {
-    background-color: #2670c5;
-}
 
 #form {
-    background-color: #eff5fc;
+    background-color: #ffffe6;
     width: 50%;
     height: 95%;
     padding: 10px 20px;
@@ -20,13 +17,15 @@ table {
 }
 
 .ui-panelgrid .ui-panelgrid-cell {
-    border: none;
-    background-color: #eff5fc;
+
+    background-color:  #ffffe6;
+    border-color: saddlebrown;
 }
 
 .ui-widget-content {
-    border: none;
-    background-color: #eff5fc;
+
+    background-color:  #ffffe6;
+    border-color: saddlebrown;
 }
 
 .button {

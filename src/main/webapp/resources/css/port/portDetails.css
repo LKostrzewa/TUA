@@ -1,15 +1,24 @@
 body {
-    background-color: #2670c5;
+
+
+    background-image: url("#{resource['images:waterSea5.jpg']}");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+
 }
 
 #form {
-    background-color: #eff5fc;
+    background-color: #ffffe6;
     width: 50%;
     padding: 10px 20px;
     border-radius: 10px;
-    position: absolute;
-    left: 25%;
-    top: 15%;
+    margin: auto;
+    margin-top: 8%;
+    margin-bottom: 10px;
     text-align: center;
 }
 
@@ -19,13 +28,13 @@ table {
 }
 
 .ui-panelgrid .ui-panelgrid-cell {
-    border: none;
-    background-color: #eff5fc;
+    background-color: #ffffe6;
+    border-color: saddlebrown;
 }
 
 .ui-widget-content {
+    background-color: #ffffe6;
     border: none;
-    background-color: #eff5fc;
 }
 
 .button {
