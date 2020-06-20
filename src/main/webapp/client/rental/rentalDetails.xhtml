@@ -48,15 +48,22 @@
                         <f:convertDateTime pattern="dd.MM.yyyy"/>
                     </h:outputText>
                     <h:outputLabel value="#{msg['rental.status']}:"/>
-                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.statusName}"/>
+                    <h:outputText class="bold" value="#{msg['started']}"
+                                  rendered="#{rentalDetailsPageBean.rentalDetails.statusName eq 'STARTED'}"/>
+                    <h:outputText class="bold" value="#{msg['pending']}"
+                                  rendered="#{rentalDetailsPageBean.rentalDetails.statusName eq 'PENDING'}"/>
+                    <h:outputText class="bold" value="#{msg['finished']}"
+                                  rendered="#{rentalDetailsPageBean.rentalDetails.statusName eq 'FINISHED'}"/>
+                    <h:outputText class="bold" value="#{msg['cancelled']}"
+                                  rendered="#{rentalDetailsPageBean.rentalDetails.statusName eq 'CANCELLED'}"/>
                     <h:outputLabel value="#{msg['rental.price']}:"/>
                     <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.price}"/>
                     <h:outputLabel value="#{msg['opinion.rating']}:"
-                                   rendered="#{rentalDetailsPageBean.rentalDetails.opinion != null}" />
+                                   rendered="#{rentalDetailsPageBean.rentalDetails.opinion != null}"/>
                     <p:rating value="#{rentalDetailsPageBean.rentalDetails.opinion.rating}"
                               rendered="#{rentalDetailsPageBean.rentalDetails.opinion != null}" readonly="true"/>
                     <h:outputLabel value="#{msg['opinion.comment']}:"
-                                   rendered="#{rentalDetailsPageBean.rentalDetails.opinion != null}" />
+                                   rendered="#{rentalDetailsPageBean.rentalDetails.opinion != null}"/>
                     <p:inputTextarea value="#{rentalDetailsPageBean.rentalDetails.opinion.comment}"
                                      rendered="#{rentalDetailsPageBean.rentalDetails.opinion != null}"
                                      readonly="true" cols="30"/>
@@ -69,14 +76,14 @@
                                icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>
                 <p:button class="button" value="${msg['opinion.addOpinion']}"
-                                 outcome="/client/opinion/addOpinion.xhtml?faces-redirect=true"
-                                 rendered="#{rentalDetailsPageBean.rentalDetails.statusName.equals('FINISHED') and rentalDetailsPageBean.rentalDetails.opinion == null}">
+                          outcome="/client/opinion/addOpinion.xhtml?faces-redirect=true"
+                          rendered="#{rentalDetailsPageBean.rentalDetails.statusName.equals('FINISHED') and rentalDetailsPageBean.rentalDetails.opinion == null}">
                     <f:param name="rentalBusinessKey" value="#{rentalDetailsPageBean.rentalBusinessKey}"/>
                 </p:button>
                 <p:button class="button" value="${msg['opinion.editOpinion']}"
-                                 outcome="/client/opinion/editOpinion.xhtml?faces-redirect=true"
-                                 rendered="#{rentalDetailsPageBean.rentalDetails.statusName.equals('FINISHED') and rentalDetailsPageBean.rentalDetails.opinion != null}">
-                   <f:param name="rentalBusinessKey" value="#{rentalDetailsPageBean.rentalBusinessKey}"/>
+                          outcome="/client/opinion/editOpinion.xhtml?faces-redirect=true"
+                          rendered="#{rentalDetailsPageBean.rentalDetails.statusName.equals('FINISHED') and rentalDetailsPageBean.rentalDetails.opinion != null}">
+                    <f:param name="rentalBusinessKey" value="#{rentalDetailsPageBean.rentalBusinessKey}"/>
                 </p:button>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"

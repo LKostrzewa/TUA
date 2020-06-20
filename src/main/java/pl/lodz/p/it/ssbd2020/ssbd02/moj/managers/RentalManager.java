@@ -42,12 +42,12 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     private PortFacade portFacade;
 
     private String RENTAL_PENDING_STATUS;
-    private String RENTAL_CANCELED_STATUS;
+    private String RENTAL_CANCELLED_STATUS;
 
     @PostConstruct
     public void init() {
         RENTAL_PENDING_STATUS = propertyReader.getProperty("config", "PENDING_STATUS");
-        RENTAL_CANCELED_STATUS = propertyReader.getProperty("config", "CANCELED_STATUS");
+        RENTAL_CANCELLED_STATUS = propertyReader.getProperty("config", "CANCELLED_STATUS");
     }
 
     /**
@@ -130,7 +130,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
         Rental rentalToCancel = getRentalByBusinessKey(rentalBusinessKey);
 
         if (rentalToCancel.getRentalStatus().getName().equals(RENTAL_PENDING_STATUS)) {
-            RentalStatus rentalStatus = rentalStatusFacade.findByName(RENTAL_CANCELED_STATUS);
+            RentalStatus rentalStatus = rentalStatusFacade.findByName(RENTAL_CANCELLED_STATUS);
             rentalToCancel.setRentalStatus(rentalStatus);
             rentalFacade.edit(rentalToCancel);
         } else throw RentalNotCancelableException.createRentalNotCancelableException(rentalToCancel);

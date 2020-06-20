@@ -44,7 +44,14 @@
                         <h:outputText value="#{rental.price}"/>
                     </p:column>
                     <p:column headerText="${msg['rental.status']}">
-                        <h:outputText value="#{rental.statusName}"/>
+                        <h:outputText class="bold" value="#{msg['started']}"
+                                      rendered="#{rental.statusName eq 'STARTED'}"/>
+                        <h:outputText class="bold" value="#{msg['pending']}"
+                                      rendered="#{rental.statusName eq 'PENDING'}"/>
+                        <h:outputText class="bold" value="#{msg['finished']}"
+                                      rendered="#{rental.statusName eq 'FINISHED'}"/>
+                        <h:outputText class="bold" value="#{msg['cancelled']}"
+                                      rendered="#{rental.statusName eq 'CANCELLED'}"/>
                     </p:column>
                     <p:column headerText="${msg['actions']}">
                         <p:button value="${msg['details']}"
