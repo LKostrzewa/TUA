@@ -84,7 +84,7 @@
                         <f:param name="id" value="#{imageId}"/>
                     </p:graphicImage>
                     <span style="position:absolute;right:0;top:0;">
-            <p:commandButton icon="pi pi-trash" style="background-color:  #ffcc80" disabled="#{not yachtModelDetailsPageBean.yachtModelDetailsDto.active}
+            <p:commandButton icon="pi pi-trash" style="background-color:  #ffcc80" disabled="#{not yachtModelDetailsPageBean.yachtModelDetailsDto.active}"
                              action="#{yachtModelDetailsPageBean.deleteImage}" update="@form">
                  <f:param name="id" value="#{imageId}"/>
             </p:commandButton>
