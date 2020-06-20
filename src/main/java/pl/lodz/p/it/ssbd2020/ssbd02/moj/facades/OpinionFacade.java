@@ -108,7 +108,7 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
      * @return lista opini dla danego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jesli yacht nie zostanie znaleziony
      */
-    @RolesAllowed("getAllOpinionsByYacht")
+    @RolesAllowed({"getAllOpinionsByYacht", "addOpinion", "editOpinion"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<Opinion> getAllOpinionsByYacht(Long yachtId) throws AppBaseException {
         TypedQuery<Opinion> typedQuery = entityManager.createNamedQuery("Opinion.findAllByYacht", Opinion.class);
