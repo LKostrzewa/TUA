@@ -42,7 +42,7 @@
                     <p:inputTextarea id="comment" value="#{editOpinionPageBean.editOpinionDTO.comment}"
                                      rows="5" cols="40" counter="display"
                                      maxlength="4000"
-                                     counterTemplate="{0} characters remaining."/>
+                                     counterTemplate="{0} #{msg['opinion.addComment.charactersLeft']}"/>
                     <p:outputLabel for="@previous" value="#{msg['opinion.addComment']}"/>
                     <p:message for="comment"/>
                     <h:outputText id="display" />
