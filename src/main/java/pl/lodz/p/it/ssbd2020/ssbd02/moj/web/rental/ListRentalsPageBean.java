@@ -39,6 +39,7 @@ public class ListRentalsPageBean implements Serializable {
     @PostConstruct
     private void init() {
         List<ListRentalsDto> rentals = rentalEndpoint.getRentals(currentUser.getCurrentUserLogin());
+        rentals.sort(Comparator.comparing(ListRentalsDto::getBeginDate));
         rentals.sort(new Comparator<>() {
             private final List<String> definedOrder =
                     Arrays.asList("STARTED", "PENDING", "FINISHED", "CANCELED");

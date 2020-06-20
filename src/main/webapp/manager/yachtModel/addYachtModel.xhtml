@@ -4,7 +4,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en"
+      xml:lang="en" lang="en"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 <h:head/>
 <h:body>
@@ -59,14 +59,28 @@
                     <h:message id="manufacturer_err" styleClass="message" for="manufacturer"/>
                 </div>
                 <div class="text-box">
-                    <p:inputTextarea cols="40" id="generalDescription" type="text" a:placeholder="#{msg['yachtModel.description']}"
+                    <p:inputTextarea cols="40" id="generalDescription" type="text"
+                                     a:placeholder="#{msg['yachtModel.description']}"
                                      value="#{addYachtModelPageBean.newYachtModelDto.generalDescription}">
                     </p:inputTextarea>
                     <span class="asterisk_input"/>
                     <h:message id="generalDescription_err" styleClass="message" for="generalDescription"/>
                 </div>
-                <p:button class="back" value="#{msg['goBack']}" outcome="listYachtModels.xhtml?faces-redirect=true"/>
-                <p:commandButton class="save" value="#{msg['save']}" action="#{addYachtModelPageBean.addNewYachtModel()}" update="@form" ajax="false"/>
+                <div>
+                    <p:button class="cancel" value="#{msg['cancel']}" style="background-color: orange"
+                              outcome="listYachtModels.xhtml?faces-redirect=true"/>
+                    <p:commandButton id="add" class="save" value="#{msg['save']}" type="button"
+                                     onclick="PF('addConfirm').show()" style="background-color: green"/>
+                </div>
+                <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}" showEffect="explode"
+                                 hideEffect="explode" widgetVar="addConfirm">
+                    <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
+                                     style="background-color: green"
+                                     action="#{addYachtModelPageBean.addNewYachtModel()}" ajax="false"
+                                     oncomplete="PF('editConfirm').hide()" icon="pi pi-check"/>
+                    <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no" style="background-color: red"
+                                     oncomplete="PF('editConfirm').hide()" icon="pi pi-times"/>
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>

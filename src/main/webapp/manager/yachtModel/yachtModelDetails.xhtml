@@ -51,10 +51,9 @@
                     background-color: orange;
                 }
 
-                .ui-fileupload-buttonbar  {
-                    background-color:  #ffcc80;
+                .ui-fileupload-buttonbar {
+                    background-color: #ffcc80;
                 }
-
 
             </style>
 
@@ -67,7 +66,10 @@
                 <h:outputLabel value="#{msg['yachtModel.manufacturer']}:"/>
                 <h:outputText class="bold" value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.manufacturer}" />
                 <h:outputLabel value="#{msg['yachtModel.active']}:"/>
-                <h:outputText class="bold" value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.active}" />
+                <h:outputText class="bold" value="${msg['yes']}"
+                              rendered="#{yachtModelDetailsPageBean.yachtModelDetailsDto.active}"/>
+                <h:outputText class="bold" value="${msg['no']}"
+                              rendered="#{!yachtModelDetailsPageBean.yachtModelDetailsDto.active}"/>
                 <h:outputLabel value="#{msg['yachtModel.capacity']}:"/>
                 <h:outputText class="bold" value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.capacity}" />
                 <h:outputLabel value="#{msg['yachtModel.basicPrice']}:"/>
@@ -78,28 +80,53 @@
             </p:panelGrid>
 
             <p:button class="button" value="#{msg['goBack']}" outcome="listYachtModels.xhtml?faces-redirect=true"/>
-            <p:button class="button" value="${msg['edit']}" outcome="editYachtModel.xhtml?faces-redirect=true">
+            <p:button class="button" value="${msg['edit']}" outcome="editYachtModel.xhtml?faces-redirect=true"
+                      disabled="#{not yachtModelDetailsPageBean.yachtModelDetailsDto.active}">
                 <f:param name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
             </p:button>
             <div id="galleria">
-                <p:galleria value="#{yachtModelDetailsPageBean.imageIds}" autoPlay="false"  var="imageId" panelWidth="660" panelHeight="370" style="display: block; text-align: center; margin:auto;">
-                    <p:graphicImage value="#{yachtModelDetailsPageBean.image}" width="100%" height="100%" style="align-content: center">
-                        <f:param name="id" value="#{imageId}" />
+                <p:galleria value="#{yachtModelDetailsPageBean.imageIds}" autoPlay="false" var="imageId"
+                            panelWidth="660" panelHeight="370" style="display: block; text-align: center; margin:auto;">
+                    <p:graphicImage value="#{yachtModelDetailsPageBean.image}" width="100%" height="100%"
+                                    style="align-content: center">
+                        <f:param name="id" value="#{imageId}"/>
                     </p:graphicImage>
                     <span style="position:absolute;right:0;top:0;">
-            <p:commandButton   icon="pi pi-trash" style="background-color:  #ffcc80" action="#{yachtModelDetailsPageBean.deleteImage}" update="@form" >
-                 <f:param name="id" value="#{imageId}" />
+            <p:commandButton icon="pi pi-trash" style="background-color:  #ffcc80"
+                             onclick="PF('deleteConfirm').show()"
+                             disabled="#{not yachtModelDetailsPageBean.yachtModelDetailsDto.active}">
             </p:commandButton>
+                          <p:confirmDialog header="#{msg['confirmation']}" message="#{msg['confirm']}"
+                                           showEffect="explode"
+                                           hideEffect="explode" widgetVar="deleteConfirm">
+                             <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
+                                              style="background-color: green" update="@form"
+                                              action="#{yachtModelDetailsPageBean.deleteImage}" ajax="false"
+                                              oncomplete="PF('deleteConfirm').hide()" icon="pi pi-check">
+                                 <f:param name="id" value="#{imageId}"/>
+                             </p:commandButton>
+                              <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no"
+                                               style="background-color: red"
+                                               oncomplete="PF('deleteConfirm').hide()" icon="pi pi-times"/>
+                          </p:confirmDialog>
                     </span>
                 </p:galleria>
-
             </div>
-            <p:fileUpload listener="#{yachtModelDetailsPageBean.handleFileUpload}" mode="advanced" dragDropSupport="true" style="width: 660px;display: block;text-align: center; margin:auto"
-                          cancelLabel="#{msg['cancel']}" uploadLabel="#{msg['image.addMessage']}" label="#{msg['image.chooseMessage']}" fileLimit="1" sizeLimit="8000000"
-                          update="@form" allowTypes="/(\.|\/)(jpe?g|png)$/" invalidFileMessage="#{msg['image.invalidFileMessage']}" invalidSizeMessage="#{msg['image.invalidSizeMessage']}" fileLimitMessage="#{msg['image.fileLimitMessage']}">
-               <b>#{msg['image.dropMessage']} </b>
+            <p:fileUpload listener="#{yachtModelDetailsPageBean.handleFileUpload}" mode="advanced"
+                          dragDropSupport="true" style="width: 680px;display: block;text-align: center; margin:auto"
+                          disabled="#{not yachtModelDetailsPageBean.yachtModelDetailsDto.active}"
+                          cancelLabel="#{msg['cancel']}" uploadLabel="#{msg['image.addMessage']}"
+                          label="#{msg['image.chooseMessage']}" fileLimit="1" sizeLimit="8000000"
+                          update="@form" allowTypes="/(\.|\/)(jpe?g|png)$/"
+                          invalidFileMessage="#{msg['image.invalidFileMessage']}"
+                          invalidSizeMessage="#{msg['image.invalidSizeMessage']}"
+                          fileLimitMessage="#{msg['image.fileLimitMessage']}">
+                <b>#{msg['image.dropMessage']}</b>
             </p:fileUpload>
-            <p:growl id="messages" showDetail="true" />
+
+
+            <p:growl id="messages" showDetail="true"/>
+
         </h:form>
     </ui:define>
 </ui:composition>

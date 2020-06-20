@@ -27,8 +27,8 @@
                          first="0"
                          paginatorPosition="bottom"
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                         currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['bread.yachtModels']}">
-
+                         currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.yachtModels']}">
+                <h:outputStylesheet library="css" name="tableClassManager.css"/>
                 <p:column headerText="${msg['yachtModel.model']}">
                     <h:outputText value="#{model.model}"/>
                 </p:column>
@@ -42,15 +42,25 @@
                     <h:outputText value="#{model.basicPrice}"/>
                 </p:column>
                 <p:column headerText="${msg['yachtModel.active']}">
-                    <h:outputText value="#{model.active}"/>
+                    <h:outputText value="${msg['yes']}" rendered="#{model.active}"/>
+                    <h:outputText value="${msg['no']}" rendered="#{!model.active}"/>
                 </p:column>
                 <p:column headerText="${msg['actions']}">
                     <p:button value="${msg['details']}" outcome="yachtModelDetails.xhtml?faces-redirect=true">
                         <f:param name="yachtModelId" value="#{model.id}"/>
                     </p:button>
-                    <p:commandButton value="#{msg['deactivate']}" action="#{listYachtModelPageBean.deactivateYachtModel(model.id)}"
-                                     update="@form">
+                    <p:commandButton disabled="#{not model.active}" value="#{msg['deactivate']}"
+                                     action="#{listYachtModelPageBean.deactivateYachtModel(model.id)}" update="@form">
+                        <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
+                                   icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
+                    <p:confirmDialog global="true" showEffect="explode"
+                                     hideEffect="explode">
+                        <p:commandButton value="#{msg['yes']}" style="background-color: green"
+                                         styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                        <p:commandButton value="#{msg['no']}" style="background-color: red"
+                                         styleClass="ui-confirmdialog-no" icon="pi pi-times"/>
+                    </p:confirmDialog>
                 </p:column>
             </p:dataTable>
         </h:form>

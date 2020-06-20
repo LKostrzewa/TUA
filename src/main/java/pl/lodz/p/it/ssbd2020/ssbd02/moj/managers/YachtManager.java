@@ -16,6 +16,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.persistence.LockModeType;
 import java.util.List;
 
 /**
@@ -42,6 +43,8 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
     public void addYacht(Yacht yacht, Long yachtModelId) throws AppBaseException {
         YachtModel yachtModel = yachtModelFacade.find(yachtModelId).orElseThrow(AppNotFoundException::yachtModelNotFoundException);
         Yacht newYacht = new Yacht(yacht.getName(),yacht.getProductionYear(),yacht.getPriceMultiplier(),yacht.getEquipment(), yachtModel);
+
+        yachtModelFacade.lock(yachtModel, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
 
         if(!yachtModel.isActive()){
             throw EntityNotActiveException.createYachtModelNotActiveException(yachtModel);
@@ -88,6 +91,9 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
     @RolesAllowed("editYacht")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editYacht(Yacht yachtToEdit, boolean nameChanged) throws AppBaseException {
+        if(!yachtToEdit.isActive()){
+            throw EntityNotActiveException.createYachtNotActiveException(yachtToEdit);
+        }
         if (nameChanged && yachtFacade.existByName(yachtToEdit.getName())) {
             throw ValueNotUniqueException.createYachtNameNotUniqueException(yachtToEdit);
         }

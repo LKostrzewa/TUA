@@ -4,6 +4,7 @@ import org.eclipse.persistence.exceptions.DatabaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
 
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 import javax.persistence.criteria.CriteriaQuery;
@@ -91,5 +92,20 @@ public abstract class AbstractFacade<T> {
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();
+    }
+
+    /**
+     * Bazowa metoda, która blokuje encje z podanym typem blokady .
+     *
+     * @param entity blokowana encja
+     * @param lockModeType typ blokady
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     */
+    public void lock(T entity, LockModeType lockModeType) throws AppBaseException{
+        try {
+            getEntityManager().lock(entity, lockModeType);
+        } catch (OptimisticLockException e) {
+            throw AppOptimisticLockException.createAppOptimisticLockException(entity, e);
+        }
     }
 }

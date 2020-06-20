@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.entities.Image;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.EntityNotActiveException;
 import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.ImageFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtModelFacade;
@@ -13,6 +14,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.persistence.LockModeType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +39,12 @@ public class ImageManager extends AbstractManager implements SessionSynchronizat
     @RolesAllowed("deleteImage")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void deleteImage(Long imageId) throws AppBaseException {
-        imageFacade.remove(imageFacade.find(imageId).orElseThrow((AppNotFoundException::imageNotFoundException)));
+        Image image = imageFacade.find(imageId).orElseThrow(AppNotFoundException::imageNotFoundException);
+        yachtModelFacade.lock(image.getYachtModel(), LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+        if(!(image.getYachtModel().isActive())){
+            throw EntityNotActiveException.createYachtModelNotActiveException(image.getYachtModel());
+        }
+        imageFacade.remove(image);
     }
 
     /**
@@ -51,6 +58,10 @@ public class ImageManager extends AbstractManager implements SessionSynchronizat
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addImage(byte[] image, Long id) throws AppBaseException {
         YachtModel yachtModel = yachtModelFacade.find(id).orElseThrow(AppNotFoundException::yachtModelNotFoundException);
+        yachtModelFacade.lock(yachtModel, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+        if(!yachtModel.isActive()){
+            throw EntityNotActiveException.createYachtModelNotActiveException(yachtModel);
+        }
         Image newImage = new Image(image, yachtModel);
         imageFacade.create(newImage);
     }
