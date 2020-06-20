@@ -60,7 +60,7 @@ public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
      */
     @RolesAllowed("getOpinionByBusinessKey")
     public EditOpinionDto getOpinionByRentalBusinessKey(String rentalBusinessKey) throws AppBaseException {
-        opinionEditEntity = opinionManager.getOpinionByRentalBusinessKey(rentalBusinessKey);
+        this.opinionEditEntity = opinionManager.getOpinionByRentalBusinessKey(rentalBusinessKey);
         return ObjectMapperUtils.map(opinionEditEntity, EditOpinionDto.class);
     }
 
@@ -72,7 +72,8 @@ public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
      */
     @RolesAllowed("editOpinion")
     public void editOpinion(EditOpinionDto editOpinionDto) throws AppBaseException {
-        Opinion opinionToEdit = ObjectMapperUtils.map(editOpinionDto, Opinion.class);
-        opinionManager.editOpinion(opinionToEdit, opinionEditEntity);
+        opinionEditEntity.setRating(editOpinionDto.getRating());
+        opinionEditEntity.setComment(editOpinionDto.getComment());
+        opinionManager.editOpinion(opinionEditEntity);
     }
 }
