@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.image.ImageDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtPortEndpoint;
@@ -57,24 +58,16 @@ public class ListYachtsByPortPageBean implements Serializable {
         this.portId = portId;
     }
 
-    public byte[] getImage(long imageId, long yachtId) {
-        /*return yachts.stream().filter(y -> y.getId().equals(yachtId))
-                .findFirst().orElseThrow(Exception::new)
-                .getYachtModel().getImages().stream()
-                .filter(i -> i.getId().equals(imageId))
-                .findFirst().orElseThrow(Exception::new)
-                .getLob();
-        return yachts.get(yachtIndex)
-                .getYachtModel().getImages()
-                .get(imageIndex);*/
+    public byte[] getImage(long imageId, long yachtId) throws IOException {
         YachtDto yachtDto = new YachtDto();
         try {
             yachtDto = yachts.stream().filter(y -> y.getId().equals(yachtId))
-                    .findFirst().orElseThrow(Exception::new);
-        } catch (Exception e) {
-            e.printStackTrace();
+                    .findFirst().orElseThrow(AppNotFoundException::imageNotFoundException);
+        } catch (AppNotFoundException e) {
+            displayError(e.getLocalizedMessage());
+            ExternalContext externalContext = facesContext.getExternalContext();
+            externalContext.redirect(externalContext.getRequestContextPath() + "listPorts.xhtml");
         }
-
         Optional<ImageDto> first = yachtDto.getYachtModel().getImages().stream().filter(i -> i.getId().equals(imageId)).findFirst();
         return first.map(ImageDto::getLob).orElse(null);
     }
