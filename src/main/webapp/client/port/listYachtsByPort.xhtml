@@ -4,7 +4,9 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:o="http://omnifaces.org/ui"
+      xml:lang="en" lang="en">
 <h:head/>
 <h:body>
     <ui:composition template="/templates/commonTemplate.xhtml">
@@ -16,7 +18,7 @@
                 <p:menuitem value="#{msg['bread.ports']}" outcome="/client/port/listPorts.xhtml"/>
                 <p:menuitem value="#{msg['bread.yachtsAssignedToPort']}" outcome="/client/port/listYachtsByPort.xhtml"
                     includeViewParams="true">
-                <f:param name="portId" value="#{listYachtsByPortPageBean.portId}"/>
+                    <f:param name="portId" value="#{listYachtsByPortPageBean.portId}"/>
                 </p:menuitem>
             </p:breadCrumb>
         </ui:define>
@@ -25,33 +27,54 @@
                 <f:viewParam name="portId" value="#{listYachtsByPortPageBean.portId}"/>
                 <f:event type="preRenderView" listener="#{listYachtsByPortPageBean.init}"/>
             </f:metadata>
-            <h:form>
-                <p:growl id="growl" showDetail="true" sticky="true"/>
-                <p:dataTable var="yacht" value="#{listYachtsByPortPageBean.yachts}" rows="10"
-                             border="2"
-                             paginator="true"
-                             lazy="true"
-                             first="0"
-                             paginatorPosition="bottom"
-                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.yachts']}"
-                             emptyMessage="${msg['yachts.noYachtsFoundMessage']}">
+            <h:outputText value="${msg['yachts.noYachtsFoundMessage']}" rendered="#{empty listYachtsByPortPageBean.yachts}"
+                          style="text-align: center; font-size: 22px;"/>
+            <h:form id="form">
+                <p:repeat var="yacht" value="#{listYachtsByPortPageBean.activeYachts}" varStatus="myVarStatus">
+                    <h:panelGrid columns="2" style="width:80%">
+                        <p:column>
+                            <p:row>
+                                <p:imageSwitch effect="wipe" widgetVar="switcher + #{myVarStatus.index}" id="manuelSwitcher"
+                                               slideshowAuto="false" >
+                                    <ui:repeat value="#{yacht.yachtModel.images}" var="image" id="manuelSwitcherImages" varStatus="myVarStatusImg">
+                                        <!--<o:graphicImage value="#{images.get(image.id)}" height="200" width="200" id="image"/>-->
+                                        <o:graphicImage value="#{listYachtsByPortPageBean.getImage(image.id, yacht.id)}" height="200" width="200" id="image"/>
+                                    </ui:repeat>
+                                </p:imageSwitch>
+                            </p:row>
+                            <p:row>
+                            <!--<p:row rendered="#{not empty yacht.yachtModel.images}">-->
+                                <p:commandButton type="button" onclick="PF('switcher + #{myVarStatus.index}').previous();"
+                                                 icon="pi pi-caret-left" id="prev" style="margin-bottom: 5px"/>
+                                <p:commandButton type="button" onclick="PF('switcher + #{myVarStatus.index}').next();"
+                                                 icon="pi pi-caret-right" id="next" style="margin-bottom: 5px"/>
+                            </p:row>
+                        </p:column>
 
-                    <p:column headerText="${msg['yacht.name']}">
-                        <h:outputText value="#{yacht.name}"/>
-                    </p:column>
-                    <p:column headerText="${msg['yacht.avgRating']}" >
-                        <h:outputText value="#{yacht.avgRating}"/>
-                    </p:column>
-                    <p:column headerText="${msg['yacht.active']}" >
-                        <h:outputText value="#{yacht.active}"/>
-                    </p:column>
-                    <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}" outcome="/client/yacht/yachtDetails.xhtml?faces-redirect=true">
-                            <f:param name="yachtId" value="#{yacht.id}"/>
-                        </p:button>
-                    </p:column>
-                </p:dataTable>
+                        <h:panelGrid columns="2">
+                            <p:outputPanel>
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputText value="${msg['yacht.name']}" />
+                                    <h:outputText value="#{yacht.name}" style="font-weight: bold"/>
+
+                                    <h:outputText value="${msg['yacht.avgRating']}" />
+                                    <h:outputText value="#{yacht.avgRating}" style="font-weight: bold"/>
+
+                                    <h:outputText value="${msg['yachtModel.model']}" />
+                                    <h:outputText value="#{yacht.yachtModel.model}" style="font-weight: bold"/>
+
+                                    <h:outputText value="${msg['yachtModel.description']}" />
+                                    <h:outputText value="#{yacht.yachtModel.description}" style="font-weight: bold"/>
+
+                                </h:panelGrid>
+                                <p:button value="${msg['details']}" outcome="/client/yacht/yachtDetails.xhtml?faces-redirect=true">
+                                    <f:param name="yachtId" value="#{yacht.id}"/>
+                                </p:button>
+                            </p:outputPanel>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <hr/>
+                </p:repeat>
             </h:form>
         </ui:define>
     </ui:composition>
