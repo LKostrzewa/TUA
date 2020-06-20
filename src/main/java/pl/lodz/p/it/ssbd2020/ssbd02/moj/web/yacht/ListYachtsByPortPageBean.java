@@ -89,8 +89,9 @@ public class ListYachtsByPortPageBean implements Serializable {
     public void init() throws IOException {
         try {
             this.yachts = yachtPortEndpoint.getAllYachtsByPort(portId);
+            this.yachts.sort(Comparator.comparing(YachtDto::getName, String::compareToIgnoreCase));
             this.activeYachts = yachts.stream().filter(YachtDto::isActive).collect(Collectors.toList());
-            this.activeYachts.sort(Comparator.comparing(YachtDto::getName, String::compareToIgnoreCase));
+
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
             ExternalContext externalContext = facesContext.getExternalContext();
