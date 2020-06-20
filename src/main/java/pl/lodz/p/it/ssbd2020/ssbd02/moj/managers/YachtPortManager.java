@@ -14,6 +14,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.persistence.LockModeType;
 import java.util.Collection;
 import java.util.List;
 
@@ -65,13 +66,17 @@ public class YachtPortManager extends AbstractManager implements SessionSynchron
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void assignYachtToPort(Long portId, Long yachtId) throws AppBaseException {
         Yacht yacht = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createPortNotFoundException);
+        Port port = portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
+        yachtFacade.lock(yacht, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+        portFacade.lock(port, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+
         if(!yacht.isActive()){
             throw EntityNotActiveException.createYachtNotActiveException(yacht);
         }
         if(yacht.getCurrentPort() != null){
             throw YachtPortChangedException.createYachtAssignedException(yacht);
         }
-        Port port = portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
+
         if(!port.isActive()){
             throw EntityNotActiveException.createPortNotActiveException(port);
         }

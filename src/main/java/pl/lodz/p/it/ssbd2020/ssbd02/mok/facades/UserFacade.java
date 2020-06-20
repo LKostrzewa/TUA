@@ -1,12 +1,14 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 
 import org.primefaces.model.FilterMeta;
+import pl.lodz.p.it.ssbd2020.ssbd02.entities.Image;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
@@ -14,10 +16,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -297,6 +296,19 @@ public class UserFacade extends AbstractFacade<User> {
     public boolean existByActivationCode(String activationCode) {
         return entityManager.createNamedQuery("User.countByActivationCode", Long.class)
                 .setParameter("activationCode", activationCode).getSingleResult() > 0;
+    }
+
+    /**
+     * Metoda, która blokuje encje z podanym typem blokady .
+     *
+     * @param entity blokowana encja
+     * @param lockModeType typ blokady
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     */
+    @Override
+    @DenyAll
+    public void lock(User entity, LockModeType lockModeType) throws AppBaseException {
+        super.lock(entity, lockModeType);
     }
 }
 
