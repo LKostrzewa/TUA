@@ -26,7 +26,7 @@
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.ports']}">
-
+                    <h:outputStylesheet library="css" name="tableClassManager.css"/>
                     <p:column headerText="${msg['port.name']}">
                         <h:outputText value="#{port.name}"/>
                     </p:column>
@@ -43,9 +43,12 @@
                         <p:button value="${msg['details']}" outcome="portDetails.xhtml?faces-redirect=true">
                             <f:param name="portId" value="#{port.id}"/>
                         </p:button>
-                        <p:commandButton value="#{msg['deactivate']}" action="#{listPortsPageBean.deactivatePort(port.id)}" update="message form"
-                                         ajax="false" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" disabled="#{not port.active}"/>
-                        <p:button value="${msg['bread.yachtsAssignedToPort']}" outcome="listYachtsByPort.xhtml?faces-redirect=true">
+                        <p:commandButton disabled="#{not port.active}" value="#{msg['deactivate']}"
+                                         action="#{listPortsPageBean.deactivatePort(port.id)}" update="message form"
+                                         ajax="false" onclick="PF('statusDialog').show()"
+                                         oncomplete="PF('statusDialog').hide()"/>
+                        <p:button value="${msg['bread.yachtsAssignedToPort']}"
+                                  outcome="listYachtsByPort.xhtml?faces-redirect=true">
                             <f:param name="portId" value="#{port.id}"/>
                         </p:button>
                     </p:column>

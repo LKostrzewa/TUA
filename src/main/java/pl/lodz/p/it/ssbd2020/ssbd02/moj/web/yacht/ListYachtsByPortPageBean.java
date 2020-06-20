@@ -21,6 +21,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -88,9 +89,10 @@ public class ListYachtsByPortPageBean implements Serializable {
     public void init() throws IOException {
         try {
             this.yachts = yachtPortEndpoint.getAllYachtsByPort(portId);
+            this.yachts.sort(Comparator.comparing(YachtDto::getName, String::compareToIgnoreCase));
             this.activeYachts = yachts.stream().filter(YachtDto::isActive).collect(Collectors.toList());
-        }
-        catch (AppBaseException e) {
+
+        } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
             ExternalContext externalContext = facesContext.getExternalContext();
             externalContext.redirect(externalContext.getRequestContextPath() + "listPorts.xhtml");

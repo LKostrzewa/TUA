@@ -10,6 +10,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -34,6 +35,7 @@ public class ListPortsPageBean {
     @PostConstruct
     private void init() {
         this.ports = portEndpoint.getAllPorts();
+        ports.sort(Comparator.comparing(PortDetailsDto::getName, String::compareToIgnoreCase));
         this.activePorts = ports.stream().filter(portDetailsDto -> portDetailsDto.getActive().equals(true)).collect(Collectors.toList());
     }
 
@@ -43,12 +45,12 @@ public class ListPortsPageBean {
      * @param portId id portu, który ma zostać deaktywowany
      * @return strona, na którą użytkownik ma zostać przekierowany
      */
-    public String deactivatePort(long portId){
-        try{
+    public String deactivatePort(long portId) {
+        try {
             portEndpoint.deactivatePort(portId);
             displayMessage("deactivate.success");
             return "listPorts.xhtml?faces-redirect=true";
-        }catch (AppBaseException e){
+        } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
             return "listPorts.xhtml?faces-redirect=true";
         }
@@ -57,7 +59,7 @@ public class ListPortsPageBean {
     /**
      * Metoda inicjalizująca wyświetlanie wiadomości
      */
-    public void displayInit(){
+    public void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
