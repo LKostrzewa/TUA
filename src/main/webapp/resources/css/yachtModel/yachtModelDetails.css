@@ -5,11 +5,12 @@ body {
 #form {
     background-color: #eff5fc;
     width: 50%;
+    height: 95%;
     padding: 10px 20px;
     border-radius: 10px;
-    position: absolute;
-    left: 25%;
-    top: 15%;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
