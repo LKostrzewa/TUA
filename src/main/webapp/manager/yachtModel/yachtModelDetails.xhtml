@@ -73,7 +73,7 @@
             </p:panelGrid>
 
             <p:button value="#{msg['goBack']}" outcome="listYachtModels.xhtml?faces-redirect=true"/>
-            <p:button value="${msg['edit']}" outcome="editYachtModel.xhtml?faces-redirect=true">
+            <p:button value="${msg['edit']}" outcome="editYachtModel.xhtml?faces-redirect=true" disabled="#{not yachtModelDetailsPageBean.yachtModelDetailsDto.active}">
                 <f:param name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
             </p:button>
             <div id="galleria">
@@ -84,7 +84,7 @@
                         <f:param name="id" value="#{imageId}"/>
                     </p:graphicImage>
                     <span style="position:absolute;right:0;top:0;">
-            <p:commandButton icon="pi pi-trash" style="background-color:  #ffcc80"
+            <p:commandButton icon="pi pi-trash" style="background-color:  #ffcc80" disabled="#{not yachtModelDetailsPageBean.yachtModelDetailsDto.active}"
                              action="#{yachtModelDetailsPageBean.deleteImage}" update="@form">
                  <f:param name="id" value="#{imageId}"/>
             </p:commandButton>
@@ -99,7 +99,8 @@
                           update="@form" allowTypes="/(\.|\/)(jpe?g|png)$/"
                           invalidFileMessage="#{msg['image.invalidFileMessage']}"
                           invalidSizeMessage="#{msg['image.invalidSizeMessage']}"
-                          fileLimitMessage="#{msg['image.fileLimitMessage']}">
+                          fileLimitMessage="#{msg['image.fileLimitMessage']}"
+                          disabled="#{not yachtModelDetailsPageBean.yachtModelDetailsDto.active}">
                 <b>#{msg['image.dropMessage']}</b>
             </p:fileUpload>
 

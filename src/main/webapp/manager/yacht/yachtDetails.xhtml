@@ -65,7 +65,7 @@
                     </p:dataViewListItem>
                 </p:dataView>
                 <p:button value="#{msg['goBack']}" outcome="listYachts.xhtml?faces-redirect=true"/>
-                <p:button value="${msg['edit']}" outcome="editYacht.xhtml?faces-redirect=true">
+                <p:button value="${msg['edit']}" outcome="editYacht.xhtml?faces-redirect=true" disabled="#{not yachtDetailsPageBean.yachtDto.active}">
                     <f:param name="yachtId" value="#{yachtDetailsPageBean.yachtId}"/>
                 </p:button>
                 <p:commandButton value="${msg['yachts.retractYachtFromPort']}" action="#{yachtDetailsPageBean.retractYachtFromPort}" update="message form" style="background-color: red"

@@ -12,14 +12,15 @@
     <h:outputStylesheet name="/css/page.css"/>
     <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
     <div id="page" >
-        <div id="breadCrumbs">
-            <ui:insert name="breadCrumbs">
-                <ui:include src="/templates/commonBreadCrumbs.xhtml"/>
-            </ui:insert>
-        </div>
+
         <div id="menu">
             <ui:insert name="menu">
                 <ui:include src="/templates/commonMenu.xhtml"/>
+            </ui:insert>
+        </div>
+        <div id="breadCrumbs">
+            <ui:insert name="breadCrumbs">
+                <ui:include src="/templates/commonBreadCrumbs.xhtml"/>
             </ui:insert>
         </div>
         <div id="content">

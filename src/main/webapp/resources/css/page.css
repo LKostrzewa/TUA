@@ -12,28 +12,66 @@
     flex: 1;
 }
 
-#adminFooter {
-    height: 50px;
+
+
+.adminFooter {
+    background-color: rgb(196, 196, 196);
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-image: -moz-linear-gradient(
+            rgba(255, 255, 255, 0.8),
+            rgba(255, 255, 255, 0));
+    background-size: auto;
+    background-origin: padding-box;
+    background-clip: border-box;
+
+    height: 30px;
     border-top: 2px solid black;
     width: 100%;
-    background-color: #ffcc80;
     text-align: center;
+    font-size: 20px;
 }
 
-#managerFooter {
-    height: 50px;
+.managerFooter {
+    background-color: rgb(196, 196, 196);
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-image: -moz-linear-gradient(
+            rgba(255, 255, 255, 0.8),
+            rgba(255, 255, 255, 0));
+    background-size: auto;
+    background-origin: padding-box;
+    background-clip: border-box;
+
+    height: 30px;
     border-top: 2px solid black;
     width: 100%;
-    background-color: orange;
     text-align: center;
+    font-size: 20px;
 }
 
-#clientFooter {
-    height: 50px;
+.clientFooter {
+    background-color: rgb(196, 196, 196);
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-image: -moz-linear-gradient(
+            rgba(255, 255, 255, 0.8),
+            rgba(255, 255, 255, 0));
+    background-size: auto;
+    background-origin: padding-box;
+    background-clip: border-box;
+
+    height: 30px;
     border-top: 2px solid black;
     width: 100%;
-    background-color: gold;
     text-align: center;
+    font-size: 20px;
 }
 
 [id*='options'] .ui-button-icon-left {
@@ -53,4 +91,9 @@
 
 .ui-breadcrumb {
     background-color: #ffcc80;
+    height: 20px;
+}
+
+#info {
+    right: 0.3em;
 }
