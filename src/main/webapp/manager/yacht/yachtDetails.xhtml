@@ -26,6 +26,7 @@
                 <f:event type="preRenderView" listener="#{yachtDetailsPageBean.init}"/>
             </f:metadata>
             <h:form id="form">
+                <h:outputStylesheet library="css" name="yacht/yachtDetails.css"/>
                 <p:growl id="message" showDetail="true"/>
                 <p:panelGrid columns="2">
                     <h:outputLabel value="#{msg['yacht.name']}:"/>
