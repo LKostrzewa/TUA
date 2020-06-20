@@ -45,9 +45,6 @@
                     <h:outputLabel value="#{msg['yacht.avgRating']}:"/>
                     <h:outputText value="#{yachtDetailsPageBean.yachtDto.avgRating}"/>
                 </p:panelGrid>
-                <p:button value="#{msg['goBack']}" outcome="/client/port/listYachtsByPort.xhtml?faces-redirect=true">
-                        <f:param name="portId" value="#{yachtDetailsPageBean.yachtDto.currentPort.id}"/>
-                </p:button>
                 <p:dataView value="#{yachtDetailsPageBean.getOpinionFromRentals()}" var="rent" type="ordered">
                     <f:facet name="header">
                         #{msg['opinion.opinions']}

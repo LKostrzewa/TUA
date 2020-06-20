@@ -1,15 +1,11 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht;
 
 
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
-import org.primefaces.model.StreamedContent;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.rental.RentalDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.YachtModelDetailsDto;
 
 import java.util.Collection;
-
-import java.util.List;
 
 /**
  * DTO jachtu.
