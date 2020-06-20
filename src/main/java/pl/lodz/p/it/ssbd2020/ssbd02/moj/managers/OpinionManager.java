@@ -88,14 +88,12 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
     /**
      * Metoda służąca do zapisu nowej wersji opinii.
      *
-     * @param opinionToEdit encja z danymi edytowanej opinii
+     * @param opinionEditEntity encja z danymi edytowanej opinii
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("editOpinion")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editOpinion(Opinion opinionToEdit, Opinion opinionEditEntity) throws AppBaseException {
-        opinionEditEntity.setRating(opinionToEdit.getRating());
-        opinionEditEntity.setComment(opinionToEdit.getComment());
+    public void editOpinion(Opinion opinionEditEntity) throws AppBaseException {
         opinionEditEntity.setEdited(true);
         opinionFacade.edit(opinionEditEntity);
         calculateAvgRating(opinionEditEntity.getRental().getYacht().getId());
