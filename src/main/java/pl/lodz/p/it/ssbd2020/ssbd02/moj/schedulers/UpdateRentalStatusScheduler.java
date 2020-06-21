@@ -17,6 +17,8 @@ import javax.interceptor.Interceptors;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Klasa reprezentująca Scheduler.
@@ -29,6 +31,8 @@ public class UpdateRentalStatusScheduler {
     private RentalFacade rentalFacade;
     @Inject
     private RentalStatusFacade rentalStatusFacade;
+
+    private static final Logger LOGGER = Logger.getGlobal();
 
     private final PropertyReader propertyReader = new PropertyReader();
 
@@ -64,6 +68,7 @@ public class UpdateRentalStatusScheduler {
                 }
             }
         } catch (AppBaseException e) {
+            LOGGER.log(Level.SEVERE,e.getLocalizedMessage());
         }
     }
 
