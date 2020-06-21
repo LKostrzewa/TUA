@@ -10,6 +10,7 @@ import org.eclipse.persistence.annotations.TypeConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -62,10 +63,12 @@ public class Port implements Serializable {
     @Column(name = "long", nullable = false)
     @NotNull
     @Digits(integer = 3,fraction = 6)
+    @Min(0)
     private BigDecimal long1;
     @Column(name = "lat", nullable = false)
     @NotNull
     @Digits(integer = 3,fraction = 6)
+    @Min(0)
     private BigDecimal lat;
     @Column(name = "active", nullable = false)
     @NotNull

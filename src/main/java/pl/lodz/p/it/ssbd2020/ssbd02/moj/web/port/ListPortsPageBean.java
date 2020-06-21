@@ -1,7 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.port;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.ListPortsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
 
 import javax.annotation.PostConstruct;
@@ -13,7 +13,6 @@ import javax.inject.Named;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 /**
  * Klasa do obsługi widoku listy portów.
@@ -26,8 +25,7 @@ public class ListPortsPageBean {
     @Inject
     private FacesContext facesContext;
     private ResourceBundle resourceBundle;
-    private List<PortDetailsDto> ports;
-    private List<PortDetailsDto> activePorts;
+    private List<ListPortsDto> ports;
 
     /**
      * Metoda inicjalizująca komponent.
@@ -35,8 +33,7 @@ public class ListPortsPageBean {
     @PostConstruct
     private void init() {
         this.ports = portEndpoint.getAllPorts();
-        ports.sort(Comparator.comparing(PortDetailsDto::getName, String::compareToIgnoreCase));
-        this.activePorts = ports.stream().filter(portDetailsDto -> portDetailsDto.getActive().equals(true)).collect(Collectors.toList());
+        ports.sort(Comparator.comparing(ListPortsDto::getName, String::compareToIgnoreCase));
     }
 
     /**
@@ -88,19 +85,11 @@ public class ListPortsPageBean {
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));
     }
 
-    public List<PortDetailsDto> getPorts() {
+    public List<ListPortsDto> getPorts() {
         return ports;
     }
 
-    public void setPorts(List<PortDetailsDto> ports) {
+    public void setPorts(List<ListPortsDto> ports) {
         this.ports = ports;
-    }
-
-    public List<PortDetailsDto> getActivePorts() {
-        return activePorts;
-    }
-
-    public void setActivePorts(List<PortDetailsDto> activePorts) {
-        this.activePorts = activePorts;
     }
 }

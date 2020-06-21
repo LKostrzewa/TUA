@@ -17,6 +17,8 @@ import javax.interceptor.Interceptors;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Klasa reprezentująca Scheduler.
@@ -30,11 +32,9 @@ public class UpdateRentalStatusScheduler {
     @Inject
     private RentalStatusFacade rentalStatusFacade;
 
-    private final PropertyReader propertyReader = new PropertyReader();
+    private static final Logger LOGGER = Logger.getGlobal();
 
-    private String PENDING_RENTAL_STATUS;
-    private String STARTED_RENTAL_STATUS;
-    private String FINISHED_RENTAL_STATUS;
+    private final PropertyReader propertyReader = new PropertyReader();
 
     /**
      * Metoda aktualizująca stany rezerwacji. Metoda jest wywoływana codziennie o godzinie 10.00.
@@ -44,9 +44,9 @@ public class UpdateRentalStatusScheduler {
     @Schedule(hour = "10")
     public void performTask() {
         try {
-            PENDING_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "PENDING_STATUS");
-            STARTED_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "STARTED_STATUS");
-            FINISHED_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "FINISHED_STATUS");
+            String PENDING_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "PENDING_STATUS");
+            String STARTED_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "STARTED_STATUS");
+            String FINISHED_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "FINISHED_STATUS");
             List<Rental> allRentals = rentalFacade.findAll();
             List<RentalStatus> rentalStatuses = rentalStatusFacade.findAll();
             for (Rental rental : allRentals) {
@@ -68,6 +68,7 @@ public class UpdateRentalStatusScheduler {
                 }
             }
         } catch (AppBaseException e) {
+            LOGGER.log(Level.SEVERE,e.getLocalizedMessage());
         }
     }
 

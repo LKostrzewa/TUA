@@ -39,6 +39,10 @@
                     <p:column headerText="${msg['port.yachts.size']}">
                         <h:outputText value="#{port.yachts.size()}"/>
                     </p:column>
+                    <p:column headerText="${msg['port.active']}">
+                        <h:outputText value="${msg['yes']}" rendered="#{port.active}"/>
+                        <h:outputText value="${msg['no']}" rendered="#{!port.active}"/>
+                    </p:column>
                     <p:column headerText="${msg['actions']}">
                         <p:button value="${msg['details']}" outcome="portDetails.xhtml?faces-redirect=true">
                             <f:param name="portId" value="#{port.id}"/>

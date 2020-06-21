@@ -45,7 +45,7 @@
             <div class="text-box">
                 <p:outputLabel class="label">#{msg["yachtModel.capacity"]}</p:outputLabel>
                 <p:inputText id="capacity" type="text"
-                             value="#{editYachtModelPageBean.editYachtModelDto.capacity}">
+                             value="#{editYachtModelPageBean.editYachtModelDto.capacity}" converterMessage="#{msg['validation.yachtModel.capacity']}">
                 </p:inputText>
                 <span class="gradient"/>
                 <span class="asterisk_input"/>
@@ -54,7 +54,7 @@
             <div class="text-box">
                 <p:outputLabel class="label">#{msg["yachtModel.basicPrice"]}</p:outputLabel>
                 <p:inputText id="basicPrice" type="text"
-                             value="#{editYachtModelPageBean.editYachtModelDto.basicPrice}">
+                             value="#{editYachtModelPageBean.editYachtModelDto.basicPrice}" converterMessage="#{msg['validation.yachtModel.price']}">
                 </p:inputText>
                 <span class="gradient"/>
                 <span class="asterisk_input"/>

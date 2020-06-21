@@ -48,8 +48,8 @@
                     <p:outputLabel class="label">#{msg["yacht.priceMultiplier"]}</p:outputLabel>
 
                     <p:inputText id="price" type="text"
-                                 value="#{editYachtPageBean.editYachtDto.priceMultiplier}"/>
-
+                                 value="#{editYachtPageBean.editYachtDto.priceMultiplier}"
+                                 converterMessage="#{msg['validation.yacht.priceMultiplier']}"/>
 
                     <span class="gradient"/>
                     <span class="asterisk_input"/>
