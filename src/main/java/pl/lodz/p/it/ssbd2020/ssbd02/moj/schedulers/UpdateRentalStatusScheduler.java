@@ -32,10 +32,6 @@ public class UpdateRentalStatusScheduler {
 
     private final PropertyReader propertyReader = new PropertyReader();
 
-    private String PENDING_RENTAL_STATUS;
-    private String STARTED_RENTAL_STATUS;
-    private String FINISHED_RENTAL_STATUS;
-
     /**
      * Metoda aktualizująca stany rezerwacji. Metoda jest wywoływana codziennie o godzinie 10.00.
      */
@@ -44,9 +40,9 @@ public class UpdateRentalStatusScheduler {
     @Schedule(hour = "10")
     public void performTask() {
         try {
-            PENDING_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "PENDING_STATUS");
-            STARTED_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "STARTED_STATUS");
-            FINISHED_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "FINISHED_STATUS");
+            String PENDING_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "PENDING_STATUS");
+            String STARTED_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "STARTED_STATUS");
+            String FINISHED_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "FINISHED_STATUS");
             List<Rental> allRentals = rentalFacade.findAll();
             List<RentalStatus> rentalStatuses = rentalStatusFacade.findAll();
             for (Rental rental : allRentals) {
