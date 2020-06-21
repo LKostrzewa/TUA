@@ -77,17 +77,7 @@ public class PortEndpointImp implements Serializable, PortEndpoint {
      * @return lista portów
      */
     @RolesAllowed("getAllPorts")
-    public List<PortDetailsDto> getAllPorts() {
-        return ObjectMapperUtils.mapAll(portManager.getAllPorts(), PortDetailsDto.class);
-    }
-
-    /**
-     * Metoda, która zwraca wszystkie porty do listowania portów.
-     *
-     * @return lista portów
-     */
-    @RolesAllowed("getAllPorts")
-    public List<ListPortsDto> getAllListPorts() {
+    public List<ListPortsDto> getAllPorts() {
         return ObjectMapperUtils.mapAll(portManager.getAllPorts(), ListPortsDto.class);
     }
     /**

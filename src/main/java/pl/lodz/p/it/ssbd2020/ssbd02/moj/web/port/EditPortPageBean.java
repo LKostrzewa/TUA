@@ -62,7 +62,7 @@ public class EditPortPageBean implements Serializable {
     /**
      * Metoda inicjalizująca wyświetlanie wiadomości.
      */
-    public void displayInit() {
+    private void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
@@ -70,7 +70,7 @@ public class EditPortPageBean implements Serializable {
     /**
      * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
      */
-    public void displayMessage() {
+    private void displayMessage() {
         displayInit();
         String msg = resourceBundle.getString("port.editInfo");
         String head = resourceBundle.getString("success");

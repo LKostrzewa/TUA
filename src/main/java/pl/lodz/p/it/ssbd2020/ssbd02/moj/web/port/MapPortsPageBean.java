@@ -8,25 +8,19 @@ import org.primefaces.model.map.Marker;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.ListPortsDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtsToPortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -46,7 +40,9 @@ public class MapPortsPageBean implements Serializable {
     @PostConstruct
     public void init() {
         simpleModel = new DefaultMapModel();
-        this.activePorts = portEndpoint.getAllListPorts().stream().filter(portDetailsDto -> portDetailsDto.getActive().equals(true)).collect(Collectors.toList());
+        this.activePorts = portEndpoint.getAllPorts().stream()
+                .filter(portDetailsDto -> portDetailsDto.getActive().equals(true))
+                .collect(Collectors.toList());
 
 
 

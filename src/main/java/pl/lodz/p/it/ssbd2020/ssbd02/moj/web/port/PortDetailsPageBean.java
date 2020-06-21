@@ -56,7 +56,7 @@ public class PortDetailsPageBean implements Serializable {
     /**
      * Metoda inicjalizująca wyświetlanie wiadomości
      */
-    public void displayInit(){
+    private void displayInit(){
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
