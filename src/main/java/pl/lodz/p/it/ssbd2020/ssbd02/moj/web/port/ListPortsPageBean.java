@@ -2,7 +2,6 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.port;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.ListPortsDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
 
 import javax.annotation.PostConstruct;
@@ -14,7 +13,6 @@ import javax.inject.Named;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 /**
  * Klasa do obsługi widoku listy portów.
@@ -34,7 +32,7 @@ public class ListPortsPageBean {
      */
     @PostConstruct
     private void init() {
-        this.ports = portEndpoint.getAllListPorts();
+        this.ports = portEndpoint.getAllPorts();
         ports.sort(Comparator.comparing(ListPortsDto::getName, String::compareToIgnoreCase));
     }
 

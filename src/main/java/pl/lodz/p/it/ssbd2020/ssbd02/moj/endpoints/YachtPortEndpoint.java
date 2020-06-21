@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtByPortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 
 import javax.annotation.security.RolesAllowed;
@@ -17,7 +18,7 @@ public interface YachtPortEndpoint {
      * @return lista YachtDto
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    List<YachtDto> getAllYachtsByPort(Long portId) throws AppBaseException;
+    List<YachtByPortDto> getAllYachtsByPort(Long portId) throws AppBaseException;
 
     /**
      * Metoda przypisująca jacht do portu.

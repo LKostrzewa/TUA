@@ -60,7 +60,7 @@ public class AddPortPageBean {
     /**
      * Metoda inicjalizująca wyświetlanie wiadomości.
      */
-    public void displayInit() {
+    private void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
@@ -68,7 +68,7 @@ public class AddPortPageBean {
     /**
      * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
      */
-    public void displayMessage() {
+    private void displayMessage() {
         displayInit();
         String msg = resourceBundle.getString("port.addInfo");
         String head = resourceBundle.getString("success");

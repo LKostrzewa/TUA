@@ -45,13 +45,13 @@
                     <p:datePicker id="beginDate" pattern="dd.MM.yyyy"
                                   value="#{addRentalPageBean.addRentalDto.beginDate}"
                                   locale="#{addRentalPageBean.locale}"
-                                  mindate="#{addRentalPageBean.tommorow}"/>
+                                  mindate="#{addRentalPageBean.tomorrow}"/>
                     <p:message for="beginDate"/>
                     <p:outputLabel for="endDate" value="#{msg['rental.endDate']}: "/>
                     <p:datePicker id="endDate" pattern="dd.MM.yyyy"
                                   value="#{addRentalPageBean.addRentalDto.endDate}"
                                   locale="#{addRentalPageBean.locale}"
-                                  mindate="#{addRentalPageBean.nextDayAfterTommorow}"/>
+                                  mindate="#{addRentalPageBean.theDayAfterTomorrow}"/>
                     <p:message for="endDate"/>
                 </div>
                 <div>

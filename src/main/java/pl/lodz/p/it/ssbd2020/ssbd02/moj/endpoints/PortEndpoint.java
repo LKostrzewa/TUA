@@ -39,21 +39,14 @@ public interface PortEndpoint {
      */
     void deactivatePort(long portId) throws AppBaseException;
 
+
     /**
      * Metoda, która zwraca wszystkie porty.
      *
      * @return lista portów
      */
-    List<PortDetailsDto> getAllPorts();
 
-
-    /**
-     * Metoda, która zwraca wszystkie porty do listowania portów.
-     *
-     * @return lista portów
-     */
-
-    List<ListPortsDto> getAllListPorts();
+    List<ListPortsDto> getAllPorts();
     /**
      * Metoda, która zwraca port o podanym id.
      *

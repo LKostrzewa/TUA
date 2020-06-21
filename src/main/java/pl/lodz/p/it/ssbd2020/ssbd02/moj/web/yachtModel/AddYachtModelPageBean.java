@@ -69,7 +69,7 @@ public class AddYachtModelPageBean {
     /**
      * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
      */
-    public void displayMessage() {
+    private void displayMessage() {
         displayInit();
         String msg = resourceBundle.getString("yachtModel.addInfo");
         String head = resourceBundle.getString("success");

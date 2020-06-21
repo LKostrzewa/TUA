@@ -119,7 +119,7 @@ public class AddRentalPageBean implements Serializable {
     /**
      * Metoda inicjalizująca wyświetlanie wiadomości
      */
-    public void displayInit() {
+    private void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
@@ -165,7 +165,7 @@ public class AddRentalPageBean implements Serializable {
      *
      * @return jutrzejszy dzień
      */
-    public Date getTommorow() {
+    public Date getTomorrow() {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -178,7 +178,7 @@ public class AddRentalPageBean implements Serializable {
      *
      * @return pojutrze
      */
-    public Date getNextDayAfterTommorow() {
+    public Date getTheDayAfterTomorrow() {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
