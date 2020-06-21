@@ -62,7 +62,7 @@ public class AddYachtPageBean {
      *
      * @return strona na którą zostanie przekierowany użytkownik
      */
-    public String addNewYacht() throws AppBaseException {
+    public String addNewYacht() {
         try {
             yachtEndpoint.addYacht(newYachtDto);
             displayMessage();

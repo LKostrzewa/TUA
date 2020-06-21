@@ -1,7 +1,29 @@
+body {
+
+
+    background-image: url("#{resource['images:waterSea5.jpg']}");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+
+}
+
 .gmap {
     width:auto;
-    height:760px;
+    height:720px;
     margin: 1em;
     border: 5px solid #381E0A;
     border-radius: 15px;
+
+}
+#form {
+    padding: 30px 30px;
+
+}
+.infoWindow {
+    font-size: 18px !important;
+    background-color: #ffffe6!important;
 }

@@ -7,10 +7,12 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtPortEndpoint;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -59,9 +61,17 @@ public class YachtDetailsPageBean implements Serializable {
 
     /**
      * Metoda inicjalizująca komponent.
+     *
+     * @throws IOException wyjątek wejścia/wyjścia
      */
-    public void init() throws AppBaseException {
-        this.yachtDto = yachtEndpoint.getYachtById(yachtId);
+    public void init() throws IOException {
+        try {
+            this.yachtDto = yachtEndpoint.getYachtById(yachtId);
+        } catch (AppBaseException e) {
+            displayError(e.getLocalizedMessage());
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect(externalContext.getRequestContextPath() + "listYachts.xhtml");
+        }
     }
 
     /**

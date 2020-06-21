@@ -69,7 +69,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * Metoda, która zwraca yacht o podanym id.
      *
      * @param id id jachtu.
-     * @return optional <yacht>
+     * @return optional yacht
      */
     @Override
     @RolesAllowed({"getYachtById", "getEditYachtDtoById", "assignYachtToPort", "retractYachtFromPort", "editOpinion", "addOpinion", "deactivateYacht"})
@@ -119,6 +119,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * Metoda, która zwraca jacht o podanej nazwie.
      *
      * @param yachtName Nazwa jachtu
+     * @return znaleziona encja jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("addRental")

@@ -7,7 +7,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.EntityNotActiveException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.ValueNotUniqueException;
 import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.NewYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtModelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -85,7 +84,7 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
      * Metoda, która zapisuje wprowadzone przez managera zmiany w jachcie.
      *
      * @param yachtToEdit edytowany jacht
-     * @param nameChanged
+     * @param nameChanged boolean informujący o tym czy podczas edycji została zmieniona nazwa jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("editYacht")

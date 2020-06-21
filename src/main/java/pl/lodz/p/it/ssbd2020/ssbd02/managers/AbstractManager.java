@@ -49,6 +49,8 @@ abstract public class AbstractManager {
      * a także statusie z jakim się zakończyła:
      * Commited - zatwierdzenie
      * Rollback - odwołanie
+     *
+     * @param commited boolean informujący o tym czy transakcja zatwierdziła się potwierdzeniem czy odwołaniem
      */
     public void afterCompletion(boolean commited) {
         lastTransactionRollback = !commited;

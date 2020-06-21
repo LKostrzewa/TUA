@@ -5,10 +5,12 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.EditPortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
@@ -28,9 +30,17 @@ public class EditPortPageBean implements Serializable {
 
     /**
      * Metoda inicjalizująca komponent.
+     *
+     * @throws IOException wyjątek wejścia/wyjścia
      */
-    public void init() throws AppBaseException {
-        this.editPortDto = portEndpoint.getEditPortById(portId);
+    public void init() throws IOException {
+        try{
+            this.editPortDto = portEndpoint.getEditPortById(portId);
+        } catch (AppBaseException e){
+            displayError(e.getLocalizedMessage());
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect(externalContext.getRequestContextPath() + "portDetails.xhtml");
+        }
     }
 
     /**

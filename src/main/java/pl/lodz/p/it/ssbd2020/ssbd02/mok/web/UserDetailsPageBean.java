@@ -62,6 +62,8 @@ public class UserDetailsPageBean implements Serializable {
 
     /**
      * Metoda inicjalizująca komponent.
+     *
+     * @throws IOException wyjątek wejścia/wyjścia
      */
     public void init() throws IOException {
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
@@ -129,6 +131,8 @@ public class UserDetailsPageBean implements Serializable {
 
     /**
      * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
+     *
+     * @param message wiadomość do wyświetlenia
      */
     public void displayMessage(String message) {
         displayInit();

@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.RentalStatus;
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
@@ -45,6 +44,7 @@ public class RentalStatusFacade extends AbstractFacade<RentalStatus> {
      * Metoda, która zwraca status wypożyczenia o podanej nazwie.
      *
      * @param statusName Nazwa statusu wypożyczenia
+     * @return Encja statusu wypożyczenia
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed({"cancelRental", "addRental"})
