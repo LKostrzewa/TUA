@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Image;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppEJBTransactionRolledbackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.EntityNotActiveException;
 import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
@@ -39,12 +40,16 @@ public class ImageManager extends AbstractManager implements SessionSynchronizat
     @RolesAllowed("deleteImage")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void deleteImage(Long imageId) throws AppBaseException {
-        Image image = imageFacade.find(imageId).orElseThrow(AppNotFoundException::imageNotFoundException);
-        yachtModelFacade.lock(image.getYachtModel(), LockModeType.PESSIMISTIC_FORCE_INCREMENT);
-        if(!(image.getYachtModel().isActive())){
-            throw EntityNotActiveException.createYachtModelNotActiveException(image.getYachtModel());
+        try {
+            Image image = imageFacade.find(imageId).orElseThrow(AppNotFoundException::imageNotFoundException);
+            yachtModelFacade.lock(image.getYachtModel(), LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+            if (!(image.getYachtModel().isActive())) {
+                throw EntityNotActiveException.createYachtModelNotActiveException(image.getYachtModel());
+            }
+            imageFacade.remove(image);
+        } catch (EJBTransactionRolledbackException e) {
+            throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
-        imageFacade.remove(image);
     }
 
     /**
@@ -57,13 +62,17 @@ public class ImageManager extends AbstractManager implements SessionSynchronizat
     @RolesAllowed("addImage")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addImage(byte[] image, Long id) throws AppBaseException {
-        YachtModel yachtModel = yachtModelFacade.find(id).orElseThrow(AppNotFoundException::yachtModelNotFoundException);
-        yachtModelFacade.lock(yachtModel, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
-        if(!yachtModel.isActive()){
-            throw EntityNotActiveException.createYachtModelNotActiveException(yachtModel);
+        try {
+            YachtModel yachtModel = yachtModelFacade.find(id).orElseThrow(AppNotFoundException::yachtModelNotFoundException);
+            yachtModelFacade.lock(yachtModel, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+            if (!yachtModel.isActive()) {
+                throw EntityNotActiveException.createYachtModelNotActiveException(yachtModel);
+            }
+            Image newImage = new Image(image, yachtModel);
+            imageFacade.create(newImage);
+        } catch (EJBTransactionRolledbackException e) {
+            throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
-        Image newImage = new Image(image, yachtModel);
-        imageFacade.create(newImage);
     }
 
     /**

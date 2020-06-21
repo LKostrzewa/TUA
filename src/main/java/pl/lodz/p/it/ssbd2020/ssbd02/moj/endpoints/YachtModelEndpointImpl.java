@@ -2,6 +2,8 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppEJBTransactionRolledbackException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.EditYachtModelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.ListYachtModelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.NewYachtModelDto;
@@ -9,13 +11,17 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.YachtModelDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.YachtModelManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementacja interfejsu YachtModelEndpoint.
@@ -23,9 +29,20 @@ import java.util.List;
 @Stateful
 @Interceptors(LoggerInterceptor.class)
 public class YachtModelEndpointImpl implements Serializable, YachtModelEndpoint {
+    PropertyReader propertyReader = new PropertyReader();
+    Integer METHOD_INVOCATION_LIMIT;
+    Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     @Inject
     private YachtModelManager yachtModelManager;
     private YachtModel yachtModelEditEntity;
+
+    /**
+     * Metoda inicjalizująca komponent.
+     */
+    @PostConstruct
+    public void init() {
+        METHOD_INVOCATION_LIMIT = Integer.parseInt(propertyReader.getProperty("config", "rollback.invocation.limit"));
+    }
 
     /**
      * Metoda, służy do dodawania nowych modeli jachtów do bazy danych przez menadżera.
@@ -35,8 +52,26 @@ public class YachtModelEndpointImpl implements Serializable, YachtModelEndpoint 
      */
     @RolesAllowed("addYachtModel")
     public void addYachtModel(NewYachtModelDto newYachtModelDto) throws AppBaseException {
-        YachtModel yachtModel = ObjectMapperUtils.map(newYachtModelDto, YachtModel.class);
-        yachtModelManager.addYachtModel(yachtModel);
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                YachtModel yachtModel = ObjectMapperUtils.map(newYachtModelDto, YachtModel.class);
+                yachtModelManager.addYachtModel(yachtModel);
+                rollback = yachtModelManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 
     /**
@@ -70,11 +105,29 @@ public class YachtModelEndpointImpl implements Serializable, YachtModelEndpoint 
      */
     @RolesAllowed("editYachtModel")
     public void editYachtModel(EditYachtModelDto editYachtModelDto) throws AppBaseException {
-        yachtModelEditEntity.setManufacturer(editYachtModelDto.getManufacturer());
-        yachtModelEditEntity.setBasicPrice(editYachtModelDto.getBasicPrice());
-        yachtModelEditEntity.setCapacity(editYachtModelDto.getCapacity());
-        yachtModelEditEntity.setGeneralDescription(editYachtModelDto.getGeneralDescription());
-        yachtModelManager.editYachtModel(this.yachtModelEditEntity);
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                yachtModelEditEntity.setManufacturer(editYachtModelDto.getManufacturer());
+                yachtModelEditEntity.setBasicPrice(editYachtModelDto.getBasicPrice());
+                yachtModelEditEntity.setCapacity(editYachtModelDto.getCapacity());
+                yachtModelEditEntity.setGeneralDescription(editYachtModelDto.getGeneralDescription());
+                yachtModelManager.editYachtModel(this.yachtModelEditEntity);
+                rollback = yachtModelManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 
     /**
@@ -85,7 +138,25 @@ public class YachtModelEndpointImpl implements Serializable, YachtModelEndpoint 
      */
     @RolesAllowed("deactivateYachtModel")
     public void deactivateYachtModel(Long yachtModelId) throws AppBaseException {
-        yachtModelManager.deactivateYachtModel(yachtModelId);
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                yachtModelManager.deactivateYachtModel(yachtModelId);
+                rollback = yachtModelManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 
     /**

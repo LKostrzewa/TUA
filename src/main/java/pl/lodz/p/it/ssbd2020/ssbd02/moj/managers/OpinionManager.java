@@ -3,10 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Opinion;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.OpinionAlreadyExistsException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RentalNotFinishedException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.OpinionFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalFacade;
@@ -41,25 +38,29 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
     /**
      * Metoda, która dodaje nową opinię.
      *
-     * @param opinion encja z nową opinią do dodania
+     * @param opinion           encja z nową opinią do dodania
      * @param rentalBusinessKey klucz biznesowy wypożyczenia, dla którego chcemy dodać opinię
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("addOpinion")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addOpinion(Opinion opinion, String rentalBusinessKey) throws AppBaseException {
-        PropertyReader propertyReader = new PropertyReader();
-        Rental rental = rentalFacade.findByBusinessKey(UUID.fromString(rentalBusinessKey))
-                .orElseThrow(AppNotFoundException::createRentalNotFoundException);
-        if(!rental.getRentalStatus().getName().equals(propertyReader.getProperty("config","FINISHED_STATUS"))){
-            throw RentalNotFinishedException.createRentalNotFinishedException(rental);
+        try {
+            PropertyReader propertyReader = new PropertyReader();
+            Rental rental = rentalFacade.findByBusinessKey(UUID.fromString(rentalBusinessKey))
+                    .orElseThrow(AppNotFoundException::createRentalNotFoundException);
+            if (!rental.getRentalStatus().getName().equals(propertyReader.getProperty("config", "FINISHED_STATUS"))) {
+                throw RentalNotFinishedException.createRentalNotFinishedException(rental);
+            }
+            if (rental.getOpinion() != null) {
+                throw OpinionAlreadyExistsException.createOpinionAlreadyExistsException(rental);
+            }
+            Opinion newOpinion = new Opinion(opinion.getRating(), opinion.getComment(), new Date(), rental);
+            opinionFacade.create(newOpinion);
+            calculateAvgRating(newOpinion.getRental().getYacht().getId());
+        } catch (EJBTransactionRolledbackException e) {
+            throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
-        if(rental.getOpinion() != null){
-            throw OpinionAlreadyExistsException.createOpinionAlreadyExistsException(rental);
-        }
-        Opinion newOpinion = new Opinion(opinion.getRating(),opinion.getComment(),new Date(),rental);
-        opinionFacade.create(newOpinion);
-        calculateAvgRating(newOpinion.getRental().getYacht().getId());
     }
 
     /**
@@ -84,9 +85,13 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
     @RolesAllowed("editOpinion")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editOpinion(Opinion opinionEditEntity) throws AppBaseException {
-        opinionEditEntity.setEdited(true);
-        opinionFacade.edit(opinionEditEntity);
-        calculateAvgRating(opinionEditEntity.getRental().getYacht().getId());
+        try {
+            opinionEditEntity.setEdited(true);
+            opinionFacade.edit(opinionEditEntity);
+            calculateAvgRating(opinionEditEntity.getRental().getYacht().getId());
+        } catch (EJBTransactionRolledbackException e) {
+            throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
+        }
     }
 
     /**
@@ -96,15 +101,19 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     private void calculateAvgRating(Long yachtId) throws AppBaseException {
-        Yacht yacht = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createYachtNotFoundException);
-        List<Opinion> opinionList = opinionFacade.getAllOpinionsByYacht(yachtId);
-        yacht.setAvgRating(BigDecimal
-                .valueOf(opinionList
-                        .stream()
-                        .mapToDouble(Opinion::getRating)
-                        .average()
-                        .orElse(Double.NaN))
-                .setScale(2, RoundingMode.HALF_UP));
-        yachtFacade.edit(yacht);
+        try {
+            Yacht yacht = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createYachtNotFoundException);
+            List<Opinion> opinionList = opinionFacade.getAllOpinionsByYacht(yachtId);
+            yacht.setAvgRating(BigDecimal
+                    .valueOf(opinionList
+                            .stream()
+                            .mapToDouble(Opinion::getRating)
+                            .average()
+                            .orElse(Double.NaN))
+                    .setScale(2, RoundingMode.HALF_UP));
+            yachtFacade.edit(yacht);
+        } catch (EJBTransactionRolledbackException e) {
+            throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
+        }
     }
 }

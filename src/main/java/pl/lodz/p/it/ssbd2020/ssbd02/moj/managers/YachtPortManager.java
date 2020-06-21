@@ -15,7 +15,6 @@ import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.persistence.LockModeType;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -25,13 +24,11 @@ import java.util.List;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class YachtPortManager extends AbstractManager implements SessionSynchronization {
+    private final PropertyReader propertyReader = new PropertyReader();
     @Inject
     private PortFacade portFacade;
     @Inject
     private YachtFacade yachtFacade;
-
-    private final PropertyReader propertyReader = new PropertyReader();
-
     private String RENTAL_PENDING_STATUS;
     private String RENTAL_STARTED_STATUS;
 
@@ -58,30 +55,34 @@ public class YachtPortManager extends AbstractManager implements SessionSynchron
     /**
      * Metoda przypisująca jacht do portu.
      *
-     * @param portId identyfikator danego portu
+     * @param portId  identyfikator danego portu
      * @param yachtId identyfikator danego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("assignYachtToPort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void assignYachtToPort(Long portId, Long yachtId) throws AppBaseException {
-        Yacht yacht = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createPortNotFoundException);
-        Port port = portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
-        yachtFacade.lock(yacht, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
-        portFacade.lock(port, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+        try {
+            Yacht yacht = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createPortNotFoundException);
+            Port port = portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
+            yachtFacade.lock(yacht, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+            portFacade.lock(port, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
 
-        if(!yacht.isActive()){
-            throw EntityNotActiveException.createYachtNotActiveException(yacht);
-        }
-        if(yacht.getCurrentPort() != null){
-            throw YachtPortChangedException.createYachtAssignedException(yacht);
-        }
+            if (!yacht.isActive()) {
+                throw EntityNotActiveException.createYachtNotActiveException(yacht);
+            }
+            if (yacht.getCurrentPort() != null) {
+                throw YachtPortChangedException.createYachtAssignedException(yacht);
+            }
 
-        if(!port.isActive()){
-            throw EntityNotActiveException.createPortNotActiveException(port);
+            if (!port.isActive()) {
+                throw EntityNotActiveException.createPortNotActiveException(port);
+            }
+            yacht.setCurrentPort(port);
+            yachtFacade.edit(yacht);
+        } catch (EJBTransactionRolledbackException e) {
+            throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
-        yacht.setCurrentPort(port);
-        yachtFacade.edit(yacht);
     }
 
     /**
@@ -93,15 +94,19 @@ public class YachtPortManager extends AbstractManager implements SessionSynchron
     @RolesAllowed("retractYachtFromPort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void retractYachtFromPort(Long yachtId) throws AppBaseException {
-        Yacht yacht = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createPortNotFoundException);
-        if(yacht.getRentals().stream().anyMatch(r -> r.getRentalStatus().getName().equals(RENTAL_PENDING_STATUS)
-                || r.getRentalStatus().getName().equals(RENTAL_STARTED_STATUS))){
-            throw YachtReservedException.createYachtReservedException(yacht);
+        try {
+            Yacht yacht = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createPortNotFoundException);
+            if (yacht.getRentals().stream().anyMatch(r -> r.getRentalStatus().getName().equals(RENTAL_PENDING_STATUS)
+                    || r.getRentalStatus().getName().equals(RENTAL_STARTED_STATUS))) {
+                throw YachtReservedException.createYachtReservedException(yacht);
+            }
+            if (yacht.getCurrentPort() == null) {
+                throw YachtPortChangedException.createYachtNotAssignedException(yacht);
+            }
+            yacht.setCurrentPort(null);
+            yachtFacade.edit(yacht);
+        } catch (EJBTransactionRolledbackException e) {
+            throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
-        if(yacht.getCurrentPort() == null) {
-            throw YachtPortChangedException.createYachtNotAssignedException(yacht);
-        }
-        yacht.setCurrentPort(null);
-        yachtFacade.edit(yacht);
     }
 }
