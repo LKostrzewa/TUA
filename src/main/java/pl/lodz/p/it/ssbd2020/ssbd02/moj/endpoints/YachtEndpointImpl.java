@@ -38,7 +38,6 @@ public class YachtEndpointImpl implements Serializable, YachtEndpoint {
      */
     @RolesAllowed("addYacht")
     public void addYacht(NewYachtDto newYachtDto) throws AppBaseException {
-        // TODO nie moge objectMapperem zmapować, bo production year nie ma metody set
         Yacht yacht = new Yacht(newYachtDto.getName(), newYachtDto.getProductionYear(), newYachtDto.getPriceMultiplier(), newYachtDto.getEquipment(), null);
         yachtManager.addYacht(yacht, newYachtDto.getYachtModelId());
     }

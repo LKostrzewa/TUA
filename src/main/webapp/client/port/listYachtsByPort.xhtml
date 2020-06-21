@@ -17,7 +17,7 @@
                 <p:menuitem value="#{msg['bread.main']}" outcome="/client/index.xhtml"/>
                 <p:menuitem value="#{msg['bread.ports']}" outcome="/client/port/listPorts.xhtml"/>
                 <p:menuitem value="#{msg['bread.yachtsAssignedToPort']}" outcome="/client/port/listYachtsByPort.xhtml"
-                    includeViewParams="true">
+                            includeViewParams="true">
                     <f:param name="portId" value="#{listYachtsByPortPageBean.portId}"/>
                 </p:menuitem>
             </p:breadCrumb>
@@ -27,51 +27,54 @@
                 <f:viewParam name="portId" value="#{listYachtsByPortPageBean.portId}"/>
                 <f:event type="preRenderView" listener="#{listYachtsByPortPageBean.init}"/>
             </f:metadata>
-            <h:outputText value="${msg['yachts.noYachtsFoundMessage']}" rendered="#{empty listYachtsByPortPageBean.yachts}"
+            <h:outputText value="${msg['yachts.noYachtsFoundMessage']}"
+                          rendered="#{empty listYachtsByPortPageBean.yachts}"
                           style="text-align: center; font-size: 22px;"/>
+            <h:outputStylesheet name="/css/yacht/listYachtsByPort.css"/>
             <h:form id="form">
                 <p:repeat var="yacht" value="#{listYachtsByPortPageBean.activeYachts}" varStatus="myVarStatus">
-                    <h:panelGrid columns="2" style="width:80%">
-                        <p:column>
-                            <p:row>
-                                <p:imageSwitch effect="wipe" widgetVar="switcher + #{myVarStatus.index}" id="manuelSwitcher"
-                                               slideshowAuto="false" >
-                                    <ui:repeat value="#{yacht.yachtModel.images}" var="image" id="manuelSwitcherImages" varStatus="myVarStatusImg">
-                                        <!--<o:graphicImage value="#{images.get(image.id)}" height="200" width="200" id="image"/>-->
-                                        <o:graphicImage value="#{listYachtsByPortPageBean.getImage(image.id, yacht.id)}" height="200" width="200" id="image"/>
+                    <h:panelGrid columns="2" >
+                        <p:column style="width: 300px!important;">
+
+                                <p:imageSwitch effect="wipe" widgetVar="switcher + #{myVarStatus.index}"
+                                               id="manuelSwitcher"
+                                               slideshowAuto="false">
+                                    <ui:repeat value="#{yacht.yachtModel.images}" var="image" id="manuelSwitcherImages"
+                                               varStatus="myVarStatusImg" >
+                                        <o:graphicImage value="#{listYachtsByPortPageBean.getImage(image.id, yacht.id)}"
+                                                        height="300" width="300" id="image"/>
                                     </ui:repeat>
                                 </p:imageSwitch>
-                            </p:row>
-                            <p:row>
-                            <!--<p:row rendered="#{not empty yacht.yachtModel.images}">-->
-                                <p:commandButton type="button" onclick="PF('switcher + #{myVarStatus.index}').previous();"
-                                                 icon="pi pi-caret-left" id="prev" style="margin-bottom: 5px"/>
+
+                                <p:commandButton type="button"
+                                                 onclick="PF('switcher + #{myVarStatus.index}').previous();"
+                                                 icon="pi pi-caret-left" id="prev" style="margin-bottom: 5px" rendered="#{yacht.yachtModel.images.size() > 1}"/>
                                 <p:commandButton type="button" onclick="PF('switcher + #{myVarStatus.index}').next();"
-                                                 icon="pi pi-caret-right" id="next" style="margin-bottom: 5px"/>
-                            </p:row>
+                                                 icon="pi pi-caret-right" id="next" style="margin-bottom: 5px" rendered="#{yacht.yachtModel.images.size() > 1}"/>
+
                         </p:column>
+                        <p:column>
+                            <h:panelGrid columns="2" style="margin-left: 10px; ">
+                                        <h:outputText value="${msg['yacht.name']}:" style="width: 150px; display: inline-block"/>
+                                        <h:outputText value="#{yacht.name}" style="font-weight: bold; "/>
 
-                        <h:panelGrid columns="2">
-                            <p:outputPanel>
-                                <h:panelGrid columns="2" cellpadding="5">
-                                    <h:outputText value="${msg['yacht.name']}" />
-                                    <h:outputText value="#{yacht.name}" style="font-weight: bold"/>
+                                        <h:outputText value="${msg['yacht.avgRating']}:" style="width: 150px; display: inline-block"/>
+                                        <h:outputText value="#{yacht.avgRating}" style="font-weight: bold; "/>
 
-                                    <h:outputText value="${msg['yacht.avgRating']}" />
-                                    <h:outputText value="#{yacht.avgRating}" style="font-weight: bold"/>
+                                        <h:outputText value="${msg['yachtModel.model']}:" style="width: 150px; display: inline-block"/>
+                                        <h:outputText value="#{yacht.yachtModel.model}" style="font-weight: bold;  "/>
 
-                                    <h:outputText value="${msg['yachtModel.model']}" />
-                                    <h:outputText value="#{yacht.yachtModel.model}" style="font-weight: bold"/>
+                                        <h:outputText value="${msg['yachtModel.description']}:" style="width: 150px; display: inline-block"/>
+                                        <h:outputText value="#{yacht.yachtModel.description}"
+                                                      style="font-weight: bold;  white-space: pre-wrap;"/>
 
-                                    <h:outputText value="${msg['yachtModel.description']}" />
-                                    <h:outputText value="#{yacht.yachtModel.description}" style="font-weight: bold"/>
-
-                                </h:panelGrid>
-                                <p:button value="${msg['details']}" outcome="/client/yacht/yachtDetails.xhtml?faces-redirect=true">
-                                    <f:param name="yachtId" value="#{yacht.id}"/>
-                                </p:button>
-                            </p:outputPanel>
-                        </h:panelGrid>
+                            </h:panelGrid>
+                            <p:button value="${msg['details']}"
+                                      outcome="/client/yacht/yachtDetails.xhtml?faces-redirect=true"
+                                      style="background-color: green; margin: 10px" >
+                                <f:param name="yachtId" value="#{yacht.id}"/>
+                            </p:button>
+                        </p:column>
                     </h:panelGrid>
                     <hr/>
                 </p:repeat>

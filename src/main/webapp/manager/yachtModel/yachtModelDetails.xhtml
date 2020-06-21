@@ -5,93 +5,75 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
-<head>
-    <title>Title</title>
+<h:head/>
+<h:body>
+    <ui:composition template="/templates/commonTemplate.xhtml">
+        <ui:define name="title">#{msg['manager.title.yachtModelDetails']}</ui:define>
+        <ui:define name="breadCrumbs">
+            <p:breadCrumb>
+                <p:menuitem value="Categories" outcome="/manager/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.main']}" outcome="/manager/index.xhtml"/>
+                <p:menuitem value="#{msg['bread.yachtModels']}" outcome="/manager/yachtModel/listYachtModels.xhtml"/>
+                <p:menuitem value="#{msg['bread.yachtModel']}" outcome="/manager/yachtModel/yachtModelDetails.xhtml"
+                            includeViewParams="true">
+                    <f:param name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
+                </p:menuitem>
+            </p:breadCrumb>
+        </ui:define>
+        <ui:define name="content">
+            <f:metadata>
+                <f:viewParam name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
+                <f:event type="preRenderView" listener="#{yachtModelDetailsPageBean.init}"/>
+            </f:metadata>
 
-</head>
-<body>
+            <h:form id="form" enctype="multipart/form-data">
+                <h:outputStylesheet library="css" name="yachtModel/yachtModelDetails.css"/>
+                <p:growl id="message" showDetail="true"/>
 
+                <p:panelGrid columns="2" style="width:100%; margin:auto;">
+                    <p:column>
+                        <p:panelGrid columns="2" columnClasses="centered">
+                            <h:outputLabel value="#{msg['yachtModel.model']}:"/>
+                            <h:outputText class="bold" value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.model}"/>
+                            <h:outputLabel value="#{msg['yachtModel.manufacturer']}:"/>
+                            <h:outputText class="bold"
+                                          value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.manufacturer}"/>
+                            <h:outputLabel value="#{msg['yachtModel.active']}:"/>
+                            <h:outputText class="bold" value="${msg['yes']}"
+                                          rendered="#{yachtModelDetailsPageBean.yachtModelDetailsDto.active}"/>
+                            <h:outputText class="bold" value="${msg['no']}"
+                                          rendered="#{!yachtModelDetailsPageBean.yachtModelDetailsDto.active}"/>
+                            <h:outputLabel value="#{msg['yachtModel.capacity']}:"/>
+                            <h:outputText class="bold"
+                                          value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.capacity}"/>
+                            <h:outputLabel value="#{msg['yachtModel.basicPrice']}:"/>
+                            <h:outputText class="bold"
+                                          value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.basicPrice}"/>
+                            <h:outputLabel value="#{msg['yachtModel.description']}:"/>
+                            <h:outputText class="bold"
+                                          value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.description}"
+                                          style="white-space: pre-wrap; "/>
 
-<ui:composition template="/templates/commonTemplate.xhtml">
-    <ui:define name="title">#{msg['manager.title.yachtModelDetails']}</ui:define>
-    <ui:define name="breadCrumbs">
-        <p:breadCrumb>
-            <p:menuitem value="Categories" outcome="/manager/index.xhtml"/>
-            <p:menuitem value="#{msg['bread.main']}" outcome="/manager/index.xhtml"/>
-            <p:menuitem value="#{msg['bread.yachtModels']}" outcome="/manager/yachtModel/listYachtModels.xhtml"/>
-            <p:menuitem value="#{msg['bread.yachtModel']}" outcome="/manager/yachtModel/yachtModelDetails.xhtml"
-                        includeViewParams="true">
-                <f:param name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
-            </p:menuitem>
-        </p:breadCrumb>
-    </ui:define>
-    <ui:define name="content">
-        <f:metadata>
-            <f:viewParam name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
-            <f:event type="preRenderView" listener="#{yachtModelDetailsPageBean.init}"/>
-        </f:metadata>
-        <h:form id="form" enctype="multipart/form-data">
-            <h:outputStylesheet library="css" name="yachtModel/yachtModelDetails.css"/>
-            <style type="text/css">
+                        </p:panelGrid>
 
-                body {
-                    background-image: url("#{resource['images:waterSea5.jpg']}");
-                    background-repeat: no-repeat;
-                    background-attachment: fixed;
-                    background-size: cover;
-                    background-position: center;
-                    height: 100%;
-                }
-
-                .ui-widget {
-                    text-align: center;
-                }
-
-                .ui-fileupload-buttonbar .ui-button-text-icon-left .ui-button-text {
-                    background-color: orange;
-                }
-
-                .ui-fileupload-buttonbar {
-                    background-color: #ffcc80;
-                }
-
-            </style>
-
-            <p:growl id="message" showDetail="true"/>
-
-
-            <p:panelGrid columns="2" columnClasses="centered" style="margin:auto;">
-                <h:outputLabel value="#{msg['yachtModel.model']}:"/>
-                <h:outputText class="bold" value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.model}"  />
-                <h:outputLabel value="#{msg['yachtModel.manufacturer']}:"/>
-                <h:outputText class="bold" value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.manufacturer}" />
-                <h:outputLabel value="#{msg['yachtModel.active']}:"/>
-                <h:outputText class="bold" value="${msg['yes']}"
-                              rendered="#{yachtModelDetailsPageBean.yachtModelDetailsDto.active}"/>
-                <h:outputText class="bold" value="${msg['no']}"
-                              rendered="#{!yachtModelDetailsPageBean.yachtModelDetailsDto.active}"/>
-                <h:outputLabel value="#{msg['yachtModel.capacity']}:"/>
-                <h:outputText class="bold" value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.capacity}" />
-                <h:outputLabel value="#{msg['yachtModel.basicPrice']}:"/>
-                <h:outputText class="bold" value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.basicPrice}"/>
-                <h:outputLabel value="#{msg['yachtModel.description']}:"/>
-                <h:outputText class="bold" value="#{yachtModelDetailsPageBean.yachtModelDetailsDto.description}" style="white-space: pre-wrap; "/>
-
-            </p:panelGrid>
-
-            <p:button class="button" value="#{msg['goBack']}" outcome="listYachtModels.xhtml?faces-redirect=true"/>
-            <p:button class="button" value="${msg['edit']}" outcome="editYachtModel.xhtml?faces-redirect=true"
-                      disabled="#{not yachtModelDetailsPageBean.yachtModelDetailsDto.active}">
-                <f:param name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
-            </p:button>
-            <div id="galleria">
-                <p:galleria value="#{yachtModelDetailsPageBean.imageIds}" autoPlay="false" var="imageId"
-                            panelWidth="660" panelHeight="370" style="display: block; text-align: center; margin:auto;">
-                    <p:graphicImage value="#{yachtModelDetailsPageBean.image}" width="100%" height="100%"
-                                    style="align-content: center">
-                        <f:param name="id" value="#{imageId}"/>
-                    </p:graphicImage>
-                    <span style="position:absolute;right:0;top:0;">
+                        <p:button class="button" value="#{msg['goBack']}"
+                                  outcome="listYachtModels.xhtml?faces-redirect=true"/>
+                        <p:button class="button" value="${msg['edit']}"
+                                  outcome="editYachtModel.xhtml?faces-redirect=true"
+                                  disabled="#{not yachtModelDetailsPageBean.yachtModelDetailsDto.active}">
+                            <f:param name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
+                        </p:button>
+                    </p:column>
+                    <p:column>
+                        <div id="galleria">
+                            <p:galleria value="#{yachtModelDetailsPageBean.imageIds}" autoPlay="false" var="imageId"
+                                        panelWidth="660" panelHeight="370"
+                                        style="display: block; text-align: center; margin:auto;">
+                                <p:graphicImage value="#{yachtModelDetailsPageBean.image}" width="100%" height="100%"
+                                                style="align-content: center">
+                                    <f:param name="id" value="#{imageId}"/>
+                                </p:graphicImage>
+                                <span style="position:absolute;right:0;top:0;">
             <p:commandButton icon="pi pi-trash" style="background-color:  #ffcc80"
                              onclick="PF('deleteConfirm').show()"
                              disabled="#{not yachtModelDetailsPageBean.yachtModelDetailsDto.active}">
@@ -110,25 +92,26 @@
                                                oncomplete="PF('deleteConfirm').hide()" icon="pi pi-times"/>
                           </p:confirmDialog>
                     </span>
-                </p:galleria>
-            </div>
-            <p:fileUpload listener="#{yachtModelDetailsPageBean.handleFileUpload}" mode="advanced"
-                          dragDropSupport="true" style="width: 680px;display: block;text-align: center; margin:auto"
-                          disabled="#{not yachtModelDetailsPageBean.yachtModelDetailsDto.active}"
-                          cancelLabel="#{msg['cancel']}" uploadLabel="#{msg['image.addMessage']}"
-                          label="#{msg['image.chooseMessage']}" fileLimit="1" sizeLimit="8000000"
-                          update="@form" allowTypes="/(\.|\/)(jpe?g|png)$/"
-                          invalidFileMessage="#{msg['image.invalidFileMessage']}"
-                          invalidSizeMessage="#{msg['image.invalidSizeMessage']}"
-                          fileLimitMessage="#{msg['image.fileLimitMessage']}">
-                <b>#{msg['image.dropMessage']}</b>
-            </p:fileUpload>
+                            </p:galleria>
+                        </div>
+                        <p:fileUpload listener="#{yachtModelDetailsPageBean.handleFileUpload}" mode="advanced"
+                                      dragDropSupport="true"
+                                      style="width: 680px;display: block;text-align: center; margin:auto"
+                                      disabled="#{not yachtModelDetailsPageBean.yachtModelDetailsDto.active}"
+                                      cancelLabel="#{msg['cancel']}" uploadLabel="#{msg['image.addMessage']}"
+                                      label="#{msg['image.chooseMessage']}" fileLimit="1" sizeLimit="8000000"
+                                      update="@form" allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      invalidFileMessage="#{msg['image.invalidFileMessage']}"
+                                      invalidSizeMessage="#{msg['image.invalidSizeMessage']}"
+                                      fileLimitMessage="#{msg['image.fileLimitMessage']}">
+                            <b>#{msg['image.dropMessage']}</b>
+                        </p:fileUpload>
+                    </p:column>
+                </p:panelGrid>
+                <p:growl id="messages" showDetail="true"/>
 
-
-            <p:growl id="messages" showDetail="true"/>
-
-        </h:form>
-    </ui:define>
-</ui:composition>
-</body>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
 </html>

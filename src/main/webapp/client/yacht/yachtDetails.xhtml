@@ -32,47 +32,59 @@
             <h:form id="form">
                 <h:outputStylesheet library="css" name="yacht/yachtDetails.css"/>
                 <p:growl id="message" showDetail="true"/>
-                <p:panelGrid columns="2">
-                    <h:outputLabel value="#{msg['yacht.name']}:"/>
-                    <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.name}"/>
-                    <h:outputLabel value="#{msg['yacht.productionYear']}:"/>
-                    <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.productionYear}"/>
-                    <h:outputLabel value="#{msg['yacht.active']}:"/>
-                    <h:outputText class="bold" value="${msg['yes']}" rendered="#{yachtDetailsPageBean.yachtDto.active}"/>
-                    <h:outputText class="bold" value="${msg['no']}" rendered="#{!yachtDetailsPageBean.yachtDto.active}"/>
-                    <h:outputLabel value="#{msg['yacht.equipment']}:"/>
-                    <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.equipment}"/>
-                    <h:outputLabel value="#{msg['yacht.avgRating']}:"/>
-                    <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.avgRating}"/>
+                <p:panelGrid columns="2" style="width:100%; margin:auto;">
+                    <p:column>
+                        <p:panelGrid columns="2">
+                            <h:outputLabel value="#{msg['yacht.name']}:"/>
+                            <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.name}"/>
+                            <h:outputLabel value="#{msg['yacht.productionYear']}:"/>
+                            <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.productionYear}"/>
+                            <h:outputLabel value="#{msg['yacht.active']}:"/>
+                            <h:outputText class="bold" value="${msg['yes']}"
+                                          rendered="#{yachtDetailsPageBean.yachtDto.active}"/>
+                            <h:outputText class="bold" value="${msg['no']}"
+                                          rendered="#{!yachtDetailsPageBean.yachtDto.active}"/>
+                            <h:outputLabel value="#{msg['yacht.equipment']}:"/>
+                            <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.equipment}" style="white-space: pre-wrap;"/>
+                            <h:outputLabel value="#{msg['yacht.avgRating']}:"/>
+                            <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.avgRating}"/>
+                        </p:panelGrid>
+                        <p:button class="button" value="#{msg['goBack']}"
+                                  outcome="/client/port/listYachtsByPort.xhtml?faces-redirect=true?"
+                                  style="background-color: orange">
+                            <f:param name="portId" value="#{yachtDetailsPageBean.yachtDto.currentPort.id}"/>
+                        </p:button>
+                        <p:button class="button" value="${msg['rent']}"
+                                  outcome="/client/rental/addRental.xhtml?faces-redirect=true"
+                                  style="background-color: green">
+                            <f:param name="yachtId" value="#{yachtDetailsPageBean.yachtId}"/>
+                            <f:param name="portId" value="#{yachtDetailsPageBean.yachtDto.currentPort.id}"/>
+                        </p:button>
+                    </p:column>
+                    <p:column>
+                        <p:dataView value="#{yachtDetailsPageBean.getOpinionFromRentals()}" var="rent" type="ordered">
+                            <f:facet name="header">
+                                #{msg['opinion.opinions']}
+                            </f:facet>
+                            <p:dataViewListItem>
+                                <h:panelGrid columns="2" rendered="#{rent.opinion != null}">
+                                    <h:outputLabel value="#{msg['opinion.rating']}:"/>
+                                    <p:rating value="#{rent.opinion.rating}" readonly="true"/>
+                                    <h:outputLabel value="#{msg['opinion.date']}:"/>
+                                    <h:outputText value="#{rent.opinion.date}">
+                                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss"/>
+                                    </h:outputText>
+                                    <h:outputLabel value="#{msg['opinion.comment']}:"/>
+                                    <h:outputText value="#{rent.opinion.comment}"/>
+                                    <h:outputLabel value="#{msg['opinion.edited']}:"/>
+                                    <h:outputText value="${msg['yes']}" rendered="#{rent.opinion.edited}"/>
+                                    <h:outputText value="${msg['no']}" rendered="#{!rent.opinion.edited}"/>
+                                </h:panelGrid>
+                            </p:dataViewListItem>
+                        </p:dataView>
+                    </p:column>
                 </p:panelGrid>
-                <p:dataView value="#{yachtDetailsPageBean.getOpinionFromRentals()}" var="rent" type="ordered">
-                    <f:facet name="header">
-                        #{msg['opinion.opinions']}
-                    </f:facet>
-                    <p:dataViewListItem>
-                        <h:panelGrid columns="2" rendered="#{rent.opinion != null}">
-                            <h:outputLabel value="#{msg['opinion.rating']}:"/>
-                            <p:rating value="#{rent.opinion.rating}" readonly="true"/>
-                            <h:outputLabel value="#{msg['opinion.date']}:"/>
-                            <h:outputText value="#{rent.opinion.date}">
-                                <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss"/>
-                            </h:outputText>
-                            <h:outputLabel value="#{msg['opinion.comment']}:"/>
-                            <h:outputText value="#{rent.opinion.comment}"/>
-                            <h:outputLabel value="#{msg['opinion.edited']}:"/>
-                            <h:outputText value="${msg['yes']}" rendered="#{rent.opinion.edited}"/>
-                            <h:outputText value="${msg['no']}" rendered="#{!rent.opinion.edited}"/>
-                        </h:panelGrid>
-                    </p:dataViewListItem>
-                </p:dataView>
 
-                <p:button class="button" value="#{msg['goBack']}" outcome="/client/port/listYachtsByPort.xhtml?faces-redirect=true?">
-                    <f:param name="portId" value="#{yachtDetailsPageBean.yachtDto.currentPort.id}"/>
-                </p:button>
-                <p:button class="button" value="${msg['rent']}" outcome="/client/rental/addRental.xhtml?faces-redirect=true">
-                    <f:param name="yachtId" value="#{yachtDetailsPageBean.yachtId}"/>
-                    <f:param name="portId" value="#{yachtDetailsPageBean.yachtDto.currentPort.id}"/>
-                </p:button>
             </h:form>
         </ui:define>
     </ui:composition>
