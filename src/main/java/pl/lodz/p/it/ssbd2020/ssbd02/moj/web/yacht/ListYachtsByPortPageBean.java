@@ -81,7 +81,7 @@ public class ListYachtsByPortPageBean implements Serializable {
      *
      * @throws IOException wyjątek wejścia/wyjścia
      */
-    private void init() throws IOException {
+    public void init() throws IOException {
         try {
             this.yachts = yachtPortEndpoint.getAllYachtsByPort(portId);
             this.yachts.sort(Comparator.comparing(YachtByPortDto::getName, String::compareToIgnoreCase));
