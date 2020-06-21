@@ -17,10 +17,17 @@ import java.io.StringWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Klasa do obsługi wyjątków systemowych
+ */
 public class ExceptionActionListener extends ActionListenerImpl {
 
     private static final Logger LOGGER = Logger.getGlobal();
 
+    /**
+     * Metoda, która nadzowuje wywoałanie metod i wyłapuje ewentualne wyjątki systemowe
+     * @param actionEvent event do obsługi
+     */
     @Override
     public void processAction(ActionEvent actionEvent) {
         try {
