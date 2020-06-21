@@ -134,6 +134,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      *
      * @param id identyfikator Użytkownika
      * @return encja User
+     * @throws AppBaseException wyjątek rzucany w sytuacji, gdzy nie zostanie znaleziony User o przekazanym Id
      */
     @RolesAllowed({"getEditUserDtoById", "findUserAccessLevelById"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -252,6 +253,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     /**
      * Metoda, która zwraca aktualnie zalogowanego użytkownika.
      *
+     * @param login login użytkownika
      * @return encje User
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
@@ -278,6 +280,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * Metoda aktywująca użytkownika o danym kodzie aktywacyjnym.
      *
      * @param code kod aktywacyjny
+     * @return boolean informujący o tym czy udało się aktywować konto
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll
@@ -357,6 +360,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * Metoda, która zapisuje informacje o niepoprawnym uwierzytelnianiu( adres ip użytkownika, data logowania).
      * Zwiększa ilość niepoprawnych logować o 1. Jeśli wartość niepoprawnych logowań osiągnie 3, blokuje konto i wysyła maila.
      *
+     * @param username login użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @PermitAll

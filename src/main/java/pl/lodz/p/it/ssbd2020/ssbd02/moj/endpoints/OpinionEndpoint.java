@@ -13,6 +13,7 @@ public interface OpinionEndpoint {
      * Metoda, która dodaje nową opinię.
      *
      * @param newOpinionDto obiekt DTO z danymi nowej opinii.
+     * @param rentalBusinessKey klucz biznesowy wypożyczenia, dla którego chcemy dodać opinię
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     void addOpinion(NewOpinionDto newOpinionDto, String rentalBusinessKey) throws AppBaseException;

@@ -79,7 +79,7 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
      * Metoda która zwraca model jachtu o podanym id.
      *
      * @param id id modelu jachtu
-     * @return Optional<YachtModel>
+     * @return Optional YachtModel
      */
     @Override
     @RolesAllowed({"addYacht", "getYachtModelById", "addImage", "deactivateYachtModel"})

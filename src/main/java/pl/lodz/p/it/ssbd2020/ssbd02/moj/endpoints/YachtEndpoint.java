@@ -24,7 +24,6 @@ public interface YachtEndpoint {
      * Metoda, która zwraca wszystkie jachty.
      *
      * @return lista jachtów
-     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     List<YachtListDto> getAllYachts();
 
