@@ -62,19 +62,6 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
     }
 
     /**
-     * Metoda pobierająca wszystkie opinie przypisane do danego jachtu.
-     *
-     * @param yachtId identyfikator jachtu
-     * @return lista opini dla danego jachtu
-     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
-     */
-    @RolesAllowed("getAllOpinionsByYacht")
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public List<Opinion> getAllOpinionsByYacht(Long yachtId) throws AppBaseException {
-        return opinionFacade.getAllOpinionsByYacht(yachtId);
-    }
-
-    /**
      * Metoda zwracająca opinię na podstawie przekazanego klucza biznesowego.
      *
      * @param rentalBusinessKey klucz biznesowy opinii
