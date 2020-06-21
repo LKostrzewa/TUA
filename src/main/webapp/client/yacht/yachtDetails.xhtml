@@ -82,6 +82,7 @@
                                 </h:panelGrid>
                             </p:dataViewListItem>
                         </p:dataView>
+                        <p:outputLabel  rendered="#{yachtDetailsPageBean.getOpinionFromRentals().size() == 0}" value="${msg['opinion.noOpinions']}"/>
                     </p:column>
                 </p:panelGrid>
 
