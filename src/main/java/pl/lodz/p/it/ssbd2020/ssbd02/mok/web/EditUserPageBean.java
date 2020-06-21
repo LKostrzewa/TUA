@@ -46,6 +46,8 @@ public class EditUserPageBean implements Serializable {
 
     /**
      * Metoda inicjalizująca komponent.
+     *
+     * @throws IOException wyjątek wejścia/wyjścia
      */
     public void init() throws IOException {
         try {

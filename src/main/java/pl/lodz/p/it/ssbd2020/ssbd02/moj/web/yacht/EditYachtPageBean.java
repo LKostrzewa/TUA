@@ -3,15 +3,14 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.EditYachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
@@ -47,9 +46,17 @@ public class EditYachtPageBean implements Serializable {
 
     /**
      * Metoda inicjalizująca komponent.
+     *
+     * @throws IOException wyjątek wejścia/wyjścia
      */
-    public void init() throws AppBaseException{
-        this.editYachtDto = yachtEndpoint.getEditYachtDtoById(yachtId);
+    public void init() throws IOException {
+        try{
+            this.editYachtDto = yachtEndpoint.getEditYachtDtoById(yachtId);
+        } catch (AppBaseException e){
+            displayError(e.getLocalizedMessage());
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect("/manager/yacht/yachtDetails.xhtml?faces-redirect=true?includeViewParams=true");
+        }
     }
 
     /**

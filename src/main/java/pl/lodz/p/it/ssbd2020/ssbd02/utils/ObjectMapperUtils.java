@@ -44,7 +44,7 @@ public class ObjectMapperUtils {
      * @param outCLass   klasa elementu listy wynikowej
      * @param <D>        typ obiektów z listy wynikowej
      * @param <T>        typ encji <code>entityList</code>
-     * @return lista zmapowanych obiektów typu <code><D></code>
+     * @return lista zmapowanych obiektów typu <code>D</code>
      */
     public static <D, T> List<D> mapAll(final Collection<T> entityList, Class<D> outCLass) {
         return entityList.stream()

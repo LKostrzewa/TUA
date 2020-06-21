@@ -47,6 +47,7 @@ public class SendEmail {
      * Metoda, która wysyła maila do użytkownika, powiadamiająca go o zablokowaniu konta.
      *
      * @param userEmail email użytkownika
+     * @throws AppBaseException wyjątek rzucany jeżeli nie powiedzie się wysłanie email-a
      */
     public void lockInfoEmail(String userEmail) throws AppBaseException {
         PropertyReader propertyReader = new PropertyReader();
@@ -59,6 +60,7 @@ public class SendEmail {
      * Metoda, która wysyła maila do użytkownika, powiadamiająca go o odblokowaniu konta.
      *
      * @param userEmail email użytkownika
+     * @throws AppBaseException wyjątek rzucany jeżeli nie powiedzie się wysłanie email-a
      */
     public void unlockInfoEmail(String userEmail) throws AppBaseException {
         PropertyReader propertyReader = new PropertyReader();
@@ -72,6 +74,7 @@ public class SendEmail {
      *
      * @param userEmail       email użytkownika
      * @param clientIpAddress adres ip użytkownika
+     * @throws AppBaseException wyjątek rzucany jeżeli nie powiedzie się wysłanie email-a
      */
     public void sendEmailNotificationAboutNewAdminAuthentication(String userEmail, String clientIpAddress) throws AppBaseException {
         PropertyReader propertyReader = new PropertyReader();
@@ -85,6 +88,7 @@ public class SendEmail {
      *
      * @param userEmail         email użytkownika
      * @param resetPasswordCode kod do resetowania hasła
+     * @throws AppBaseException wyjątek rzucany jeżeli nie powiedzie się wysłanie email-a
      */
     public void sendResetPasswordEmail(String userEmail, String resetPasswordCode) throws AppBaseException {
         PropertyReader propertyReader = new PropertyReader();

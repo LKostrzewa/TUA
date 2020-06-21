@@ -23,6 +23,7 @@ public class AppDatabaseException extends AppBaseException {
      * Statyczna metoda do tworzenia wyjątku
      *
      * @param cause przyczyna wajątku
+     * @param object object w którym wystąpił błąd
      * @return obiekt wyjątku z odpowiednimi danymi
      */
     public static AppDatabaseException createAppDatabaseException(Object object, Throwable cause){

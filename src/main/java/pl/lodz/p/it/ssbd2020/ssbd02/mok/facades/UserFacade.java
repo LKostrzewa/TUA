@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.mok.facades;
 
 import org.primefaces.model.FilterMeta;
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.Image;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.User;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
@@ -96,6 +95,7 @@ public class UserFacade extends AbstractFacade<User> {
     /**
      * Metoda, która zwraca aktualnie zalogowanego użytkownika.
      *
+     * @param userLogin login użytkownika
      * @return encja User
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */

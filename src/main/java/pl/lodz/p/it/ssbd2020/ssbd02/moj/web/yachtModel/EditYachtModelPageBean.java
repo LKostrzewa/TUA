@@ -5,10 +5,12 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yachtModel.EditYachtModelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
@@ -42,9 +44,17 @@ public class EditYachtModelPageBean implements Serializable {
 
     /**
      * Metoda inicjalizująca komponent.
+     *
+     * @throws IOException wyjątek wejścia/wyjścia
      */
-    public void init() throws AppBaseException {
-        this.editYachtModelDto = yachtModelEndpoint.getEditYachtModelDtoById(yachtModelId);
+    public void init() throws IOException {
+        try {
+            this.editYachtModelDto = yachtModelEndpoint.getEditYachtModelDtoById(yachtModelId);
+        } catch (AppBaseException e){
+            displayError(e.getLocalizedMessage());
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect(externalContext.getRequestContextPath() + "yachtModelDetials.xhtml");
+        }
     }
 
     /**

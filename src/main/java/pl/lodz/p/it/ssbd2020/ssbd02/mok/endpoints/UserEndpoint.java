@@ -39,6 +39,7 @@ public interface UserEndpoint {
      *
      * @param userId identyfikator użytkownika.
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     * @return Klasa dto do modyfikacji danych usera
      */
     EditUserDto getEditUserDtoById(Long userId) throws AppBaseException;
 
@@ -46,12 +47,14 @@ public interface UserEndpoint {
      * Metoda, która pobiera użytkownika do edycji własnych danych po jego loginie
      *
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     * @return Klasa dto do modyfikacji danych usera
      */
     EditUserDto getEditUserDtoByLogin() throws AppBaseException;
 
     /**
      * Metoda, która zwraca login dto o podanym loginie.
      *
+     * @param login wprowadzony w formularzu login użytkownika
      * @return user login dto
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
@@ -111,6 +114,7 @@ public interface UserEndpoint {
      *
      * @param code kod aktywacyjny użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
+     * @return boolean informujący o tym czy aktywowanie konta zakończyło się sukcesem
      */
     Boolean activateAccount(String code) throws AppBaseException;
 

@@ -52,7 +52,7 @@ public class ListYachtModelPageBean implements Serializable {
      * @param yachtModelId id modelu jachtu, który ma zostać deaktywowany
      * @return strona, na którą użytkownik ma zostać przekierowany
      */
-    public String deactivateYachtModel(Long yachtModelId) throws AppBaseException {
+    public String deactivateYachtModel(Long yachtModelId) {
         try {
             yachtModelEndpoint.deactivateYachtModel(yachtModelId);
             displayMessage();

@@ -151,6 +151,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
      * Metoda, która pobiera z bazy wszystkie wypożyczenia, w których nazwa jachtu pasuje
      * do przekazanego ciągu znaków
      *
+     * @param filter ciąg znaków według którego będą filtrowane wypożyczenia
      * @return lista wszystkich wypożyczeń, których nazwa jachtu pasuje do wzorca
      */
     @RolesAllowed("getFilteredRentals")

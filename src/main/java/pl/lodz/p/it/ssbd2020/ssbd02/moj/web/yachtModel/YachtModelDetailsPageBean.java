@@ -12,6 +12,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtModelEndpoint;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 import javax.inject.Inject;
@@ -77,10 +78,18 @@ public class YachtModelDetailsPageBean implements Serializable {
 
     /**
      * Metoda inicjalizująca komponent.
+     *
+     * @throws IOException wyjątek wejścia/wyjścia
      */
-    public void init() throws AppBaseException {
-        this.yachtModelDetailsDto = yachtModelEndpoint.getYachtModelById(yachtModelId);
-        imageIds = imageEndpoint.getAllImagesByYachtModel(yachtModelId);
+    public void init() throws IOException {
+        try {
+            this.yachtModelDetailsDto = yachtModelEndpoint.getYachtModelById(yachtModelId);
+            imageIds = imageEndpoint.getAllImagesByYachtModel(yachtModelId);
+        } catch (AppBaseException e){
+            displayError(e.getLocalizedMessage());
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect(externalContext.getRequestContextPath() + "listYachtModels.xhtml");
+        }
     }
 
     public Long getYachtModelId() {
@@ -138,7 +147,7 @@ public class YachtModelDetailsPageBean implements Serializable {
      * @return zmienna używana w primeface pomocna przy trzymaniu zawartosci załadowanego pliku
      * @throws AppBaseException
      */
-    public StreamedContent getImage() throws IOException, AppBaseException {
+    public StreamedContent getImage() throws AppBaseException {
         FacesContext context = FacesContext.getCurrentInstance();
         if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
             return new DefaultStreamedContent();

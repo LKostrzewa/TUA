@@ -42,6 +42,7 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
      * Metoda, która dodaje nową opinię.
      *
      * @param opinion encja z nową opinią do dodania
+     * @param rentalBusinessKey klucz biznesowy wypożyczenia, dla którego chcemy dodać opinię
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("addOpinion")
