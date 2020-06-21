@@ -2,10 +2,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.EntityNotActiveException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.ValueNotUniqueException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtModelFacade;
@@ -33,27 +30,31 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
     /**
      * Metoda, służy do dodawania nowych jachtów do bazy danych przez menadżera.
      *
-     * @param yacht obiekt jacht z danymi nowego jachtu
+     * @param yacht        obiekt jacht z danymi nowego jachtu
      * @param yachtModelId id modelu jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("addYacht")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addYacht(Yacht yacht, Long yachtModelId) throws AppBaseException {
-        YachtModel yachtModel = yachtModelFacade.find(yachtModelId).orElseThrow(AppNotFoundException::yachtModelNotFoundException);
-        Yacht newYacht = new Yacht(yacht.getName(),yacht.getProductionYear(),yacht.getPriceMultiplier(),yacht.getEquipment(), yachtModel);
+        try {
+            YachtModel yachtModel = yachtModelFacade.find(yachtModelId).orElseThrow(AppNotFoundException::yachtModelNotFoundException);
+            Yacht newYacht = new Yacht(yacht.getName(), yacht.getProductionYear(), yacht.getPriceMultiplier(), yacht.getEquipment(), yachtModel);
 
-        yachtModelFacade.lock(yachtModel, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+            yachtModelFacade.lock(yachtModel, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
 
-        if(!yachtModel.isActive()){
-            throw EntityNotActiveException.createYachtModelNotActiveException(yachtModel);
+            if (!yachtModel.isActive()) {
+                throw EntityNotActiveException.createYachtModelNotActiveException(yachtModel);
+            }
+
+            if (yachtFacade.existByName(newYacht.getName())) {
+                throw ValueNotUniqueException.createYachtNameNotUniqueException(newYacht);
+            }
+
+            yachtFacade.create(newYacht);
+        } catch (EJBTransactionRolledbackException e) {
+            throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
-
-        if (yachtFacade.existByName(newYacht.getName())) {
-            throw ValueNotUniqueException.createYachtNameNotUniqueException(newYacht);
-        }
-
-        yachtFacade.create(newYacht);
     }
 
     /**
@@ -63,7 +64,7 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
      */
     @RolesAllowed("getAllYachts")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public List<Yacht> getAllYachts(){
+    public List<Yacht> getAllYachts() {
         return yachtFacade.findAll();
     }
 
@@ -74,7 +75,7 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
      * @return yacht dto
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"getYachtById","getEditYachtDtoById"})
+    @RolesAllowed({"getYachtById", "getEditYachtDtoById"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Yacht getYachtById(Long yachtId) throws AppBaseException {
         return yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createYachtNotFoundException);
@@ -90,13 +91,17 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
     @RolesAllowed("editYacht")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editYacht(Yacht yachtToEdit, boolean nameChanged) throws AppBaseException {
-        if(!yachtToEdit.isActive()){
-            throw EntityNotActiveException.createYachtNotActiveException(yachtToEdit);
+        try {
+            if (!yachtToEdit.isActive()) {
+                throw EntityNotActiveException.createYachtNotActiveException(yachtToEdit);
+            }
+            if (nameChanged && yachtFacade.existByName(yachtToEdit.getName())) {
+                throw ValueNotUniqueException.createYachtNameNotUniqueException(yachtToEdit);
+            }
+            yachtFacade.edit(yachtToEdit);
+        } catch (EJBTransactionRolledbackException e) {
+            throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
-        if (nameChanged && yachtFacade.existByName(yachtToEdit.getName())) {
-            throw ValueNotUniqueException.createYachtNameNotUniqueException(yachtToEdit);
-        }
-        yachtFacade.edit(yachtToEdit);
     }
 
     /**
@@ -107,9 +112,13 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
      */
     @RolesAllowed("deactivateYacht")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void deactivateYacht(Long yachtId) throws AppBaseException{
-        Yacht yachtToDeactivate = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createYachtNotFoundException);
-        yachtToDeactivate.setActive(false);
-        yachtFacade.edit(yachtToDeactivate);
+    public void deactivateYacht(Long yachtId) throws AppBaseException {
+        try {
+            Yacht yachtToDeactivate = yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createYachtNotFoundException);
+            yachtToDeactivate.setActive(false);
+            yachtFacade.edit(yachtToDeactivate);
+        } catch (EJBTransactionRolledbackException e) {
+            throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
+        }
     }
 }

@@ -1,10 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.EntityNotActiveException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.ValueNotUniqueException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.PortFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -34,34 +31,41 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
     @RolesAllowed("addPort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addPort(Port port) throws AppBaseException {
-        Port portToAdd = new Port(port.getName(), port.getLake(), port.getNearestCity(), port.getLong1(), port.getLat());
+        try {
+            Port portToAdd = new Port(port.getName(), port.getLake(), port.getNearestCity(), port.getLong1(), port.getLat());
 
-        if (portFacade.existByName(portToAdd.getName())) {
-            throw ValueNotUniqueException.createPortNameNotUniqueException(portToAdd);
+            if (portFacade.existByName(portToAdd.getName())) {
+                throw ValueNotUniqueException.createPortNameNotUniqueException(portToAdd);
+            }
+            portToAdd.setActive(true);
+            portFacade.create(portToAdd);
+        } catch (EJBTransactionRolledbackException e) {
+            throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
-        portToAdd.setActive(true);
-        portFacade.create(portToAdd);
     }
 
     /**
      * Metoda, która edytuje zmiany wprowadzone w encji portu
      *
-     * @param portEntity edytowany port.
+     * @param portEntity  edytowany port.
      * @param nameChanged wartość logiczna informująca o zmianie unikalnej nazwy portu.
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("editPort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editPort(Port portEntity, boolean nameChanged) throws AppBaseException {
+        try {
+            if (!portEntity.isActive()) {
+                throw EntityNotActiveException.createPortNotActiveException(portEntity);
+            }
 
-        if(!portEntity.isActive()){
-            throw EntityNotActiveException.createPortNotActiveException(portEntity);
+            if (nameChanged && portFacade.existByName(portEntity.getName())) {
+                throw ValueNotUniqueException.createPortNameNotUniqueException(portEntity);
+            }
+            portFacade.edit(portEntity);
+        } catch (EJBTransactionRolledbackException e) {
+            throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
-
-        if (nameChanged && portFacade.existByName(portEntity.getName())) {
-            throw ValueNotUniqueException.createPortNameNotUniqueException(portEntity);
-        }
-        portFacade.edit(portEntity);
     }
 
     /**
@@ -73,9 +77,13 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
     @RolesAllowed("deactivatePort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void deactivatePort(long portId) throws AppBaseException {
-        Port portToDeactivate = portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
-        portToDeactivate.setActive(false);
-        portFacade.edit(portToDeactivate);
+        try {
+            Port portToDeactivate = portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
+            portToDeactivate.setActive(false);
+            portFacade.edit(portToDeactivate);
+        } catch (EJBTransactionRolledbackException e) {
+            throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
+        }
     }
 
     /**

@@ -1,10 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.managers;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.YachtModel;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.EntityNotActiveException;
-import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.ValueNotUniqueException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.*;
 import pl.lodz.p.it.ssbd2020.ssbd02.managers.AbstractManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.YachtModelFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -34,12 +31,16 @@ public class YachtModelManager extends AbstractManager implements SessionSynchro
     @RolesAllowed("addYachtModel")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addYachtModel(YachtModel yachtModel) throws AppBaseException {
-        if (yachtModelFacade.existByModel(yachtModel.getModel())) {
-            throw ValueNotUniqueException.createYachtModelNotUniqueException(yachtModel);
+        try {
+            if (yachtModelFacade.existByModel(yachtModel.getModel())) {
+                throw ValueNotUniqueException.createYachtModelNotUniqueException(yachtModel);
+            }
+            YachtModel yachtModelToAdd = new YachtModel(yachtModel.getManufacturer(), yachtModel.getModel(), yachtModel.getCapacity(),
+                    yachtModel.getGeneralDescription(), yachtModel.getBasicPrice());
+            yachtModelFacade.create(yachtModelToAdd);
+        } catch (EJBTransactionRolledbackException e) {
+            throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
-        YachtModel yachtModelToAdd = new YachtModel(yachtModel.getManufacturer(), yachtModel.getModel(), yachtModel.getCapacity(),
-                yachtModel.getGeneralDescription(), yachtModel.getBasicPrice());
-        yachtModelFacade.create(yachtModelToAdd);
     }
 
     /**
@@ -75,10 +76,14 @@ public class YachtModelManager extends AbstractManager implements SessionSynchro
     @RolesAllowed("editYachtModel")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editYachtModel(YachtModel yachtModelToEdit) throws AppBaseException {
-        if(!yachtModelToEdit.isActive()){
-            throw EntityNotActiveException.createYachtModelNotActiveException(yachtModelToEdit);
+        try {
+            if (!yachtModelToEdit.isActive()) {
+                throw EntityNotActiveException.createYachtModelNotActiveException(yachtModelToEdit);
+            }
+            yachtModelFacade.edit(yachtModelToEdit);
+        } catch (EJBTransactionRolledbackException e) {
+            throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
         }
-        yachtModelFacade.edit(yachtModelToEdit);
     }
 
     /**
@@ -90,8 +95,12 @@ public class YachtModelManager extends AbstractManager implements SessionSynchro
     @RolesAllowed("deactivateYachtModel")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void deactivateYachtModel(Long yachtModelId) throws AppBaseException {
-        YachtModel yachtModelToDeactivate = yachtModelFacade.find(yachtModelId).orElseThrow(AppNotFoundException::yachtModelNotFoundException);
-        yachtModelToDeactivate.setActive(false);
-        yachtModelFacade.edit(yachtModelToDeactivate);
+        try {
+            YachtModel yachtModelToDeactivate = yachtModelFacade.find(yachtModelId).orElseThrow(AppNotFoundException::yachtModelNotFoundException);
+            yachtModelToDeactivate.setActive(false);
+            yachtModelFacade.edit(yachtModelToDeactivate);
+        } catch (EJBTransactionRolledbackException e) {
+            throw AppEJBTransactionRolledbackException.createAppEJBTransactionRolledbackException(e);
+        }
     }
 }
