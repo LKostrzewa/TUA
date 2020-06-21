@@ -25,6 +25,7 @@ public class MyDetailsPageBean implements Serializable {
     private UserAccessLevelEndpoint userAccessLevelEndpoint;
     @Inject
     private FacesContext facesContext;
+    private ResourceBundle resourceBundle;
     private UserDetailsDto userDetailsDto;
     private UserAccessLevelDto userAccessLevelDto;
     private String ADMIN_ACCESS_LEVEL;
@@ -52,11 +53,10 @@ public class MyDetailsPageBean implements Serializable {
      */
     @PostConstruct
     public void init() {
-        PropertyReader propertyReader = new PropertyReader();
-        ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
-        MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config", "MANAGER_ACCESS_LEVEL");
-        CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
-
+        resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+        ADMIN_ACCESS_LEVEL = resourceBundle.getString("index.admin");
+        MANAGER_ACCESS_LEVEL = resourceBundle.getString("index.manager");
+        CLIENT_ACCESS_LEVEL = resourceBundle.getString("index.client");
         try {
             this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelByLogin();
             this.userDetailsDto = userAccessLevelDto.getUserDetailsDto();
@@ -72,7 +72,6 @@ public class MyDetailsPageBean implements Serializable {
      */
     private void displayError(String message) {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
         String msg = resourceBundle.getString(message);
         String head = resourceBundle.getString("error");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, head, msg));

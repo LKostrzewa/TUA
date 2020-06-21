@@ -119,7 +119,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * Metoda, która zwraca jacht o podanej nazwie.
      *
      * @param yachtName Nazwa jachtu
-     * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
+     * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("addRental")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -133,7 +133,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
     }
 
     /**
-     * Metoda, która blokuje encje z podanym typem blokady .
+     * Metoda, która blokuje encje z podanym typem blokady.
      *
      * @param entity blokowana encja
      * @param lockModeType typ blokady

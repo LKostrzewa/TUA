@@ -5,7 +5,6 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserAccessLevelDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.dtos.UserDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserAccessLevelEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.mok.endpoints.UserEndpoint;
-import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -65,10 +64,10 @@ public class UserDetailsPageBean implements Serializable {
      * Metoda inicjalizująca komponent.
      */
     public void init() throws IOException {
-        PropertyReader propertyReader = new PropertyReader();
-        ADMIN_ACCESS_LEVEL = propertyReader.getProperty("config", "ADMIN_ACCESS_LEVEL");
-        MANAGER_ACCESS_LEVEL = propertyReader.getProperty("config", "MANAGER_ACCESS_LEVEL");
-        CLIENT_ACCESS_LEVEL = propertyReader.getProperty("config", "CLIENT_ACCESS_LEVEL");
+        resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+        ADMIN_ACCESS_LEVEL = resourceBundle.getString("index.admin");
+        MANAGER_ACCESS_LEVEL = resourceBundle.getString("index.manager");
+        CLIENT_ACCESS_LEVEL = resourceBundle.getString("index.client");
 
         try {
             this.userAccessLevelDto = userAccessLevelEndpoint.findUserAccessLevelById(userId);
@@ -126,7 +125,6 @@ public class UserDetailsPageBean implements Serializable {
      */
     public void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
-        resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
 
     /**
