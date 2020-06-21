@@ -40,7 +40,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
 
     @PostConstruct
     public void init() {
-        RENTAL_CANCELED_STATUS = propertyReader.getPropertyWithoutLocale("config", "CANCELLED_STATUS");
+        RENTAL_CANCELLED_STATUS = propertyReader.getPropertyWithoutLocale("config", "CANCELLED_STATUS");
     }
 
     @Override
@@ -97,7 +97,6 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"cancelRental", "updateRentalStatus"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     @PermitAll
     public void edit(Rental rental) throws AppBaseException {
