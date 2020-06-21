@@ -7,16 +7,21 @@
 
 body {
     min-height: 100vh;
-    background: #ffcc99;
+    background-image: url("#{resource['images:waterSea3.jpg']}");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    width: 100%;
 }
-
 .registration-form {
     width: 560px;
     background: #f1f1f1;
     padding: 10px 20px;
     border-radius: 10px;
     position: absolute;
-    left: 30%;
+    left: 35%;
     top: 10%;
 }
 

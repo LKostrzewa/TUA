@@ -1,5 +1,11 @@
-body{
-    background-color: #ffcc99;
+body {
+    background-image: url("#{resource['images:waterSea3.jpg']}");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    width: 100%;
 }
 
 .message {

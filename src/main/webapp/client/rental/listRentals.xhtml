@@ -25,8 +25,9 @@
                              first="0"
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.rentals']}">
-                    <h:outputStylesheet library="css" name="tableClassManager.css"/>
+                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.rentals']}"
+                             style="width: 80%; margin: auto">
+                    <h:outputStylesheet library="css" name="tableClass.css"/>
                     <p:column headerText="${msg['yacht.name']}">
                         <h:outputText value="#{rental.yachtName}"/>
                     </p:column>
@@ -54,7 +55,7 @@
                                       rendered="#{rental.statusName eq 'CANCELLED'}"/>
                     </p:column>
                     <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}"
+                        <p:button value="${msg['details']}" style="background-color: orange"
                                   outcome="/client/rental/rentalDetails.xhtml?faces-redirect=true">
                             <f:param name="rentalBusinessKey" value="#{rental.businessKey}"/>
                         </p:button>

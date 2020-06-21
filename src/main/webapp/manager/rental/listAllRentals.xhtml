@@ -18,10 +18,13 @@
         </ui:define>
         <ui:define name="content">
             <h:form>
-                <p:inputText id="filter" value="#{listAllRentalsPageBean.filter}"
-                             placeholder="${msg['rental.filterByYacht']}"/>
-                <p:commandButton value="${msg['rental.filter']}" action="#{listAllRentalsPageBean.filterRentals}"
-                                 update="dataTable"/>
+                <div style="margin: auto;display: grid;width: 10%;padding-top: 11px;">
+                    <p:inputText  id="filter" value="#{listAllRentalsPageBean.filter}"
+                                 placeholder="${msg['rental.filterByYacht']}"/>
+                    <p:commandButton value="${msg['rental.filter']}" action="#{listAllRentalsPageBean.filterRentals}"
+                                     update="dataTable" style="background-color: orange"/>
+                </div>
+
                 <p:dataTable var="rental" value="#{listAllRentalsPageBean.rentals}" widgetVar="rentalsTable" rows="10"
                              id="dataTable"
                              styleClass="tableClass"
@@ -31,8 +34,9 @@
                              paginatorPosition="bottom"
                              paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.rentals']}"
-                             emptyMessage="${msg['rental.noRentalsFound']}">
-                    <h:outputStylesheet library="css" name="tableClassManager.css"/>
+                             emptyMessage="${msg['rental.noRentalsFound']}"
+                             style="width: 80%; margin: auto">
+                    <h:outputStylesheet library="css" name="tableClass.css"/>
                     <p:column headerText="${msg['rental.yacht']}">
                         <h:outputText value="#{rental.yachtName}"/>
                     </p:column>
@@ -60,7 +64,7 @@
                                       rendered="#{rental.statusName eq 'CANCELLED'}"/>
                     </p:column>
                     <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}"
+                        <p:button value="${msg['details']}" style="background-color: orange"
                                   outcome="/manager/rental/userRentalDetails.xhtml?faces-redirect=true">
                             <f:param name="bk" value="#{rental.businessKey}"/>
                         </p:button>
