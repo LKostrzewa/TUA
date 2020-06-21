@@ -13,6 +13,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Named
 @ViewScoped
@@ -30,9 +31,16 @@ public class AssignYachtToPortPageBean implements Serializable {
     private Long yachtId;
 
     public void init() {
-        this.ports = portEndpoint.getAllPorts();
+        this.ports = portEndpoint.getAllPorts().stream()
+                .filter(p -> p.getActive().equals(true))
+                .collect(Collectors.toList());
     }
 
+    /**
+     * Metoda obsługująca wciśnięcie guzika do przypisania jachtu do danego portu.
+     *
+     * @return strona na którą zostanie przekierowany użytkownik
+     */
     public String assignYachtToPort() {
         try {
             yachtPortEndpoint.assignYachtToPort(portId, yachtId);

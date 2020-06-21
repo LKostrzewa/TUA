@@ -9,19 +9,19 @@ import java.math.BigDecimal;
  * DTO do dodawania nowego portu.
  */
 public class NewPortDto {
-    @NotNull
+    @NotNull(message = "{validation.not.null}")
     @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{1,63}", message = "{validation.port.name}")
     private String name;
-    @NotNull
+    @NotNull(message = "{validation.not.null}")
     @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{1,31}", message = "{validation.port.lake}")
     private String lake;
-    @NotNull
+    @NotNull(message = "{validation.not.null}")
     @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{1,31}", message = "{validation.port.nearestCity}")
     private String nearestCity;
-    @NotNull
+    @NotNull(message = "{validation.not.null}")
     @Digits(integer = 3, fraction = 6, message = "{validation.port.long}")
     private BigDecimal long1;
-    @NotNull
+    @NotNull(message = "{validation.not.null}")
     @Digits(integer = 3, fraction = 6, message = "{validation.port.lat}")
     private BigDecimal lat;
 

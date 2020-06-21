@@ -36,7 +36,8 @@
 
                 <div class="text-box">
                     <p:inputText id="basicPrice" type="text" a:placeholder="#{msg['yachtModel.basicPrice']}"
-                                 value="#{addYachtModelPageBean.newYachtModelDto.basicPrice}">
+                                 value="#{addYachtModelPageBean.newYachtModelDto.basicPrice}"
+                                 converterMessage="#{msg['validation.yachtModel.price']}">
                     </p:inputText>
                     <span class="gradient"/>
                     <span class="asterisk_input"/>
@@ -44,7 +45,8 @@
                 </div>
                 <div class="text-box">
                     <p:inputText id="capacity" type="text" a:placeholder="#{msg['yachtModel.capacity']}"
-                                 value="#{addYachtModelPageBean.newYachtModelDto.capacity}">
+                                 value="#{addYachtModelPageBean.newYachtModelDto.capacity}"
+                                 converterMessage="#{msg['validation.yachtModel.capacity']}">
                     </p:inputText>
                     <span class="gradient"/>
                     <span class="asterisk_input"/>

@@ -9,20 +9,20 @@ import java.math.BigDecimal;
  */
 public class EditYachtModelDto {
 
-    @NotNull
+    @NotNull(message = "{validation.not.null}")
     @Min(value = 1, message = "{validation.yachtModel.capacity}")
     private Integer capacity;
 
-    @NotNull
+    @NotNull(message = "{validation.not.null}")
     @Pattern(regexp = "[\\sa-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{2,32}", message = "{validation.yachtModel.manufacturer}")
     private String manufacturer;
 
-    @NotNull
+    @NotNull(message = "{validation.not.null}")
     @Size(min = 10, max = 4096, message = "{validation.yachtModel.description}")
     @Pattern(regexp = "^[^=;%&'\"]+$", message = "{validation.invalidCharacter}")
     private String generalDescription;
 
-    @NotNull
+    @NotNull(message = "{validation.not.null}")
     @DecimalMin(value = "0.0", inclusive = false, message = "{validation.yachtModel.price.value}")
     @Digits(integer = 8, fraction = 2, message = "{validation.yachtModel.price.digits}")
     private BigDecimal basicPrice;
