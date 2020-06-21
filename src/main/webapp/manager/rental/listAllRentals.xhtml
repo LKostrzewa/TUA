@@ -18,10 +18,10 @@
         </ui:define>
         <ui:define name="content">
             <h:form>
-                <p:inputText id="filter" value="#{listAllRentalsPageBean.filter}"
+                <p:inputText style="margin: auto" id="filter" value="#{listAllRentalsPageBean.filter}"
                              placeholder="${msg['rental.filterByYacht']}"/>
                 <p:commandButton value="${msg['rental.filter']}" action="#{listAllRentalsPageBean.filterRentals}"
-                                 update="dataTable"/>
+                                 update="dataTable" style="background-color: orange"/>
                 <p:dataTable var="rental" value="#{listAllRentalsPageBean.rentals}" widgetVar="rentalsTable" rows="10"
                              id="dataTable"
                              styleClass="tableClass"
@@ -61,7 +61,7 @@
                                       rendered="#{rental.statusName eq 'CANCELLED'}"/>
                     </p:column>
                     <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}"
+                        <p:button value="${msg['details']}" style="background-color: orange"
                                   outcome="/manager/rental/userRentalDetails.xhtml?faces-redirect=true">
                             <f:param name="bk" value="#{rental.businessKey}"/>
                         </p:button>

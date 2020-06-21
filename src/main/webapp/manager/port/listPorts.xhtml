@@ -41,14 +41,14 @@
                         <h:outputText value="#{port.yachts.size()}"/>
                     </p:column>
                     <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}" outcome="portDetails.xhtml?faces-redirect=true">
+                        <p:button value="${msg['details']}" outcome="portDetails.xhtml?faces-redirect=true" style="background-color: orange">
                             <f:param name="portId" value="#{port.id}"/>
                         </p:button>
-                        <p:button value="${msg['bread.yachtsAssignedToPort']}"
+                        <p:button value="${msg['bread.yachtsAssignedToPort']}" style="background-color: orange"
                                   outcome="listYachtsByPort.xhtml?faces-redirect=true">
                             <f:param name="portId" value="#{port.id}"/>
                         </p:button>
-                        <p:commandButton value="#{msg['deactivate']}" disabled="#{not port.active}"
+                        <p:commandButton value="#{msg['deactivate']}" disabled="#{not port.active}" style="background-color: orange"
                                          action="#{listPortsPageBean.deactivatePort(port.id)}" update="@form">
                             <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                        icon="pi pi-exclamation-triangle"/>

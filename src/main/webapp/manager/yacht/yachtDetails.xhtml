@@ -65,8 +65,8 @@
                     </h:panelGrid>
                     </p:dataViewListItem>
                 </p:dataView>
-                <p:button class="button" value="#{msg['goBack']}" outcome="listYachts.xhtml?faces-redirect=true"/>
-                <p:button class="button" value="${msg['edit']}" outcome="editYacht.xhtml?faces-redirect=true" disabled="#{not yachtDetailsPageBean.yachtDto.active}">
+                <p:button class="button" value="#{msg['goBack']}" outcome="listYachts.xhtml?faces-redirect=true" style="background-color: orange"/>
+                <p:button class="button" value="${msg['edit']}" outcome="editYacht.xhtml?faces-redirect=true" disabled="#{not yachtDetailsPageBean.yachtDto.active}" style="background-color: orange">
                     <f:param name="yachtId" value="#{yachtDetailsPageBean.yachtId}"/>
                 </p:button>
                 <p:button class="button" value="${msg['yachts.assignYachtToPort']}" outcome="assignYachtToPort.xhtml?faces-redirect=true?includeViewParams=true" disabled="#{not yachtDetailsPageBean.yachtDto.active}"

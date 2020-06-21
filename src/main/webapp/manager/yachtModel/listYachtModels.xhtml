@@ -47,10 +47,10 @@
                     <h:outputText value="${msg['no']}" rendered="#{!model.active}"/>
                 </p:column>
                 <p:column headerText="${msg['actions']}">
-                    <p:button value="${msg['details']}" outcome="yachtModelDetails.xhtml?faces-redirect=true">
+                    <p:button value="${msg['details']}" outcome="yachtModelDetails.xhtml?faces-redirect=true" style="background-color: orange">
                         <f:param name="yachtModelId" value="#{model.id}"/>
                     </p:button>
-                    <p:commandButton disabled="#{not model.active}" value="#{msg['deactivate']}"
+                    <p:commandButton disabled="#{not model.active}" value="#{msg['deactivate']}" style="background-color: orange"
                                      action="#{listYachtModelPageBean.deactivateYachtModel(model.id)}" update="@form">
                         <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                    icon="pi pi-exclamation-triangle"/>

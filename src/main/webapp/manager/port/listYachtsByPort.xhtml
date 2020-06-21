@@ -49,7 +49,7 @@
                         <h:outputText value="${msg['no']}" rendered="#{!yacht.active}"/>
                     </p:column>
                     <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}"
+                        <p:button value="${msg['details']}" style="background-color: orange"
                                   outcome="/manager/yacht/yachtDetails.xhtml?faces-redirect=true">
                             <f:param name="yachtId" value="#{yacht.id}"/>
                         </p:button>
