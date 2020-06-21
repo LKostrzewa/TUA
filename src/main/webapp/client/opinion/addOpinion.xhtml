@@ -42,7 +42,7 @@
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputTextarea id="comment" value="#{addOpinionPageBean.newOpinionDto.comment}"
                                          rows="5" cols="40" counter="display"
-                                         maxlength="4000"
+                                         maxlength="1025"
                                          counterTemplate="{0} #{msg['opinion.addComment.charactersLeft']}"/>
                         <p:outputLabel for="@previous" value="#{msg['opinion.addComment']}"/>
                         <p:message for="comment"/>
