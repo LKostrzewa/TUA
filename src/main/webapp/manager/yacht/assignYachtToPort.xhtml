@@ -29,7 +29,8 @@
                 <f:viewParam name="yachtId" value="#{assignYachtToPortPageBean.yachtId}"/>
                 <f:event type="preRenderView" listener="#{assignYachtToPortPageBean.init}"/>
             </f:metadata>
-            <h:form id="form">
+            <h:form class="form">
+                <h:outputStylesheet library="css" name="yacht/editYacht.css"/>
                 <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
                 <div>
                     <p:outputLabel for="portId" value="#{msg['manager.title.ports']}"/>

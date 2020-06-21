@@ -81,9 +81,14 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
 
             RentalStatus pendingStatus = rentalStatusFacade.findByName(RENTAL_PENDING_STATUS);
 
-            long days = (rental.getEndDate().getTime() - rental.getBeginDate().getTime()) / (1000 * 60 * 60 * 24);
-            BigDecimal rentalPrice = yachtToRent.getYachtModel().getBasicPrice().multiply(yachtToRent.getPriceMultiplier()).multiply(BigDecimal.valueOf(days));
-            rentalPrice = rentalPrice.setScale(2, RoundingMode.DOWN);
+        int thousand = Integer.parseInt(propertyReader.getProperty("config", "THOUSAND"));
+        int minutes = Integer.parseInt(propertyReader.getProperty("config", "MINUTES"));
+        int hours = Integer.parseInt(propertyReader.getProperty("config", "HOURS"));
+
+
+        long days = (rental.getEndDate().getTime() - rental.getBeginDate().getTime()) / (thousand * minutes * minutes * hours);
+        BigDecimal rentalPrice = yachtToRent.getYachtModel().getBasicPrice().multiply(yachtToRent.getPriceMultiplier()).multiply(BigDecimal.valueOf(days));
+        rentalPrice = rentalPrice.setScale(2, RoundingMode.DOWN);
 
             Rental newRental = new Rental(rental.getBeginDate(), rental.getEndDate(), rentalPrice, rentingUser, yachtToRent);
             newRental.setRentalStatus(pendingStatus);

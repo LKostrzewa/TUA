@@ -62,7 +62,7 @@ public class ListYachtModelPageBean implements Serializable {
         return "listYachtModels";
     }
 
-    public void displayInit(){
+    private void displayInit(){
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
     }
@@ -70,7 +70,7 @@ public class ListYachtModelPageBean implements Serializable {
     /**
      * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
      */
-    public void displayMessage() {
+    private void displayMessage() {
         displayInit();
         String msg = resourceBundle.getString("yachtModel.deactivateInfo");
         String head = resourceBundle.getString("success");

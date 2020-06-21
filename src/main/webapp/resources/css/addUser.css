@@ -1,9 +1,9 @@
 body {
-    background-image: url("#{resource['images:edit33.jpg']}");
+    background-image: url("#{resource['images:waterSea3.jpg']}");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    background-position: 50% 5%;
+    background-position: center;
     height: 100%;
     width: 100%;
 }
@@ -19,12 +19,12 @@ body {
 
 .form {
     width: 560px;
-    background: #eff5fc;
+    background-color: white;
     padding: 10px 20px;
     border-radius: 10px;
-    position: absolute;
-    left: 30%;
-    top: 10%;
+    margin: auto;
+    margin-top: 2%;
+    margin-bottom: 10px;
     text-align: center;
 }
 

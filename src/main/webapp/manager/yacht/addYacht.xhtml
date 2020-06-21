@@ -40,14 +40,14 @@
 
                 <div class="text-box">
                     <p:inputText id="productionYear" type="text" a:placeholder="#{msg['yacht.productionYear']}"
-                                 value="#{addYachtPageBean.newYachtDto.productionYear}"/>
+                                 value="#{addYachtPageBean.newYachtDto.productionYear}" converterMessage="#{msg['validation.yacht.productionYear']}"/>
                     <span class="gradient"/>
                     <span class="asterisk_input"/>
                     <h:message id="productionYear_err" styleClass="message" for="productionYear"/>
                 </div>
                 <div class="text-box">
                     <p:inputText id="priceMultiplier" type="text" a:placeholder="#{msg['yacht.priceMultiplier']}"
-                                 value="#{addYachtPageBean.newYachtDto.priceMultiplier}"/>
+                                 value="#{addYachtPageBean.newYachtDto.priceMultiplier}" converterMessage="#{msg['validation.yacht.priceMultiplier']}"/>
 
                     <span class="gradient"/>
                     <span class="asterisk_input"/>

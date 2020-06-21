@@ -76,16 +76,6 @@ public class RentalDetailsPageBean implements Serializable {
     }
 
     /**
-     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
-     */
-    private void displayMessage(String message) {
-        displayInit();
-        String msg = resourceBundle.getString(message);
-        String head = resourceBundle.getString("success");
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
-    }
-
-    /**
      * Metoda wyświetlająca wiadomość o zaistniałym błędzie.
      *
      * @param message wiadomość do wyświetlenia

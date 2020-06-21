@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.image.ImageDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtByPortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtPortEndpoint;
 
@@ -28,8 +29,8 @@ import java.util.stream.Collectors;
 public class ListYachtsByPortPageBean implements Serializable {
     @Inject
     private YachtPortEndpoint yachtPortEndpoint;
-    private List<YachtDto> yachts;
-    private List<YachtDto> activeYachts;
+    private List<YachtByPortDto> yachts;
+    private List<YachtByPortDto> activeYachts;
 
     @Inject
     private FacesContext facesContext;
@@ -37,11 +38,11 @@ public class ListYachtsByPortPageBean implements Serializable {
 
     private Long portId;
 
-    public List<YachtDto> getYachts() {
+    public List<YachtByPortDto> getYachts() {
         return yachts;
     }
 
-    public void setYachts(List<YachtDto> yachts) {
+    public void setYachts(List<YachtByPortDto> yachts) {
         this.yachts = yachts;
     }
 
@@ -53,16 +54,16 @@ public class ListYachtsByPortPageBean implements Serializable {
         this.portId = portId;
     }
 
-    public List<YachtDto> getActiveYachts() {
+    public List<YachtByPortDto> getActiveYachts() {
         return activeYachts;
     }
 
-    public void setActiveYachts(List<YachtDto> activeYachts) {
+    public void setActiveYachts(List<YachtByPortDto> activeYachts) {
         this.activeYachts = activeYachts;
     }
 
     public byte[] getImage(long imageId, long yachtId) throws IOException {
-        YachtDto yachtDto = new YachtDto();
+        YachtByPortDto yachtDto = new YachtByPortDto();
         try {
             yachtDto = activeYachts.stream().filter(y -> y.getId().equals(yachtId))
                     .findFirst().orElseThrow(AppNotFoundException::createYachtNotFoundException);
@@ -83,8 +84,8 @@ public class ListYachtsByPortPageBean implements Serializable {
     public void init() throws IOException {
         try {
             this.yachts = yachtPortEndpoint.getAllYachtsByPort(portId);
-            this.yachts.sort(Comparator.comparing(YachtDto::getName, String::compareToIgnoreCase));
-            this.activeYachts = yachts.stream().filter(YachtDto::isActive).collect(Collectors.toList());
+            this.yachts.sort(Comparator.comparing(YachtByPortDto::getName, String::compareToIgnoreCase));
+            this.activeYachts = yachts.stream().filter(YachtByPortDto::isActive).collect(Collectors.toList());
 
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());

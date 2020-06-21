@@ -7,24 +7,20 @@ import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
-import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.ListPortsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtsToPortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -37,14 +33,16 @@ public class MapPortsPageBean implements Serializable {
     @Inject
     private FacesContext facesContext;
     private ResourceBundle resourceBundle;
-    private List<PortDetailsDto> activePorts;
+    private List<ListPortsDto> activePorts;
 
     private Marker marker;
-    private PortDetailsDto selectedPort;
+    private ListPortsDto selectedPort;
     @PostConstruct
     public void init() {
         simpleModel = new DefaultMapModel();
-        this.activePorts = portEndpoint.getAllPorts().stream().filter(portDetailsDto -> portDetailsDto.getActive().equals(true)).collect(Collectors.toList());
+        this.activePorts = portEndpoint.getAllPorts().stream()
+                .filter(portDetailsDto -> portDetailsDto.getActive().equals(true))
+                .collect(Collectors.toList());
 
 
 
@@ -52,8 +50,8 @@ public class MapPortsPageBean implements Serializable {
         ruta.append(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath());
         ruta.append("/resources/images/markerPort.png");
 
-        for (PortDetailsDto portDetailsDto: activePorts){
-            Marker marker = new Marker(new LatLng(portDetailsDto.getLat().floatValue(),portDetailsDto.getLong1().floatValue()), portDetailsDto.getName());
+        for (ListPortsDto listPortsDto: activePorts){
+            Marker marker = new Marker(new LatLng(listPortsDto.getLat().floatValue(),listPortsDto.getLong1().floatValue()), listPortsDto.getName());
             marker.setIcon(String.valueOf(ruta));
             simpleModel.addOverlay(marker);
         }
@@ -62,7 +60,7 @@ public class MapPortsPageBean implements Serializable {
     public void onMarkerSelect(OverlaySelectEvent event) throws IOException {
         marker = (Marker) event.getOverlay();
         try {
-            selectedPort = (PortDetailsDto) activePorts.stream().filter(n -> n.getName().equals(marker.getTitle())).findFirst().orElseThrow(AppNotFoundException::createPortNotFoundException);
+            selectedPort = (ListPortsDto) activePorts.stream().filter(n -> n.getName().equals(marker.getTitle())).findFirst().orElseThrow(AppNotFoundException::createPortNotFoundException);
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
             ExternalContext externalContext = facesContext.getExternalContext();
@@ -71,7 +69,7 @@ public class MapPortsPageBean implements Serializable {
 
     }
 
-    public PortDetailsDto getSelectedPort() {
+    public ListPortsDto getSelectedPort() {
         return selectedPort;
     }
 
@@ -84,7 +82,7 @@ public class MapPortsPageBean implements Serializable {
     }
 
     public int numberOfActiveYachts() {
-        return (int) selectedPort.getYachts().stream().filter(YachtDto::isActive).count();
+        return (int) selectedPort.getYachts().stream().filter(YachtsToPortDto::isActive).count();
     }
 
     private void displayError(String message) {

@@ -53,3 +53,10 @@ table {
     font-weight: bold;
 }
 
+.ui-selectonebutton {
+    display: none!important;
+
+}
+.ui-widget-header {
+    background-color: #ffcc80!important;
+}

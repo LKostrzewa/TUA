@@ -1,5 +1,11 @@
 body {
-    background-color: #c9e4ca;
+    background-image: url("#{resource['images:waterSea5.jpg']}");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    width: 100%;
     border:1px;
     border: black;
 }
@@ -9,18 +15,27 @@ body {
 }
 
 .ui-datatable thead th {
-    background-color: #5c9c21;
+    background-color: #1a8cff;
     height: 50%;
 
 }
 
 .ui-datatable-even {
-    background-color: #DEF3CA;
+    background-color:  #80c1ff;
     color: black;
 }
 
 .ui-datatable-odd {
-    background-color: #9DD929;
+    background-color: #b3daff;
     color: black;
+}
+
+table {
+    margin-top: 20px;
+
+}
+
+.ui-datatable .ui-paginator {
+    background-color: #1a8cff;
 }
 

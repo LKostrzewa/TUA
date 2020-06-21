@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtByPortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppEJBTransactionRolledbackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
@@ -47,8 +48,8 @@ public class YachtPortEndpointImpl implements Serializable, YachtPortEndpoint {
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("getAllYachtsByPort")
-    public List<YachtDto> getAllYachtsByPort(Long portId) throws AppBaseException {
-        return ObjectMapperUtils.mapAll(yachtPortManager.getAllYachtsByPort(portId), YachtDto.class);
+    public List<YachtByPortDto> getAllYachtsByPort(Long portId) throws AppBaseException {
+        return ObjectMapperUtils.mapAll(yachtPortManager.getAllYachtsByPort(portId), YachtByPortDto.class);
     }
 
     /**

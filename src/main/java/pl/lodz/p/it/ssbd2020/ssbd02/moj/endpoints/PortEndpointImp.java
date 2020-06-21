@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppEJBTransactionRolledbackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.EditPortDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.ListPortsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.NewPortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.PortManager;
@@ -146,10 +147,9 @@ public class PortEndpointImp implements Serializable, PortEndpoint {
      * @return lista portów
      */
     @RolesAllowed("getAllPorts")
-    public List<PortDetailsDto> getAllPorts() {
-        return ObjectMapperUtils.mapAll(portManager.getAllPorts(), PortDetailsDto.class);
+    public List<ListPortsDto> getAllPorts() {
+        return ObjectMapperUtils.mapAll(portManager.getAllPorts(), ListPortsDto.class);
     }
-
     /**
      * Metoda, która zwraca port o podanym id.
      *

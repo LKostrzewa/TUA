@@ -26,8 +26,9 @@
                              first="0"
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.yachts']}">
-                    <h:outputStylesheet library="css" name="tableClassManager.css"/>
+                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.yachts']}"
+                             style="width: 80%; margin: auto">
+                    <h:outputStylesheet library="css" name="tableClass.css"/>
                     <p:column headerText="${msg['yacht.name']}">
                         <h:outputText value="#{yacht.name}"/>
                     </p:column>
@@ -45,10 +46,10 @@
                         <h:outputText value="#{yacht.currentPortName}"/>
                     </p:column>
                     <p:column headerText="${msg['actions']}">
-                        <p:button value="${msg['details']}" outcome="yachtDetails.xhtml?faces-redirect=true">
+                        <p:button value="${msg['details']}" outcome="yachtDetails.xhtml?faces-redirect=true" style="background-color: orange">
                             <f:param name="yachtId" value="#{yacht.id}"/>
                         </p:button>
-                        <p:commandButton value="#{msg['deactivate']}" disabled="#{not yacht.active}"
+                        <p:commandButton value="#{msg['deactivate']}" disabled="#{not yacht.active}" style="background-color: orange"
                                          action="#{listYachtPageBean.deactivateYacht(yacht.id)}" update="@form">
                             <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                        icon="pi pi-exclamation-triangle"/>

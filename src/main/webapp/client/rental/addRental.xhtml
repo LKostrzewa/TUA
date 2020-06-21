@@ -35,9 +35,10 @@
                 <f:viewParam name="portId" value="#{addRentalPageBean.portId}"/>
                 <f:event type="preRenderView" listener="#{addRentalPageBean.init}"/>
             </f:metadata>
-            <h:form id="form">
+            <h:form class="form">
+                <h:outputStylesheet library="css" name="addUser.css"/>
                 <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
-                <div>
+                <div style="text-align: center">
                     <p:outputLabel value="#{msg['yacht.name']}: "/>
                     <p:outputLabel value="#{addRentalPageBean.addRentalDto.yachtName}"/>
                     <p/>
@@ -45,13 +46,13 @@
                     <p:datePicker id="beginDate" pattern="dd.MM.yyyy"
                                   value="#{addRentalPageBean.addRentalDto.beginDate}"
                                   locale="#{addRentalPageBean.locale}"
-                                  mindate="#{addRentalPageBean.tommorow}"/>
+                                  mindate="#{addRentalPageBean.tomorrow}"/>
                     <p:message for="beginDate"/>
                     <p:outputLabel for="endDate" value="#{msg['rental.endDate']}: "/>
                     <p:datePicker id="endDate" pattern="dd.MM.yyyy"
                                   value="#{addRentalPageBean.addRentalDto.endDate}"
                                   locale="#{addRentalPageBean.locale}"
-                                  mindate="#{addRentalPageBean.nextDayAfterTommorow}"/>
+                                  mindate="#{addRentalPageBean.theDayAfterTomorrow}"/>
                     <p:message for="endDate"/>
                 </div>
                 <div>

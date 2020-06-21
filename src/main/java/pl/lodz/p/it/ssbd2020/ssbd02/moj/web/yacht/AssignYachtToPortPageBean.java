@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.web.yacht;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.ListPortsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.PortEndpoint;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints.YachtPortEndpoint;
@@ -26,7 +27,7 @@ public class AssignYachtToPortPageBean implements Serializable {
     private FacesContext facesContext;
     private ResourceBundle resourceBundle;
 
-    private List<PortDetailsDto> ports;
+    private List<ListPortsDto> ports;
     private Long portId;
     private Long yachtId;
 
@@ -52,11 +53,11 @@ public class AssignYachtToPortPageBean implements Serializable {
         return "yachtDetails.xhtml?faces-redirect=true?includeViewParams=true";
     }
 
-    public List<PortDetailsDto> getPorts() {
+    public List<ListPortsDto> getPorts() {
         return ports;
     }
 
-    public void setPorts(List<PortDetailsDto> ports) {
+    public void setPorts(List<ListPortsDto> ports) {
         this.ports = ports;
     }
 

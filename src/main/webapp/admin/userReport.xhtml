@@ -28,7 +28,7 @@
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.users']}"
                              emptyMessage="${msg['admin.accounts.noUsersFoundMessage']}"
-                             style="background-color: #381E0A;">
+                             style="width: 80%; margin: auto">
                     <h:outputStylesheet library="css" name="tableClass.css"/>
                     <p:column headerText="${msg['login']}">
                         <h:outputText value="#{user.login}"/>

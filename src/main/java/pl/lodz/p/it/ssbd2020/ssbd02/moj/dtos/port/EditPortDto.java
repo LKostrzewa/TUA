@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port;
 
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
@@ -21,9 +22,11 @@ public class EditPortDto implements Serializable {
     private String nearestCity;
     @NotNull(message = "{validation.not.null}")
     @Digits(integer = 3, fraction = 6, message = "{validation.port.long}")
+    @Min(value = 0,message = "{validation.port.long}")
     private BigDecimal long1;
     @NotNull(message = "{validation.not.null}")
     @Digits(integer = 3, fraction = 6, message = "{validation.port.lat}")
+    @Min(value = 0,message = "{validation.port.lat}")
     private BigDecimal lat;
 
     public String getName() {
