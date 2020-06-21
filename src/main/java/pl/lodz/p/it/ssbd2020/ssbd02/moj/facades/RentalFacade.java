@@ -41,7 +41,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
 
     @PostConstruct
     public void init() {
-        RENTAL_CANCELED_STATUS = propertyReader.getProperty("config", "CANCELED_STATUS");
+        RENTAL_CANCELED_STATUS = propertyReader.getPropertyWithoutLocale("config", "CANCELED_STATUS");
     }
 
     @Override

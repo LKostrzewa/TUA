@@ -44,9 +44,9 @@ public class UpdateRentalStatusScheduler {
     @Schedule(hour = "10")
     public void performTask() {
         try {
-            PENDING_RENTAL_STATUS = propertyReader.getProperty("config", "PENDING_STATUS");
-            STARTED_RENTAL_STATUS = propertyReader.getProperty("config", "STARTED_STATUS");
-            FINISHED_RENTAL_STATUS = propertyReader.getProperty("config", "FINISHED_STATUS");
+            PENDING_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "PENDING_STATUS");
+            STARTED_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "STARTED_STATUS");
+            FINISHED_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "FINISHED_STATUS");
             List<Rental> allRentals = rentalFacade.findAll();
             List<RentalStatus> rentalStatuses = rentalStatusFacade.findAll();
             for (Rental rental : allRentals) {

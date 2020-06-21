@@ -22,6 +22,10 @@ public class PropertyReader {
         return getBundle(bundleName).getString(propertyName);
     }
 
+    public String getPropertyWithoutLocale(String bundleName, String propertyName) {
+        return ResourceBundle.getBundle(bundleName).getString(propertyName);
+    }
+
     /**
      * Metoda zwracająca właśność o podanym kluczu i z pakietu o podanej nazwie wstrzykując podany argument.
      *
@@ -55,4 +59,6 @@ public class PropertyReader {
         UIViewRoot viewRoot = facesContext.getViewRoot();
         return viewRoot.getLocale();
     }
+
+
 }
