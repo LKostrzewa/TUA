@@ -38,6 +38,9 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     private UserManager userManager;
     private User userEditEntity;
 
+    /**
+     * Metoda inicjalizująca komponent.
+     */
     @PostConstruct
     public void init() {
         METHOD_INVOCATION_LIMIT = Integer.parseInt(propertyReader.getProperty("config", "rollback.invocation.limit"));
@@ -73,8 +76,6 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
         if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
             throw RepeatedRollBackException.createRepeatedRollBackException();
         }
-
-
     }
 
     /**

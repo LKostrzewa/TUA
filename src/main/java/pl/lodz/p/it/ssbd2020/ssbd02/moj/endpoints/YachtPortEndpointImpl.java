@@ -1,17 +1,23 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppEJBTransactionRolledbackException;
+import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.RepeatedRollBackException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.yacht.YachtDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.YachtPortManager;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementacja interfejsu YachtPortEndpoint.
@@ -19,8 +25,19 @@ import java.util.List;
 @Stateful
 @Interceptors(LoggerInterceptor.class)
 public class YachtPortEndpointImpl implements Serializable, YachtPortEndpoint {
+    PropertyReader propertyReader = new PropertyReader();
+    Integer METHOD_INVOCATION_LIMIT;
+    Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     @Inject
     private YachtPortManager yachtPortManager;
+
+    /**
+     * Metoda inicjalizująca komponent.
+     */
+    @PostConstruct
+    public void init() {
+        METHOD_INVOCATION_LIMIT = Integer.parseInt(propertyReader.getProperty("config", "rollback.invocation.limit"));
+    }
 
     /**
      * Metoda pobierająca wszystki jachty przypisane do danego portu.
@@ -43,7 +60,25 @@ public class YachtPortEndpointImpl implements Serializable, YachtPortEndpoint {
      */
     @RolesAllowed("assignYachtToPort")
     public void assignYachtToPort(Long portId, Long yachtId) throws AppBaseException {
-        yachtPortManager.assignYachtToPort(portId, yachtId);
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                yachtPortManager.assignYachtToPort(portId, yachtId);
+                rollback = yachtPortManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 
     /**
@@ -54,6 +89,24 @@ public class YachtPortEndpointImpl implements Serializable, YachtPortEndpoint {
      */
     @RolesAllowed("retractYachtFromPort")
     public void retractYachtFromPort(Long yachtId) throws AppBaseException {
-        yachtPortManager.retractYachtFromPort(yachtId);
+        int methodInvocationCounter = 0;
+        boolean rollback;
+        do {
+            try {
+                yachtPortManager.retractYachtFromPort(yachtId);
+                rollback = yachtPortManager.isLastTransactionRollback();
+            } catch (AppEJBTransactionRolledbackException ex) {
+                logger.log(Level.WARNING, "Exception EJBTransactionRolledback");
+                rollback = true;
+            } finally {
+                if (methodInvocationCounter > 0)
+                    logger.log(Level.WARNING, "Transaction repeated " + methodInvocationCounter + " times");
+                methodInvocationCounter++;
+            }
+        } while (rollback && methodInvocationCounter < METHOD_INVOCATION_LIMIT);
+
+        if (methodInvocationCounter == METHOD_INVOCATION_LIMIT) {
+            throw RepeatedRollBackException.createRepeatedRollBackException();
+        }
     }
 }
