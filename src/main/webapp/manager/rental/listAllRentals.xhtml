@@ -18,10 +18,13 @@
         </ui:define>
         <ui:define name="content">
             <h:form>
-                <p:inputText style="margin: auto" id="filter" value="#{listAllRentalsPageBean.filter}"
-                             placeholder="${msg['rental.filterByYacht']}"/>
-                <p:commandButton value="${msg['rental.filter']}" action="#{listAllRentalsPageBean.filterRentals}"
-                                 update="dataTable" style="background-color: orange"/>
+                <div style="margin: auto;display: grid;width: 10%;padding-top: 11px;">
+                    <p:inputText  id="filter" value="#{listAllRentalsPageBean.filter}"
+                                 placeholder="${msg['rental.filterByYacht']}"/>
+                    <p:commandButton value="${msg['rental.filter']}" action="#{listAllRentalsPageBean.filterRentals}"
+                                     update="dataTable" style="background-color: orange"/>
+                </div>
+
                 <p:dataTable var="rental" value="#{listAllRentalsPageBean.rentals}" widgetVar="rentalsTable" rows="10"
                              id="dataTable"
                              styleClass="tableClass"

@@ -30,31 +30,31 @@
                 <h:outputStylesheet library="css" name="userDetails.css"/>
                 <p:panelGrid columns="2" styleClass="userDetails" style="align-content: center">
                     <h:outputLabel value="#{msg['firstName']}:"/>
-                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.firstName}"/>
+                    <h:outputText  class="bold" value="#{userDetailsPageBean.userDetailsDto.firstName}"/>
                     <h:outputLabel value="#{msg['lastName']}:"/>
-                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.lastName}"/>
+                    <h:outputText  class="bold" value="#{userDetailsPageBean.userDetailsDto.lastName}"/>
                     <h:outputLabel value="#{msg['login']}:"/>
-                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.login}"/>
+                    <h:outputText  class="bold" value="#{userDetailsPageBean.userDetailsDto.login}"/>
                     <h:outputLabel value="#{msg['email']}:"/>
-                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.email}"/>
+                    <h:outputText class="bold"  value="#{userDetailsPageBean.userDetailsDto.email}"/>
                     <h:outputLabel value="#{msg['phoneNumber']}:"/>
-                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.phoneNumber}"/>
+                    <h:outputText  class="bold" value="#{userDetailsPageBean.userDetailsDto.phoneNumber}"/>
                     <h:outputLabel value="#{msg['created']}:"/>
-                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.created}">
+                    <h:outputText  class="bold" value="#{userDetailsPageBean.userDetailsDto.created}">
                         <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss"/>
                     </h:outputText>
                     <h:outputLabel value="#{msg['lastValidLogin']}:"/>
-                    <h:outputText value="#{userDetailsPageBean.userDetailsDto.lastValidLogin}">
+                    <h:outputText  class="bold" value="#{userDetailsPageBean.userDetailsDto.lastValidLogin}">
                         <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss"/>
                     </h:outputText>
                     <h:outputLabel value="#{msg['activated']}:"/>
-                    <h:outputText value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDto.activated}"/>
-                    <h:outputText value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDto.activated}"/>
+                    <h:outputText  class="bold" value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDto.activated}"/>
+                    <h:outputText  class="bold" value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDto.activated}"/>
                     <h:outputLabel value="#{msg['locked']}:"/>
-                    <h:outputText value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDto.locked}"/>
-                    <h:outputText value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDto.locked}"/>
+                    <h:outputText  class="bold" value="${msg['yes']}" rendered="#{userDetailsPageBean.userDetailsDto.locked}"/>
+                    <h:outputText  class="bold" value="${msg['no']}" rendered="#{!userDetailsPageBean.userDetailsDto.locked}"/>
                     <h:outputLabel value="#{msg['accessLevel']}:"/>
-                    <h:outputText value="#{userDetailsPageBean.getAccessLevels()}"/>
+                    <h:outputText  class="bold" value="#{userDetailsPageBean.getAccessLevels()}"/>
                 </p:panelGrid>
                 <div>
                 <p:commandButton value="${msg['lock']}" action="#{userDetailsPageBean.lockAccount}" update="message form" style="background-color: red"
