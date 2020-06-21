@@ -46,27 +46,21 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
     /**
      * Metoda, która edytuje zmiany wprowadzone w encji portu
      *
-     * @param portToEdit edytowany port.
+     * @param portEntity edytowany port.
+     * @param nameChanged wartość logiczna informująca o zmianie unikalnej nazwy portu.
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @RolesAllowed("editPort")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void editPort(Port portEntity, Port portToEdit) throws AppBaseException {
+    public void editPort(Port portEntity, boolean nameChanged) throws AppBaseException {
 
         if(!portEntity.isActive()){
             throw EntityNotActiveException.createPortNotActiveException(portEntity);
         }
 
-        if (!portEntity.getName().equals(portToEdit.getName())) {
-            if (portFacade.existByName(portToEdit.getName())) {
-                throw ValueNotUniqueException.createPortNameNotUniqueException(portToEdit);
-            }
+        if (nameChanged && portFacade.existByName(portEntity.getName())) {
+            throw ValueNotUniqueException.createPortNameNotUniqueException(portEntity);
         }
-        portEntity.setName(portToEdit.getName());
-        portEntity.setLake(portToEdit.getLake());
-        portEntity.setNearestCity(portToEdit.getNearestCity());
-        portEntity.setLong1(portToEdit.getLong1());
-        portEntity.setLat(portToEdit.getLat());
         portFacade.edit(portEntity);
     }
 

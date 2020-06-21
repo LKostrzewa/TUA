@@ -7,21 +7,21 @@ import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.facades.RentalStatusFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 
-import javax.annotation.security.RolesAllowed;
-import javax.annotation.security.RunAs;
+import javax.annotation.PostConstruct;
+import javax.annotation.security.PermitAll;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 /**
  * Klasa reprezentująca Scheduler.
  */
 @Singleton
-@Startup
-@RunAs("updateRentalStatus")
 @Interceptors(LoggerInterceptor.class)
 public class UpdateRentalStatusScheduler {
 
@@ -30,36 +30,53 @@ public class UpdateRentalStatusScheduler {
     @Inject
     private RentalStatusFacade rentalStatusFacade;
 
+    private final PropertyReader propertyReader = new PropertyReader();
+
+    private String PENDING_RENTAL_STATUS;
+    private String STARTED_RENTAL_STATUS;
+    private String FINISHED_RENTAL_STATUS;
+
     /**
      * Metoda aktualizująca stany rezerwacji. Metoda jest wywoływana codziennie o godzinie 10.00.
      */
-    //@Schedule(hour = "10")
-    @RolesAllowed("updateRentalStatus")
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    @PermitAll
     @Schedule(hour = "10")
     public void performTask() {
         try {
+            PENDING_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "PENDING_STATUS");
+            STARTED_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "STARTED_STATUS");
+            FINISHED_RENTAL_STATUS = propertyReader.getPropertyWithoutLocale("config", "FINISHED_STATUS");
             List<Rental> allRentals = rentalFacade.findAll();
             List<RentalStatus> rentalStatuses = rentalStatusFacade.findAll();
             for (Rental rental : allRentals) {
-                if (rental.getRentalStatus().equals(rentalStatuses.stream().filter(rentalStatus -> rentalStatus.getName()
-                        .equals("STARTED")).findAny().orElseThrow(AppNotFoundException::createRentalStatusNotFoundException)) && rental.getEndDate().before(new Date())) {
+                if (rental.getRentalStatus().getName().equals(STARTED_RENTAL_STATUS)) {
 
-                    rental.setRentalStatus(rentalStatuses.stream().filter(rentalStatus -> rentalStatus.getName()
-                            .equals("FINISHED")).findAny().orElseThrow(AppNotFoundException::createRentalStatusNotFoundException));
+                    if (rental.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().isBefore(LocalDateTime.now())) {
 
-                    rentalFacade.edit(rental);
+                        rental.setRentalStatus(getRentalStatusByName(rentalStatuses, FINISHED_RENTAL_STATUS));
+                        rentalFacade.edit(rental);
+                    }
                 }
-                if (rental.getRentalStatus().equals(rentalStatuses.stream().filter(rentalStatus -> rentalStatus.getName()
-                        .equals("PENDING")).findAny().orElseThrow(AppNotFoundException::createRentalStatusNotFoundException)) && rental.getBeginDate().after(new Date())) {
+                if (rental.getRentalStatus().getName().equals(PENDING_RENTAL_STATUS)) {
 
-                    rental.setRentalStatus(rentalStatuses.stream().filter(rentalStatus -> rentalStatus.getName()
-                            .equals("STARTED")).findAny().orElseThrow(AppNotFoundException::createRentalStatusNotFoundException));
+                    if (rental.getBeginDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().isBefore(LocalDateTime.now())) {
 
-                    rentalFacade.edit(rental);
+                        rental.setRentalStatus(getRentalStatusByName(rentalStatuses, STARTED_RENTAL_STATUS));
+                        rentalFacade.edit(rental);
+                    }
                 }
             }
         } catch (AppBaseException e) {
         }
+    }
+
+    private RentalStatus getRentalStatusByName(List<RentalStatus> rentalStatuses, String name) throws AppBaseException {
+        for (RentalStatus rentalStatus : rentalStatuses) {
+            if(rentalStatus.getName().equals(name)){
+                return rentalStatus;
+            }
+        }
+        throw AppNotFoundException.createRentalStatusNotFoundException();
     }
 }

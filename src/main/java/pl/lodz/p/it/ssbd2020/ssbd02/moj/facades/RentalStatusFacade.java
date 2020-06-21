@@ -8,6 +8,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 
 import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -105,8 +106,8 @@ public class RentalStatusFacade extends AbstractFacade<RentalStatus> {
     }
 
     @Override
-    @RolesAllowed("updateRentalStatus")
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    @PermitAll
     public List<RentalStatus> findAll() {
         return super.findAll();
     }
