@@ -11,19 +11,14 @@ body {
 
 }
 
-.gmap {
-    width:auto;
-    height:720px;
-    margin: 1em;
-    border: 5px solid #381E0A;
-    border-radius: 15px;
-
-}
 #form {
-    padding: 30px 30px;
+    background-color: #ffffe6;
+    width: 50%;
+    height: auto;
+    padding: 10px 10px;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 100px;
+    margin-bottom: 10px;
 
-}
-.infoWindow {
-    font-size: 18px !important;
-    background-color: #ffffe6!important;
 }
