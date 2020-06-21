@@ -219,9 +219,6 @@
         <role-name>addOpinion</role-name>
     </security-role>
     <security-role>
-        <role-name>getAllOpinionsByYacht</role-name>
-    </security-role>
-    <security-role>
         <role-name>getOpinionByBusinessKey</role-name>
     </security-role>
     <security-role>
