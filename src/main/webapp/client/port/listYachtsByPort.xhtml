@@ -40,7 +40,7 @@
                                                id="manuelSwitcher"
                                                slideshowAuto="false">
                                     <ui:repeat value="#{yacht.yachtModel.images}" var="image" id="manuelSwitcherImages"
-                                               varStatus="myVarStatusImg">
+                                               varStatus="myVarStatusImg" >
                                         <o:graphicImage value="#{listYachtsByPortPageBean.getImage(image.id, yacht.id)}"
                                                         height="300" width="300" id="image"/>
                                     </ui:repeat>
@@ -48,9 +48,9 @@
 
                                 <p:commandButton type="button"
                                                  onclick="PF('switcher + #{myVarStatus.index}').previous();"
-                                                 icon="pi pi-caret-left" id="prev" style="margin-bottom: 5px"/>
+                                                 icon="pi pi-caret-left" id="prev" style="margin-bottom: 5px" rendered="#{yacht.yachtModel.images.size() > 0}"/>
                                 <p:commandButton type="button" onclick="PF('switcher + #{myVarStatus.index}').next();"
-                                                 icon="pi pi-caret-right" id="next" style="margin-bottom: 5px"/>
+                                                 icon="pi pi-caret-right" id="next" style="margin-bottom: 5px" rendered="#{yacht.yachtModel.images.size() > 0}"/>
 
                         </p:column>
                         <p:column>

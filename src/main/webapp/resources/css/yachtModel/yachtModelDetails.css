@@ -1,3 +1,12 @@
+body {
+    background-image: url("#{resource['images:waterSea5.jpg']}");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+}
 
 #form {
     background-color: #ffffe6;
@@ -34,4 +43,17 @@ table {
 
 .bold {
     font-weight: bold;
+}
+
+
+.ui-widget {
+    text-align: center;
+}
+
+.ui-fileupload-buttonbar .ui-button-text-icon-left .ui-button-text {
+    background-color: orange;
+}
+
+.ui-fileupload-buttonbar {
+    background-color: #ffcc80;
 }
