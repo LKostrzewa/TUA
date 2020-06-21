@@ -27,24 +27,25 @@
             </f:metadata>
             <h:form id="form">
                 <p:growl id="message" showDetail="true"/>
+                <h:outputStylesheet library="css" name="port/portDetails.css"/>
                 <p:panelGrid columns="2">
                     <h:outputLabel value="#{msg['port.name']}:"/>
-                    <h:outputText value="#{portDetailsPageBean.portDetails.name}"/>
+                    <h:outputText class="bold" value="#{portDetailsPageBean.portDetails.name}"/>
                     <h:outputLabel value="#{msg['port.lake']}:"/>
-                    <h:outputText value="#{portDetailsPageBean.portDetails.lake}"/>
+                    <h:outputText class="bold" value="#{portDetailsPageBean.portDetails.lake}"/>
                     <h:outputLabel value="#{msg['port.city']}:"/>
-                    <h:outputText value="#{portDetailsPageBean.portDetails.nearestCity}"/>
+                    <h:outputText class="bold" value="#{portDetailsPageBean.portDetails.nearestCity}"/>
                     <h:outputLabel value="#{msg['port.long']}:"/>
-                    <h:outputText value="#{portDetailsPageBean.portDetails.long1}"/>
+                    <h:outputText class="bold" value="#{portDetailsPageBean.portDetails.long1}"/>
                     <h:outputLabel value="#{msg['port.lat']}:"/>
-                    <h:outputText value="#{portDetailsPageBean.portDetails.lat}"/>
+                    <h:outputText class="bold" value="#{portDetailsPageBean.portDetails.lat}"/>
                     <h:outputLabel value="#{msg['port.active']}:"/>
-                    <h:outputText value="${msg['yes']}" rendered="#{portDetailsPageBean.portDetails.active}"/>
-                    <h:outputText value="${msg['no']}" rendered="#{!portDetailsPageBean.portDetails.active}"/>
+                    <h:outputText class="bold" value="${msg['yes']}" rendered="#{portDetailsPageBean.portDetails.active}"/>
+                    <h:outputText class="bold" value="${msg['no']}" rendered="#{!portDetailsPageBean.portDetails.active}"/>
                     <h:outputLabel value="#{msg['port.yachts.size']}:"/>
-                    <h:outputText value="#{portDetailsPageBean.portDetails.yachts.size()}"/>
+                    <h:outputText class="bold" value="#{portDetailsPageBean.portDetails.yachts.size()}"/>
                 </p:panelGrid>
-                <p:button value="#{msg['goBack']}" outcome="listPorts.xhtml?faces-redirect=true"/>
+                <p:button class="button" value="#{msg['goBack']}" outcome="listPorts.xhtml?faces-redirect=true"/>
             </h:form>
         </ui:define>
     </ui:composition>

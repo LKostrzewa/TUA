@@ -51,7 +51,7 @@ public class EditOpinionPageBean implements Serializable {
     public void init() throws IOException {
         try {
             this.editOpinionDTO = opinionEndpoint.getOpinionByRentalBusinessKey(rentalBusinessKey);
-        } catch (AppBaseException e){
+        } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
             ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
             externalContext.redirect("/client/rental/rentalDetails.xhtml?faces-redirect=true?includeViewParams=true");
@@ -86,7 +86,7 @@ public class EditOpinionPageBean implements Serializable {
      */
     private void displayMessage() {
         displayInit();
-        String msg = resourceBundle.getString("opinion.addInfo");
+        String msg = resourceBundle.getString("opinion.editInfo");
         String head = resourceBundle.getString("success");
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }

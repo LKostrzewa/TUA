@@ -27,29 +27,46 @@
             </f:metadata>
             <h:form id="form">
                 <p:growl id="message" showDetail="true"/>
+                <h:outputStylesheet library="css" name="rental/rentalDetails.css"/>
                 <p:panelGrid columns="2">
                     <h:outputLabel value="#{msg['yacht.name']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtName}"/>
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.yachtName}"/>
                     <h:outputLabel value="#{msg['yachtModel.model']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtYachtModelModel}"/>
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.yachtYachtModelModel}"/>
                     <h:outputLabel value="#{msg['port.name']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtCurrentPortName}"/>
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.yachtCurrentPortName}"/>
                     <h:outputLabel value="#{msg['yacht.productionYear']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtProductionYear}"/>
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.yachtProductionYear}"/>
                     <h:outputLabel value="#{msg['yacht.equipment']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.yachtEquipment}"/>
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.yachtEquipment}"/>
                     <h:outputLabel value="#{msg['rental.beginDate']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.beginDate}">
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.beginDate}">
                         <f:convertDateTime pattern="dd.MM.yyyy"/>
                     </h:outputText>
                     <h:outputLabel value="#{msg['rental.endDate']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.endDate}">
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.endDate}">
                         <f:convertDateTime pattern="dd.MM.yyyy"/>
                     </h:outputText>
                     <h:outputLabel value="#{msg['rental.status']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.statusName}"/>
+                    <h:outputText class="bold" value="#{msg['started']}"
+                                  rendered="#{rentalDetailsPageBean.rentalDetails.statusName eq 'STARTED'}"/>
+                    <h:outputText class="bold" value="#{msg['pending']}"
+                                  rendered="#{rentalDetailsPageBean.rentalDetails.statusName eq 'PENDING'}"/>
+                    <h:outputText class="bold" value="#{msg['finished']}"
+                                  rendered="#{rentalDetailsPageBean.rentalDetails.statusName eq 'FINISHED'}"/>
+                    <h:outputText class="bold" value="#{msg['cancelled']}"
+                                  rendered="#{rentalDetailsPageBean.rentalDetails.statusName eq 'CANCELLED'}"/>
                     <h:outputLabel value="#{msg['rental.price']}:"/>
-                    <h:outputText value="#{rentalDetailsPageBean.rentalDetails.price}"/>
+                    <h:outputText class="bold" value="#{rentalDetailsPageBean.rentalDetails.price}"/>
+                    <h:outputLabel value="#{msg['opinion.rating']}:"
+                                   rendered="#{rentalDetailsPageBean.rentalDetails.opinion != null}"/>
+                    <p:rating value="#{rentalDetailsPageBean.rentalDetails.opinion.rating}"
+                              rendered="#{rentalDetailsPageBean.rentalDetails.opinion != null}" readonly="true"/>
+                    <h:outputLabel value="#{msg['opinion.comment']}:"
+                                   rendered="#{rentalDetailsPageBean.rentalDetails.opinion != null}"/>
+                    <p:inputTextarea value="#{rentalDetailsPageBean.rentalDetails.opinion.comment}"
+                                     rendered="#{rentalDetailsPageBean.rentalDetails.opinion != null}"
+                                     readonly="true" cols="30"/>
                 </p:panelGrid>
                 <p:button value="#{msg['goBack']}" outcome="listAllRentals.xhtml?faces-redirect=true"/>
             </h:form>

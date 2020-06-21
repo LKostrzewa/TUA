@@ -34,16 +34,16 @@
                 <p:growl id="message" showDetail="true"/>
                 <p:panelGrid columns="2">
                     <h:outputLabel value="#{msg['yacht.name']}:"/>
-                    <h:outputText value="#{yachtDetailsPageBean.yachtDto.name}"/>
+                    <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.name}"/>
                     <h:outputLabel value="#{msg['yacht.productionYear']}:"/>
-                    <h:outputText value="#{yachtDetailsPageBean.yachtDto.productionYear}"/>
+                    <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.productionYear}"/>
                     <h:outputLabel value="#{msg['yacht.active']}:"/>
-                    <h:outputText value="${msg['yes']}" rendered="#{yachtDetailsPageBean.yachtDto.active}"/>
-                    <h:outputText value="${msg['no']}" rendered="#{!yachtDetailsPageBean.yachtDto.active}"/>
+                    <h:outputText class="bold" value="${msg['yes']}" rendered="#{yachtDetailsPageBean.yachtDto.active}"/>
+                    <h:outputText class="bold" value="${msg['no']}" rendered="#{!yachtDetailsPageBean.yachtDto.active}"/>
                     <h:outputLabel value="#{msg['yacht.equipment']}:"/>
-                    <h:outputText value="#{yachtDetailsPageBean.yachtDto.equipment}"/>
+                    <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.equipment}"/>
                     <h:outputLabel value="#{msg['yacht.avgRating']}:"/>
-                    <h:outputText value="#{yachtDetailsPageBean.yachtDto.avgRating}"/>
+                    <h:outputText class="bold" value="#{yachtDetailsPageBean.yachtDto.avgRating}"/>
                 </p:panelGrid>
                 <p:dataView value="#{yachtDetailsPageBean.getOpinionFromRentals()}" var="rent" type="ordered">
                     <f:facet name="header">
@@ -59,15 +59,17 @@
                             </h:outputText>
                             <h:outputLabel value="#{msg['opinion.comment']}:"/>
                             <h:outputText value="#{rent.opinion.comment}"/>
-
+                            <h:outputLabel value="#{msg['opinion.edited']}:"/>
+                            <h:outputText value="${msg['yes']}" rendered="#{rent.opinion.edited}"/>
+                            <h:outputText value="${msg['no']}" rendered="#{!rent.opinion.edited}"/>
                         </h:panelGrid>
                     </p:dataViewListItem>
                 </p:dataView>
 
-                <p:button value="#{msg['goBack']}" outcome="/client/port/listYachtsByPort.xhtml?faces-redirect=true">
+                <p:button class="button" value="#{msg['goBack']}" outcome="/client/port/listYachtsByPort.xhtml?faces-redirect=true?">
                     <f:param name="portId" value="#{yachtDetailsPageBean.yachtDto.currentPort.id}"/>
                 </p:button>
-                <p:button value="${msg['rent']}" outcome="/client/rental/addRental.xhtml?faces-redirect=true">
+                <p:button class="button" value="${msg['rent']}" outcome="/client/rental/addRental.xhtml?faces-redirect=true">
                     <f:param name="yachtId" value="#{yachtDetailsPageBean.yachtId}"/>
                     <f:param name="portId" value="#{yachtDetailsPageBean.yachtDto.currentPort.id}"/>
                 </p:button>

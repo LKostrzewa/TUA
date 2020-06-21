@@ -42,7 +42,7 @@ public class ListRentalsPageBean implements Serializable {
         rentals.sort(Comparator.comparing(ListRentalsDto::getBeginDate));
         rentals.sort(new Comparator<>() {
             private final List<String> definedOrder =
-                    Arrays.asList("STARTED", "PENDING", "FINISHED", "CANCELED");
+                    Arrays.asList("STARTED", "PENDING", "FINISHED", "CANCELLED");
 
             @Override
             public int compare(final ListRentalsDto r1, final ListRentalsDto r2) {

@@ -51,7 +51,7 @@ public class ListYachtPageBean implements Serializable {
      * @param yachtID id jachtu, który ma zostać deaktywowany
      * @return strona, na którą użytkownik ma zostać przekierowany
      */
-    public String deactivateYacht(Long yachtID)  {
+    public String deactivateYacht(Long yachtID) {
         try {
             yachtEndpoint.deactivateYacht(yachtID);
             displayMessage();
@@ -60,7 +60,6 @@ public class ListYachtPageBean implements Serializable {
         }
         return "listYachts";
     }
-
     /**
      * Metoda inicjalizująca wyświetlanie wiadomości.
      */

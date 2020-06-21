@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Opinion;
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppNotFoundException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
@@ -106,7 +105,7 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
      * @return lista opini dla danego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jesli yacht nie zostanie znaleziony
      */
-    @RolesAllowed("getAllOpinionsByYacht")
+    @RolesAllowed({"addOpinion", "editOpinion"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<Opinion> getAllOpinionsByYacht(Long yachtId) throws AppBaseException {
         TypedQuery<Opinion> typedQuery = entityManager.createNamedQuery("Opinion.findAllByYacht", Opinion.class);

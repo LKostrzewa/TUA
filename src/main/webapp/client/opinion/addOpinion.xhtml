@@ -31,36 +31,40 @@
                     <f:viewParam name="rentalBusinessKey" value="#{addOpinionPageBean.rentalBusinessKey}"/>
                     <f:event type="preRenderView" listener="#{addOpinionPageBean.init}"/>
                 </f:metadata>
-                <div>
+                <h:outputStylesheet library="css" name="opinion/addOpinion.css"/>
+                <h1 class="h1">#{msg['opinion.addOpinion']}</h1>
+                <div id="div">
                     <span class="ui-float-label" style="margin: 20px">
                         <p:rating id="rating" value="#{addOpinionPageBean.newOpinionDto.rating}"
-                                  cancel="false" required="true"/>
+                                  cancel="false" required="true" />
                         <p:message for="rating"/>
                     </span>
                     <span class="ui-float-label" style="margin: 20px">
                         <p:inputTextarea id="comment" value="#{addOpinionPageBean.newOpinionDto.comment}"
-                                         rows="5" cols="60" counter="display"
-                                         maxlength="4000"
-                                         counterTemplate="{0} characters remaining."/>
+                                         rows="5" cols="40" counter="display"
+                                         maxlength="1025"
+                                         counterTemplate="{0} #{msg['opinion.addComment.charactersLeft']}"/>
                         <p:outputLabel for="@previous" value="#{msg['opinion.addComment']}"/>
                         <p:message for="comment"/>
                         <h:outputText id="display" />
                     </span>
                 </div>
-                <p:button value="#{msg['goBack']}" outcome="/client/rental/rentalDetails.xhtml?faces-redirect=true"
-                          includeViewParams="true">
-                    <f:param name="bk" value="#{addOpinionPageBean.rentalBusinessKey}"/>
-                </p:button>
-                <p:commandButton value="#{msg['save']}" action="#{addOpinionPageBean.addOpinion()}"
+                <p:button class="button" value="#{msg['goBack']}" outcome="/client/rental/rentalDetails.xhtml?faces-redirect=true"
+                          includeViewParams="true"/>
+                <p:commandButton class="button" value="#{msg['save']}" action="#{addOpinionPageBean.addOpinion()}"
                                  update="message @form">
 
                     <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                <p:confirmDialog global="true" showEffect="explode" hideEffect="explode">
+                    <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
+                                     style="background-color: green" ajax="false"
+                                     oncomplete="PF('editConfirm').hide()"
                                      icon="pi pi-check"/>
-                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                    <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no"
+                                     style="background-color: red"
+                                     oncomplete="PF('editConfirm').hide()"
                                      icon="pi pi-times"/>
 
                 </p:confirmDialog>

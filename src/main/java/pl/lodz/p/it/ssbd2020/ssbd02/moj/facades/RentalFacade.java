@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.moj.facades;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Rental;
-import pl.lodz.p.it.ssbd2020.ssbd02.entities.RentalStatus;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
@@ -33,7 +32,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
     private final PropertyReader propertyReader = new PropertyReader();
     @PersistenceContext(unitName = "ssbd02mojPU")
     private EntityManager entityManager;
-    private String RENTAL_CANCELED_STATUS;
+    private String RENTAL_CANCELLED_STATUS;
 
     public RentalFacade() {
         super(Rental.class);
@@ -41,7 +40,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
 
     @PostConstruct
     public void init() {
-        RENTAL_CANCELED_STATUS = propertyReader.getPropertyWithoutLocale("config", "CANCELED_STATUS");
+        RENTAL_CANCELED_STATUS = propertyReader.getPropertyWithoutLocale("config", "CANCELLED_STATUS");
     }
 
     @Override
@@ -88,7 +87,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
                 .setParameter("name", rental.getYacht().getName())
                 .setParameter("endDate", rental.getEndDate())
                 .setParameter("beginDate", rental.getBeginDate())
-                .setParameter("rentalStatusName", RENTAL_CANCELED_STATUS).getSingleResult() > 0;
+                .setParameter("rentalStatusName", RENTAL_CANCELLED_STATUS).getSingleResult() > 0;
     }
 
     /**
@@ -98,6 +97,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
+    @RolesAllowed({"cancelRental", "updateRentalStatus"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     @PermitAll
     public void edit(Rental rental) throws AppBaseException {

@@ -11,7 +11,7 @@ public class EditOpinionDto {
     @Min(value = 1, message = "{validation.range}")
     @Max(value = 5, message = "{validation.range}")
     private int rating;
-    @Pattern(regexp = "[a-zA-Z1-9ąĄćĆęĘłŁńŃóÓśŚźŹżŻ. ,@-]{0,4001}", message = "{validation.comment}")
+    @Pattern(regexp = "[a-zA-Z1-9ąĄćĆęĘłŁńŃóÓśŚźŹżŻ!?. ,@-]{0,1025}", message = "{validation.comment}")
     private String comment;
 
     public int getRating() {
