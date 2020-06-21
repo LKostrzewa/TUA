@@ -52,7 +52,7 @@
                 </div>
                 <div class="text-box">
                     <p:inputText id="long" type="text" a:placeholder="#{msg['port.long']}"
-                                 value="#{addPortPageBean.newPortDto.long1}">
+                                 value="#{addPortPageBean.newPortDto.long1}" converterMessage="#{msg['validation.port.long']}">
                     </p:inputText>
                     <span class="gradient"/>
                     <span class="asterisk_input"/>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="text-box">
                     <p:inputText id="lat" type="text" a:placeholder="#{msg['port.long']}"
-                                 value="#{addPortPageBean.newPortDto.lat}">
+                                 value="#{addPortPageBean.newPortDto.lat}" converterMessage="#{msg['validation.port.lat']}">
                     </p:inputText>
                     <span class="gradient"/>
                     <span class="asterisk_input"/>

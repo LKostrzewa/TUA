@@ -2,9 +2,12 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.EditPortDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.ListPortsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.NewPortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.utils.ObjectMapperUtils;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 /**
@@ -43,6 +46,14 @@ public interface PortEndpoint {
      */
     List<PortDetailsDto> getAllPorts();
 
+
+    /**
+     * Metoda, która zwraca wszystkie porty do listowania portów.
+     *
+     * @return lista portów
+     */
+
+    List<ListPortsDto> getAllListPorts();
     /**
      * Metoda, która zwraca port o podanym id.
      *

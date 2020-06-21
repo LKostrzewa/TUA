@@ -43,7 +43,7 @@
                 <div class="text-box">
                     <p:outputLabel class="label">#{msg["port.lake"]}</p:outputLabel>
                     <p:inputText id="lake" type="text"
-                                 value="#{editPortPageBean.editPortDto.lake}">
+                                 value="#{editPortPageBean.editPortDto.lake}" >
                     </p:inputText>
                     <span class="gradient"/>
                     <span class="asterisk_input"/>
@@ -61,7 +61,7 @@
                 <div class="text-box">
                     <p:outputLabel class="label">#{msg["port.long"]}</p:outputLabel>
                     <p:inputText id="long" type="text"
-                                 value="#{editPortPageBean.editPortDto.long1}">
+                                 value="#{editPortPageBean.editPortDto.long1}" converterMessage="#{msg['validation.port.long']}">
                     </p:inputText>
                     <span class="gradient"/>
                     <span class="asterisk_input"/>
@@ -70,7 +70,7 @@
                 <div class="text-box">
                     <p:outputLabel class="label">#{msg["port.lat"]}</p:outputLabel>
                     <p:inputText id="lat" type="text"
-                                 value="#{editPortPageBean.editPortDto.lat}">
+                                 value="#{editPortPageBean.editPortDto.lat}" converterMessage="#{msg['validation.port.lat']}">
                     </p:inputText>
                     <span class="gradient"/>
                     <span class="asterisk_input"/>

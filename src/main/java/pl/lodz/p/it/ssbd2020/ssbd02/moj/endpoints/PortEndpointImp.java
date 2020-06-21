@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2020.ssbd02.moj.endpoints;
 import pl.lodz.p.it.ssbd2020.ssbd02.entities.Port;
 import pl.lodz.p.it.ssbd2020.ssbd02.exceptions.AppBaseException;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.EditPortDto;
+import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.ListPortsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.NewPortDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.dtos.port.PortDetailsDto;
 import pl.lodz.p.it.ssbd2020.ssbd02.moj.managers.PortManager;
@@ -80,6 +81,15 @@ public class PortEndpointImp implements Serializable, PortEndpoint {
         return ObjectMapperUtils.mapAll(portManager.getAllPorts(), PortDetailsDto.class);
     }
 
+    /**
+     * Metoda, która zwraca wszystkie porty do listowania portów.
+     *
+     * @return lista portów
+     */
+    @RolesAllowed("getAllPorts")
+    public List<ListPortsDto> getAllListPorts() {
+        return ObjectMapperUtils.mapAll(portManager.getAllPorts(), ListPortsDto.class);
+    }
     /**
      * Metoda, która zwraca port o podanym id.
      *

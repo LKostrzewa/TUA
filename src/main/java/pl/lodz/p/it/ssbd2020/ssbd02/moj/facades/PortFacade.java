@@ -53,17 +53,6 @@ public class PortFacade extends AbstractFacade<Port> {
     }
 
     /**
-     * Metoda, która zwraca listę aktywnych portów.
-     *
-     * @return lista portów.
-     */
-    @RolesAllowed("getAllPorts")
-    @TransactionAttribute(TransactionAttributeType.MANDATORY)
-    public List<Port> findAllActive() {
-        return entityManager.createNamedQuery("Port.findByActive", Port.class).getResultList();
-    }
-
-    /**
      * Metoda, która zwraca listę wszystkich portów.
      *
      * @return lista portów
