@@ -27,8 +27,9 @@
                          first="0"
                          paginatorPosition="bottom"
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                         currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.yachtModels']}">
-                <h:outputStylesheet library="css" name="tableClassManager.css"/>
+                         currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.yachtModels']}"
+                         style="width: 80%; margin: auto">
+                <h:outputStylesheet library="css" name="tableClass.css"/>
                 <p:column headerText="${msg['yachtModel.model']}">
                     <h:outputText value="#{model.model}"/>
                 </p:column>

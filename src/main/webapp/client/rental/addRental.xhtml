@@ -35,9 +35,10 @@
                 <f:viewParam name="portId" value="#{addRentalPageBean.portId}"/>
                 <f:event type="preRenderView" listener="#{addRentalPageBean.init}"/>
             </f:metadata>
-            <h:form id="form">
+            <h:form class="form">
+                <h:outputStylesheet library="css" name="addUser.css"/>
                 <p:growl id="message" showDetail="true" sticky="true" severity="info, fatal"/>
-                <div>
+                <div style="text-align: center">
                     <p:outputLabel value="#{msg['yacht.name']}: "/>
                     <p:outputLabel value="#{addRentalPageBean.addRentalDto.yachtName}"/>
                     <p/>

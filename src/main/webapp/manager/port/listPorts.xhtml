@@ -19,14 +19,15 @@
         <ui:define name="content">
             <h:form id="form">
                 <p:growl id="message" showDetail="true"/>
-                <p:dataTable var="port" value="#{listPortsPageBean.ports}" rows="10"
+                <p:dataTable var="port" value="#{listPortsPageBean.ports}" rows="6"
                              border="2"
                              paginator="true"
                              first="0"
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.ports']}">
-                    <h:outputStylesheet library="css" name="tableClassManager.css"/>
+                             currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.ports']}"
+                             style="width: 80%; margin: auto">
+                    <h:outputStylesheet library="css" name="tableClass.css"/>
                     <p:column headerText="${msg['port.name']}">
                         <h:outputText value="#{port.name}"/>
                     </p:column>

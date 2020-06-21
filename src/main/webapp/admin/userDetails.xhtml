@@ -25,7 +25,7 @@
                 <f:viewParam name="userId" value="#{userDetailsPageBean.userId}"/>
                 <f:event type="preRenderView" listener="#{userDetailsPageBean.init}"/>
             </f:metadata>
-            <h:form id="form">
+            <h:form class="form">
                 <p:growl id="message" showDetail="true" sticky="true"/>
                 <h:outputStylesheet library="css" name="userDetails.css"/>
                 <p:panelGrid columns="2" styleClass="userDetails" style="align-content: center">

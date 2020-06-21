@@ -35,8 +35,9 @@
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              currentPageReportTemplate="{startRecord}-{endRecord} ${msg['of']} {totalRecords} ${msg['list.yachts']}"
-                             emptyMessage="${msg['yachts.noYachtsFoundMessage']}">
-                    <h:outputStylesheet library="css" name="tableClassManager.css"/>
+                             emptyMessage="${msg['yachts.noYachtsFoundMessage']}"
+                             style="width: 80%; margin: auto">
+                    <h:outputStylesheet library="css" name="tableClass.css"/>
                     <p:column headerText="${msg['yacht.name']}">
                         <h:outputText value="#{yacht.name}"/>
                     </p:column>

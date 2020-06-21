@@ -1,5 +1,5 @@
 body {
-    background-image: url("#{resource['images:edit33.jpg']}");
+    background-image: url("#{resource['images:waterSea5.jpg']}");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -9,7 +9,7 @@ body {
 }
 
 .ui-panelgrid td {
-    background-color: #DEF3CA !important;
+    background-color: #ffffe6; !important;
     text-align: center !important;
     border-collapse: separate !important;
 }
@@ -18,3 +18,18 @@ body {
     margin: 0 auto !important;
 }
 
+.form {
+    width: 560px;
+    background-color:  #ffffe6;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 100px;
+    text-align: center;
+}
+
+table {
+    margin: auto;
+    width: 100%;
+}

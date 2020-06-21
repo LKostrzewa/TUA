@@ -1,7 +1,6 @@
 body {
 
-
-    background-image: url("#{resource['images:edit22.jpg']}");
+    background-image: url("#{resource['images:waterSea5.jpg']}");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -25,9 +24,9 @@ body {
     background: #eff5fc;
     padding: 10px 20px;
     border-radius: 10px;
-    position: absolute;
-    left: 30%;
-    top: 10%;
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 100px;
     text-align: center;
 }
 
