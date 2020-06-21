@@ -6,28 +6,10 @@ import java.util.Date;
  * DTO opinii.
  */
 public class OpinionDto {
-    private Long id;
-    private Long rentalId;
     private int rating;
     private String comment;
     private Date date;
     private Boolean edited;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getRentalId() {
-        return rentalId;
-    }
-
-    public void setRentalId(Long rentalId) {
-        this.rentalId = rentalId;
-    }
 
     public int getRating() {
         return rating;
