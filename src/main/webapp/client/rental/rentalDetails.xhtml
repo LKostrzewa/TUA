@@ -69,8 +69,8 @@
                                      readonly="true" cols="30"/>
                 </p:panelGrid>
                 <p:button class="button" value="#{msg['goBack']}" outcome="listRentals.xhtml?faces-redirect=true"/>
-                <p:commandButton value="${msg['cancel']}" action="#{rentalDetailsPageBean.cancelRental}"
-                                 update="message form"
+                <p:commandButton value="${msg['rental.cancel']}" action="#{rentalDetailsPageBean.cancelRental}"
+                                 update="message form" style="background-color: red"
                                  rendered="#{rentalDetailsPageBean.rentalDetails.statusName.equals('PENDING')}">
                     <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                icon="pi pi-exclamation-triangle"/>
