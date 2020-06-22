@@ -69,9 +69,9 @@
                                      readonly="true" cols="30"/>
                 </p:panelGrid>
                 <p:button class="button" value="#{msg['goBack']}" outcome="listRentals.xhtml?faces-redirect=true"/>
-                <p:commandButton value="${msg['cancel']}" action="#{rentalDetailsPageBean.cancelRental}"
-                                 update="message form"
-                                 rendered="#{rentalDetailsPageBean.rentalDetails.statusName.equals('PENDING')}">
+                <p:commandButton value="${msg['rental.cancel']}" action="#{rentalDetailsPageBean.cancelRental}"
+                                 update="message form" style="background-color: red"
+                                 disabled="#{rentalDetailsPageBean.rentalDetails.statusName.equals('PENDING')}">
                     <p:confirm header="#{msg['confirmation']}" message="#{msg['confirm']}"
                                icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>
@@ -86,9 +86,10 @@
                     <f:param name="rentalBusinessKey" value="#{rentalDetailsPageBean.rentalBusinessKey}"/>
                 </p:button>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes"
+                    <p:commandButton value="#{msg['yes']}" styleClass="ui-confirmdialog-yes" style="background-color: green"
                                      icon="pi pi-check"/>
                     <p:commandButton value="#{msg['no']}" styleClass="ui-confirmdialog-no"
+                                     style="background-color: red"
                                      icon="pi pi-times"/>
                 </p:confirmDialog>
             </h:form>
