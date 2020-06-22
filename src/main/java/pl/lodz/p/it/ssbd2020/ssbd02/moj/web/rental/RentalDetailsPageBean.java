@@ -62,6 +62,7 @@ public class RentalDetailsPageBean implements Serializable {
     public void cancelRental(){
         try{
             rentalEndpoint.cancelRental(UUID.fromString(this.rentalBusinessKey));
+            displayMessage();
         } catch (AppBaseException e) {
             displayError(e.getLocalizedMessage());
         }
@@ -73,6 +74,16 @@ public class RentalDetailsPageBean implements Serializable {
     private void displayInit() {
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         resourceBundle = ResourceBundle.getBundle("resource", facesContext.getViewRoot().getLocale());
+    }
+
+    /**
+     * Metoda wyświetlająca wiadomość o poprawnym wykonaniu operacji.
+     */
+    private void displayMessage() {
+        displayInit();
+        String msg = resourceBundle.getString("rentals.addInfo");
+        String head = resourceBundle.getString("success");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, head, msg));
     }
 
     /**

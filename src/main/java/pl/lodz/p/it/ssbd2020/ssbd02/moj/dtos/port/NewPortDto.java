@@ -11,10 +11,10 @@ import java.math.BigDecimal;
  */
 public class NewPortDto {
     @NotNull(message = "{validation.not.null}")
-    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{1,63}", message = "{validation.port.name}")
+    @Pattern(regexp = "[\\sa-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{1,63}", message = "{validation.port.name}")
     private String name;
     @NotNull(message = "{validation.not.null}")
-    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{1,31}", message = "{validation.port.lake}")
+    @Pattern(regexp = "[\\sa-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{1,31}", message = "{validation.port.lake}")
     private String lake;
     @NotNull(message = "{validation.not.null}")
     @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.-]{1,31}", message = "{validation.port.nearestCity}")
