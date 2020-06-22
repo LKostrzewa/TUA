@@ -56,9 +56,9 @@
 
                         </p:panelGrid>
 
-                        <p:button class="button" value="#{msg['goBack']}"
+                        <p:button class="button" value="#{msg['goBack']}" style="background-color: orange"
                                   outcome="listYachtModels.xhtml?faces-redirect=true"/>
-                        <p:button class="button" value="${msg['edit']}"
+                        <p:button class="button" value="${msg['edit']}" style="background-color: orange"
                                   outcome="editYachtModel.xhtml?faces-redirect=true"
                                   disabled="#{not yachtModelDetailsPageBean.yachtModelDetailsDto.active}">
                             <f:param name="yachtModelId" value="#{yachtModelDetailsPageBean.yachtModelId}"/>
