@@ -24,8 +24,8 @@ body {
     padding: 10px 20px;
     border-radius: 10px;
     margin: auto;
-    margin-top: 8%;
-    margin-bottom: 10px;
+    margin-top: 50px;
+    margin-bottom: 25px;
     text-align: center;
 }
 
@@ -37,6 +37,7 @@ table {
 .ui-panelgrid .ui-panelgrid-cell {
     background-color: #ffffe6;
     border-color: saddlebrown;
+    padding: 10px;
 }
 
 .ui-widget-content {
