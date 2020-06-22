@@ -23,7 +23,7 @@ public class NewYachtDto {
     @Digits(integer = 1,fraction = 2, message = "{validation.yacht.priceMultiplier}")
     private BigDecimal priceMultiplier;
     @NotNull(message = "{validation.not.null}")
-    @Pattern(regexp = "[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ.\n ]{1,2048}", message = "{validation.yacht.equipment}")
+    @Pattern(regexp = "^[^=;%&'\"]+$", message = "{validation.yacht.equipment}")
     private String equipment;
 
     public String getName() {
