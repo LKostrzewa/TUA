@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
 import javax.ejb.*;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -23,7 +24,8 @@ import java.util.logging.Logger;
 /**
  * Klasa reprezentująca Scheduler.
  */
-@Singleton
+@Singleton(name = "UpdateRentalStatusScheduler")
+@Named("UpdateRentalStatusScheduler")
 @Interceptors(LoggerInterceptor.class)
 public class UpdateRentalStatusScheduler {
 

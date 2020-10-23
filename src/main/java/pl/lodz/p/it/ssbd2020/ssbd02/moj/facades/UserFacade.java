@@ -12,6 +12,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
@@ -23,7 +24,8 @@ import java.util.Optional;
 /**
  * Klasa fasadowa powiązana z encją User.
  */
-@Stateless
+@Stateless(name = "UserFacade")
+@Named("UserFacade")
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserFacade extends AbstractFacade<User> {

@@ -19,6 +19,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -29,7 +30,8 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 /**
  * Klasa menadżera do obsługi operacji związanych z użytkownikami
  */
-@Stateful
+@Stateful(name = "UserManager")
+@Named("UserManager")
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserManager extends AbstractManager implements SessionSynchronization {

@@ -17,6 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.List;
@@ -26,7 +27,8 @@ import java.util.logging.Logger;
 /**
  * Implementacja interfejsu YachtModelEndpoint.
  */
-@Stateful
+@Stateful(name = "YachtModelEndpointImpl")
+@Named("YachtModelEndpointImpl")
 @Interceptors(LoggerInterceptor.class)
 public class YachtModelEndpointImpl implements Serializable, YachtModelEndpoint {
     PropertyReader propertyReader = new PropertyReader();

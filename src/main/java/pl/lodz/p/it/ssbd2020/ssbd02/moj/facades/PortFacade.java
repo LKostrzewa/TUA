@@ -12,6 +12,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
@@ -22,7 +23,8 @@ import java.util.Optional;
 /**
  * Klasa fasadowa powiązana z encją Port.
  */
-@Stateless
+@Stateless(name = "PortFacade")
+@Named("PortFacade")
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class PortFacade extends AbstractFacade<Port> {

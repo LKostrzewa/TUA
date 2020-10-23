@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import javax.persistence.LockModeType;
 import java.util.List;
@@ -20,7 +21,8 @@ import java.util.List;
 /**
  * Klasa menadżera do obsługi operacji związanych z jachtami i portami.
  */
-@Stateful
+@Stateful(name = "YachtPortManager")
+@Named("YachtPortManager")
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class YachtPortManager extends AbstractManager implements SessionSynchronization {

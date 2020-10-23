@@ -12,6 +12,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import javax.persistence.*;
 import java.util.List;
@@ -21,7 +22,8 @@ import java.util.UUID;
 /**
  * Klasa fasadowa powiązana z encją Opinion.
  */
-@Stateless
+@Stateless(name = "OpinionFacade")
+@Named("OpinionFacade")
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class OpinionFacade extends AbstractFacade<Opinion> {

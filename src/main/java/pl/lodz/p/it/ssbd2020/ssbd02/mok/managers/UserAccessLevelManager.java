@@ -17,6 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.List;
@@ -24,7 +25,8 @@ import java.util.List;
 /**
  * Klasa menadżera do obsługi operacji związanych z połączeniem użytkowników z poziomami dostępu
  */
-@Stateful
+@Stateful(name = "UserAccessLevelManager")
+@Named("UserAccessLevelManager")
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserAccessLevelManager extends AbstractManager implements SessionSynchronization, Serializable {

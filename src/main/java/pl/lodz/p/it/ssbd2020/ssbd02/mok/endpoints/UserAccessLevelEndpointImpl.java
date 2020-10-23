@@ -19,6 +19,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,7 +31,8 @@ import java.util.logging.Logger;
 /**
  * Implementacja interfejsu UserAccessLevelEndpoint.
  */
-@Stateful
+@Stateful(name = "UserAccessLevelEndpointImpl")
+@Named("UserAccessLevelEndpointImpl")
 @Interceptors(LoggerInterceptor.class)
 public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLevelEndpoint {
     Integer METHOD_INVOCATION_LIMIT;

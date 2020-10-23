@@ -14,6 +14,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import javax.persistence.*;
 import java.util.List;
@@ -22,7 +23,8 @@ import java.util.Optional;
 /**
  * Klasa fasadowa powiązana z encją AccessLevel
  */
-@Stateless
+@Stateless(name = "AccessLevelFacade")
+@Named("AccessLevelFacade")
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
