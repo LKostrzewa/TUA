@@ -14,6 +14,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.PropertyReader;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -24,7 +25,8 @@ import java.util.UUID;
 /**
  * Klasa menadżera do obsługi operacji związanych z opiniami.
  */
-@Stateful
+@Stateful(name = "OpinionManager")
+@Named("OpinionManager")
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class OpinionManager extends AbstractManager implements SessionSynchronization {

@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import javax.persistence.LockModeType;
 import java.math.BigDecimal;
@@ -25,7 +26,8 @@ import java.util.stream.Collectors;
 /**
  * Klasa menadżera do obsługi operacji związanych z wypożyczeniami.
  */
-@Stateful
+@Stateful(name = "RentalManager")
+@Named("RentalManager")
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class RentalManager extends AbstractManager implements SessionSynchronization {

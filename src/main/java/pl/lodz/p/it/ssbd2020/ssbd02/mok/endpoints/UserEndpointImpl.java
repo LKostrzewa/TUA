@@ -18,6 +18,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.List;
@@ -28,7 +29,8 @@ import java.util.logging.Logger;
 /**
  * Implementacja UserEndpoint.
  */
-@Stateful
+@Stateful(name = "UserEndpointImpl")
+@Named("UserEndpointImpl")
 @Interceptors(LoggerInterceptor.class)
 public class UserEndpointImpl implements Serializable, UserEndpoint {
     PropertyReader propertyReader = new PropertyReader();

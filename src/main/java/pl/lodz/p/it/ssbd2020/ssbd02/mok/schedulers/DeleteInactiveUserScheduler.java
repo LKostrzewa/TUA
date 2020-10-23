@@ -7,6 +7,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import javax.annotation.security.PermitAll;
 import javax.ejb.*;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -15,7 +16,8 @@ import java.util.List;
 /**
  * Klasa reprezentująca Scheduler.
  */
-@Singleton
+@Singleton(name = "DeleteInactiveUserScheduler")
+@Named("DeleteInactiveUserScheduler")
 @Startup
 @Interceptors(LoggerInterceptor.class)
 public class DeleteInactiveUserScheduler {

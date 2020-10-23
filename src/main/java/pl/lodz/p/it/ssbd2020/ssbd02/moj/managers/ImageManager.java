@@ -14,6 +14,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import javax.persistence.LockModeType;
 import java.util.ArrayList;
@@ -22,7 +23,8 @@ import java.util.List;
 /**
  * Klasa menadżera do obsługi operacji związanych ze zdjęciami.
  */
-@Stateful
+@Stateful(name = "ImageManager")
+@Named("ImageManager")
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class ImageManager extends AbstractManager implements SessionSynchronization {

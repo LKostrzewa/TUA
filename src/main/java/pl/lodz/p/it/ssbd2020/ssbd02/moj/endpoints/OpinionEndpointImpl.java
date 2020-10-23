@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.logging.Level;
@@ -23,7 +24,8 @@ import java.util.logging.Logger;
 /**
  * Implementacja interfejsu OpinionEndpoint.
  */
-@Stateful
+@Stateful(name = "OpinionEndpointImpl")
+@Named("OpinionEndpointImpl")
 @Interceptors(LoggerInterceptor.class)
 public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
     PropertyReader propertyReader = new PropertyReader();

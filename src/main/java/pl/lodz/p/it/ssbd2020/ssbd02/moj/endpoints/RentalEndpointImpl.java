@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.List;
@@ -29,7 +30,8 @@ import java.util.logging.Logger;
 /**
  * Implementacja interfejsu RentalEndpoint.
  */
-@Stateful
+@Stateful(name = "RentalEndpointImpl")
+@Named("RentalEndpointImpl")
 @Interceptors(LoggerInterceptor.class)
 public class RentalEndpointImpl implements Serializable, RentalEndpoint {
     PropertyReader propertyReader = new PropertyReader();

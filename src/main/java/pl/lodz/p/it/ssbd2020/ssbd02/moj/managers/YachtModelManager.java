@@ -9,13 +9,15 @@ import pl.lodz.p.it.ssbd2020.ssbd02.utils.LoggerInterceptor;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.util.List;
 
 /**
  * Klasa menadżera do obsługi operacji związanych z modelami jachtów.
  */
-@Stateful
+@Stateful(name = "YachtModelManager")
+@Named("YachtModelManager")
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class YachtModelManager extends AbstractManager implements SessionSynchronization {

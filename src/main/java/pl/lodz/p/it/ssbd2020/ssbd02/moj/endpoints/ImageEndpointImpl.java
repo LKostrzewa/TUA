@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.List;
@@ -23,7 +24,8 @@ import java.util.logging.Logger;
 /**
  * Implementacja interfejsu ImageEndpoint.
  */
-@Stateful
+@Stateful(name = "ImageEndpointImpl")
+@Named("ImageEndpointImpl")
 @Interceptors(LoggerInterceptor.class)
 public class ImageEndpointImpl implements Serializable, ImageEndpoint {
     PropertyReader propertyReader = new PropertyReader();
