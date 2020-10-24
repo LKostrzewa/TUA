@@ -19,11 +19,11 @@ import java.util.ResourceBundle;
 @RequestScoped
 public class EmailPageBean {
     @Inject
-    private UserEndpoint userEndpoint;
+    private @Named("UserEndpoint") UserEndpoint userEndpoint;
     private String key;
     private int valid;
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;
     private Boolean active;
 

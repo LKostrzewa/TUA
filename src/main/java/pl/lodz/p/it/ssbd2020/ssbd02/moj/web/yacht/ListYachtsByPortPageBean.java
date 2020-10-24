@@ -28,12 +28,12 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 public class ListYachtsByPortPageBean implements Serializable {
     @Inject
-    private YachtPortEndpoint yachtPortEndpoint;
+    private @Named("YachtPortEndpoint") YachtPortEndpoint yachtPortEndpoint;
     private List<YachtByPortDto> yachts;
     private List<YachtByPortDto> activeYachts;
 
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;
 
     private Long portId;

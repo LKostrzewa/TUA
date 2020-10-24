@@ -37,8 +37,8 @@ public class YachtEndpointImpl implements Serializable, YachtEndpoint {
     Integer METHOD_INVOCATION_LIMIT;
     Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     @Inject
-    private YachtManager yachtManager;
-    private Yacht yachtEditEntity;
+    private @Named("YachtManager") YachtManager yachtManager;
+    private @Named("Yacht") Yacht yachtEditEntity;
 
     /**
      * Metoda inicjalizująca komponent.

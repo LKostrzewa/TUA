@@ -21,11 +21,11 @@ import java.util.ResourceBundle;
 @ViewScoped
 public class ChangeAccessLevelPageBean implements Serializable {
     @Inject
-    private UserAccessLevelEndpoint userAccessLevelEndpoint;
+    private @Named("UserAccessLevelEndpoint") UserAccessLevelEndpoint userAccessLevelEndpoint;
     private UserAccessLevelDto userDto;
     private Long userId;
     @Inject
-    private FacesContext context;
+    private @Named("FacesContext") FacesContext context;
     private ResourceBundle resourceBundle;
 
     public UserAccessLevelDto getUserDto() {

@@ -43,15 +43,15 @@ public class LoginPageBean implements Serializable {
     private String MANAGER_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
     @Inject
-    private UserEndpoint userEndpoint;
+    private @Named("UserEndpoint") UserEndpoint userEndpoint;
     @Inject
-    private SecurityContext securityContext;
+    private @Named("SecurityContext") SecurityContext securityContext;
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     @Inject
-    private ExternalContext externalContext;
+    private @Named("ExternalContext") ExternalContext externalContext;
     @Inject
-    private LoggerIP loggerIP;
+    private @Named("LoggerIP") LoggerIP loggerIP;
 
     private UserLoginDto userLoginDto;
 

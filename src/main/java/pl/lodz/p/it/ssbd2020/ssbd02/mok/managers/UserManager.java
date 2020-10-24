@@ -40,11 +40,11 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
     private String ADMIN_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
     @Inject
-    private AccessLevelFacade accessLevelFacade;
+    private @Named("AccessLevelFacade") AccessLevelFacade accessLevelFacade;
     @Inject
-    private UserFacade userFacade;
+    private @Named("UserFacade") UserFacade userFacade;
     @Inject
-    private BCryptPasswordHash bCryptPasswordHash;
+    private @Named("BCryptPasswordHash") BCryptPasswordHash bCryptPasswordHash;
 
     @PostConstruct
     private void init() {

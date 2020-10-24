@@ -21,9 +21,9 @@ import java.util.ResourceBundle;
 @ViewScoped
 public class EditPortPageBean implements Serializable {
     @Inject
-    private PortEndpoint portEndpoint;
+    private @Named("PortEndpoint") PortEndpoint portEndpoint;
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;
     private Long portId;
     private EditPortDto editPortDto;

@@ -17,7 +17,7 @@ import java.util.List;
 @ViewScoped
 public class ListAllRentalsPageBean implements Serializable {
     @Inject
-    private RentalEndpoint rentalEndpoint;
+    private @Named("RentalEndpoint") RentalEndpoint rentalEndpoint;
     private List<ListAllRentalsDto> rentals;
     private String filter;
 

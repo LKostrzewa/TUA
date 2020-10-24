@@ -19,11 +19,11 @@ import java.util.ResourceBundle;
 @RequestScoped
 public class AddYachtModelPageBean {
     @Inject
-    private YachtModelEndpoint yachtModelEndpoint;
+    private @Named("YachtModelEndpoint") YachtModelEndpoint yachtModelEndpoint;
     private NewYachtModelDto newYachtModelDto;
 
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;
 
     public NewYachtModelDto getNewYachtModelDto() {

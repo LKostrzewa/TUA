@@ -20,9 +20,9 @@ import java.util.ResourceBundle;
 @ViewScoped
 public class PortDetailsPageBean implements Serializable {
     @Inject
-    private PortEndpoint portEndpoint;
+    private @Named("PortEndpoint") PortEndpoint portEndpoint;
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;
     private PortDetailsDto portDetails;
     private Long portId;

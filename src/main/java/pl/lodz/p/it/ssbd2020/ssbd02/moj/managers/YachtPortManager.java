@@ -28,9 +28,9 @@ import java.util.List;
 public class YachtPortManager extends AbstractManager implements SessionSynchronization {
     private final PropertyReader propertyReader = new PropertyReader();
     @Inject
-    private PortFacade portFacade;
+    private @Named("PortFacade") PortFacade portFacade;
     @Inject
-    private YachtFacade yachtFacade;
+    private @Named("YachtFacade") YachtFacade yachtFacade;
     private String RENTAL_PENDING_STATUS;
     private String RENTAL_STARTED_STATUS;
 

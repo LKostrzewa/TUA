@@ -29,9 +29,9 @@ import java.util.stream.Collectors;
 public class MapPortsPageBean implements Serializable {
     private MapModel simpleModel;
     @Inject
-    private PortEndpoint portEndpoint;
+    private @Named("PortEndpoint") PortEndpoint portEndpoint;
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;
     private List<ListPortsDto> activePorts;
 

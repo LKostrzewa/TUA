@@ -37,7 +37,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
     Integer METHOD_INVOCATION_LIMIT;
     Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     @Inject
-    private UserManager userManager;
+    private @Named("UserManager") UserManager userManager;
     private User userEditEntity;
 
     /**

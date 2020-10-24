@@ -30,9 +30,9 @@ import java.util.logging.Logger;
 public class UpdateRentalStatusScheduler {
 
     @Inject
-    private RentalFacade rentalFacade;
+    private @Named("RentalFacade") RentalFacade rentalFacade;
     @Inject
-    private RentalStatusFacade rentalStatusFacade;
+    private @Named("RentalStatusFacade") RentalStatusFacade rentalStatusFacade;
 
     private static final Logger LOGGER = Logger.getGlobal();
 

@@ -33,15 +33,15 @@ import java.util.stream.Collectors;
 public class RentalManager extends AbstractManager implements SessionSynchronization {
     private final PropertyReader propertyReader = new PropertyReader();
     @Inject
-    private RentalFacade rentalFacade;
+    private @Named("RentalFacade") RentalFacade rentalFacade;
     @Inject
-    private RentalStatusFacade rentalStatusFacade;
+    private @Named("RentalStatusFacade") RentalStatusFacade rentalStatusFacade;
     @Inject
-    private UserFacade userFacade;
+    private @Named("UserFacade") UserFacade userFacade;
     @Inject
-    private YachtFacade yachtFacade;
+    private @Named("YachtFacade") YachtFacade yachtFacade;
     @Inject
-    private PortFacade portFacade;
+    private @Named("PortFacade") PortFacade portFacade;
 
     private String RENTAL_PENDING_STATUS;
     private String RENTAL_CANCELLED_STATUS;

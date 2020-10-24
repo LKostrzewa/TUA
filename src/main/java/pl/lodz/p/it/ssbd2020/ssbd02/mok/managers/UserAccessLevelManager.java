@@ -32,10 +32,10 @@ import java.util.List;
 public class UserAccessLevelManager extends AbstractManager implements SessionSynchronization, Serializable {
 
     @Inject
-    private UserAccessLevelFacade userAccessLevelFacade;
+    private @Named("UserAccessLevelFacade") UserAccessLevelFacade userAccessLevelFacade;
 
     @Inject
-    private AccessLevelFacade accessLevelFacade;
+    private @Named("AccessLevelFacade") AccessLevelFacade accessLevelFacade;
 
     private String ADMIN_ACCESS_LEVEL;
     private String MANAGER_ACCESS_LEVEL;

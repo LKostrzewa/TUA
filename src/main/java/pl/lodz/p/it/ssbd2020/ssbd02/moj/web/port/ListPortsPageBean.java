@@ -21,9 +21,9 @@ import java.util.ResourceBundle;
 @RequestScoped
 public class ListPortsPageBean {
     @Inject
-    private PortEndpoint portEndpoint;
+    private @Named("PortEndpoint") PortEndpoint portEndpoint;
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;
     private List<ListPortsDto> ports;
 

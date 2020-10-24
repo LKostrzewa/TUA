@@ -21,9 +21,9 @@ import java.util.ResourceBundle;
 @RequestScoped
 public class UserRegistrationBean implements Serializable {
     @Inject
-    private UserEndpoint userEndpoint;
+    private @Named("UserEndpoint") UserEndpoint userEndpoint;
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     private AddUserDto userDto;
     private ResourceBundle bundle;
 

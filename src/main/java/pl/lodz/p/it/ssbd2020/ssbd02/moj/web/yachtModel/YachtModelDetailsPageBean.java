@@ -29,9 +29,9 @@ import java.util.ResourceBundle;
 @SessionScoped
 public class YachtModelDetailsPageBean implements Serializable {
     @Inject
-    private YachtModelEndpoint yachtModelEndpoint;
+    private @Named("YachtModelEndpoint") YachtModelEndpoint yachtModelEndpoint;
     @Inject
-    private ImageEndpoint imageEndpoint;
+    private @Named("ImageEndpoint") ImageEndpoint imageEndpoint;
 
     private Long yachtModelId;
     private YachtModelDetailsDto yachtModelDetailsDto;
@@ -39,7 +39,7 @@ public class YachtModelDetailsPageBean implements Serializable {
     private UploadedFile file;
 
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
 
     private ResourceBundle resourceBundle;
 
