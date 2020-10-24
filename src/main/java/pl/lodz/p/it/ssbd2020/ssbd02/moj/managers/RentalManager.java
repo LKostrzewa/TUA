@@ -37,7 +37,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     @Inject
     private @Named("RentalStatusFacade") RentalStatusFacade rentalStatusFacade;
     @Inject
-    private @Named("UserFacadeMoj") UserFacadeMoj userFacade;
+    private @Named("UserFacadeMoj") UserFacadeMoj userFacadeMoj;
     @Inject
     private @Named("YachtFacade") YachtFacade yachtFacade;
     @Inject
