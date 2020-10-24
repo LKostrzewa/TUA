@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2020.ssbd02.mok.security.CurrentUser;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.StringTokenizer;
@@ -19,9 +20,9 @@ import java.util.logging.Logger;
 public class LoggerIP implements Serializable {
     private final Logger LOGGER = Logger.getGlobal();
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     @Inject
-    private CurrentUser currentUser;
+    private @Named("CurrentUser") CurrentUser currentUser;
 
     /**
      * Metoda która zapisuje do dziennika zdarzeń informację o uwierzytelnieniu użytkownika.

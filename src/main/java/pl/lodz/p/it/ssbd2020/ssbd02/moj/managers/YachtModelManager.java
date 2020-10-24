@@ -22,7 +22,7 @@ import java.util.List;
 @Interceptors(LoggerInterceptor.class)
 public class YachtModelManager extends AbstractManager implements SessionSynchronization {
     @Inject
-    private YachtModelFacade yachtModelFacade;
+    private @Named("YachtModelFacade") YachtModelFacade yachtModelFacade;
 
     /**
      * Metoda, służy do dodawania nowych modeli jachtów do bazy danych przez menadżera.

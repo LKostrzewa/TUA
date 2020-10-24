@@ -20,9 +20,9 @@ import java.util.ResourceBundle;
 @ViewScoped
 public class ChangeOwnPasswordPageBean implements Serializable {
     @Inject
-    private UserEndpoint userEndpoint;
+    private @Named("UserEndpointImpl") UserEndpoint userEndpoint;
     @Inject
-    private FacesContext context;
+    private @Named("FacesContext") FacesContext context;
     private ChangeOwnPasswordDto changeOwnPasswordDto;
     private ResourceBundle resourceBundle;
 

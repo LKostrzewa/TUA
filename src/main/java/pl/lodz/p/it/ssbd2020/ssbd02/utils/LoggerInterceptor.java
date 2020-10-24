@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.utils;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.security.enterprise.SecurityContext;
@@ -21,7 +22,7 @@ public class LoggerInterceptor implements Serializable, HttpSessionListener {
     private final SecurityContext securityContext;
 
     @Inject
-    public LoggerInterceptor(SecurityContext securityContext) {
+    public @Named("LoggerInterceptor") LoggerInterceptor(SecurityContext securityContext) {
         this.securityContext = securityContext;
     }
 

@@ -20,12 +20,12 @@ import java.util.UUID;
 @ViewScoped
 public class RentalDetailsPageBean implements Serializable {
     @Inject
-    private RentalEndpoint rentalEndpoint;
+    private @Named("RentalEndpointImpl") RentalEndpoint rentalEndpoint;
     private RentalDetailsDto rentalDetails;
     private String rentalBusinessKey;
 
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;
 
     public RentalDetailsDto getRentalDetails() {

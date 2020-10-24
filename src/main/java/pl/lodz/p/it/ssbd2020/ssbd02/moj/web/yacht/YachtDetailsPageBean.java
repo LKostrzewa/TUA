@@ -25,12 +25,12 @@ import java.util.stream.Collectors;
 @ViewScoped
 public class YachtDetailsPageBean implements Serializable {
     @Inject
-    private YachtEndpoint yachtEndpoint;
+    private @Named("YachtEndpointImpl") YachtEndpoint yachtEndpoint;
     @Inject
-    private YachtPortEndpoint yachtPortEndpoint;
+    private @Named("YachtPortEndpointImpl") YachtPortEndpoint yachtPortEndpoint;
 
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;
 
     private Long yachtId;

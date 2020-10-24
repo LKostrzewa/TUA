@@ -19,9 +19,9 @@ import java.util.ResourceBundle;
 @RequestScoped
 public class AddOpinionPageBean {
     @Inject
-    private OpinionEndpoint opinionEndpoint;
+    private @Named("OpinionEndpointImpl") OpinionEndpoint opinionEndpoint;
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     private NewOpinionDto newOpinionDto;
     private ResourceBundle resourceBundle;
     private String rentalBusinessKey;

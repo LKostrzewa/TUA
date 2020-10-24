@@ -25,7 +25,7 @@ public class CurrentUser implements Serializable {
     private String currentRole;
 
     @Inject
-    private LoggerIP loggerIP;
+    private @Named("LoggerIP") LoggerIP loggerIP;
 
     public String getCurrentRole() {
         return currentRole;

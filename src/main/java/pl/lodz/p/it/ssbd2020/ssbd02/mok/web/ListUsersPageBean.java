@@ -21,7 +21,7 @@ import java.util.Map;
 @ViewScoped
 public class ListUsersPageBean implements Serializable {
     @Inject
-    private UserEndpoint userEndpoint;
+    private @Named("UserEndpointImpl") UserEndpoint userEndpoint;
     private LazyDataModel<ListUsersDto> model;
 
     /**

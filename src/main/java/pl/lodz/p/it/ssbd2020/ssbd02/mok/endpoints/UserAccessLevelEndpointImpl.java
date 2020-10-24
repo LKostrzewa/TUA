@@ -41,9 +41,9 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
     private String MANAGER_ACCESS_LEVEL;
     private String CLIENT_ACCESS_LEVEL;
     @Inject
-    private UserAccessLevelManager userAccessLevelManager;
+    private @Named("UserAccessLevelManager") UserAccessLevelManager userAccessLevelManager;
     @Inject
-    private UserManager userManager;
+    private @Named("UserManager") UserManager userManager;
     private User user;
 
     /**

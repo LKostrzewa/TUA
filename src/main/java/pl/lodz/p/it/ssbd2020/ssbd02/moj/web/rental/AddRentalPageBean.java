@@ -27,14 +27,14 @@ import java.util.ResourceBundle;
 public class AddRentalPageBean implements Serializable {
     private final PropertyReader propertyReader = new PropertyReader();
     @Inject
-    private RentalEndpoint rentalEndpoint;
+    private @Named("RentalEndpointImpl") RentalEndpoint rentalEndpoint;
     @Inject
-    private YachtEndpoint yachtEndpoint;
+    private @Named("YachtEndpointImpl") YachtEndpoint yachtEndpoint;
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;
     @Inject
-    private CurrentUser currentUser;
+    private @Named("CurrentUser") CurrentUser currentUser;
     private AddRentalDto addRentalDto;
     private long yachtId;
     private long portId;

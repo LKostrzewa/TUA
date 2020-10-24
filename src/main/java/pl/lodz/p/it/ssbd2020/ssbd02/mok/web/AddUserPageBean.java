@@ -20,10 +20,10 @@ import java.util.ResourceBundle;
 @RequestScoped
 public class AddUserPageBean implements Serializable {
     @Inject
-    private UserEndpoint userEndpoint;
+    private @Named("UserEndpointImpl") UserEndpoint userEndpoint;
     private AddUserDto addUserDto;
     @Inject
-    private FacesContext context;
+    private @Named("FacesContext") FacesContext context;
     private ResourceBundle resourceBundle;
 
     /**

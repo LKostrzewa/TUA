@@ -22,9 +22,9 @@ import java.util.ResourceBundle;
 @ViewScoped
 public class ListYachtPageBean implements Serializable {
     @Inject
-    private YachtEndpoint yachtEndpoint;
+    private @Named("YachtEndpointImpl") YachtEndpoint yachtEndpoint;
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;
     private List<YachtListDto> yachts;
 

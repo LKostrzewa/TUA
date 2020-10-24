@@ -22,9 +22,9 @@ import java.util.ResourceBundle;
 @ViewScoped
 public class MyDetailsPageBean implements Serializable {
     @Inject
-    private UserAccessLevelEndpoint userAccessLevelEndpoint;
+    private @Named("UserAccessLevelEndpointImpl") UserAccessLevelEndpoint userAccessLevelEndpoint;
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;
     private UserDetailsDto userDetailsDto;
     private UserAccessLevelDto userAccessLevelDto;

@@ -22,7 +22,7 @@ import java.util.List;
 @Interceptors(LoggerInterceptor.class)
 public class PortManager extends AbstractManager implements SessionSynchronization {
     @Inject
-    private PortFacade portFacade;
+    private @Named("PortFacade") PortFacade portFacade;
 
     /**
      * Metoda, służy do dodawania nowych portów do bazy danych.

@@ -23,7 +23,7 @@ import java.util.List;
 public class DeleteInactiveUserScheduler {
 
     @Inject
-    private UserFacade userFacade;
+    private @Named("UserFacade") UserFacade userFacade;
 
     /**
      * Metoda do usuwania z bazy danych kont użytkowników. Konto jest usuwane jeżeli nie jest aktywne przez

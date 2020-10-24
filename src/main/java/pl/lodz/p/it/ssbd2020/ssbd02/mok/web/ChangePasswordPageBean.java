@@ -19,11 +19,11 @@ import java.util.ResourceBundle;
 @ViewScoped
 public class ChangePasswordPageBean implements Serializable {
     @Inject
-    private UserEndpoint userEndpoint;
+    private @Named("UserEndpointImpl") UserEndpoint userEndpoint;
     private ChangePasswordDto changePasswordDto;
     private Long userId;
     @Inject
-    private FacesContext context;
+    private @Named("FacesContext") FacesContext context;
     private ResourceBundle resourceBundle;
 
     public ChangePasswordDto getChangePasswordDto() {

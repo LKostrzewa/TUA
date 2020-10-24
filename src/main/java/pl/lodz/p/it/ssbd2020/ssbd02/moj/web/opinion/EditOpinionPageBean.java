@@ -21,9 +21,9 @@ import java.util.ResourceBundle;
 @ViewScoped
 public class EditOpinionPageBean implements Serializable {
     @Inject
-    private OpinionEndpoint opinionEndpoint;
+    private @Named("OpinionEndpointImpl") OpinionEndpoint opinionEndpoint;
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;
 
     private String rentalBusinessKey;

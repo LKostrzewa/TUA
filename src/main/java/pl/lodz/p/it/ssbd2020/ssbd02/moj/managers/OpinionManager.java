@@ -31,11 +31,11 @@ import java.util.UUID;
 @Interceptors(LoggerInterceptor.class)
 public class OpinionManager extends AbstractManager implements SessionSynchronization {
     @Inject
-    private RentalFacade rentalFacade;
+    private @Named("RentalFacade") RentalFacade rentalFacade;
     @Inject
-    private OpinionFacade opinionFacade;
+    private @Named("OpinionFacade") OpinionFacade opinionFacade;
     @Inject
-    private YachtFacade yachtFacade;
+    private @Named("YachtFacade") YachtFacade yachtFacade;
 
     /**
      * Metoda, która dodaje nową opinię.

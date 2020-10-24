@@ -29,9 +29,9 @@ import java.util.List;
 @Interceptors(LoggerInterceptor.class)
 public class ImageManager extends AbstractManager implements SessionSynchronization {
     @Inject
-    private ImageFacade imageFacade;
+    private @Named("ImageFacade") ImageFacade imageFacade;
     @Inject
-    private YachtModelFacade yachtModelFacade;
+    private @Named("YachtModelFacade") YachtModelFacade yachtModelFacade;
 
     /**
      * Metoda, służy do usuwania zdjęć z bazy danych przez menadżera.

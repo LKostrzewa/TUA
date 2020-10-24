@@ -32,7 +32,7 @@ public class ImageEndpointImpl implements Serializable, ImageEndpoint {
     Integer METHOD_INVOCATION_LIMIT;
     Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     @Inject
-    private ImageManager imageManager;
+    private @Named("ImageManager") ImageManager imageManager;
 
     /**
      * Metoda inicjalizująca komponent.

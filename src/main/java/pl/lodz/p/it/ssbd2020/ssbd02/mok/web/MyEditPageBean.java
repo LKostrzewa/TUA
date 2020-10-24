@@ -21,9 +21,9 @@ import java.util.ResourceBundle;
 @ViewScoped
 public class MyEditPageBean implements Serializable {
     @Inject
-    private UserEndpoint userEndpoint;
+    private @Named("UserEndpointImpl") UserEndpoint userEndpoint;
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     private EditUserDto editUserDto;
     private ResourceBundle bundle;
 

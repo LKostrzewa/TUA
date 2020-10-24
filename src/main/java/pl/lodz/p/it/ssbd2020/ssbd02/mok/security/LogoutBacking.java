@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Interceptors(LoggerInterceptor.class)
 public class LogoutBacking implements Serializable {
     @Inject
-    private ExternalContext externalContext;
+    private @Named("ExternalContext") ExternalContext externalContext;
 
     public void submit() throws IOException {
         externalContext.redirect(externalContext.getRequestContextPath() + "/login/login.xhtml");

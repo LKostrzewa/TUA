@@ -22,11 +22,11 @@ import java.util.ResourceBundle;
 @RequestScoped
 public class AddYachtPageBean {
     @Inject
-    private YachtEndpoint yachtEndpoint;
+    private @Named("YachtEndpointImpl") YachtEndpoint yachtEndpoint;
     @Inject
-    private FacesContext facesContext;
+    private @Named("FacesContext") FacesContext facesContext;
     @Inject
-    private YachtModelEndpoint yachtModelEndpoint;
+    private @Named("YachtModelEndpointImpl") YachtModelEndpoint yachtModelEndpoint;
 
     private NewYachtDto newYachtDto;
     private List<ListYachtModelDto> yachtModels;
