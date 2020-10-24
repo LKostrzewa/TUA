@@ -24,15 +24,15 @@ import java.util.Optional;
 /**
  * Klasa fasadowa powiązana z encją User.
  */
-@Stateless(name = "UserFacade")
-@Named("UserFacade")
+@Stateless(name = "UserFacadeMoj")
+@Named("UserFacadeMoj")
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
-public class UserFacade extends AbstractFacade<User> {
+public class UserFacadeMoj extends AbstractFacade<User> {
     @PersistenceContext(unitName = "ssbd02mokPU")
     private EntityManager entityManager;
 
-    public UserFacade() {
+    public UserFacadeMoj() {
         super(User.class);
     }
 

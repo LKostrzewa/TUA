@@ -37,7 +37,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     @Inject
     private @Named("RentalStatusFacade") RentalStatusFacade rentalStatusFacade;
     @Inject
-    private @Named("UserFacade") UserFacade userFacade;
+    private @Named("UserFacadeMoj") UserFacadeMoj userFacade;
     @Inject
     private @Named("YachtFacade") YachtFacade yachtFacade;
     @Inject
@@ -62,7 +62,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addRental(Rental rental) throws AppBaseException {
         try {
-            User rentingUser = userFacade.findByLogin(rental.getUser().getLogin());
+            User rentingUser = userFacadeMoj.findByLogin(rental.getUser().getLogin());
 
             Yacht yachtToRent = yachtFacade.findByName(rental.getYacht().getName());
 
