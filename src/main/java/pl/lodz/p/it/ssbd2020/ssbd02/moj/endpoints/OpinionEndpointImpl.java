@@ -33,7 +33,7 @@ public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
     Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     @Inject
     private @Named("OpinionManager") OpinionManager opinionManager;
-    private @Named("Opinion") Opinion opinionEditEntity;
+    private Opinion opinionEditEntity;
 
     /**
      * Metoda inicjalizująca komponent.

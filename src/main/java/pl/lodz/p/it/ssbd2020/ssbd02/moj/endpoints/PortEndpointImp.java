@@ -36,7 +36,7 @@ public class PortEndpointImp implements Serializable, PortEndpoint {
     Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     @Inject
     private @Named("PortManager") PortManager portManager;
-    private @Named("Port") Port portEditEntity;
+    private Port portEditEntity;
 
     /**
      * Metoda inicjalizująca komponent.
