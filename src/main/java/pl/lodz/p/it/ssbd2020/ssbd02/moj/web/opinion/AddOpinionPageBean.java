@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 @RequestScoped
 public class AddOpinionPageBean {
     @Inject
-    private @Named("OpinionEndpoint") OpinionEndpoint opinionEndpoint;
+    private @Named("OpinionEndpointImpl") OpinionEndpoint opinionEndpoint;
     @Inject
     private @Named("FacesContext") FacesContext facesContext;
     private NewOpinionDto newOpinionDto;

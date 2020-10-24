@@ -29,9 +29,9 @@ import java.util.ResourceBundle;
 @SessionScoped
 public class YachtModelDetailsPageBean implements Serializable {
     @Inject
-    private @Named("YachtModelEndpoint") YachtModelEndpoint yachtModelEndpoint;
+    private @Named("YachtModelEndpointImpl") YachtModelEndpoint yachtModelEndpoint;
     @Inject
-    private @Named("ImageEndpoint") ImageEndpoint imageEndpoint;
+    private @Named("ImageEndpointImpl") ImageEndpoint imageEndpoint;
 
     private Long yachtModelId;
     private YachtModelDetailsDto yachtModelDetailsDto;

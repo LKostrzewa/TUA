@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 @RequestScoped
 public class AddYachtModelPageBean {
     @Inject
-    private @Named("YachtModelEndpoint") YachtModelEndpoint yachtModelEndpoint;
+    private @Named("YachtModelEndpointImpl") YachtModelEndpoint yachtModelEndpoint;
     private NewYachtModelDto newYachtModelDto;
 
     @Inject

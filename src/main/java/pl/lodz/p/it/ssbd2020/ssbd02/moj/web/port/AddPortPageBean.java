@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 @RequestScoped
 public class AddPortPageBean {
     @Inject
-    private @Named("PortEndpoint") PortEndpoint portEndpoint;
+    private @Named("PortEndpointImpl") PortEndpoint portEndpoint;
     @Inject
     private @Named("FacesContext") FacesContext facesContext;
     private NewPortDto newPortDto;

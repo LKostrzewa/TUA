@@ -20,7 +20,7 @@ import java.util.List;
 @ViewScoped
 public class ListRentalsPageBean implements Serializable {
     @Inject
-    private @Named("RentalEndpoint") RentalEndpoint rentalEndpoint;
+    private @Named("RentalEndpointImpl") RentalEndpoint rentalEndpoint;
     @Inject
     private @Named("CurrentUser") CurrentUser currentUser;
     private List<ListRentalsDto> rentals;

@@ -20,7 +20,7 @@ import java.util.UUID;
 @ViewScoped
 public class RentalDetailsPageBean implements Serializable {
     @Inject
-    private @Named("RentalEndpoint") RentalEndpoint rentalEndpoint;
+    private @Named("RentalEndpointImpl") RentalEndpoint rentalEndpoint;
     private RentalDetailsDto rentalDetails;
     private String rentalBusinessKey;
 

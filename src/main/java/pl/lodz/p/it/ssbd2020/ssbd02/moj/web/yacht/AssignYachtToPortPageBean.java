@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 @ViewScoped
 public class AssignYachtToPortPageBean implements Serializable {
     @Inject
-    private @Named("PortEndpoint") PortEndpoint portEndpoint;
+    private @Named("PortEndpointImpl") PortEndpoint portEndpoint;
     @Inject
-    private @Named("YachtPortEndpoint") YachtPortEndpoint yachtPortEndpoint;
+    private @Named("YachtPortEndpointImpl") YachtPortEndpoint yachtPortEndpoint;
     @Inject
     private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;

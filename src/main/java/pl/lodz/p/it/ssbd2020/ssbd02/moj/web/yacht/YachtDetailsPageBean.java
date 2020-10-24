@@ -25,9 +25,9 @@ import java.util.stream.Collectors;
 @ViewScoped
 public class YachtDetailsPageBean implements Serializable {
     @Inject
-    private @Named("YachtEndpoint") YachtEndpoint yachtEndpoint;
+    private @Named("YachtEndpointImpl") YachtEndpoint yachtEndpoint;
     @Inject
-    private @Named("YachtPortEndpoint") YachtPortEndpoint yachtPortEndpoint;
+    private @Named("YachtPortEndpointImpl") YachtPortEndpoint yachtPortEndpoint;
 
     @Inject
     private @Named("FacesContext") FacesContext facesContext;

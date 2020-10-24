@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 @ViewScoped
 public class EditYachtPageBean implements Serializable {
     @Inject
-    private @Named("YachtEndpoint") YachtEndpoint yachtEndpoint;
+    private @Named("YachtEndpointImpl") YachtEndpoint yachtEndpoint;
     @Inject
     private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;

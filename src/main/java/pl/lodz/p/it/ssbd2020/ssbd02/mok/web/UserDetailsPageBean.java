@@ -23,9 +23,9 @@ import java.util.ResourceBundle;
 @ViewScoped
 public class UserDetailsPageBean implements Serializable {
     @Inject
-    private @Named("UserEndpoint") UserEndpoint userEndpoint;
+    private @Named("UserEndpointImpl") UserEndpoint userEndpoint;
     @Inject
-    private @Named("UserAccessLevelEndpoint") UserAccessLevelEndpoint userAccessLevelEndpoint;
+    private @Named("UserAccessLevelEndpointImpl") UserAccessLevelEndpoint userAccessLevelEndpoint;
     @Inject
     private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;

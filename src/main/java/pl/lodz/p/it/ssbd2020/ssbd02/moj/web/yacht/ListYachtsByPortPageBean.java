@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 public class ListYachtsByPortPageBean implements Serializable {
     @Inject
-    private @Named("YachtPortEndpoint") YachtPortEndpoint yachtPortEndpoint;
+    private @Named("YachtPortEndpointImpl") YachtPortEndpoint yachtPortEndpoint;
     private List<YachtByPortDto> yachts;
     private List<YachtByPortDto> activeYachts;
 

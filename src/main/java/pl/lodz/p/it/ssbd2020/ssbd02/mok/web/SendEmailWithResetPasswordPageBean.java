@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 @RequestScoped
 public class SendEmailWithResetPasswordPageBean implements Serializable {
     @Inject
-    private @Named("UserEndpoint") UserEndpoint userEndpoint;
+    private @Named("UserEndpointImpl") UserEndpoint userEndpoint;
     @Inject
     private @Named("FacesContext") FacesContext facesContext;
     @Pattern(regexp = "^[^\\s\\\\@]+@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.){1,11}[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$",

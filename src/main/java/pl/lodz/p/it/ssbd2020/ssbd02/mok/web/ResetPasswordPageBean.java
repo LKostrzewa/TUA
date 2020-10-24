@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 @ViewScoped
 public class ResetPasswordPageBean implements Serializable {
     @Inject
-    private @Named("UserEndpoint") UserEndpoint userEndpoint;
+    private @Named("UserEndpointImpl") UserEndpoint userEndpoint;
     @Inject
     private @Named("FacesContext") FacesContext facesContext;
     private ResetPasswordDto resetPasswordDto;

@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 @ViewScoped
 public class ChangeAccessLevelPageBean implements Serializable {
     @Inject
-    private @Named("UserAccessLevelEndpoint") UserAccessLevelEndpoint userAccessLevelEndpoint;
+    private @Named("UserAccessLevelEndpointImpl") UserAccessLevelEndpoint userAccessLevelEndpoint;
     private UserAccessLevelDto userDto;
     private Long userId;
     @Inject

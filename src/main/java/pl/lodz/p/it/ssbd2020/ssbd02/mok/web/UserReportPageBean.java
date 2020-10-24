@@ -18,7 +18,7 @@ import java.util.List;
 @ViewScoped
 public class UserReportPageBean implements Serializable {
     @Inject
-    private @Named("UserEndpoint") UserEndpoint userEndpoint;
+    private @Named("UserEndpointImpl") UserEndpoint userEndpoint;
     private List<UserReportDto> users;
 
     public List<UserReportDto> getUsers() {

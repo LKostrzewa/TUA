@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class MapPortsPageBean implements Serializable {
     private MapModel simpleModel;
     @Inject
-    private @Named("PortEndpoint") PortEndpoint portEndpoint;
+    private @Named("PortEndpointImpl") PortEndpoint portEndpoint;
     @Inject
     private @Named("FacesContext") FacesContext facesContext;
     private ResourceBundle resourceBundle;

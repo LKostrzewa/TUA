@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 @RequestScoped
 public class EmailPageBean {
     @Inject
-    private @Named("UserEndpoint") UserEndpoint userEndpoint;
+    private @Named("UserEndpointImpl") UserEndpoint userEndpoint;
     private String key;
     private int valid;
     @Inject
