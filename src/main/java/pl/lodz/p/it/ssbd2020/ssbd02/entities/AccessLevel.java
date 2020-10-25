@@ -22,19 +22,13 @@ import java.util.UUID;
 public class AccessLevel implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "AccessLevelSeqGen", sequenceName = "access_level_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AccessLevelSeqGen")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true, updatable = false)
-    @NotNull
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
     @NotNull
     private long version;
-    @Column(name = "business_key", nullable = false, unique = true, updatable = false)
-    @Convert("uuidConverter")
-    @NotNull
-    private UUID businessKey;
     @Column(name = "name", nullable = false, unique = true, updatable = false, length = 32)
     @NotNull
     @Size(max = 32)
@@ -49,10 +43,6 @@ public class AccessLevel implements Serializable {
 
     public long getVersion() {
         return version;
-    }
-
-    public Object getBusinessKey() {
-        return businessKey;
     }
 
     public String getName() {

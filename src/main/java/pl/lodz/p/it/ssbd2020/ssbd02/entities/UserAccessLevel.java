@@ -20,19 +20,13 @@ import java.util.UUID;
         @NamedQuery(name = "UserAccessLevel.findById", query = "SELECT u FROM UserAccessLevel u WHERE u.id = :id")})
 public class UserAccessLevel implements Serializable {
     @Id
-    @SequenceGenerator(name="UserAccessLevelSeqGen",sequenceName="user_access_level_id_seq",allocationSize = 1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="UserAccessLevelSeqGen")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true, updatable = false)
-    @NotNull
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
     @NotNull
     private long version;
-    @Column(name = "business_key", nullable = false, unique = true, updatable = false)
-    @Convert("uuidConverter")
-    @NotNull
-    private UUID businessKey;
     @JoinColumn(name = "access_level_id", referencedColumnName = "id", updatable = false)
     @ManyToOne(optional = false)
     @NotNull
@@ -49,8 +43,6 @@ public class UserAccessLevel implements Serializable {
     public UserAccessLevel(User user, AccessLevel accessLevel) {
         this.accessLevel = accessLevel;
         this.user = user;
-
-        this.businessKey = UUID.randomUUID();
     }
 
     public Long getId() {
@@ -59,10 +51,6 @@ public class UserAccessLevel implements Serializable {
 
     public long getVersion() {
         return version;
-    }
-
-    public UUID getBusinessKey() {
-        return businessKey;
     }
 
     public AccessLevel getAccessLevel() {

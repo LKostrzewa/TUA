@@ -92,12 +92,6 @@
                        style="box-sizing: border-box; position: absolute;display: block;
                        color: red;font-size: 12px;margin-top: 5px;"/>
         </div>
-        <div>
-            <p:captcha id="Captcha" label="Captcha" required="true"
-                       requiredMessage="#{msg['field.required']}"
-                       language="#{userRegistrationBean.bundle}"/>
-            <p:messages for="Captcha" closable="false"/>
-        </div>
         <div class="text-box">
             <p:commandButton class="register-button" value="#{msg['registration.register']}"
                              style="background-color: #ffdd99" type="button" onclick="PF('registerConfirm').show()"/>
