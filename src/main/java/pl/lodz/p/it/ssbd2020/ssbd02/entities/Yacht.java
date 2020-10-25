@@ -43,10 +43,8 @@ public class Yacht implements Serializable {
     @NotNull
     private long version;
     @Column(name = "business_key", nullable = false, unique = true, updatable = false)
-    @Convert("uuidConverter")
-    @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
     @NotNull
-    private UUID businessKey;
+    private String businessKey;
     @Column(name = "name", nullable = false, unique = true, length = 32)
     @NotNull
     @Size(max = 32)
@@ -88,7 +86,7 @@ public class Yacht implements Serializable {
         this.equipment = equipment;
         this.yachtModel = yachtModel;
 
-        this.businessKey = UUID.randomUUID();
+        this.businessKey = UUID.randomUUID().toString();
     }
 
     public Yacht(String yachtName) {
@@ -103,7 +101,7 @@ public class Yacht implements Serializable {
         return version;
     }
 
-    public UUID getBusinessKey() {
+    public String getBusinessKey() {
         return businessKey;
     }
 

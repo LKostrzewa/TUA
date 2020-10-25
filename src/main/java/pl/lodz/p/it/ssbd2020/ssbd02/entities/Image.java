@@ -32,10 +32,9 @@ public class Image implements Serializable {
     @Column(name = "version", nullable = false)
     @NotNull
     private long version;
-    @Convert("uuidConverter")
     @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @NotNull
-    private UUID businessKey;
+    private String businessKey;
     @Column(name = "lob", nullable = false, updatable = false)
     @NotNull
     private byte[] lob;
@@ -51,7 +50,7 @@ public class Image implements Serializable {
         this.lob = lob;
         this.yachtModel = yachtModel;
 
-        this.businessKey = UUID.randomUUID();
+        this.businessKey = UUID.randomUUID().toString();
     }
 
     public Long getId() {
@@ -62,7 +61,7 @@ public class Image implements Serializable {
         return version;
     }
 
-    public UUID getBusinessKey() {
+    public String getBusinessKey() {
         return businessKey;
     }
 

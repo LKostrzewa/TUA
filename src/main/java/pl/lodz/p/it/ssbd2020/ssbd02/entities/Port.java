@@ -46,8 +46,7 @@ public class Port implements Serializable {
     private long version;
     @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @NotNull
-    @Convert("uuidConverter")
-    private UUID businessKey;
+    private String businessKey;
     @Column(name = "name", nullable = false, unique = true, length = 64)
     @NotNull
     @Size(max = 64)
@@ -60,12 +59,12 @@ public class Port implements Serializable {
     @NotNull
     @Size(max = 32)
     private String nearestCity;
-    @Column(name = "long", nullable = false)
+    @Column(name = "longitude", nullable = false)
     @NotNull
     @Digits(integer = 3,fraction = 6)
     @Min(0)
     private BigDecimal long1;
-    @Column(name = "lat", nullable = false)
+    @Column(name = "latitude", nullable = false)
     @NotNull
     @Digits(integer = 3,fraction = 6)
     @Min(0)
@@ -86,7 +85,7 @@ public class Port implements Serializable {
         this.long1 = long1;
         this.lat = lat;
 
-        this.businessKey = UUID.randomUUID();
+        this.businessKey = UUID.randomUUID().toString();
     }
 
     public Long getId() {
@@ -97,7 +96,7 @@ public class Port implements Serializable {
         return version;
     }
 
-    public UUID getBusinessKey() {
+    public String getBusinessKey() {
         return businessKey;
     }
 

@@ -33,9 +33,8 @@ public class RentalStatus implements Serializable {
     @NotNull
     private long version;
     @Column(name = "business_key", nullable = false, unique = true, updatable = false)
-    @Convert("uuidConverter")
     @NotNull
-    private UUID businessKey;
+    private String businessKey;
     @Column(name = "name", nullable = false, unique = true, updatable = false,length = 32)
     @NotNull
     @Size(max = 32)
@@ -52,7 +51,7 @@ public class RentalStatus implements Serializable {
         return version;
     }
 
-    public UUID getBusinessKey() {
+    public String getBusinessKey() {
         return businessKey;
     }
 

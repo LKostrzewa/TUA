@@ -43,9 +43,8 @@ public class YachtModel implements Serializable {
     @NotNull
     private long version;
     @Column(name = "business_key", nullable = false, unique = true, updatable = false)
-    @Convert("uuidConverter")
     @NotNull
-    private UUID businessKey;
+    private String businessKey;
     @Column(name = "manufacturer", nullable = false, length = 32)
     @NotNull
     @Size(max = 32)
@@ -82,7 +81,7 @@ public class YachtModel implements Serializable {
         this.basicPrice = basicPrice;
 
         this.active = true;
-        this.businessKey = UUID.randomUUID();
+        this.businessKey = UUID.randomUUID().toString();
     }
 
     public Long getId() {
@@ -93,7 +92,7 @@ public class YachtModel implements Serializable {
         return version;
     }
 
-    public UUID getBusinessKey() {
+    public String getBusinessKey() {
         return businessKey;
     }
 

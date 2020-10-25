@@ -42,8 +42,7 @@ public class Opinion implements Serializable {
     private long version;
     @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @NotNull
-    @Convert("uuidConverter")
-    private UUID businessKey;
+    private String businessKey;
     @NotNull
     @Min(1)
     @Max(5)
@@ -74,7 +73,7 @@ public class Opinion implements Serializable {
         this.date = date;
         this.rental = rental;
 
-        this.businessKey = UUID.randomUUID();
+        this.businessKey = UUID.randomUUID().toString();
     }
 
     public Long getId() {
@@ -85,7 +84,7 @@ public class Opinion implements Serializable {
         return version;
     }
 
-    public UUID getBusinessKey() {
+    public String getBusinessKey() {
         return businessKey;
     }
 
