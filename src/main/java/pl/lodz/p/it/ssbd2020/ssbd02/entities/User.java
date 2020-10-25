@@ -35,8 +35,7 @@ import java.util.UUID;
 public class User implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "UserSeqGen", sequenceName = "user_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "UserSeqGen")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true, updatable = false)
     @NotNull
     private Long id;
@@ -44,11 +43,6 @@ public class User implements Serializable {
     @Column(name = "version", nullable = false)
     @NotNull
     private long version;
-    @Column(name = "business_key", nullable = false, unique = true, updatable = false)
-    @Convert("uuidConverter")
-    @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
-    @NotNull
-    private UUID businessKey;
     @Column(name = "login", nullable = false, unique = true, updatable = false, length = 32)
     @NotNull
     @Size(min = 4, max = 32)
@@ -121,8 +115,6 @@ public class User implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
-
-        this.businessKey = UUID.randomUUID();
         this.created = new Date();
     }
 
@@ -136,10 +128,6 @@ public class User implements Serializable {
 
     public long getVersion() {
         return version;
-    }
-
-    public UUID getBusinessKey() {
-        return businessKey;
     }
 
     public String getLogin() {
