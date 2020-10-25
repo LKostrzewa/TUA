@@ -49,7 +49,7 @@ public class YachtPortEndpointImpl implements Serializable, YachtPortEndpoint {
      * @return lista YachtDto
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getAllYachtsByPort")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public List<YachtByPortDto> getAllYachtsByPort(Long portId) throws AppBaseException {
         return ObjectMapperUtils.mapAll(yachtPortManager.getAllYachtsByPort(portId), YachtByPortDto.class);
     }
@@ -61,7 +61,7 @@ public class YachtPortEndpointImpl implements Serializable, YachtPortEndpoint {
      * @param yachtId identyfikator danego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("assignYachtToPort")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void assignYachtToPort(Long portId, Long yachtId) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -90,7 +90,7 @@ public class YachtPortEndpointImpl implements Serializable, YachtPortEndpoint {
      * @param yachtId identyfikator danego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("retractYachtFromPort")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void retractYachtFromPort(Long yachtId) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;

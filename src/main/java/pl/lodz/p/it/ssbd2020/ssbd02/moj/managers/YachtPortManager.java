@@ -47,7 +47,7 @@ public class YachtPortManager extends AbstractManager implements SessionSynchron
      * @return lista Yacht
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getAllYachtsByPort")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<Yacht> getAllYachtsByPort(Long portId) throws AppBaseException {
         Port port = portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);
@@ -61,7 +61,7 @@ public class YachtPortManager extends AbstractManager implements SessionSynchron
      * @param yachtId identyfikator danego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("assignYachtToPort")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void assignYachtToPort(Long portId, Long yachtId) throws AppBaseException {
         try {
@@ -93,7 +93,7 @@ public class YachtPortManager extends AbstractManager implements SessionSynchron
      * @param yachtId identyfikator danego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("retractYachtFromPort")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void retractYachtFromPort(Long yachtId) throws AppBaseException {
         try {

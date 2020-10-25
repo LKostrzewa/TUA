@@ -68,7 +68,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * @param businessKey wartość klucza biznesowego
      * @return optional z wyszukanym obiektem encji lub pusty, jeśli poszukiwany obiekt encji nie istnieje
      */
-    @RolesAllowed({"getUserRentalDetails", "cancelRental", "addOpinion"})
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Rental> findByBusinessKey(UUID businessKey) {
         return Optional.ofNullable(entityManager.createNamedQuery("Rental.findByBusinessKey", Rental.class)
@@ -82,7 +82,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * @param rental encja wypożyczenia
      * @return true/false zależnie czy okres trwania danego wypożyczenia koliduje z innymi wypożyczeniami
      */
-    @RolesAllowed("addRental")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public boolean interfere(Rental rental) {
         return entityManager.createNamedQuery("Rental.findBetweenDatesWithYacht", Long.class)
@@ -112,7 +112,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed("addRental")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void create(Rental rental) throws AppBaseException {
         super.create(rental);
@@ -148,7 +148,7 @@ public class RentalFacade extends AbstractFacade<Rental> {
      * @param filter ciąg znaków według którego będą filtrowane wypożyczenia
      * @return lista wszystkich wypożyczeń, których nazwa jachtu pasuje do wzorca
      */
-    @RolesAllowed("getFilteredRentals")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<Rental> getFilteredRentals(String filter) {
         return entityManager.createNamedQuery("Rental.findByYachtName", Rental.class)

@@ -36,7 +36,7 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
      * @param yachtModelId id modelu jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("addYacht")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addYacht(Yacht yacht, Long yachtModelId) throws AppBaseException {
         try {
@@ -64,7 +64,7 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
      *
      * @return lista jachtów
      */
-    @RolesAllowed("getAllYachts")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<Yacht> getAllYachts() {
         return yachtFacade.findAll();
@@ -77,7 +77,7 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
      * @return yacht dto
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"getYachtById", "getEditYachtDtoById"})
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Yacht getYachtById(Long yachtId) throws AppBaseException {
         return yachtFacade.find(yachtId).orElseThrow(AppNotFoundException::createYachtNotFoundException);
@@ -90,7 +90,7 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
      * @param nameChanged boolean informujący o tym czy podczas edycji została zmieniona nazwa jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("editYacht")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editYacht(Yacht yachtToEdit, boolean nameChanged) throws AppBaseException {
         try {
@@ -112,7 +112,7 @@ public class YachtManager extends AbstractManager implements SessionSynchronizat
      * @param yachtId id jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("deactivateYacht")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void deactivateYacht(Long yachtId) throws AppBaseException {
         try {

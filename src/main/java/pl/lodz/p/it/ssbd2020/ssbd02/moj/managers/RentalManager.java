@@ -58,7 +58,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
      * @param rental obiekt encji nowego wypożyczenia
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("addRental")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addRental(Rental rental) throws AppBaseException {
         try {
@@ -108,7 +108,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
      * @return wypożyczenie o podanym kluczu biznesowym
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"getUserRentalDetails", "cancelRental"})
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Rental getRentalByBusinessKey(UUID rentalBusinessKey) throws AppBaseException {
         return rentalFacade.findByBusinessKey(rentalBusinessKey).orElseThrow(AppNotFoundException::createRentalNotFoundException);
@@ -120,7 +120,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
      * @param userLogin login użytkownika
      * @return lista wypożyczeń użytkownika o podanym loginie
      */
-    @RolesAllowed("getRentals")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<Rental> getAllRentalsByUser(String userLogin) {
         return rentalFacade.findAll()
@@ -135,7 +135,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
      * @param rentalBusinessKey klucz główny wypożyczenia, które użytkownik chce anulować
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("cancelRental")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void cancelRental(UUID rentalBusinessKey) throws AppBaseException {
         try {
@@ -156,7 +156,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
      *
      * @return lista wszystkich wypożyczeń
      */
-    @RolesAllowed("getAllRentals")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<Rental> getAllRentals() {
         return rentalFacade.findAll();
@@ -169,7 +169,7 @@ public class RentalManager extends AbstractManager implements SessionSynchroniza
      * @param filter ciąg znaków według którego będą filtrowane wypożyczenia
      * @return lista wszystkich wypożyczeń, których nazwa jachtu pasuje do wzorca
      */
-    @RolesAllowed("getFilteredRentals")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<Rental> getFilteredRentals(String filter) {
         return rentalFacade.getFilteredRentals(filter);

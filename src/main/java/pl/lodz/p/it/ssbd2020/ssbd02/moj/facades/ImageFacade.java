@@ -47,7 +47,7 @@ public class ImageFacade extends AbstractFacade<Image> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed("addImage")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void create(Image entity) throws AppBaseException {
         super.create(entity);
@@ -59,7 +59,7 @@ public class ImageFacade extends AbstractFacade<Image> {
      * @param entity usuwana encja
      */
     @Override
-    @RolesAllowed("deleteImage")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void remove(Image entity) {
         super.remove(entity);
@@ -73,7 +73,7 @@ public class ImageFacade extends AbstractFacade<Image> {
      * @return szukana encja
      */
     @Override
-    @RolesAllowed({"deleteImage", "getImageById"})
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Image> find(Object id) {
         return super.find(id);
@@ -86,7 +86,7 @@ public class ImageFacade extends AbstractFacade<Image> {
      * @return lista zdjęć
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getAllImagesByYachtModel")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<Image> getAllImagesByYachtModel(Long yachtModelId) throws AppBaseException {
         TypedQuery<Image> typedQuery = entityManager.createNamedQuery("Image.findAllByYachtModel", Image.class);
