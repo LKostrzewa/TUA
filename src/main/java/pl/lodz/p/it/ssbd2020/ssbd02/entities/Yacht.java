@@ -6,6 +6,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.entities;
 
 import org.eclipse.persistence.annotations.Convert;
+import org.eclipse.persistence.annotations.TypeConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -43,6 +44,7 @@ public class Yacht implements Serializable {
     private long version;
     @Column(name = "business_key", nullable = false, unique = true, updatable = false)
     @Convert("uuidConverter")
+    @TypeConverter(name = "uuidConverter", dataType = Object.class, objectType = UUID.class)
     @NotNull
     private UUID businessKey;
     @Column(name = "name", nullable = false, unique = true, length = 32)
