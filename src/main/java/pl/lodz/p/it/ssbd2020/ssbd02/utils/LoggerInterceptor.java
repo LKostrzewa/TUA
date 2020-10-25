@@ -18,12 +18,14 @@ import java.util.logging.Logger;
 
 public class LoggerInterceptor implements Serializable, HttpSessionListener {
     private static final Logger LOGGER = Logger.getGlobal();
-    private final SecurityContext securityContext;
-
     @Inject
-    public LoggerInterceptor(SecurityContext securityContext) {
-        this.securityContext = securityContext;
+    private  SecurityContext securityContext;
+
+    public LoggerInterceptor() {
     }
+
+
+
 
     /**
      * Metoda opakowująca oznaczoną metodę. Loguje odpowiednie informacje do dziennika zdarzeń.
