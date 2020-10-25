@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2020.ssbd02.managers;
 
 import javax.annotation.Resource;
+import javax.annotation.security.PermitAll;
 import javax.ejb.SessionContext;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -18,6 +19,7 @@ abstract public class AbstractManager {
     private String transactionId;
     private boolean lastTransactionRollback;
 
+    @PermitAll
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public boolean isLastTransactionRollback() {
         return lastTransactionRollback;

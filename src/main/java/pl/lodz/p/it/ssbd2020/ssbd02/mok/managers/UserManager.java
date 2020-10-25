@@ -259,7 +259,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @return encje User
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"getLoginDtoByLogin", "getEditUserDtoByLogin", "findUserAccessLevelByLogin"})
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserByLogin(String login) throws AppBaseException {
         return userFacade.findByLogin(login);
@@ -329,7 +329,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param login login użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("saveSuccessAuthenticate")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void saveSuccessAuthenticate(String login) throws AppBaseException {
         try {

@@ -151,7 +151,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @return user login dto
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getLoginDtoByLogin")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public UserLoginDto getLoginDtoByLogin(String login) throws AppBaseException {
         return ObjectMapperUtils.map(userManager.getUserByLogin(login), UserLoginDto.class);
     }
@@ -377,7 +377,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param login login uzytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("saveSuccessAuthenticate")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void saveSuccessAuthenticate(String login) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
