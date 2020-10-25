@@ -57,7 +57,7 @@ public class UserAccessLevelManager extends AbstractManager implements SessionSy
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem.
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    @RolesAllowed("editUserAccessLevels")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void editUserAccessLevel(User user, List<MutablePair<Boolean, Boolean>> userAccessLevelList) throws AppBaseException {
 
         try {

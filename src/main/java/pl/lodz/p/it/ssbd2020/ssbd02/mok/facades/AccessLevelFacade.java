@@ -65,7 +65,7 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
      * @return Lista encji AccessLevel
      */
     @Override
-    @RolesAllowed("editUserAccessLevels")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<AccessLevel> findAll() {
         return super.findAll();

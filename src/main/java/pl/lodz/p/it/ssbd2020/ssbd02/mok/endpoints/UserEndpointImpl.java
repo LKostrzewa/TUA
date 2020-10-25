@@ -86,7 +86,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param userDTO obiekt DTO z danymi nowego użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("addNewUser")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void addNewUser(AddUserDto userDTO) throws AppBaseException {
         User user;
         int methodInvocationCounter = 0;
@@ -116,7 +116,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      *
      * @return lista obiektów UserReportDto
      */
-    @RolesAllowed("getUserReport")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public List<UserReportDto> getUserReport() {
         return ObjectMapperUtils.mapAll(userManager.getAll(), UserReportDto.class);
     }
@@ -127,7 +127,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param userId identyfikator użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getEditUserDtoById")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public EditUserDto getEditUserDtoById(Long userId) throws AppBaseException {
         this.userEditEntity = userManager.getUserById(userId);
         return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
@@ -138,7 +138,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      *
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getEditUserDtoByLogin")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public EditUserDto getEditUserDtoByLogin() throws AppBaseException {
         String username = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
         this.userEditEntity = userManager.getUserByLogin(username);
@@ -162,7 +162,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param editUserDto obiekt przechowujący dane wprowadzone w formularzu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("editUser")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void editUser(EditUserDto editUserDto) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -195,7 +195,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param editUserDto obiekt przechowujący dane wprowadzone w formularzu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("editOwnData")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void editOwnData(EditUserDto editUserDto) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -228,7 +228,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param userId            id użytkownika, którego hasło ulegnie modyfikacji
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("changeUserPassword")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void changeUserPassword(ChangePasswordDto changePasswordDto, Long userId) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -258,7 +258,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param changeOwnPasswordDto obiekt przechowujący dane wprowadzone w formularzu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("changeOwnPassword")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void changeOwnPassword(ChangeOwnPasswordDto changeOwnPasswordDto) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -288,7 +288,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param userId id użytkownika.
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("lockAccount")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void lockAccount(Long userId) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -317,7 +317,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param userId id użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("unlockAccount")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void unlockAccount(Long userId) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -436,7 +436,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param filters para filtrowanych pól i ich wartości
      * @return liczba obiektów poddanych filtrowaniu
      */
-    @RolesAllowed("getFilteredRowCount")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userManager.getFilteredRowCount(filters);
     }
@@ -449,7 +449,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param filters  para filtrowanych pól i ich wartości
      * @return lista filtrowanych obiektów
      */
-    @RolesAllowed("getResultList")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public List<ListUsersDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
         return ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
     }

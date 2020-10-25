@@ -65,7 +65,7 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
      * @return obiekt klasy UserAccessLevelDto
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("findUserAccessLevelById")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public UserAccessLevelDto findUserAccessLevelById(Long userId) throws AppBaseException {
         user = userManager.getUserById(userId);
         UserAccessLevelDto userAccessLevelDto = new UserAccessLevelDto();
@@ -93,7 +93,7 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
      * @return obiekt klasy UserAccessLevelDto
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("findUserAccessLevelByLogin")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public UserAccessLevelDto findUserAccessLevelByLogin() throws AppBaseException {
         user = userManager.getUserByLogin(FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName());
         Collection<UserAccessLevel> userAccessLevels = user.getUserAccessLevels();
@@ -116,7 +116,7 @@ public class UserAccessLevelEndpointImpl implements Serializable, UserAccessLeve
      * @param userAccessLevelDto obiekt zawierająy informacje o obecnych i pożądanych poziomach dotępu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("editUserAccessLevels")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void editUserAccessLevels(UserAccessLevelDto userAccessLevelDto) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
