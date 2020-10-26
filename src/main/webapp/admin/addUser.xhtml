@@ -27,7 +27,7 @@
 
                 <div class="text-box">
                     <p:inputText id="username" type="text" a:placeholder="#{msg['registration.username']}"
-                                 value="#{userRegistrationBean.userDto.login}">
+                                 value="#{addUserPageBean.addUserDto.login}">
                     </p:inputText>
                     <span class="gradient"/>
                     <span class="asterisk_input"/>
@@ -43,14 +43,14 @@
                 </div>
                 <div class="text-box">
                     <p:password id="password2" a:placeholder="#{msg['registration.repeat.password']}"
-                                value="#{userRegistrationBean.userDto.password}"/>
+                                value="#{addUserPageBean.addUserDto.password}"/>
                     <span class="gradient"/>
                     <span class="asterisk_input"/>
                     <h:message id="password2_err" styleClass="message" for="password1"/>
                 </div>
                 <div class="text-box">
                     <p:inputText id="email" a:placeholder="#{msg['registration.email']}"
-                                 value="#{userRegistrationBean.userDto.email}"/>
+                                 value="#{addUserPageBean.addUserDto.email}"/>
                     <span class="gradient"/>
                     <span class="asterisk_input"/>
                     <h:message id="email_err" styleClass="message" for="email"/>
@@ -58,7 +58,7 @@
 
                 <div class="text-box">
                     <p:inputText id="firstName" a:placeholder="#{msg['registration.firstName']}"
-                                 value="#{userRegistrationBean.userDto.firstName}"/>
+                                 value="#{addUserPageBean.addUserDto.firstName}"/>
                     <span class="gradient"/>
                     <span class="asterisk_input"/>
                     <h:message id="name_err" styleClass="message" for="firstName"/>
@@ -66,7 +66,7 @@
 
                 <div class="text-box">
                     <p:inputText id="surname" a:placeholder="#{msg['registration.lastName']}"
-                                 value="#{userRegistrationBean.userDto.lastName}"/>
+                                 value="#{addUserPageBean.addUserDto.lastName}"/>
                     <span class="gradient"/>
                     <span class="asterisk_input"/>
                     <h:message id="surname_err" styleClass="message" for="surname"/>
@@ -74,7 +74,7 @@
 
                 <div class="text-box">
                     <p:inputText id="phoneNumber" a:placeholder="#{msg['registration.phone.number']}"
-                                 value="#{userRegistrationBean.userDto.phoneNumber}"/>
+                                 value="#{addUserPageBean.addUserDto.phoneNumber}"/>
                     <span class="gradient"/>
                     <span class="asterisk_input"/>
                     <h:message id="phone_err" styleClass="message" for="phoneNumber"/>
