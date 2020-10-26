@@ -33,10 +33,8 @@ import java.util.UUID;
 public class Yacht implements Serializable {
 
     @Id
-    @SequenceGenerator(name="YachtSeqGen",sequenceName="yacht_id_seq",allocationSize = 1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="YachtSeqGen")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true, updatable = false)
-    @NotNull
     private Long id;
     @Version
     @Column(name = "version", nullable = false)

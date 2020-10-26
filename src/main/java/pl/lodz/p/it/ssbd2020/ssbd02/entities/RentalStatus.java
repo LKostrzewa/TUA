@@ -23,10 +23,8 @@ import java.util.UUID;
 public class RentalStatus implements Serializable {
 
     @Id
-    @SequenceGenerator(name="RentalStatusSeqGen",sequenceName="rental_status_id_seq",allocationSize = 1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RentalStatusSeqGen")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true, updatable = false)
-    @NotNull
     private Long id;
     @Version
     @Column(name = "version", nullable = false)
