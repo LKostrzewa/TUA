@@ -86,7 +86,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param userDTO obiekt DTO z danymi nowego użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     public void addNewUser(AddUserDto userDTO) throws AppBaseException {
         User user;
         int methodInvocationCounter = 0;
@@ -116,7 +116,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      *
      * @return lista obiektów UserReportDto
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     public List<UserReportDto> getUserReport() {
         return ObjectMapperUtils.mapAll(userManager.getAll(), UserReportDto.class);
     }
@@ -127,7 +127,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param userId identyfikator użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     public EditUserDto getEditUserDtoById(Long userId) throws AppBaseException {
         this.userEditEntity = userManager.getUserById(userId);
         return ObjectMapperUtils.map(this.userEditEntity, EditUserDto.class);
@@ -162,7 +162,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param editUserDto obiekt przechowujący dane wprowadzone w formularzu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     public void editUser(EditUserDto editUserDto) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -228,7 +228,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param userId            id użytkownika, którego hasło ulegnie modyfikacji
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     public void changeUserPassword(ChangePasswordDto changePasswordDto, Long userId) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -288,7 +288,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param userId id użytkownika.
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     public void lockAccount(Long userId) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -317,7 +317,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param userId id użytkownika
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     public void unlockAccount(Long userId) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -436,7 +436,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param filters para filtrowanych pól i ich wartości
      * @return liczba obiektów poddanych filtrowaniu
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userManager.getFilteredRowCount(filters);
     }
@@ -449,7 +449,7 @@ public class UserEndpointImpl implements Serializable, UserEndpoint {
      * @param filters  para filtrowanych pól i ich wartości
      * @return lista filtrowanych obiektów
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     public List<ListUsersDto> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
         return ObjectMapperUtils.mapAll(userManager.getResultList(first, pageSize, filters), ListUsersDto.class);
     }

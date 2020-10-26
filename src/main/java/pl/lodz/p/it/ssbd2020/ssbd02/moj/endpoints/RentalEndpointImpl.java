@@ -54,7 +54,7 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
      * @param addRentalDto obiekt DTO z danymi nowego wypożyczenia
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"CLIENT"})
     public void addRental(AddRentalDto addRentalDto) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -85,7 +85,7 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
      * @param userLogin login użytkownika
      * @return lista wypożyczeń użytkownika o podanym loginie
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"CLIENT"})
     public List<ListRentalsDto> getRentals(String userLogin) {
         return ObjectMapperUtils.mapAll(rentalManager.getAllRentalsByUser(userLogin), ListRentalsDto.class);
     }
@@ -96,7 +96,7 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
      * @param rentalBusinessKey klucz biznesowy wypożyczenia, które użytkownik chce anulować
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"CLIENT"})
     public void cancelRental(UUID rentalBusinessKey) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -126,7 +126,7 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
      * @return obiekt Dto ze szczegółami wypożyczenia
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"CLIENT"})
     public RentalDetailsDto getRentalDetails(UUID rentalBusinessKey) throws AppBaseException {
         Rental rental = rentalManager.getRentalByBusinessKey(rentalBusinessKey);
         return ObjectMapperUtils.map(rental, RentalDetailsDto.class);
@@ -137,7 +137,7 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
      *
      * @return lista wszystkich wypożyczeń
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER"})
     public List<ListAllRentalsDto> getAllRentals() {
         return ObjectMapperUtils.mapAll(rentalManager.getAllRentals(), ListAllRentalsDto.class);
     }
@@ -148,7 +148,7 @@ public class RentalEndpointImpl implements Serializable, RentalEndpoint {
      *
      * @return lista wszystkich wypożyczeń, których nazwa jachtu pasuje do wzorca
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER"})
     public List<ListAllRentalsDto> getFilteredRentals(String filter) {
         return ObjectMapperUtils.mapAll(rentalManager.getFilteredRentals(filter), ListAllRentalsDto.class);
     }

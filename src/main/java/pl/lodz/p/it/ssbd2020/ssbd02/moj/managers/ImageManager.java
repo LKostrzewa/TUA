@@ -39,7 +39,7 @@ public class ImageManager extends AbstractManager implements SessionSynchronizat
      * @param imageId id zdjęcia
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void deleteImage(Long imageId) throws AppBaseException {
         try {
@@ -61,7 +61,7 @@ public class ImageManager extends AbstractManager implements SessionSynchronizat
      * @param id    id modelu jachtu dla którego dodajemy zdjęcie
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addImage(byte[] image, Long id) throws AppBaseException {
         try {
@@ -84,7 +84,7 @@ public class ImageManager extends AbstractManager implements SessionSynchronizat
      * @return lista wszystkich id zdjęć powiązanych z danym modelem jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<Long> getAllImagesByYachtModel(Long yachtModelId) throws AppBaseException {
         List<Image> images = imageFacade.getAllImagesByYachtModel(yachtModelId);
@@ -102,7 +102,7 @@ public class ImageManager extends AbstractManager implements SessionSynchronizat
      * @return obiekt encji reprezentujacy zdjecie
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Image getImageById(Long id) throws AppBaseException {
         return imageFacade.find(id).orElseThrow(AppNotFoundException::imageNotFoundException);

@@ -52,7 +52,7 @@ public class PortEndpointImp implements Serializable, PortEndpoint {
      * @param newPortDto obiekt DTO z danymi nowego portu.
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER"})
     public void addPort(NewPortDto newPortDto) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -82,7 +82,7 @@ public class PortEndpointImp implements Serializable, PortEndpoint {
      * @param editPortDto obiekt DTO z danymi portu do edycji.
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER"})
     public void editPort(EditPortDto editPortDto) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -120,7 +120,7 @@ public class PortEndpointImp implements Serializable, PortEndpoint {
      * @param portId id jachtu.
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER"})
     public void deactivatePort(long portId) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -148,7 +148,7 @@ public class PortEndpointImp implements Serializable, PortEndpoint {
      *
      * @return lista portów
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER", "CLIENT"})
     public List<ListPortsDto> getAllPorts() {
         return ObjectMapperUtils.mapAll(portManager.getAllPorts(), ListPortsDto.class);
     }
@@ -159,7 +159,7 @@ public class PortEndpointImp implements Serializable, PortEndpoint {
      * @return EditPortDto
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER", "CLIENT"})
     public EditPortDto getEditPortById(Long portId) throws AppBaseException {
         this.portEditEntity = portManager.getPortById(portId);
         return ObjectMapperUtils.map(this.portEditEntity, EditPortDto.class);
@@ -172,7 +172,7 @@ public class PortEndpointImp implements Serializable, PortEndpoint {
      * @return PortDetailsDto
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER", "CLIENT"})
     public PortDetailsDto getPortById(Long portId) throws AppBaseException {
         Port port = portManager.getPortById(portId);
         return ObjectMapperUtils.map(port, PortDetailsDto.class);
@@ -185,7 +185,7 @@ public class PortEndpointImp implements Serializable, PortEndpoint {
      * @return PortDetailsDto
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER", "CLIENT"})
     public PortDetailsDto getPortDetailsById(Long portId) throws AppBaseException {
         this.portEditEntity = portManager.getPortById(portId);
         return ObjectMapperUtils.map(this.portEditEntity, PortDetailsDto.class);

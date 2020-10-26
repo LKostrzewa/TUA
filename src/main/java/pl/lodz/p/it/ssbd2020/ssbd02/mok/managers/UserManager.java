@@ -58,7 +58,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param user Encja użytkownika do dodania.
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addNewUser(User user) throws AppBaseException {
         try {
@@ -124,7 +124,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      *
      * @return lista obiektów
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<User> getAll() {
         return userFacade.findAll();
@@ -138,7 +138,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @return encja User
      * @throws AppBaseException wyjątek rzucany w sytuacji, gdzy nie zostanie znaleziony User o przekazanym Id
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public User getUserById(Long id) throws AppBaseException {
         return userFacade.find(id).orElseThrow(AppNotFoundException::createUserNotFoundException);
@@ -150,7 +150,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param user obiekt przechowujący dane wprowadzone w formularzu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editUser(User user) throws AppBaseException {
         try {
@@ -167,7 +167,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param userId id użytkownika, którego hasło ulegnie modyfikacji
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void changeUserPassword(User user, Long userId) throws AppBaseException {
         try {
@@ -213,7 +213,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param userId id użytkownika.
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void lockAccount(Long userId) throws AppBaseException {
         try {
@@ -235,7 +235,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param userId id użytkownika.
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void unlockAccount(Long userId) throws AppBaseException {
         try {
@@ -400,7 +400,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param filters para filtrowanych pól i ich wartości
      * @return liczba obiektów poddanych filtrowaniu
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         return userFacade.getFilteredRowCount(filters);
@@ -414,7 +414,7 @@ public class UserManager extends AbstractManager implements SessionSynchronizati
      * @param filters  para filtrowanych pól i ich wartości
      * @return lista filtrowanych obiektów
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<User> getResultList(int first, int pageSize, Map<String, FilterMeta> filters) {
         return userFacade.getResultList(first, pageSize, filters);

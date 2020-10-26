@@ -62,7 +62,7 @@ public class UserFacade extends AbstractFacade<User> {
      * @return encja User
      */
     @Override
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<User> find(Object id) {
         return super.find(id);
@@ -205,7 +205,7 @@ public class UserFacade extends AbstractFacade<User> {
      * @param filters para filtrowanych pól i ich wartości
      * @return lista filtrowanych obiektów
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<User> getResultList(int start, int size,
                                     Map<String, FilterMeta> filters) {
@@ -244,7 +244,7 @@ public class UserFacade extends AbstractFacade<User> {
      * @param filters para filtrowanych pól i ich wartości
      * @return liczba obiektów poddanych filtrowaniu
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"ADMINISTRATOR"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public int getFilteredRowCount(Map<String, FilterMeta> filters) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();

@@ -46,7 +46,7 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void create(YachtModel entity) throws AppBaseException {
         super.create(entity);
@@ -60,7 +60,7 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER"})
     public void edit(YachtModel entity) throws AppBaseException {
         super.edit(entity);
     }
@@ -84,7 +84,7 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
      * @return Optional YachtModel
      */
     @Override
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<YachtModel> find(Object id) {
         return super.find(id);
@@ -96,7 +96,7 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
      * @return lista modeli jachtów
      */
     @Override
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<YachtModel> findAll() {
         return super.findAll();
@@ -109,7 +109,7 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
      * @param model nazwa jachtu
      * @return true/false zależnie czy użytkownik z danym loginem istnieje lub nie
      */
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public boolean existByModel(String model) {
         return entityManager.createNamedQuery("YachtModel.countByModel", Long.class)
@@ -124,7 +124,7 @@ public class YachtModelFacade extends AbstractFacade<YachtModel> {
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
+    @RolesAllowed({"MANAGER"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void lock(YachtModel entity, LockModeType lockModeType) throws AppBaseException {
         super.lock(entity, lockModeType);
