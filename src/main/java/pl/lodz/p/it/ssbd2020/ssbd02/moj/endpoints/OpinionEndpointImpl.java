@@ -49,7 +49,7 @@ public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
      * @param newOpinionDto obiekt DTO z danymi nowej opinii.
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("addOpinion")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void addOpinion(NewOpinionDto newOpinionDto, String rentalBusinessKey) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -81,7 +81,7 @@ public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
      * @return opinia do edycji
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getOpinionByBusinessKey")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public EditOpinionDto getOpinionByRentalBusinessKey(String rentalBusinessKey) throws AppBaseException {
         this.opinionEditEntity = opinionManager.getOpinionByRentalBusinessKey(rentalBusinessKey);
         return ObjectMapperUtils.map(opinionEditEntity, EditOpinionDto.class);
@@ -93,7 +93,7 @@ public class OpinionEndpointImpl implements Serializable, OpinionEndpoint {
      * @param editOpinionDto obiekt DTO z danymi edytowanej opinii.
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("editOpinion")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void editOpinion(EditOpinionDto editOpinionDto) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;

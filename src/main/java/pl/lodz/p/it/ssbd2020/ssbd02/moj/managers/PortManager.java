@@ -30,7 +30,7 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
      * @param port encja portu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("addPort")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addPort(Port port) throws AppBaseException {
         try {
@@ -53,7 +53,7 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
      * @param nameChanged wartość logiczna informująca o zmianie unikalnej nazwy portu.
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("editPort")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editPort(Port portEntity, boolean nameChanged) throws AppBaseException {
         try {
@@ -76,7 +76,7 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
      * @param portId identyfikator portu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("deactivatePort")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void deactivatePort(long portId) throws AppBaseException {
         try {
@@ -93,7 +93,7 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
      *
      * @return lista portów
      */
-    @RolesAllowed("getAllPorts")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<Port> getAllPorts() {
         return portFacade.findAll();
@@ -106,7 +106,7 @@ public class PortManager extends AbstractManager implements SessionSynchronizati
      * @return port
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getPortById")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Port getPortById(Long portId) throws AppBaseException {
         return portFacade.find(portId).orElseThrow(AppNotFoundException::createPortNotFoundException);

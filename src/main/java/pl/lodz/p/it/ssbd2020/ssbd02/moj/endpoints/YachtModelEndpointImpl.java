@@ -52,7 +52,7 @@ public class YachtModelEndpointImpl implements Serializable, YachtModelEndpoint 
      * @param newYachtModelDto obiekt DTO z danymi nowego modelu jachty
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("addYachtModel")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void addYachtModel(NewYachtModelDto newYachtModelDto) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -81,7 +81,7 @@ public class YachtModelEndpointImpl implements Serializable, YachtModelEndpoint 
      *
      * @return lista wszystkich modeli jachtów
      */
-    @RolesAllowed("getAllYachtModels")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public List<ListYachtModelDto> getAllYachtModels() {
         return ObjectMapperUtils.mapAll(yachtModelManager.getAllYachtModels(), ListYachtModelDto.class);
     }
@@ -93,7 +93,7 @@ public class YachtModelEndpointImpl implements Serializable, YachtModelEndpoint 
      * @return dto szczegółów danego modelu jachtu
      * @throws AppBaseException wyjątek aplikacyjny jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getYachtModelById")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public YachtModelDetailsDto getYachtModelById(Long yachtModelId) throws AppBaseException {
         YachtModel yachtModel = yachtModelManager.getYachtModelById(yachtModelId);
         return ObjectMapperUtils.map(yachtModel, YachtModelDetailsDto.class);
@@ -105,7 +105,7 @@ public class YachtModelEndpointImpl implements Serializable, YachtModelEndpoint 
      * @param editYachtModelDto obiekt DTO przeznaczony do edycji modelu jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("editYachtModel")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void editYachtModel(EditYachtModelDto editYachtModelDto) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -138,7 +138,7 @@ public class YachtModelEndpointImpl implements Serializable, YachtModelEndpoint 
      * @param yachtModelId id modelu jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("deactivateYachtModel")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void deactivateYachtModel(Long yachtModelId) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -168,7 +168,7 @@ public class YachtModelEndpointImpl implements Serializable, YachtModelEndpoint 
      * @return EditYachtModelDto
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getEditYachtModelDtoById")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public EditYachtModelDto getEditYachtModelDtoById(Long yachtModelId) throws AppBaseException {
         this.yachtModelEditEntity = yachtModelManager.getYachtModelById(yachtModelId);
         return ObjectMapperUtils.map(this.yachtModelEditEntity, EditYachtModelDto.class);

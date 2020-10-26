@@ -95,7 +95,7 @@ public class UserFacadeMoj extends AbstractFacade<User> {
      * @return znaleziona encja User
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("addRental")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public User findByLogin(String userLogin) throws AppBaseException {
         try {

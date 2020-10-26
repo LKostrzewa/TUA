@@ -48,7 +48,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed("addYacht")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void create(Yacht yacht) throws AppBaseException {
         super.create(yacht);
@@ -61,7 +61,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"editYacht", "deactivateYacht", "editOpinion", "addOpinion", "retractYachtFromPort", "assignYachtToPort"})
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(Yacht yacht) throws AppBaseException {
         super.edit(yacht);
@@ -74,7 +74,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @return optional yacht
      */
     @Override
-    @RolesAllowed({"getYachtById", "getEditYachtDtoById", "assignYachtToPort", "retractYachtFromPort", "editOpinion", "addOpinion", "deactivateYacht"})
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Yacht> find(Object id) {
         return super.find(id);
@@ -86,7 +86,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @return lista jachtów
      */
     @Override
-    @RolesAllowed("getAllYachts")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<Yacht> findAll() {
         return super.findAll();
@@ -110,7 +110,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @param name nazwa jachtu.
      * @return true/false zależnie czy użytkownik z danym loginem istnieje lub nie
      */
-    @RolesAllowed({"addYacht", "editYacht"})
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public boolean existByName(String name) {
         return entityManager.createNamedQuery("Yacht.countByName", Long.class)
@@ -124,7 +124,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @return znaleziona encja jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("addRental")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Yacht findByName(String yachtName) throws AppBaseException {
         try {
@@ -143,7 +143,7 @@ public class YachtFacade extends AbstractFacade<Yacht> {
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"addRental","assignYachtToPort"})
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void lock(Yacht entity, LockModeType lockModeType) throws AppBaseException {
         super.lock(entity, lockModeType);

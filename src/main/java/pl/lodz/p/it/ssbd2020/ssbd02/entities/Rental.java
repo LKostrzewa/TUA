@@ -44,9 +44,8 @@ public class Rental implements Serializable {
     @NotNull
     private long version;
     @Column(name = "business_key", nullable = false, unique = true, updatable = false)
-    @Convert("uuidConverter")
     @NotNull
-    private UUID businessKey;
+    private String businessKey;
     @Column(name = "begin_date", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
@@ -84,7 +83,7 @@ public class Rental implements Serializable {
         this.user = user;
         this.yacht = yacht;
 
-        this.businessKey = UUID.randomUUID();
+        this.businessKey = UUID.randomUUID().toString();
     }
 
     public Long getId() {
@@ -95,7 +94,7 @@ public class Rental implements Serializable {
         return version;
     }
 
-    public UUID getBusinessKey() {
+    public String getBusinessKey() {
         return businessKey;
     }
 

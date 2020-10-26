@@ -44,7 +44,7 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
      * @param rentalBusinessKey klucz biznesowy wypożyczenia, dla którego chcemy dodać opinię
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("addOpinion")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addOpinion(Opinion opinion, String rentalBusinessKey) throws AppBaseException {
         try {
@@ -72,7 +72,7 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
      * @return encja opinii
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getOpinionByBusinessKey")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Opinion getOpinionByRentalBusinessKey(String rentalBusinessKey) throws AppBaseException {
         return opinionFacade.getOpinionByRentalBusinessKey(rentalBusinessKey);
@@ -84,7 +84,7 @@ public class OpinionManager extends AbstractManager implements SessionSynchroniz
      * @param opinionEditEntity encja z danymi edytowanej opinii
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("editOpinion")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editOpinion(Opinion opinionEditEntity) throws AppBaseException {
         try {

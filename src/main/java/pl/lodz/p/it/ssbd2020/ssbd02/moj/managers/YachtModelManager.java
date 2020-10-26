@@ -30,7 +30,7 @@ public class YachtModelManager extends AbstractManager implements SessionSynchro
      * @param yachtModel obiekt encji modelu jachtu do dodania
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("addYachtModel")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void addYachtModel(YachtModel yachtModel) throws AppBaseException {
         try {
@@ -50,7 +50,7 @@ public class YachtModelManager extends AbstractManager implements SessionSynchro
      *
      * @return lista modeli jachtów
      */
-    @RolesAllowed("getAllYachtModels")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<YachtModel> getAllYachtModels() {
         return yachtModelFacade.findAll();
@@ -63,7 +63,7 @@ public class YachtModelManager extends AbstractManager implements SessionSynchro
      * @return model jachtu
      * @throws AppBaseException wyjątek aplikacyjny jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getYachtModelById")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public YachtModel getYachtModelById(Long yachtModelId) throws AppBaseException {
         return yachtModelFacade.find(yachtModelId).orElseThrow((AppNotFoundException::yachtModelNotFoundException));
@@ -75,7 +75,7 @@ public class YachtModelManager extends AbstractManager implements SessionSynchro
      * @param yachtModelToEdit edytowany model jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("editYachtModel")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void editYachtModel(YachtModel yachtModelToEdit) throws AppBaseException {
         try {
@@ -94,7 +94,7 @@ public class YachtModelManager extends AbstractManager implements SessionSynchro
      * @param yachtModelId id modelu jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("deactivateYachtModel")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void deactivateYachtModel(Long yachtModelId) throws AppBaseException {
         try {

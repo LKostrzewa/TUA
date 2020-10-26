@@ -47,7 +47,7 @@ public class UserAccessLevelFacade extends AbstractFacade<UserAccessLevel> {
      * @param entity encja UserAccessLevel.
      */
     @Override
-    @RolesAllowed("editUserAccessLevels")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void create(UserAccessLevel entity) throws AppBaseException {
         super.create(entity);
@@ -59,7 +59,7 @@ public class UserAccessLevelFacade extends AbstractFacade<UserAccessLevel> {
      * @param entity encja UserAccessLevel.
      */
     @Override
-    @RolesAllowed("editUserAccessLevels")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void remove(UserAccessLevel entity) {
         super.remove(entity);

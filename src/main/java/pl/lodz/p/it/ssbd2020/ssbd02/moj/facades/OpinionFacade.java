@@ -46,7 +46,7 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed("addOpinion")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void create(Opinion entity) throws AppBaseException {
         super.create(entity);
@@ -59,7 +59,7 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed("editOpinion")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(Opinion entity) throws AppBaseException {
         super.edit(entity);
@@ -107,7 +107,7 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
      * @return lista opini dla danego jachtu
      * @throws AppBaseException wyjątek aplikacyjny, jesli yacht nie zostanie znaleziony
      */
-    @RolesAllowed({"addOpinion", "editOpinion"})
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<Opinion> getAllOpinionsByYacht(Long yachtId) throws AppBaseException {
         TypedQuery<Opinion> typedQuery = entityManager.createNamedQuery("Opinion.findAllByYacht", Opinion.class);
@@ -126,7 +126,7 @@ public class OpinionFacade extends AbstractFacade<Opinion> {
      * @return Znaleziona opinia
      * @throws AppBaseException wyjątek aplikacyjny, jesli opinia nie zostanie znaleziona
      */
-    @RolesAllowed("getOpinionByBusinessKey")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Opinion getOpinionByRentalBusinessKey(String rentalBusinessKey) throws AppBaseException{
         TypedQuery<Opinion> typedQuery = entityManager.createNamedQuery("Opinion.findByRentalBusinessKey", Opinion.class);

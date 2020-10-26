@@ -49,7 +49,7 @@ public class RentalStatusFacade extends AbstractFacade<RentalStatus> {
      * @return Encja statusu wypożyczenia
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed({"cancelRental", "addRental"})
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public RentalStatus findByName(String statusName) throws AppBaseException {
         try {

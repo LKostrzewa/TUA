@@ -48,7 +48,7 @@ public class PortFacade extends AbstractFacade<Port> {
      * @return optional z wyszukanym obiektem encji lub pusty, jeśli poszukiwany obiekt encji nie istnieje
      */
     @Override
-    @RolesAllowed({"getPortById", "getAllYachtsByPort", "assignYachtToPort", "deactivatePort"})
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Optional<Port> find(Object id) {
         return super.find(id);
@@ -60,7 +60,7 @@ public class PortFacade extends AbstractFacade<Port> {
      * @return lista portów
      */
     @Override
-    @RolesAllowed("getAllPorts")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public List<Port> findAll() {
         return super.findAll();
@@ -73,7 +73,7 @@ public class PortFacade extends AbstractFacade<Port> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed("addPort")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void create(Port port) throws AppBaseException {
         super.create(port);
@@ -86,7 +86,7 @@ public class PortFacade extends AbstractFacade<Port> {
      * @throws AppBaseException wyjątek aplikacyjny, jesli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"editPort", "deactivatePort"})
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void edit(Port port) throws AppBaseException {
         super.edit(port);
@@ -110,7 +110,7 @@ public class PortFacade extends AbstractFacade<Port> {
      * @param name nazwa portu
      * @return true/false zależnie czy port o danej nazwie istnieje lub nie
      */
-    @RolesAllowed({"addPort", "editPort"})
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public boolean existByName(String name) {
         return entityManager.createNamedQuery("Port.countByName", Long.class)
@@ -125,7 +125,7 @@ public class PortFacade extends AbstractFacade<Port> {
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
     @Override
-    @RolesAllowed({"addRental","assignYachtToPort"})
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void lock(Port entity, LockModeType lockModeType) throws AppBaseException {
         super.lock(entity, lockModeType);

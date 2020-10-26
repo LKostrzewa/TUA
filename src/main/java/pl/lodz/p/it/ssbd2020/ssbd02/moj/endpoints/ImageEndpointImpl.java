@@ -49,7 +49,7 @@ public class ImageEndpointImpl implements Serializable, ImageEndpoint {
      * @param id    id modelu jachtu do którego dodajemy zdjęcie
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("addImage")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void addImage(byte[] image, Long id) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -79,7 +79,7 @@ public class ImageEndpointImpl implements Serializable, ImageEndpoint {
      * @param imageId id zdjęcia
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("deleteImage")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public void deleteImage(Long imageId) throws AppBaseException {
         int methodInvocationCounter = 0;
         boolean rollback;
@@ -110,7 +110,7 @@ public class ImageEndpointImpl implements Serializable, ImageEndpoint {
      * @return lista wszystkich id modelu jachtu o podanym id
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getAllImagesByYachtModel")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public List<Long> getAllImagesByYachtModel(Long yachtModelId) throws AppBaseException {
         return imageManager.getAllImagesByYachtModel(yachtModelId);
     }
@@ -122,7 +122,7 @@ public class ImageEndpointImpl implements Serializable, ImageEndpoint {
      * @return obiekt dto reprezentujacy zdjęcie
      * @throws AppBaseException wyjątek aplikacyjny, jeśli operacja zakończy się niepowodzeniem
      */
-    @RolesAllowed("getImageById")
+    @RolesAllowed({"ADMINISTRATOR", "MANAGER", "CLIENT"})
     public ImageDto getImageById(Long id) throws AppBaseException {
         Image image = imageManager.getImageById(id);
         return ObjectMapperUtils.map(image, ImageDto.class);
