@@ -5,7 +5,7 @@ services:
     networks:
       - "tua"
     volumes: 
-      - "/home/lukasz/ssbd/data:/data/db"
+      - "/home/lukasz/ssbd/data:/var/lib/mysql"
     ports:
       - "3306:3306"
   app:
