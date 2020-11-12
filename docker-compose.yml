@@ -2,21 +2,15 @@ version: "3"
 services:
   database:
     image: mysql/mysql-server:5.7
-    networks:
-      - "tua"
-    volumes: 
-      - "/home/lukasz/ssbd/data:/var/lib/mysql"
+    volumes:
+      - "/Users/pawelbialek/tua:/var/lib/mysql"
     ports:
       - "3306:3306"
   app:
     image: app
-    networks:
-      - "tua"
     depends_on:
       - database
     ports:
+      - "8080:8080"
       - "9990:9990"
-      
-networks:
-  tua:
-    external: true
+      - "8443:8443"
