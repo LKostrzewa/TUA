@@ -3,10 +3,11 @@ services:
   database:
     image: mysql/mysql-server:5.7
     volumes:
-      - ./mysql-data:/var/lib/mysql
-      - ./init-data:/docker-entrypoint-initdb.d
-    ports:
-      - "3306:3306"
+      - ./mysql/mysqlconf:/etc/mysql/conf.d
+      - ./mysql/init-data:/docker-entrypoint-initdb.d
+      - ./mysql/mysql-data:/var/lib/mysql
+    restart: always
+
   app:
     image: app
     depends_on:
