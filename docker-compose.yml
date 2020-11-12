@@ -3,7 +3,8 @@ services:
   database:
     image: mysql/mysql-server:5.7
     volumes:
-      - "/Users/pawelbialek/tua:/var/lib/mysql"
+      - ./mysql-data:/var/lib/mysql
+      - ./init-data:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
   app:
