@@ -1,11 +1,17 @@
 version: "3"
 services:
   database:
+    container_name: "database"
     image: mysql/mysql-server:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=supersecret
     volumes:
       - ./mysql/mysqlconf:/etc/mysql/conf.d
-      - ./mysql/init-data:/docker-entrypoint-initdb.d
+      - ./mysql/init-data/aschema.sql:/docker-entrypoint-initdb.d/aschema.sql
+      - ./mysql/init-data/data.sql:/docker-entrypoint-initdb.d/data.sql
       - ./mysql/mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
     restart: always
 
   app:
