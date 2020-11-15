@@ -3,22 +3,28 @@ services:
   database:
     container_name: "database"
     image: mysql/mysql-server:5.7
-    environment:
-      - MYSQL_ROOT_PASSWORD=supersecret
+    
     volumes:
       - ./mysql/mysqlconf:/etc/mysql/conf.d
-      - ./mysql/init-data/aschema.sql:/docker-entrypoint-initdb.d/aschema.sql
-      - ./mysql/init-data/data.sql:/docker-entrypoint-initdb.d/data.sql
-      - ./mysql/mysql-data:/var/lib/mysql
+      - ./mysql/init-data/aaschema.sql:/docker-entrypoint-initdb.d/1.sql
+      - ./mysql/init-data/data.sql:/docker-entrypoint-initdb.d/2.sql
+      - ./mysql/database:/var/lib/mysql
     ports:
       - "3306:3306"
     restart: always
 
   app:
-    image: app
+    image: gornikprzemyslaw/app
     depends_on:
       - database
     ports:
       - "8080:8080"
       - "9990:9990"
       - "8443:8443"
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - 5431:8080/tcp
+    container_name: adminer
+    restart: always
