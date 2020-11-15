@@ -223,15 +223,15 @@
     </security-role>
 
 
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Https redirection</web-resource-name>
-            <url-pattern>/*</url-pattern>
-        </web-resource-collection>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
+<!--    <security-constraint>-->
+<!--        <web-resource-collection>-->
+<!--            <web-resource-name>Https redirection</web-resource-name>-->
+<!--            <url-pattern>/*</url-pattern>-->
+<!--        </web-resource-collection>-->
+<!--        <user-data-constraint>-->
+<!--            <transport-guarantee>CONFIDENTIAL</transport-guarantee>-->
+<!--        </user-data-constraint>-->
+<!--    </security-constraint>-->
 
     <security-constraint>
         <display-name>AdminConstr</display-name>
@@ -244,10 +244,10 @@
             <description/>
             <role-name>ADMINISTRATOR</role-name>
         </auth-constraint>
-        <user-data-constraint>
-            <description/>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
+<!--        <user-data-constraint>-->
+<!--            <description/>-->
+<!--            <transport-guarantee>CONFIDENTIAL</transport-guarantee>-->
+<!--        </user-data-constraint>-->
     </security-constraint>
 
     <security-constraint>
@@ -261,10 +261,10 @@
             <description/>
             <role-name>MANAGER</role-name>
         </auth-constraint>
-        <user-data-constraint>
-            <description/>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
+<!--        <user-data-constraint>-->
+<!--            <description/>-->
+<!--            <transport-guarantee>CONFIDENTIAL</transport-guarantee>-->
+<!--        </user-data-constraint>-->
     </security-constraint>
 
     <security-constraint>
@@ -278,10 +278,10 @@
             <description/>
             <role-name>CLIENT</role-name>
         </auth-constraint>
-        <user-data-constraint>
-            <description/>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
+<!--        <user-data-constraint>-->
+<!--            <description/>-->
+<!--            <transport-guarantee>CONFIDENTIAL</transport-guarantee>-->
+<!--        </user-data-constraint>-->
     </security-constraint>
 
     <security-constraint>
@@ -291,10 +291,10 @@
             <description/>
             <url-pattern>/login/*</url-pattern>
         </web-resource-collection>
-        <user-data-constraint>
-            <description/>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
+<!--        <user-data-constraint>-->
+<!--            <description/>-->
+<!--            <transport-guarantee>CONFIDENTIAL</transport-guarantee>-->
+<!--        </user-data-constraint>-->
     </security-constraint>
 
     <error-page>
