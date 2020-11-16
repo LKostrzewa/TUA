@@ -14,8 +14,7 @@ services:
     restart: always
 
   app:
-  # tu trzeba zmienic na gornikprzemyslaw/app jak PrzemeG wywali https w obrazie
-    image: app
+    image: gornikprzemyslaw/app
     depends_on:
       - database
   #  ports:
