@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 /**
  * Klasa do obsługi widoku dodawania użytkownika.
  */
-@Named
+@Named("addUserPageBean")
 @RequestScoped
 public class AddUserPageBean implements Serializable {
     @Inject

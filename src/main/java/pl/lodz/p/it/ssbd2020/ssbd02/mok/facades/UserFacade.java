@@ -27,7 +27,6 @@ import java.util.Optional;
  * Klasa fasadowa powiązana z encją User
  */
 @Stateless(name = "UserFacade")
-@Named("UserFaced")
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class UserFacade extends AbstractFacade<User> {

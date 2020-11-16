@@ -30,7 +30,6 @@ import java.util.logging.Logger;
  * Implementacja UserEndpoint.
  */
 @Stateful(name = "UserEndpointImpl")
-@Named("UserEndpointImpl")
 @Interceptors(LoggerInterceptor.class)
 public class UserEndpointImpl implements Serializable, UserEndpoint {
     PropertyReader propertyReader = new PropertyReader();

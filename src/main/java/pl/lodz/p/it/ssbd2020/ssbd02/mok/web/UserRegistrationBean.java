@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 /**
  * Klasa do obsługi widoku rejestracji użytkownika.
  */
-@Named
+@Named("userRegistrationBean")
 @RequestScoped
 public class UserRegistrationBean implements Serializable {
     @Inject
