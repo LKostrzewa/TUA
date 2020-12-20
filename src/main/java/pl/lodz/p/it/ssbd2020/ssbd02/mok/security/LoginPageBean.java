@@ -27,6 +27,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
 
@@ -80,6 +83,17 @@ public class LoginPageBean implements Serializable {
      *
      * @throws IOException wyjątek jeśli logowanie zakończy się niepowodzeniem
      */
+    @Counted(unit = MetricUnits.NONE,
+            name = "login_method_count",
+            absolute = true,
+            displayName = "Method invocation",
+            description = "Metrics to show how many times login method was called.",
+            tags = "method_invocation=login")
+    @Timed(name = "login_handling_time",
+            description = "Time of handling the login method",
+            unit = MetricUnits.MILLISECONDS,
+            tags = "method_handling_time=login",
+            absolute = true)
     public void login() throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("resource", getHttpRequestFromFacesContext().getLocale());
         Credential credential = new UsernamePasswordCredential(userLoginDto.getLogin(), new Password(userLoginDto.getPassword()));
